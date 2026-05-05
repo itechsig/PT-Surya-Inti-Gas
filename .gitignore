@@ -1,0 +1,37 @@
+# GLOBAL
+.DS_Store
+Thumbs.db
+*.log
+
+# ENV
+.env
+.env.*
+!.env.example
+
+# FRONTEND
+node_modules/
+Frontend/node_modules/
+
+# BUILD FILES
+Frontend/dist/
+Frontend/build/
+
+# LARAVEL BACKEND
+Backend/vendor/
+Backend/node_modules/
+
+Backend/storage/*.key
+Backend/storage/logs/*
+Backend/storage/framework/cache/*
+Backend/storage/framework/sessions/*
+Backend/storage/framework/views/*
+
+Backend/bootstrap/cache/*.php
+
+# IDE / EDITOR
+.vscode/
+.idea/
+
+# TEST / CACHE
+coverage/
+.cache/
