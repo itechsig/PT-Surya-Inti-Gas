@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import { motion, useInView, useMotionValue, useSpring } from "motion/react";
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion"; // Pastikan import dari framer-motion jika menggunakan versi stabil
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { ArrowRight, ShieldCheck, Award, Phone } from "lucide-react";
+import { ArrowRight, ShieldCheck, Award, Zap } from "lucide-react";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
@@ -51,12 +51,7 @@ function Particle({ x, y, size, duration, delay, opacity }: {
         opacity: [0, opacity, 0],
         scale: [0.6, 1.2, 0.6],
       }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
+      transition={{ duration, delay, repeat: Infinity, ease: "easeInOut" }}
     />
   );
 }
@@ -82,7 +77,7 @@ function MoleculeBackground() {
         [410, 570, 14], [80, 400, 12], [520, 400, 12],
       ].map(([cx, cy, r], i) => (
         <motion.circle
-          key={i}
+          key={`node-${i}`}
           cx={cx} cy={cy} r={r}
           fill="rgba(96,165,250,0.9)"
           animate={{ r: [r, r * 1.15, r], opacity: [0.7, 1, 0.7] }}
@@ -91,14 +86,14 @@ function MoleculeBackground() {
       ))}
       {/* Bonds */}
       {[
-        [300,200,180,340],[300,200,420,340],[180,340,260,480],
-        [420,340,360,480],[260,480,360,480],[130,210,180,340],
-        [470,210,420,340],[300,90,300,200],[180,340,190,570],
-        [420,340,410,570],[80,400,180,340],[520,400,420,340],
-        [130,210,300,90],[470,210,300,90],
-      ].map(([x1,y1,x2,y2], i) => (
+        [300, 200, 180, 340], [300, 200, 420, 340], [180, 340, 260, 480],
+        [420, 340, 360, 480], [260, 480, 360, 480], [130, 210, 180, 340],
+        [470, 210, 420, 340], [300, 90, 300, 200], [180, 340, 190, 570],
+        [420, 340, 410, 570], [80, 400, 180, 340], [520, 400, 420, 340],
+        [130, 210, 300, 90], [470, 210, 300, 90],
+      ].map(([x1, y1, x2, y2], i) => (
         <motion.line
-          key={i}
+          key={`bond-${i}`}
           x1={x1} y1={y1} x2={x2} y2={y2}
           stroke="rgba(96,165,250,0.6)"
           strokeWidth="1.5"
@@ -164,8 +159,8 @@ export const Hero = () => {
   }, []);
 
   return (
-    <section id="hero" className="relative min-h-screen w-full flex items-center overflow-hidden">
-
+    <section id="hero" className="relative min-h-[100svh] w-full flex flex-col justify-center overflow-hidden">
+      
       {/* ── Background ── */}
       <div className="absolute inset-0 z-0">
         <ImageWithFallback
@@ -191,9 +186,9 @@ export const Hero = () => {
       </div>
 
       {/* ── Main Content ── */}
-      <div className="container mx-auto px-4 md:px-10 relative z-10 pt-28 pb-44">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-
+      <div className="container mx-auto px-4 md:px-10 relative z-10 pt-24 md:pt-28 pb-32 md:pb-44 flex-grow flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-14 items-center w-full">
+          
           {/* ── Left: Copy ── */}
           <motion.div
             initial={{ opacity: 0, y: 36 }}
@@ -218,12 +213,10 @@ export const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.7 }}
-              className="text-white text-5xl md:text-6xl xl:text-[4.2rem] font-extrabold leading-[1.06] mb-5 tracking-tight"
+              className="text-white text-4xl sm:text-5xl md:text-6xl xl:text-[4.2rem] font-extrabold leading-[1.1] mb-5 tracking-tight"
             >
-              Solusi Gas Industri{" "}
-              <br className="hidden sm:block" />
-              <span className="text-blue-400">Andal & Lengkap</span>
-              <br className="hidden sm:block" />
+              Solusi Gas Industri <br className="hidden sm:block" />
+              <span className="text-blue-400">Andal & Lengkap</span> <br className="hidden sm:block" />
               untuk Indonesia.
             </motion.h1>
 
@@ -231,23 +224,21 @@ export const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45, duration: 0.7 }}
-              className="text-slate-300/75 text-base md:text-lg leading-relaxed mb-6 max-w-xl"
+              className="text-slate-300/80 text-sm sm:text-base md:text-lg leading-relaxed mb-6 max-w-xl"
             >
-              Sejak 2003, PT Surya Inti Gas melayani kebutuhan gas industri,
-              medical gas, speciality gas, dan cryogenic equipment untuk
-              150+ pelanggan di Jawa Timur, Jawa Tengah, DIY, dan Kalimantan Timur.
+              Sejak 2004, PT Surya Inti Gas melayani kebutuhan gas industri, medical gas, speciality gas, dan cryogenic equipment untuk 150+ mitra di berbagai wilayah strategis Indonesia.
             </motion.p>
 
             {/* Sector ticker */}
-            <div className="flex items-center gap-3 mb-8">
-              <span className="text-slate-500 text-sm shrink-0">Melayani:</span>
+            <div className="flex items-center gap-3 mb-7">
+              <span className="text-slate-400 font-medium text-sm shrink-0">Biasa Melayani:</span>
               <div className="relative overflow-hidden h-6 flex-1">
                 {SECTORS.map((s, i) => (
                   <motion.span
                     key={s}
                     animate={{ opacity: activeSector === i ? 1 : 0, y: activeSector === i ? 0 : 10 }}
                     transition={{ duration: 0.35 }}
-                    className="absolute left-0 text-sm font-semibold text-blue-300 whitespace-nowrap"
+                    className="absolute left-0 text-sm font-bold text-blue-300 whitespace-nowrap"
                   >
                     {s}
                   </motion.span>
@@ -255,11 +246,12 @@ export const Hero = () => {
               </div>
             </div>
 
-            {/* Trust chips */}
+            {/* Trust chips - Diubah untuk menghindari redundancy '2004' */}
             <div className="flex flex-wrap gap-2.5 mb-9">
               {[
-                { icon: <ShieldCheck size={12} />, label: "Bersertifikat Resmi" },
-                { icon: <Award size={12} />, label: "Berdiri Sejak 2003" },
+                { icon: <ShieldCheck size={14} />, label: "Bersertifikat Resmi" },
+                { icon: <Award size={14} />, label: "Standar Mutu & K3" },
+                { icon: <Zap size={14} />, label: "Pasokan Stabil" },
               ].map((chip) => (
                 <span
                   key={chip.label}
@@ -280,9 +272,9 @@ export const Hero = () => {
             >
               <motion.a
                 href="#produk"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="group bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-xl shadow-blue-700/30 hover:shadow-blue-500/40"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="group bg-blue-600 hover:bg-blue-500 text-white px-6 md:px-8 py-3.5 md:py-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-700/30"
               >
                 Lihat Produk Kami
                 <ArrowRight size={17} className="group-hover:translate-x-1 transition-transform" />
@@ -290,25 +282,23 @@ export const Hero = () => {
 
               {/* WhatsApp CTA */}
               <motion.a
-                href="https://wa.me/6281234567890?text=Halo%20PT%20Surya%20Inti%20Gas%2C%20saya%20ingin%20mengetahui%20informasi%20produk%20gas."
+                href="https://wa.me/6281234567890?text=Halo%20PT%20Surya%20Inti%20Gas..."
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="group relative overflow-hidden bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-xl shadow-green-700/25 hover:shadow-green-500/35"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative overflow-hidden bg-green-600 hover:bg-green-500 text-white px-6 md:px-8 py-3.5 md:py-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-green-700/25"
               >
-                {/* shimmer */}
                 <motion.span
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
                   animate={{ x: ["-100%", "200%"] }}
                   transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 1.5, ease: "easeInOut" }}
                 />
-                {/* WhatsApp icon */}
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 shrink-0">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
                   <path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.122 1.526 5.856L.057 23.882l6.174-1.62A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.017-1.376l-.36-.213-3.664.962.979-3.576-.234-.374A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z" />
                 </svg>
-                Hubungi via WhatsApp
+                Tanya via WhatsApp
               </motion.a>
             </motion.div>
           </motion.div>
@@ -318,13 +308,13 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 44 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.85, ease: "easeOut" }}
-            className="hidden lg:flex justify-end"
+            className="hidden lg:flex justify-end relative z-10"
           >
-            <div className="w-[355px] bg-white/[0.04] border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-2xl">
+            <div className="w-[365px] bg-white/[0.04] border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-2xl">
               {/* Card header */}
               <div className="flex items-center justify-between mb-5">
-                <span className="text-white/45 text-[11px] font-semibold uppercase tracking-widest">
-                  Produk Gas Kami
+                <span className="text-white/50 text-[11px] font-bold uppercase tracking-widest">
+                  Katalog Terlaris
                 </span>
                 <span className="inline-flex items-center gap-1.5 bg-green-500/10 border border-green-400/20 rounded-full px-3 py-1 text-green-300 text-[11px] font-medium">
                   <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
@@ -338,21 +328,19 @@ export const Hero = () => {
                   <motion.div
                     key={i}
                     animate={{
-                      background: activeProduct === i ? "rgba(37,99,235,0.16)" : "rgba(255,255,255,0.03)",
-                      borderColor: activeProduct === i ? "rgba(96,165,250,0.32)" : "rgba(255,255,255,0.07)",
+                      background: activeProduct === i ? "rgba(37,99,235,0.16)" : "rgba(255,255,255,0.02)",
+                      borderColor: activeProduct === i ? "rgba(96,165,250,0.32)" : "rgba(255,255,255,0.05)",
                     }}
                     transition={{ duration: 0.38 }}
                     onMouseEnter={() => setActiveProduct(i)}
-                    className="flex items-center justify-between border rounded-xl px-4 py-3 cursor-default"
+                    className="flex items-center justify-between border rounded-xl px-4 py-3 cursor-pointer transition-all hover:border-white/20"
                   >
                     <div className="flex items-center gap-3">
                       <motion.div
                         animate={{
-                          backgroundColor: activeProduct === i
-                            ? `${product.color}33`
-                            : "rgba(37,99,235,0.12)",
+                          backgroundColor: activeProduct === i ? `${product.color}33` : "rgba(255,255,255,0.05)",
                         }}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0"
+                        className="w-9 h-9 rounded-lg flex items-center justify-center text-lg shrink-0"
                       >
                         {product.icon}
                       </motion.div>
@@ -362,7 +350,7 @@ export const Hero = () => {
                       </div>
                     </div>
                     <motion.div
-                      animate={{ opacity: activeProduct === i ? 1 : 0, scale: activeProduct === i ? 1 : 0.85 }}
+                      animate={{ opacity: activeProduct === i ? 1 : 0, x: activeProduct === i ? 0 : -5 }}
                       transition={{ duration: 0.22 }}
                     >
                       <ArrowRight size={14} className="text-blue-400" />
@@ -372,10 +360,10 @@ export const Hero = () => {
               </div>
 
               {/* Card footer */}
-              <div className="border-t border-white/8 mt-5 pt-4 flex items-center justify-between">
-                <span className="text-slate-400 text-xs">+ Cryogenic Equipment & Accessories</span>
-                <a href="#produk" className="text-blue-400 hover:text-blue-300 text-xs font-semibold flex items-center gap-1 transition-colors">
-                  Lihat semua <ArrowRight size={10} />
+              <div className="border-t border-white/10 mt-5 pt-4 flex items-center justify-between">
+                <span className="text-slate-400 text-[11px]">+ Cryogenic & Accessories</span>
+                <a href="#produk" className="text-blue-400 hover:text-blue-300 text-xs font-bold flex items-center gap-1 transition-colors group">
+                  Lihat Semua <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
             </div>
@@ -383,26 +371,27 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* ── Stats Bar dengan Counter Animation ── */}
-      <div className="absolute bottom-0 left-0 right-0 bg-white/[0.04] backdrop-blur-md border-t border-white/10 hidden md:block z-10">
-        <div className="container mx-auto px-8 py-7">
-          <div className="grid grid-cols-4">
+      {/* ── Stats Bar (Diperbarui agar tampil di HP juga) ── */}
+      <div className="w-full bg-[#050E1C]/80 md:bg-white/[0.04] backdrop-blur-md border-t border-white/10 relative md:absolute md:bottom-0 z-20">
+        <div className="container mx-auto px-6 py-6 md:py-7">
+          {/* Di mobile jadi 2 baris (grid-cols-2), di laptop jadi 1 baris (grid-cols-4) */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0">
             {STATS.map((stat, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.65 + i * 0.1, duration: 0.5 }}
-                className="text-center border-r border-white/10 last:border-0 px-4 group"
+                className="text-center md:border-r border-white/10 last:border-0 px-2 md:px-4 group"
               >
                 <motion.div
-                  className="text-3xl font-extrabold text-white mb-1 tracking-tight"
+                  className="text-2xl md:text-3xl font-extrabold text-white mb-1 md:mb-1.5 tracking-tight"
                   whileHover={{ scale: 1.05, color: "#60a5fa" }}
                   transition={{ duration: 0.2 }}
                 >
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </motion.div>
-                <div className="text-[11px] text-slate-400 font-medium uppercase tracking-widest group-hover:text-slate-300 transition-colors">
+                <div className="text-[10px] md:text-[11px] text-slate-400 font-medium uppercase tracking-widest group-hover:text-slate-300 transition-colors">
                   {stat.label}
                 </div>
               </motion.div>
