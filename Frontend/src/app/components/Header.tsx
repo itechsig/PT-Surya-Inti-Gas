@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, Mail, Phone, ChevronDown, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { ContactForm } from "./ContactForm";
 
 // ─── Nav Config ───────────────────────────────────────────────
 const NAV_LINKS = [
@@ -70,6 +71,7 @@ export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 24);
@@ -113,7 +115,7 @@ export const Header = () => {
                 <span className="w-px h-3 bg-white/15" />
                 <a
                   href="tel:+62"
-                  className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-blue-300 transition-colors"
+                  className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-blue-300 transition-colors cursor-pointer"
                 >
                   <Phone size={11} />
                   Hubungi Kami
@@ -195,13 +197,13 @@ export const Header = () => {
               ))}
 
               {/* CTA */}
-              <a
-                href="mailto:marketing@suryaintigas.co.id"
-                className="ml-3 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-500/35 flex items-center gap-2"
+              <button
+                onClick={() => setIsContactFormOpen(true)}
+                className="ml-3 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-500/35 flex items-center gap-2 cursor-pointer"
               >
                 <Mail size={14} />
                 Hubungi Kami
-              </a>
+              </button>
             </div>
 
             {/* Mobile Toggle */}
@@ -313,14 +315,16 @@ export const Header = () => {
 
                 {/* Mobile CTA */}
                 <div className="pt-3 border-t border-slate-100 space-y-2">
-                  <a
-                    href="mailto:marketing@suryaintigas.co.id"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold text-sm w-full transition-colors"
+                  <button
+                    onClick={() => {
+                      setIsContactFormOpen(true);
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold text-sm w-full transition-colors cursor-pointer"
                   >
                     <Mail size={15} />
-                    marketing@suryaintigas.co.id
-                  </a>
+                    Hubungi Kami
+                  </button>
                   <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400 py-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                     Siap melayani — Sidoarjo, Jawa Timur
@@ -331,6 +335,12 @@ export const Header = () => {
           )}
         </AnimatePresence>
       </nav>
+
+      {/* Contact Form Modal */}
+      <ContactForm 
+        isOpen={isContactFormOpen} 
+        onClose={() => setIsContactFormOpen(false)} 
+      />
     </>
   );
 };
