@@ -24,7 +24,7 @@ services:
       - DB_HOST=mysql
       - DB_USER=root
       - DB_PASSWORD=root
-      - DB_NAME=mydb
+      - DB_NAME=SIG
     depends_on:
       - mysql
 
@@ -32,8 +32,8 @@ services:
     image: mysql:8
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mydb
+      MYSQL_ROOT_PASSWORD: sig1234
+      MYSQL_DATABASE: SIG
     ports:
       - "3306:3306"
     volumes:
