@@ -1,12 +1,12 @@
-version: "3.9"
+# version: "3.9"
 
 services:
   frontend:
-    build: ./frontend
+    build: ./Frontend
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app
+      - ./Frontend:/app
       - /app/node_modules
     stdin_open: true
     tty: true
@@ -14,16 +14,16 @@ services:
       - backend
 
   backend:
-    build: ./backend
+    build: ./Backend
     ports:
       - "5000:5000"
     volumes:
-      - ./backend:/app
+      - ./Backend:/app
       - /app/node_modules
     environment:
       - DB_HOST=mysql
       - DB_USER=root
-      - DB_PASSWORD=root
+      - DB_PASSWORD=sig1234
       - DB_NAME=SIG
     depends_on:
       - mysql
