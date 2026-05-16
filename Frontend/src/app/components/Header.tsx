@@ -3,6 +3,12 @@ import { Menu, X, Mail, ChevronDown, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ContactForm } from "./ContactForm";
 
+// ─── Import Barlow font (seragam dengan Hero) ─────────────────
+const fontLink = document.createElement("link");
+fontLink.rel = "stylesheet";
+fontLink.href = "https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap";
+document.head.appendChild(fontLink);
+
 // ─── Nav Config ───────────────────────────────────────────────
 const NAV_LINKS = [
   { name: "Beranda", href: "#hero" },
@@ -79,7 +85,6 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Tutup dropdown saat klik di luar
   useEffect(() => {
     const handler = () => setActiveDropdown(null);
     document.addEventListener("click", handler);
@@ -111,24 +116,27 @@ export const Header = () => {
                 }`}
               />
               <div>
+                {/* FIX: pakai font Barlow seragam dengan Hero */}
                 <div
-                  className={`font-extrabold text-sm leading-tight transition-colors ${
+                  className={`text-sm leading-tight transition-colors ${
                     isLight ? "text-slate-900" : "text-white"
                   }`}
+                  style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 800 }}
                 >
                   PT SURYA INTI GAS
                 </div>
                 <div
-                  className={`text-[10px] font-medium tracking-wider uppercase transition-colors ${
+                  className={`text-[10px] tracking-wider uppercase transition-colors ${
                     isLight ? "text-slate-400" : "text-white/60"
                   }`}
+                  style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 500 }}
                 >
                   Distributor Gas
                 </div>
               </div>
             </a>
 
-            {/* Desktop Nav + CTA — seluruh blok ini hidden di mobile (lg:hidden tidak berlaku, hidden lg:flex berlaku) */}
+            {/* Desktop Nav + CTA */}
             <div className="hidden lg:flex items-center gap-1">
               {NAV_LINKS.map((link) => (
                 <div
@@ -140,11 +148,12 @@ export const Header = () => {
                 >
                   <a
                     href={link.href}
-                    className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm transition-colors ${
                       isLight
                         ? "text-slate-600 hover:text-blue-700 hover:bg-blue-50"
                         : "text-white/85 hover:text-white hover:bg-white/10"
                     }`}
+                    style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 600 }}
                   >
                     {link.name}
                     {link.children && (
@@ -157,7 +166,6 @@ export const Header = () => {
                     )}
                   </a>
 
-                  {/* Dropdown */}
                   <AnimatePresence>
                     {link.children && activeDropdown === link.name && (
                       <DropdownMenu items={link.children} />
@@ -166,14 +174,15 @@ export const Header = () => {
                 </div>
               ))}
 
-              {/* CTA — otomatis hidden di mobile karena berada di dalam div "hidden lg:flex" */}
+              {/* CTA — FIX: selalu biru solid, bukan transparan saat belum scroll */}
               <button
                 onClick={() => setIsContactFormOpen(true)}
-                className={`flex items-center gap-2 ml-3 px-4 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                className={`flex items-center gap-2 ml-3 px-4 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
                   isLight
                     ? "bg-blue-600 hover:bg-blue-700 text-white"
-                    : "bg-white/15 hover:bg-white/25 text-white"
+                    : "bg-blue-600 hover:bg-blue-500 text-white"
                 }`}
+                style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 700 }}
               >
                 <Mail size={14} />
                 Hubungi Kami
@@ -238,7 +247,8 @@ export const Header = () => {
                               mobileExpanded === link.name ? null : link.name
                             )
                           }
-                          className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-colors"
+                          className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-700 text-sm hover:bg-slate-50 transition-colors"
+                          style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 700 }}
                         >
                           {link.name}
                           <ChevronDown
@@ -283,7 +293,8 @@ export const Header = () => {
                       <a
                         href={link.href}
                         onClick={() => setIsOpen(false)}
-                        className="block px-3 py-2.5 rounded-lg text-slate-700 font-semibold text-sm hover:bg-slate-50 hover:text-blue-700 transition-colors"
+                        className="block px-3 py-2.5 rounded-lg text-slate-700 text-sm hover:bg-slate-50 hover:text-blue-700 transition-colors"
+                        style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 700 }}
                       >
                         {link.name}
                       </a>
@@ -298,7 +309,8 @@ export const Header = () => {
                       setIsContactFormOpen(true);
                       setIsOpen(false);
                     }}
-                    className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold text-sm w-full transition-colors cursor-pointer"
+                    className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-sm w-full transition-colors cursor-pointer"
+                    style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 700 }}
                   >
                     <Mail size={15} />
                     Hubungi Kami
