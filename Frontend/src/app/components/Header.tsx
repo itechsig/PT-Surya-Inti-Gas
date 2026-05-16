@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Mail, Phone, ChevronDown, ArrowRight } from "lucide-react";
+import { Menu, X, Mail, ChevronDown, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ContactForm } from "./ContactForm";
 
 // ─── Nav Config ───────────────────────────────────────────────
 const NAV_LINKS = [
   { name: "Beranda", href: "#hero" },
+  { name: "Tentang Kami", href: "#about" },
+  { name: "Layanan", href: "#services" },
   {
     name: "Produk",
     href: "#produk",
@@ -16,8 +18,6 @@ const NAV_LINKS = [
       { name: "Assist Gas Supply", href: "#produk-assist", desc: "Laser Cutting Support" },
     ],
   },
-  { name: "Tentang Kami", href: "#about" },
-  { name: "Pelanggan", href: "#customer" },
   { name: "Kontak", href: "#contact" },
 ];
 
@@ -28,7 +28,7 @@ type NavLink = {
   children?: { name: string; href: string; desc: string }[];
 };
 
-// ─── Sub-components ───────────────────────────────────────────
+// ─── Dropdown Menu ────────────────────────────────────────────
 const DropdownMenu = ({ items }: { items: NonNullable<NavLink["children"]> }) => (
   <motion.div
     initial={{ opacity: 0, y: 8, scale: 0.97 }}
@@ -79,59 +79,24 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdown on outside click
+  // Tutup dropdown saat klik di luar
   useEffect(() => {
     const handler = () => setActiveDropdown(null);
     document.addEventListener("click", handler);
     return () => document.removeEventListener("click", handler);
   }, []);
 
-  const isLight = scrolled; // transparent on top → light when scrolled
+  const isLight = scrolled;
 
   return (
     <>
-      {/* ── Top Bar (visible only when NOT scrolled) ─────────── */}
-      <AnimatePresence>
-        {!scrolled && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed top-0 left-0 w-full z-50 bg-[#050E1C]/80 backdrop-blur-md border-b border-white/8"
-          >
-            <div className="container mx-auto px-4 md:px-10 flex items-center justify-between h-9">
-              <p className="text-[11px] text-slate-400 hidden md:block">
-                Distributor Gas Industri, Medical & Speciality Gas — Sidoarjo, Jawa Timur
-              </p>
-              <div className="flex items-center gap-5 ml-auto">
-                <a
-                  href="mailto:marketing@suryaintigas.co.id"
-                  className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-blue-300 transition-colors"
-                >
-                  <Mail size={11} />
-                  marketing@suryaintigas.co.id
-                </a>
-                <span className="w-px h-3 bg-white/15" />
-                <a
-                  href="tel:+62"
-                  className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-blue-300 transition-colors cursor-pointer"
-                >
-                  <Phone size={11} />
-                  Hubungi Kami
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* ── Main Navbar ──────────────────────────────────────── */}
       <nav
-        className={`fixed left-0 w-full z-40 transition-all duration-300 ${scrolled
-          ? "top-0 bg-white/97 backdrop-blur-lg shadow-md shadow-slate-200/50 py-3.5"
-          : "top-9 bg-transparent py-4"
-          }`}
+        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
+          scrolled
+            ? "bg-white/95 backdrop-blur-lg shadow-md shadow-slate-200/50 py-3.5"
+            : "bg-transparent py-4"
+        }`}
       >
         <div className="container mx-auto px-4 md:px-10">
           <div className="flex justify-between items-center">
@@ -141,26 +106,29 @@ export const Header = () => {
               <img
                 src="/logo.png"
                 alt="Logo PT Surya Inti Gas"
-                className={`h-10 w-auto object-contain transition-all ${isLight ? "" : "brightness-0 invert"
-                  }`}
+                className={`h-10 w-auto object-contain transition-all ${
+                  isLight ? "" : "brightness-0 invert"
+                }`}
               />
               <div>
                 <div
-                  className={`font-extrabold text-sm leading-tight transition-colors ${isLight ? "text-slate-900" : "text-white"
-                    }`}
+                  className={`font-extrabold text-sm leading-tight transition-colors ${
+                    isLight ? "text-slate-900" : "text-white"
+                  }`}
                 >
                   PT SURYA INTI GAS
                 </div>
                 <div
-                  className={`text-[10px] font-medium tracking-wider uppercase transition-colors ${isLight ? "text-slate-400" : "text-white/45"
-                    }`}
+                  className={`text-[10px] font-medium tracking-wider uppercase transition-colors ${
+                    isLight ? "text-slate-400" : "text-white/60"
+                  }`}
                 >
-                  Distribusi Gas Terpercaya
+                  Distributor Gas
                 </div>
               </div>
             </a>
 
-            {/* Desktop Nav */}
+            {/* Desktop Nav + CTA — seluruh blok ini hidden di mobile (lg:hidden tidak berlaku, hidden lg:flex berlaku) */}
             <div className="hidden lg:flex items-center gap-1">
               {NAV_LINKS.map((link) => (
                 <div
@@ -172,17 +140,19 @@ export const Header = () => {
                 >
                   <a
                     href={link.href}
-                    className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isLight
-                      ? "text-slate-600 hover:text-blue-700 hover:bg-blue-50"
-                      : "text-white/80 hover:text-white hover:bg-white/8"
-                      }`}
+                    className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      isLight
+                        ? "text-slate-600 hover:text-blue-700 hover:bg-blue-50"
+                        : "text-white/85 hover:text-white hover:bg-white/10"
+                    }`}
                   >
                     {link.name}
                     {link.children && (
                       <ChevronDown
                         size={13}
-                        className={`transition-transform duration-200 ${activeDropdown === link.name ? "rotate-180" : ""
-                          }`}
+                        className={`transition-transform duration-200 ${
+                          activeDropdown === link.name ? "rotate-180" : ""
+                        }`}
                       />
                     )}
                   </a>
@@ -196,10 +166,14 @@ export const Header = () => {
                 </div>
               ))}
 
-              {/* CTA */}
+              {/* CTA — otomatis hidden di mobile karena berada di dalam div "hidden lg:flex" */}
               <button
                 onClick={() => setIsContactFormOpen(true)}
-                className="ml-3 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-500/35 flex items-center gap-2 cursor-pointer"
+                className={`flex items-center gap-2 ml-3 px-4 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                  isLight
+                    ? "bg-blue-600 hover:bg-blue-700 text-white"
+                    : "bg-white/15 hover:bg-white/25 text-white"
+                }`}
               >
                 <Mail size={14} />
                 Hubungi Kami
@@ -208,8 +182,11 @@ export const Header = () => {
 
             {/* Mobile Toggle */}
             <button
-              className={`lg:hidden p-2 rounded-lg transition-colors ${isLight ? "text-slate-700 hover:bg-slate-100" : "text-white hover:bg-white/10"
-                }`}
+              className={`lg:hidden p-2 rounded-lg transition-colors ${
+                isLight
+                  ? "text-slate-700 hover:bg-slate-100"
+                  : "text-white hover:bg-white/10"
+              }`}
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
             >
@@ -266,8 +243,9 @@ export const Header = () => {
                           {link.name}
                           <ChevronDown
                             size={15}
-                            className={`text-slate-400 transition-transform duration-200 ${mobileExpanded === link.name ? "rotate-180" : ""
-                              }`}
+                            className={`text-slate-400 transition-transform duration-200 ${
+                              mobileExpanded === link.name ? "rotate-180" : ""
+                            }`}
                           />
                         </button>
                         <AnimatePresence>
@@ -337,9 +315,9 @@ export const Header = () => {
       </nav>
 
       {/* Contact Form Modal */}
-      <ContactForm 
-        isOpen={isContactFormOpen} 
-        onClose={() => setIsContactFormOpen(false)} 
+      <ContactForm
+        isOpen={isContactFormOpen}
+        onClose={() => setIsContactFormOpen(false)}
       />
     </>
   );

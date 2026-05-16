@@ -1,404 +1,479 @@
-import React, { useEffect, useState, useRef } from "react";
-import { motion, useInView, useMotionValue, useSpring } from "framer-motion"; // Pastikan import dari framer-motion jika menggunakan versi stabil
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { ArrowRight, ShieldCheck, Award, Zap } from "lucide-react";
+import { useState, useEffect } from "react";
 
-// ─── Data ───────────────────────────────────────────────────────────────────
+/* ─────────────────────────────────────────────
+   HERO.TSX — PT Surya Inti Gas
+   Tema   : Minimalis, Biru & Putih
+   Video  : Ganti src di <video> tag dengan file
+            video kamu (MP4 recommended).
+───────────────────────────────────────────── */
 
-const PRODUCTS = [
-  { icon: "🫧", name: "Oksigen (O₂)", sub: "Industrial & Medical Grade", color: "#3b82f6" },
-  { icon: "❄️", name: "Nitrogen (N₂)", sub: "Gas & Cair (Liquid)", color: "#06b6d4" },
-  { icon: "🔵", name: "Argon (Ar)", sub: "Welding & Industrial", color: "#6366f1" },
-  { icon: "🔥", name: "Acetylene (C₂H₂)", sub: "Cutting & Welding Gas", color: "#f97316" },
-  { icon: "🎈", name: "Helium (He)", sub: "Speciality Gas", color: "#a855f7" },
-  { icon: "⚗️", name: "Mixed Gas", sub: "Custom Gas Campur", color: "#10b981" },
-];
+const css = `
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
-const STATS = [
-  { label: "Pelanggan Industri", value: 500, suffix: "+" },
-  { label: "Tahun Pengalaman", value: 20, suffix: "+" },
-  { label: "Jenis Produk Gas", value: 9, suffix: "+" },
-  { label: "Kepuasan Pelanggan", value: 99, suffix: "%" },
-];
+  /* ── Variables ── */
+  .hero-root {
+    --navy  : #0C2D5E;
+    --blue  : #1565C0;
+    --sky   : #29ABE2;
+    --aqua  : #38BDF8;
+    --ice   : #EFF6FF;
+    --muted : #64748B;
+    --white : #FFFFFF;
+    --ease  : cubic-bezier(0.22, 1, 0.36, 1);
+    /* GANTI: Fraunces (sastrawi) → Barlow (industrial, tegas) */
+    --ff-d  : 'Barlow', system-ui, sans-serif;
+    --ff-b  : 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff-b);
+  }
 
-const SECTORS = [
-  "Rumah Sakit & Medis",
-  "Farmasi",
-  "Galangan Kapal",
-  "Food & Beverage",
-  "Metal Sheet",
-  "Laser Cutting",
-];
+  /* ── Keyframes ── */
+  @keyframes hero-fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hero-lineGrow {
+    from { width: 0; opacity: 0; }
+    to   { width: 48px; opacity: 1; }
+  }
+  @keyframes hero-gradFlow {
+    0%,100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  @keyframes hero-pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(0.75); }
+  }
+  @keyframes hero-waPop {
+    from { opacity: 0; transform: scale(0.5) translateY(8px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes hero-waPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(37,211,102,0.55); }
+    70%  { box-shadow: 0 0 0 14px rgba(37,211,102,0); }
+    100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+  }
+  @keyframes hero-shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position:  200% center; }
+  }
+  @keyframes hero-waTooltip {
+    from { opacity: 0; transform: translateY(6px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
 
-// ─── Floating Particle ───────────────────────────────────────────────────────
+  /* ── Scroll progress bar ── */
+  .hero-progress {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    height: 3px; background: rgba(255,255,255,0.08); pointer-events: none;
+  }
+  .hero-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sky), var(--aqua));
+    transition: width 0.08s linear;
+    border-radius: 0 2px 2px 0;
+  }
 
-function Particle({ x, y, size, duration, delay, opacity }: {
-  x: number; y: number; size: number; duration: number; delay: number; opacity: number;
-}) {
-  return (
-    <motion.div
-      className="absolute rounded-full pointer-events-none"
-      style={{
-        left: `${x}%`,
-        top: `${y}%`,
-        width: size,
-        height: size,
-        background: `radial-gradient(circle, rgba(96,165,250,${opacity}) 0%, transparent 70%)`,
-      }}
-      animate={{
-        y: [0, -60, 0],
-        x: [0, Math.random() > 0.5 ? 20 : -20, 0],
-        opacity: [0, opacity, 0],
-        scale: [0.6, 1.2, 0.6],
-      }}
-      transition={{ duration, delay, repeat: Infinity, ease: "easeInOut" }}
-    />
-  );
-}
+  /* ── Hero section ── */
+  .hero-section {
+    position: relative; min-height: 100svh;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
 
-// ─── Molecule SVG Background ─────────────────────────────────────────────────
+  /* Video background */
+  .hero-video-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  .hero-video {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+  }
 
-function MoleculeBackground() {
-  return (
-    <motion.svg
-      className="absolute right-0 top-0 w-[55%] h-full opacity-[0.045] pointer-events-none"
-      viewBox="0 0 600 700"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 0.045 }}
-      transition={{ delay: 0.8, duration: 1.5 }}
-    >
-      {/* Atom nodes */}
-      {[
-        [300, 200, 28], [180, 340, 22], [420, 340, 22],
-        [260, 480, 18], [360, 480, 18], [130, 210, 16],
-        [470, 210, 16], [300, 90, 14], [190, 570, 14],
-        [410, 570, 14], [80, 400, 12], [520, 400, 12],
-      ].map(([cx, cy, r], i) => (
-        <motion.circle
-          key={`node-${i}`}
-          cx={cx} cy={cy} r={r}
-          fill="rgba(96,165,250,0.9)"
-          animate={{ r: [r, r * 1.15, r], opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 2.5 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
-        />
-      ))}
-      {/* Bonds */}
-      {[
-        [300, 200, 180, 340], [300, 200, 420, 340], [180, 340, 260, 480],
-        [420, 340, 360, 480], [260, 480, 360, 480], [130, 210, 180, 340],
-        [470, 210, 420, 340], [300, 90, 300, 200], [180, 340, 190, 570],
-        [420, 340, 410, 570], [80, 400, 180, 340], [520, 400, 420, 340],
-        [130, 210, 300, 90], [470, 210, 300, 90],
-      ].map(([x1, y1, x2, y2], i) => (
-        <motion.line
-          key={`bond-${i}`}
-          x1={x1} y1={y1} x2={x2} y2={y2}
-          stroke="rgba(96,165,250,0.6)"
-          strokeWidth="1.5"
-          animate={{ opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 2 + i * 0.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
-        />
-      ))}
-    </motion.svg>
-  );
-}
+  /* Fallback gradient (hapus jika sudah ada video) */
+  .hero-bg-fallback {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #0C2D5E 0%, #1565C0 45%, #29ABE2 100%);
+    background-size: 300% 300%;
+    animation: hero-gradFlow 9s ease infinite;
+  }
 
-// ─── Animated Counter ────────────────────────────────────────────────────────
+  /* Dark overlay */
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      155deg,
+      rgba(0,0,0,0.72) 0%,
+      rgba(0,0,0,0.45) 52%,
+      rgba(0,0,0,0.62) 100%
+    );
+  }
+  .hero-overlay-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(to top, rgba(0,0,0,0.70), transparent);
+  }
 
-function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const motionVal = useMotionValue(0);
-  const spring = useSpring(motionVal, { duration: 2000, bounce: 0 });
-  const [display, setDisplay] = useState(0);
+  /* ── Main content ── */
+  .hero-content {
+    position: relative; z-index: 2;
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 100px 5vw 72px;
+  }
 
+  /* Badge */
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 18px; border-radius: 50px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.22);
+    backdrop-filter: blur(8px);
+    font-family: var(--ff-d);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(255,255,255,0.92);
+    margin-bottom: 30px;
+    animation: hero-fadeUp 0.7s var(--ease) 0.1s both;
+  }
+  .hero-badge-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--aqua);
+    animation: hero-pulse 2.2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  /* Headline — Barlow 800 tegas & industrial */
+  .hero-h1 {
+    font-family: var(--ff-d);
+    font-size: clamp(2.8rem, 6.5vw, 5.6rem);
+    font-weight: 800; line-height: 1.0;
+    letter-spacing: -0.02em; color: white;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    max-width: 820px;
+    animation: hero-fadeUp 0.8s var(--ease) 0.25s both;
+  }
+  /* em: italic Barlow 400 — kontras ringan vs 800 */
+  .hero-h1 em {
+    font-style: italic; font-weight: 400;
+    color: var(--aqua);
+  }
+
+  /* Tagline — Barlow italic 400, profesional tidak puitis */
+  .hero-tagline {
+    font-family: var(--ff-d);
+    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+    font-weight: 400; font-style: italic;
+    color: rgba(255,255,255,0.90);
+    text-shadow: 0 1px 12px rgba(0,0,0,0.5);
+    letter-spacing: 0.01em;
+    margin-top: 12px;
+    animation: hero-fadeUp 0.8s var(--ease) 0.38s both;
+  }
+
+  /* Accent line */
+  .hero-line {
+    height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--aqua), transparent);
+    margin: 28px auto;
+    animation: hero-lineGrow 0.9s var(--ease) 0.52s both;
+  }
+
+  /* Description */
+  .hero-desc {
+    font-size: clamp(0.92rem, 1.4vw, 1.06rem);
+    line-height: 1.9; font-weight: 300;
+    color: rgba(255,255,255,0.92);
+    text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+    max-width: 600px;
+    animation: hero-fadeUp 0.8s var(--ease) 0.62s both;
+  }
+
+  /* CTA buttons */
+  .hero-btns {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+    margin-top: 40px;
+    animation: hero-fadeUp 0.8s var(--ease) 0.76s both;
+  }
+
+  .hero-btn-primary {
+    position: relative; overflow: hidden;
+    font-family: var(--ff-d);
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--navy); background: white;
+    border: none; border-radius: 6px;
+    padding: 14px 32px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+    text-decoration: none;
+  }
+  .hero-btn-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(21,101,192,0.08), transparent);
+    background-size: 200% 100%;
+    animation: hero-shimmer 2.8s linear infinite;
+  }
+  .hero-btn-primary:hover {
+    background: #EFF6FF; transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+  }
+  .hero-btn-primary:active { transform: scale(0.98); }
+
+  .hero-btn-ghost {
+    font-family: var(--ff-d);
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: white; background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 6px; padding: 13px 32px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.25s, background 0.25s, transform 0.2s;
+    text-decoration: none;
+  }
+  .hero-btn-ghost:hover {
+    border-color: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.12); transform: translateY(-2px);
+  }
+  .hero-btn-ghost:active { transform: scale(0.98); }
+
+  /* ── Stats bar ── */
+  .hero-stats {
+    position: relative; z-index: 2;
+    display: flex; align-items: stretch; flex-wrap: wrap;
+    background: rgba(10,22,40,0.65);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    animation: hero-fadeUp 0.8s var(--ease) 1s both;
+  }
+  .hero-stat {
+    flex: 1 1 120px; padding: 22px 12px;
+    display: flex; flex-direction: column; align-items: center;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.25s;
+  }
+  .hero-stat:last-child { border-right: none; }
+  .hero-stat:hover { background: rgba(255,255,255,0.04); }
+  .hero-stat-num {
+    font-family: var(--ff-d);
+    font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+    font-weight: 800; color: white; line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .hero-stat-num .accent { color: var(--aqua); font-size: 0.65em; font-weight: 600; }
+  .hero-stat-label {
+    font-family: var(--ff-d);
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(255,255,255,0.72);
+    margin-top: 5px; text-align: center;
+  }
+
+  /* ── WhatsApp float ── */
+  .hero-wa-wrap {
+    position: fixed; bottom: 28px; right: 28px; z-index: 600;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+  }
+  .hero-wa-tooltip {
+    background: white; border-radius: 12px 12px 4px 12px;
+    padding: 12px 16px; min-width: 210px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    animation: hero-waTooltip 0.3s var(--ease) both;
+    font-family: var(--ff-b);
+  }
+  .hero-wa-tooltip::after {
+    content: ''; position: absolute;
+    bottom: -8px; right: 18px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid white;
+  }
+  .hero-wa-tooltip-header {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  }
+  .hero-wa-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .hero-wa-avatar svg { width: 17px; height: 17px; fill: white; }
+  .hero-wa-name { font-size: 13px; font-weight: 700; color: #111; }
+  .hero-wa-online { font-size: 11px; color: #25D366; }
+  .hero-wa-msg { font-size: 13px; color: #444; line-height: 1.5; margin: 0 0 10px; }
+  .hero-wa-start {
+    width: 100%; background: #25D366; color: white;
+    border: none; border-radius: 6px; padding: 8px;
+    font-size: 12px; font-weight: 700; cursor: pointer;
+    font-family: var(--ff-b); letter-spacing: 0.06em;
+    transition: background 0.2s;
+  }
+  .hero-wa-start:hover { background: #1EB258; }
+
+  .hero-wa-btn {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    animation: hero-waPop 0.25s var(--ease) 1s both, hero-waPulse 2.6s ease-in-out 1.5s infinite;
+    box-shadow: 0 6px 24px rgba(37,211,102,0.48);
+    transition: transform 0.2s;
+  }
+  .hero-wa-btn:hover { transform: scale(1.1); }
+  .hero-wa-btn svg { width: 27px; height: 27px; fill: white; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero-stat { flex: 1 1 50%; }
+    .hero-stat:nth-child(2) { border-right: none; }
+  }
+  @media (max-width: 480px) {
+    .hero-btns { flex-direction: column; align-items: center; }
+    .hero-btn-primary, .hero-btn-ghost { width: 100%; max-width: 280px; justify-content: center; }
+  }
+`;
+
+/* ── WhatsApp SVG ── */
+const WaIcon = () => (
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.003 2.667C8.636 2.667 2.667 8.636 2.667 16c0 2.37.627 4.59 1.72 6.512L2.667 29.333l6.987-1.693A13.28 13.28 0 0016.003 29.333C23.37 29.333 29.333 23.364 29.333 16S23.37 2.667 16.003 2.667zm6.003 18.077c-.33-.166-1.944-.96-2.245-1.07-.302-.109-.52-.166-.74.166-.22.33-.847 1.07-1.04 1.29-.19.22-.384.248-.714.083-.33-.166-1.394-.514-2.655-1.637-.981-.875-1.644-1.956-1.837-2.286-.192-.33-.02-.508.145-.672.148-.148.33-.385.494-.578.165-.192.22-.33.33-.55.11-.22.055-.413-.027-.578-.083-.165-.74-1.786-1.014-2.444-.267-.64-.537-.553-.74-.564-.19-.01-.412-.012-.633-.012s-.578.083-.88.413c-.303.33-1.155 1.129-1.155 2.752s1.183 3.19 1.348 3.412c.165.22 2.327 3.556 5.64 4.99.788.34 1.403.543 1.883.695.79.25 1.51.215 2.079.13.634-.093 1.944-.795 2.218-1.562.275-.768.275-1.426.193-1.563-.082-.137-.302-.22-.632-.385z" />
+  </svg>
+);
+
+/* ── Arrow icon ── */
+const ArrowIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+    <line x1="5" y1="12" x2="19" y2="12" />
+    <polyline points="12 5 19 12 12 19" />
+  </svg>
+);
+
+/* ── Stat item ── */
+interface StatProps { num: string; suffix?: string; label: string; }
+const Stat = ({ num, suffix = "", label }: StatProps) => (
+  <div className="hero-stat">
+    <div className="hero-stat-num">
+      {num}<span className="accent">{suffix}</span>
+    </div>
+    <div className="hero-stat-label">{label}</div>
+  </div>
+);
+
+/* ══════════════════════════════════════════════
+   MAIN HERO COMPONENT
+══════════════════════════════════════════════ */
+export function Hero() {
+  const [scrollPct, setScrollPct] = useState(0);
+  const [waVisible, setWaVisible] = useState(false);
+  const [waOpen, setWaOpen]       = useState(false);
+
+  /* ── Scroll listener ── */
   useEffect(() => {
-    if (isInView) motionVal.set(value);
-  }, [isInView, value, motionVal]);
-
-  useEffect(() => {
-    return spring.on("change", (v) => setDisplay(Math.round(v)));
-  }, [spring]);
-
-  return (
-    <span ref={ref} className="tabular-nums">
-      {display}{suffix}
-    </span>
-  );
-}
-
-// ─── Main Hero ───────────────────────────────────────────────────────────────
-
-export const Hero = () => {
-  const [activeProduct, setActiveProduct] = useState(0);
-  const [activeSector, setActiveSector] = useState(0);
-
-  // Generate stable particles
-  const particles = useRef(
-    Array.from({ length: 22 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: 4 + Math.random() * 14,
-      duration: 5 + Math.random() * 7,
-      delay: Math.random() * 5,
-      opacity: 0.12 + Math.random() * 0.25,
-    }))
-  ).current;
-
-  useEffect(() => {
-    const i = setInterval(() => setActiveProduct((p) => (p + 1) % PRODUCTS.length), 2200);
-    return () => clearInterval(i);
+    const onScroll = () => {
+      const sy  = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollPct(max > 0 ? (sy / max) * 100 : 0);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /* ── Tampilkan WA button setelah 1s — popup hanya muncul kalau user tap ── */
   useEffect(() => {
-    const i = setInterval(() => setActiveSector((p) => (p + 1) % SECTORS.length), 1800);
-    return () => clearInterval(i);
+    const t1 = setTimeout(() => setWaVisible(true), 1000);
+    return () => clearTimeout(t1);
   }, []);
 
+  const handleWaClick = () => {
+    const msg = encodeURIComponent("Halo PT Surya Inti Gas, saya ingin menanyakan produk gas industri.");
+    window.open(`https://wa.me/6281234567890?text=${msg}`, "_blank");
+  };
+
   return (
-    <section id="hero" className="relative min-h-[100svh] w-full flex flex-col justify-center overflow-hidden">
-      
-      {/* ── Background ── */}
-      <div className="absolute inset-0 z-0">
-        <ImageWithFallback
-          src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1280"
-          alt="Industrial Gas Facility"
-          className="w-full h-full object-cover scale-105"
-          style={{ filter: "brightness(0.35) saturate(0.7)" }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050E1C]/98 via-[#071628]/88 to-[#0a1e40]/55" />
+    <div className="hero-root">
+      <style>{css}</style>
 
-        {/* Glow blobs */}
-        <div className="absolute bottom-0 left-0 w-[700px] h-[400px] bg-blue-700/12 blur-[140px] rounded-full pointer-events-none" />
-        <div className="absolute top-10 right-10 w-[400px] h-[400px] bg-blue-500/7 blur-[140px] rounded-full pointer-events-none" />
-        <div className="absolute top-1/2 left-1/3 w-[300px] h-[300px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
-
-        {/* Floating particles */}
-        {particles.map((p) => (
-          <Particle key={p.id} {...p} />
-        ))}
-
-        {/* Molecule SVG */}
-        <MoleculeBackground />
+      {/* ── Scroll progress ── */}
+      <div className="hero-progress">
+        <div className="hero-progress-fill" style={{ width: `${scrollPct}%` }} />
       </div>
 
-      {/* ── Main Content ── */}
-      <div className="container mx-auto px-4 md:px-10 relative z-10 pt-24 md:pt-28 pb-32 md:pb-44 flex-grow flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-14 items-center w-full">
-          
-          {/* ── Left: Copy ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, ease: "easeOut" }}
+      {/* ══ HERO SECTION ══ */}
+      <section id="hero" className="hero-section">
+
+        {/* ── Video Background ── */}
+        <div className="hero-video-wrap">
+          <video
+            className="hero-video"
+            autoPlay muted loop playsInline
+            poster="/hero-poster.jpg"
           >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.55 }}
-              className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-400/25 rounded-full px-4 py-1.5 mb-6"
-            >
-              <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-blue-300 text-xs font-semibold uppercase tracking-widest">
-                Distributor Gas Industri Terpercaya
-              </span>
-            </motion.div>
-
-            {/* Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.7 }}
-              className="text-white text-4xl sm:text-5xl md:text-6xl xl:text-[4.2rem] font-extrabold leading-[1.1] mb-5 tracking-tight"
-            >
-              Solusi Gas Industri <br className="hidden sm:block" />
-              <span className="text-blue-400">Andal & Lengkap</span> <br className="hidden sm:block" />
-              untuk Indonesia.
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.45, duration: 0.7 }}
-              className="text-slate-300/80 text-sm sm:text-base md:text-lg leading-relaxed mb-6 max-w-xl"
-            >
-              Sejak 2004, PT Surya Inti Gas melayani kebutuhan gas industri, medical gas, speciality gas, dan cryogenic equipment untuk 150+ mitra di berbagai wilayah strategis Indonesia.
-            </motion.p>
-
-            {/* Sector ticker */}
-            <div className="flex items-center gap-3 mb-7">
-              <span className="text-slate-400 font-medium text-sm shrink-0">Biasa Melayani:</span>
-              <div className="relative overflow-hidden h-6 flex-1">
-                {SECTORS.map((s, i) => (
-                  <motion.span
-                    key={s}
-                    animate={{ opacity: activeSector === i ? 1 : 0, y: activeSector === i ? 0 : 10 }}
-                    transition={{ duration: 0.35 }}
-                    className="absolute left-0 text-sm font-bold text-blue-300 whitespace-nowrap"
-                  >
-                    {s}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-
-            {/* Trust chips - Diubah untuk menghindari redundancy '2004' */}
-            <div className="flex flex-wrap gap-2.5 mb-9">
-              {[
-                { icon: <ShieldCheck size={14} />, label: "Bersertifikat Resmi" },
-                { icon: <Award size={14} />, label: "Standar Mutu & K3" },
-                { icon: <Zap size={14} />, label: "Pasokan Stabil" },
-              ].map((chip) => (
-                <span
-                  key={chip.label}
-                  className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full"
-                >
-                  <span className="text-blue-400">{chip.icon}</span>
-                  {chip.label}
-                </span>
-              ))}
-            </div>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className="flex flex-col sm:flex-row gap-3"
-            >
-              <motion.a
-                href="#produk"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="group bg-blue-600 hover:bg-blue-500 text-white px-6 md:px-8 py-3.5 md:py-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-700/30"
-              >
-                Lihat Produk Kami
-                <ArrowRight size={17} className="group-hover:translate-x-1 transition-transform" />
-              </motion.a>
-
-              {/* WhatsApp CTA */}
-              <motion.a
-                href="https://wa.me/6281234567890?text=Halo%20PT%20Surya%20Inti%20Gas..."
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative overflow-hidden bg-green-600 hover:bg-green-500 text-white px-6 md:px-8 py-3.5 md:py-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-green-700/25"
-              >
-                <motion.span
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
-                  animate={{ x: ["-100%", "200%"] }}
-                  transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 1.5, ease: "easeInOut" }}
-                />
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 shrink-0">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.122 1.526 5.856L.057 23.882l6.174-1.62A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.017-1.376l-.36-.213-3.664.962.979-3.576-.234-.374A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z" />
-                </svg>
-                Tanya via WhatsApp
-              </motion.a>
-            </motion.div>
-          </motion.div>
-
-          {/* ── Right: Product Card ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 44 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.85, ease: "easeOut" }}
-            className="hidden lg:flex justify-end relative z-10"
-          >
-            <div className="w-[365px] bg-white/[0.04] border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-2xl">
-              {/* Card header */}
-              <div className="flex items-center justify-between mb-5">
-                <span className="text-white/50 text-[11px] font-bold uppercase tracking-widest">
-                  Katalog Terlaris
-                </span>
-                <span className="inline-flex items-center gap-1.5 bg-green-500/10 border border-green-400/20 rounded-full px-3 py-1 text-green-300 text-[11px] font-medium">
-                  <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                  Stok Tersedia
-                </span>
-              </div>
-
-              {/* Product list */}
-              <div className="flex flex-col gap-2.5">
-                {PRODUCTS.map((product, i) => (
-                  <motion.div
-                    key={i}
-                    animate={{
-                      background: activeProduct === i ? "rgba(37,99,235,0.16)" : "rgba(255,255,255,0.02)",
-                      borderColor: activeProduct === i ? "rgba(96,165,250,0.32)" : "rgba(255,255,255,0.05)",
-                    }}
-                    transition={{ duration: 0.38 }}
-                    onMouseEnter={() => setActiveProduct(i)}
-                    className="flex items-center justify-between border rounded-xl px-4 py-3 cursor-pointer transition-all hover:border-white/20"
-                  >
-                    <div className="flex items-center gap-3">
-                      <motion.div
-                        animate={{
-                          backgroundColor: activeProduct === i ? `${product.color}33` : "rgba(255,255,255,0.05)",
-                        }}
-                        className="w-9 h-9 rounded-lg flex items-center justify-center text-lg shrink-0"
-                      >
-                        {product.icon}
-                      </motion.div>
-                      <div>
-                        <div className="text-white text-sm font-semibold leading-tight">{product.name}</div>
-                        <div className="text-slate-400 text-[11px] mt-0.5">{product.sub}</div>
-                      </div>
-                    </div>
-                    <motion.div
-                      animate={{ opacity: activeProduct === i ? 1 : 0, x: activeProduct === i ? 0 : -5 }}
-                      transition={{ duration: 0.22 }}
-                    >
-                      <ArrowRight size={14} className="text-blue-400" />
-                    </motion.div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Card footer */}
-              <div className="border-t border-white/10 mt-5 pt-4 flex items-center justify-between">
-                <span className="text-slate-400 text-[11px]">+ Cryogenic & Accessories</span>
-                <a href="#produk" className="text-blue-400 hover:text-blue-300 text-xs font-bold flex items-center gap-1 transition-colors group">
-                  Lihat Semua <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-            </div>
-          </motion.div>
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
         </div>
-      </div>
 
-      {/* ── Stats Bar (Diperbarui agar tampil di HP juga) ── */}
-      <div className="w-full bg-[#050E1C]/80 md:bg-white/[0.04] backdrop-blur-md border-t border-white/10 relative md:absolute md:bottom-0 z-20">
-        <div className="container mx-auto px-6 py-6 md:py-7">
-          {/* Di mobile jadi 2 baris (grid-cols-2), di laptop jadi 1 baris (grid-cols-4) */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0">
-            {STATS.map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.65 + i * 0.1, duration: 0.5 }}
-                className="text-center md:border-r border-white/10 last:border-0 px-2 md:px-4 group"
-              >
-                <motion.div
-                  className="text-2xl md:text-3xl font-extrabold text-white mb-1 md:mb-1.5 tracking-tight"
-                  whileHover={{ scale: 1.05, color: "#60a5fa" }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                </motion.div>
-                <div className="text-[10px] md:text-[11px] text-slate-400 font-medium uppercase tracking-widest group-hover:text-slate-300 transition-colors">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
+        {/* Dark overlay */}
+        <div className="hero-overlay" />
+        <div className="hero-overlay-bottom" />
+
+        {/* ── Content ── */}
+        <div className="hero-content">
+
+          {/* Badge */}
+          <div className="hero-badge">
+            <span className="hero-badge-dot" />
+            Supplier Of Industrial, Specialty & Mixed Gas
+          </div>
+
+          {/* Headline */}
+          <h1 className="hero-h1">
+            PT Surya Inti <em>Gas</em>
+          </h1>
+
+          {/* Tagline */}
+          <div className="hero-tagline">
+            Energi yang Andal, Masa Depan yang Cerah
+          </div>
+
+          {/* Accent line */}
+          <div className="hero-line" style={{ width: 48 }} />
+
+          {/* Description */}
+          <p className="hero-desc">
+            Distributor gas industri terkemuka di Indonesia — menyediakan LPG,
+            Oksigen, Nitrogen, dan solusi gas khusus dengan standar keselamatan
+            tertinggi untuk sektor manufaktur, medis, dan energi.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="hero-btns">
+            <a href="#produk" className="hero-btn-primary">
+              Lihat Produk <ArrowIcon />
+            </a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* ── WhatsApp Float Button ── */}
+      {waVisible && (
+        <div className="hero-wa-wrap">
+          {waOpen && (
+            <div className="hero-wa-tooltip" style={{ position: "relative" }}>
+              <div className="hero-wa-tooltip-header">
+                <div className="hero-wa-avatar"><WaIcon /></div>
+                <div>
+                  <div className="hero-wa-name">PT Surya Inti Gas</div>
+                  <div className="hero-wa-online">● Online sekarang</div>
+                </div>
+              </div>
+              <p className="hero-wa-msg">
+                Halo! Ada yang bisa kami bantu? Tim kami siap melayani. 👋
+              </p>
+              <button className="hero-wa-start" onClick={handleWaClick}>
+                Mulai Chat →
+              </button>
+            </div>
+          )}
+          <button
+            className="hero-wa-btn"
+            aria-label="Chat WhatsApp"
+            onClick={() => setWaOpen((p) => !p)}
+          >
+            <WaIcon />
+          </button>
+        </div>
+      )}
+    </div>
   );
-};
+}
