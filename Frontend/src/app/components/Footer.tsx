@@ -1,117 +1,377 @@
-import React from "react";
-import { Phone, Mail, MapPin, MessageSquare, Facebook, Twitter, Instagram, Linkedin, Send } from "lucide-react";
+import React, { useEffect, ReactNode } from "react";
 
-export const Footer = () => {
+/* ─────────────────────────────────────────
+   COLOR TOKENS  (navy dark theme)
+   bg-primary   : #0d1f3c  — background utama
+   bg-secondary : #0a1a32  — bottom bar
+   border       : #1e3a5f  — garis pemisah
+   text-primary : #f0ece4  — putih tulang tegas
+   text-body    : #c8daf0  — biru muda terang
+   text-muted   : #7ca0c7  — label & copyright
+   text-icon    : #5b82a8  — ikon diam
+───────────────────────────────────────── */
+
+const FONT_HREF =
+  "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap";
+
+function injectFont() {
+  if (!document.head.querySelector(`link[href="${FONT_HREF}"]`)) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = FONT_HREF;
+    document.head.appendChild(link);
+  }
+}
+
+const STYLE_ID = "sig-footer-styles";
+
+function injectStyles() {
+  if (document.getElementById(STYLE_ID)) return;
+  const style = document.createElement("style");
+  style.id = STYLE_ID;
+  style.textContent = `
+    @keyframes sig-blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+    .sig-footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 3rem;
+    }
+    @media (max-width: 860px) {
+      .sig-footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .sig-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .sig-footer-bottom {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 6px !important;
+      }
+      .sig-footer-main { padding: 2rem 1.5rem 2rem !important; }
+      .sig-footer-bottom-bar { padding: 1rem 1.5rem !important; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+/* ── Interfaces ── */
+interface ChildrenProps { children: ReactNode; }
+interface ContactLinkProps { href: string; icon: ReactNode; children: ReactNode; }
+interface SocialBtnProps { href: string; label: string; children: ReactNode; }
+
+/* ── Sub-components ── */
+
+const ColLabel = ({ children }: ChildrenProps) => (
+  <div
+    style={{
+      fontSize: 9,
+      textTransform: "uppercase",
+      letterSpacing: "0.2em",
+      fontWeight: 600,
+      color: "#7ca0c7",
+      marginBottom: "1.25rem",
+      paddingBottom: "1rem",
+      borderBottom: "1px solid #1e3a5f",
+    }}
+  >
+    {children}
+  </div>
+);
+
+const CityName = ({ children }: ChildrenProps) => (
+  <div
+    style={{
+      fontFamily: "'EB Garamond', serif",
+      fontSize: 16,
+      fontWeight: 500,
+      color: "#ffffff",
+      letterSpacing: "0.02em",
+      marginBottom: 6,
+    }}
+  >
+    {children}
+  </div>
+);
+
+const Address = ({ children }: ChildrenProps) => (
+  <p style={{ fontSize: 12.5, lineHeight: 1.85, color: "#c8daf0", margin: 0 }}>
+    {children}
+  </p>
+);
+
+const ContactLink = ({ href, icon, children }: ContactLinkProps) => {
+  const [hovered, setHovered] = React.useState(false);
   return (
-    <footer id="contact" className="bg-slate-900 text-white pt-24 pb-12">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="grid lg:grid-cols-4 gap-12 mb-20">
-          {/* Company Info */}
-          <div className="col-span-1 lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-8">
-              <div className="w-10 h-10 bg-blue-600 flex items-center justify-center rounded-sm">
-                <span className="text-white font-bold text-xl">KM</span>
-              </div>
-              <h2 className="font-bold text-lg leading-tight">
-                PT KONSTRUKSI<br />MANDIRI
-              </h2>
-            </div>
-            <p className="text-slate-400 mb-8 leading-relaxed">
-              Membangun negeri dengan integritas, inovasi, dan komitmen terhadap kualitas infrastruktur masa depan.
-            </p>
-            <div className="flex space-x-4">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 border border-slate-700 flex items-center justify-center rounded-sm hover:bg-blue-600 hover:border-blue-600 transition-all">
-                  <Icon size={18} />
-                </a>
-              ))}
-            </div>
-          </div>
+    <a
+      href={href}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        fontSize: 12,
+        color: hovered ? "#f0ece4" : "#c8daf0",
+        textDecoration: "none",
+        transition: "color .18s",
+        wordBreak: "break-all",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <span style={{ color: hovered ? "#a8c8e8" : "#5b82a8", flexShrink: 0, fontSize: 14 }}>
+        {icon}
+      </span>
+      {children}
+    </a>
+  );
+};
 
-          {/* Useful Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-8 flex items-center">
-              <span className="w-2 h-6 bg-blue-600 mr-3"></span>
-              Tautan Cepat
-            </h3>
-            <ul className="space-y-4">
-              {["Beranda", "Tentang Kami", "Layanan", "Proyek", "Tim Manajemen", "Hubungi Kami"].map((link) => (
-                <li key={link}>
-                  <a href={`#${link.toLowerCase().replace(" ", "")}`} className="text-slate-400 hover:text-white hover:translate-x-2 inline-block transition-all">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+const SocialBtn = ({ href, label, children }: SocialBtnProps) => {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <a
+      href={href}
+      aria-label={label}
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel={href.startsWith("http") ? "noreferrer" : undefined}
+      style={{
+        width: 34,
+        height: 34,
+        border: `1px solid ${hovered ? "#4a7aaa" : "#1e3a5f"}`,
+        borderRadius: 6,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: hovered ? "#f0ece4" : "#5b82a8",
+        textDecoration: "none",
+        transition: "border-color .2s, color .2s",
+        flexShrink: 0,
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {children}
+    </a>
+  );
+};
 
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-xl font-bold mb-8 flex items-center">
-              <span className="w-2 h-6 bg-blue-600 mr-3"></span>
-              Kontak Kami
-            </h3>
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <MapPin className="text-blue-500 shrink-0 mt-1" size={20} />
-                <p className="text-slate-400">
-                  Jl. Jenderal Sudirman No. 123, <br />
-                  SCBD Kav. 52-53, Jakarta Selatan, <br />
-                  DKI Jakarta 12190
-                </p>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Phone className="text-blue-500 shrink-0" size={20} />
-                <p className="text-slate-400">+62 21 5550 8888</p>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Mail className="text-blue-500 shrink-0" size={20} />
-                <p className="text-slate-400">info@konstruksimandiri.id</p>
-              </div>
-              <a
-                href="https://wa.me/6281234567890"
-                target="_blank"
-                rel="noreferrer"
-                className="bg-green-600 hover:bg-green-700 text-white flex items-center justify-center py-3 rounded-sm font-bold transition-colors w-full"
-              >
-                <MessageSquare className="mr-2" size={18} />
-                WhatsApp Chat
-              </a>
-            </div>
-          </div>
+/* ── SVG Icons ── */
+const IconPhone = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.37a16 16 0 006.72 6.72l1.73-1.73a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+  </svg>
+);
 
-          {/* Newsletter */}
-          <div>
-            <h3 className="text-xl font-bold mb-8 flex items-center">
-              <span className="w-2 h-6 bg-blue-600 mr-3"></span>
-              Berlangganan
-            </h3>
-            <p className="text-slate-400 mb-6">
-              Dapatkan pembaruan proyek dan info industri konstruksi terbaru.
-            </p>
-            <div className="relative">
-              <input
-                type="email"
-                placeholder="Alamat Email"
-                className="w-full bg-slate-800 border border-slate-700 rounded-sm py-4 px-6 text-white focus:outline-none focus:border-blue-500"
-              />
-              <button className="absolute right-2 top-2 bg-blue-600 p-2 rounded-sm hover:bg-blue-700 transition-colors">
-                <Send size={20} />
-              </button>
-            </div>
+const IconMail = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+    <polyline points="22,6 12,13 2,6" />
+  </svg>
+);
+
+const IconFacebook = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+  </svg>
+);
+
+const IconInstagram = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
+
+const IconLinkedin = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+
+const IconWhatsapp = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
+  </svg>
+);
+
+/* ── Main Footer ── */
+export const Footer = () => {
+  useEffect(() => {
+    injectFont();
+    injectStyles();
+  }, []);
+
+  const dm = "'DM Sans', system-ui, sans-serif";
+  const garamond = "'EB Garamond', Georgia, serif";
+
+  return (
+    <footer
+      id="contact"
+      style={{ background: "#0d1f3c", color: "#c8daf0", fontFamily: dm }}
+    >
+      {/* Top border */}
+      <div style={{ height: 2, background: "#1e3a5f" }} />
+
+      {/* Main grid */}
+      <div
+        className="sig-footer-main sig-footer-grid"
+        style={{ padding: "3rem 3rem 2.5rem" }}
+      >
+        {/* Column 1: Brand */}
+        <div>
+          <div
+            style={{
+              fontFamily: garamond,
+              fontSize: 19,
+              fontWeight: 500,
+              color: "#ffffff",
+              letterSpacing: "0.02em",
+              marginBottom: 4,
+            }}
+          >
+            PT Surya Inti Gas
+          </div>
+          <div
+            style={{
+              fontSize: 10,
+              textTransform: "uppercase",
+              letterSpacing: "0.2em",
+              color: "#7ca0c7",
+              marginBottom: "1.25rem",
+            }}
+          >
+            Industrial Gas Distributor · Est. 2004
+          </div>
+          <p
+            style={{
+              fontSize: 12.5,
+              lineHeight: 1.85,
+              color: "#c8daf0",
+              marginBottom: "1.5rem",
+              maxWidth: 280,
+            }}
+          >
+            Distributor terpercaya untuk gas industri, gas medis, gas campuran,
+            speciality gas, cryogenic equipment, dan dry ice di seluruh Indonesia.
+          </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontSize: 12,
+              color: "#c8daf0",
+              marginBottom: "1.5rem",
+            }}
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "#7ca0c7",
+                flexShrink: 0,
+                animation: "sig-blink 2s ease-in-out infinite",
+              }}
+            />
+            Senin – Sabtu &nbsp;·&nbsp; 08.00 – 17.00 WIB
+          </div>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            <SocialBtn href="#" label="Facebook"><IconFacebook /></SocialBtn>
+            <SocialBtn href="#" label="Instagram"><IconInstagram /></SocialBtn>
+            <SocialBtn href="#" label="LinkedIn"><IconLinkedin /></SocialBtn>
+            <SocialBtn href="https://wa.me/62319970478" label="WhatsApp"><IconWhatsapp /></SocialBtn>
           </div>
         </div>
 
-        <div className="pt-12 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-slate-500 text-sm">
-            © 2026 PT Konstruksi Mandiri. Hak Cipta Dilindungi Undang-Undang.
-          </p>
-          <div className="flex space-x-8 text-sm text-slate-500">
-            <a href="#" className="hover:text-white">Kebijakan Privasi</a>
-            <a href="#" className="hover:text-white">Syarat & Ketentuan</a>
+        {/* Column 2: Kantor Pusat */}
+        <div>
+          <ColLabel>Kantor Pusat</ColLabel>
+          <CityName>Sidoarjo, Jawa Timur</CityName>
+          <Address>
+            Komp. Perg. &amp; Industri Safe N Lock<br />
+            Blok V1 – 3223, 3225, 3232, 3233<br />
+            Jl. Lingkar Timur KM 5.5<br />
+            Rangkah Kidul, Sidoarjo 61232
+          </Address>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 14 }}>
+            <ContactLink href="tel:+6231997047888" icon={<IconPhone />}>
+              +62 31 – 9970 4788 / 4789
+            </ContactLink>
+            <ContactLink href="tel:+6231997047788" icon={<IconPhone />}>
+              +62 31 – 9970 4778
+            </ContactLink>
+            <ContactLink href="mailto:salescounter.sda@suryaintigas.co.id" icon={<IconMail />}>
+              salescounter.sda@suryaintigas.co.id
+            </ContactLink>
           </div>
+        </div>
+
+        {/* Column 3: Kantor Cabang */}
+        <div>
+          <ColLabel>Kantor Cabang</ColLabel>
+          <CityName>Balikpapan, Kalimantan Timur</CityName>
+          <Address>
+            Jl. AMD Projakal Kariangau KM 5.5<br />
+            RT 046, Kel. Graha Indah<br />
+            Kec. Balikpapan Utara<br />
+            Kota Balikpapan, Kaltim
+          </Address>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 14 }}>
+            <ContactLink href="tel:+625428531991" icon={<IconPhone />}>
+              +62 542 – 8531991 / 8532382
+            </ContactLink>
+            <ContactLink href="mailto:salescounter.bpn@suryaintigas.co.id" icon={<IconMail />}>
+              salescounter.bpn@suryaintigas.co.id
+            </ContactLink>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div style={{ borderTop: "1px solid #1e3a5f", background: "#0a1a32" }}>
+        <div
+          className="sig-footer-bottom-bar sig-footer-bottom"
+          style={{
+            padding: "1.25rem 3rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 8,
+          }}
+        >
+          <span style={{ fontSize: 11.5, color: "#7ca0c7", letterSpacing: "0.01em" }}>
+            © 2026 PT Surya Inti Gas. Hak Cipta Dilindungi Undang-Undang.
+          </span>
+          <a
+            href="mailto:marketing@suryaintigas.co.id"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: 11.5,
+              color: "#7ca0c7",
+              textDecoration: "none",
+              transition: "color .18s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ece4")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#7ca0c7")}
+          >
+            <IconMail />
+            marketing@suryaintigas.co.id
+          </a>
         </div>
       </div>
     </footer>
   );
 };
+
+export default Footer;
