@@ -457,7 +457,7 @@ export function Hero() {
 
           {/* FIX: CTA Buttons — tambah ghost button "Hubungi Kami" */}
           <div className="hero-btns">
-            <a href="#produk" className="hero-btn-primary">
+            <a href="/produk" className="hero-btn-primary">
               Lihat Produk <ArrowIcon />
             </a>
           </div>
