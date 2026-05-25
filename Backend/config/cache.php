@@ -127,4 +127,28 @@ return [
 
     'serializable_classes' => false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Advanced Cache Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for advanced caching features including multi-layer caching,
+    | cache warming, and intelligent invalidation strategies.
+    |
+    */
+
+    'default_ttl' => env('CACHE_DEFAULT_TTL', 3600), // 1 hour default
+
+    'layers' => explode(',', env('CACHE_LAYERS', 'memory,redis')), // cache layers order
+
+    'warming' => [
+        'enabled' => env('CACHE_WARMING_ENABLED', false),
+        'interval' => env('CACHE_WARMING_INTERVAL', 300), // 5 minutes
+    ],
+
+    'performance' => [
+        'enable_compression' => env('CACHE_COMPRESSION_ENABLED', true),
+        'compression_threshold' => env('CACHE_COMPRESSION_THRESHOLD', 1024), // 1KB
+    ],
+
 ];

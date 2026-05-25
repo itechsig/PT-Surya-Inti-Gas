@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\TeamMember;
+use App\Http\Resources\TeamMemberResource;
+use App\Http\Resources\TeamMemberCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -14,24 +16,11 @@ class TeamController extends Controller
         try {
             $teamMembers = TeamMember::active()
                 ->ordered()
-                ->get()
-                ->map(function ($member) {
-                    return [
-                        'id' => $member->id,
-                        'name' => $member->name,
-                        'role' => $member->role,
-                        'experience' => $member->experience,
-                        'expertise' => $member->expertise,
-                        'image' => $member->image,
-                        'bio' => $member->bio,
-                        'icon' => $member->icon,
-                        'stats' => $member->stats,
-                    ];
-                });
+                ->get();
 
             return response()->json([
                 'success' => true,
-                'data' => $teamMembers,
+                'data' => new TeamMemberCollection($teamMembers),
                 'message' => 'Team members retrieved successfully'
             ]);
         } catch (\Exception $e) {
@@ -55,17 +44,7 @@ class TeamController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => [
-                    'id' => $teamMember->id,
-                    'name' => $teamMember->name,
-                    'role' => $teamMember->role,
-                    'experience' => $teamMember->experience,
-                    'expertise' => $teamMember->expertise,
-                    'image' => $teamMember->image,
-                    'bio' => $teamMember->bio,
-                    'icon' => $teamMember->icon,
-                    'stats' => $teamMember->stats,
-                ],
+                'data' => new TeamMemberResource($teamMember),
                 'message' => 'Team member retrieved successfully'
             ]);
         } catch (\Exception $e) {

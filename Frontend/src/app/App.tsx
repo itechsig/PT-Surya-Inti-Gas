@@ -6,6 +6,7 @@ import { About } from "./components/About";
 import { Kontak } from "./components/Contact";
 import { Product } from "./components/Product";
 import { Footer } from "./components/Footer";
+import { Chatbot } from "./components/Chatbot";
 
 // ─── Scroll handler: ke atas atau ke section hash ────────────
 function ScrollToTop() {

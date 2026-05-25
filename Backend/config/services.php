@@ -35,4 +35,15 @@ return [
         ],
     ],
 
+    'gemini' => [
+        'api_keys' => env('GEMINI_API_KEYS', ''),
+        'model' => env('GEMINI_MODEL', 'gemini-flash-latest'),
+        'embedding_model' => env('GEMINI_EMBEDDING_MODEL', 'embedding-001'),
+        'rotation_enabled' => env('GEMINI_ROTATION_ENABLED', true),
+        'rotation_strategy' => env('GEMINI_ROTATION_STRATEGY', 'round_robin'), // round_robin, random, least_used
+        'pool_enabled' => env('GEMINI_POOL_ENABLED', true),
+        'pool_size' => env('GEMINI_POOL_SIZE', 5),
+        'timeout' => env('GEMINI_TIMEOUT', 30),
+    ],
+
 ];

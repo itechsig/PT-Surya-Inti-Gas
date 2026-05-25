@@ -15,13 +15,13 @@ services:
 
   backend:
     build: ./Backend
-    ports:
-      - "5000:5000"
+    network_mode: host
     volumes:
       - ./Backend:/app
       - /app/node_modules
+    command: php artisan serve --host=0.0.0.0 --port=8000
     environment:
-      - DB_HOST=mysql
+      - DB_HOST=127.0.0.1
       - DB_USER=root
       - DB_PASSWORD=sig1234
       - DB_NAME=SIG
