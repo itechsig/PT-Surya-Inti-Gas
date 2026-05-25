@@ -60,6 +60,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <Chatbot />
       </div>
     </BrowserRouter>
   );
