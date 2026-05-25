@@ -20,7 +20,6 @@ const css = `
     --muted : #64748B;
     --white : #FFFFFF;
     --ease  : cubic-bezier(0.22, 1, 0.36, 1);
-    /* GANTI: Fraunces (sastrawi) → Barlow (industrial, tegas) */
     --ff-d  : 'Barlow', system-ui, sans-serif;
     --ff-b  : 'DM Sans', system-ui, sans-serif;
     font-family: var(--ff-b);
@@ -33,7 +32,7 @@ const css = `
   }
   @keyframes hero-lineGrow {
     from { width: 0; opacity: 0; }
-    to   { width: 48px; opacity: 1; }
+    to   { width: 64px; opacity: 1; }
   }
   @keyframes hero-gradFlow {
     0%,100% { background-position: 0% 50%; }
@@ -86,7 +85,7 @@ const css = `
     object-fit: cover; object-position: center;
   }
 
-  /* Fallback gradient (hapus jika sudah ada video) */
+  /* Fallback gradient */
   .hero-bg-fallback {
     position: absolute; inset: 0;
     background: linear-gradient(135deg, #0C2D5E 0%, #1565C0 45%, #29ABE2 100%);
@@ -94,15 +93,22 @@ const css = `
     animation: hero-gradFlow 9s ease infinite;
   }
 
-  /* Dark overlay */
+  /* FIX: Dark overlay — gradient dari bawah ke atas agar foto lebih hidup di bagian atas */
   .hero-overlay {
     position: absolute; inset: 0;
     background: linear-gradient(
-      155deg,
-      rgba(0,0,0,0.72) 0%,
-      rgba(0,0,0,0.45) 52%,
-      rgba(0,0,0,0.62) 100%
+      to top,
+      rgba(0, 0, 0, 0.82) 0%,
+      rgba(0, 0, 0, 0.55) 40%,
+      rgba(0, 0, 0, 0.30) 70%,
+      rgba(0, 0, 0, 0.15) 100%
     );
+  }
+  /* Overlay tambahan dari atas untuk navbar area tetap terbaca */
+  .hero-overlay-top {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 140px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent);
   }
   .hero-overlay-bottom {
     position: absolute; bottom: 0; left: 0; right: 0;
@@ -137,7 +143,7 @@ const css = `
     flex-shrink: 0;
   }
 
-  /* Headline — Barlow 800 tegas & industrial */
+  /* Headline */
   .hero-h1 {
     font-family: var(--ff-d);
     font-size: clamp(2.8rem, 6.5vw, 5.6rem);
@@ -147,25 +153,24 @@ const css = `
     max-width: 820px;
     animation: hero-fadeUp 0.8s var(--ease) 0.25s both;
   }
-  /* em: italic Barlow 400 — kontras ringan vs 800 */
   .hero-h1 em {
     font-style: italic; font-weight: 400;
     color: var(--aqua);
   }
 
-  /* Tagline — Barlow italic 400, profesional tidak puitis */
+  /* FIX: Tagline — text-shadow lebih kuat agar terbaca di atas foto */
   .hero-tagline {
     font-family: var(--ff-d);
     font-size: clamp(1.1rem, 2.4vw, 1.6rem);
     font-weight: 400; font-style: italic;
-    color: rgba(255,255,255,0.90);
-    text-shadow: 0 1px 12px rgba(0,0,0,0.5);
+    color: rgba(255,255,255,0.95);
+    text-shadow: 0 1px 16px rgba(0,0,0,0.75), 0 2px 6px rgba(0,0,0,0.6);
     letter-spacing: 0.01em;
     margin-top: 12px;
     animation: hero-fadeUp 0.8s var(--ease) 0.38s both;
   }
 
-  /* Accent line */
+  /* FIX: Accent line — diperlebar dari 48px → 64px */
   .hero-line {
     height: 2px; border-radius: 2px;
     background: linear-gradient(90deg, var(--aqua), transparent);
@@ -179,7 +184,7 @@ const css = `
     line-height: 1.9; font-weight: 300;
     color: rgba(255,255,255,0.92);
     text-shadow: 0 1px 8px rgba(0,0,0,0.45);
-    max-width: 600px;
+    max-width: 560px;
     animation: hero-fadeUp 0.8s var(--ease) 0.62s both;
   }
 
@@ -214,11 +219,12 @@ const css = `
   }
   .hero-btn-primary:active { transform: scale(0.98); }
 
+  /* FIX: Ghost button — tambahan CTA kedua "Hubungi Kami" */
   .hero-btn-ghost {
     font-family: var(--ff-d);
     font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
     color: white; background: transparent;
-    border: 1.5px solid rgba(255,255,255,0.5);
+    border: 1.5px solid rgba(255,255,255,0.55);
     border-radius: 6px; padding: 13px 32px; cursor: pointer;
     display: inline-flex; align-items: center; gap: 8px;
     backdrop-filter: blur(8px);
@@ -226,8 +232,8 @@ const css = `
     text-decoration: none;
   }
   .hero-btn-ghost:hover {
-    border-color: rgba(255,255,255,0.9);
-    background: rgba(255,255,255,0.12); transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.95);
+    background: rgba(255,255,255,0.13); transform: translateY(-2px);
   }
   .hero-btn-ghost:active { transform: scale(0.98); }
 
@@ -339,6 +345,14 @@ const ArrowIcon = () => (
   </svg>
 );
 
+/* ── Mail icon ── */
+const MailIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <polyline points="2,4 12,13 22,4" />
+  </svg>
+);
+
 /* ── Stat item ── */
 interface StatProps { num: string; suffix?: string; label: string; }
 const Stat = ({ num, suffix = "", label }: StatProps) => (
@@ -369,7 +383,7 @@ export function Hero() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* ── Tampilkan WA button setelah 1s — popup hanya muncul kalau user tap ── */
+  /* ── Tampilkan WA button setelah 1s ── */
   useEffect(() => {
     const t1 = setTimeout(() => setWaVisible(true), 1000);
     return () => clearTimeout(t1);
@@ -378,6 +392,10 @@ export function Hero() {
   const handleWaClick = () => {
     const msg = encodeURIComponent("Halo PT Surya Inti Gas, saya ingin menanyakan produk gas industri.");
     window.open(`https://wa.me/6281234567890?text=${msg}`, "_blank");
+  };
+
+  const handleContactClick = () => {
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -403,8 +421,9 @@ export function Hero() {
           </video>
         </div>
 
-        {/* Dark overlay */}
+        {/* FIX: Overlay gradient bawah ke atas + overlay atas untuk navbar */}
         <div className="hero-overlay" />
+        <div className="hero-overlay-top" />
         <div className="hero-overlay-bottom" />
 
         {/* ── Content ── */}
@@ -421,13 +440,13 @@ export function Hero() {
             PT Surya Inti <em>Gas</em>
           </h1>
 
-          {/* Tagline */}
+          {/* FIX: Tagline — text-shadow lebih kuat */}
           <div className="hero-tagline">
             Energi yang Andal, Masa Depan yang Cerah
           </div>
 
-          {/* Accent line */}
-          <div className="hero-line" style={{ width: 48 }} />
+          {/* FIX: Accent line — 64px (lebih lebar dari sebelumnya 48px) */}
+          <div className="hero-line" style={{ width: 64 }} />
 
           {/* Description */}
           <p className="hero-desc">
@@ -436,9 +455,9 @@ export function Hero() {
             tertinggi untuk sektor manufaktur, medis, dan energi.
           </p>
 
-          {/* CTA Buttons */}
+          {/* FIX: CTA Buttons — tambah ghost button "Hubungi Kami" */}
           <div className="hero-btns">
-            <a href="#produk" className="hero-btn-primary">
+            <a href="/produk" className="hero-btn-primary">
               Lihat Produk <ArrowIcon />
             </a>
           </div>

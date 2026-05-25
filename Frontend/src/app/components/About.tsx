@@ -1,238 +1,579 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { CheckCircle2, Target, BookOpen } from "lucide-react";
 
-/* ── Data ── */
-const certs = [
-  "Izin Usaha Distribusi Gas Resmi",
-  "Standar K3 (Keselamatan & Kesehatan Kerja)",
-  "Sertifikasi Produk Gas Industri & Medis",
-  "Keanggotaan Asosiasi Distributor Gas Nasional",
+const fontImport = `
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  .about-section {
+    background: #ffffff;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-section::before {
+    content: '';
+    position: fixed;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .about-section::after {
+    content: '';
+    position: fixed;
+    bottom: -120px; left: -80px;
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Container utama ── */
+  .about-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 72px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Glass cards ── */
+  .glass-card {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.75);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(15,23,42,0.06), 0 2px 8px rgba(15,23,42,0.04);
+  }
+  .glass-card-strong {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.85);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(15,23,42,0.08);
+  }
+
+  /* ── BARIS 1: Intro + Foto ── */
+  .row-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .intro-photo-wrap {
+    position: relative;
+  }
+  .intro-photo-wrap .deco {
+    position: absolute;
+    inset: -12px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(59,130,246,0.10));
+    z-index: 0;
+  }
+
+  /* ── BARIS 2: Foto + Visi Misi ── */
+  .row-vimis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: stretch;
+  }
+  .vimis-photo-wrap {
+    position: relative;
+  }
+  .vimis-photo-wrap .deco {
+    position: absolute;
+    inset: -12px;
+    border-radius: 28px;
+    background: linear-gradient(225deg, rgba(59,130,246,0.12), rgba(34,197,94,0.08));
+    z-index: 0;
+  }
+
+  /* checklist items */
+  .check-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px; border-radius: 10px;
+    transition: background 0.2s ease;
+    cursor: default;
+  }
+  .check-item:hover { background: rgba(34,197,94,0.08); }
+
+  /* photo */
+  .photo-img {
+    width: 100%; object-fit: cover;
+    border-radius: 20px; display: block;
+    position: relative; z-index: 1;
+  }
+
+  /* misi list */
+  .misi-list {
+    margin: 0; padding: 0;
+    list-style: none;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  /* ── Divider ── */
+  .divider-line {
+    border: none; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(148,163,184,0.4), transparent);
+    margin: 0;
+  }
+
+  /* ── BARIS 3: Landscape Timeline ── */
+  .timeline-landscape {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  /* Garis horizontal di belakang dot */
+  .timeline-landscape::before {
+    content: '';
+    position: absolute;
+    top: 27px;
+    left: calc(12.5%);
+    right: calc(12.5%);
+    height: 2px;
+    background: linear-gradient(to right, #bfdbfe, #7dd3fc, #34d399, #bbf7d0);
+    z-index: 0;
+  }
+  .tl-item {
+    display: flex; flex-direction: column;
+    align-items: center; text-align: center;
+    padding: 0 10px; position: relative;
+  }
+
+  @keyframes pulseRing {
+    0%   { box-shadow: 0 0 0 0 rgba(59,130,246,0.35); }
+    70%  { box-shadow: 0 0 0 8px rgba(59,130,246,0); }
+    100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+  }
+  .tl-dot { animation: pulseRing 2.5s infinite; }
+
+  .tl-card {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.62);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(15,23,42,0.07);
+    padding: 20px 16px; width: 100%;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .tl-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 36px rgba(15,23,42,0.12);
+  }
+
+  /* ── Fade-in on scroll ── */
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-in-section.delay-1 { transition-delay: 0.1s; }
+  .fade-in-section.delay-2 { transition-delay: 0.2s; }
+  .fade-in-section.delay-3 { transition-delay: 0.3s; }
+  .fade-in-section.delay-4 { transition-delay: 0.4s; }
+
+  /* ════════════════════════════════
+     RESPONSIVE — Tablet (≤ 900px)
+  ════════════════════════════════ */
+  @media (max-width: 900px) {
+    .about-inner {
+      padding: 48px 20px;
+      gap: 52px;
+    }
+
+    /* Baris 1: foto pindah di bawah teks */
+    .row-intro {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    /* Paksa foto ke baris ke-2 */
+    .intro-photo-wrap { order: 2; }
+    .intro-text       { order: 1; }
+
+    /* Baris 2: foto pindah di atas Visi Misi */
+    .row-vimis {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .vimis-photo-wrap { order: 1; min-height: 260px !important; }
+    .vimis-cards      { order: 2; }
+
+    /* Tinggi foto lebih pendek di tablet */
+    .intro-photo-wrap .photo-img { height: 300px !important; }
+
+    /* Timeline: 2 kolom */
+    .timeline-landscape {
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .timeline-landscape::before { display: none; }
+  }
+
+  /* ════════════════════════════════
+     RESPONSIVE — Mobile (≤ 560px)
+  ════════════════════════════════ */
+  @media (max-width: 560px) {
+    .about-inner {
+      padding: 36px 16px;
+      gap: 40px;
+    }
+
+    /* Sembunyikan foto di Baris 1 & 2 agar tidak memakan ruang */
+    .intro-photo-wrap { display: none; }
+    .vimis-photo-wrap { display: none; }
+
+    /* Baris 2 jadi single column tanpa foto */
+    .row-vimis { grid-template-columns: 1fr; }
+
+    /* Glass card checklist lebih compact */
+    .glass-card { padding: 12px 8px !important; }
+    .check-item { padding: 8px 12px; gap: 10px; }
+
+    /* Visi Misi card padding lebih kecil */
+    .glass-card-strong { padding: 20px !important; }
+
+    /* Timeline: 1 kolom, layout horizontal tiap item */
+    .timeline-landscape {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .timeline-landscape::before { display: none; }
+
+    /* Tiap item timeline jadi baris horizontal (dot kiri, teks kanan) */
+    .tl-item {
+      flex-direction: row;
+      align-items: flex-start;
+      text-align: left;
+      gap: 16px;
+      padding: 0;
+    }
+    .tl-dot {
+      flex-shrink: 0;
+      margin-top: 0;
+    }
+    .tl-card {
+      margin-top: 0;
+      flex: 1;
+      padding: 16px 14px;
+    }
+  }
+`;
+
+const PhotoBlock: React.FC<{
+  src: string;
+  style?: React.CSSProperties;
+  className?: string;
+}> = ({ src, style, className }) => (
+  <img
+    src={src}
+    alt="PT Surya Inti Gas"
+    className={`photo-img${className ? ` ${className}` : ""}`}
+    style={{ backgroundColor: "#d1fae5", ...style }}
+  />
+);
+
+const timelineData = [
+  {
+    year: "2003", label: "Pendirian",
+    text: "Berdiri dengan nama CV. Surya Inti Gas, berkantor di Jl. KH. Mukmin, Sidoarjo, Jawa Timur.",
+    color: "#3b82f6", bg: "rgba(59,130,246,0.10)", accent: "rgba(59,130,246,0.15)",
+  },
+  {
+    year: "2007", label: "Ekspansi",
+    text: 'Bisnis berkembang pesat, kantor pindah ke Komplek Pergudangan & Industri "Meiko Abadi", Gedangan, Sidoarjo.',
+    color: "#0891b2", bg: "rgba(8,145,178,0.10)", accent: "rgba(8,145,178,0.15)",
+  },
+  {
+    year: "2016", label: "Head Office Baru",
+    text: 'Kantor pindah ke Komplek "Safe N Lock", Jl. Lingkar Timur KM 5.5, Rangkah Kidul sebagai Head Office.',
+    color: "#16a34a", bg: "rgba(22,163,74,0.10)", accent: "rgba(22,163,74,0.15)",
+  },
+  {
+    year: "2017", label: "PT & Cabang",
+    text: "Resmi berdiri sebagai PT. Surya Inti Gas dan perdana membuka cabang di Balikpapan, Kalimantan Timur.",
+    color: "#22c55e", bg: "rgba(34,197,94,0.10)", accent: "rgba(34,197,94,0.15)",
+  },
 ];
 
-const milestones = [
-  { year: "2004", title: "Pendirian Perusahaan",     desc: "Berdiri di Sidoarjo, Jawa Timur sebagai distributor gas industri & medis." },
-  { year: "2008", title: "Ekspansi Lini Produk",    desc: "Menambah specialty gas, mixed gas, dan cryogenic equipment." },
-  { year: "2013", title: "Cabang Kalimantan Timur", desc: "Membuka kantor cabang di Balikpapan untuk sektor migas & galangan kapal." },
-  { year: "2017", title: "Perluasan Wilayah",       desc: "Distribusi diperluas ke Jawa Tengah dan DIY." },
-  { year: "2024", title: "Dua Dekade Pelayanan",    desc: "20 tahun melayani 150+ pelanggan aktif di seluruh wilayah layanan." },
-];
+export function About() {
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
 
-const HEADER_OFFSET = 60;
+    document.querySelectorAll(".fade-in-section").forEach((el) => {
+      observer.observe(el);
+    });
 
-export const About = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-    const update = () => {
-      if (!sectionRef.current) return;
-      const allFixed = [...document.querySelectorAll("*")].filter((el) => {
-        const s = window.getComputedStyle(el);
-        return s.position === "fixed" && parseFloat(s.top) <= 0 && el.getBoundingClientRect().bottom > 0;
-      });
-      const measuredH = allFixed.length
-        ? Math.max(...allFixed.map((el) => el.getBoundingClientRect().bottom))
-        : HEADER_OFFSET;
-      sectionRef.current.style.scrollMarginTop = `${Math.max(measuredH, HEADER_OFFSET)}px`;
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+      <style>{fontImport}</style>
 
-        .about-wrap {
-          font-family: 'Inter', sans-serif;
-          background: #ffffff;
-          color: #1e293b;
-          position: relative;
-          z-index: 1;
-        }
+      <div className="about-section" id="about" style={{ fontFamily: "'Outfit', sans-serif" }}>
+        <div className="about-inner">
 
-        .inner { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
-
-        .section-eyebrow {
-          display: inline-flex; align-items: center; gap: 8px;
-          font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
-          text-transform: uppercase; color: #0369a1; margin-bottom: 10px;
-        }
-        .section-eyebrow::before {
-          content: ''; display: block; width: 24px; height: 2px;
-          background: #0369a1;
-        }
-
-        /* Padding atas dikurangi agar konten lebih naik */
-        .about-section { padding: 60px 0 40px; }
-        
-        .content-title {
-          font-size: clamp(26px, 3.2vw, 38px); font-weight: 800;
-          color: #0f172a; margin-bottom: 16px; letter-spacing: -0.025em; line-height: 1.2;
-        }
-
-        /* 1. PROFIL & MILESTONE GRID */
-        .profil-container { 
-          display: grid; 
-          grid-template-columns: 1.15fr 0.85fr; /* Profil sedikit lebih lebar (ke kanan) */
-          gap: 40px; /* Jarak antar kolom diperkecil */
-          margin-bottom: 40px; /* Margin bawah dipangkas drastis agar Visi Misi naik */
-          align-items: start;
-        }
-        
-        .profil-text { font-size: 14px; line-height: 1.7; color: #64748b; text-align: justify; }
-        
-        .cert-grid { 
-          display: grid; 
-          grid-template-columns: 1fr 1fr; 
-          gap: 12px; 
-          margin-top: 20px; 
-        }
-        .cert-item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #334155; }
-        .cert-item svg { color: #0369a1; flex-shrink: 0; }
-
-        /* Milestone Card Styling */
-        .timeline-card { 
-          background: #f8fafc; 
-          border-radius: 24px; 
-          padding: 28px 32px; /* Padding dikurangi agar tidak terlalu tinggi */
-          border: 1px solid #f1f5f9;
-        }
-        .tl-item { display: flex; gap: 16px; margin-bottom: 16px; position: relative; }
-        .tl-item:last-child { margin-bottom: 0; }
-        
-        .tl-year { 
-          font-size: 11px; font-weight: 800; color: #0369a1; 
-          background: #e0f2fe; padding: 4px 10px; border-radius: 6px; 
-          height: fit-content; margin-top: 2px;
-        }
-        .tl-title { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
-        .tl-desc { font-size: 12px; color: #94a3b8; line-height: 1.5; }
-
-        /* 2. VISI MISI SECTION (Highlighted) */
-        .vismis-wrapper { 
-          background: #f0f9ff; 
-          padding: 40px 0; /* Padding atas bawah dipangkas setengahnya */
-          border-radius: 32px; 
-        }
-        .vismis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        
-        .vm-card { 
-          background: #ffffff; 
-          padding: 32px; /* Padding dikurangi sedikit */
-          border-radius: 20px; 
-          box-shadow: 0 10px 25px -5px rgba(3, 105, 161, 0.05);
-          height: 100%;
-        }
-        
-        .vm-label { 
-          display: flex; align-items: center; gap: 8px; 
-          font-weight: 800; text-transform: uppercase; 
-          font-size: 11px; letter-spacing: 0.1em; margin-bottom: 16px; 
-        }
-        .visi-label { color: #0369a1; }
-        .misi-label { color: #16a34a; }
-        
-        .vm-content { font-size: 15px; font-weight: 500; line-height: 1.7; color: #334155; }
-        
-        .misi-list { list-style: none; padding: 0; margin: 0; }
-        .misi-list li { 
-          display: flex; gap: 10px; font-size: 13px; 
-          color: #475569; line-height: 1.5; margin-bottom: 10px;
-        }
-        .misi-list li::before { content: '→'; color: #16a34a; font-weight: bold; }
-        .misi-list li:last-child { margin-bottom: 0; }
-
-        @media (max-width: 960px) {
-          .profil-container, .vismis-grid { grid-template-columns: 1fr; gap: 32px; }
-          .vismis-wrapper { border-radius: 0; padding: 32px 0; }
-        }
-        
-        @media (max-width: 640px) {
-          .cert-grid { grid-template-columns: 1fr; }
-          .about-section { padding: 40px 0; }
-        }
-      `}</style>
-
-      <div id="about" ref={sectionRef} className="about-wrap">
-        <div className="about-section">
-          <div className="inner">
-            
-            {/* Bagian 1: Profil & History */}
-            <div className="profil-container">
-              <div>
-                <div className="section-eyebrow">Profil Perusahaan</div>
-                <h2 className="content-title">
-                  Dua Dekade Dedikasi Sebagai <span style={{color:'#0369a1'}}>Mitra Gas Industri</span>
-                </h2>
-                <div className="profil-text">
-                  <p style={{marginBottom: 16}}>
-                    PT Surya Inti Gas didirikan pada tahun 2004 di Sidoarjo, Jawa Timur, dengan visi menjadi mitra distribusi gas industri yang komprehensif. Bermula dari melayani kebutuhan industri lokal, kami terus berkembang hingga kini memiliki jangkauan distribusi luas mencakup Jawa Timur, Jawa Tengah, DIY, hingga Kalimantan Timur.
-                  </p>
-                  <p>
-                    Kami menyediakan solusi gas industri, medis, specialty gas, hingga cryogenic equipment yang telah memenuhi standar regulasi ketat di Indonesia. Fokus kami adalah memastikan keamanan dan keberlanjutan operasional klien melalui pasokan gas yang presisi.
-                  </p>
-                </div>
-                
-                <div className="cert-grid">
-                  {certs.map((c, i) => (
-                    <div className="cert-item" key={i}>
-                      <CheckCircle2 size={16} /> {c}
-                    </div>
-                  ))}
-                </div>
+          {/* ══ BARIS 1: Teks Intro + Foto ══ */}
+          <div className="row-intro">
+            {/* Teks kiri */}
+            <div className="intro-text fade-in-section" style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+              {/* Eyebrow */}
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <div style={{ width: "36px", height: "2px", background: "#22c55e" }} />
+                <span style={{
+                  fontFamily: "'Outfit', sans-serif", fontSize: "0.78rem",
+                  fontWeight: 600, letterSpacing: "0.18em",
+                  textTransform: "uppercase", color: "#16a34a",
+                }}>
+                  Tentang Kami
+                </span>
               </div>
 
-              {/* Milestone Card */}
-              <div className="timeline-card">
-                <div className="section-eyebrow" style={{fontSize:'10px', marginBottom: '16px'}}>History Milestone</div>
-                {milestones.map((m, i) => (
-                  <div className="tl-item" key={i}>
-                    <span className="tl-year">{m.year}</span>
-                    <div>
-                      <div className="tl-title">{m.title}</div>
-                      <div className="tl-desc">{m.desc}</div>
-                    </div>
+              <h1 style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(2rem, 5vw, 3.4rem)",
+                fontWeight: 700, lineHeight: 1.12,
+                color: "#0f172a", margin: 0, letterSpacing: "-0.01em",
+              }}>
+                PT. Surya Inti Gas
+              </h1>
+
+              <p style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: "clamp(0.95rem, 2.5vw, 1.05rem)",
+                lineHeight: 1.75, color: "#5a7085", fontWeight: 300, margin: 0,
+              }}>
+                Surya Inti Gas berdiri sejak tahun 2003 dan telah berkembang menjadi
+                distributor gas industri dan medis terpercaya yang melayani lebih dari
+                150 pelanggan di Jawa Timur, Jawa Tengah, DIY, hingga Kalimantan Timur.
+              </p>
+
+              <div className="glass-card" style={{ padding: "20px 16px", display: "flex", flexDirection: "column", gap: "4px" }}>
+                {[
+                  "Gas Industri, Medis, Speciality & Mixed Gas",
+                  "Armada Pengiriman Mandiri & Tepat Waktu",
+                  "Melayani 150+ Pelanggan Industri",
+                  "Head Office Sidoarjo + Cabang Balikpapan",
+                ].map((item, i) => (
+                  <div key={i} className="check-item">
+                    <CheckCircle2 color="#22c55e" size={18} strokeWidth={2.5} />
+                    <span style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontWeight: 500, fontSize: "0.95rem", color: "#1e293b",
+                    }}>
+                      {item}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* Foto kanan */}
+            <div className="intro-photo-wrap fade-in-section delay-2">
+              <div className="deco" />
+              <PhotoBlock
+                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800"
+                style={{ height: "420px" }}
+              />
+            </div>
           </div>
 
-          {/* Bagian 2: Visi & Misi */}
-          <div className="vismis-wrapper">
-            <div className="inner">
-              <div className="vismis-grid">
-                {/* Visi */}
-                <div className="vm-card">
-                  <div className="vm-label visi-label">
-                    <Target size={16} /> Visi Kami
-                  </div>
-                  <p className="vm-content">
-                    "Menjadi perusahaan distribusi gas industri terkemuka di Indonesia yang mengutamakan kualitas produk, keselamatan operasional, dan kepuasan pelanggan jangka panjang."
-                  </p>
-                </div>
+          {/* ══ BARIS 2: Foto + Visi Misi ══ */}
+          <div className="row-vimis">
+            {/* Foto kiri */}
+            <div className="vimis-photo-wrap fade-in-section">
+              <div className="deco" />
+              <PhotoBlock
+                src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800"
+                style={{ height: "100%", minHeight: "380px" }}
+              />
+            </div>
 
-                {/* Misi */}
-                <div className="vm-card">
-                  <div className="vm-label misi-label">
-                    <BookOpen size={16} /> Misi Kami
-                  </div>
-                  <ul className="misi-list">
-                    <li>Produk dengan standar kemurnian industri tinggi</li>
-                    <li>Ketepatan waktu melalui armada distribusi mandiri</li>
-                    <li>Layanan konsultasi teknis & after-sales responsif</li>
-                    <li>Standar K3 ketat di setiap lini operasional</li>
-                    <li>Perluasan jangkauan untuk industri nasional</li>
-                  </ul>
+            {/* Visi & Misi kanan */}
+            <div className="vimis-cards fade-in-section delay-2" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              {/* Visi */}
+              <div className="glass-card-strong" style={{ padding: "28px", flex: 1 }}>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: "8px",
+                  background: "rgba(3,105,161,0.08)", borderRadius: "8px",
+                  padding: "6px 14px", marginBottom: "16px",
+                }}>
+                  <Target size={18} color="#0369a1" strokeWidth={2.2} />
+                  <span style={{
+                    fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
+                    fontSize: "1.15rem", color: "#0369a1", letterSpacing: "0.02em",
+                  }}>
+                    Visi Kami
+                  </span>
                 </div>
+                <p style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  lineHeight: 1.75, color: "#475569",
+                  margin: 0, fontSize: "0.97rem", fontWeight: 300,
+                }}>
+                  Menjadi sebuah perusahaan yang berkembang, memiliki cabang di seluruh
+                  kota besar Indonesia, yang mampu memenuhi dan menunjang kebutuhan
+                  gas-gas industri di dalam negeri serta melayani kebutuhan gas Oksigen
+                  Medis di seluruh Rumah Sakit di Indonesia.
+                </p>
               </div>
+
+              {/* Misi */}
+              <div className="glass-card-strong" style={{ padding: "28px", flex: 1 }}>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: "8px",
+                  background: "rgba(22,163,74,0.08)", borderRadius: "8px",
+                  padding: "6px 14px", marginBottom: "16px",
+                }}>
+                  <BookOpen size={18} color="#16a34a" strokeWidth={2.2} />
+                  <span style={{
+                    fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
+                    fontSize: "1.15rem", color: "#16a34a", letterSpacing: "0.02em",
+                  }}>
+                    Misi Kami
+                  </span>
+                </div>
+                <ul className="misi-list">
+                  {[
+                    "Mampu menyediakan produk yang berkecukupan dengan standar tinggi.",
+                    "Memiliki sumber daya manusia yang kuat dan solid.",
+                    "Mampu memenuhi kebutuhan dan keinginan pelanggan dengan cepat, tepat dan baik.",
+                    "Kepuasan pelanggan adalah prioritas kami.",
+                  ].map((item, i) => (
+                    <li key={i} style={{
+                      display: "flex", alignItems: "flex-start", gap: "10px",
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: "0.95rem", color: "#475569",
+                      fontWeight: 300, lineHeight: 1.6,
+                    }}>
+                      <span style={{
+                        width: "6px", height: "6px", borderRadius: "50%",
+                        background: "#22c55e", marginTop: "8px", flexShrink: 0,
+                      }} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <hr className="divider-line fade-in-section" />
+
+          {/* ══ BARIS 3: Landscape Timeline ══ */}
+          <div>
+            {/* Section header */}
+            <div className="fade-in-section" style={{ textAlign: "center", marginBottom: "48px" }}>
+              <div style={{
+                display: "flex", alignItems: "center",
+                justifyContent: "center", gap: "10px", marginBottom: "10px",
+              }}>
+                <div style={{ width: "36px", height: "1.5px", background: "#94a3b8" }} />
+                <span style={{
+                  fontSize: "0.72rem", fontWeight: 600,
+                  letterSpacing: "0.18em", textTransform: "uppercase",
+                  color: "#94a3b8", fontFamily: "'Outfit', sans-serif",
+                }}>
+                  Perjalanan Kami
+                </span>
+                <div style={{ width: "36px", height: "1.5px", background: "#94a3b8" }} />
+              </div>
+              <h2 style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(1.7rem, 4vw, 2.2rem)",
+                fontWeight: 700, color: "#0f172a",
+                margin: 0, letterSpacing: "-0.01em",
+              }}>
+                Sejarah Singkat
+              </h2>
+            </div>
+
+            {/* Timeline grid */}
+            <div className="timeline-landscape">
+              {timelineData.map((item, i) => (
+                <div key={i} className={`tl-item fade-in-section delay-${i + 1}`}>
+                  {/* Dot */}
+                  <div
+                    className="tl-dot"
+                    style={{
+                      width: "56px", height: "56px", borderRadius: "50%",
+                      background: item.bg,
+                      border: `2px solid ${item.color}`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontFamily: "'Outfit', sans-serif",
+                      fontWeight: 700, fontSize: "0.8rem", color: item.color,
+                      zIndex: 1, flexShrink: 0,
+                      backdropFilter: "blur(8px)",
+                    }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+
+                  {/* Card */}
+                  <div className="tl-card">
+                    {/* Year badge */}
+                    <div style={{
+                      display: "inline-block",
+                      background: item.accent,
+                      borderRadius: "6px", padding: "3px 10px", marginBottom: "8px",
+                    }}>
+                      <span style={{
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontWeight: 700, fontSize: "1.35rem",
+                        color: item.color, letterSpacing: "0.04em",
+                      }}>
+                        {item.year}
+                      </span>
+                    </div>
+                    {/* Label */}
+                    <p style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontWeight: 600, fontSize: "0.78rem",
+                      letterSpacing: "0.1em", textTransform: "uppercase",
+                      color: item.color, margin: "0 0 8px 0",
+                    }}>
+                      {item.label}
+                    </p>
+                    {/* Description */}
+                    <p style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      margin: 0, color: "#5a7085",
+                      fontSize: "0.86rem", lineHeight: 1.65, fontWeight: 300,
+                    }}>
+                      {item.text}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -240,4 +581,4 @@ export const About = () => {
       </div>
     </>
   );
-};
+}
