@@ -7,6 +7,7 @@ import { Portfolio } from "./components/Portfolio";
 import { Team } from "./components/Team";
 import { Certifications } from "./components/Certifications";
 import { Footer } from "./components/Footer";
+import { Chatbot } from "./components/Chatbot";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Certifications />
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 }

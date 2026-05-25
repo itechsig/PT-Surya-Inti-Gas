@@ -3,47 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Contact\StoreContactRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function store(StoreContactRequest $request): JsonResponse
     {
         try {
-            // Validate request
-            $validator = Validator::make($request->all(), [
-                'nama' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-                'no_hp' => 'required|string|max:20',
-                'pesan' => 'required|string|max:2000',
-                'csrf_token' => 'required|string'
-            ], [
-                'nama.required' => 'Nama wajib diisi',
-                'nama.max' => 'Nama maksimal 255 karakter',
-                'email.required' => 'Email wajib diisi',
-                'email.email' => 'Format email tidak valid',
-                'email.max' => 'Email maksimal 255 karakter',
-                'no_hp.required' => 'No HP wajib diisi',
-                'no_hp.max' => 'No HP maksimal 20 karakter',
-                'pesan.required' => 'Pesan wajib diisi',
-                'pesan.max' => 'Pesan maksimal 2000 karakter',
-                'csrf_token.required' => 'Token keamanan wajib diisi'
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Validasi gagal',
-                    'errors' => $validator->errors()
-                ], 422);
-            }
+            $validated = $request->validated();
 
             // Basic CSRF validation (simplified for demo)
-            $csrfToken = $request->input('csrf_token');
+            $csrfToken = $validated['csrf_token'];
             if (!$this->validateCSRFToken($csrfToken)) {
                 Log::warning('Invalid CSRF token attempt', [
                     'ip' => $request->ip(),
@@ -59,10 +33,10 @@ class ContactController extends Controller
 
             // Sanitize input data
             $data = [
-                'nama' => strip_tags($request->input('nama')),
-                'email' => filter_var($request->input('email'), FILTER_SANITIZE_EMAIL),
-                'no_hp' => preg_replace('/[^0-9+\-\s()]/', '', $request->input('no_hp')),
-                'pesan' => strip_tags($request->input('pesan')),
+                'nama' => strip_tags($validated['nama']),
+                'email' => filter_var($validated['email'], FILTER_SANITIZE_EMAIL),
+                'no_hp' => preg_replace('/[^0-9+\-\s()]/', '', $validated['no_hp']),
+                'pesan' => strip_tags($validated['pesan']),
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent()
             ];

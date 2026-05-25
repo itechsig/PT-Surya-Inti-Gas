@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Http\Resources\ProjectResource;
+use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -13,24 +15,11 @@ class ProjectController extends Controller
     {
         try {
             $category = $request->get('category', 'All');
-            
+
             $projects = Project::active()
                 ->byCategory($category)
                 ->ordered()
-                ->get()
-                ->map(function ($project) {
-                    return [
-                        'id' => $project->id,
-                        'name' => $project->name,
-                        'category' => $project->category,
-                        'location' => $project->location,
-                        'year' => $project->year,
-                        'image' => $project->image,
-                        'desc' => $project->description,
-                        'icon' => $project->icon,
-                        'stats' => $project->stats,
-                    ];
-                });
+                ->get();
 
             $categories = Project::active()
                 ->distinct()
@@ -40,7 +29,7 @@ class ProjectController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => $projects,
+                'data' => new ProjectCollection($projects),
                 'categories' => $categories,
                 'message' => 'Projects retrieved successfully'
             ]);
@@ -65,17 +54,7 @@ class ProjectController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => [
-                    'id' => $project->id,
-                    'name' => $project->name,
-                    'category' => $project->category,
-                    'location' => $project->location,
-                    'year' => $project->year,
-                    'image' => $project->image,
-                    'desc' => $project->description,
-                    'icon' => $project->icon,
-                    'stats' => $project->stats,
-                ],
+                'data' => new ProjectResource($project),
                 'message' => 'Project retrieved successfully'
             ]);
         } catch (\Exception $e) {
