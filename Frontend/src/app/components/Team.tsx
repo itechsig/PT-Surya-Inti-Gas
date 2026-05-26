@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Linkedin, Mail } from "lucide-react";
 

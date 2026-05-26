@@ -1,18 +1,9 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 // ─── Data ─────────────────────────────────────────────────────
-const benefits = [
-  { icon: "🏥", title: "BPJS Kesehatan & Ketenagakerjaan", desc: "Perlindungan kesehatan dan jaminan hari tua untuk seluruh karyawan dan keluarga." },
-  { icon: "📈", title: "Pengembangan Karir", desc: "Program pelatihan, sertifikasi, dan jalur promosi yang jelas dan terstruktur." },
-  { icon: "💰", title: "Gaji Kompetitif", desc: "Paket remunerasi di atas rata-rata industri, plus tunjangan dan bonus kinerja." },
-  { icon: "🤝", title: "Lingkungan Kolaboratif", desc: "Budaya kerja yang terbuka, saling mendukung, dan berorientasi pada hasil." },
-  { icon: "🎓", title: "Pelatihan & Sertifikasi", desc: "Subsidi penuh untuk pelatihan K3, teknik gas, dan kompetensi profesional lainnya." },
-  { icon: "⚖️", title: "Work-Life Balance", desc: "Jam kerja yang seimbang, cuti tahunan, dan fleksibilitas untuk kebutuhan personal." },
-];
-
 const openings = [
   {
     id: 1,
@@ -115,29 +106,56 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
     handleFile(e.dataTransfer.files[0]);
   };
 
-  const HR_EMAIL = 'klinkzsweet@gmail.com'; // ← ganti dengan email HR yang sebenarnya
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-  const handleSubmit = () => {
+  const generateCSRFToken = () => {
+    return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  };
+
+  const handleSubmit = async () => {
     if (!form.name || !form.email || !form.phone || !cvFile) return;
 
-    const subject = encodeURIComponent(`Lamaran Kerja – ${job.title} – ${form.name}`);
-    const body = encodeURIComponent(
-      `Yth. Tim HR PT Surya Inti Gas,\n\n` +
-      `Saya ingin melamar posisi ${job.title} (${job.division}) yang tersedia di perusahaan Anda.\n\n` +
-      `Data Pelamar:\n` +
-      `• Nama Lengkap : ${form.name}\n` +
-      `• Email        : ${form.email}\n` +
-      `• No. WhatsApp : ${form.phone}\n` +
-      `• Posisi       : ${job.title}\n` +
-      `• Divisi       : ${job.division}\n` +
-      `• Lokasi       : ${job.location}\n\n` +
-      `CV saya lampirkan bersama email ini (file: ${cvFile.name}).\n\n` +
-      `Demikian lamaran ini saya sampaikan. Besar harapan saya untuk dapat bergabung dan berkontribusi bagi PT Surya Inti Gas.\n\n` +
-      `Hormat saya,\n${form.name}`
-    );
+    try {
+      const formData = new FormData();
+      formData.append('name', form.name);
+      formData.append('email', form.email);
+      formData.append('phone', form.phone);
+      formData.append('position', job.title);
+      formData.append('division', job.division);
+      formData.append('location', job.location);
+      formData.append('cv_file', cvFile);
+      formData.append('csrf_token', generateCSRFToken());
 
-    window.location.href = `mailto:${HR_EMAIL}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+      const response = await fetch(`${API_BASE_URL}/api/career`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        // Handle validation errors
+        if (result.errors) {
+          const errorMessages = Object.values(result.errors).flat();
+          throw new Error(errorMessages.join(', '));
+        }
+        throw new Error(result.message || 'Gagal mengirim lamaran');
+      }
+
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        throw new Error(result.message || 'Gagal mengirim lamaran');
+      }
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      alert(error instanceof Error ? error.message : 'Terjadi kesalahan saat mengirim lamaran');
+    }
   };
 
   const formatSize = (bytes: number) => {

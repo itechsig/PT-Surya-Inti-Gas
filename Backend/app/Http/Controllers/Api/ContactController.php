@@ -101,9 +101,8 @@ class ContactController extends Controller
         
         $emailContent = $this->formatEmailContent($data);
         
-        // This is a basic email implementation
-        // You should create a proper Mailable class in production
-        Mail::raw($emailContent, function ($message) use ($to, $subject, $data) {
+        // Send as HTML email
+        Mail::html($emailContent, function ($message) use ($to, $subject, $data) {
             $message->to($to)
                     ->subject($subject)
                     ->replyTo($data['email'], $data['nama']);
@@ -113,15 +112,47 @@ class ContactController extends Controller
     private function formatEmailContent(array $data): string
     {
         return "
-        <h2>Pesan Kontak Baru</h2>
-        <p><strong>Nama:</strong> {$data['nama']}</p>
-        <p><strong>Email:</strong> {$data['email']}</p>
-        <p><strong>No HP:</strong> {$data['no_hp']}</p>
-        <p><strong>Pesan:</strong></p>
-        <p>" . nl2br($data['pesan']) . "</p>
-        <hr>
-        <p><small>IP Address: {$data['ip_address']}</small></p>
-        <p><small>User Agent: {$data['user_agent']}</small></p>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <title>Pesan Kontak Baru</title>
+        </head>
+        <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+            <div style='max-width: 600px; margin: 0 auto; padding: 20px;'>
+                <h2 style='color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;'>Pesan Kontak Baru</h2>
+                
+                <table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>
+                    <tr>
+                        <td style='padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold; color: #2c3e50; width: 30%;'>Nama:</td>
+                        <td style='padding: 8px; border-bottom: 1px solid #ddd;'>{$data['nama']}</td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold; color: #2c3e50;'>Email:</td>
+                        <td style='padding: 8px; border-bottom: 1px solid #ddd;'>{$data['email']}</td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold; color: #2c3e50;'>No HP:</td>
+                        <td style='padding: 8px; border-bottom: 1px solid #ddd;'>{$data['no_hp']}</td>
+                    </tr>
+                </table>
+                
+                <div style='margin: 20px 0;'>
+                    <h3 style='color: #2c3e50; margin-bottom: 10px;'>Pesan:</h3>
+                    <div style='background-color: #f8f9fa; padding: 15px; border-radius: 5px; border-left: 4px solid #3498db;'>" . nl2br($data['pesan']) . "</div>
+                </div>
+                
+                <div style='background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; font-size: 12px; color: #7f8c8d;'>
+                    <p style='margin: 5px 0;'><strong>IP Address:</strong> {$data['ip_address']}</p>
+                    <p style='margin: 5px 0;'><strong>User Agent:</strong> {$data['user_agent']}</p>
+                </div>
+                
+                <hr style='margin: 30px 0; border: none; border-top: 1px solid #eee;'>
+                
+                <p style='font-size: 12px; color: #95a5a6;'>Email ini dikirim otomatis dari sistem kontak PT Surya Inti Gas</p>
+            </div>
+        </body>
+        </html>
         ";
     }
 }
