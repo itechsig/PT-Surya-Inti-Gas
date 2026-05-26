@@ -18,7 +18,7 @@ const NAV_LINKS: NavItem[] = [
   { name: "Tentang Kami", href: "/#about" },
   { name: "Produk & Layanan", href: "/produk", isRoute: true },
   { name: "Kontak", href: "/#kontak" },
-  { name: "Karir", href: "", isDisabled: true },
+  { name: "Karir", href: "/karir", isRoute: true},
 ];
 
 // ─── Shared class builders ────────────────────────────────────

@@ -7,6 +7,8 @@ import { Kontak } from "./components/Contact";
 import { Product } from "./components/Product";
 import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
+import { Career } from "./components/Career";
+
 
 // ─── Scroll handler: ke atas atau ke section hash ────────────
 function ScrollToTop() {
@@ -57,6 +59,7 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/produk" element={<Product />} />
+            <Route path="/karir" element={<Career />} />
           </Routes>
         </main>
         <Footer />
