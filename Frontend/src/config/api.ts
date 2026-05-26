@@ -10,19 +10,21 @@ export const API_CONFIG = {
 };
 
 export const API_ENDPOINTS = {
-  // Chatbot endpoints
+  // Chatbot endpoints (public)
   CHAT: '/api/chat/stream',
   CHATBOT: '/api/chatbot',
   FEEDBACK: '/api/chatbot/feedback',
-  FEEDBACK_STATS: '/api/chatbot/feedback/stats',
-  ANALYTICS: '/api/chatbot/analytics',
-  
-  // Other endpoints
+
+  // Admin endpoints (require authentication)
+  FEEDBACK_STATS: '/api/admin/chatbot/feedback/stats',
+  ANALYTICS: '/api/admin/chatbot/analytics',
+
+  // Other endpoints (public)
   TEAM: '/api/team',
   PROJECTS: '/api/projects',
   CERTIFICATIONS: '/api/certifications',
   CONTACT: '/api/contact',
-  HEALTH: '/health',
+  HEALTH: '/api/health',
 };
 
 export const getApiUrl = (endpoint: string): string => {
