@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ChatbotAnalyticsController;
 use App\Http\Controllers\Api\ChatbotMonitoringController;
 use App\Http\Controllers\Api\ChatbotABTestingController;
 use App\Http\Controllers\Api\ChatbotSettingsController;
+use App\Http\Controllers\Api\CareerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,9 @@ Route::middleware('api')->group(function () {
 
         // Contact Form API (Public)
         Route::post('/contact', [ContactController::class, 'store']);
+
+        // Career Application API (Public)
+        Route::post('/career', [CareerController::class, 'store']);
 
         // Chatbot - Public Info Endpoints
         Route::post('/chatbot/reload-kb', [ChatbotController::class, 'reloadKnowledgeBase']);
