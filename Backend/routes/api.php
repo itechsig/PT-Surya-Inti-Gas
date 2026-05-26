@@ -8,6 +8,10 @@ use App\Http\Controllers\Api\CertificationController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\ChatbotController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ChatbotAnalyticsController;
+use App\Http\Controllers\Api\ChatbotMonitoringController;
+use App\Http\Controllers\Api\ChatbotABTestingController;
+use App\Http\Controllers\Api\ChatbotSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,86 +24,95 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-// Authentication routes (public)
-Route::post('/auth/register', [AuthController::class, 'register']);
-Route::post('/auth/login', [AuthController::class, 'login']);
-
+// PUBLIC ROUTES - Website Visitors (No Authentication Required)
 Route::middleware('api')->group(function () {
-    // Team Members API (public)
-    Route::get('/team', [TeamController::class, 'index']);
-    Route::get('/team/{teamMember}', [TeamController::class, 'show']);
+    // Authentication Routes (Public - for admin login) - 100 req/min
+    Route::middleware('throttle:100,1')->group(function () {
+        Route::post('/auth/register', [AuthController::class, 'register']);
+        Route::post('/auth/login', [AuthController::class, 'login']);
+    });
 
-    // Projects API (public)
-    Route::get('/projects', [ProjectController::class, 'index']);
-    Route::get('/projects/{project}', [ProjectController::class, 'show']);
+    // Content Endpoints (Public) - 100 req/min
+    Route::middleware('throttle:100,1')->group(function () {
+        // Team Members API (Public)
+        Route::get('/team', [TeamController::class, 'index']);
+        Route::get('/team/{teamMember}', [TeamController::class, 'show']);
 
-    // Certifications API (public)
-    Route::get('/certifications', [CertificationController::class, 'index']);
-    Route::get('/certifications/{certification}', [CertificationController::class, 'show']);
+        // Projects API (Public)
+        Route::get('/projects', [ProjectController::class, 'index']);
+        Route::get('/projects/{project}', [ProjectController::class, 'show']);
 
-    // Contact Form API (public)
-    Route::post('/contact', [ContactController::class, 'store']);
+        // Certifications API (Public)
+        Route::get('/certifications', [CertificationController::class, 'index']);
+        Route::get('/certifications/{certification}', [CertificationController::class, 'show']);
 
-    // Chatbot API (public)
-    Route::post('/chatbot', [ChatbotController::class, 'chat']);
-    Route::post('/chatbot/async', [ChatbotController::class, 'chat']);
-    Route::post('/chatbot/feedback', [ChatbotController::class, 'feedback']);
-    Route::post('/chat/stream', [ChatbotController::class, 'chat']);
-    Route::post('/chat/stream/legacy', [ChatbotController::class, 'chatStream']);
-    Route::post('/chatbot/reload-kb', [ChatbotController::class, 'reloadKnowledgeBase']);
-    Route::get('/chatbot/rotation-status', [ChatbotController::class, 'apiKeyRotationStatus']);
+        // Contact Form API (Public)
+        Route::post('/contact', [ContactController::class, 'store']);
+
+        // Chatbot - Public Info Endpoints
+        Route::post('/chatbot/reload-kb', [ChatbotController::class, 'reloadKnowledgeBase']);
+        Route::get('/chatbot/rotation-status', [ChatbotController::class, 'apiKeyRotationStatus']);
+    });
+
+    // Chatbot API - Core Features (Public) - 30 req/min (API calls are expensive)
+    Route::middleware('throttle:30,1')->group(function () {
+        Route::post('/chatbot', [ChatbotController::class, 'chat']);
+        Route::post('/chatbot/async', [ChatbotController::class, 'chat']);
+        Route::post('/chatbot/feedback', [ChatbotController::class, 'feedback']);
+        Route::post('/chat/stream', [ChatbotController::class, 'chat']);
+        Route::post('/chat/stream/legacy', [ChatbotController::class, 'chatStream']);
+    });
 });
 
-// Protected routes - require authentication
-Route::middleware('auth:sanctum')->group(function () {
-    // Auth routes
+// ADMIN ROUTES - Admin Panel (Authentication Required)
+Route::middleware(['auth:sanctum', 'throttle:120,1'])->group(function () {
+    // Authentication Routes (Protected)
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
 
-    // Chatbot Analytics (protected)
-    Route::get('/chatbot/feedback/stats', [ChatbotController::class, 'feedbackStats']);
-    Route::get('/chatbot/analytics', [ChatbotController::class, 'analytics']);
-    Route::get('/chatbot/pool-stats', [ChatbotController::class, 'poolStats']);
-    Route::get('/chatbot/cache-stats', [ChatbotController::class, 'cacheStats']);
-    Route::get('/chatbot/real-time-analytics', [ChatbotController::class, 'realTimeAnalytics']);
-    Route::post('/chatbot/track-analytics', [ChatbotController::class, 'trackAnalytics']);
+    // Chatbot Analytics (Admin Only)
+    Route::get('/admin/chatbot/feedback/stats', [ChatbotAnalyticsController::class, 'feedbackStats']);
+    Route::get('/admin/chatbot/analytics', [ChatbotAnalyticsController::class, 'analytics']);
+    Route::get('/admin/chatbot/pool-stats', [ChatbotAnalyticsController::class, 'poolStats']);
+    Route::get('/admin/chatbot/cache-stats', [ChatbotAnalyticsController::class, 'cacheStats']);
+    Route::get('/admin/chatbot/real-time-analytics', [ChatbotAnalyticsController::class, 'realTimeAnalytics']);
+    Route::post('/admin/chatbot/track-analytics', [ChatbotAnalyticsController::class, 'trackAnalytics']);
 
-    // Language support (protected)
-    Route::post('/chatbot/set-language', [ChatbotController::class, 'setLanguage']);
-    Route::get('/chatbot/supported-languages', [ChatbotController::class, 'getSupportedLanguages']);
-    Route::post('/chatbot/translate', [ChatbotController::class, 'translate']);
+    // Language Support & Sentiment Analysis (Admin Only)
+    Route::post('/admin/chatbot/set-language', [ChatbotSettingsController::class, 'setLanguage']);
+    Route::get('/admin/chatbot/supported-languages', [ChatbotSettingsController::class, 'getSupportedLanguages']);
+    Route::post('/admin/chatbot/translate', [ChatbotSettingsController::class, 'translate']);
+    Route::post('/admin/chatbot/analyze-sentiment', [ChatbotSettingsController::class, 'analyzeSentiment']);
+    Route::post('/admin/chatbot/batch-analyze-sentiment', [ChatbotSettingsController::class, 'batchAnalyzeSentiment']);
+    Route::get('/admin/chatbot/sentiment-statistics', [ChatbotSettingsController::class, 'getSentimentStatistics']);
+    Route::post('/admin/chatbot/clear-sentiment-cache', [ChatbotSettingsController::class, 'clearSentimentCache']);
 
-    // Sentiment analysis (protected)
-    Route::post('/chatbot/analyze-sentiment', [ChatbotController::class, 'analyzeSentiment']);
-    Route::post('/chatbot/batch-analyze-sentiment', [ChatbotController::class, 'batchAnalyzeSentiment']);
-    Route::get('/chatbot/sentiment-statistics', [ChatbotController::class, 'getSentimentStatistics']);
-    Route::post('/chatbot/clear-sentiment-cache', [ChatbotController::class, 'clearSentimentCache']);
+    // Monitoring and Alerting (Admin Only)
+    Route::post('/admin/chatbot/run-monitoring-checks', [ChatbotMonitoringController::class, 'runMonitoringChecks']);
+    Route::get('/admin/chatbot/health-status', [ChatbotMonitoringController::class, 'getHealthStatus']);
+    Route::get('/admin/chatbot/active-alerts', [ChatbotMonitoringController::class, 'getActiveAlerts']);
+    Route::get('/admin/chatbot/alert-history', [ChatbotMonitoringController::class, 'getAlertHistory']);
+    Route::get('/admin/chatbot/metrics-history', [ChatbotMonitoringController::class, 'getMetricsHistory']);
+    Route::post('/admin/chatbot/resolve-alert', [ChatbotMonitoringController::class, 'resolveAlert']);
+    Route::post('/admin/chatbot/clear-all-alerts', [ChatbotMonitoringController::class, 'clearAllAlerts']);
+    Route::get('/admin/chatbot/alert-rules', [ChatbotMonitoringController::class, 'getAlertRules']);
+    Route::post('/admin/chatbot/update-alert-rules', [ChatbotMonitoringController::class, 'updateAlertRules']);
 
-    // Monitoring and alerting (protected)
-    Route::post('/chatbot/run-monitoring-checks', [ChatbotController::class, 'runMonitoringChecks']);
-    Route::get('/chatbot/health-status', [ChatbotController::class, 'getHealthStatus']);
-    Route::get('/chatbot/active-alerts', [ChatbotController::class, 'getActiveAlerts']);
-    Route::get('/chatbot/alert-history', [ChatbotController::class, 'getAlertHistory']);
-    Route::get('/chatbot/metrics-history', [ChatbotController::class, 'getMetricsHistory']);
-    Route::post('/chatbot/resolve-alert', [ChatbotController::class, 'resolveAlert']);
-    Route::post('/chatbot/clear-all-alerts', [ChatbotController::class, 'clearAllAlerts']);
-    Route::get('/chatbot/alert-rules', [ChatbotController::class, 'getAlertRules']);
-    Route::post('/chatbot/update-alert-rules', [ChatbotController::class, 'updateAlertRules']);
-
-    // A/B Testing (protected)
-    Route::post('/chatbot/ab-test/campaigns', [ChatbotController::class, 'createABTestCampaign']);
-    Route::get('/chatbot/ab-test/campaigns', [ChatbotController::class, 'getABTestCampaigns']);
-    Route::get('/chatbot/ab-test/campaigns/{campaignId}', [ChatbotController::class, 'getABTestCampaign']);
-    Route::get('/chatbot/ab-test/campaigns/{campaignId}/stats', [ChatbotController::class, 'getABTestCampaignStats']);
-    Route::get('/chatbot/ab-test/campaigns/{campaignId}/variants', [ChatbotController::class, 'getABTestCampaignVariants']);
-    Route::post('/chatbot/ab-test/campaigns/{campaignId}/start', [ChatbotController::class, 'startABTestCampaign']);
-    Route::post('/chatbot/ab-test/campaigns/{campaignId}/pause', [ChatbotController::class, 'pauseABTestCampaign']);
-    Route::post('/chatbot/ab-test/campaigns/{campaignId}/complete', [ChatbotController::class, 'completeABTestCampaign']);
-    Route::delete('/chatbot/ab-test/campaigns/{campaignId}', [ChatbotController::class, 'deleteABTestCampaign']);
-    Route::post('/chatbot/ab-test/track-engagement', [ChatbotController::class, 'trackABTestEngagement']);
-    Route::post('/chatbot/ab-test/track-conversion', [ChatbotController::class, 'trackABTestConversion']);
+    // A/B Testing (Admin Only)
+    Route::post('/admin/chatbot/ab-test/campaigns', [ChatbotABTestingController::class, 'createABTestCampaign']);
+    Route::get('/admin/chatbot/ab-test/campaigns', [ChatbotABTestingController::class, 'getABTestCampaigns']);
+    Route::get('/admin/chatbot/ab-test/campaigns/{campaignId}', [ChatbotABTestingController::class, 'getABTestCampaign']);
+    Route::get('/admin/chatbot/ab-test/campaigns/{campaignId}/stats', [ChatbotABTestingController::class, 'getABTestCampaignStats']);
+    Route::get('/admin/chatbot/ab-test/campaigns/{campaignId}/variants', [ChatbotABTestingController::class, 'getABTestCampaignVariants']);
+    Route::post('/admin/chatbot/ab-test/campaigns/{campaignId}/start', [ChatbotABTestingController::class, 'startABTestCampaign']);
+    Route::post('/admin/chatbot/ab-test/campaigns/{campaignId}/pause', [ChatbotABTestingController::class, 'pauseABTestCampaign']);
+    Route::post('/admin/chatbot/ab-test/campaigns/{campaignId}/complete', [ChatbotABTestingController::class, 'completeABTestCampaign']);
+    Route::delete('/admin/chatbot/ab-test/campaigns/{campaignId}', [ChatbotABTestingController::class, 'deleteABTestCampaign']);
+    Route::post('/admin/chatbot/ab-test/track-engagement', [ChatbotABTestingController::class, 'trackABTestEngagement']);
+    Route::post('/admin/chatbot/ab-test/track-conversion', [ChatbotABTestingController::class, 'trackABTestConversion']);
 });
 
+// HEALTH CHECK (Public)
 Route::get('/health', function () {
     return response()->json([
         'status' => 'ok',

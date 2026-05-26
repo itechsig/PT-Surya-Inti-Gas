@@ -17,9 +17,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'api/chat/stream',
         ]);
 
-        $middleware->api(prepend: [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        ]);
+        // Disable EnsureFrontendRequestsAreStateful to prevent infinite loop/memory exhaustion
+        // This middleware is only needed for SPA authentication with cookie-based sessions
+        // For API tokens (which we're using for admin), it's not required
+        // $middleware->api(prepend: [
+        //     \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        // ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (\Illuminate\Validation\ValidationException $e, \Illuminate\Http\Request $request) {

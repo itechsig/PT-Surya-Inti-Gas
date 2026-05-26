@@ -2,13 +2,27 @@
 
 Base URL: `http://localhost:8000/api`
 
+## Note
+
+This API is divided into two sections:
+- **Public Endpoints**: Accessible without authentication for website visitors
+- **Admin Endpoints**: Require authentication via Laravel Sanctum for admin panel access (prefixed with `/admin/`)
+
 ## Table of Contents
 - [Authentication](#authentication)
-- [Projects](#projects)
-- [Team Members](#team-members)
-- [Certifications](#certifications)
-- [Contact Form](#contact-form)
-- [Chatbot](#chatbot)
+- [Public Endpoints](#public-endpoints)
+  - [Projects](#projects)
+  - [Team Members](#team-members)
+  - [Certifications](#certifications)
+  - [Contact Form](#contact-form)
+  - [Chatbot - Public Features](#chatbot---public-features)
+- [Admin Endpoints (Requires Authentication)](#admin-endpoints-requires-authentication)
+  - [Chatbot Analytics](#chatbot-analytics)
+  - [Chatbot Monitoring](#chatbot-monitoring)
+  - [Chatbot Language Support](#chatbot-language-support)
+  - [Chatbot Sentiment Analysis](#chatbot-sentiment-analysis)
+  - [Chatbot A/B Testing](#chatbot-ab-testing)
+- [Rate Limiting](#rate-limiting)
 
 ---
 
@@ -414,10 +428,10 @@ Submit feedback about a chatbot interaction.
 }
 ```
 
-### Get Feedback Statistics (Protected)
-**GET** `/chatbot/feedback/stats`
+### Get Feedback Statistics (Admin Only)
+**GET** `/admin/chatbot/feedback/stats`
 
-Get chatbot feedback statistics.
+Get chatbot feedback statistics (requires authentication).
 
 **Headers:**
 ```
@@ -440,8 +454,8 @@ Authorization: Bearer {token}
 }
 ```
 
-### Get Chatbot Analytics (Protected)
-**GET** `/chatbot/analytics`
+### Get Chatbot Analytics (Admin Only)
+**GET** `/admin/chatbot/analytics`
 
 Get chatbot usage analytics.
 
@@ -549,8 +563,41 @@ Send a message to the chatbot (streaming endpoint, currently non-streaming).
 
 ## Rate Limiting
 
-The following endpoints have rate limiting:
-- `/chat/stream`: 30 requests per minute per IP address
+All API endpoints are subject to rate limiting to prevent abuse and ensure fair usage.
+
+### Public Endpoints
+- **Chatbot Chat**: 30 requests per minute per IP address
+  - Endpoints: `/chatbot`, `/chatbot/async`, `/chatbot/feedback`, `/chat/stream`, `/chat/stream/legacy`
+- **Content Endpoints** (projects, team, certifications): 100 requests per minute per IP address
+  - Endpoints: `/projects`, `/team`, `/certifications`, `/contact`
+- **Authentication** (login, register): 100 requests per minute per IP address
+  - Endpoints: `/auth/register`, `/auth/login`
+
+### Admin Endpoints (Requires Authentication)
+- **All Admin Endpoints**: 120 requests per minute per authenticated user
+  - Endpoints: All endpoints prefixed with `/admin/`
+
+### Rate Limit Headers
+When you make requests, the API returns the following headers:
+
+- `X-RateLimit-Limit`: The maximum number of requests allowed in the time window
+- `X-RateLimit-Remaining`: The number of requests remaining in the current time window
+- `Retry-After`: Seconds until you can make another request (when rate limited)
+
+### Response When Rate Limited
+**Status Code**: 429 Too Many Requests
+
+**Response Body:**
+```json
+{
+  "success": false,
+  "message": "Too many requests. Please try again later.",
+  "retry_after": 45
+}
+```
+
+**Headers:**
+- `Retry-After`: Seconds until you can make another request
 
 ---
 
