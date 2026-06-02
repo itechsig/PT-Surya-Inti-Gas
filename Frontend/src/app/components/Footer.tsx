@@ -281,7 +281,9 @@ export const Footer = () => {
                 animation: "sig-blink 2s ease-in-out infinite",
               }}
             />
-            Senin – Sabtu &nbsp;·&nbsp; 08.00 – 17.00 WIB
+            Senin – Jum'at &nbsp;·&nbsp; 08.00 – 16.00 WIB
+            <br/>
+            Sabtu &nbsp;·&nbsp; 08.00 – 14.00 WIB
           </div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             <SocialBtn href="#" label="Facebook"><IconFacebook /></SocialBtn>
