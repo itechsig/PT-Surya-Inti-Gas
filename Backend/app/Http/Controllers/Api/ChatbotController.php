@@ -7,6 +7,7 @@ use App\Services\ChatbotService;
 use App\Services\FeedbackService;
 use App\Services\GeminiApiKeyRotationService;
 use App\Services\KnowledgeBaseService;
+use App\Traits\HandlesApiErrors;
 use App\Http\Requests\Chat\ChatRequest;
 use App\Http\Requests\Chat\FeedbackRequest;
 use App\Http\Resources\Chatbot\ChatResponseResource;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Queue;
 
 class ChatbotController extends Controller
 {
+    use HandlesApiErrors;
     private ChatbotService $chatbotService;
     private FeedbackService $feedbackService;
     private GeminiApiKeyRotationService $apiKeyRotationService;
@@ -96,11 +98,7 @@ class ChatbotController extends Controller
                 'message' => 'Response generated successfully'
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to generate response',
-                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
-            ], 500);
+            return $this->handleApiError($e, 'Failed to generate response', 'chatbot_response_failed');
         }
     }
 
@@ -157,11 +155,7 @@ class ChatbotController extends Controller
                 'message' => 'Failed to record feedback'
             ], 500);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to process feedback',
-                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
-            ], 500);
+            return $this->handleApiError($e, 'Failed to process feedback', 'chatbot_feedback_failed');
         }
     }
 
@@ -181,11 +175,7 @@ class ChatbotController extends Controller
                 'message' => 'Knowledge base reloaded successfully'
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to reload knowledge base',
-                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
-            ], 500);
+            return $this->handleApiError($e, 'Failed to reload knowledge base', 'chatbot_reload_kb_failed');
         }
     }
 
@@ -202,11 +192,7 @@ class ChatbotController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to get rotation status',
-                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
-            ], 500);
+            return $this->handleApiError($e, 'Failed to get rotation status', 'chatbot_rotation_status_failed');
         }
     }
 

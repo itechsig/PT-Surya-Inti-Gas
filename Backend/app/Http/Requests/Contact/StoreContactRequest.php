@@ -27,7 +27,7 @@ class StoreContactRequest extends FormRequest
             'email' => 'required|email|max:255',
             'no_hp' => 'required|string|max:20',
             'pesan' => 'required|string|max:2000',
-            'csrf_token' => 'required|string'
+            '_token' => 'required|string' // Changed from csrf_token to _token for Laravel compatibility
         ];
     }
 
@@ -48,7 +48,7 @@ class StoreContactRequest extends FormRequest
             'no_hp.max' => 'No HP maksimal 20 karakter',
             'pesan.required' => 'Pesan wajib diisi',
             'pesan.max' => 'Pesan maksimal 2000 karakter',
-            'csrf_token.required' => 'Token keamanan wajib diisi'
+            '_token.required' => 'Token keamanan wajib diisi'
         ];
     }
 }

@@ -51,42 +51,7 @@ Route::get('/api/contact', function () {
     ]);
 });
 
-Route::post('/api/contact', function (Illuminate\Http\Request $request) {
-    try {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'no_hp' => 'required|string|max:20',
-            'pesan' => 'required|string|max:1000'
-        ]);
-
-        // Here you can add logic to:
-        // 1. Save to database
-        // 2. Send email notification
-        // 3. Send SMS notification
-        // 4. Log the submission
-
-        // For now, just return success response
-        return response()->json([
-            'success' => true,
-            'message' => 'Pesan berhasil dikirim. Kami akan segera menghubungi Anda.',
-            'data' => $validated
-        ], 200);
-
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Validasi gagal',
-            'errors' => $e->errors()
-        ], 422);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.'
-        ], 500);
-    }
-});
+Route::post('/api/contact', [App\Http\Controllers\Api\ContactController::class, 'store']);
 
 
 Route::post('/api/chatbot', function (Illuminate\Http\Request $request) {

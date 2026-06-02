@@ -29,7 +29,15 @@ class StoreCareerRequest extends FormRequest
             'position' => 'required|string|max:255',
             'division' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'cv_file' => 'required|file|max:5120',
+            // SECURITY: Enhanced file validation with MIME type checks
+            'cv_file' => [
+                'required',
+                'file',
+                'mimes:pdf,doc,docx',
+                'max:5120', // 5MB
+                'mimetypes:application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'not_in:null,undefined,[],',
+            ],
             'csrf_token' => 'required|string'
         ];
     }
@@ -58,6 +66,8 @@ class StoreCareerRequest extends FormRequest
             'cv_file.required' => 'File CV wajib diupload',
             'cv_file.file' => 'CV harus berupa file',
             'cv_file.max' => 'Ukuran file maksimal 5MB',
+            'cv_file.mimes' => 'Format file harus PDF, DOC, atau DOCX',
+            'cv_file.mimetypes' => 'Tipe file tidak valid. Hanya PDF, DOC, atau DOCX yang diperbolehkan',
             'csrf_token.required' => 'Token keamanan wajib diisi'
         ];
     }

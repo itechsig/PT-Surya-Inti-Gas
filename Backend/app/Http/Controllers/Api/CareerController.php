@@ -42,49 +42,107 @@ class CareerController extends Controller
                 'user_agent' => $request->userAgent()
             ];
 
-            // Handle CV file upload
+            // Handle CV file upload with enhanced security
             $cvPath = null;
             if ($request->hasFile('cv_file')) {
                 $cvFile = $request->file('cv_file');
-                
-                // Validate file type using extension (doesn't require fileinfo extension)
+
+                // SECURITY: Validate file is actually uploaded
+                if (!$cvFile->isValid()) {
+                    Log::warning('Invalid file upload attempt', [
+                        'ip' => $request->ip(),
+                        'error' => $cvFile->getErrorMessage()
+                    ]);
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'File upload tidak valid.'
+                    ], 422);
+                }
+
+                // SECURITY: Validate file type using extension
                 $allowedExtensions = ['pdf', 'doc', 'docx'];
                 $fileExtension = strtolower($cvFile->getClientOriginalExtension());
                 if (!in_array($fileExtension, $allowedExtensions)) {
+                    Log::warning('Invalid file extension attempt', [
+                        'ip' => $request->ip(),
+                        'extension' => $fileExtension
+                    ]);
                     return response()->json([
                         'success' => false,
                         'message' => 'Format file tidak didukung. Gunakan PDF atau DOC/DOCX.'
                     ], 422);
                 }
-                
-                if ($cvFile->getSize() > 5 * 1024 * 1024) { // 5MB
+
+                // SECURITY: Validate file size (5MB limit)
+                $maxFileSize = 5 * 1024 * 1024; // 5MB
+                if ($cvFile->getSize() > $maxFileSize) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Ukuran file maksimal 5MB.'
                     ], 422);
                 }
 
-                // Store the file manually without using Laravel's storage (avoids fileinfo dependency)
-                $fileName = 'cv_' . time() . '_' . str_replace(' ', '_', $data['name']) . '.' . $cvFile->getClientOriginalExtension();
+                // SECURITY: Validate MIME type if possible
+                $allowedMimeTypes = [
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                ];
+                $mimeType = $cvFile->getMimeType();
+                if (!in_array($mimeType, $allowedMimeTypes)) {
+                    Log::warning('Invalid MIME type attempt', [
+                        'ip' => $request->ip(),
+                        'mime_type' => $mimeType
+                    ]);
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Tipe file tidak valid.'
+                    ], 422);
+                }
+
+                // SECURITY: Sanitize filename
+                $originalName = $cvFile->getClientOriginalName();
+                $sanitizedName = preg_replace('/[^a-zA-Z0-9._-]/', '_', $originalName);
+                $safeName = 'cv_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $fileExtension;
+
+                // SECURITY: Use secure storage path outside web root
                 $storagePath = storage_path('app/career_applications');
-                
-                // Ensure directory exists
+
+                // Ensure directory exists with secure permissions
                 if (!file_exists($storagePath)) {
                     mkdir($storagePath, 0755, true);
                 }
-                
-                // Move the file manually
-                $destinationPath = $storagePath . '/' . $fileName;
+
+                // SECURITY: Move uploaded file with validation
+                $destinationPath = $storagePath . '/' . $safeName;
                 if (!move_uploaded_file($cvFile->getPathname(), $destinationPath)) {
+                    Log::error('Failed to move uploaded file', [
+                        'ip' => $request->ip(),
+                        'destination' => $destinationPath
+                    ]);
                     return response()->json([
                         'success' => false,
                         'message' => 'Gagal mengupload file CV.'
                     ], 500);
                 }
-                
-                $cvPath = 'career_applications/' . $fileName;
+
+                // SECURITY: Set secure file permissions
+                chmod($destinationPath, 0644);
+
+                // SECURITY: Log successful upload with metadata
+                Log::info('CV file uploaded successfully', [
+                    'ip' => $request->ip(),
+                    'original_name' => $originalName,
+                    'safe_name' => $safeName,
+                    'size' => $cvFile->getSize(),
+                    'mime_type' => $mimeType
+                ]);
+
+                $cvPath = 'career_applications/' . $safeName;
                 $data['cv_path'] = $cvPath;
-                $data['cv_original_name'] = $cvFile->getClientOriginalName();
+                $data['cv_original_name'] = $sanitizedName;
+                $data['cv_file_size'] = $cvFile->getSize();
+                $data['cv_mime_type'] = $mimeType;
             }
 
             // Log the career application

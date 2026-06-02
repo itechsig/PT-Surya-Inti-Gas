@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\HandlesApiErrors;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    use HandlesApiErrors;
     /**
      * Register a new user and create API token
      */
@@ -20,7 +22,16 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:8',
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'confirmed',
+                    'regex:/[a-z]/',      // lowercase
+                    'regex:/[A-Z]/',      // uppercase
+                    'regex:/[0-9]/',      // number
+                    'regex:/[@$!%*#?&]/', // special char
+                ],
             ]);
 
             if ($validator->fails()) {
@@ -52,11 +63,7 @@ class AuthController extends Controller
                 ]
             ], 201);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Registration failed',
-                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
-            ], 500);
+            return $this->handleApiError($e, 'Registration failed', 'auth_registration_failed');
         }
     }
 
@@ -106,11 +113,7 @@ class AuthController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Login failed',
-                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
-            ], 500);
+            return $this->handleApiError($e, 'Login failed', 'auth_login_failed');
         }
     }
 
@@ -127,11 +130,7 @@ class AuthController extends Controller
                 'message' => 'Logged out successfully'
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Logout failed',
-                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
-            ], 500);
+            return $this->handleApiError($e, 'Logout failed', 'auth_logout_failed');
         }
     }
 
@@ -148,15 +147,50 @@ class AuthController extends Controller
                         'id' => $request->user()->id,
                         'name' => $request->user()->name,
                         'email' => $request->user()->email,
+                        'email_verified' => $request->user()->hasVerifiedEmail(),
                     ]
                 ]
             ]);
         } catch (\Exception $e) {
+            return $this->handleApiError($e, 'Failed to get user info', 'auth_get_user_failed');
+        }
+    }
+
+    /**
+     * Send email verification notification
+     */
+    public function sendVerificationEmail(Request $request): JsonResponse
+    {
+        try {
+            if (!env('EMAIL_VERIFICATION_ENABLED', false)) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Email verification is not enabled'
+                ]);
+            }
+
+            if (!$request->user()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not authenticated'
+                ], 401);
+            }
+
+            if ($request->user()->hasVerifiedEmail()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Email already verified'
+                ]);
+            }
+
+            $request->user()->sendEmailVerificationNotification();
+
             return response()->json([
-                'success' => false,
-                'message' => 'Failed to get user info',
-                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
-            ], 500);
+                'success' => true,
+                'message' => 'Verification email sent successfully'
+            ]);
+        } catch (\Exception $e) {
+            return $this->handleApiError($e, 'Failed to send verification email', 'auth_verification_failed');
         }
     }
 }

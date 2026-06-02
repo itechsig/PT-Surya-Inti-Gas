@@ -3,6 +3,15 @@ import { MessageCircle, X, Send, Bot, User } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 
+// Simple UUID generator for compatibility
+const generateUUID = (): string => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+};
+
 interface Message {
   id: string;
   text: string;
@@ -47,7 +56,7 @@ export function Chatbot() {
     if (!inputValue.trim() || isLoading) return;
 
     const userMessage: Message = {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       text: inputValue,
       sender: "user",
       timestamp: new Date(),
@@ -72,7 +81,7 @@ export function Chatbot() {
         }));
 
       // Create empty bot message
-      const botMessageId = crypto.randomUUID();
+      const botMessageId = generateUUID();
 
       const botMessage: Message = {
         id: botMessageId,
@@ -194,7 +203,7 @@ export function Chatbot() {
       console.error(error);
 
       const errorMessage: Message = {
-        id: crypto.randomUUID(),
+        id: generateUUID(),
         text: "Maaf, terjadi kesalahan. Silakan coba lagi nanti.",
         sender: "bot",
         timestamp: new Date(),

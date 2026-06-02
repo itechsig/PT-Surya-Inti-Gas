@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schedule;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,25 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register HTTP pool service as singleton if enabled
-        if (config('services.gemini.pool_enabled', true)) {
-            $this->app->singleton(\App\Services\HttpClientPoolService::class);
-        }
-
-        // Register advanced cache service as singleton
-        $this->app->singleton(\App\Services\AdvancedCacheService::class);
-
-        // Register real-time analytics service as singleton
-        $this->app->singleton(\App\Services\RealTimeAnalyticsService::class);
-
-        // Register translation service as singleton
-        $this->app->singleton(\App\Services\TranslationService::class);
-
-        // Register sentiment analysis service as singleton
-        $this->app->singleton(\App\Services\SentimentAnalysisService::class);
-
-        // Register monitoring service as singleton
-        $this->app->singleton(\App\Services\MonitoringService::class);
+        //
     }
 
     /**
@@ -37,31 +20,50 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Custom validation rules
-        \Illuminate\Support\Facades\Validator::extend('not_empty', function ($attribute, $value, $parameters) {
+        // Register custom validation rules
+        $this->registerCustomValidationRules();
+
+        // Dashboard Agent Schedule
+        Schedule::command('dashboard:agent monitor-contacts')->hourly();
+        Schedule::command('dashboard:agent monitor-visitors')->hourly();
+        Schedule::command('dashboard:agent generate-analytics')->dailyAt('00:01');
+        Schedule::command('dashboard:agent send-reports')->dailyAt('08:00');
+        Schedule::command('dashboard:agent cleanup')->weekly();
+    }
+
+    /**
+     * Register custom validation rules
+     */
+    private function registerCustomValidationRules(): void
+    {
+        // Rule to check if string is not empty after trimming
+        \Illuminate\Support\Facades\Validator::extend('not_empty', function ($attribute, $value, $parameters, $validator) {
             return !empty(trim($value));
         });
 
-        \Illuminate\Support\Facades\Validator::extend('no_html', function ($attribute, $value, $parameters) {
+        // Rule to check if string contains no HTML tags
+        \Illuminate\Support\Facades\Validator::extend('no_html', function ($attribute, $value, $parameters, $validator) {
             return strip_tags($value) === $value;
         });
 
-        \Illuminate\Support\Facades\Validator::extend('no_injection', function ($attribute, $value, $parameters) {
-            // Check for common injection patterns
-            $dangerousPatterns = [
-                '/<script\b[^>]*>(.*?)<\/script>/is',
-                '/javascript:/i',
-                '/on\w+\s*=/i', // onclick=, onload=, etc.
-                '/<\?php/',
-                '/\${/',
-            ];
-            
-            foreach ($dangerousPatterns as $pattern) {
+        // Rule to check for potential injection attacks
+        \Illuminate\Support\Facades\Validator::extend('no_injection', function ($attribute, $value, $parameters, $validator) {
+            // Check for common SQL injection patterns
+            $sqlPatterns = ['/(\s|^)(OR|AND|XOR)(\s+)/i', '/(\s|^)(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|EXEC)(\s+)/i'];
+            foreach ($sqlPatterns as $pattern) {
                 if (preg_match($pattern, $value)) {
                     return false;
                 }
             }
-            
+
+            // Check for common XSS patterns
+            $xssPatterns = ['/<script[^>]*>/i', '/javascript:/i', '/on\w+\s*=/i'];
+            foreach ($xssPatterns as $pattern) {
+                if (preg_match($pattern, $value)) {
+                    return false;
+                }
+            }
+
             return true;
         });
     }

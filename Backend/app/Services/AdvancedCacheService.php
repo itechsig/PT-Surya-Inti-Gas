@@ -35,6 +35,30 @@ class AdvancedCacheService
         $this->defaultTtl = (int) (config('cache.default_ttl', 3600) ?? 3600);
         $this->useRedis = config('cache.default') === 'redis';
         $this->cacheLayers = (array) (config('cache.layers', ['memory', 'redis']) ?? ['memory', 'redis']);
+        
+        // Check if Redis is actually available, if not remove it from cache layers
+        if ($this->useRedis || in_array('redis', $this->cacheLayers)) {
+            try {
+                // Test Redis connection
+                if (config('cache.default') === 'redis') {
+                    Cache::get('test_connection');
+                }
+            } catch (\Exception $e) {
+                // Redis not available, fall back to other cache layers
+                Log::warning('Redis not available, falling back to other cache layers', [
+                    'error' => $e->getMessage(),
+                ]);
+                $this->useRedis = false;
+                $this->cacheLayers = array_filter($this->cacheLayers, function($layer) {
+                    return $layer !== 'redis';
+                });
+                
+                // If no cache layers left, use array cache
+                if (empty($this->cacheLayers)) {
+                    $this->cacheLayers = ['array'];
+                }
+            }
+        }
     }
 
     /**
