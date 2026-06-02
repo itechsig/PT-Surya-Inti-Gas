@@ -3,6 +3,7 @@ import { X, Mail, Phone, User, MessageSquare, Send, Loader } from "lucide-react"
 import { motion, AnimatePresence } from "motion/react";
 import { CSRFProtection } from "../../utils/csrf";
 import { InputSanitizer } from "../../utils/sanitization";
+import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -86,7 +87,7 @@ export const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
         'Content-Type': 'application/json',
       });
 
-      const response = await fetch('/api/contact', {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.CONTACT), {
         method: 'POST',
         headers,
         body: JSON.stringify(sanitizedData),
@@ -228,7 +229,7 @@ export const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                         className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
                           errors.email ? 'border-red-500' : 'border-gray-300'
                         }`}
-                        placeholder="email@example.com"
+                        placeholder="nama@email.com"
                         disabled={isLoading}
                       />
                       {errors.email && (
@@ -240,7 +241,7 @@ export const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                     <div>
                       <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
                         <Phone className="w-4 h-4" />
-                        No HP
+                        No WhatsApp
                       </label>
                       <input
                         type="tel"
@@ -250,7 +251,7 @@ export const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                         className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
                           errors.no_hp ? 'border-red-500' : 'border-gray-300'
                         }`}
-                        placeholder="+62 812-3456-7890"
+                        placeholder="08xxxxxxxxxx"
                         disabled={isLoading}
                       />
                       {errors.no_hp && (
@@ -268,11 +269,11 @@ export const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                         name="pesan"
                         value={formData.pesan}
                         onChange={handleInputChange}
-                        rows={4}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none ${
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
                           errors.pesan ? 'border-red-500' : 'border-gray-300'
                         }`}
-                        placeholder="Tuliskan pesan Anda di sini..."
+                        placeholder="Tulis pesan Anda di sini..."
+                        rows={4}
                         disabled={isLoading}
                       />
                       {errors.pesan && (
@@ -281,23 +282,33 @@ export const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                     </div>
 
                     {/* Submit Button */}
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      {isLoading ? (
-                        <>
-                          <Loader className="w-4 h-4 animate-spin" />
-                          Mengirim...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4 cursor-pointer" />
-                          Kirim Pesan
-                        </>
-                      )}
-                    </button>
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        type="button"
+                        onClick={handleClose}
+                        disabled={isLoading}
+                        className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                      >
+                        Batal
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isLoading ? (
+                          <>
+                            <Loader className="w-4 h-4 animate-spin" />
+                            <span>Mengirim...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Send className="w-4 h-4" />
+                            <span>Kirim Pesan</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </form>
                 )}
               </div>

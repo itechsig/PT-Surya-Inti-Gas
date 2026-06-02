@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { getApiUrl, API_ENDPOINTS } from '../../config/api';
 
 // ─── Data ─────────────────────────────────────────────────────
 const openings = [
@@ -84,20 +85,36 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = (file: File | null) => {
     if (!file) return;
     const allowed = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    
+    // Clear previous file error
+    setErrors(prev => ({ ...prev, cvFile: '' }));
+    
     if (!allowed.includes(file.type)) {
-      alert('Format file tidak didukung. Gunakan PDF atau DOC/DOCX.');
+      setErrors(prev => ({
+        ...prev,
+        cvFile: '⚠️ Format file tidak didukung. Hanya PDF, DOC, atau DOCX yang diperbolehkan. Pastikan file Anda memiliki ekstensi yang benar.'
+      }));
+      setCvFile(null);
       return;
     }
+    
     if (file.size > 5 * 1024 * 1024) {
-      alert('Ukuran file maksimal 5MB.');
+      setErrors(prev => ({
+        ...prev,
+        cvFile: '⚠️ Ukuran file terlalu besar. Maksimal 5MB. File Anda saat ini ' + formatSize(file.size) + '. Silakan kompres file atau gunakan file yang lebih kecil.'
+      }));
+      setCvFile(null);
       return;
     }
+    
     setCvFile(file);
+    setErrors(prev => ({ ...prev, cvFile: '' }));
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -106,16 +123,59 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
     handleFile(e.dataTransfer.files[0]);
   };
 
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
   const generateCSRFToken = () => {
     return Array.from(crypto.getRandomValues(new Uint8Array(32)))
       .map(b => b.toString(16).padStart(2, '0'))
       .join('');
   };
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    const phoneRegex = /^[0-9]{10,15}$/;
+    return phoneRegex.test(phone.replace(/[^0-9]/g, ''));
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    // Name validation
+    if (!form.name.trim()) {
+      newErrors.name = '⚠️ Nama lengkap wajib diisi. Masukkan nama sesuai identitas Anda.';
+    } else if (form.name.length < 3) {
+      newErrors.name = '⚠️ Nama terlalu pendek. Minimal 3 karakter.';
+    }
+
+    // Email validation
+    if (!form.email.trim()) {
+      newErrors.email = '⚠️ Email wajib diisi. Masukkan email aktif Anda untuk komunikasi selanjutnya.';
+    } else if (!validateEmail(form.email)) {
+      newErrors.email = '⚠️ Format email tidak valid. Contoh yang benar: nama@email.com. Pastikan menggunakan @ dan domain yang valid.';
+    }
+
+    // Phone validation
+    if (!form.phone.trim()) {
+      newErrors.phone = '⚠️ Nomor WhatsApp wajib diisi. Kami akan menghubungi Anda melalui WhatsApp.';
+    } else if (!validatePhone(form.phone)) {
+      newErrors.phone = '⚠️ Format nomor WhatsApp tidak valid. Gunakan 10-15 digit angka saja. Contoh: 08123456789';
+    }
+
+    // CV file validation
+    if (!cvFile) {
+      newErrors.cvFile = '⚠️ File CV wajib diupload. Pilih file CV Anda dalam format PDF, DOC, atau DOCX (maksimal 5MB).';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async () => {
-    if (!form.name || !form.email || !form.phone || !cvFile) return;
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       const formData = new FormData();
@@ -125,10 +185,12 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
       formData.append('position', job.title);
       formData.append('division', job.division);
       formData.append('location', job.location);
-      formData.append('cv_file', cvFile);
-      formData.append('csrf_token', generateCSRFToken());
+      if (cvFile) {
+        formData.append('cv_file', cvFile);
+      }
+      formData.append('_token', generateCSRFToken());
 
-      const response = await fetch(`${API_BASE_URL}/api/career`, {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.CAREER), {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -142,19 +204,33 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
         // Handle validation errors
         if (result.errors) {
           const errorMessages = Object.values(result.errors).flat();
+          setErrors({
+            submit: '⚠️ ' + errorMessages.join(' ')
+          });
           throw new Error(errorMessages.join(', '));
         }
+        setErrors({
+          submit: '⚠️ ' + (result.message || 'Gagal mengirim lamaran. Silakan coba lagi.')
+        });
         throw new Error(result.message || 'Gagal mengirim lamaran');
       }
 
       if (result.success) {
         setSubmitted(true);
+        setErrors({});
       } else {
+        setErrors({
+          submit: '⚠️ ' + (result.message || 'Gagal mengirim lamaran')
+        });
         throw new Error(result.message || 'Gagal mengirim lamaran');
       }
     } catch (error) {
       console.error('Error submitting application:', error);
-      alert(error instanceof Error ? error.message : 'Terjadi kesalahan saat mengirim lamaran');
+      if (!errors.submit) {
+        setErrors({
+          submit: '⚠️ Terjadi kesalahan saat mengirim lamaran. Pastikan koneksi internet Anda stabil dan coba lagi.'
+        });
+      }
     }
   };
 
@@ -206,9 +282,22 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                   type="text"
                   placeholder="Masukkan nama lengkap Anda"
                   value={form.name}
-                  onChange={e => setForm({ ...form, name: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all"
+                  onChange={e => {
+                    setForm({ ...form, name: e.target.value });
+                    if (errors.name) setErrors(prev => ({ ...prev, name: '' }));
+                  }}
+                  className={`w-full px-4 py-3 border rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 transition-all ${
+                    errors.name 
+                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100' 
+                      : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
+                  }`}
                 />
+                {errors.name && (
+                  <div className="mt-1.5 flex items-center gap-2 text-xs text-red-600">
+                    <span>⚠️</span>
+                    <span>{errors.name}</span>
+                  </div>
+                )}
               </div>
               <div>
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">Email *</label>
@@ -216,9 +305,22 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                   type="email"
                   placeholder="nama@email.com"
                   value={form.email}
-                  onChange={e => setForm({ ...form, email: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all"
+                  onChange={e => {
+                    setForm({ ...form, email: e.target.value });
+                    if (errors.email) setErrors(prev => ({ ...prev, email: '' }));
+                  }}
+                  className={`w-full px-4 py-3 border rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 transition-all ${
+                    errors.email 
+                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100' 
+                      : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
+                  }`}
                 />
+                {errors.email && (
+                  <div className="mt-1.5 flex items-center gap-2 text-xs text-red-600">
+                    <span>⚠️</span>
+                    <span>{errors.email}</span>
+                  </div>
+                )}
               </div>
               <div>
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">No. WhatsApp *</label>
@@ -226,9 +328,22 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                   type="tel"
                   placeholder="08xxxxxxxxxx"
                   value={form.phone}
-                  onChange={e => setForm({ ...form, phone: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all"
+                  onChange={e => {
+                    setForm({ ...form, phone: e.target.value });
+                    if (errors.phone) setErrors(prev => ({ ...prev, phone: '' }));
+                  }}
+                  className={`w-full px-4 py-3 border rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 transition-all ${
+                    errors.phone 
+                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100' 
+                      : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
+                  }`}
                 />
+                {errors.phone && (
+                  <div className="mt-1.5 flex items-center gap-2 text-xs text-red-600">
+                    <span>⚠️</span>
+                    <span>{errors.phone}</span>
+                  </div>
+                )}
               </div>
 
               {/* CV Upload */}
@@ -270,23 +385,45 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                     onDrop={handleDrop}
                     onClick={() => fileInputRef.current?.click()}
                     className={`cursor-pointer border-2 border-dashed rounded-xl px-6 py-8 text-center transition-all ${
-                      dragOver
-                        ? 'border-emerald-400 bg-emerald-50'
-                        : 'border-slate-200 hover:border-emerald-300 hover:bg-slate-50'
+                      errors.cvFile
+                        ? 'border-red-400 bg-red-50'
+                        : dragOver
+                          ? 'border-emerald-400 bg-emerald-50'
+                          : 'border-slate-200 hover:border-emerald-300 hover:bg-slate-50'
                     }`}
                   >
-                    <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-3 text-slate-400">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${
+                      errors.cvFile ? 'bg-red-100 text-red-500' : 'bg-slate-100 text-slate-400'
+                    }`}>
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                         <polyline points="17 8 12 3 7 8"/>
                         <line x1="12" y1="3" x2="12" y2="15"/>
                       </svg>
                     </div>
-                    <p className="text-sm font-medium text-slate-700 mb-1">Klik atau drag & drop file CV di sini</p>
-                    <p className="text-xs text-slate-400">Format PDF, DOC, atau DOCX · Maks. 5 MB</p>
+                    <p className={`text-sm font-medium mb-1 ${
+                      errors.cvFile ? 'text-red-700' : 'text-slate-700'
+                    }`}>
+                      {errors.cvFile ? 'Upload File CV' : 'Klik atau drag & drop file CV di sini'}
+                    </p>
+                    <p className={`text-xs ${errors.cvFile ? 'text-red-500' : 'text-slate-400'}`}>
+                      {errors.cvFile ? errors.cvFile : 'Format PDF, DOC, atau DOCX · Maks. 5 MB'}
+                    </p>
                   </div>
                 )}
               </div>
+
+              {/* Global Error Message */}
+              {errors.submit && (
+                <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 text-red-500 text-lg">⚠️</div>
+                    <div className="ml-3">
+                      <p className="text-sm text-red-700 font-medium">{errors.submit}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="pt-1 space-y-3">
                 <button

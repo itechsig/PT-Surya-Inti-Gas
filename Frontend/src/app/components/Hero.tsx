@@ -345,25 +345,6 @@ const ArrowIcon = () => (
   </svg>
 );
 
-/* ── Mail icon ── */
-const MailIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-    <rect x="2" y="4" width="20" height="16" rx="2" />
-    <polyline points="2,4 12,13 22,4" />
-  </svg>
-);
-
-/* ── Stat item ── */
-interface StatProps { num: string; suffix?: string; label: string; }
-const Stat = ({ num, suffix = "", label }: StatProps) => (
-  <div className="hero-stat">
-    <div className="hero-stat-num">
-      {num}<span className="accent">{suffix}</span>
-    </div>
-    <div className="hero-stat-label">{label}</div>
-  </div>
-);
-
 /* ══════════════════════════════════════════════
    MAIN HERO COMPONENT
 ══════════════════════════════════════════════ */
@@ -392,10 +373,6 @@ export function Hero() {
   const handleWaClick = () => {
     const msg = encodeURIComponent("Halo PT Surya Inti Gas, saya ingin menanyakan produk gas industri.");
     window.open(`https://wa.me/6281234567890?text=${msg}`, "_blank");
-  };
-
-  const handleContactClick = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (

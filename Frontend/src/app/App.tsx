@@ -8,6 +8,8 @@ import { Product } from "./components/Product";
 import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
 import { Career } from "./components/Career";
+import { AdminDashboard } from "./components/Dashboard/AdminDashboard";
+import { initVisitorTracking } from "../utils/visitorTracking";
 
 
 // ─── Scroll handler: ke atas atau ke section hash ────────────
@@ -50,6 +52,11 @@ function MainPage() {
 
 // ─── App ──────────────────────────────────────────────────────
 function App() {
+  useEffect(() => {
+    // Initialize visitor tracking when app loads
+    initVisitorTracking();
+  }, []);
+
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -60,6 +67,7 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/produk" element={<Product />} />
             <Route path="/karir" element={<Career />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>
         </main>
         <Footer />

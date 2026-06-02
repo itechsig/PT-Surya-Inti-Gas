@@ -5,6 +5,9 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
+    ->withProviders([
+        \App\Providers\EnvironmentValidationProvider::class,
+    ])
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
@@ -15,6 +18,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'api/chatbot',
             'api/chat/stream',
+        ]);
+
+        // Add security headers middleware
+        $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
+
+        // Register IP whitelist middleware
+        $middleware->alias([
+            'ip.whitelist' => \App\Http\Middleware\IpWhitelistMiddleware::class,
+            'audit.log' => \App\Http\Middleware\AuditLoggingMiddleware::class,
+            'request.response.log' => \App\Http\Middleware\RequestResponseLoggingMiddleware::class,
+            'brute.force' => \App\Http\Middleware\BruteForceProtectionMiddleware::class,
         ]);
 
         // Disable EnsureFrontendRequestsAreStateful to prevent infinite loop/memory exhaustion
