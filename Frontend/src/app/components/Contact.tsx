@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 import { ContactForm } from "./ContactForm";
+import { useTranslation } from "react-i18next";
 import {
   MapPin,
   Phone,
@@ -8,7 +9,6 @@ import {
   Building2,
   Clock,
   ExternalLink,
-  ChevronRight,
   MessageSquare,
 } from "lucide-react";
 
@@ -39,8 +39,8 @@ type OfficeData = {
 const OFFICES: OfficeData[] = [
   {
     type: "pusat",
-    label: "Kantor Pusat",
-    name: "Surya Inti Gas — Sidoarjo",
+    label: "contact.offices.headOffice",
+    name: "PT. Surya Inti Gas — Sidoarjo",
     address:
       'Komp. Perg. & Industri "Safe N Lock"\nBlok V1 – 3223, 3225, 3232, 3233\nJl. Lingkar Timur KM. 5.5\nRangkah Kidul, Sidoarjo\nJawa Timur 61232',
     phones: ["+62 31 – 9970 4788", "+62 31 – 9970 4789"],
@@ -52,8 +52,8 @@ const OFFICES: OfficeData[] = [
   },
   {
     type: "cabang",
-    label: "Kantor Cabang",
-    name: "Surya Inti Gas — Balikpapan | Filling Station",
+    label: "contact.offices.branchOffice",
+    name: "PT. Surya Inti Gas — Balikpapan",
     address:
       "Jl. AMD Projakal No.27, Batu Ampar\nKec. Balikpapan Utara\nKota Balikpapan\nKalimantan Timur 76127\nIndonesia",
     phones: ["+62 542 – 8531991", "+62 542 – 8532382"],
@@ -90,7 +90,7 @@ const FadeIn = ({
 };
 
 // ─── Office Card ─────────────────────────────────────────────
-const OfficeCard = ({ office, delay }: { office: OfficeData; delay: number }) => (
+const OfficeCard = ({ office, delay, t }: { office: OfficeData; delay: number; t: (key: string) => string }) => (
   <FadeIn delay={delay}>
     <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-100 overflow-hidden h-full flex flex-col hover:shadow-xl hover:shadow-slate-200/80 transition-shadow duration-300">
       {/* Card Header */}
@@ -106,7 +106,7 @@ const OfficeCard = ({ office, delay }: { office: OfficeData; delay: number }) =>
             className="text-xs font-semibold uppercase tracking-widest text-white/70"
             style={{ fontFamily: "'DM Sans', sans-serif" }}
           >
-            {office.label}
+            {t(office.label)}
           </span>
           <h3
             className="text-white text-base leading-tight mt-0.5"
@@ -132,7 +132,7 @@ const OfficeCard = ({ office, delay }: { office: OfficeData; delay: number }) =>
               className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1"
               style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
-              Alamat
+              {t('contact.info.address')}
             </p>
             <p
               className="text-sm text-slate-700 leading-relaxed whitespace-pre-line"
@@ -147,7 +147,7 @@ const OfficeCard = ({ office, delay }: { office: OfficeData; delay: number }) =>
               className="inline-flex items-center gap-1 mt-2 text-xs font-semibold transition-colors"
               style={{ color: office.color, fontFamily: "'Barlow', sans-serif" }}
             >
-              Lihat di Google Maps <ExternalLink size={11} />
+              {t('contact.offices.viewMaps')} <ExternalLink size={11} />
             </a>
           </div>
         </div>
@@ -165,7 +165,7 @@ const OfficeCard = ({ office, delay }: { office: OfficeData; delay: number }) =>
               className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1"
               style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
-              Telepon
+              {t('contact.info.phone')}
             </p>
             {office.phones.map((phone) => (
               <a
@@ -201,7 +201,7 @@ const OfficeCard = ({ office, delay }: { office: OfficeData; delay: number }) =>
               className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1"
               style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
-              Email
+              {t('contact.info.email')}
             </p>
             <a
               href={`mailto:${office.email}`}
@@ -226,19 +226,19 @@ const OfficeCard = ({ office, delay }: { office: OfficeData; delay: number }) =>
               className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1"
               style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
-              Jam Operasional
+              {t('contact.info.hours')}
             </p>
             <p
               className="text-sm text-slate-700"
               style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
-              Senin – Jumat: 08.00 – 16.00 WIB
+              {t('contact.hours.weekdays')}
             </p>
             <p
               className="text-sm text-slate-500"
               style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
-              Sabtu: 08.00 – 14.00 WIB
+              {t('contact.hours.saturday')}
             </p>
           </div>
         </div>
@@ -249,6 +249,7 @@ const OfficeCard = ({ office, delay }: { office: OfficeData; delay: number }) =>
 
 // ─── Main Component ───────────────────────────────────────────
 export function Kontak() {
+  const { t } = useTranslation();
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
 
   return (
@@ -312,17 +313,16 @@ export function Kontak() {
                 style={{ fontFamily: "'Barlow', sans-serif" }}
               >
                 <MapPin size={12} />
-                Lokasi & Kontak
+                {t('contact.title')}
               </div>
               <h2
                 className="text-3xl md:text-4xl text-slate-900 leading-tight mb-4"
                 style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 800 }}
               >
-                Hubungi Kami
+                {t('contact.title')}
               </h2>
               <p className="text-slate-500 text-base leading-relaxed">
-                Surya Inti Gas siap melayani kebutuhan gas industri & medis Anda.
-                Temukan kantor kami di Sidoarjo dan Balikpapan.
+                {t('contact.description')}
               </p>
             </div>
           </FadeIn>
@@ -330,7 +330,7 @@ export function Kontak() {
           {/* ── Office Cards ── */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 mb-14">
             {OFFICES.map((office, i) => (
-              <OfficeCard key={office.name} office={office} delay={0.1 + i * 0.12} />
+              <OfficeCard key={office.name} office={office} delay={0.1 + i * 0.12} t={t} />
             ))}
           </div>
 
@@ -350,13 +350,13 @@ export function Kontak() {
                     className="text-white/75 text-xs font-semibold uppercase tracking-widest mb-0.5"
                     style={{ fontFamily: "'Barlow', sans-serif" }}
                   >
-                    Ada Pertanyaan atau Kebutuhan?
+                    {t('contact.subtitle')}
                   </p>
                   <p
                     className="text-white text-lg"
                     style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 700 }}
                   >
-                    Tim kami siap membantu Anda
+                    {t('contact.description')}
                   </p>
                 </div>
               </div>
@@ -367,7 +367,7 @@ export function Kontak() {
                 style={{ fontFamily: "'Barlow', sans-serif" }}
               >
                 <Mail size={15} />
-                Hubungi Kami
+                {t('contact.title')}
               </button>
             </div>
           </FadeIn>
@@ -383,12 +383,12 @@ export function Kontak() {
                     className="text-sm font-bold text-slate-800"
                     style={{ fontFamily: "'Barlow', sans-serif" }}
                   >
-                    Kantor Pusat — Sidoarjo
+                    {t('contact.offices.headOffice')} - Sidoarjo
                   </span>
                 </div>
                 <div className="h-64">
                   <iframe
-                    title="Peta Kantor Pusat Sidoarjo"
+                    title={`${t('contact.offices.headOffice')} - Sidoarjo`}
                     src="https://maps.google.com/maps?q=-7.4667863,112.7524185&z=17&output=embed"
                     width="100%"
                     height="100%"
@@ -410,12 +410,12 @@ export function Kontak() {
                     className="text-sm font-bold text-slate-800"
                     style={{ fontFamily: "'Barlow', sans-serif" }}
                   >
-                    Kantor Cabang — Balikpapan
+                    {t('contact.offices.branchOffice')} - Balikpapan
                   </span>
                 </div>
                 <div className="h-64">
                   <iframe
-                    title="Peta Kantor Cabang Balikpapan"
+                    title={`${t('contact.offices.branchOffice')} - Balikpapan`}
                     src="https://maps.google.com/maps?q=-1.187001,116.8517675&z=17&output=embed"
                     width="100%"
                     height="100%"

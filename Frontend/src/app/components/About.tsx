@@ -1,6 +1,6 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { CheckCircle2, Target, BookOpen, Play, X } from "lucide-react";
-
 // Isi
 const VIDEO_SRC: string = "https://www.youtube.com/embed/Atf_Af1q_5w?si=zdvFWYZk97fv5Rfl";
 const YT_VIDEO_ID: string = "Atf_Af1q_5w";
@@ -362,36 +362,55 @@ const fontImport = `
   }
 `;
 
-const timelineData = [
-  { year:"2003", label:"Pendirian", text:"Berdiri dengan nama CV. Surya Inti Gas, berkantor di Jl. KH. Mukmin, Sidoarjo, Jawa Timur.", color:"#3b82f6", bg:"rgba(59,130,246,0.10)", accent:"rgba(59,130,246,0.15)" },
-  { year:"2007", label:"Ekspansi", text:'Bisnis berkembang pesat, kantor pindah ke Komplek Pergudangan & Industri "Meiko Abadi", Gedangan, Sidoarjo.', color:"#0891b2", bg:"rgba(8,145,178,0.10)", accent:"rgba(8,145,178,0.15)" },
-  { year:"2016", label:"Head Office Baru", text:'Kantor pindah ke Komplek "Safe N Lock", Jl. Lingkar Timur KM 5.5, Rangkah Kidul sebagai Head Office.', color:"#16a34a", bg:"rgba(22,163,74,0.10)", accent:"rgba(22,163,74,0.15)" },
-  { year:"2017", label:"PT & Cabang", text:"Resmi berdiri sebagai PT. Surya Inti Gas dan perdana membuka cabang di Balikpapan, Kalimantan Timur.", color:"#22c55e", bg:"rgba(34,197,94,0.10)", accent:"rgba(34,197,94,0.15)" },
-];
-
-const PhotoBlock: React.FC<{ src: string; style?: React.CSSProperties }> = ({ src, style }) => (
-  <img src={src} alt="PT Surya Inti Gas" className="photo-img" style={{ backgroundColor:"#d1fae5", ...style }} />
+const PhotoBlock: React.FC<{
+  src: string;
+  style?: React.CSSProperties;
+  className?: string;
+}> = ({ src, style, className }) => (
+  <img
+    src={src}
+    alt="PT Surya Inti Gas"
+    className={`photo-img${className ? ` ${className}` : ""}`}
+    style={{ backgroundColor: "#d1fae5", ...style }}
+  />
 );
 
 export function About() {
-  const [open, setOpen] = React.useState(false);
+  const { t } = useTranslation();
   const [bannerDismissed, setBannerDismissed] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
-  const isYt = VIDEO_SRC.includes("youtube.com") || VIDEO_SRC.includes("youtu.be");
-
-  // Escape key & body scroll lock saat modal terbuka
-  React.useEffect(() => {
-    if (!open) return;
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
-    window.addEventListener("keydown", h);
-    document.body.style.overflow = "hidden";
-    return () => { window.removeEventListener("keydown", h); document.body.style.overflow = ""; };
-  }, [open]);
-
-  // Intersection observer untuk fade-in section
+  const timelineData = [
+    {
+      year: "2003", label: t('about.timeline.items.0.label'),
+      text: t('about.timeline.items.0.text'),
+      color: "#3b82f6", bg: "rgba(59,130,246,0.10)", accent: "rgba(59,130,246,0.15)",
+    },
+    {
+      year: "2007", label: t('about.timeline.items.1.label'),
+      text: t('about.timeline.items.1.text'),
+      color: "#0891b2", bg: "rgba(8,145,178,0.10)", accent: "rgba(8,145,178,0.15)",
+    },
+    {
+      year: "2016", label: t('about.timeline.items.2.label'),
+      text: t('about.timeline.items.2.text'),
+      color: "#16a34a", bg: "rgba(22,163,74,0.10)", accent: "rgba(22,163,74,0.15)",
+    },
+    {
+      year: "2017", label: t('about.timeline.items.3.label'),
+      text: t('about.timeline.items.3.text'),
+      color: "#22c55e", bg: "rgba(34,197,94,0.10)", accent: "rgba(34,197,94,0.15)",
+    },
+  ];
   React.useEffect(() => {
     const observer = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("is-visible"); }),
+      (entries) => {  
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
       { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     );
     document.querySelectorAll(".fade-in-section").forEach(el => observer.observe(el));
@@ -406,23 +425,37 @@ export function About() {
 
           {/* ══ BARIS 1 ══ */}
           <div className="row-intro">
-            <div className="intro-text fade-in-section" style={{ display:"flex", flexDirection:"column", gap:"28px" }}>
-              <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-                <div style={{ width:"36px", height:"2px", background:"#22c55e" }} />
-                <span style={{ fontFamily:"'Outfit', sans-serif", fontSize:"0.78rem", fontWeight:600, letterSpacing:"0.18em", textTransform:"uppercase", color:"#16a34a" }}>Tentang Kami</span>
+            {/* Teks kiri */}
+            <div className="intro-text fade-in-section" style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+              {/* Eyebrow */}
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <div style={{ width: "36px", height: "2px", background: "#22c55e" }} />
+                <span style={{
+                  fontFamily: "'Outfit', sans-serif", fontSize: "0.78rem",
+                  fontWeight: 600, letterSpacing: "0.18em",
+                  textTransform: "uppercase", color: "#16a34a",
+                }}>
+                  {t('about.title')}
+                </span>
               </div>
               <h1 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(2rem, 5vw, 3.4rem)", fontWeight:700, lineHeight:1.12, color:"#0f172a", margin:0, letterSpacing:"-0.01em" }}>
                 PT. Surya Inti Gas
               </h1>
-              <p style={{ fontFamily:"'Outfit', sans-serif", fontSize:"clamp(0.95rem, 2.5vw, 1.05rem)", lineHeight:1.75, color:"#5a7085", fontWeight:300, margin:0 }}>
-                Surya Inti Gas berdiri sejak tahun 2003 dan telah berkembang menjadi distributor gas industri dan medis terpercaya yang melayani lebih dari 150 pelanggan di Jawa Timur, Jawa Tengah, DIY, hingga Kalimantan Timur.
+
+              <p style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: "clamp(0.95rem, 2.5vw, 1.05rem)",
+                lineHeight: 1.75, color: "#5a7085", fontWeight: 300, margin: 0,
+              }}>
+                {t('about.intro')}
+
               </p>
               <div className="glass-card" style={{ padding:"20px 16px", display:"flex", flexDirection:"column", gap:"4px" }}>
                 {[
-                  "Gas Industri, Medis, Speciality & Mixed Gas",
-                  "Armada Pengiriman Mandiri & Tepat Waktu",
-                  "Melayani 150+ Pelanggan Industri",
-                  "Head Office Sidoarjo + Cabang Balikpapan",
+                  t('about.highlights.industrialGas'),
+                  t('about.highlights.delivery'),
+                  t('about.highlights.customers'),
+                  t('about.highlights.offices'),
                 ].map((item, i) => (
                   <div key={i} className="check-item">
                     <CheckCircle2 color="#22c55e" size={18} strokeWidth={2.5} />
@@ -448,23 +481,38 @@ export function About() {
               <div className="glass-card-strong" style={{ padding:"28px", flex:1 }}>
                 <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(3,105,161,0.08)", borderRadius:"8px", padding:"6px 14px", marginBottom:"16px" }}>
                   <Target size={18} color="#0369a1" strokeWidth={2.2} />
-                  <span style={{ fontFamily:"'Cormorant Garamond', serif", fontWeight:700, fontSize:"1.15rem", color:"#0369a1" }}>Visi Kami</span>
+                  <span style={{
+                    fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
+                    fontSize: "1.15rem", color: "#0369a1", letterSpacing: "0.02em",
+                  }}>
+                    {t('about.vision.title')}
+                  </span>
                 </div>
-                <p style={{ fontFamily:"'Outfit', sans-serif", lineHeight:1.75, color:"#475569", margin:0, fontSize:"0.97rem", fontWeight:300 }}>
-                  Menjadi sebuah perusahaan yang berkembang, memiliki cabang di seluruh kota besar Indonesia, yang mampu memenuhi dan menunjang kebutuhan gas-gas industri di dalam negeri serta melayani kebutuhan gas Oksigen Medis di seluruh Rumah Sakit di Indonesia.
+                <p style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  lineHeight: 1.75, color: "#475569",
+                  margin: 0, fontSize: "0.97rem", fontWeight: 300,
+                }}>
+                  {t('about.vision.text')}
+
                 </p>
               </div>
               <div className="glass-card-strong" style={{ padding:"28px", flex:1 }}>
                 <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(22,163,74,0.08)", borderRadius:"8px", padding:"6px 14px", marginBottom:"16px" }}>
                   <BookOpen size={18} color="#16a34a" strokeWidth={2.2} />
-                  <span style={{ fontFamily:"'Cormorant Garamond', serif", fontWeight:700, fontSize:"1.15rem", color:"#16a34a" }}>Misi Kami</span>
+                  <span style={{
+                    fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
+                    fontSize: "1.15rem", color: "#16a34a", letterSpacing: "0.02em",
+                  }}>
+                    {t('about.mission.title')}
+                  </span>
                 </div>
                 <ul className="misi-list">
                   {[
-                    "Mampu menyediakan produk yang berkecukupan dengan standar tinggi.",
-                    "Memiliki sumber daya manusia yang kuat dan solid.",
-                    "Mampu memenuhi kebutuhan dan keinginan pelanggan dengan cepat, tepat dan baik.",
-                    "Kepuasan pelanggan adalah prioritas kami.",
+                    t('about.mission.items.0'),
+                    t('about.mission.items.1'),
+                    t('about.mission.items.2'),
+                    t('about.mission.items.3'),
                   ].map((item, i) => (
                     <li key={i} style={{ display:"flex", alignItems:"flex-start", gap:"10px", fontFamily:"'Outfit', sans-serif", fontSize:"0.95rem", color:"#475569", fontWeight:300, lineHeight:1.6 }}>
                       <span style={{ width:"6px", height:"6px", borderRadius:"50%", background:"#22c55e", marginTop:"8px", flexShrink:0 }} />
@@ -478,13 +526,30 @@ export function About() {
 
           {/* ══ BARIS 3: Timeline ══ */}
           <div>
-            <div className="fade-in-section" style={{ textAlign:"center", marginBottom:"48px" }}>
-              <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:"10px", marginBottom:"10px" }}>
-                <div style={{ width:"36px", height:"1.5px", background:"#94a3b8" }} />
-                <span style={{ fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", textTransform:"uppercase", color:"#94a3b8", fontFamily:"'Outfit', sans-serif" }}>Perjalanan Kami</span>
-                <div style={{ width:"36px", height:"1.5px", background:"#94a3b8" }} />
+            {/* Section header */}
+            <div className="fade-in-section" style={{ textAlign: "center", marginBottom: "48px" }}>
+              <div style={{
+                display: "flex", alignItems: "center",
+                justifyContent: "center", gap: "10px", marginBottom: "10px",
+              }}>
+                <div style={{ width: "36px", height: "1.5px", background: "#94a3b8" }} />
+                <span style={{
+                  fontSize: "0.72rem", fontWeight: 600,
+                  letterSpacing: "0.18em", textTransform: "uppercase",
+                  color: "#94a3b8", fontFamily: "'Outfit', sans-serif",
+                }}>
+                  {t('about.timeline.title')}
+                </span>
+                <div style={{ width: "36px", height: "1.5px", background: "#94a3b8" }} />
               </div>
-              <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(1.7rem, 4vw, 2.2rem)", fontWeight:700, color:"#0f172a", margin:0 }}>Sejarah Singkat</h2>
+              <h2 style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(1.7rem, 4vw, 2.2rem)",
+                fontWeight: 700, color: "#0f172a",
+                margin: 0, letterSpacing: "-0.01em",
+              }}>
+                {t('about.timeline.subtitle')}
+              </h2>
             </div>
             <div className="timeline-landscape">
               {timelineData.map((item, i) => (
@@ -558,7 +623,7 @@ export function About() {
               </button>
             </div>
             <div className="vid-modal-player">
-              {isYt
+              {true
                 ? <iframe src={`${VIDEO_SRC}?autoplay=1&rel=0`} title="Company Profile PT Surya Inti Gas" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowFullScreen />
                 : <video src={VIDEO_SRC} controls autoPlay />
               }

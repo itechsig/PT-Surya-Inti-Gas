@@ -2,83 +2,84 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // ─── Data ─────────────────────────────────────────────────────
 const subProducts = [
   {
     id: 1,
-    title: "Oksigen (O₂)",
-    desc: "Gas oksigen untuk industri dan medis dengan kemurnian tinggi.",
+    titleKey: "product.products.oxygen.title",
+    descKey: "product.products.oxygen.description",
     image: "https://plus.unsplash.com/premium_photo-1681426676206-0f2c02b48aff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bzJ8ZW58MHx8MHx8fDA%3D",
     slug: "gas-industri",
     specs: [
-      { icon: "💧", label: "Kemurnian", value: "99.5% – 99.9%" },
-      { icon: "🏭", label: "Kegunaan", value: "Industri & Medis" },
-      { icon: "📦", label: "Ketersediaan", value: "Stok Tersedia" },
+      { icon: "💧", labelKey: "product.details.purity", valueKey: "product.products.oxygen.purity" },
+      { icon: "🏭", labelKey: "product.details.usage", valueKey: "product.products.oxygen.usage" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
     ],
     detail: {
-      warna: "Tidak berwarna, tidak berbau",
-      tekanan: "150 bar / 200 bar",
-      ukuranTabung: ["1 m³", "2 m³", "6 m³"],
-      aplikasi: ["Pengelasan & pemotongan", "Pernapasan medis", "Proses industri kimia", "Pengolahan air"],
-      keamanan: "Jauhkan dari sumber api. Simpan di tempat berventilasi baik. Gunakan regulator yang sesuai.",
+      colorKey: "product.products.oxygen.color",
+      pressureKey: "product.products.oxygen.pressure",
+      cylinderSizesKey: "product.products.oxygen.cylinderSizes",
+      applicationsKey: "product.products.oxygen.applications",
+      safetyKey: "product.products.oxygen.safety",
     },
   },
   {
     id: 2,
-    title: "Nitrogen (N₂)",
-    desc: "Gas nitrogen untuk pengawetan, las, dan aplikasi industri.",
+    titleKey: "product.products.nitrogen.title",
+    descKey: "product.products.nitrogen.description",
     image: "https://media.istockphoto.com/id/638504688/photo/sample-of-sperm-frozen-tank.webp?a=1&b=1&s=612x612&w=0&k=20&c=cbLDA5dA3_RrIX3tuQysyAlPBeboUc4bYupJI5PokBE=",
     slug: "gas-medis",
     specs: [
-      { icon: "💧", label: "Kemurnian", value: "99.0% – 99.99%" },
-      { icon: "🏭", label: "Kegunaan", value: "Pengawetan & Las" },
-      { icon: "📦", label: "Ketersediaan", value: "Stok Tersedia" },
+      { icon: "💧", labelKey: "product.details.purity", valueKey: "product.products.nitrogen.purity" },
+      { icon: "🏭", labelKey: "product.details.usage", valueKey: "product.products.nitrogen.usage" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
     ],
     detail: {
-      warna: "Tidak berwarna, tidak berbau",
-      tekanan: "150 bar / 200 bar",
-      ukuranTabung: ["1 m³", "6 m³", "Liquid Bulk"],
-      aplikasi: ["Pengawetan makanan & minuman", "Purging pipa dan tangki", "Pendinginan kriogenik", "Industri elektronik"],
-      keamanan: "Gas inert namun dapat menyebabkan asfiksia di ruang tertutup. Pastikan ventilasi cukup.",
+      colorKey: "product.products.nitrogen.color",
+      pressureKey: "product.products.nitrogen.pressure",
+      cylinderSizesKey: "product.products.nitrogen.cylinderSizes",
+      applicationsKey: "product.products.nitrogen.applications",
+      safetyKey: "product.products.nitrogen.safety",
     },
   },
   {
     id: 3,
-    title: "Argon (Ar)",
-    desc: "Gas argon untuk pengelasan TIG dan aplikasi khusus.",
+    titleKey: "product.products.argon.title",
+    descKey: "product.products.argon.description",
     image: "https://images.unsplash.com/photo-1683470156390-703e9313dab6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8QXJnb258ZW58MHx8MHx8fDA%3D",
     slug: "gas-campuran",
     specs: [
-      { icon: "💧", label: "Kemurnian", value: "99.9% – 99.999%" },
-      { icon: "🏭", label: "Kegunaan", value: "Las TIG & Specialty" },
-      { icon: "📦", label: "Ketersediaan", value: "Stok Tersedia" },
+      { icon: "💧", labelKey: "product.details.purity", valueKey: "product.products.argon.purity" },
+      { icon: "🏭", labelKey: "product.details.usage", valueKey: "product.products.argon.usage" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
     ],
     detail: {
-      warna: "Tidak berwarna, tidak berbau",
-      tekanan: "150 bar / 200 bar",
-      ukuranTabung: ["1 m³", "2 m³", "6 m³"],
-      aplikasi: ["Pengelasan TIG & MIG", "Industri semikonduktor", "Penerangan & lampu", "Produksi specialty gas"],
-      keamanan: "Gas inert. Hindari akumulasi di ruang terbatas. Simpan tabung dalam posisi tegak.",
+      colorKey: "product.products.argon.color",
+      pressureKey: "product.products.argon.pressure",
+      cylinderSizesKey: "product.products.argon.cylinderSizes",
+      applicationsKey: "product.products.argon.applications",
+      safetyKey: "product.products.argon.safety",
     },
   },
   {
     id: 4,
-    title: "Acetylene (C₂H₂)",
-    desc: "Gas asetilena untuk pemotongan dan pengelasan logam.",
+    titleKey: "product.products.acetylene.title",
+    descKey: "product.products.acetylene.description",
     image: "https://images.unsplash.com/photo-1609361528925-2d177061540c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8QWNldHlsZW5lfGVufDB8fDB8fHww",
     slug: "speciality-gas",
     specs: [
-      { icon: "💧", label: "Kemurnian", value: "98.0% – 99.5%" },
-      { icon: "🏭", label: "Kegunaan", value: "Potong & Las Logam" },
-      { icon: "📦", label: "Ketersediaan", value: "Stok Tersedia" },
+      { icon: "💧", labelKey: "product.details.purity", valueKey: "product.products.acetylene.purity" },
+      { icon: "🏭", labelKey: "product.details.usage", valueKey: "product.products.acetylene.usage" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
     ],
     detail: {
-      warna: "Tidak berwarna, bau khas",
-      tekanan: "Max 15 bar (dissolved)",
-      ukuranTabung: ["40 L", "60 L"],
-      aplikasi: ["Pemotongan logam tebal", "Pengelasan oxy-acetylene", "Pemanasan & bending logam", "Industri otomotif & besi"],
-      keamanan: "Gas mudah terbakar. Simpan jauh dari sumber panas. Jangan dimiringkan atau dijatuhkan.",
+      colorKey: "product.products.acetylene.color",
+      pressureKey: "product.products.acetylene.pressure",
+      cylinderSizesKey: "product.products.acetylene.cylinderSizes",
+      applicationsKey: "product.products.acetylene.applications",
+      safetyKey: "product.products.acetylene.safety",
     },
   },
 ];
@@ -86,39 +87,31 @@ const subProducts = [
 const layananList = [
   {
     id: 1,
-    badge: "Layanan Profesional",
-    title: "Instalasi Gas & Pipa",
-    desc: "Layanan instalasi pipa gas industri dan medis yang aman dan sesuai standar. Mencakup perencanaan jalur pipa, pemasangan fitting, dan pengujian kebocoran sistem distribusi gas.",
+    badgeKey: "product.services.professionalService",
+    titleKey: "product.services.installation.title",
+    descKey: "product.services.installation.description",
     image: "https://plus.unsplash.com/premium_photo-1661921394349-9e3f394d80da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluc3RhbGFzaSUyMGdhc3xlbnwwfHwwfHx8MA%3D%3D",
     color: "emerald",
     steps: [
-      { icon: "📐", label: "Perencanaan Jalur" },
-      { icon: "🔧", label: "Pemasangan Pipa" },
-      { icon: "✅", label: "Uji Kebocoran" },
+      { icon: "📐", labelKey: "product.services.installation.steps.planning" },
+      { icon: "🔧", labelKey: "product.services.installation.steps.installation" },
+      { icon: "✅", labelKey: "product.services.installation.steps.testing" },
     ],
-    highlights: [
-      "Pipa tembaga & stainless grade industri",
-      "Sesuai standar SNI & ASME",
-      "Garansi instalasi 1 tahun",
-    ],
+    highlightsKey: "product.services.installation.highlights",
   },
   {
     id: 2,
-    badge: "Layanan Profesional",
-    title: "Pemasangan Tangki",
-    desc: "Instalasi tangki penyimpanan gas bertekanan dan tangki kriogenik untuk kebutuhan industri skala besar. Dilengkapi sistem keamanan, regulator tekanan, dan commissioning oleh teknisi bersertifikat.",
+    badgeKey: "product.services.professionalService",
+    titleKey: "product.services.tanks.title",
+    descKey: "product.services.tanks.description",
     image: "https://plus.unsplash.com/premium_photo-1664299488927-4352e3d2a71e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVtYXNhbmdhbiUyMHRhbmdraXxlbnwwfHwwfHx8MA%3D%3D",
     color: "teal",
     steps: [
-      { icon: "📋", label: "Survey & Desain" },
-      { icon: "🏗️", label: "Pemasangan Tangki" },
-      { icon: "🔒", label: "Commissioning" },
+      { icon: "📋", labelKey: "product.services.tanks.steps.survey" },
+      { icon: "🏗️", labelKey: "product.services.tanks.steps.installation" },
+      { icon: "🔒", labelKey: "product.services.tanks.steps.commissioning" },
     ],
-    highlights: [
-      "Tangki bertekanan & kriogenik",
-      "Kapasitas sesuai kebutuhan klien",
-      "Teknisi bersertifikat K3",
-    ],
+    highlightsKey: "product.services.tanks.highlights",
   },
 ];
 
@@ -128,6 +121,8 @@ type ProductType = typeof subProducts[0];
 
 // ─── Modal Component ──────────────────────────────────────────
 function ProductModal({ product, onClose }: { product: ProductType; onClose: () => void }) {
+  const { t } = useTranslation();
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -146,13 +141,13 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
         <div className="relative overflow-hidden rounded-t-3xl" style={{ height: '340px' }}>
           <img
             src={product.image}
-            alt={product.title}
+            alt={t(product.titleKey)}
             className="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10" />
           <div className="absolute top-5 left-6">
             <span className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold uppercase tracking-widest rounded-full border border-white/30">
-              Detail Produk
+              {t('product.modal.detailProduct')}
             </span>
           </div>
           <button
@@ -162,18 +157,18 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
             ✕
           </button>
           <div className="absolute bottom-0 left-0 right-0 px-7 pb-7 pt-10">
-            <h3 className="text-white text-3xl font-bold drop-shadow-lg">{product.title}</h3>
-            <p className="text-white/70 text-sm mt-1 leading-relaxed line-clamp-2">{product.desc}</p>
+            <h3 className="text-white text-3xl font-bold drop-shadow-lg">{t(product.titleKey)}</h3>
+            <p className="text-white/70 text-sm mt-1 leading-relaxed line-clamp-2">{t(product.descKey)}</p>
           </div>
         </div>
 
         <div className="p-8 space-y-7">
           <div className="grid grid-cols-3 gap-4">
             {product.specs.map(spec => (
-              <div key={spec.label} className="bg-slate-50 rounded-2xl p-4 text-center">
+              <div key={spec.labelKey} className="bg-slate-50 rounded-2xl p-4 text-center">
                 <span className="text-2xl">{spec.icon}</span>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mt-2 mb-1">{spec.label}</p>
-                <p className="text-sm font-semibold text-slate-800">{spec.value}</p>
+                <p className="text-xs text-slate-400 uppercase tracking-wider mt-2 mb-1">{t(spec.labelKey)}</p>
+                <p className="text-sm font-semibold text-slate-800">{t(spec.valueKey)}</p>
               </div>
             ))}
           </div>
@@ -182,24 +177,24 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
             <div className="flex gap-4 items-start">
               <div className="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🎨</div>
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Sifat Fisik</p>
-                <p className="text-sm text-slate-700 font-medium">{product.detail.warna}</p>
+                <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">{t('product.details.color')}</p>
+                <p className="text-sm text-slate-700 font-medium">{t(product.detail.colorKey)}</p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
               <div className="w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🔩</div>
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Tekanan Tabung</p>
-                <p className="text-sm text-slate-700 font-medium">{product.detail.tekanan}</p>
+                <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">{t('product.details.pressure')}</p>
+                <p className="text-sm text-slate-700 font-medium">{t(product.detail.pressureKey)}</p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
               <div className="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🛢️</div>
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Ukuran Tabung Tersedia</p>
+                <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">{t('product.details.cylinderSize')}</p>
                 <div className="flex flex-wrap gap-2">
-                  {product.detail.ukuranTabung.map(u => (
-                    <span key={u} className="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">{u}</span>
+                  {(t(product.detail.cylinderSizesKey, { returnObjects: true }) as string[]).map((u, i) => (
+                    <span key={i} className="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">{u}</span>
                   ))}
                 </div>
               </div>
@@ -207,10 +202,10 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
             <div className="flex gap-4 items-start">
               <div className="w-9 h-9 bg-amber-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">⚙️</div>
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Aplikasi Utama</p>
+                <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">{t('product.details.applications')}</p>
                 <ul className="space-y-1">
-                  {product.detail.aplikasi.map(a => (
-                    <li key={a} className="flex items-center gap-2 text-sm text-slate-700">
+                  {(t(product.detail.applicationsKey, { returnObjects: true }) as string[]).map((a, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-slate-700">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0" />
                       {a}
                     </li>
@@ -221,8 +216,8 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
             <div className="flex gap-4 items-start bg-red-50 rounded-2xl p-4">
               <div className="w-9 h-9 bg-red-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">⚠️</div>
               <div>
-                <p className="text-xs text-red-400 uppercase tracking-wider mb-0.5">Keamanan & Penyimpanan</p>
-                <p className="text-sm text-red-700">{product.detail.keamanan}</p>
+                <p className="text-xs text-red-400 uppercase tracking-wider mb-0.5">{t('product.details.safety')}</p>
+                <p className="text-sm text-red-700">{t(product.detail.safetyKey)}</p>
               </div>
             </div>
           </div>
@@ -232,7 +227,7 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
               onClick={onClose}
               className="w-full py-3 bg-slate-900 text-white rounded-xl font-medium text-sm hover:bg-slate-700 transition-colors"
             >
-              Tutup
+              {t('product.modal.close')}
             </button>
           </div>
         </div>
@@ -245,6 +240,8 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
 type LayananType = typeof layananList[0];
 
 function LayananModal({ item, onClose }: { item: LayananType; onClose: () => void }) {
+  const { t } = useTranslation();
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -258,11 +255,11 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
         onClick={e => e.stopPropagation()}
       >
         <div className="relative overflow-hidden rounded-t-3xl" style={{ height: '320px' }}>
-          <img src={item.image} alt={item.title} className="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-700" />
+          <img src={item.image} alt={t(item.titleKey)} className="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-700" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10" />
           <div className="absolute top-5 left-6">
             <span className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold uppercase tracking-widest rounded-full border border-white/30">
-              {item.badge}
+              {t(item.badgeKey)}
             </span>
           </div>
           <button
@@ -272,8 +269,8 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
             ✕
           </button>
           <div className="absolute bottom-0 left-0 right-0 px-7 pb-7 pt-10">
-            <h3 className="text-white text-3xl font-bold drop-shadow-lg">{item.title}</h3>
-            <p className="text-white/70 text-sm mt-1 leading-relaxed">{item.desc}</p>
+            <h3 className="text-white text-3xl font-bold drop-shadow-lg">{t(item.titleKey)}</h3>
+            <p className="text-white/70 text-sm mt-1 leading-relaxed">{t(item.descKey)}</p>
           </div>
         </div>
 
@@ -282,13 +279,13 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
             <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-5">Tahapan Proses</p>
             <div className="flex flex-col gap-4">
               {item.steps.map((s, idx) => (
-                <div key={s.label} className="flex items-center gap-4">
+                <div key={s.labelKey} className="flex items-center gap-4">
                   <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0 ${item.color === 'teal' ? 'bg-teal-100' : 'bg-emerald-100'}`}>
                     {s.icon}
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-xs font-bold text-slate-300">{String(idx + 1).padStart(2, '0')}</span>
-                    <p className="text-sm font-semibold text-slate-700">{s.label}</p>
+                    <p className="text-sm font-semibold text-slate-700">{t(s.labelKey)}</p>
                   </div>
                 </div>
               ))}
@@ -298,8 +295,8 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
           <div>
             <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-5">Keunggulan</p>
             <ul className="space-y-3">
-              {item.highlights.map(h => (
-                <li key={h} className="flex items-start gap-3">
+              {(t(item.highlightsKey, { returnObjects: true }) as string[]).map((h, i) => (
+                <li key={i} className="flex items-start gap-3">
                   <span className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs flex-shrink-0 ${item.color === 'teal' ? 'bg-teal-500' : 'bg-emerald-500'}`}>✓</span>
                   <p className="text-sm text-slate-600">{h}</p>
                 </li>
@@ -312,7 +309,7 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
               onClick={onClose}
               className="w-full py-3 bg-slate-900 text-white rounded-xl font-medium text-sm hover:bg-slate-700 transition-colors"
             >
-              Tutup
+              {t('product.modal.close')}
             </button>
           </div>
         </div>
@@ -369,23 +366,22 @@ export function Product() {
           <div className="flex-1 flex flex-col gap-6">
             <div>
               <p className="text-xs text-slate-400 uppercase tracking-[4px] mb-4 font-medium">
-                Produk &amp; Layanan
+                {t('header.products')}
               </p>
               <h1 className="text-6xl font-bold text-slate-900 leading-[1.05] tracking-tight">
-                Gas Industri,<br />
-                <span className="text-slate-300 font-light">Medis &amp; Specialty</span>
+                {t('product.title')},<br />
+                <span className="text-slate-300 font-light">{t('product.medicalSpecialty')}</span>
               </h1>
             </div>
             <p className="text-slate-500 text-base leading-relaxed max-w-xs">
-              Distributor resmi gas berkualitas tinggi untuk manufaktur,
-              kesehatan, dan laboratorium sejak 2003.
+              {t('hero.description')}
             </p>
             <div className="flex flex-col gap-3 pt-2">
               <button
                 onClick={() => setStep('selection')}
                 className="w-fit flex items-center gap-3 px-6 py-3 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-700 transition-colors"
               >
-                Jelajahi Produk &amp; Layanan
+                {t('hero.viewProducts')}
                 <span className="text-base">→</span>
               </button>
             </div>
@@ -398,16 +394,16 @@ export function Product() {
                 <img
                   key={product.id}
                   src={product.image}
-                  alt={product.title}
+                  alt={t(product.titleKey)}
                   className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
                   style={{ opacity: i === current ? 1 : 0 }}
                 />
               ))}
               <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
               <div className="absolute bottom-4 left-5">
-                <p className="text-white/70 text-xs uppercase tracking-widest font-medium">Sedang ditampilkan</p>
+                <p className="text-white/70 text-xs uppercase tracking-widest font-medium">{t('product.currentlyDisplaying')}</p>
                 <p className="text-white text-base font-semibold mt-0.5">
-                  {subProducts[current].title}
+                  {t(subProducts[current].titleKey)}
                 </p>
               </div>
               <div className="absolute bottom-5 right-5 flex gap-1.5">
@@ -426,19 +422,19 @@ export function Product() {
             <div className="rounded-xl bg-slate-50 border border-slate-100 p-5 transition-all duration-500">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Produk</p>
-                  <p className="text-base font-semibold text-slate-800">{subProducts[current].title}</p>
-                  <p className="text-xs text-slate-500 mt-1 leading-relaxed max-w-xs">{subProducts[current].desc}</p>
+                  <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">{t('product.productLabel')}</p>
+                  <p className="text-base font-semibold text-slate-800">{t(subProducts[current].titleKey)}</p>
+                  <p className="text-xs text-slate-500 mt-1 leading-relaxed max-w-xs">{t(subProducts[current].descKey)}</p>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-3 pt-3 border-t border-slate-200">
                 {subProducts[current].specs.map((spec) => (
-                  <div key={spec.label} className="flex flex-col gap-1">
+                  <div key={spec.labelKey} className="flex flex-col gap-1">
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm">{spec.icon}</span>
-                      <p className="text-xs text-slate-400 uppercase tracking-wider">{spec.label}</p>
+                      <p className="text-xs text-slate-400 uppercase tracking-wider">{t(spec.labelKey)}</p>
                     </div>
-                    <p className="text-sm font-semibold text-slate-700">{spec.value}</p>
+                    <p className="text-sm font-semibold text-slate-700">{t(spec.valueKey)}</p>
                   </div>
                 ))}
               </div>
@@ -451,19 +447,19 @@ export function Product() {
       {step === 'selection' && (
         <div className="max-w-7xl mx-auto px-6 pt-28 pb-16">
           <div className="flex items-center gap-2 text-sm text-gray-400 mb-10">
-            <Link to="/" className="hover:text-blue-600 transition-colors">Beranda</Link>
+            <Link to="/" className="hover:text-blue-600 transition-colors">{t('header.home')}</Link>
             <span>/</span>
             <button onClick={() => setStep('hero')} className="hover:text-blue-600 transition-colors">
-              Produk & Layanan
+              {t('header.products')}
             </button>
             <span>/</span>
-            <span className="text-gray-600 font-medium">Pilih Kategori</span>
+            <span className="text-gray-600 font-medium">{t('product.selectCategory')}</span>
           </div>
 
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-800 mb-3">Pilih Kategori</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-3">{t('product.selectCategory')}</h2>
             <p className="text-gray-500 max-w-xl mx-auto">
-              Silakan pilih salah satu untuk melihat detail produk atau layanan kami.
+              {t('product.description')}
             </p>
           </div>
 
@@ -480,21 +476,21 @@ export function Product() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-5 left-6">
-                  <span className="text-white/80 text-xs font-semibold uppercase tracking-widest">Gas Industri & Medis</span>
-                  <p className="text-white text-2xl font-bold mt-1">PRODUK</p>
+                  <span className="text-white/80 text-xs font-semibold uppercase tracking-widest">{t('product.categories.industrial')} & {t('product.categories.medical')}</span>
+                  <p className="text-white text-2xl font-bold mt-1">{t('product.productsLabel')}</p>
                 </div>
               </div>
               <div className="p-7">
                 <div className="flex items-center gap-4 mb-3">
                   <div className="w-11 h-11 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl">🛢️</div>
-                  <h3 className="text-xl font-bold text-gray-800">Gas & Tabung</h3>
+                  <h3 className="text-xl font-bold text-gray-800">{t('product.gasAndCylinder')}</h3>
                 </div>
                 <p className="text-gray-500 text-sm leading-relaxed">
-                  Oksigen, Nitrogen, Argon, Acetylene, Speciality Gas, Mixed Gas,
-                  dan berbagai jenis tabung bertekanan tinggi berkualitas.
+                  {t('product.categories.industrial')}, {t('product.categories.medical')}, {t('product.categories.speciality')}, {t('product.categories.mixed')},
+                  {t('product.highQualityCylinders')}.
                 </p>
                 <div className="mt-5 flex items-center gap-2 text-emerald-600 font-semibold text-sm">
-                  Lihat Produk <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
+                  {t('hero.viewProducts')} <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
                 </div>
               </div>
             </div>
@@ -511,21 +507,20 @@ export function Product() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-5 left-6">
-                  <span className="text-white/80 text-xs font-semibold uppercase tracking-widest">Instalasi Profesional</span>
-                  <p className="text-white text-2xl font-bold mt-1">LAYANAN</p>
+                  <span className="text-white/80 text-xs font-semibold uppercase tracking-widest">{t('product.services.professionalService')}</span>
+                  <p className="text-white text-2xl font-bold mt-1">{t('product.servicesLabel')}</p>
                 </div>
               </div>
               <div className="p-7">
                 <div className="flex items-center gap-4 mb-3">
                   <div className="w-11 h-11 bg-teal-100 rounded-2xl flex items-center justify-center text-2xl">🔧</div>
-                  <h3 className="text-xl font-bold text-gray-800">Instalasi Gas</h3>
+                  <h3 className="text-xl font-bold text-gray-800">{t('product.services.installation.title')}</h3>
                 </div>
                 <p className="text-gray-500 text-sm leading-relaxed">
-                  Layanan instalasi sistem distribusi gas industri dan medis secara
-                  profesional, mencakup perencanaan, pemasangan, dan pengujian.
+                  {t('product.services.installation.description')}
                 </p>
                 <div className="mt-5 flex items-center gap-2 text-teal-600 font-semibold text-sm">
-                  Lihat Layanan <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
+                  {t('common.search')} <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
                 </div>
               </div>
             </div>
@@ -537,26 +532,26 @@ export function Product() {
       {step === 'produk' && (
         <div className="max-w-7xl mx-auto px-6 pt-28 pb-16">
           <div className="flex items-center gap-2 text-sm text-gray-400 mb-8">
-            <Link to="/" className="hover:text-blue-600 transition-colors">Beranda</Link>
+            <Link to="/" className="hover:text-blue-600 transition-colors">{t('header.home')}</Link>
             <span>/</span>
-            <button onClick={() => setStep('hero')} className="hover:text-blue-600 transition-colors">Produk & Layanan</button>
+            <button onClick={() => setStep('hero')} className="hover:text-blue-600 transition-colors">{t('header.products')}</button>
             <span>/</span>
-            <button onClick={() => setStep('selection')} className="hover:text-blue-600 transition-colors">Pilih Kategori</button>
+            <button onClick={() => setStep('selection')} className="hover:text-blue-600 transition-colors">{t('common.search')}</button>
             <span>/</span>
-            <span className="text-gray-600 font-medium">Produk</span>
+            <span className="text-gray-600 font-medium">{t('common.details')}</span>
           </div>
 
           <button
             onClick={() => setStep('selection')}
             className="mb-8 text-emerald-600 hover:text-emerald-700 flex items-center gap-2 font-medium transition-colors"
           >
-            ← Kembali ke Pilihan
+            ← {t('common.cancel')}
           </button>
 
           <div className="space-y-14">
             <div className="text-center">
-              <h2 className="text-4xl font-bold mb-3 text-gray-800">Produk Unggulan</h2>
-              <p className="text-gray-500 max-w-2xl mx-auto">Berbagai jenis gas berkualitas tinggi untuk industri dan medis</p>
+              <h2 className="text-4xl font-bold mb-3 text-gray-800">{t('product.title')}</h2>
+              <p className="text-gray-500 max-w-2xl mx-auto">{t('product.description')}</p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -565,18 +560,18 @@ export function Product() {
                   <div className="relative h-52 overflow-hidden">
                     <img
                       src={product.image}
-                      alt={product.title}
+                      alt={t(product.titleKey)}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                   <div className="p-6 flex flex-col flex-1">
-                    <h4 className="font-semibold text-lg mb-2 text-gray-800">{product.title}</h4>
-                    <p className="text-gray-500 text-sm leading-relaxed flex-1">{product.desc}</p>
+                    <h4 className="font-semibold text-lg mb-2 text-gray-800">{t(product.titleKey)}</h4>
+                    <p className="text-gray-500 text-sm leading-relaxed flex-1">{t(product.descKey)}</p>
                     <button
                       onClick={() => setSelectedProduct(product)}
                       className="mt-5 w-full py-2.5 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2"
                     >
-                      Lihat Detail <span>→</span>
+                      {t('product.modal.viewDetails')} <span>→</span>
                     </button>
                   </div>
                 </div>
@@ -590,26 +585,26 @@ export function Product() {
       {step === 'layanan' && (
         <div className="max-w-7xl mx-auto px-6 pt-28 pb-16">
           <div className="flex items-center gap-2 text-sm text-gray-400 mb-8">
-            <Link to="/" className="hover:text-blue-600 transition-colors">Beranda</Link>
+            <Link to="/" className="hover:text-blue-600 transition-colors">{t('header.home')}</Link>
             <span>/</span>
-            <button onClick={() => setStep('hero')} className="hover:text-blue-600 transition-colors">Produk & Layanan</button>
+            <button onClick={() => setStep('hero')} className="hover:text-blue-600 transition-colors">{t('header.products')}</button>
             <span>/</span>
-            <button onClick={() => setStep('selection')} className="hover:text-blue-600 transition-colors">Pilih Kategori</button>
+            <button onClick={() => setStep('selection')} className="hover:text-blue-600 transition-colors">{t('common.search')}</button>
             <span>/</span>
-            <span className="text-gray-600 font-medium">Layanan</span>
+            <span className="text-gray-600 font-medium">{t('product.services.title')}</span>
           </div>
 
           <button
             onClick={() => setStep('selection')}
             className="mb-8 text-emerald-600 hover:text-emerald-700 flex items-center gap-2 font-medium transition-colors"
           >
-            ← Kembali ke Pilihan
+            ← {t('common.cancel')}
           </button>
 
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-800 mb-3">Layanan Kami</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-3">{t('product.services.title')}</h2>
             <p className="text-gray-500 max-w-xl mx-auto">
-              Kami menyediakan layanan instalasi profesional untuk kebutuhan gas industri dan medis Anda.
+              {t('product.description')}
             </p>
           </div>
 
@@ -619,24 +614,26 @@ export function Product() {
                 <div className="relative h-60 overflow-hidden">
                   <img
                     src={item.image}
-                    alt={item.title}
+                    alt={t(item.titleKey)}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                   <div className="absolute bottom-5 left-6">
                     <span className={`text-xs font-semibold uppercase tracking-widest ${item.color === 'teal' ? 'text-teal-300' : 'text-emerald-300'}`}>
-                      {item.badge}
+                      {t(item.badgeKey)}
                     </span>
-                    <h3 className="text-white text-xl font-bold mt-0.5">{item.title}</h3>
+                    <h3 className="text-white text-xl font-bold mt-0.5">{t(item.titleKey)}</h3>
                   </div>
                 </div>
 
                 <div className="p-7 flex flex-col flex-1">
-                  <p className="text-gray-500 text-sm leading-relaxed flex-1 line-clamp-3">{item.desc}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed flex-1 line-clamp-3">{t(item.descKey)}</p>
+
+                  {/* Step pills — garis besar */}
                   <div className="flex flex-wrap gap-2 mt-5">
                     {item.steps.map((s) => (
-                      <span key={s.label} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${item.color === 'teal' ? 'bg-teal-50 text-teal-700' : 'bg-emerald-50 text-emerald-700'}`}>
-                        <span>{s.icon}</span> {s.label}
+                      <span key={s.labelKey} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${item.color === 'teal' ? 'bg-teal-50 text-teal-700' : 'bg-emerald-50 text-emerald-700'}`}>
+                        <span>{s.icon}</span> {t(s.labelKey)}
                       </span>
                     ))}
                   </div>
@@ -644,7 +641,7 @@ export function Product() {
                     onClick={() => setSelectedLayanan(item)}
                     className="mt-6 w-full py-3 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2"
                   >
-                    Lihat Detail Layanan <span>→</span>
+                    {t('product.modal.viewDetails')} <span>→</span>
                   </button>
                 </div>
               </div>

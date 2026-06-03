@@ -3,6 +3,8 @@ import { Menu, X, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ContactForm } from "./ContactForm";
 import { Link, useLocation } from "react-router-dom";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 // ─── Import Barlow font ─────────────────
 const fontLink = document.createElement("link");
@@ -56,6 +58,7 @@ const mobileLinkStyle = {
 
 // ─── Main Component ───────────────────────────────────────────
 export const Header = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
@@ -190,6 +193,8 @@ export const Header = () => {
                   </a>
                 );
               })}
+              <div className="flex-grow"></div>
+              <LanguageSwitcher isLight={isLight} />
             </div>
 
             {/* Mobile Toggle */}
@@ -240,6 +245,9 @@ export const Header = () => {
               className="lg:hidden bg-white border-t border-slate-100 overflow-hidden shadow-xl"
             >
               <div className="px-5 py-4 space-y-1">
+                <div className="pb-3">
+                  <LanguageSwitcher isLight={true} />
+                </div>
                 {NAV_LINKS.map((link) => {
                   const active = isActive(link.href);
 
@@ -251,7 +259,7 @@ export const Header = () => {
                       style={mobileLinkStyle}
                     >
                       {link.name}
-                      <span className="ml-2 text-xs text-slate-300">(Segera hadir)</span>
+                      <span className="ml-2 text-xs text-slate-300">({t('header.comingSoon')})</span>
                     </span>
                   );
 

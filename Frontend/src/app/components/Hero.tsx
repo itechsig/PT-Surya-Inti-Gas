@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 /* ─────────────────────────────────────────────
    HERO.TSX — PT Surya Inti Gas
@@ -289,6 +290,7 @@ const WaIcon = () => (
    MAIN HERO COMPONENT
 ══════════════════════════════════════════════ */
 export function Hero() {
+  const { t } = useTranslation();
   const [scrollPct, setScrollPct] = useState(0);
   const [waVisible, setWaVisible] = useState(false);
   const [waOpen, setWaOpen]       = useState(false);
@@ -311,7 +313,7 @@ export function Hero() {
   }, []);
 
   const handleWaClick = () => {
-    const msg = encodeURIComponent("Halo Surya Inti Gas, saya ingin menanyakan produk gas industri.");
+    const msg = encodeURIComponent(t('hero.description'));
     window.open(`https://wa.me/6281234567890?text=${msg}`, "_blank");
   };
 
@@ -349,7 +351,7 @@ export function Hero() {
           {/* Eyebrow badge */}
           <div className="hero-badge">
             <span className="hero-badge-dot" />
-            Supplier Of Industrial, Specialty & Mixed Gas
+            {t('hero.badge')}
           </div>
 
           {/* OPSI A: Nama perusahaan — sangat besar & dominan */}
@@ -362,7 +364,7 @@ export function Hero() {
 
           {/* OPSI A: Tagline — ukuran menengah, italic, berbeda dari nama */}
           <div className="hero-tagline">
-            Energi yang Andal, Masa Depan yang Cerah
+            {t('hero.tagline')}
           </div>
 
           {/* OPSI A: Body copy singkat 2 baris, warna muted */}
@@ -387,10 +389,10 @@ export function Hero() {
                 </div>
               </div>
               <p className="hero-wa-msg">
-                Halo! Ada yang bisa kami bantu? Tim kami siap melayani. 👋
+                {t('hero.description')}
               </p>
               <button className="hero-wa-start" onClick={handleWaClick}>
-                Mulai Chat →
+                {t('common.submit')} →
               </button>
             </div>
           )}

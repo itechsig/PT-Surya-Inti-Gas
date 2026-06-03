@@ -1,5 +1,17 @@
 import React, { useEffect, ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+/* ─────────────────────────────────────────
+   COLOR TOKENS  (navy dark theme)
+   bg-primary   : #0d1f3c  — background utama
+   bg-secondary : #0a1a32  — bottom bar
+   border       : #1e3a5f  — garis pemisah
+   text-primary : #f0ece4  — putih tulang tegas
+   text-body    : #c8daf0  — biru muda terang
+   text-muted   : #7ca0c7  — label & copyright
+   text-icon    : #5b82a8  — ikon diam
+───────────────────────────────────────── */
 
 const FONT_HREF =
   "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap";
@@ -372,6 +384,7 @@ const ContactColumn = () => (
 
 /* ── Main Footer ── */
 export const Footer = () => {
+  const { t } = useTranslation();
   useEffect(() => {
     injectFont();
     injectStyles();
@@ -429,8 +442,8 @@ export const Footer = () => {
               maxWidth: 280,
             }}
           >
-            Distributor terpercaya untuk gas industri, gas medis, gas campuran,
-            speciality gas, cryogenic equipment, dan dry ice di seluruh Indonesia.
+            {t('footer.description')}
+                        {t('footer.productsOffered')}
           </p>
 
           <div
@@ -521,14 +534,13 @@ export const Footer = () => {
       {/* ── Bottom bar ── */}
       <div style={{ borderTop: "1px solid #1e3a5f", background: "#0a1a32" }}>
         <div
-          className="sig-footer-bottom-bar sig-footer-bottom"
+          className="sig-footer-bottom"
           style={{
-            padding: "1.25rem 3rem",
+            fontSize: 11,
+            color: "#7ca0c7",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 8,
+            gap: "1rem",
           }}
         >
           <span style={{ fontSize: 11.5, color: "#7ca0c7", letterSpacing: "0.01em" }}>
@@ -560,5 +572,3 @@ export const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;
