@@ -40,7 +40,7 @@ const OFFICES: OfficeData[] = [
   {
     type: "pusat",
     label: "Kantor Pusat",
-    name: "PT. Surya Inti Gas — Sidoarjo",
+    name: "Surya Inti Gas — Sidoarjo",
     address:
       'Komp. Perg. & Industri "Safe N Lock"\nBlok V1 – 3223, 3225, 3232, 3233\nJl. Lingkar Timur KM. 5.5\nRangkah Kidul, Sidoarjo\nJawa Timur 61232',
     phones: ["+62 31 – 9970 4788", "+62 31 – 9970 4789"],
@@ -53,7 +53,7 @@ const OFFICES: OfficeData[] = [
   {
     type: "cabang",
     label: "Kantor Cabang",
-    name: "PT. Surya Inti Gas — Balikpapan",
+    name: "Surya Inti Gas — Balikpapan | Filling Station",
     address:
       "Jl. AMD Projakal No.27, Batu Ampar\nKec. Balikpapan Utara\nKota Balikpapan\nKalimantan Timur 76127\nIndonesia",
     phones: ["+62 542 – 8531991", "+62 542 – 8532382"],
@@ -321,7 +321,7 @@ export function Kontak() {
                 Hubungi Kami
               </h2>
               <p className="text-slate-500 text-base leading-relaxed">
-                PT Surya Inti Gas siap melayani kebutuhan gas industri & medis Anda.
+                Surya Inti Gas siap melayani kebutuhan gas industri & medis Anda.
                 Temukan kantor kami di Sidoarjo dan Balikpapan.
               </p>
             </div>

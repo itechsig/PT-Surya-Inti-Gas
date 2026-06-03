@@ -38,9 +38,9 @@ const fontImport = `
   }
 
   .about-inner {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 72px 32px;
+    padding: 100px 40px ;
     display: flex;
     flex-direction: column;
     gap: 72px;
