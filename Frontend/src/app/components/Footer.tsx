@@ -1,4 +1,5 @@
 import React, { useEffect, ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 /* ─────────────────────────────────────────
@@ -37,11 +38,11 @@ function injectStyles() {
     }
     .sig-footer-grid {
       display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 3rem;
+      grid-template-columns: 1.3fr 0.7fr 1.4fr 1.2fr;
+      gap: 2.5rem;
     }
-    @media (max-width: 860px) {
-      .sig-footer-grid { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 1024px) {
+      .sig-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
     }
     @media (max-width: 560px) {
       .sig-footer-grid {
@@ -56,16 +57,19 @@ function injectStyles() {
       .sig-footer-main { padding: 2rem 1.5rem 2rem !important; }
       .sig-footer-bottom-bar { padding: 1rem 1.5rem !important; }
     }
+    .sig-cta-btn:hover {
+      background: #1e3a5f !important;
+      border-color: #4a7aaa !important;
+    }
+    .sig-cta-wa:hover {
+      background: #1a7a4a !important;
+    }
   `;
   document.head.appendChild(style);
 }
 
-/* ── Interfaces ── */
 interface ChildrenProps { children: ReactNode; }
-interface ContactLinkProps { href: string; icon: ReactNode; children: ReactNode; }
 interface SocialBtnProps { href: string; label: string; children: ReactNode; }
-
-/* ── Sub-components ── */
 
 const ColLabel = ({ children }: ChildrenProps) => (
   <div
@@ -84,52 +88,7 @@ const ColLabel = ({ children }: ChildrenProps) => (
   </div>
 );
 
-const CityName = ({ children }: ChildrenProps) => (
-  <div
-    style={{
-      fontFamily: "'EB Garamond', serif",
-      fontSize: 16,
-      fontWeight: 500,
-      color: "#ffffff",
-      letterSpacing: "0.02em",
-      marginBottom: 6,
-    }}
-  >
-    {children}
-  </div>
-);
 
-const Address = ({ children }: ChildrenProps) => (
-  <p style={{ fontSize: 12.5, lineHeight: 1.85, color: "#c8daf0", margin: 0 }}>
-    {children}
-  </p>
-);
-
-const ContactLink = ({ href, icon, children }: ContactLinkProps) => {
-  const [hovered, setHovered] = React.useState(false);
-  return (
-    <a
-      href={href}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 8,
-        fontSize: 12,
-        color: hovered ? "#f0ece4" : "#c8daf0",
-        textDecoration: "none",
-        transition: "color .18s",
-        wordBreak: "break-all",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <span style={{ color: hovered ? "#a8c8e8" : "#5b82a8", flexShrink: 0, fontSize: 14 }}>
-        {icon}
-      </span>
-      {children}
-    </a>
-  );
-};
 
 const SocialBtn = ({ href, label, children }: SocialBtnProps) => {
   const [hovered, setHovered] = React.useState(false);
@@ -202,6 +161,227 @@ const IconWhatsapp = () => (
   </svg>
 );
 
+
+
+const IconChevronRight = () => (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
+
+/* ── Nav links config ── */
+const NAV_LINKS = [
+  { name: "Beranda", href: "/", isRoute: true },
+  { name: "Produk & Layanan", href: "/produk", isRoute: true },
+  { name: "Karir", href: "/karir", isRoute: true },
+  { name: "Kontak", href: "/#kontak", isRoute: false },
+];
+
+/* ── Kategori Produk & Layanan ── */
+const CATEGORIES = [
+  {
+    label: "Gas Industri & Medis",
+    title: "Produk",
+    sub: "Gas & Tabung",
+    href: "/produk?step=produk",
+    image: "https://images.unsplash.com/photo-1664396113489-e50bddd4a777?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    label: "Instalasi Profesional",
+    title: "Layanan",
+    sub: "Instalasi Gas",
+    href: "/produk?step=layanan",
+    image: "https://plus.unsplash.com/premium_photo-1664298589198-b15ff5382648?q=80&w=600&auto=format&fit=crop",
+  },
+];
+
+/* ── Kolom 3: Produk & Layanan ── */
+const ProductColumn = () => (
+  <div>
+    <ColLabel>Produk &amp; Layanan</ColLabel>
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      {CATEGORIES.map((cat) => (
+        <Link
+          key={cat.title}
+          to={cat.href}
+          style={{ textDecoration: "none" }}
+        >
+          <div
+            className="sig-product-item"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "10px 12px",
+              borderRadius: 8,
+              border: "1px solid #1e3a5f",
+              background: "#0a1a32",
+              transition: "border-color .2s, background .2s",
+              cursor: "pointer",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLDivElement).style.borderColor = "#4a7aaa";
+              (e.currentTarget as HTMLDivElement).style.background = "#0f2444";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLDivElement).style.borderColor = "#1e3a5f";
+              (e.currentTarget as HTMLDivElement).style.background = "#0a1a32";
+            }}
+          >
+            {/* Thumbnail foto kecil */}
+            <div
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: 6,
+                overflow: "hidden",
+                flexShrink: 0,
+                position: "relative",
+              }}
+            >
+              <img
+                src={cat.image}
+                alt={cat.title}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "rgba(13,31,60,0.35)",
+              }} />
+            </div>
+
+            {/* Teks */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{
+                fontSize: 9,
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                color: "#5b82a8",
+                marginBottom: 2,
+              }}>
+                {cat.label}
+              </div>
+              <div style={{
+                fontSize: 13,
+                fontWeight: 600,
+                color: "#ffffff",
+                letterSpacing: "0.01em",
+              }}>
+                {cat.title}
+              </div>
+              <div style={{
+                fontSize: 11,
+                color: "#7ca0c7",
+                marginTop: 1,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}>
+                {cat.sub}
+              </div>
+            </div>
+
+            {/* Arrow */}
+            <span style={{ color: "#5b82a8", flexShrink: 0 }}>
+              <IconChevronRight />
+            </span>
+          </div>
+        </Link>
+      ))}
+    </div>
+  </div>
+);
+
+/* ── Kolom 4: Kontak Cepat ── */
+const ContactColumn = () => (
+  <div>
+    <ColLabel>Hubungi Kami</ColLabel>
+
+    <p style={{ fontSize: 12, lineHeight: 1.8, color: "#c8daf0", marginBottom: "1.25rem" }}>
+      Butuh penawaran atau informasi produk? Tim kami siap membantu Anda.
+    </p>
+
+    {/* WhatsApp CTA */}
+    <a
+      href="https://wa.me/62319970478"
+      target="_blank"
+      rel="noreferrer"
+      className="sig-cta-wa"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        width: "100%",
+        padding: "9px 0",
+        borderRadius: 6,
+        background: "#166534",
+        color: "#ffffff",
+        fontSize: 12.5,
+        fontWeight: 600,
+        textDecoration: "none",
+        marginBottom: 8,
+        transition: "background .2s",
+        letterSpacing: "0.01em",
+      }}
+    >
+      <IconWhatsapp />
+      Chat WhatsApp
+    </a>
+
+    {/* Telepon */}
+    <a
+      href="tel:+6231997047888"
+      className="sig-cta-btn"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        width: "100%",
+        padding: "9px 0",
+        borderRadius: 6,
+        background: "transparent",
+        border: "1px solid #1e3a5f",
+        color: "#c8daf0",
+        fontSize: 12.5,
+        textDecoration: "none",
+        marginBottom: 8,
+        transition: "background .2s, border-color .2s",
+        letterSpacing: "0.01em",
+      }}
+    >
+      <IconPhone />
+      +62 31 – 9970 4788
+    </a>
+
+    {/* Email inquiry */}
+    <a
+      href="mailto:marketing@suryaintigas.co.id"
+      className="sig-cta-btn"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        width: "100%",
+        padding: "9px 0",
+        borderRadius: 6,
+        background: "transparent",
+        border: "1px solid #1e3a5f",
+        color: "#c8daf0",
+        fontSize: 12.5,
+        textDecoration: "none",
+        transition: "background .2s, border-color .2s",
+        letterSpacing: "0.01em",
+      }}
+    >
+      <IconMail />
+      Kirim Email
+    </a>
+  </div>
+);
+
 /* ── Main Footer ── */
 export const Footer = () => {
   const { t } = useTranslation();
@@ -221,12 +401,12 @@ export const Footer = () => {
       {/* Top border */}
       <div style={{ height: 2, background: "#1e3a5f" }} />
 
-      {/* Main grid */}
+      {/* Main grid — 4 kolom */}
       <div
         className="sig-footer-main sig-footer-grid"
         style={{ padding: "3rem 3rem 2.5rem" }}
       >
-        {/* Column 1: Brand */}
+        {/* ── Kolom 1: Brand ── */}
         <div>
           <div
             style={{
@@ -238,19 +418,21 @@ export const Footer = () => {
               marginBottom: 4,
             }}
           >
-            PT Surya Inti Gas
+            Surya Inti Gas
           </div>
+
           <div
             style={{
-              fontSize: 10,
-              textTransform: "uppercase",
-              letterSpacing: "0.2em",
-              color: "#7ca0c7",
+              fontFamily: garamond,
+              fontSize: 13,
+              fontStyle: "italic",
+              color: "#38bdf8",
               marginBottom: "1.25rem",
             }}
           >
-            {t('header.distributor')} · Est. 2004
+            Energi yang Andal, Masa Depan yang Cerah
           </div>
+
           <p
             style={{
               fontSize: 12.5,
@@ -263,14 +445,16 @@ export const Footer = () => {
             {t('footer.description')}
                         {t('footer.productsOffered')}
           </p>
+
           <div
             style={{
               display: "flex",
-              alignItems: "center",
+              alignItems: "flex-start",
               gap: 8,
               fontSize: 12,
               color: "#c8daf0",
               marginBottom: "1.5rem",
+              lineHeight: 1.8,
             }}
           >
             <span
@@ -280,11 +464,16 @@ export const Footer = () => {
                 borderRadius: "50%",
                 background: "#7ca0c7",
                 flexShrink: 0,
+                marginTop: 6,
                 animation: "sig-blink 2s ease-in-out infinite",
               }}
             />
-            {t('contact.hours.weekdays')} &nbsp;·&nbsp; 08.00 – 17.00 WIB
+            <span>
+              Senin – Jum'at &nbsp;·&nbsp; 08.00 – 16.00 WIB<br />
+              Sabtu &nbsp;·&nbsp; 08.00 – 14.00 WIB
+            </span>
           </div>
+
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             <SocialBtn href="#" label="Facebook"><IconFacebook /></SocialBtn>
             <SocialBtn href="#" label="Instagram"><IconInstagram /></SocialBtn>
@@ -293,58 +482,57 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Column 2: Kantor Pusat */}
+        {/* ── Kolom 2: Navigasi ── */}
         <div>
-          <ColLabel>{t('contact.offices.headOffice')}</ColLabel>
-          <CityName>Sidoarjo, Jawa Timur</CityName>
-          <Address>
-            Komp. Pergudangan "Safe N Lock"<br />
-            Blok V1 – 3223, 3225, 3232, 3233<br />
-            Jl. Lingkar Timur KM. 5.5<br />
-            Rangkah Kidul, Sidoarjo 61232
-          </Address>
-          <div style={{ marginTop: "1.25rem" }}>
-            <ContactLink href="tel:+623199704788" icon={<IconPhone />}>
-              +62 31 – 9970 4788
-            </ContactLink>
-            <ContactLink href="mailto:info@suryaintigas.co.id" icon={<IconMail />}>
-              info@suryaintigas.co.id
-            </ContactLink>
-          </div>
+          <ColLabel>Navigasi</ColLabel>
+          <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {NAV_LINKS.map((link) =>
+              link.isRoute ? (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  style={{
+                    fontSize: 13,
+                    color: "#c8daf0",
+                    textDecoration: "none",
+                    padding: "5px 0",
+                    transition: "color .18s",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ece4")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#c8daf0")}
+                >
+                  {link.name}
+                </Link>
+              ) : (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  style={{
+                    fontSize: 13,
+                    color: "#c8daf0",
+                    textDecoration: "none",
+                    padding: "5px 0",
+                    transition: "color .18s",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ece4")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#c8daf0")}
+                >
+                  {link.name}
+                </a>
+              )
+            )}
+          </nav>
         </div>
 
-        {/* Column 3: Kantor Cabang */}
-        <div>
-          <ColLabel>{t('contact.offices.branchOffice')}</ColLabel>
-          <CityName>Balikpapan, Kalimantan Timur</CityName>
-          <Address>
-            Jl. AMD Projakal No.27, Batu Ampar<br />
-            Kec. Balikpapan Utara<br />
-            Kota Balikpapan 76127
-          </Address>
-          <div style={{ marginTop: "1.25rem" }}>
-            <ContactLink href="tel:+625428531991" icon={<IconPhone />}>
-              +62 542 – 8531991
-            </ContactLink>
-            <ContactLink href="mailto:salescounter.bpn@suryaintigas.co.id" icon={<IconMail />}>
-              salescounter.bpn@suryaintigas.co.id
-            </ContactLink>
-          </div>
-        </div>
+        {/* ── Kolom 3: Produk Unggulan ── */}
+        <ProductColumn />
+
+        {/* ── Kolom 4: Kontak Cepat ── */}
+        <ContactColumn />
       </div>
 
-      {/* Bottom bar */}
-      <div
-        className="sig-footer-bottom-bar"
-        style={{
-          background: "#0a1a32",
-          borderTop: "1px solid #1e3a5f",
-          padding: "1rem 3rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      {/* ── Bottom bar ── */}
+      <div style={{ borderTop: "1px solid #1e3a5f", background: "#0a1a32" }}>
         <div
           className="sig-footer-bottom"
           style={{
@@ -355,14 +543,30 @@ export const Footer = () => {
             gap: "1rem",
           }}
         >
-          <span>© {new Date().getFullYear()} PT Surya Inti Gas. {t('footer.rights')}</span>
-          <span style={{ color: "#1e3a5f" }}>|</span>
-          <span style={{ fontFamily: dm, fontSize: 10.5 }}>
-            {t('footer.tagline')}
+          <span style={{ fontSize: 11.5, color: "#7ca0c7", letterSpacing: "0.01em" }}>
+            © 2026 Surya Inti Gas. Hak Cipta Dilindungi Undang-Undang.
           </span>
-        </div>
-        <div style={{ fontSize: 10.5, color: "#5b82a8", fontFamily: dm }}>
-          {t('footer.version')}
+
+          <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+            <span style={{ color: "#1e3a5f", fontSize: 11 }}>|</span>
+            <a
+              href="mailto:marketing@suryaintigas.co.id"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontSize: 11.5,
+                color: "#7ca0c7",
+                textDecoration: "none",
+                transition: "color .18s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ece4")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#7ca0c7")}
+            >
+              <IconMail />
+              marketing@suryaintigas.co.id
+            </a>
+          </div>
         </div>
       </div>
     </footer>

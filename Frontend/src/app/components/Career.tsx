@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Search, X } from 'lucide-react';
+import { ChevronDown, Check, Search, X, ChevronRight, Calendar, Clock } from 'lucide-react';
 import { getApiUrl, API_ENDPOINTS } from '../../config/api';
 import { useTranslation } from 'react-i18next';
 
@@ -10,11 +10,14 @@ import { useTranslation } from 'react-i18next';
 const openings = [
   {
     id: 1,
+
     titleKey: "career.openings.salesExecutive.title",
     divisionKey: "career.openings.salesExecutive.division",
     locationKey: "career.openings.salesExecutive.location",
     typeKey: "career.openings.salesExecutive.type",
     levelKey: "career.openings.salesExecutive.level",
+    postedDate: "2026-07-01",
+    expiredDate: "2026-010-01",
     descKey: "career.openings.salesExecutive.description",
     requirementsKeys: [
       "career.openings.salesExecutive.requirements.0",
@@ -25,11 +28,14 @@ const openings = [
   },
   {
     id: 2,
+
     titleKey: "career.openings.installationTechnician.title",
     divisionKey: "career.openings.installationTechnician.division",
     locationKey: "career.openings.installationTechnician.location",
     typeKey: "career.openings.installationTechnician.type",
     levelKey: "career.openings.installationTechnician.level",
+    postedDate: "2025-06-03",
+    expiredDate: "2025-07-03",
     descKey: "career.openings.installationTechnician.description",
     requirementsKeys: [
       "career.openings.installationTechnician.requirements.0",
@@ -40,11 +46,14 @@ const openings = [
   },
   {
     id: 3,
+
     titleKey: "career.openings.adminFinanceStaff.title",
     divisionKey: "career.openings.adminFinanceStaff.division",
     locationKey: "career.openings.adminFinanceStaff.location",
     typeKey: "career.openings.adminFinanceStaff.type",
     levelKey: "career.openings.adminFinanceStaff.level",
+    postedDate: "2025-06-05",
+    expiredDate: "2025-06-25",
     descKey: "career.openings.adminFinanceStaff.description",
     requirementsKeys: [
       "career.openings.adminFinanceStaff.requirements.0",
@@ -55,11 +64,14 @@ const openings = [
   },
   {
     id: 4,
+
     titleKey: "career.openings.gasDeliveryDriver.title",
     divisionKey: "career.openings.gasDeliveryDriver.division",
     locationKey: "career.openings.gasDeliveryDriver.location",
     typeKey: "career.openings.gasDeliveryDriver.type",
     levelKey: "career.openings.gasDeliveryDriver.level",
+    postedDate: "2025-06-07",
+    expiredDate: "2025-07-07",
     descKey: "career.openings.gasDeliveryDriver.description",
     requirementsKeys: [
       "career.openings.gasDeliveryDriver.requirements.0",
@@ -80,6 +92,20 @@ const steps = [
   { step: "03", titleKey: "career.application.steps.testInterview", descKey: "career.application.steps.testInterviewDesc" },
   { step: "04", titleKey: "career.application.steps.jobOffer", descKey: "career.application.steps.jobOfferDesc" },
 ];
+
+// ─── Date Helpers ──────────────────────────────────────────────
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function getDaysLeft(expiredDate: string) {
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const exp = new Date(expiredDate);
+  exp.setHours(0, 0, 0, 0);
+  return Math.ceil((exp.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+}
 
 // ─── Fade-in Hook ─────────────────────────────────────────────
 function useFadeIn() {
@@ -123,6 +149,127 @@ function useFadeIn() {
       if (document.head.contains(style)) document.head.removeChild(style);
     };
   }, []);
+}
+
+// ─── Custom Select with Search ────────────────────────────────
+function CustomSelect({
+  value,
+  onValueChange,
+  options,
+  placeholder,
+  label,
+}: {
+  value: string;
+  onValueChange: (v: string) => void;
+  options: string[];
+  placeholder?: string;
+  label: string;
+}) {
+  const [dropSearch, setDropSearch] = useState('');
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const filteredOpts = options.filter(o =>
+    o.toLowerCase().includes(dropSearch.toLowerCase())
+  );
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+        setDropSearch('');
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-[11px] text-slate-400 uppercase tracking-widest font-semibold px-0.5">
+        {label}
+      </span>
+      <div ref={ref} className="relative">
+        {/* Trigger Button */}
+        <button
+          type="button"
+          onClick={() => { setOpen(o => !o); setDropSearch(''); }}
+          className={`
+            inline-flex items-center justify-between gap-2
+            px-3.5 py-2.5 min-w-[170px] w-full
+            bg-white border rounded-xl
+            text-sm font-medium transition-all cursor-pointer shadow-sm whitespace-nowrap
+            ${open
+              ? 'border-emerald-400 ring-2 ring-emerald-100 text-emerald-700'
+              : 'border-slate-200 text-slate-700 hover:border-emerald-400 hover:bg-emerald-50/40'}
+          `}
+        >
+          <span className="truncate">{value || placeholder}</span>
+          <ChevronDown
+            size={15}
+            className={`text-slate-400 flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          />
+        </button>
+
+        {/* Dropdown Panel */}
+        {open && (
+          <div className="absolute z-50 mt-1.5 w-full min-w-[200px] bg-white rounded-2xl border border-slate-100 shadow-xl overflow-hidden">
+            {/* Search inside dropdown */}
+            <div className="p-2 border-b border-slate-100">
+              <div className="relative">
+                <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                <input
+                  autoFocus
+                  type="text"
+                  value={dropSearch}
+                  onChange={e => setDropSearch(e.target.value)}
+                  placeholder="Cari..."
+                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-100 transition-all"
+                />
+                {dropSearch && (
+                  <button
+                    onClick={() => setDropSearch('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  >
+                    <X size={11} />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Options List */}
+            <div className="p-1.5 max-h-52 overflow-y-auto">
+              {filteredOpts.length > 0 ? (
+                filteredOpts.map(opt => (
+                  <button
+                    key={opt}
+                    type="button"
+                    onClick={() => {
+                      onValueChange(opt);
+                      setOpen(false);
+                      setDropSearch('');
+                    }}
+                    className={`
+                      w-full flex items-center justify-between gap-2
+                      px-3 py-2.5 rounded-xl text-sm text-left transition-colors
+                      ${value === opt
+                        ? 'bg-emerald-50 text-emerald-700 font-semibold'
+                        : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-800'}
+                    `}
+                  >
+                    <span>{opt}</span>
+                    {value === opt && <Check size={14} className="text-emerald-500 flex-shrink-0" />}
+                  </button>
+                ))
+              ) : (
+                <p className="text-center text-xs text-slate-400 py-4">Tidak ditemukan</p>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 // ─── Apply Modal ───────────────────────────────────────────────
@@ -176,7 +323,6 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
   const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePhone = (phone: string) => /^[0-9]{10,15}$/.test(phone.replace(/[^0-9]/g, ''));
 
-  // ── Validasi per field ──────────────────────────────────────
   const validateField = (field: string, value: string): string => {
     switch (field) {
       case 'name':
@@ -185,13 +331,11 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
         if (!/^[a-zA-Z\s'.,-]+$/.test(value))
           return 'Nama hanya boleh mengandung huruf, spasi, dan tanda baca umum (titik, koma, apostrof).';
         return '';
-
       case 'email':
         if (!value.trim()) return 'Alamat email wajib diisi.';
         if (!validateEmail(value))
           return 'Format email tidak valid. Pastikan menggunakan format: budi@gmail.com';
         return '';
-
       case 'phone':
         if (!value.trim()) return 'Nomor WhatsApp wajib diisi.';
         if (!/^[0-9+\-\s()]+$/.test(value))
@@ -201,9 +345,28 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
         if (!value.startsWith('08') && !value.startsWith('+62') && !value.startsWith('62'))
           return 'Gunakan format nomor Indonesia. Contoh: 081234567890 atau +6281234567890';
         return '';
-
       default:
         return '';
+    }
+  };
+
+  const handleFocus = (field: string) => {
+    setFocused(field);
+    setErrors(prev => ({ ...prev, [field]: '' }));
+  };
+
+  const handleBlur = (field: string, value: string) => {
+    setFocused(null);
+    setTouched(prev => ({ ...prev, [field]: true }));
+    const error = validateField(field, value);
+    setErrors(prev => ({ ...prev, [field]: error }));
+  };
+
+  const handleChange = (field: string, value: string) => {
+    setForm(prev => ({ ...prev, [field]: value }));
+    if (touched[field] && focused !== field) {
+      const error = validateField(field, value);
+      setErrors(prev => ({ ...prev, [field]: error }));
     }
   };
 
@@ -280,9 +443,22 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
       ? `${(bytes / 1024).toFixed(0)} KB`
       : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 
+  const inputClass = (field: string) =>
+    `w-full px-4 py-3 border rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 transition-all ${
+      focused === field
+        ? 'border-emerald-400 focus:border-emerald-400 focus:ring-emerald-100'
+        : errors[field]
+        ? 'border-red-400 focus:border-red-400 focus:ring-red-100 bg-red-50/40'
+        : touched[field] && !errors[field] && form[field as keyof typeof form]
+        ? 'border-emerald-400 focus:border-emerald-400 focus:ring-emerald-100 bg-emerald-50/20'
+        : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
+    }`;
+
   const isFormComplete =
     form.name && form.email && form.phone && cvFile &&
     !errors.name && !errors.email && !errors.phone && !errors.cvFile;
+
+  const daysLeft = getDaysLeft(job.expiredDate);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
@@ -291,7 +467,7 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
         className="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto z-10"
         onClick={e => e.stopPropagation()}
       >
-        {/* ── Header ── */}
+        {/* Modal Header */}
         <div className="bg-slate-900 rounded-t-3xl px-8 py-7 relative">
           <button
             onClick={onClose}
@@ -304,14 +480,31 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
             <span className="px-2.5 py-1 bg-white/10 text-white/80 text-xs rounded-full">📍 {t(job.locationKey)}</span>
             <span className="px-2.5 py-1 bg-white/10 text-white/80 text-xs rounded-full">{t(job.typeKey)}</span>
           </div>
+          <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-white/10">
+            <div className="flex items-center gap-1.5 text-white/60 text-xs">
+              <Calendar size={12} />
+              <span>Dibuka: <span className="text-white/90 font-medium">{formatDate(job.postedDate)}</span></span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs">
+              <Clock size={12} className={daysLeft <= 7 ? 'text-red-400' : 'text-amber-400'} />
+              <span className="text-white/60">Ditutup: </span>
+              <span className={`font-medium ${daysLeft <= 0 ? 'text-red-400' : daysLeft <= 7 ? 'text-red-300' : 'text-amber-300'}`}>
+                {formatDate(job.expiredDate)}
+                {daysLeft > 0 ? ` (${daysLeft} hari lagi)` : ' (Ditutup)'}
+              </span>
+            </div>
+          </div>
         </div>
 
+        {/* Modal Body */}
         <div className="p-8">
           {submitted ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">✅</div>
+
               <h4 className="text-xl font-bold text-slate-800 mb-2">{t('career.application.applicationSent')}</h4>
-              <p className="text-slate-500 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: t('career.application.applicationSentMessage', { name: form.name }) }}>
+              <p className="text-slate-500 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: t('career.application.applicationSentMessage', { name: form.name }) }}> 
+              Tim HR kami akan menghubungi Anda via email atau WhatsApp dalam 3–5 hari kerja.
               </p>
               <button onClick={onClose} className="mt-6 px-8 py-3 bg-slate-900 text-white rounded-xl text-sm font-medium hover:bg-emerald-700 transition-colors">
                 {t('career.application.close')}
@@ -319,33 +512,35 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
             </div>
           ) : (
             <div className="space-y-5">
-
-              {/* ── Nama Lengkap ── */}
+              {/* Nama */}
               <div>
+
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">{t('career.application.form.fullName')} *</label>
                 <input
                   type="text"
                   placeholder={t('career.application.form.fullNamePlaceholder')}
-                  value={form.name}
-                  onChange={e => {
-                    setForm({ ...form, name: e.target.value });
-                    if (errors.name) setErrors(prev => ({ ...prev, name: '' }));
-                  }}
-                  className={`w-full px-4 py-3 border rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 transition-all ${
-                    errors.name 
-                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100' 
-                      : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
-                  }`}
-                />
-                {errors.name && (
-                  <div className="mt-1.5 flex items-center gap-2 text-xs text-red-600">
-                    <span>⚠️</span>
-                    <span>{errors.name}</span>
-                  </div>
+                   value={form.name}
+                    onChange={e => handleChange('name', e.target.value)}
+                    onFocus={() => handleFocus('name')}
+                    onBlur={e => handleBlur('name', e.target.value)}
+                    className={inputClass('name')}
+                    maxLength={80}
+                  />
+                  {touched.name && focused !== 'name' && (
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm select-none pointer-events-none">
+                      {errors.name ? '❌' : '✅'}
+                    </span>
+                  )}
+                </div>
+                {errors.name && focused !== 'name' && (
+                  <p className="mt-1.5 text-xs text-red-500 flex items-start gap-1 leading-relaxed">
+                    <span className="flex-shrink-0">⚠️</span> {errors.name}
+                  </p>
+                
                 )}
               </div>
 
-              {/* ── Email ── */}
+              {/* Email */}
               <div>
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">{t('career.application.form.email')} *</label>
                 <input
@@ -370,7 +565,7 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                 )}
               </div>
 
-              {/* ── No. WhatsApp ── */}
+              {/* Phone */}
               <div>
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">{t('career.application.form.phone')} *</label>
                 <input
@@ -395,7 +590,7 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                 )}
               </div>
 
-              {/* ── Upload CV ── */}
+              {/* Upload CV */}
               <div>
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">
                   {t('career.application.form.uploadCV')} *
@@ -407,7 +602,6 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                   className="hidden"
                   onChange={e => handleFile(e.target.files?.[0] ?? null)}
                 />
-
                 {cvFile ? (
                   <div className="flex items-center gap-3 px-4 py-3 bg-emerald-50 border-2 border-emerald-200 rounded-xl">
                     <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 flex-shrink-0">
@@ -421,10 +615,7 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                       <p className="text-xs text-emerald-600">✅ {formatSize(cvFile.size)} · Siap diupload</p>
                     </div>
                     <button
-                      onClick={() => {
-                        setCvFile(null);
-                        if (fileInputRef.current) fileInputRef.current.value = '';
-                      }}
+                      onClick={() => { setCvFile(null); if (fileInputRef.current) fileInputRef.current.value = ''; }}
                       className="w-7 h-7 rounded-full bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 flex items-center justify-center text-xs transition-colors flex-shrink-0"
                     >
                       ✕
@@ -444,21 +635,21 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                         : 'border-slate-200 hover:border-emerald-300 hover:bg-slate-50'
                     }`}
                   >
-                    <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${
-                        errors.cvFile ? 'bg-red-100 text-red-500' : 'bg-slate-100 text-slate-400'
-                      }`}
-                    >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${errors.cvFile ? 'bg-red-100 text-red-500' : 'bg-slate-100 text-slate-400'}`}>
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="17 8 12 3 7 8" />
                         <line x1="12" y1="3" x2="12" y2="15" />
                       </svg>
                     </div>
-                    <p className={`text-sm font-medium mb-1 ${
-                      errors.cvFile ? 'text-red-700' : 'text-slate-700'
-                    }`}>
-                      {errors.cvFile ? t('career.application.form.uploadCV') : t('career.application.form.dragAndDrop')}
+                    <p className="text-sm font-medium text-slate-700 mb-1">Klik atau drag & drop file CV di sini</p>
+                    <p className="text-xs text-slate-400">Format: PDF, DOC, atau DOCX · Maks. 5 MB</p>
+                  </div>
+                )}
+                {!errors.cvFile && !cvFile && (
+                  <div className="mt-2 space-y-1">
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      📄 <strong>Tips CV yang baik:</strong> cantumkan pengalaman kerja, riwayat pendidikan, dan keahlian yang relevan dengan posisi yang dilamar.
                     </p>
                     <p className={`text-xs ${errors.cvFile ? 'text-red-500' : 'text-slate-400'}`}>
                       {errors.cvFile ? errors.cvFile : t('career.application.form.uploadCVDescription')}
@@ -472,14 +663,12 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                 )}
               </div>
 
-              {/* Error global submit */}
               {errors.submit && (
                 <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
                   <p className="text-sm text-red-700 font-medium">⚠️ {errors.submit}</p>
                 </div>
               )}
 
-              {/* ── Tombol Aksi ── */}
               <div className="pt-1 space-y-3">
                 <button
                   onClick={handleSubmit}
@@ -492,7 +681,6 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                   {t('common.cancel')}
                 </button>
               </div>
-
             </div>
           )}
         </div>
@@ -528,62 +716,62 @@ function SearchFilterBar({
 
   return (
     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 mb-10 max-w-4xl mx-auto fade-up">
-      {/* Search */}
-      <div className="relative mb-4">
-        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400">
-          <Search size={15} />
+      {/* Search Bar */}
+      <div className="mb-5">
+        <span className="text-[11px] text-slate-400 uppercase tracking-widest font-semibold block mb-1.5">
+          Cari Posisi
+        </span>
+        <div className="relative">
+          <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400">
+            <Search size={15} />
+          </div>
+          <input
+            type="text"
+            placeholder="Cari posisi, divisi, atau kata kunci..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all"
+          />
+          {search && (
+            <button
+              onClick={() => setSearch('')}
+              className="absolute inset-y-0 right-4 flex items-center text-slate-400 hover:text-slate-600"
+            >
+              <X size={14} />
+            </button>
+          )}
         </div>
-        <input
-          type="text"
-          placeholder={t('common.search')}
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all"
-        />
-        {search && (
-          <button
-            onClick={() => setSearch('')}
-            className="absolute inset-y-0 right-4 flex items-center text-slate-400 hover:text-slate-600"
-          >
-            <X size={14} />
-          </button>
-        )}
       </div>
 
-      {/* Filter row */}
-      <div className="flex flex-wrap gap-2.5 items-center">
-        <select
+      {/* Divider */}
+      <div className="border-t border-slate-100 mb-4" />
+
+      {/* Filter Dropdowns */}
+      <div className="flex flex-wrap gap-4 items-end">
+        <CustomSelect
           value={activeDiv}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setActiveDiv(e.target.value)}
-          className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-600 focus:outline-none focus:border-emerald-400 transition-all cursor-pointer"
-        >
-          {divisions.map(d => (
-            <option key={d} value={d}>{t(d)}</option>
-          ))}
-        </select>
-
-        {/* Lokasi */}
-        <select
+          onValueChange={setActiveDiv}
+          options={divisions}
+          placeholder="Semua Divisi"
+          label="Filter Divisi"
+        />
+        <CustomSelect
           value={activeLocation}
-          onChange={e => setActiveLocation(e.target.value)}
-          className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-600 focus:outline-none focus:border-emerald-400 transition-all cursor-pointer"
-        >
-          {locations.map(l => <option key={l} value={l}>{t(l)}</option>)}
-        </select>
-
-        {/* Level */}
-        <select
+          onValueChange={setActiveLocation}
+          options={locations}
+          placeholder="Semua Lokasi"
+          label="Filter Lokasi"
+        />
+        <CustomSelect
           value={activeLevel}
-          onChange={e => setActiveLevel(e.target.value)}
-          className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-600 focus:outline-none focus:border-emerald-400 transition-all cursor-pointer"
-        >
-          {levels.map(l => <option key={l} value={l}>{t(l)}</option>)}
-        </select>
+          onValueChange={setActiveLevel}
+          options={levels}
+          placeholder="Semua Level"
+          label="Filter Level"
+        />
 
-        <div className="ml-auto flex items-center gap-3">
-          <span className="text-xs text-slate-400 font-medium">
-            {resultCount} {t('career.application.results.found')}
-          </span>
+        <div className="ml-auto flex items-center gap-3 pb-0.5">
+          <span className="text-xs text-slate-400 font-medium">{resultCount} lowongan ditemukan</span>
           {hasFilter && (
             <button
               onClick={reset}
@@ -595,33 +783,36 @@ function SearchFilterBar({
         </div>
       </div>
 
-      {/* Active filter chips */}
+      {/* Active Filter Tags */}
       {hasFilter && (
         <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-100">
           {search && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">
               🔍 "{search}"
-              <button onClick={() => setSearch('')} className="hover:text-emerald-900">
-                <X size={11} />
-              </button>
+              <button onClick={() => setSearch('')} className="hover:text-emerald-900"><X size={11} /></button>
             </span>
           )}
           {activeDiv !== "career.divisions.all" && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 text-white text-xs font-medium rounded-full">
+
               {t(activeDiv)}
-              <button onClick={() => setActiveDiv('career.divisions.all')} className="hover:text-slate-300">✕</button>
+              <button onClick={() => setActiveDiv('career.divisions.all')} className="hover:text-slate-300"><X size={11} /></button>
             </span>
           )}
           {activeLocation !== "career.locations.all" && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 text-white text-xs font-medium rounded-full">
+
               📍 {t(activeLocation)}
-              <button onClick={() => setActiveLocation('career.locations.all')} className="hover:text-slate-300">✕</button>
+              <button onClick={() => setActiveLocation('career.locations.all')} className="hover:text-slate-300"><X size={11} /></button>
+
             </span>
           )}
           {activeLevel !== "career.levels.all" && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 text-white text-xs font-medium rounded-full">
-              {t(activeLevel)}
-              <button onClick={() => setActiveLevel('career.levels.all')} className="hover:text-slate-300">✕</button>
+
+        {t(activeLevel)}
+              <button onClick={() => setActiveLevel('career.levels.all')} className="hover:text-slate-300"><X size={11} /></button>
+
             </span>
           )}
         </div>
@@ -655,7 +846,7 @@ export function Career() {
     <div className="min-h-screen bg-white">
       {applyJob && <ApplyModal job={applyJob} onClose={() => setApplyJob(null)} />}
 
-      {/* ══ HERO ══ */}
+      {/* HERO */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1400&auto=format&fit=crop&q=80"
@@ -663,7 +854,7 @@ export function Career() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-slate-900/70" />
-        <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
+        <div className="relative z-10 text-center px-6 max-w-3xl mx-auto pt-20">
           <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 text-xs uppercase tracking-[4px] font-semibold rounded-full mb-6">
             {t('career.hero.badge')}
           </span>
@@ -700,7 +891,7 @@ export function Career() {
         </div>
       </div>
 
-      {/* ══ LOWONGAN ══ */}
+      {/* LOWONGAN */}
       <section id="lowongan" className="bg-slate-50 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-10">
@@ -721,6 +912,10 @@ export function Career() {
           <div className="space-y-4 max-w-4xl mx-auto">
             {filtered.map((job) => {
               const isOpen = expandedId === job.id;
+              const daysLeft = getDaysLeft(job.expiredDate);
+              const isExpiringSoon = daysLeft <= 7 && daysLeft > 0;
+              const isExpired = daysLeft <= 0;
+
               return (
                 <div
                   key={job.id}
@@ -732,18 +927,34 @@ export function Career() {
                   >
                     <div className="flex-1">
                       <div className="flex flex-wrap gap-2 mb-2">
-                        <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">{t(job.divisionKey)}</span>
-                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">📍 {t(job.locationKey)}</span>
-                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">{t(job.typeKey)}</span>
-                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">{t(job.levelKey)}</span>
+                        <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">{job.division}</span>
+                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">📍 {job.location}</span>
+                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">{job.type}</span>
+                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">{job.level}</span>
+                        {isExpired && (
+                          <span className="px-2.5 py-0.5 bg-red-100 text-red-600 text-xs font-medium rounded-full">Ditutup</span>
+                        )}
+                        {isExpiringSoon && (
+                          <span className="px-2.5 py-0.5 bg-amber-100 text-amber-700 text-xs font-medium rounded-full animate-pulse">
+                            ⏳ Segera Ditutup
+                          </span>
+                        )}
                       </div>
-                      <h3 className="text-lg font-bold text-slate-800">{t(job.titleKey)}</h3>
+                      <h3 className="text-lg font-bold text-slate-800">{job.title}</h3>
+                      <div className="flex flex-wrap gap-4 mt-2">
+                        <span className="flex items-center gap-1.5 text-xs text-slate-400">
+                          <Calendar size={11} />
+                          Dibuka {formatDate(job.postedDate)}
+                        </span>
+                        <span className={`flex items-center gap-1.5 text-xs font-medium ${isExpired ? 'text-red-500' : isExpiringSoon ? 'text-amber-600' : 'text-slate-400'}`}>
+                          <Clock size={11} />
+                          {isExpired
+                            ? `Ditutup ${formatDate(job.expiredDate)}`
+                            : `Ditutup ${formatDate(job.expiredDate)} · ${daysLeft} hari lagi`}
+                        </span>
+                      </div>
                     </div>
-                    <div
-                      className={`ml-4 w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full border-2 border-slate-200 text-slate-500 transition-transform duration-300 ${
-                        isOpen ? 'rotate-180' : ''
-                      }`}
-                    >
+                    <div className={`ml-4 w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full border-2 border-slate-200 text-slate-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
                       <ChevronDown size={16} />
                     </div>
                   </div>
@@ -755,19 +966,20 @@ export function Career() {
                       <div>
                         <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-3">{t('career.application.form.requirements')}</p>
                         <ul className="space-y-2">
-                          {job.requirementsKeys.map((r, index) => (
-                            <li key={index} className="flex items-start gap-2.5 text-sm text-slate-600">
+                          {job.requirements.map(r => (
+                            <li key={r} className="flex items-start gap-2.5 text-sm text-slate-600">
                               <span className="mt-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-xs flex items-center justify-center flex-shrink-0">✓</span>
-                              {t(r)}
+                              {r}
                             </li>
                           ))}
                         </ul>
                       </div>
                       <button
                         onClick={() => setApplyJob(job)}
-                        className="mt-2 px-6 py-3 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition-colors flex items-center gap-2"
+                        disabled={isExpired}
+                        className="mt-2 px-6 py-3 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition-colors flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
                       >
-                        {t('career.application.applyNow')} →
+                        {isExpired ? 'Lamaran Ditutup' : 'Lamar Sekarang →'}
                       </button>
                     </div>
                   )}
@@ -786,12 +998,12 @@ export function Career() {
         </div>
       </section>
 
-      {/* ══ PROSES REKRUTMEN ══ */}
+      {/* PROSES REKRUTMEN */}
       <section id="proses" className="max-w-7xl mx-auto px-6 py-20">
-        <div className="text-center mb-14">
-          <p className="text-xs text-slate-400 uppercase tracking-[4px] font-medium mb-3">{t('career.recruitment.title')}</p>
-          <h2 className="text-4xl font-bold text-slate-900 mb-3">{t('career.recruitment.title')}</h2>
-          <p className="text-slate-500 text-sm max-w-md mx-auto">{t('career.description')}</p>
+        <div className="text-center mb-14 fade-up">
+          <p className="text-xs text-slate-400 uppercase tracking-[4px] font-medium mb-3">Tahapan</p>
+          <h2 className="text-4xl font-bold text-slate-900 mb-3">Proses Rekrutmen</h2>
+          <p className="text-slate-500 text-sm max-w-md mx-auto">Transparan, adil, dan efisien — kami menghargai waktu Anda.</p>
         </div>
         <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
           {steps.map((s, i) => (

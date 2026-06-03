@@ -52,10 +52,6 @@ const css = `
     70%  { box-shadow: 0 0 0 14px rgba(37,211,102,0); }
     100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
   }
-  @keyframes hero-shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position:  200% center; }
-  }
   @keyframes hero-waTooltip {
     from { opacity: 0; transform: translateY(6px) scale(0.96); }
     to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -94,7 +90,7 @@ const css = `
     animation: hero-gradFlow 9s ease infinite;
   }
 
-  /* FIX: Dark overlay — gradient dari bawah ke atas agar foto lebih hidup di bagian atas */
+  /* Overlay — gradient dari bawah ke atas agar foto lebih hidup di bagian atas */
   .hero-overlay {
     position: absolute; inset: 0;
     background: linear-gradient(
@@ -125,7 +121,7 @@ const css = `
     text-align: center; padding: 100px 5vw 72px;
   }
 
-  /* Badge */
+  /* Badge / eyebrow */
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 6px 18px; border-radius: 50px;
@@ -144,13 +140,14 @@ const css = `
     flex-shrink: 0;
   }
 
-  /* Headline */
+  /* ── OPSI A: Headline — lebih besar & dominan ── */
   .hero-h1 {
     font-family: var(--ff-d);
-    font-size: clamp(2.8rem, 6.5vw, 5.6rem);
+    /* Dinaikkan dari 5.6rem → 7rem agar nama jauh lebih dominan */
+    font-size: clamp(3.6rem, 9vw, 7rem);
     font-weight: 800; line-height: 1.0;
     letter-spacing: -0.02em; color: white;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    text-shadow: 0 2px 28px rgba(0,0,0,0.5);
     max-width: 820px;
     animation: hero-fadeUp 0.8s var(--ease) 0.25s both;
   }
@@ -159,84 +156,39 @@ const css = `
     color: var(--aqua);
   }
 
-  /* FIX: Tagline — text-shadow lebih kuat agar terbaca di atas foto */
-  .hero-tagline {
-    font-family: var(--ff-d);
-    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
-    font-weight: 400; font-style: italic;
-    color: rgba(255,255,255,0.95);
-    text-shadow: 0 1px 16px rgba(0,0,0,0.75), 0 2px 6px rgba(0,0,0,0.6);
-    letter-spacing: 0.01em;
-    margin-top: 12px;
-    animation: hero-fadeUp 0.8s var(--ease) 0.38s both;
-  }
-
-  /* FIX: Accent line — diperlebar dari 48px → 64px */
+  /* ── OPSI A: Divider biru — solid, bukan fade ── */
   .hero-line {
-    height: 2px; border-radius: 2px;
-    background: linear-gradient(90deg, var(--aqua), transparent);
-    margin: 28px auto;
+    height: 3px; border-radius: 9999px;
+    /* Warna solid penuh agar lebih tegas sebagai pemisah */
+    background: var(--aqua);
+    margin: 20px auto 20px;
     animation: hero-lineGrow 0.9s var(--ease) 0.52s both;
   }
 
-  /* Description */
+  /* ── OPSI A: Tagline — medium italic, lebih kecil dari nama ── */
+  .hero-tagline {
+    font-family: var(--ff-d);
+    /* Dikecilkan dari 1.6rem → 1.3rem agar kontras dengan nama */
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 300; font-style: italic;
+    color: rgba(255,255,255,0.90);
+    text-shadow: 0 1px 16px rgba(0,0,0,0.75), 0 2px 6px rgba(0,0,0,0.6);
+    letter-spacing: 0.02em;
+    margin-top: 0;
+    animation: hero-fadeUp 0.8s var(--ease) 0.38s both;
+  }
+
+  /* ── OPSI A: Body copy — singkat 2 baris, warna muted ── */
   .hero-desc {
-    font-size: clamp(0.92rem, 1.4vw, 1.06rem);
-    line-height: 1.9; font-weight: 300;
-    color: rgba(255,255,255,0.92);
+    font-size: clamp(0.88rem, 1.2vw, 1rem);
+    line-height: 1.8; font-weight: 300;
+    /* Lebih muted agar tidak bersaing dengan tagline */
+    color: rgba(255,255,255,0.60);
     text-shadow: 0 1px 8px rgba(0,0,0,0.45);
-    max-width: 560px;
+    max-width: 500px;
+    margin-top: 16px;
     animation: hero-fadeUp 0.8s var(--ease) 0.62s both;
   }
-
-  /* CTA buttons */
-  .hero-btns {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
-    margin-top: 40px;
-    animation: hero-fadeUp 0.8s var(--ease) 0.76s both;
-  }
-
-  .hero-btn-primary {
-    position: relative; overflow: hidden;
-    font-family: var(--ff-d);
-    font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--navy); background: white;
-    border: none; border-radius: 6px;
-    padding: 14px 32px; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 8px;
-    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.22);
-    text-decoration: none;
-  }
-  .hero-btn-primary::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(21,101,192,0.08), transparent);
-    background-size: 200% 100%;
-    animation: hero-shimmer 2.8s linear infinite;
-  }
-  .hero-btn-primary:hover {
-    background: #EFF6FF; transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.28);
-  }
-  .hero-btn-primary:active { transform: scale(0.98); }
-
-  /* FIX: Ghost button — tambahan CTA kedua "Hubungi Kami" */
-  .hero-btn-ghost {
-    font-family: var(--ff-d);
-    font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    color: white; background: transparent;
-    border: 1.5px solid rgba(255,255,255,0.55);
-    border-radius: 6px; padding: 13px 32px; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 8px;
-    backdrop-filter: blur(8px);
-    transition: border-color 0.25s, background 0.25s, transform 0.2s;
-    text-decoration: none;
-  }
-  .hero-btn-ghost:hover {
-    border-color: rgba(255,255,255,0.95);
-    background: rgba(255,255,255,0.13); transform: translateY(-2px);
-  }
-  .hero-btn-ghost:active { transform: scale(0.98); }
 
   /* ── Stats bar ── */
   .hero-stats {
@@ -325,24 +277,12 @@ const css = `
     .hero-stat { flex: 1 1 50%; }
     .hero-stat:nth-child(2) { border-right: none; }
   }
-  @media (max-width: 480px) {
-    .hero-btns { flex-direction: column; align-items: center; }
-    .hero-btn-primary, .hero-btn-ghost { width: 100%; max-width: 280px; justify-content: center; }
-  }
 `;
 
 /* ── WhatsApp SVG ── */
 const WaIcon = () => (
   <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
     <path d="M16.003 2.667C8.636 2.667 2.667 8.636 2.667 16c0 2.37.627 4.59 1.72 6.512L2.667 29.333l6.987-1.693A13.28 13.28 0 0016.003 29.333C23.37 29.333 29.333 23.364 29.333 16S23.37 2.667 16.003 2.667zm6.003 18.077c-.33-.166-1.944-.96-2.245-1.07-.302-.109-.52-.166-.74.166-.22.33-.847 1.07-1.04 1.29-.19.22-.384.248-.714.083-.33-.166-1.394-.514-2.655-1.637-.981-.875-1.644-1.956-1.837-2.286-.192-.33-.02-.508.145-.672.148-.148.33-.385.494-.578.165-.192.22-.33.33-.55.11-.22.055-.413-.027-.578-.083-.165-.74-1.786-1.014-2.444-.267-.64-.537-.553-.74-.564-.19-.01-.412-.012-.633-.012s-.578.083-.88.413c-.303.33-1.155 1.129-1.155 2.752s1.183 3.19 1.348 3.412c.165.22 2.327 3.556 5.64 4.99.788.34 1.403.543 1.883.695.79.25 1.51.215 2.079.13.634-.093 1.944-.795 2.218-1.562.275-.768.275-1.426.193-1.563-.082-.137-.302-.22-.632-.385z" />
-  </svg>
-);
-
-/* ── Arrow icon ── */
-const ArrowIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-    <line x1="5" y1="12" x2="19" y2="12" />
-    <polyline points="12 5 19 12 12 19" />
   </svg>
 );
 
@@ -400,7 +340,7 @@ export function Hero() {
           </video>
         </div>
 
-        {/* FIX: Overlay gradient bawah ke atas + overlay atas untuk navbar */}
+        {/* Overlay */}
         <div className="hero-overlay" />
         <div className="hero-overlay-top" />
         <div className="hero-overlay-bottom" />
@@ -408,36 +348,31 @@ export function Hero() {
         {/* ── Content ── */}
         <div className="hero-content">
 
-          {/* Badge */}
+          {/* Eyebrow badge */}
           <div className="hero-badge">
             <span className="hero-badge-dot" />
             {t('hero.badge')}
           </div>
 
-          {/* Headline */}
+          {/* OPSI A: Nama perusahaan — sangat besar & dominan */}
           <h1 className="hero-h1">
-            PT Surya Inti <em>Gas</em>
+            Surya Inti <em>Gas</em>
           </h1>
 
-          {/* FIX: Tagline — text-shadow lebih kuat */}
+          {/* OPSI A: Divider biru solid sebagai pemisah */}
+          <div className="hero-line" style={{ width: 64 }} />
+
+          {/* OPSI A: Tagline — ukuran menengah, italic, berbeda dari nama */}
           <div className="hero-tagline">
             {t('hero.tagline')}
           </div>
 
-          {/* FIX: Accent line — 64px (lebih lebar dari sebelumnya 48px) */}
-          <div className="hero-line" style={{ width: 64 }} />
-
-          {/* Description */}
+          {/* OPSI A: Body copy singkat 2 baris, warna muted */}
           <p className="hero-desc">
-            {t('hero.description')}
+            Distributor gas industri & medis terpercaya di Indonesia —<br />
+            Oksigen, Nitrogen, dan gas khusus untuk manufaktur, medis, dan energi.
           </p>
 
-          {/* FIX: CTA Buttons — tambah ghost button "Hubungi Kami" */}
-          <div className="hero-btns">
-            <a href="/produk" className="hero-btn-primary">
-              {t('hero.viewProducts')} <ArrowIcon />
-            </a>
-          </div>
         </div>
       </section>
 
@@ -449,7 +384,7 @@ export function Hero() {
               <div className="hero-wa-tooltip-header">
                 <div className="hero-wa-avatar"><WaIcon /></div>
                 <div>
-                  <div className="hero-wa-name">PT Surya Inti Gas</div>
+                  <div className="hero-wa-name">Surya Inti Gas</div>
                   <div className="hero-wa-online">● Online sekarang</div>
                 </div>
               </div>

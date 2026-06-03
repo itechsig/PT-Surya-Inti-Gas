@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // ─── Data ─────────────────────────────────────────────────────
@@ -11,6 +11,7 @@ const subProducts = [
     titleKey: "product.products.oxygen.title",
     descKey: "product.products.oxygen.description",
     image: "https://plus.unsplash.com/premium_photo-1681426676206-0f2c02b48aff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bzJ8ZW58MHx8MHx8fDA%3D",
+    slug: "gas-industri",
     specs: [
       { icon: "💧", labelKey: "product.details.purity", valueKey: "product.products.oxygen.purity" },
       { icon: "🏭", labelKey: "product.details.usage", valueKey: "product.products.oxygen.usage" },
@@ -29,6 +30,7 @@ const subProducts = [
     titleKey: "product.products.nitrogen.title",
     descKey: "product.products.nitrogen.description",
     image: "https://media.istockphoto.com/id/638504688/photo/sample-of-sperm-frozen-tank.webp?a=1&b=1&s=612x612&w=0&k=20&c=cbLDA5dA3_RrIX3tuQysyAlPBeboUc4bYupJI5PokBE=",
+    slug: "gas-medis",
     specs: [
       { icon: "💧", labelKey: "product.details.purity", valueKey: "product.products.nitrogen.purity" },
       { icon: "🏭", labelKey: "product.details.usage", valueKey: "product.products.nitrogen.usage" },
@@ -47,6 +49,7 @@ const subProducts = [
     titleKey: "product.products.argon.title",
     descKey: "product.products.argon.description",
     image: "https://images.unsplash.com/photo-1683470156390-703e9313dab6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8QXJnb258ZW58MHx8MHx8fDA%3D",
+    slug: "gas-campuran",
     specs: [
       { icon: "💧", labelKey: "product.details.purity", valueKey: "product.products.argon.purity" },
       { icon: "🏭", labelKey: "product.details.usage", valueKey: "product.products.argon.usage" },
@@ -65,6 +68,7 @@ const subProducts = [
     titleKey: "product.products.acetylene.title",
     descKey: "product.products.acetylene.description",
     image: "https://images.unsplash.com/photo-1609361528925-2d177061540c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8QWNldHlsZW5lfGVufDB8fDB8fHww",
+    slug: "speciality-gas",
     specs: [
       { icon: "💧", labelKey: "product.details.purity", valueKey: "product.products.acetylene.purity" },
       { icon: "🏭", labelKey: "product.details.usage", valueKey: "product.products.acetylene.usage" },
@@ -112,6 +116,7 @@ const layananList = [
 ];
 
 // ─── Types ────────────────────────────────────────────────────
+type StepType = 'hero' | 'selection' | 'produk' | 'layanan';
 type ProductType = typeof subProducts[0];
 
 // ─── Modal Component ──────────────────────────────────────────
@@ -128,50 +133,36 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-
-      {/* Modal Box */}
       <div
         className="relative bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto z-10"
         onClick={e => e.stopPropagation()}
       >
-        {/* Header Foto */}
         <div className="relative overflow-hidden rounded-t-3xl" style={{ height: '340px' }}>
           <img
             src={product.image}
             alt={t(product.titleKey)}
             className="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-700"
           />
-          {/* Gradient overlay — lebih gelap di bawah untuk teks, tipis di atas */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10" />
-
-          {/* Badge atas kiri */}
           <div className="absolute top-5 left-6">
             <span className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold uppercase tracking-widest rounded-full border border-white/30">
               {t('product.modal.detailProduct')}
             </span>
           </div>
-
-          {/* Tombol tutup */}
           <button
             onClick={onClose}
             className="absolute top-4 right-4 w-9 h-9 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors border border-white/30"
           >
             ✕
           </button>
-
-          {/* Judul di bawah foto */}
           <div className="absolute bottom-0 left-0 right-0 px-7 pb-7 pt-10">
             <h3 className="text-white text-3xl font-bold drop-shadow-lg">{t(product.titleKey)}</h3>
             <p className="text-white/70 text-sm mt-1 leading-relaxed line-clamp-2">{t(product.descKey)}</p>
           </div>
         </div>
 
-        {/* Body */}
         <div className="p-8 space-y-7">
-
-          {/* Specs Row */}
           <div className="grid grid-cols-3 gap-4">
             {product.specs.map(spec => (
               <div key={spec.labelKey} className="bg-slate-50 rounded-2xl p-4 text-center">
@@ -182,9 +173,7 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
             ))}
           </div>
 
-          {/* Detail Info */}
           <div className="space-y-5">
-
             <div className="flex gap-4 items-start">
               <div className="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🎨</div>
               <div>
@@ -192,7 +181,6 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
                 <p className="text-sm text-slate-700 font-medium">{t(product.detail.colorKey)}</p>
               </div>
             </div>
-
             <div className="flex gap-4 items-start">
               <div className="w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🔩</div>
               <div>
@@ -200,7 +188,6 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
                 <p className="text-sm text-slate-700 font-medium">{t(product.detail.pressureKey)}</p>
               </div>
             </div>
-
             <div className="flex gap-4 items-start">
               <div className="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🛢️</div>
               <div>
@@ -212,7 +199,6 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
                 </div>
               </div>
             </div>
-
             <div className="flex gap-4 items-start">
               <div className="w-9 h-9 bg-amber-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">⚙️</div>
               <div>
@@ -227,7 +213,6 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
                 </ul>
               </div>
             </div>
-
             <div className="flex gap-4 items-start bg-red-50 rounded-2xl p-4">
               <div className="w-9 h-9 bg-red-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">⚠️</div>
               <div>
@@ -237,7 +222,6 @@ function ProductModal({ product, onClose }: { product: ProductType; onClose: () 
             </div>
           </div>
 
-          {/* CTA */}
           <div className="pt-2 border-t border-slate-100">
             <button
               onClick={onClose}
@@ -270,7 +254,6 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
         className="relative bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto z-10"
         onClick={e => e.stopPropagation()}
       >
-        {/* Foto header besar */}
         <div className="relative overflow-hidden rounded-t-3xl" style={{ height: '320px' }}>
           <img src={item.image} alt={t(item.titleKey)} className="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-700" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10" />
@@ -291,10 +274,7 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
           </div>
         </div>
 
-        {/* Body */}
         <div className="p-8 space-y-8">
-
-          {/* Tahapan Proses */}
           <div>
             <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-5">Tahapan Proses</p>
             <div className="flex flex-col gap-4">
@@ -312,7 +292,6 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
             </div>
           </div>
 
-          {/* Keunggulan */}
           <div>
             <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-5">Keunggulan</p>
             <ul className="space-y-3">
@@ -325,7 +304,6 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
             </ul>
           </div>
 
-          {/* Tutup */}
           <div className="pt-2 border-t border-slate-100">
             <button
               onClick={onClose}
@@ -342,19 +320,32 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
 
 // ─── Main Component ───────────────────────────────────────────
 export function Product() {
-  const { t } = useTranslation();
-  const [step, setStep] = useState<'hero' | 'selection' | 'produk' | 'layanan'>('hero');
+  const location = useLocation();
+  const [step, setStep] = useState<StepType>('hero');
   const [current, setCurrent] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
   const [selectedLayanan, setSelectedLayanan] = useState<LayananType | null>(null);
 
+  // ── Baca query param dari URL saat pertama mount ──
+  // Contoh: /produk?step=produk&item=gas-medis
+  //         /produk?step=layanan
   useEffect(() => {
-    if (step !== 'hero') return;
-    const timer = setInterval(() => {
-      setCurrent(prev => (prev + 1) % subProducts.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, [step]);
+    const params = new URLSearchParams(location.search);
+    const stepParam = params.get('step') as StepType | null;
+    const itemParam = params.get('item');
+
+    if (stepParam === 'produk' || stepParam === 'layanan' || stepParam === 'selection') {
+      setStep(stepParam);
+
+      // Jika ada item slug, langsung buka modal produk yang sesuai
+      if (stepParam === 'produk' && itemParam) {
+        const matched = subProducts.find(p => p.slug === itemParam);
+        if (matched) setSelectedProduct(matched);
+      }
+    }
+  }, [location.search]);
+
+
 
   return (
     <div id="produk" className="min-h-screen bg-white">
@@ -372,10 +363,7 @@ export function Product() {
       {/* ══ STEP 1: HERO ══ */}
       {step === 'hero' && (
         <div className="min-h-screen flex items-center bg-white px-10 py-28 gap-16 max-w-7xl mx-auto">
-
-          {/* Kiri — teks */}
           <div className="flex-1 flex flex-col gap-6">
-
             <div>
               <p className="text-xs text-slate-400 uppercase tracking-[4px] mb-4 font-medium">
                 {t('header.products')}
@@ -385,11 +373,9 @@ export function Product() {
                 <span className="text-slate-300 font-light">{t('product.medicalSpecialty')}</span>
               </h1>
             </div>
-
             <p className="text-slate-500 text-base leading-relaxed max-w-xs">
               {t('hero.description')}
             </p>
-
             <div className="flex flex-col gap-3 pt-2">
               <button
                 onClick={() => setStep('selection')}
@@ -399,16 +385,10 @@ export function Product() {
                 <span className="text-base">→</span>
               </button>
             </div>
-
-            {/* Divider tipis */}
             <div className="w-12 h-px bg-slate-200 my-2" />
-
           </div>
 
-          {/* Kanan — card foto rotasi */}
           <div className="flex-1 flex flex-col gap-4">
-
-            {/* Card foto utama */}
             <div className="relative rounded-2xl overflow-hidden bg-slate-100 shadow-sm" style={{ height: '400px' }}>
               {subProducts.map((product, i) => (
                 <img
@@ -419,19 +399,13 @@ export function Product() {
                   style={{ opacity: i === current ? 1 : 0 }}
                 />
               ))}
-
-              {/* Overlay gelap tipis di bawah untuk caption */}
               <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
-
-              {/* Caption */}
               <div className="absolute bottom-4 left-5">
                 <p className="text-white/70 text-xs uppercase tracking-widest font-medium">{t('product.currentlyDisplaying')}</p>
                 <p className="text-white text-base font-semibold mt-0.5">
                   {t(subProducts[current].titleKey)}
                 </p>
               </div>
-
-              {/* Dot indicator */}
               <div className="absolute bottom-5 right-5 flex gap-1.5">
                 {subProducts.map((_, i) => (
                   <button
@@ -445,7 +419,6 @@ export function Product() {
               </div>
             </div>
 
-            {/* Sub-card deskripsi + spesifikasi produk aktif */}
             <div className="rounded-xl bg-slate-50 border border-slate-100 p-5 transition-all duration-500">
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -454,8 +427,6 @@ export function Product() {
                   <p className="text-xs text-slate-500 mt-1 leading-relaxed max-w-xs">{t(subProducts[current].descKey)}</p>
                 </div>
               </div>
-
-              {/* Spesifikasi */}
               <div className="grid grid-cols-3 gap-3 pt-3 border-t border-slate-200">
                 {subProducts[current].specs.map((spec) => (
                   <div key={spec.labelKey} className="flex flex-col gap-1">
@@ -468,7 +439,6 @@ export function Product() {
                 ))}
               </div>
             </div>
-
           </div>
         </div>
       )}
@@ -476,7 +446,6 @@ export function Product() {
       {/* ══ STEP 2: SELECTION GRID ══ */}
       {step === 'selection' && (
         <div className="max-w-7xl mx-auto px-6 pt-28 pb-16">
-
           <div className="flex items-center gap-2 text-sm text-gray-400 mb-10">
             <Link to="/" className="hover:text-blue-600 transition-colors">{t('header.home')}</Link>
             <span>/</span>
@@ -562,7 +531,6 @@ export function Product() {
       {/* ══ STEP 3: DETAIL PRODUK ══ */}
       {step === 'produk' && (
         <div className="max-w-7xl mx-auto px-6 pt-28 pb-16">
-
           <div className="flex items-center gap-2 text-sm text-gray-400 mb-8">
             <Link to="/" className="hover:text-blue-600 transition-colors">{t('header.home')}</Link>
             <span>/</span>
@@ -613,10 +581,9 @@ export function Product() {
         </div>
       )}
 
-      {/* ══ STEP 4: LAYANAN — OVERVIEW GRID ══ */}
+      {/* ══ STEP 4: LAYANAN ══ */}
       {step === 'layanan' && (
         <div className="max-w-7xl mx-auto px-6 pt-28 pb-16">
-
           <div className="flex items-center gap-2 text-sm text-gray-400 mb-8">
             <Link to="/" className="hover:text-blue-600 transition-colors">{t('header.home')}</Link>
             <span>/</span>
@@ -641,12 +608,9 @@ export function Product() {
             </p>
           </div>
 
-          {/* Grid 2 kolom — side by side */}
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {layananList.map((item) => (
               <div key={item.id} className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group flex flex-col border-2 border-transparent hover:border-emerald-200">
-
-                {/* Foto */}
                 <div className="relative h-60 overflow-hidden">
                   <img
                     src={item.image}
@@ -662,7 +626,6 @@ export function Product() {
                   </div>
                 </div>
 
-                {/* Konten ringkas */}
                 <div className="p-7 flex flex-col flex-1">
                   <p className="text-gray-500 text-sm leading-relaxed flex-1 line-clamp-3">{t(item.descKey)}</p>
 
@@ -674,8 +637,6 @@ export function Product() {
                       </span>
                     ))}
                   </div>
-
-                  {/* Tombol detail */}
                   <button
                     onClick={() => setSelectedLayanan(item)}
                     className="mt-6 w-full py-3 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2"
@@ -692,4 +653,3 @@ export function Product() {
     </div>
   );
 }
-

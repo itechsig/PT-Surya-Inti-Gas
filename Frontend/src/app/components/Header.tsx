@@ -9,22 +9,42 @@ import { useTranslation } from "react-i18next";
 // ─── Import Barlow font ─────────────────
 const fontLink = document.createElement("link");
 fontLink.rel = "stylesheet";
-fontLink.href = "https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap";
+fontLink.href = "https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:wght@600&display=swap";
 document.head.appendChild(fontLink);
 
 // ─── Nav Config ───────────────────────────────────────────────
 type NavItem = { name: string; href: string; isRoute?: boolean; isDisabled?: boolean };
 
+const NAV_LINKS: NavItem[] = [
+  { name: "Beranda", href: "/", isRoute: true },
+  { name: "Produk & Layanan", href: "/produk", isRoute: true },
+  { name: "Kontak", href: "/#kontak" },
+  { name: "Karir", href: "/karir", isRoute: true },
+];
+
 // ─── Shared class builders ────────────────────────────────────
-const desktopLinkClass = (isLight: boolean) =>
-  `flex items-center gap-1 px-5 py-2 rounded-lg text-sm transition-colors ${
+const desktopLinkClass = (isLight: boolean, isActive: boolean) => {
+  const base = "flex items-center gap-1 px-4 py-2.5 rounded-lg text-sm transition-all duration-200";
+  if (isActive) {
+    return `${base} ${
+      isLight
+        ? "text-blue-700 bg-blue-50 border border-blue-200/80"
+        : "text-white bg-white/12 border border-white/20"
+    }`;
+  }
+  return `${base} ${
     isLight
       ? "text-slate-600 hover:text-blue-700 hover:bg-blue-50"
-      : "text-white/85 hover:text-white hover:bg-white/10"
+      : "text-white/80 hover:text-white hover:bg-white/10"
   }`;
+};
 
-const mobileLinkClass =
-  "block px-3 py-3 rounded-lg text-slate-700 text-sm hover:bg-slate-50 hover:text-blue-700 transition-colors";
+const mobileLinkClass = (isActive: boolean) =>
+  `block px-3 py-3 rounded-lg text-sm transition-colors ${
+    isActive
+      ? "text-blue-700 bg-blue-50 font-semibold"
+      : "text-slate-700 hover:bg-slate-50 hover:text-blue-700"
+  }`;
 
 const desktopLinkStyle = {
   fontFamily: "'Barlow', system-ui, sans-serif",
@@ -49,17 +69,20 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const isHomePage = pathname === "/";
   const isLight = !isHomePage || scrolled;
 
-  const NAV_LINKS: NavItem[] = [
-    { name: t('header.home'), href: "/", isRoute: true },
-    { name: t('header.about'), href: "/#about" },
-    { name: t('header.products'), href: "/produk", isRoute: true },
-    { name: t('header.contact'), href: "/#kontak" },
-    { name: t('header.career'), href: "/karir", isRoute: true},
-  ];
+  // Helper: cek apakah link ini aktif
+  const isActive = (href: string) => {
+    const [hrefPath, hrefHash] = href.split("#");
+    // Hash link (misal /#kontak) — aktif kalau hash cocok
+    if (hrefHash) return pathname === hrefPath && hash === `#${hrefHash}`;
+    // Beranda "/" — aktif HANYA kalau di "/" dan TIDAK ada hash aktif
+    if (hrefPath === "/") return pathname === "/" && hash === "";
+    // Route biasa — aktif kalau pathname dimulai dengan path tersebut
+    return pathname.startsWith(hrefPath) && hrefPath !== "/";
+  };
 
   return (
     <>
@@ -67,38 +90,61 @@ export const Header = () => {
       <nav
         className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
           isLight
-            ? "bg-white/95 backdrop-blur-lg shadow-md shadow-slate-200/50 py-3.5"
-            : "bg-transparent py-4"
+            ? "bg-white/95 backdrop-blur-lg shadow-md shadow-slate-200/50 py-4"
+            : "bg-transparent py-5"
         }`}
       >
         <div className="container mx-auto px-4 md:px-10">
           <div className="flex justify-between items-center">
 
             {/* Logo */}
-            <a href="#hero" className="flex items-center gap-3 shrink-0">
+            <a href="/" className="flex items-center gap-3 shrink-0">
               <img
                 src="/logo.png"
                 alt="Logo PT Surya Inti Gas"
-                className={`h-10 w-auto object-contain transition-all ${
+                className={`h-12 w-auto object-contain transition-all ${
                   isLight ? "" : "brightness-0 invert"
                 }`}
               />
               <div>
+                {/* Nama perusahaan — lebih besar */}
                 <div
-                  className={`text-sm leading-tight transition-colors ${
+                  className={`leading-tight transition-colors ${
                     isLight ? "text-slate-900" : "text-white"
                   }`}
-                  style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 800 }}
+                  style={{
+                    fontFamily: "'Barlow', system-ui, sans-serif",
+                    fontWeight: 700,
+                    fontSize: "15px",
+                    letterSpacing: "0.16em",
+                  }}
                 >
-                  PT SURYA INTI GAS
+                  SURYA INTI GAS
                 </div>
+
+                {/* Garis aksen gradient */}
                 <div
-                  className={`text-[10px] tracking-wider uppercase transition-colors ${
-                    isLight ? "text-slate-400" : "text-white/60"
-                  }`}
-                  style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 500 }}
+                  className="w-full my-0.5"
+                  style={{
+                    height: "2px",
+                    background: isLight
+                      ? "linear-gradient(90deg, #1e3a5f 0%, transparent 100%)"
+                      : "linear-gradient(90deg, rgba(255,255,255,0.5) 0%, transparent 100%)",
+                  }}
+                />
+
+                {/* Subtitle Corporate */}
+                <div
+                  style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontWeight: 600,
+                    fontSize: "11px",
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase" as const,
+                    color: isLight ? "#4a7fa5" : "rgba(180,210,235,0.85)",
+                  }}
                 >
-                  {t('header.distributor')}
+                  Corporate
                 </div>
               </div>
             </a>
@@ -106,12 +152,14 @@ export const Header = () => {
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">
               {NAV_LINKS.map((link) => {
-                // 1. Disabled — tampil abu-abu, tidak bisa diklik
+                const active = isActive(link.href);
+
+                // 1. Disabled
                 if (link.isDisabled) return (
                   <span
                     key={link.name}
-                    title={t('header.comingSoon')}
-                    className="flex items-center px-5 py-2 rounded-lg text-sm cursor-not-allowed select-none"
+                    title="Segera hadir"
+                    className="flex items-center px-4 py-2.5 rounded-lg text-sm cursor-not-allowed select-none"
                     style={{
                       ...desktopLinkStyle,
                       color: isLight ? "#cbd5e1" : "rgba(255,255,255,0.25)",
@@ -126,7 +174,7 @@ export const Header = () => {
                   <Link
                     key={link.name}
                     to={link.href}
-                    className={desktopLinkClass(isLight)}
+                    className={desktopLinkClass(isLight, active)}
                     style={desktopLinkStyle}
                   >
                     {link.name}
@@ -138,7 +186,7 @@ export const Header = () => {
                   <a
                     key={link.name}
                     href={link.href}
-                    className={desktopLinkClass(isLight)}
+                    className={desktopLinkClass(isLight, active)}
                     style={desktopLinkStyle}
                   >
                     {link.name}
@@ -201,6 +249,8 @@ export const Header = () => {
                   <LanguageSwitcher isLight={true} />
                 </div>
                 {NAV_LINKS.map((link) => {
+                  const active = isActive(link.href);
+
                   // 1. Disabled
                   if (link.isDisabled) return (
                     <span
@@ -219,7 +269,7 @@ export const Header = () => {
                       key={link.name}
                       to={link.href}
                       onClick={() => setIsOpen(false)}
-                      className={mobileLinkClass}
+                      className={mobileLinkClass(active)}
                       style={mobileLinkStyle}
                     >
                       {link.name}
@@ -232,7 +282,7 @@ export const Header = () => {
                       key={link.name}
                       href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className={mobileLinkClass}
+                      className={mobileLinkClass(active)}
                       style={mobileLinkStyle}
                     >
                       {link.name}
