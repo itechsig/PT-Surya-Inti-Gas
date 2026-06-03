@@ -2,8 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import * as Select from '@radix-ui/react-select';
-import { ChevronDown, ChevronUp, Check, Search, X, ChevronRight } from 'lucide-react';
+import { ChevronDown, Search, X } from 'lucide-react';
 import { getApiUrl, API_ENDPOINTS } from '../../config/api';
 import { useTranslation } from 'react-i18next';
 
@@ -126,89 +125,6 @@ function useFadeIn() {
   }, []);
 }
 
-function CustomSelect({
-  value,
-  onValueChange,
-  options,
-  placeholder,
-}: {
-  value: string;
-  onValueChange: (v: string) => void;
-  options: string[];
-  placeholder?: string;
-}) {
-  return (
-    <Select.Root value={value} onValueChange={onValueChange}>
-      <Select.Trigger
-        className="
-          inline-flex items-center justify-between gap-2
-          px-3.5 py-2.5 min-w-[160px]
-          bg-white border border-slate-200 rounded-xl
-          text-sm text-slate-700 font-medium
-          hover:border-emerald-400 hover:bg-emerald-50/40
-          focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100
-          data-[state=open]:border-emerald-400 data-[state=open]:ring-2 data-[state=open]:ring-emerald-100
-          transition-all cursor-pointer shadow-sm
-          whitespace-nowrap
-        "
-        aria-label={placeholder}
-      >
-        <Select.Value placeholder={placeholder} />
-        <Select.Icon>
-          <ChevronDown size={15} className="text-slate-400 flex-shrink-0" />
-        </Select.Icon>
-      </Select.Trigger>
-
-      <Select.Portal>
-        <Select.Content
-          className="
-            z-50 overflow-hidden
-            bg-white rounded-2xl border border-slate-100
-            shadow-xl shadow-slate-200/60
-            animate-in fade-in-0 zoom-in-95
-          "
-          position="popper"
-          sideOffset={6}
-          align="start"
-        >
-          <Select.ScrollUpButton className="flex items-center justify-center h-7 text-slate-400 cursor-default">
-            <ChevronUp size={14} />
-          </Select.ScrollUpButton>
-
-          <Select.Viewport className="p-1.5">
-            {options.map((opt) => (
-              <Select.Item
-                key={opt}
-                value={opt}
-                className="
-                  relative flex items-center gap-2.5
-                  px-3 py-2.5 pr-9 rounded-xl
-                  text-sm text-slate-700
-                  cursor-pointer select-none
-                  hover:bg-emerald-50 hover:text-emerald-800
-                  data-[highlighted]:bg-emerald-50 data-[highlighted]:text-emerald-800
-                  data-[highlighted]:outline-none
-                  data-[state=checked]:text-emerald-700 data-[state=checked]:font-semibold
-                  transition-colors
-                "
-              >
-                <Select.ItemText>{opt}</Select.ItemText>
-                <Select.ItemIndicator className="absolute right-3 flex items-center">
-                  <Check size={14} className="text-emerald-500" />
-                </Select.ItemIndicator>
-              </Select.Item>
-            ))}
-          </Select.Viewport>
-
-          <Select.ScrollDownButton className="flex items-center justify-center h-7 text-slate-400 cursor-default">
-            <ChevronDown size={14} />
-          </Select.ScrollDownButton>
-        </Select.Content>
-      </Select.Portal>
-    </Select.Root>
-  );
-}
-
 // ─── Apply Modal ───────────────────────────────────────────────
 function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => void }) {
   const { t } = useTranslation();
@@ -217,8 +133,6 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
   const [submitted, setSubmitted] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [touched, setTouched] = useState<Record<string, boolean>>({});
-  const [focused, setFocused] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = (file: File | null) => {
@@ -293,42 +207,6 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
     }
   };
 
-  const handleFocus = (field: string) => {
-    setFocused(field);
-    // Sembunyikan error saat user klik masuk ke field
-    setErrors(prev => ({ ...prev, [field]: '' }));
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {};
-
-    // Name validation
-    if (!form.name.trim()) {
-      newErrors.name = t('career.application.validation.nameRequired');
-    } else if (form.name.length < 3) {
-      newErrors.name = t('career.application.validation.nameTooShort');
-    }
-
-    // Email validation
-    if (!form.email.trim()) {
-      newErrors.email = t('career.application.validation.emailRequired');
-    } else if (!validateEmail(form.email)) {
-      newErrors.email = t('career.application.validation.emailInvalid');
-    }
-
-    // Phone validation
-    if (!form.phone.trim()) {
-      newErrors.phone = t('career.application.validation.phoneRequired');
-    } else if (!validatePhone(form.phone)) {
-      newErrors.phone = t('career.application.validation.phoneInvalid');
-    }
-
-    // CV file validation
-    if (!cvFile) {
-      newErrors.cvFile = t('career.application.validation.cvRequired');
-    }
-  };
-
   const validateForm = (): boolean => {
     const nameErr = validateField('name', form.name);
     const emailErr = validateField('email', form.email);
@@ -340,7 +218,6 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
       ...(!cvFile && { cvFile: 'File CV wajib diupload sebelum mengirim lamaran.' }),
     };
     setErrors(newErrors);
-    setTouched({ name: true, email: true, phone: true });
     return Object.keys(newErrors).length === 0;
   };
 
@@ -395,8 +272,6 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
           submit: t('career.application.validation.submitError')
         });
       }
-    } catch {
-      setErrors({ submit: 'Terjadi kesalahan jaringan. Pastikan koneksi internet Anda stabil dan coba lagi.' });
     }
   };
 
@@ -404,18 +279,6 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
     bytes < 1024 * 1024
       ? `${(bytes / 1024).toFixed(0)} KB`
       : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-
-  // Styling input berdasarkan state (error / valid / default)
-  const inputClass = (field: string) =>
-    `w-full px-4 py-3 border rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 transition-all ${
-      focused === field
-        ? 'border-emerald-400 focus:border-emerald-400 focus:ring-emerald-100'
-        : errors[field]
-        ? 'border-red-400 focus:border-red-400 focus:ring-red-100 bg-red-50/40'
-        : touched[field] && !errors[field] && form[field as keyof typeof form]
-        ? 'border-emerald-400 focus:border-emerald-400 focus:ring-emerald-100 bg-emerald-50/20'
-        : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
-    }`;
 
   const isFormComplete =
     form.name && form.email && form.phone && cvFile &&
@@ -689,9 +552,9 @@ function SearchFilterBar({
 
       {/* Filter row */}
       <div className="flex flex-wrap gap-2.5 items-center">
-        <CustomSelect
+        <select
           value={activeDiv}
-          onChange={e => setActiveDiv(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setActiveDiv(e.target.value)}
           className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-600 focus:outline-none focus:border-emerald-400 transition-all cursor-pointer"
         >
           {divisions.map(d => (
