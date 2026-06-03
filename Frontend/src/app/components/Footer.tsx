@@ -1,4 +1,5 @@
 import React, { useEffect, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 /* ─────────────────────────────────────────
    COLOR TOKENS  (navy dark theme)
@@ -203,6 +204,7 @@ const IconWhatsapp = () => (
 
 /* ── Main Footer ── */
 export const Footer = () => {
+  const { t } = useTranslation();
   useEffect(() => {
     injectFont();
     injectStyles();
@@ -247,7 +249,7 @@ export const Footer = () => {
               marginBottom: "1.25rem",
             }}
           >
-            Industrial Gas Distributor · Est. 2004
+            {t('header.distributor')} · Est. 2004
           </div>
           <p
             style={{
@@ -258,8 +260,8 @@ export const Footer = () => {
               maxWidth: 280,
             }}
           >
-            Distributor terpercaya untuk gas industri, gas medis, gas campuran,
-            speciality gas, cryogenic equipment, dan dry ice di seluruh Indonesia.
+            {t('footer.description')}
+                        {t('footer.productsOffered')}
           </p>
           <div
             style={{
@@ -281,9 +283,7 @@ export const Footer = () => {
                 animation: "sig-blink 2s ease-in-out infinite",
               }}
             />
-            Senin – Jum'at &nbsp;·&nbsp; 08.00 – 16.00 WIB
-            <br/>
-            Sabtu &nbsp;·&nbsp; 08.00 – 14.00 WIB
+            {t('contact.hours.weekdays')} &nbsp;·&nbsp; 08.00 – 17.00 WIB
           </div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             <SocialBtn href="#" label="Facebook"><IconFacebook /></SocialBtn>
@@ -295,40 +295,36 @@ export const Footer = () => {
 
         {/* Column 2: Kantor Pusat */}
         <div>
-          <ColLabel>Kantor Pusat</ColLabel>
+          <ColLabel>{t('contact.offices.headOffice')}</ColLabel>
           <CityName>Sidoarjo, Jawa Timur</CityName>
           <Address>
-            Komp. Perg. &amp; Industri Safe N Lock<br />
+            Komp. Pergudangan "Safe N Lock"<br />
             Blok V1 – 3223, 3225, 3232, 3233<br />
-            Jl. Lingkar Timur KM 5.5<br />
+            Jl. Lingkar Timur KM. 5.5<br />
             Rangkah Kidul, Sidoarjo 61232
           </Address>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 14 }}>
-            <ContactLink href="tel:+6231997047888" icon={<IconPhone />}>
-              +62 31 – 9970 4788 / 4789
+          <div style={{ marginTop: "1.25rem" }}>
+            <ContactLink href="tel:+623199704788" icon={<IconPhone />}>
+              +62 31 – 9970 4788
             </ContactLink>
-            <ContactLink href="tel:+6231997047788" icon={<IconPhone />}>
-              +62 31 – 9970 4778
-            </ContactLink>
-            <ContactLink href="mailto:salescounter.sda@suryaintigas.co.id" icon={<IconMail />}>
-              salescounter.sda@suryaintigas.co.id
+            <ContactLink href="mailto:info@suryaintigas.co.id" icon={<IconMail />}>
+              info@suryaintigas.co.id
             </ContactLink>
           </div>
         </div>
 
         {/* Column 3: Kantor Cabang */}
         <div>
-          <ColLabel>Kantor Cabang</ColLabel>
+          <ColLabel>{t('contact.offices.branchOffice')}</ColLabel>
           <CityName>Balikpapan, Kalimantan Timur</CityName>
           <Address>
-            Jl. AMD Projakal Kariangau KM 5.5<br />
-            RT 046, Kel. Graha Indah<br />
+            Jl. AMD Projakal No.27, Batu Ampar<br />
             Kec. Balikpapan Utara<br />
-            Kota Balikpapan, Kaltim
+            Kota Balikpapan 76127
           </Address>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 14 }}>
+          <div style={{ marginTop: "1.25rem" }}>
             <ContactLink href="tel:+625428531991" icon={<IconPhone />}>
-              +62 542 – 8531991 / 8532382
+              +62 542 – 8531991
             </ContactLink>
             <ContactLink href="mailto:salescounter.bpn@suryaintigas.co.id" icon={<IconMail />}>
               salescounter.bpn@suryaintigas.co.id
@@ -338,42 +334,37 @@ export const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div style={{ borderTop: "1px solid #1e3a5f", background: "#0a1a32" }}>
+      <div
+        className="sig-footer-bottom-bar"
+        style={{
+          background: "#0a1a32",
+          borderTop: "1px solid #1e3a5f",
+          padding: "1rem 3rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <div
-          className="sig-footer-bottom-bar sig-footer-bottom"
+          className="sig-footer-bottom"
           style={{
-            padding: "1.25rem 3rem",
+            fontSize: 11,
+            color: "#7ca0c7",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 8,
+            gap: "1rem",
           }}
         >
-          <span style={{ fontSize: 11.5, color: "#7ca0c7", letterSpacing: "0.01em" }}>
-            © 2026 PT Surya Inti Gas. Hak Cipta Dilindungi Undang-Undang.
+          <span>© {new Date().getFullYear()} PT Surya Inti Gas. {t('footer.rights')}</span>
+          <span style={{ color: "#1e3a5f" }}>|</span>
+          <span style={{ fontFamily: dm, fontSize: 10.5 }}>
+            {t('footer.tagline')}
           </span>
-          <a
-            href="mailto:marketing@suryaintigas.co.id"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              fontSize: 11.5,
-              color: "#7ca0c7",
-              textDecoration: "none",
-              transition: "color .18s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ece4")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#7ca0c7")}
-          >
-            <IconMail />
-            marketing@suryaintigas.co.id
-          </a>
+        </div>
+        <div style={{ fontSize: 10.5, color: "#5b82a8", fontFamily: dm }}>
+          {t('footer.version')}
         </div>
       </div>
     </footer>
   );
 };
-
-export default Footer;

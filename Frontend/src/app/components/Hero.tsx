@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 /* ─────────────────────────────────────────────
    HERO.TSX — PT Surya Inti Gas
@@ -349,6 +350,7 @@ const ArrowIcon = () => (
    MAIN HERO COMPONENT
 ══════════════════════════════════════════════ */
 export function Hero() {
+  const { t } = useTranslation();
   const [scrollPct, setScrollPct] = useState(0);
   const [waVisible, setWaVisible] = useState(false);
   const [waOpen, setWaOpen]       = useState(false);
@@ -371,7 +373,7 @@ export function Hero() {
   }, []);
 
   const handleWaClick = () => {
-    const msg = encodeURIComponent("Halo PT Surya Inti Gas, saya ingin menanyakan produk gas industri.");
+    const msg = encodeURIComponent(t('hero.description'));
     window.open(`https://wa.me/6281234567890?text=${msg}`, "_blank");
   };
 
@@ -409,7 +411,7 @@ export function Hero() {
           {/* Badge */}
           <div className="hero-badge">
             <span className="hero-badge-dot" />
-            Supplier Of Industrial, Specialty & Mixed Gas
+            {t('hero.badge')}
           </div>
 
           {/* Headline */}
@@ -419,7 +421,7 @@ export function Hero() {
 
           {/* FIX: Tagline — text-shadow lebih kuat */}
           <div className="hero-tagline">
-            Energi yang Andal, Masa Depan yang Cerah
+            {t('hero.tagline')}
           </div>
 
           {/* FIX: Accent line — 64px (lebih lebar dari sebelumnya 48px) */}
@@ -427,15 +429,13 @@ export function Hero() {
 
           {/* Description */}
           <p className="hero-desc">
-            Distributor gas industri terkemuka di Indonesia — menyediakan LPG,
-            Oksigen, Nitrogen, dan solusi gas khusus dengan standar keselamatan
-            tertinggi untuk sektor manufaktur, medis, dan energi.
+            {t('hero.description')}
           </p>
 
           {/* FIX: CTA Buttons — tambah ghost button "Hubungi Kami" */}
           <div className="hero-btns">
             <a href="/produk" className="hero-btn-primary">
-              Lihat Produk <ArrowIcon />
+              {t('hero.viewProducts')} <ArrowIcon />
             </a>
           </div>
         </div>
@@ -454,10 +454,10 @@ export function Hero() {
                 </div>
               </div>
               <p className="hero-wa-msg">
-                Halo! Ada yang bisa kami bantu? Tim kami siap melayani. 👋
+                {t('hero.description')}
               </p>
               <button className="hero-wa-start" onClick={handleWaClick}>
-                Mulai Chat →
+                {t('common.submit')} →
               </button>
             </div>
           )}
