@@ -1,0 +1,404 @@
+{
+  "header": {
+    "home": "Beranda",
+    "about": "Tentang Kami", 
+    "products": "Produk & Layanan",
+    "contact": "Kontak",
+    "career": "Karir",
+    "comingSoon": "Segera hadir",
+    "distributor": "Distributor Gas"
+  },
+  "hero": {
+    "badge": "Terpercaya Sejak 2003",
+    "title": "Solusi Gas Industri Terlengkap",
+    "tagline": "Mitra Andalan untuk Kebutuhan Energi Anda",
+    "description": "PT Surya Inti Gas hadir sebagai penyedia solusi gas industri terpercaya dengan pelayanan prima dan kualitas terjamin untuk mendukung operasional bisnis Anda.",
+    "contactUs": "Hubungi Kami",
+    "viewProducts": "Lihat Produk",
+    "stats": {
+      "years": "Tahun Pengalaman",
+      "clients": "Klien Puas",
+      "products": "Produk Tersedia",
+      "coverage": "Area Cakupan"
+    }
+  },
+  "about": {
+    "title": "Tentang Kami",
+    "subtitle": "Mitra Terpercaya dalam Solusi Gas Industri",
+    "description": "PT Surya Inti Gas adalah perusahaan penyedia gas industri yang telah beroperasi sejak tahun 2003. Kami berkomitmen untuk memberikan solusi gas berkualitas tinggi dengan pelayanan prima untuk mendukung kebutuhan industri di Indonesia.",
+    "companyName": "PT. Surya Inti Gas",
+    "intro": "Surya Inti Gas berdiri sejak tahun 2003 dan telah berkembang menjadi distributor gas industri dan medis terpercaya yang melayani lebih dari 150 pelanggan di Jawa Timur, Jawa Tengah, DIY, hingga Kalimantan Timur.",
+    "highlights": {
+      "industrialGas": "Gas Industri, Medis, Speciality & Mixed Gas",
+      "delivery": "Armada Pengiriman Mandiri & Tepat Waktu",
+      "customers": "Melayani 150+ Pelanggan Industri",
+      "offices": "Head Office Sidoarjo + Cabang Balikpapan"
+    },
+    "vision": {
+      "title": "Visi",
+      "text": "Menjadi sebuah perusahaan yang berkembang, memiliki cabang di seluruh kota besar Indonesia, yang mampu memenuhi dan menunjang kebutuhan gas-gas industri di dalam negeri serta melayani kebutuhan gas Oksigen Medis di seluruh Rumah Sakit di Indonesia."
+    },
+    "mission": {
+      "title": "Misi",
+      "items": [
+        "Mampu menyediakan produk yang berkecukupan dengan standar tinggi.",
+        "Memiliki sumber daya manusia yang kuat dan solid.",
+        "Mampu memenuhi kebutuhan dan keinginan pelanggan dengan cepat, tepat dan baik.",
+        "Kepuasan pelanggan adalah prioritas kami."
+      ]
+    },
+    "timeline": {
+      "title": "Perjalanan Kami",
+      "subtitle": "Membangun Kepercayaan Sejak 2003",
+      "items": [
+        {
+          "year": "2003",
+          "label": "Pendirian",
+          "text": "Berdiri dengan nama CV. Surya Inti Gas, berkantor di Jl. KH. Mukmin, Sidoarjo, Jawa Timur."
+        },
+        {
+          "year": "2007",
+          "label": "Ekspansi",
+          "text": "Bisnis berkembang pesat, kantor pindah ke Komplek Pergudangan & Industri \"Meiko Abadi\", Gedangan, Sidoarjo."
+        },
+        {
+          "year": "2016",
+          "label": "Head Office Baru",
+          "text": "Kantor pindah ke Komplek \"Safe N Lock\", Jl. Lingkar Timur KM 5.5, Rangkah Kidul sebagai Head Office."
+        },
+        {
+          "year": "2017",
+          "label": "PT & Cabang",
+          "text": "Resmi berdiri sebagai PT. Surya Inti Gas dan perdana membuka cabang di Balikpapan, Kalimantan Timur."
+        }
+      ]
+    }
+  },
+  "contact": {
+    "title": "Hubungi Kami",
+    "subtitle": "Kami Siap Membantu Anda",
+    "description": "Tim kami siap membantu Anda dengan kebutuhan gas industri Anda. Hubungi kami untuk konsultasi gratis.",
+    "form": {
+      "name": "Nama Lengkap",
+      "email": "Email",
+      "phone": "Nomor Telepon",
+      "message": "Pesan",
+      "submit": "Kirim Pesan",
+      "success": "Pesan berhasil dikirim!",
+      "error": "Terjadi kesalahan. Silakan coba lagi."
+    },
+    "info": {
+      "address": "Alamat",
+      "phone": "Telepon",
+      "email": "Email",
+      "hours": "Jam Operasional"
+    },
+    "hours": {
+      "weekdays": "Senin – Jumat: 08.00 – 16.00 WIB",
+      "saturday": "Sabtu: 08.00 – 14.00 WIB"
+    },
+    "offices": {
+      "headOffice": "Kantor Pusat",
+      "branchOffice": "Kantor Cabang",
+      "viewMaps": "Lihat di Google Maps"
+    }
+  },
+  "product": {
+    "title": "Produk Kami",
+    "subtitle": "Solusi Gas Berkualitas Tinggi",
+    "description": "Kami menyediakan berbagai jenis gas industri dan medis dengan standar kualitas internasional.",
+    "currentlyDisplaying": "Sedang ditampilkan",
+    "selectCategory": "Pilih Kategori",
+    "productsLabel": "PRODUK",
+    "productLabel": "Produk",
+    "servicesLabel": "LAYANAN",
+    "gasAndCylinder": "Gas & Tabung",
+    "highQualityCylinders": "dan berbagai jenis tabung bertekanan tinggi berkualitas",
+    "medicalSpecialty": "Medis & Specialty",
+    "categories": {
+      "industrial": "Gas Industri",
+      "medical": "Gas Medis",
+      "speciality": "Specialty Gas",
+      "mixed": "Mixed Gas"
+    },
+    "details": {
+      "color": "Warna",
+      "pressure": "Tekanan",
+      "cylinderSize": "Ukuran Tabung",
+      "applications": "Aplikasi",
+      "safety": "Keamanan",
+      "purity": "Kemurnian",
+      "usage": "Kegunaan",
+      "availability": "Ketersediaan",
+      "available": "Stok Tersedia"
+    },
+    "products": {
+      "oxygen": {
+        "title": "Oksigen (O₂)",
+        "description": "Gas oksigen untuk industri dan medis dengan kemurnian tinggi.",
+        "purity": "99.5% – 99.9%",
+        "usage": "Industri & Medis",
+        "color": "Tidak berwarna, tidak berbau",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
+        "applications": ["Pengelasan & pemotongan", "Pernapasan medis", "Proses industri kimia", "Pengolahan air"],
+        "safety": "Jauhkan dari sumber api. Simpan di tempat berventilasi baik. Gunakan regulator yang sesuai."
+      },
+      "nitrogen": {
+        "title": "Nitrogen (N₂)",
+        "description": "Gas nitrogen untuk pengawetan, las, dan aplikasi industri.",
+        "purity": "99.0% – 99.99%",
+        "usage": "Pengawetan & Las",
+        "color": "Tidak berwarna, tidak berbau",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": ["1 m³", "6 m³", "Liquid Bulk"],
+        "applications": ["Pengawetan makanan & minuman", "Purging pipa dan tangki", "Pendinginan kriogenik", "Industri elektronik"],
+        "safety": "Gas inert namun dapat menyebabkan asfiksia di ruang tertutup. Pastikan ventilasi cukup."
+      },
+      "argon": {
+        "title": "Argon (Ar)",
+        "description": "Gas argon untuk pengelasan TIG dan aplikasi khusus.",
+        "purity": "99.9% – 99.999%",
+        "usage": "Las TIG & Specialty",
+        "color": "Tidak berwarna, tidak berbau",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
+        "applications": ["Pengelasan TIG & MIG", "Industri semikonduktor", "Penerangan & lampu", "Produksi specialty gas"],
+        "safety": "Gas inert. Hindari akumulasi di ruang terbatas. Simpan tabung dalam posisi tegak."
+      },
+      "acetylene": {
+        "title": "Acetylene (C₂H₂)",
+        "description": "Gas asetilena untuk pemotongan dan pengelasan logam.",
+        "purity": "98.0% – 99.5%",
+        "usage": "Potong & Las Logam",
+        "color": "Tidak berwarna, bau khas",
+        "pressure": "Max 15 bar (dissolved)",
+        "cylinderSizes": ["40 L", "60 L"],
+        "applications": ["Pemotongan logam tebal", "Pengelasan oxy-acetylene", "Pemanasan & bending logam", "Industri otomotif & besi"],
+        "safety": "Gas mudah terbakar. Simpan jauh dari sumber panas. Jangan dimiringkan atau dijatuhkan."
+      }
+    },
+    "services": {
+      "title": "Layanan Kami",
+      "professionalService": "Layanan Profesional",
+      "installation": {
+        "title": "Instalasi Gas & Pipa",
+        "description": "Layanan instalasi pipa gas industri dan medis yang aman dan sesuai standar. Mencakup perencanaan jalur pipa, pemasangan fitting, dan pengujian kebocoran sistem distribusi gas.",
+        "steps": {
+          "planning": "Perencanaan Jalur",
+          "installation": "Pemasangan Pipa",
+          "testing": "Uji Kebocoran"
+        },
+        "highlights": [
+          "Pipa tembaga & stainless grade industri",
+          "Sesuai standar SNI & ASME",
+          "Garansi instalasi 1 tahun"
+        ]
+      },
+      "tanks": {
+        "title": "Pemasangan Tangki",
+        "description": "Instalasi tangki penyimpanan gas bertekanan dan tangki kriogenik untuk kebutuhan industri skala besar. Dilengkapi sistem keamanan, regulator tekanan, dan commissioning oleh teknisi bersertifikat.",
+        "steps": {
+          "survey": "Survey & Desain",
+          "installation": "Pemasangan Tangki",
+          "commissioning": "Commissioning"
+        },
+        "highlights": [
+          "Tangki bertekanan & kriogenik",
+          "Kapasitas sesuai kebutuhan klien",
+          "Teknisi bersertifikat K3"
+        ]
+      }
+    },
+    "modal": {
+      "detailProduct": "Detail Produk",
+      "close": "Tutup",
+      "viewDetails": "Lihat Detail"
+    }
+  },
+  "career": {
+    "title": "Karir",
+    "subtitle": "Bergabung Bersama Kami",
+    "description": "Temukan kesempatan untuk berkembang bersama PT Surya Inti Gas. Kami mencari talenta terbaik untuk membangun masa depan bersama.",
+    "hero": {
+      "badge": "BERGABUNG BERSAMA KAMI",
+      "title": "Karir",
+      "titleHighlight": "di PT Surya Inti Gas",
+      "description": "Temukan kesempatan untuk berkembang dan berkontribusi dalam industri gas bersama kami."
+    },
+    "search": {
+      "title": "Cari Lowongan",
+      "description": "Temukan posisi yang sesuai dengan keahlian dan minat Anda."
+    },
+    "recruitment": {
+      "title": "Proses Rekrutmen"
+    },
+    "filters": {
+      "division": "Divisi",
+      "location": "Lokasi",
+      "level": "Level",
+      "all": "Semua",
+      "allLocations": "Semua Lokasi",
+      "allLevels": "Semua Level"
+    },
+    "divisions": {
+      "all": "Semua",
+      "salesMarketing": "Sales & Marketing",
+      "technicalOperations": "Teknik & Operasional",
+      "financeAdmin": "Finance & Admin",
+      "logisticsDistribution": "Logistik & Distribusi"
+    },
+    "locations": {
+      "all": "Semua Lokasi",
+      "surabaya": "Surabaya",
+      "surabayaSidoarjo": "Surabaya & Sidoarjo"
+    },
+    "levels": {
+      "all": "Semua Level",
+      "entry": "Entry",
+      "junior": "Junior",
+      "juniorMid": "Junior – Mid",
+      "midLevel": "Mid-level"
+    },
+    "employmentTypes": {
+      "fullTime": "Full-time"
+    },
+    "openings": {
+      "salesExecutive": {
+        "title": "Sales Executive – Gas Industri",
+        "division": "Sales & Marketing",
+        "location": "Surabaya",
+        "type": "Full-time",
+        "level": "Mid-level",
+        "description": "Bertanggung jawab atas penjualan gas industri ke klien manufaktur dan pengolahan. Membangun hubungan jangka panjang dengan pelanggan dan mencapai target bulanan.",
+        "requirements": [
+          "Pendidikan D3/S1 semua jurusan",
+          "Pengalaman sales B2B min. 2 tahun",
+          "Memiliki kendaraan pribadi & SIM A/C",
+          "Komunikatif dan berorientasi target"
+        ]
+      },
+      "installationTechnician": {
+        "title": "Teknisi Instalasi Gas",
+        "division": "Teknik & Operasional",
+        "location": "Surabaya & Sidoarjo",
+        "type": "Full-time",
+        "level": "Junior – Mid",
+        "description": "Melaksanakan instalasi pipa gas, pemasangan regulator, dan commissioning sistem distribusi gas di lokasi klien industri dan medis.",
+        "requirements": [
+          "Pendidikan SMK Teknik / D3 Mesin atau terkait",
+          "Memahami sistem perpipaan dan fitting",
+          "Sertifikat K3 Umum (diutamakan)",
+          "Bersedia bekerja di lapangan"
+        ]
+      },
+      "adminFinanceStaff": {
+        "title": "Staff Administrasi & Keuangan",
+        "division": "Finance & Admin",
+        "location": "Surabaya",
+        "type": "Full-time",
+        "level": "Junior",
+        "description": "Mengelola administrasi harian, pembukuan sederhana, dan koordinasi dokumen operasional perusahaan.",
+        "requirements": [
+          "Pendidikan D3/S1 Akuntansi atau Manajemen",
+          "Menguasai Microsoft Office (Excel mahir)",
+          "Teliti, rapi, dan bertanggung jawab",
+          "Pengalaman administrasi 1 tahun (diutamakan)"
+        ]
+      },
+      "gasDeliveryDriver": {
+        "title": "Driver Pengiriman Gas",
+        "division": "Logistik & Distribusi",
+        "location": "Surabaya",
+        "type": "Full-time",
+        "level": "Entry",
+        "description": "Bertanggung jawab atas pengiriman tabung gas ke pelanggan secara tepat waktu dan aman, serta menjaga kondisi armada kendaraan.",
+        "requirements": [
+          "Memiliki SIM B1/B2 aktif",
+          "Pengalaman mengemudi kendaraan niaga",
+          "Memahami prosedur keselamatan pengiriman",
+          "Jujur, disiplin, dan bertanggung jawab"
+        ]
+      }
+    },
+    "application": {
+      "applyNow": "Lamar Sekarang",
+      "applyFor": "Lamar Posisi",
+      "close": "Tutup",
+      "applicationSent": "Lamaran Terkirim!",
+      "applicationSentMessage": "Terima kasih, <strong>{{name}}</strong>. Tim HR kami akan menghubungi Anda via email atau WhatsApp dalam 3–5 hari kerja.",
+      "form": {
+        "fullName": "Nama Lengkap",
+        "fullNamePlaceholder": "Masukkan nama lengkap Anda",
+        "email": "Email",
+        "emailPlaceholder": "nama@email.com",
+        "phone": "Nomor WhatsApp",
+        "phonePlaceholder": "08123456789",
+        "uploadCV": "Upload CV",
+        "uploadCVDescription": "Format PDF, DOC, atau DOCX (maksimal 5MB)",
+        "dragAndDrop": "Drag & drop file CV Anda di sini",
+        "browse": "Pilih File",
+        "selectedFile": "File yang dipilih:",
+        "removeFile": "Hapus File",
+        "submit": "Kirim Lamaran",
+        "submitting": "Mengirim...",
+        "requirements": "Persyaratan"
+      },
+      "validation": {
+        "nameRequired": "⚠️ Nama lengkap wajib diisi. Masukkan nama sesuai identitas Anda.",
+        "nameTooShort": "⚠️ Nama terlalu pendek. Minimal 3 karakter.",
+        "emailRequired": "⚠️ Email wajib diisi. Masukkan email aktif Anda untuk komunikasi selanjutnya.",
+        "emailInvalid": "⚠️ Format email tidak valid. Contoh yang benar: nama@email.com. Pastikan menggunakan @ dan domain yang valid.",
+        "phoneRequired": "⚠️ Nomor WhatsApp wajib diisi. Kami akan menghubungi Anda melalui WhatsApp.",
+        "phoneInvalid": "⚠️ Format nomor WhatsApp tidak valid. Gunakan 10-15 digit angka saja. Contoh: 08123456789",
+        "cvRequired": "⚠️ File CV wajib diupload. Pilih file CV Anda dalam format PDF, DOC, atau DOCX (maksimal 5MB).",
+        "fileFormat": "⚠️ Format file tidak didukung. Hanya PDF, DOC, atau DOCX yang diperbolehkan. Pastikan file Anda memiliki ekstensi yang benar.",
+        "fileTooLarge": "⚠️ Ukuran file terlalu besar. Maksimal 5MB. File Anda saat ini {{size}}. Silakan kompres file atau gunakan file yang lebih kecil.",
+        "submitError": "⚠️ Terjadi kesalahan saat mengirim lamaran. Pastikan koneksi internet Anda stabil dan coba lagi.",
+        "submitFailed": "⚠️ Gagal mengirim lamaran. Silakan coba lagi."
+      },
+      "steps": {
+        "sendApplication": "Kirim Lamaran",
+        "sendApplicationDesc": "Isi form lamaran dan upload CV serta dokumen pendukung melalui portal ini.",
+        "adminSelection": "Seleksi Administrasi",
+        "adminSelectionDesc": "Tim HR akan meninjau kelengkapan dan kesesuaian profil Anda dalam 3–5 hari kerja.",
+        "testInterview": "Tes & Wawancara",
+        "testInterviewDesc": "Kandidat terpilih akan diundang untuk tes tertulis dan wawancara dengan tim kami.",
+        "jobOffer": "Penawaran Kerja",
+        "jobOfferDesc": "Kandidat terbaik akan menerima offering letter dan bergabung bersama tim kami."
+      },
+      "empty": {
+        "title": "Tidak ada posisi tersedia",
+        "description": "Saat ini belum ada lowongan yang sesuai dengan kriteria pencarian Anda."
+      },
+      "results": {
+        "found": "lowongan ditemukan"
+      }
+    }
+  },
+  "footer": {
+    "description": "PT Surya Inti Gas - Mitra terpercaya untuk solusi gas industri di Indonesia sejak 2003.",
+    "productsOffered": "speciality gas, cryogenic equipment, dan dry ice di seluruh Indonesia.",
+    "quickLinks": "Tautan Cepat",
+    "services": "Layanan",
+    "contact": "Kontak",
+    "rights": "Hak Cipta Dilindungi",
+    "tagline": "Solusi Gas Terpercaya",
+    "version": "v1.0.0"
+  },
+  "common": {
+    "readMore": "Baca Selengkapnya",
+    "learnMore": "Pelajari Lebih Lanjut",
+    "getStarted": "Mulai Sekarang",
+    "submit": "Kirim",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "close": "Tutup",
+    "search": "Cari",
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "details": "Detail Produk"
+  }
+}

@@ -1,0 +1,404 @@
+{
+  "header": {
+    "home": "首页",
+    "about": "关于我们", 
+    "products": "产品与服务",
+    "contact": "联系我们",
+    "career": "职业发展",
+    "comingSoon": "即将推出",
+    "distributor": "天然气分销商"
+  },
+  "hero": {
+    "badge": "自2003年起值得信赖",
+    "title": "完整的工业气体解决方案",
+    "tagline": "您能源需求的可信赖合作伙伴",
+    "description": "PT Surya Inti Gas 提供值得信赖的工业气体解决方案，以优质服务和保证质量支持您的业务运营。",
+    "contactUs": "联系我们",
+    "viewProducts": "查看产品",
+    "stats": {
+      "years": "年经验",
+      "clients": "满意客户",
+      "products": "可用产品",
+      "coverage": "覆盖区域"
+    }
+  },
+  "about": {
+    "title": "关于我们",
+    "subtitle": "工业气体解决方案的可信赖合作伙伴",
+    "description": "PT Surya Inti Gas 是一家自2003年以来运营的工业气体供应商。我们致力于提供高质量的气体解决方案和优质服务，以支持印度尼西亚的工业需求。",
+    "companyName": "PT. Surya Inti Gas",
+    "intro": "Surya Inti Gas 自2003年成立以来，已发展成为值得信赖的工业和医疗气体分销商，服务东爪哇、中爪哇、DIY和东加里曼丹地区的150多个客户。",
+    "highlights": {
+      "industrialGas": "工业、医疗、特种和混合气体",
+      "delivery": "独立准时的运输车队",
+      "customers": "服务150+工业客户",
+      "offices": "西都阿佐总办公室 + 巴厘巴板分公司"
+    },
+    "vision": {
+      "title": "愿景",
+      "text": "成为一家不断发展的公司，在印度尼西亚主要城市拥有分支机构，能够满足和支持国内工业气体需求，并为印度尼西亚所有医院提供医疗氧气服务。"
+    },
+    "mission": {
+      "title": "使命",
+      "items": [
+        "能够提供高标准的充足产品。",
+        "拥有强大和坚实的人力资源。",
+        "能够快速、准确、良好地满足客户需求和期望。",
+        "客户满意度是我们的首要任务。"
+      ]
+    },
+    "timeline": {
+      "title": "我们的历程",
+      "subtitle": "自2003年起建立信任",
+      "items": [
+        {
+          "year": "2003",
+          "label": "成立",
+          "text": "以CV. Surya Inti Gas的名义成立，办公室位于东爪哇西都阿佐Jl. KH. Mukmin。"
+        },
+        {
+          "year": "2007",
+          "label": "扩张",
+          "text": "业务迅速发展，办公室迁至西都阿佐Gedangan的Meiko Abadi工业和仓储综合体。"
+        },
+        {
+          "year": "2016",
+          "label": "新总办公室",
+          "text": "办公室迁至Safe N Lock综合体，Jl. Lingkar Timur KM 5.5，Rangkah Kidul作为总办公室。"
+        },
+        {
+          "year": "2017",
+          "label": "PT与分公司",
+          "text": "正式成立为PT. Surya Inti Gas，并首次在东加里曼丹巴厘巴板开设分公司。"
+        }
+      ]
+    }
+  },
+  "contact": {
+    "title": "联系我们",
+    "subtitle": "我们随时为您提供帮助",
+    "description": "我们的团队随时准备协助您满足工业气体需求。联系我们进行免费咨询。",
+    "form": {
+      "name": "全名",
+      "email": "电子邮件",
+      "phone": "电话号码",
+      "message": "消息",
+      "submit": "发送消息",
+      "success": "消息发送成功！",
+      "error": "发生错误，请重试。"
+    },
+    "info": {
+      "address": "地址",
+      "phone": "电话",
+      "email": "电子邮件",
+      "hours": "营业时间"
+    },
+    "hours": {
+      "weekdays": "周一至周五: 08.00 – 16.00 WIB",
+      "saturday": "周六: 08.00 – 14.00 WIB"
+    },
+    "offices": {
+      "headOffice": "总办公室",
+      "branchOffice": "分公司",
+      "viewMaps": "在谷歌地图上查看"
+    }
+  },
+  "product": {
+    "title": "我们的产品",
+    "subtitle": "高质量气体解决方案",
+    "description": "我们提供各种类型和医疗气体，符合国际质量标准。",
+    "currentlyDisplaying": "正在显示",
+    "selectCategory": "选择类别",
+    "productsLabel": "产品",
+    "productLabel": "产品",
+    "servicesLabel": "服务",
+    "gasAndCylinder": "气体与气瓶",
+    "highQualityCylinders": "和各种优质高压气瓶",
+    "medicalSpecialty": "医疗与特种",
+    "categories": {
+      "industrial": "工业气体",
+      "medical": "医疗气体",
+      "speciality": "特种气体",
+      "mixed": "混合气体"
+    },
+    "details": {
+      "color": "颜色",
+      "pressure": "压力",
+      "cylinderSize": "气瓶尺寸",
+      "applications": "应用",
+      "safety": "安全",
+      "purity": "纯度",
+      "usage": "用途",
+      "availability": "可用性",
+      "available": "有库存"
+    },
+    "products": {
+      "oxygen": {
+        "title": "氧气 (O₂)",
+        "description": "用于工业和医疗的高纯度氧气。",
+        "purity": "99.5% – 99.9%",
+        "usage": "工业与医疗",
+        "color": "无色无味",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
+        "applications": ["焊接与切割", "医疗呼吸", "化学工业过程", "水处理"],
+        "safety": "远离火源。存放在通风良好的地方。使用适当的调节器。"
+      },
+      "nitrogen": {
+        "title": "氮气 (N₂)",
+        "description": "用于防腐、焊接和工业应用的氮气。",
+        "purity": "99.0% – 99.99%",
+        "usage": "防腐与焊接",
+        "color": "无色无味",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": ["1 m³", "6 m³", "液体散装"],
+        "applications": ["食品饮料防腐", "管道和储罐吹扫", "低温冷却", "电子工业"],
+        "safety": "惰性气体，但在密闭空间可能导致窒息。确保通风充足。"
+      },
+      "argon": {
+        "title": "氩气 (Ar)",
+        "description": "用于TIG焊接和特殊应用的氩气。",
+        "purity": "99.9% – 99.999%",
+        "usage": "TIG焊接与特种",
+        "color": "无色无味",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
+        "applications": ["TIG与MIG焊接", "半导体工业", "照明与灯具", "特种气体生产"],
+        "safety": "惰性气体。避免在密闭空间积聚。垂直存放气瓶。"
+      },
+      "acetylene": {
+        "title": "乙炔 (C₂H₂)",
+        "description": "用于金属切割和焊接的乙炔气体。",
+        "purity": "98.0% – 99.5%",
+        "usage": "金属切割与焊接",
+        "color": "无色，特有气味",
+        "pressure": "最大 15 bar（溶解）",
+        "cylinderSizes": ["40 L", "60 L"],
+        "applications": ["厚金属切割", "氧乙炔焊接", "金属加热与弯曲", "汽车与钢铁工业"],
+        "safety": "易燃气体。远离热源存放。不要倾斜或掉落。"
+      }
+    },
+    "services": {
+      "title": "我们的服务",
+      "professionalService": "专业服务",
+      "installation": {
+        "title": "气体与管道安装",
+        "description": "符合标准的安全工业和医疗气体管道安装。包括管道规划、配件安装和气体分配系统泄漏测试。",
+        "steps": {
+          "planning": "路线规划",
+          "installation": "管道安装",
+          "testing": "泄漏测试"
+        },
+        "highlights": [
+          "工业级铜和不锈钢管道",
+          "符合SNI和ASME标准",
+          "1年安装保修"
+        ]
+      },
+      "tanks": {
+        "title": "储罐安装",
+        "description": "用于大规模工业需求的压力气体储罐和低温储罐安装。配备安全系统、压力调节器，并由认证技术人员进行调试。",
+        "steps": {
+          "survey": "调查与设计",
+          "installation": "储罐安装",
+          "commissioning": "调试"
+        },
+        "highlights": [
+          "压力和低温储罐",
+          "容量根据客户需求",
+          "K3认证技术人员"
+        ]
+      }
+    },
+    "modal": {
+      "detailProduct": "产品详情",
+      "close": "关闭",
+      "viewDetails": "查看详情"
+    }
+  },
+  "career": {
+    "title": "职业",
+    "subtitle": "加入我们的团队",
+    "description": "找到与PT Surya Inti Gas共同成长的机会。我们正在寻找最优秀的人才共同建设未来。",
+    "hero": {
+      "badge": "加入我们的团队",
+      "title": "职业",
+      "titleHighlight": "在PT Surya Inti Gas",
+      "description": "找到与我们一起在气体行业发展和贡献的机会。"
+    },
+    "search": {
+      "title": "查找职位空缺",
+      "description": "发现符合您技能和兴趣的职位。"
+    },
+    "recruitment": {
+      "title": "招聘流程"
+    },
+    "filters": {
+      "division": "部门",
+      "location": "地点",
+      "level": "级别",
+      "all": "全部",
+      "allLocations": "所有地点",
+      "allLevels": "所有级别"
+    },
+    "divisions": {
+      "all": "全部",
+      "salesMarketing": "销售与市场",
+      "technicalOperations": "技术与运营",
+      "financeAdmin": "财务与行政",
+      "logisticsDistribution": "物流与配送"
+    },
+    "locations": {
+      "all": "所有地点",
+      "surabaya": "泗水",
+      "surabayaSidoarjo": "泗水 & 锡多阿尔佐"
+    },
+    "levels": {
+      "all": "所有级别",
+      "entry": "入门级",
+      "junior": "初级",
+      "juniorMid": "初级-中级",
+      "midLevel": "中级"
+    },
+    "employmentTypes": {
+      "fullTime": "全职"
+    },
+    "openings": {
+      "salesExecutive": {
+        "title": "销售主管 - 工业气体",
+        "division": "销售与市场",
+        "location": "泗水",
+        "type": "全职",
+        "level": "中级",
+        "description": "负责向制造和加工客户销售工业气体。与客户建立长期关系并实现月度目标。",
+        "requirements": [
+          "任何专业的大专/学士学位",
+          "至少2年B2B销售经验",
+          "拥有私人车辆及驾驶证A/C",
+          "善于沟通并以目标为导向"
+        ]
+      },
+      "installationTechnician": {
+        "title": "气体安装技术员",
+        "division": "技术与运营",
+        "location": "泗水 & 锡多阿尔佐",
+        "type": "全职",
+        "level": "初级-中级",
+        "description": "在工业和医疗客户地点执行气体管道安装、调节器安装和气体分配系统的调试。",
+        "requirements": [
+          "职业技术学校/机械大专或相关专业",
+          "了解管道和配件系统",
+          "通用职业安全证书（优先）",
+          "愿意在户外工作"
+        ]
+      },
+      "adminFinanceStaff": {
+        "title": "行政与财务职员",
+        "division": "财务与行政",
+        "location": "泗水",
+        "type": "全职",
+        "level": "初级",
+        "description": "管理日常行政、简单记账和协调公司运营文件。",
+        "requirements": [
+          "会计或管理专业的大专/学士学位",
+          "精通Microsoft Office（Excel熟练）",
+          "细致、整洁和负责",
+          "1年行政经验（优先）"
+        ]
+      },
+      "gasDeliveryDriver": {
+        "title": "气体配送司机",
+        "division": "物流与配送",
+        "location": "泗水",
+        "type": "全职",
+        "level": "入门级",
+        "description": "负责准时安全地向客户配送气瓶，并维护车辆车队的状况。",
+        "requirements": [
+          "拥有有效的驾驶证B1/B2",
+          "驾驶商用车辆的经验",
+          "了解配送安全程序",
+          "诚实、纪律严明和负责"
+        ]
+      }
+    },
+    "application": {
+      "applyNow": "立即申请",
+      "applyFor": "申请职位",
+      "close": "关闭",
+      "applicationSent": "申请已发送！",
+      "applicationSentMessage": "谢谢您，<strong>{{name}}</strong>。我们的人力资源团队将在3-5个工作日内通过电子邮件或WhatsApp联系您。",
+      "form": {
+        "fullName": "全名",
+        "fullNamePlaceholder": "输入您的全名",
+        "email": "电子邮件",
+        "emailPlaceholder": "name@email.com",
+        "phone": "WhatsApp号码",
+        "phonePlaceholder": "08123456789",
+        "uploadCV": "上传简历",
+        "uploadCVDescription": "PDF、DOC或DOCX格式（最大5MB）",
+        "dragAndDrop": "将您的简历文件拖放到此处",
+        "browse": "选择文件",
+        "selectedFile": "选定的文件：",
+        "removeFile": "删除文件",
+        "submit": "提交申请",
+        "submitting": "提交中...",
+        "requirements": "要求"
+      },
+      "validation": {
+        "nameRequired": "⚠️ 全名是必填项。请根据您的身份输入您的姓名。",
+        "nameTooShort": "⚠️ 姓名太短。最少3个字符。",
+        "emailRequired": "⚠️ 电子邮件是必填项。请输入您的活动电子邮件以便进一步沟通。",
+        "emailInvalid": "⚠️ 电子邮件格式无效。正确示例：name@email.com。确保使用@和有效的域名。",
+        "phoneRequired": "⚠️ WhatsApp号码是必填项。我们将通过WhatsApp联系您。",
+        "phoneInvalid": "⚠️ WhatsApp号码格式无效。仅使用10-15位数字。示例：08123456789",
+        "cvRequired": "⚠️ 简历文件是必填项。选择您的PDF、DOC或DOCX格式的简历文件（最大5MB）。",
+        "fileFormat": "⚠️ 文件格式不受支持。仅允许PDF、DOC或DOCX格式。确保您的文件具有正确的扩展名。",
+        "fileTooLarge": "⚠️ 文件大小太大。最大5MB。您当前的文件为{{size}}。请压缩文件或使用较小的文件。",
+        "submitError": "⚠️ 提交申请时发生错误。确保您的互联网连接稳定并重试。",
+        "submitFailed": "⚠️ 提交申请失败。请重试。"
+      },
+      "steps": {
+        "sendApplication": "发送申请",
+        "sendApplicationDesc": "填写申请表格并通过此门户上传简历和支持文件。",
+        "adminSelection": "行政筛选",
+        "adminSelectionDesc": "我们的人力资源团队将在3-5个工作日内审查您档案的完整性和适用性。",
+        "testInterview": "测试与面试",
+        "testInterviewDesc": "入选候选人将被邀请参加笔试和与我们团队的面试。",
+        "jobOffer": "工作邀请",
+        "jobOfferDesc": "最佳候选人将收到录用通知书并加入我们的团队。"
+      },
+      "empty": {
+        "title": "没有可用职位",
+        "description": "目前没有符合您搜索条件的职位空缺。"
+      },
+      "results": {
+        "found": "职位空缺"
+      }
+    }
+  },
+  "footer": {
+    "description": "PT Surya Inti Gas - 自2003年以来印度尼西亚工业气体解决方案的可信赖合作伙伴。",
+    "productsOffered": "全印度尼西亚的特种气体、低温设备和干冰。",
+    "quickLinks": "快速链接",
+    "services": "服务",
+    "contact": "联系方式",
+    "rights": "版权所有",
+    "tagline": "值得信赖的气体解决方案",
+    "version": "v1.0.0"
+  },
+  "common": {
+    "readMore": "阅读更多",
+    "learnMore": "了解更多",
+    "getStarted": "开始使用",
+    "submit": "提交",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "close": "关闭",
+    "search": "搜索",
+    "loading": "加载中...",
+    "error": "发生错误",
+    "details": "产品详情"
+  }
+}

@@ -1,0 +1,404 @@
+{
+  "header": {
+    "home": "Home",
+    "about": "About Us", 
+    "products": "Products & Services",
+    "contact": "Contact",
+    "career": "Career",
+    "comingSoon": "Coming Soon",
+    "distributor": "Gas Distributor"
+  },
+  "hero": {
+    "badge": "Trusted Since 2003",
+    "title": "Complete Industrial Gas Solutions",
+    "tagline": "Your Trusted Partner for Energy Needs",
+    "description": "PT Surya Inti Gas provides trusted industrial gas solutions with premium service and guaranteed quality to support your business operations.",
+    "contactUs": "Contact Us",
+    "viewProducts": "View Products",
+    "stats": {
+      "years": "Years of Experience",
+      "clients": "Satisfied Clients",
+      "products": "Available Products",
+      "coverage": "Coverage Area"
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Trusted Partner in Industrial Gas Solutions",
+    "description": "PT Surya Inti Gas is an industrial gas provider company that has been operating since 2003. We are committed to providing high-quality gas solutions with premium service to support industrial needs in Indonesia.",
+    "companyName": "PT. Surya Inti Gas",
+    "intro": "Surya Inti Gas has been established since 2003 and has grown into a trusted industrial and medical gas distributor serving over 150 customers in East Java, Central Java, DIY, and East Kalimantan.",
+    "highlights": {
+      "industrialGas": "Industrial, Medical, Specialty & Mixed Gas",
+      "delivery": "Independent & On-Time Delivery Fleet",
+      "customers": "Serving 150+ Industrial Customers",
+      "offices": "Head Office Sidoarjo + Balikpapan Branch"
+    },
+    "vision": {
+      "title": "Vision",
+      "text": "To become a growing company with branches in major cities throughout Indonesia, capable of fulfilling and supporting industrial gas needs domestically as well as serving medical oxygen needs in all hospitals across Indonesia."
+    },
+    "mission": {
+      "title": "Mission",
+      "items": [
+        "Able to provide sufficient products with high standards.",
+        "Have strong and solid human resources.",
+        "Able to fulfill customer needs and desires quickly, accurately, and well.",
+        "Customer satisfaction is our priority."
+      ]
+    },
+    "timeline": {
+      "title": "Our Journey",
+      "subtitle": "Building Trust Since 2003",
+      "items": [
+        {
+          "year": "2003",
+          "label": "Establishment",
+          "text": "Established as CV. Surya Inti Gas, office located at Jl. KH. Mukmin, Sidoarjo, East Java."
+        },
+        {
+          "year": "2007",
+          "label": "Expansion",
+          "text": "Business grew rapidly, office moved to Meiko Abadi Industrial & Warehousing Complex, Gedangan, Sidoarjo."
+        },
+        {
+          "year": "2016",
+          "label": "New Head Office",
+          "text": "Office moved to Safe N Lock Complex, Jl. Lingkar Timur KM 5.5, Rangkah Kidul as Head Office."
+        },
+        {
+          "year": "2017",
+          "label": "PT & Branch",
+          "text": "Officially established as PT. Surya Inti Gas and opened first branch in Balikpapan, East Kalimantan."
+        }
+      ]
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're Here to Help",
+    "description": "Our team is ready to assist you with your industrial gas needs. Contact us for a free consultation.",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "message": "Message",
+      "submit": "Send Message",
+      "success": "Message sent successfully!",
+      "error": "An error occurred. Please try again."
+    },
+    "info": {
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Business Hours"
+    },
+    "hours": {
+      "weekdays": "Monday – Friday: 08.00 – 16.00 WIB",
+      "saturday": "Saturday: 08.00 – 14.00 WIB"
+    },
+    "offices": {
+      "headOffice": "Head Office",
+      "branchOffice": "Branch Office",
+      "viewMaps": "View on Google Maps"
+    }
+  },
+  "product": {
+    "title": "Our Products",
+    "subtitle": "High-Quality Gas Solutions",
+    "description": "We provide various types of industrial and medical gases with international quality standards.",
+    "currentlyDisplaying": "Currently Displaying",
+    "selectCategory": "Select Category",
+    "productsLabel": "PRODUCTS",
+    "productLabel": "Product",
+    "servicesLabel": "SERVICES",
+    "gasAndCylinder": "Gas & Cylinders",
+    "highQualityCylinders": "and various high-quality pressure cylinders",
+    "medicalSpecialty": "Medical & Specialty",
+    "categories": {
+      "industrial": "Industrial Gas",
+      "medical": "Medical Gas",
+      "speciality": "Specialty Gas",
+      "mixed": "Mixed Gas"
+    },
+    "details": {
+      "color": "Color",
+      "pressure": "Pressure",
+      "cylinderSize": "Cylinder Size",
+      "applications": "Applications",
+      "safety": "Safety",
+      "purity": "Purity",
+      "usage": "Usage",
+      "availability": "Availability",
+      "available": "In Stock"
+    },
+    "products": {
+      "oxygen": {
+        "title": "Oxygen (O₂)",
+        "description": "Industrial and medical oxygen gas with high purity.",
+        "purity": "99.5% – 99.9%",
+        "usage": "Industrial & Medical",
+        "color": "Colorless, odorless",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
+        "applications": ["Welding & cutting", "Medical respiration", "Chemical industry processes", "Water treatment"],
+        "safety": "Keep away from fire sources. Store in well-ventilated area. Use appropriate regulator."
+      },
+      "nitrogen": {
+        "title": "Nitrogen (N₂)",
+        "description": "Nitrogen gas for preservation, welding, and industrial applications.",
+        "purity": "99.0% – 99.99%",
+        "usage": "Preservation & Welding",
+        "color": "Colorless, odorless",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": ["1 m³", "6 m³", "Liquid Bulk"],
+        "applications": ["Food & beverage preservation", "Pipe and tank purging", "Cryogenic cooling", "Electronics industry"],
+        "safety": "Inert gas but can cause asphyxiation in enclosed spaces. Ensure adequate ventilation."
+      },
+      "argon": {
+        "title": "Argon (Ar)",
+        "description": "Argon gas for TIG welding and specialty applications.",
+        "purity": "99.9% – 99.999%",
+        "usage": "TIG Welding & Specialty",
+        "color": "Colorless, odorless",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
+        "applications": ["TIG & MIG welding", "Semiconductor industry", "Lighting & lamps", "Specialty gas production"],
+        "safety": "Inert gas. Avoid accumulation in confined spaces. Store cylinders upright."
+      },
+      "acetylene": {
+        "title": "Acetylene (C₂H₂)",
+        "description": "Acetylene gas for metal cutting and welding.",
+        "purity": "98.0% – 99.5%",
+        "usage": "Metal Cutting & Welding",
+        "color": "Colorless, distinctive odor",
+        "pressure": "Max 15 bar (dissolved)",
+        "cylinderSizes": ["40 L", "60 L"],
+        "applications": ["Thick metal cutting", "Oxy-acetylene welding", "Metal heating & bending", "Automotive & iron industry"],
+        "safety": "Flammable gas. Store away from heat sources. Do not tilt or drop."
+      }
+    },
+    "services": {
+      "title": "Our Services",
+      "professionalService": "Professional Service",
+      "installation": {
+        "title": "Gas & Pipe Installation",
+        "description": "Safe and standard-compliant industrial and medical gas pipe installation. Includes pipeline planning, fitting installation, and gas distribution system leak testing.",
+        "steps": {
+          "planning": "Route Planning",
+          "installation": "Pipe Installation",
+          "testing": "Leak Testing"
+        },
+        "highlights": [
+          "Industrial grade copper & stainless pipes",
+          "SNI & ASME compliant",
+          "1 year installation warranty"
+        ]
+      },
+      "tanks": {
+        "title": "Tank Installation",
+        "description": "Installation of pressurized gas storage tanks and cryogenic tanks for large-scale industrial needs. Equipped with safety systems, pressure regulators, and commissioning by certified technicians.",
+        "steps": {
+          "survey": "Survey & Design",
+          "installation": "Tank Installation",
+          "commissioning": "Commissioning"
+        },
+        "highlights": [
+          "Pressurized & cryogenic tanks",
+          "Capacity according to client needs",
+          "K3 certified technicians"
+        ]
+      }
+    },
+    "modal": {
+      "detailProduct": "Product Detail",
+      "close": "Close",
+      "viewDetails": "View Details"
+    }
+  },
+  "career": {
+    "title": "Career",
+    "subtitle": "Join Our Team",
+    "description": "Find opportunities to grow with PT Surya Inti Gas. We are looking for the best talents to build the future together.",
+    "hero": {
+      "badge": "JOIN OUR TEAM",
+      "title": "Career",
+      "titleHighlight": "at PT Surya Inti Gas",
+      "description": "Find opportunities to grow and contribute in the gas industry with us."
+    },
+    "search": {
+      "title": "Find Openings",
+      "description": "Discover positions that match your skills and interests."
+    },
+    "recruitment": {
+      "title": "Recruitment Process"
+    },
+    "filters": {
+      "division": "Division",
+      "location": "Location",
+      "level": "Level",
+      "all": "All",
+      "allLocations": "All Locations",
+      "allLevels": "All Levels"
+    },
+    "divisions": {
+      "all": "All",
+      "salesMarketing": "Sales & Marketing",
+      "technicalOperations": "Technical & Operations",
+      "financeAdmin": "Finance & Admin",
+      "logisticsDistribution": "Logistics & Distribution"
+    },
+    "locations": {
+      "all": "All Locations",
+      "surabaya": "Surabaya",
+      "surabayaSidoarjo": "Surabaya & Sidoarjo"
+    },
+    "levels": {
+      "all": "All Levels",
+      "entry": "Entry",
+      "junior": "Junior",
+      "juniorMid": "Junior – Mid",
+      "midLevel": "Mid-level"
+    },
+    "employmentTypes": {
+      "fullTime": "Full-time"
+    },
+    "openings": {
+      "salesExecutive": {
+        "title": "Sales Executive – Industrial Gas",
+        "division": "Sales & Marketing",
+        "location": "Surabaya",
+        "type": "Full-time",
+        "level": "Mid-level",
+        "description": "Responsible for industrial gas sales to manufacturing and processing clients. Build long-term relationships with customers and achieve monthly targets.",
+        "requirements": [
+          "D3/Bachelor's degree in any major",
+          "Minimum 2 years B2B sales experience",
+          "Have personal vehicle & Driver's License A/C",
+          "Communicative and target-oriented"
+        ]
+      },
+      "installationTechnician": {
+        "title": "Gas Installation Technician",
+        "division": "Technical & Operations",
+        "location": "Surabaya & Sidoarjo",
+        "type": "Full-time",
+        "level": "Junior – Mid",
+        "description": "Perform gas pipe installation, regulator installation, and commissioning of gas distribution systems at industrial and medical client locations.",
+        "requirements": [
+          "SMK Technical / D3 Mechanical or related",
+          "Understand piping and fitting systems",
+          "General Occupational Safety Certificate (preferred)",
+          "Willing to work in the field"
+        ]
+      },
+      "adminFinanceStaff": {
+        "title": "Administration & Finance Staff",
+        "division": "Finance & Admin",
+        "location": "Surabaya",
+        "type": "Full-time",
+        "level": "Junior",
+        "description": "Manage daily administration, simple bookkeeping, and coordination of company operational documents.",
+        "requirements": [
+          "D3/Bachelor's degree in Accounting or Management",
+          "Master Microsoft Office (Excel advanced)",
+          "Detail-oriented, neat, and responsible",
+          "1 year administration experience (preferred)"
+        ]
+      },
+      "gasDeliveryDriver": {
+        "title": "Gas Delivery Driver",
+        "division": "Logistics & Distribution",
+        "location": "Surabaya",
+        "type": "Full-time",
+        "level": "Entry",
+        "description": "Responsible for timely and safe delivery of gas cylinders to customers, and maintaining vehicle fleet condition.",
+        "requirements": [
+          "Have active Driver's License B1/B2",
+          "Experience driving commercial vehicles",
+          "Understand delivery safety procedures",
+          "Honest, disciplined, and responsible"
+        ]
+      }
+    },
+    "application": {
+      "applyNow": "Apply Now",
+      "applyFor": "Apply for Position",
+      "close": "Close",
+      "applicationSent": "Application Sent!",
+      "applicationSentMessage": "Thank you, <strong>{{name}}</strong>. Our HR team will contact you via email or WhatsApp within 3–5 working days.",
+      "form": {
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "Enter your full name",
+        "email": "Email",
+        "emailPlaceholder": "name@email.com",
+        "phone": "WhatsApp Number",
+        "phonePlaceholder": "08123456789",
+        "uploadCV": "Upload CV",
+        "uploadCVDescription": "PDF, DOC, or DOCX format (max 5MB)",
+        "dragAndDrop": "Drag & drop your CV file here",
+        "browse": "Choose File",
+        "selectedFile": "Selected file:",
+        "removeFile": "Remove File",
+        "submit": "Submit Application",
+        "submitting": "Submitting...",
+        "requirements": "Requirements"
+      },
+      "validation": {
+        "nameRequired": "⚠️ Full name is required. Enter your name according to your identity.",
+        "nameTooShort": "⚠️ Name is too short. Minimum 3 characters.",
+        "emailRequired": "⚠️ Email is required. Enter your active email for further communication.",
+        "emailInvalid": "⚠️ Invalid email format. Correct example: name@email.com. Make sure to use @ and a valid domain.",
+        "phoneRequired": "⚠️ WhatsApp number is required. We will contact you via WhatsApp.",
+        "phoneInvalid": "⚠️ Invalid WhatsApp number format. Use 10-15 digits only. Example: 08123456789",
+        "cvRequired": "⚠️ CV file is required. Select your CV file in PDF, DOC, or DOCX format (max 5MB).",
+        "fileFormat": "⚠️ File format not supported. Only PDF, DOC, or DOCX are allowed. Make sure your file has the correct extension.",
+        "fileTooLarge": "⚠️ File size is too large. Maximum 5MB. Your current file is {{size}}. Please compress the file or use a smaller file.",
+        "submitError": "⚠️ An error occurred while submitting the application. Make sure your internet connection is stable and try again.",
+        "submitFailed": "⚠️ Failed to submit application. Please try again."
+      },
+      "steps": {
+        "sendApplication": "Send Application",
+        "sendApplicationDesc": "Fill out the application form and upload CV and supporting documents through this portal.",
+        "adminSelection": "Administrative Selection",
+        "adminSelectionDesc": "Our HR team will review the completeness and suitability of your profile within 3–5 working days.",
+        "testInterview": "Test & Interview",
+        "testInterviewDesc": "Selected candidates will be invited for written tests and interviews with our team.",
+        "jobOffer": "Job Offer",
+        "jobOfferDesc": "The best candidates will receive an offer letter and join our team."
+      },
+      "empty": {
+        "title": "No positions available",
+        "description": "Currently there are no openings that match your search criteria."
+      },
+      "results": {
+        "found": "openings found"
+      }
+    }
+  },
+  "footer": {
+    "description": "PT Surya Inti Gas - Trusted partner for industrial gas solutions in Indonesia since 2003.",
+    "productsOffered": "speciality gas, cryogenic equipment, and dry ice throughout Indonesia.",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "contact": "Contact",
+    "rights": "All Rights Reserved",
+    "tagline": "Trusted Gas Solutions",
+    "version": "v1.0.0"
+  },
+  "common": {
+    "readMore": "Read More",
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "details": "Product Details"
+  }
+}

@@ -3,6 +3,8 @@ import { Menu, X, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ContactForm } from "./ContactForm";
 import { Link, useLocation } from "react-router-dom";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 // ─── Import Barlow font ─────────────────
 const fontLink = document.createElement("link");
@@ -12,14 +14,6 @@ document.head.appendChild(fontLink);
 
 // ─── Nav Config ───────────────────────────────────────────────
 type NavItem = { name: string; href: string; isRoute?: boolean; isDisabled?: boolean };
-
-const NAV_LINKS: NavItem[] = [
-  { name: "Beranda", href: "/", isRoute: true },
-  { name: "Tentang Kami", href: "/#about" },
-  { name: "Produk & Layanan", href: "/produk", isRoute: true },
-  { name: "Kontak", href: "/#kontak" },
-  { name: "Karir", href: "/karir", isRoute: true},
-];
 
 // ─── Shared class builders ────────────────────────────────────
 const desktopLinkClass = (isLight: boolean) =>
@@ -44,6 +38,7 @@ const mobileLinkStyle = {
 
 // ─── Main Component ───────────────────────────────────────────
 export const Header = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
@@ -57,6 +52,14 @@ export const Header = () => {
   const { pathname } = useLocation();
   const isHomePage = pathname === "/";
   const isLight = !isHomePage || scrolled;
+
+  const NAV_LINKS: NavItem[] = [
+    { name: t('header.home'), href: "/", isRoute: true },
+    { name: t('header.about'), href: "/#about" },
+    { name: t('header.products'), href: "/produk", isRoute: true },
+    { name: t('header.contact'), href: "/#kontak" },
+    { name: t('header.career'), href: "/karir", isRoute: true},
+  ];
 
   return (
     <>
@@ -95,7 +98,7 @@ export const Header = () => {
                   }`}
                   style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 500 }}
                 >
-                  Distributor Gas
+                  {t('header.distributor')}
                 </div>
               </div>
             </a>
@@ -107,7 +110,7 @@ export const Header = () => {
                 if (link.isDisabled) return (
                   <span
                     key={link.name}
-                    title="Segera hadir"
+                    title={t('header.comingSoon')}
                     className="flex items-center px-5 py-2 rounded-lg text-sm cursor-not-allowed select-none"
                     style={{
                       ...desktopLinkStyle,
@@ -142,6 +145,8 @@ export const Header = () => {
                   </a>
                 );
               })}
+              <div className="flex-grow"></div>
+              <LanguageSwitcher isLight={isLight} />
             </div>
 
             {/* Mobile Toggle */}
@@ -192,6 +197,9 @@ export const Header = () => {
               className="lg:hidden bg-white border-t border-slate-100 overflow-hidden shadow-xl"
             >
               <div className="px-5 py-4 space-y-1">
+                <div className="pb-3">
+                  <LanguageSwitcher isLight={true} />
+                </div>
                 {NAV_LINKS.map((link) => {
                   // 1. Disabled
                   if (link.isDisabled) return (
@@ -201,7 +209,7 @@ export const Header = () => {
                       style={mobileLinkStyle}
                     >
                       {link.name}
-                      <span className="ml-2 text-xs text-slate-300">(Segera hadir)</span>
+                      <span className="ml-2 text-xs text-slate-300">({t('header.comingSoon')})</span>
                     </span>
                   );
 

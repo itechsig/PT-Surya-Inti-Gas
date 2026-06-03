@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { CheckCircle2, Target, BookOpen } from "lucide-react";
 
 const fontImport = `
@@ -291,33 +292,34 @@ const PhotoBlock: React.FC<{
   />
 );
 
-const timelineData = [
-  {
-    year: "2003", label: "Pendirian",
-    text: "Berdiri dengan nama CV. Surya Inti Gas, berkantor di Jl. KH. Mukmin, Sidoarjo, Jawa Timur.",
-    color: "#3b82f6", bg: "rgba(59,130,246,0.10)", accent: "rgba(59,130,246,0.15)",
-  },
-  {
-    year: "2007", label: "Ekspansi",
-    text: 'Bisnis berkembang pesat, kantor pindah ke Komplek Pergudangan & Industri "Meiko Abadi", Gedangan, Sidoarjo.',
-    color: "#0891b2", bg: "rgba(8,145,178,0.10)", accent: "rgba(8,145,178,0.15)",
-  },
-  {
-    year: "2016", label: "Head Office Baru",
-    text: 'Kantor pindah ke Komplek "Safe N Lock", Jl. Lingkar Timur KM 5.5, Rangkah Kidul sebagai Head Office.',
-    color: "#16a34a", bg: "rgba(22,163,74,0.10)", accent: "rgba(22,163,74,0.15)",
-  },
-  {
-    year: "2017", label: "PT & Cabang",
-    text: "Resmi berdiri sebagai PT. Surya Inti Gas dan perdana membuka cabang di Balikpapan, Kalimantan Timur.",
-    color: "#22c55e", bg: "rgba(34,197,94,0.10)", accent: "rgba(34,197,94,0.15)",
-  },
-];
-
 export function About() {
+  const { t } = useTranslation();
+
+  const timelineData = [
+    {
+      year: "2003", label: t('about.timeline.items.0.label'),
+      text: t('about.timeline.items.0.text'),
+      color: "#3b82f6", bg: "rgba(59,130,246,0.10)", accent: "rgba(59,130,246,0.15)",
+    },
+    {
+      year: "2007", label: t('about.timeline.items.1.label'),
+      text: t('about.timeline.items.1.text'),
+      color: "#0891b2", bg: "rgba(8,145,178,0.10)", accent: "rgba(8,145,178,0.15)",
+    },
+    {
+      year: "2016", label: t('about.timeline.items.2.label'),
+      text: t('about.timeline.items.2.text'),
+      color: "#16a34a", bg: "rgba(22,163,74,0.10)", accent: "rgba(22,163,74,0.15)",
+    },
+    {
+      year: "2017", label: t('about.timeline.items.3.label'),
+      text: t('about.timeline.items.3.text'),
+      color: "#22c55e", bg: "rgba(34,197,94,0.10)", accent: "rgba(34,197,94,0.15)",
+    },
+  ];
   React.useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries) => {  
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
@@ -353,7 +355,7 @@ export function About() {
                   fontWeight: 600, letterSpacing: "0.18em",
                   textTransform: "uppercase", color: "#16a34a",
                 }}>
-                  Tentang Kami
+                  {t('about.title')}
                 </span>
               </div>
 
@@ -371,17 +373,16 @@ export function About() {
                 fontSize: "clamp(0.95rem, 2.5vw, 1.05rem)",
                 lineHeight: 1.75, color: "#5a7085", fontWeight: 300, margin: 0,
               }}>
-                Surya Inti Gas berdiri sejak tahun 2003 dan telah berkembang menjadi
-                distributor gas industri dan medis terpercaya yang melayani lebih dari
-                150 pelanggan di Jawa Timur, Jawa Tengah, DIY, hingga Kalimantan Timur.
+                {t('about.intro')}
+
               </p>
 
               <div className="glass-card" style={{ padding: "20px 16px", display: "flex", flexDirection: "column", gap: "4px" }}>
                 {[
-                  "Gas Industri, Medis, Speciality & Mixed Gas",
-                  "Armada Pengiriman Mandiri & Tepat Waktu",
-                  "Melayani 150+ Pelanggan Industri",
-                  "Head Office Sidoarjo + Cabang Balikpapan",
+                  t('about.highlights.industrialGas'),
+                  t('about.highlights.delivery'),
+                  t('about.highlights.customers'),
+                  t('about.highlights.offices'),
                 ].map((item, i) => (
                   <div key={i} className="check-item">
                     <CheckCircle2 color="#22c55e" size={18} strokeWidth={2.5} />
@@ -431,7 +432,7 @@ export function About() {
                     fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
                     fontSize: "1.15rem", color: "#0369a1", letterSpacing: "0.02em",
                   }}>
-                    Visi Kami
+                    {t('about.vision.title')}
                   </span>
                 </div>
                 <p style={{
@@ -439,10 +440,8 @@ export function About() {
                   lineHeight: 1.75, color: "#475569",
                   margin: 0, fontSize: "0.97rem", fontWeight: 300,
                 }}>
-                  Menjadi sebuah perusahaan yang berkembang, memiliki cabang di seluruh
-                  kota besar Indonesia, yang mampu memenuhi dan menunjang kebutuhan
-                  gas-gas industri di dalam negeri serta melayani kebutuhan gas Oksigen
-                  Medis di seluruh Rumah Sakit di Indonesia.
+                  {t('about.vision.text')}
+
                 </p>
               </div>
 
@@ -458,15 +457,15 @@ export function About() {
                     fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
                     fontSize: "1.15rem", color: "#16a34a", letterSpacing: "0.02em",
                   }}>
-                    Misi Kami
+                    {t('about.mission.title')}
                   </span>
                 </div>
                 <ul className="misi-list">
                   {[
-                    "Mampu menyediakan produk yang berkecukupan dengan standar tinggi.",
-                    "Memiliki sumber daya manusia yang kuat dan solid.",
-                    "Mampu memenuhi kebutuhan dan keinginan pelanggan dengan cepat, tepat dan baik.",
-                    "Kepuasan pelanggan adalah prioritas kami.",
+                    t('about.mission.items.0'),
+                    t('about.mission.items.1'),
+                    t('about.mission.items.2'),
+                    t('about.mission.items.3'),
                   ].map((item, i) => (
                     <li key={i} style={{
                       display: "flex", alignItems: "flex-start", gap: "10px",
@@ -503,7 +502,7 @@ export function About() {
                   letterSpacing: "0.18em", textTransform: "uppercase",
                   color: "#94a3b8", fontFamily: "'Outfit', sans-serif",
                 }}>
-                  Perjalanan Kami
+                  {t('about.timeline.title')}
                 </span>
                 <div style={{ width: "36px", height: "1.5px", background: "#94a3b8" }} />
               </div>
@@ -513,7 +512,7 @@ export function About() {
                 fontWeight: 700, color: "#0f172a",
                 margin: 0, letterSpacing: "-0.01em",
               }}>
-                Sejarah Singkat
+                {t('about.timeline.subtitle')}
               </h2>
             </div>
 
