@@ -377,6 +377,8 @@ const PhotoBlock: React.FC<{
 
 export function About() {
   const { t } = useTranslation();
+  const [bannerDismissed, setBannerDismissed] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const timelineData = [
     {
@@ -621,7 +623,7 @@ export function About() {
               </button>
             </div>
             <div className="vid-modal-player">
-              {isYt
+              {true
                 ? <iframe src={`${VIDEO_SRC}?autoplay=1&rel=0`} title="Company Profile PT Surya Inti Gas" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowFullScreen />
                 : <video src={VIDEO_SRC} controls autoPlay />
               }
