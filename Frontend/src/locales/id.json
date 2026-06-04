@@ -228,7 +228,16 @@
     },
     "search": {
       "title": "Cari Lowongan",
-      "description": "Temukan posisi yang sesuai dengan keahlian dan minat Anda."
+      "description": "Temukan posisi yang sesuai dengan keahlian dan minat Anda.",
+      "searchPositions": "Cari Posisi",
+      "placeholder": "Cari posisi, divisi, atau kata kunci...",
+      "filterDivision": "Filter Divisi",
+      "filterLocation": "Filter Lokasi",
+      "filterLevel": "Filter Level",
+      "allDivisions": "Semua Divisi",
+      "allLocations": "Semua Lokasi",
+      "allLevels": "Semua Level",
+      "found": "lowongan ditemukan"
     },
     "recruitment": {
       "title": "Proses Rekrutmen"
@@ -382,11 +391,38 @@
     "quickLinks": "Tautan Cepat",
     "services": "Layanan",
     "contact": "Kontak",
+    "contactUs": "Hubungi Kami",
+    "contactDescription": "Butuh penawaran atau informasi produk? Tim kami siap membantu Anda.",
+    "categories": {
+      "industrialMedicalGas": "Gas Industri & Medis",
+      "professionalInstallation": "Instalasi Profesional",
+      "products": "Produk",
+      "services": "Layanan",
+      "gasCylinders": "Gas & Tabung",
+      "gasInstallation": "Instalasi Gas"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "whatsapp": "WhatsApp"
+    },
     "rights": "Hak Cipta Dilindungi",
     "tagline": "Solusi Gas Terpercaya",
     "version": "v1.0.0"
   },
+  "portfolio": {
+    "showcase": "Showcase Proyek",
+    "title": "Portofolio Pekerjaan Kami",
+    "filterAll": "Semua",
+    "filterBuilding": "Gedung",
+    "filterInfrastructure": "Infrastruktur",
+    "filterRenovation": "Renovasi",
+    "year": "Tahun",
+    "viewAllProjects": "Lihat Semua Proyek"
+  },
   "common": {
+    "close": "Tutup",
     "readMore": "Baca Selengkapnya",
     "learnMore": "Pelajari Lebih Lanjut",
     "getStarted": "Mulai Sekarang",
@@ -395,8 +431,9 @@
     "save": "Simpan",
     "delete": "Hapus",
     "edit": "Edit",
-    "close": "Tutup",
     "search": "Cari",
+    "notFound": "Tidak ditemukan",
+    "reset": "Reset",
     "loading": "Memuat...",
     "error": "Terjadi kesalahan",
     "details": "Detail Produk"

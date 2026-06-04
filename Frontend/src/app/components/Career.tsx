@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Check, Search, X, ChevronRight, Calendar, Clock } from 'lucide-react';
+import { ChevronDown, Check, Search, X, Calendar, Clock } from 'lucide-react';
 import { getApiUrl, API_ENDPOINTS } from '../../config/api';
 import { useTranslation } from 'react-i18next';
 
@@ -165,13 +165,17 @@ function CustomSelect({
   placeholder?: string;
   label: string;
 }) {
+  const { t } = useTranslation();
   const [dropSearch, setDropSearch] = useState('');
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const filteredOpts = options.filter(o =>
-    o.toLowerCase().includes(dropSearch.toLowerCase())
+    t(o).toLowerCase().includes(dropSearch.toLowerCase())
   );
+
+  const displayValue = value ? t(value) : placeholder;
+  const displayLabel = t(label);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -187,7 +191,7 @@ function CustomSelect({
   return (
     <div className="flex flex-col gap-1">
       <span className="text-[11px] text-slate-400 uppercase tracking-widest font-semibold px-0.5">
-        {label}
+        {displayLabel}
       </span>
       <div ref={ref} className="relative">
         {/* Trigger Button */}
@@ -204,7 +208,7 @@ function CustomSelect({
               : 'border-slate-200 text-slate-700 hover:border-emerald-400 hover:bg-emerald-50/40'}
           `}
         >
-          <span className="truncate">{value || placeholder}</span>
+          <span className="truncate">{displayValue}</span>
           <ChevronDown
             size={15}
             className={`text-slate-400 flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
@@ -223,7 +227,7 @@ function CustomSelect({
                   type="text"
                   value={dropSearch}
                   onChange={e => setDropSearch(e.target.value)}
-                  placeholder="Cari..."
+                  placeholder={t('common.search')}
                   className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-100 transition-all"
                 />
                 {dropSearch && (
@@ -257,12 +261,12 @@ function CustomSelect({
                         : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-800'}
                     `}
                   >
-                    <span>{opt}</span>
+                    <span>{t(opt)}</span>
                     {value === opt && <Check size={14} className="text-emerald-500 flex-shrink-0" />}
                   </button>
                 ))
               ) : (
-                <p className="text-center text-xs text-slate-400 py-4">Tidak ditemukan</p>
+                <p className="text-center text-xs text-slate-400 py-4">{t('common.notFound')}</p>
               )}
             </div>
           </div>
@@ -350,24 +354,10 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
     }
   };
 
-  const handleFocus = (field: string) => {
-    setFocused(field);
-    setErrors(prev => ({ ...prev, [field]: '' }));
-  };
-
-  const handleBlur = (field: string, value: string) => {
-    setFocused(null);
-    setTouched(prev => ({ ...prev, [field]: true }));
-    const error = validateField(field, value);
-    setErrors(prev => ({ ...prev, [field]: error }));
-  };
-
   const handleChange = (field: string, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
-    if (touched[field] && focused !== field) {
-      const error = validateField(field, value);
-      setErrors(prev => ({ ...prev, [field]: error }));
-    }
+    const error = validateField(field, value);
+    setErrors(prev => ({ ...prev, [field]: error }));
   };
 
   const validateForm = (): boolean => {
@@ -443,17 +433,6 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
       ? `${(bytes / 1024).toFixed(0)} KB`
       : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 
-  const inputClass = (field: string) =>
-    `w-full px-4 py-3 border rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 transition-all ${
-      focused === field
-        ? 'border-emerald-400 focus:border-emerald-400 focus:ring-emerald-100'
-        : errors[field]
-        ? 'border-red-400 focus:border-red-400 focus:ring-red-100 bg-red-50/40'
-        : touched[field] && !errors[field] && form[field as keyof typeof form]
-        ? 'border-emerald-400 focus:border-emerald-400 focus:ring-emerald-100 bg-emerald-50/20'
-        : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
-    }`;
-
   const isFormComplete =
     form.name && form.email && form.phone && cvFile &&
     !errors.name && !errors.email && !errors.phone && !errors.cvFile;
@@ -514,29 +493,23 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
             <div className="space-y-5">
               {/* Nama */}
               <div>
-
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">{t('career.application.form.fullName')} *</label>
                 <input
                   type="text"
                   placeholder={t('career.application.form.fullNamePlaceholder')}
-                   value={form.name}
-                    onChange={e => handleChange('name', e.target.value)}
-                    onFocus={() => handleFocus('name')}
-                    onBlur={e => handleBlur('name', e.target.value)}
-                    className={inputClass('name')}
-                    maxLength={80}
-                  />
-                  {touched.name && focused !== 'name' && (
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm select-none pointer-events-none">
-                      {errors.name ? '❌' : '✅'}
-                    </span>
-                  )}
-                </div>
-                {errors.name && focused !== 'name' && (
+                  value={form.name}
+                  onChange={e => handleChange('name', e.target.value)}
+                  className={`w-full px-4 py-3 border rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 transition-all ${
+                    errors.name
+                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+                      : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
+                  }`}
+                  maxLength={80}
+                />
+                {errors.name && (
                   <p className="mt-1.5 text-xs text-red-500 flex items-start gap-1 leading-relaxed">
                     <span className="flex-shrink-0">⚠️</span> {errors.name}
                   </p>
-                
                 )}
               </div>
 
@@ -719,7 +692,7 @@ function SearchFilterBar({
       {/* Search Bar */}
       <div className="mb-5">
         <span className="text-[11px] text-slate-400 uppercase tracking-widest font-semibold block mb-1.5">
-          Cari Posisi
+          {t('career.search.searchPositions')}
         </span>
         <div className="relative">
           <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400">
@@ -727,7 +700,7 @@ function SearchFilterBar({
           </div>
           <input
             type="text"
-            placeholder="Cari posisi, divisi, atau kata kunci..."
+            placeholder={t('career.search.placeholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all"
@@ -752,26 +725,26 @@ function SearchFilterBar({
           value={activeDiv}
           onValueChange={setActiveDiv}
           options={divisions}
-          placeholder="Semua Divisi"
-          label="Filter Divisi"
+          placeholder={t('career.search.allDivisions')}
+          label="career.search.filterDivision"
         />
         <CustomSelect
           value={activeLocation}
           onValueChange={setActiveLocation}
           options={locations}
-          placeholder="Semua Lokasi"
-          label="Filter Lokasi"
+          placeholder={t('career.search.allLocations')}
+          label="career.search.filterLocation"
         />
         <CustomSelect
           value={activeLevel}
           onValueChange={setActiveLevel}
           options={levels}
-          placeholder="Semua Level"
-          label="Filter Level"
+          placeholder={t('career.search.allLevels')}
+          label="career.search.filterLevel"
         />
 
         <div className="ml-auto flex items-center gap-3 pb-0.5">
-          <span className="text-xs text-slate-400 font-medium">{resultCount} lowongan ditemukan</span>
+          <span className="text-xs text-slate-400 font-medium">{resultCount} {t('career.search.found')}</span>
           {hasFilter && (
             <button
               onClick={reset}
@@ -927,10 +900,10 @@ export function Career() {
                   >
                     <div className="flex-1">
                       <div className="flex flex-wrap gap-2 mb-2">
-                        <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">{job.division}</span>
-                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">📍 {job.location}</span>
-                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">{job.type}</span>
-                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">{job.level}</span>
+                        <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">{t(job.divisionKey)}</span>
+                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">📍 {t(job.locationKey)}</span>
+                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">{t(job.typeKey)}</span>
+                        <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">{t(job.levelKey)}</span>
                         {isExpired && (
                           <span className="px-2.5 py-0.5 bg-red-100 text-red-600 text-xs font-medium rounded-full">Ditutup</span>
                         )}
@@ -940,7 +913,7 @@ export function Career() {
                           </span>
                         )}
                       </div>
-                      <h3 className="text-lg font-bold text-slate-800">{job.title}</h3>
+                      <h3 className="text-lg font-bold text-slate-800">{t(job.titleKey)}</h3>
                       <div className="flex flex-wrap gap-4 mt-2">
                         <span className="flex items-center gap-1.5 text-xs text-slate-400">
                           <Calendar size={11} />
@@ -966,10 +939,10 @@ export function Career() {
                       <div>
                         <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-3">{t('career.application.form.requirements')}</p>
                         <ul className="space-y-2">
-                          {job.requirements.map(r => (
+                          {job.requirementsKeys.map(r => (
                             <li key={r} className="flex items-start gap-2.5 text-sm text-slate-600">
                               <span className="mt-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-xs flex items-center justify-center flex-shrink-0">✓</span>
-                              {r}
+                              {t(r)}
                             </li>
                           ))}
                         </ul>

@@ -228,7 +228,16 @@
     },
     "search": {
       "title": "Find Openings",
-      "description": "Discover positions that match your skills and interests."
+      "description": "Discover positions that match your skills and interests.",
+      "searchPositions": "Search Positions",
+      "placeholder": "Search positions, divisions, or keywords...",
+      "filterDivision": "Filter Division",
+      "filterLocation": "Filter Location",
+      "filterLevel": "Filter Level",
+      "allDivisions": "All Divisions",
+      "allLocations": "All Locations",
+      "allLevels": "All Levels",
+      "found": "openings found"
     },
     "recruitment": {
       "title": "Recruitment Process"
@@ -382,11 +391,38 @@
     "quickLinks": "Quick Links",
     "services": "Services",
     "contact": "Contact",
+    "contactUs": "Contact Us",
+    "contactDescription": "Need a quote or product information? Our team is ready to help you.",
+    "categories": {
+      "industrialMedicalGas": "Industrial & Medical Gas",
+      "professionalInstallation": "Professional Installation",
+      "products": "Products",
+      "services": "Services",
+      "gasCylinders": "Gas & Cylinders",
+      "gasInstallation": "Gas Installation"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "whatsapp": "WhatsApp"
+    },
     "rights": "All Rights Reserved",
     "tagline": "Trusted Gas Solutions",
     "version": "v1.0.0"
   },
+  "portfolio": {
+    "showcase": "Project Showcase",
+    "title": "Our Work Portfolio",
+    "filterAll": "All",
+    "filterBuilding": "Building",
+    "filterInfrastructure": "Infrastructure",
+    "filterRenovation": "Renovation",
+    "year": "Year",
+    "viewAllProjects": "View All Projects"
+  },
   "common": {
+    "close": "Close",
     "readMore": "Read More",
     "learnMore": "Learn More",
     "getStarted": "Get Started",
@@ -395,8 +431,9 @@
     "save": "Save",
     "delete": "Delete",
     "edit": "Edit",
-    "close": "Close",
     "search": "Search",
+    "notFound": "Not found",
+    "reset": "Reset",
     "loading": "Loading...",
     "error": "An error occurred",
     "details": "Product Details"

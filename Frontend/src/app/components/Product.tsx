@@ -320,6 +320,7 @@ function LayananModal({ item, onClose }: { item: LayananType; onClose: () => voi
 
 // ─── Main Component ───────────────────────────────────────────
 export function Product() {
+  const { t } = useTranslation();
   const location = useLocation();
   const [step, setStep] = useState<StepType>('hero');
   const [current, setCurrent] = useState(0);

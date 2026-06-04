@@ -228,7 +228,16 @@
     },
     "search": {
       "title": "查找职位空缺",
-      "description": "发现符合您技能和兴趣的职位。"
+      "description": "发现符合您技能和兴趣的职位。",
+      "searchPositions": "搜索职位",
+      "placeholder": "搜索职位、部门或关键词...",
+      "filterDivision": "筛选部门",
+      "filterLocation": "筛选地点",
+      "filterLevel": "筛选级别",
+      "allDivisions": "所有部门",
+      "allLocations": "所有地点",
+      "allLevels": "所有级别",
+      "found": "职位已找到"
     },
     "recruitment": {
       "title": "招聘流程"
@@ -397,6 +406,8 @@
     "edit": "编辑",
     "close": "关闭",
     "search": "搜索",
+    "notFound": "未找到",
+    "reset": "重置",
     "loading": "加载中...",
     "error": "发生错误",
     "details": "产品详情"
