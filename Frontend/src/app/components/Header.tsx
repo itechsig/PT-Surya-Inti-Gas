@@ -13,13 +13,13 @@ fontLink.href = "https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;70
 document.head.appendChild(fontLink);
 
 // ─── Nav Config ───────────────────────────────────────────────
-type NavItem = { name: string; href: string; isRoute?: boolean; isDisabled?: boolean };
+type NavItem = { nameKey: string; href: string; isRoute?: boolean; isDisabled?: boolean };
 
 const NAV_LINKS: NavItem[] = [
-  { name: "Beranda", href: "/", isRoute: true },
-  { name: "Produk & Layanan", href: "/produk", isRoute: true },
-  { name: "Kontak", href: "/#kontak" },
-  { name: "Karir", href: "/karir", isRoute: true },
+  { nameKey: "header.home", href: "/", isRoute: true },
+  { nameKey: "header.products", href: "/produk", isRoute: true },
+  { nameKey: "header.contact", href: "/#kontak" },
+  { nameKey: "header.career", href: "/karir", isRoute: true },
 ];
 
 // ─── Shared class builders ────────────────────────────────────
@@ -157,39 +157,39 @@ export const Header = () => {
                 // 1. Disabled
                 if (link.isDisabled) return (
                   <span
-                    key={link.name}
-                    title="Segera hadir"
+                    key={link.nameKey}
+                    title={t('header.comingSoon')}
                     className="flex items-center px-4 py-2.5 rounded-lg text-sm cursor-not-allowed select-none"
                     style={{
                       ...desktopLinkStyle,
                       color: isLight ? "#cbd5e1" : "rgba(255,255,255,0.25)",
                     }}
                   >
-                    {link.name}
+                    {t(link.nameKey)}
                   </span>
                 );
 
                 // 2. React Router Link
                 if (link.isRoute) return (
                   <Link
-                    key={link.name}
+                    key={link.nameKey}
                     to={link.href}
                     className={desktopLinkClass(isLight, active)}
                     style={desktopLinkStyle}
                   >
-                    {link.name}
+                    {t(link.nameKey)}
                   </Link>
                 );
 
                 // 3. Anchor biasa (hash link)
                 return (
                   <a
-                    key={link.name}
+                    key={link.nameKey}
                     href={link.href}
                     className={desktopLinkClass(isLight, active)}
                     style={desktopLinkStyle}
                   >
-                    {link.name}
+                    {t(link.nameKey)}
                   </a>
                 );
               })}
@@ -254,11 +254,11 @@ export const Header = () => {
                   // 1. Disabled
                   if (link.isDisabled) return (
                     <span
-                      key={link.name}
+                      key={link.nameKey}
                       className="block px-3 py-3 rounded-lg text-sm cursor-not-allowed select-none text-slate-300"
                       style={mobileLinkStyle}
                     >
-                      {link.name}
+                      {t(link.nameKey)}
                       <span className="ml-2 text-xs text-slate-300">({t('header.comingSoon')})</span>
                     </span>
                   );
@@ -266,26 +266,26 @@ export const Header = () => {
                   // 2. React Router Link
                   if (link.isRoute) return (
                     <Link
-                      key={link.name}
+                      key={link.nameKey}
                       to={link.href}
                       onClick={() => setIsOpen(false)}
                       className={mobileLinkClass(active)}
                       style={mobileLinkStyle}
                     >
-                      {link.name}
+                      {t(link.nameKey)}
                     </Link>
                   );
 
                   // 3. Anchor biasa
                   return (
                     <a
-                      key={link.name}
+                      key={link.nameKey}
                       href={link.href}
                       onClick={() => setIsOpen(false)}
                       className={mobileLinkClass(active)}
                       style={mobileLinkStyle}
                     >
-                      {link.name}
+                      {t(link.nameKey)}
                     </a>
                   );
                 })}
