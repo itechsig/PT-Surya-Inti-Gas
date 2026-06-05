@@ -4,60 +4,35 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
-use App\Models\WebsiteVisitor;
-use App\Models\DashboardAnalytics;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     /**
-     * Get dashboard overview data
+     * Get dashboard overview data (Simplified version for stability)
      */
     public function overview(Request $request): JsonResponse
     {
         try {
             $dateRange = $request->input('date_range', 'today');
             $startDate = $this->getStartDate($dateRange);
-            $endDate = now();
 
-            // Get contact statistics
-            $contacts = Contact::whereBetween('created_at', [$startDate, $endDate]);
-            $totalContacts = $contacts->count();
-            $pendingContacts = Contact::where('status', 'pending')->count();
-            $newContacts = $contacts->where('created_at', '>=', $startDate)->count();
-
-            // Get visitor statistics
-            $visitors = WebsiteVisitor::whereBetween('first_visit', [$startDate, $endDate]);
-            $totalVisitors = $visitors->count();
-            $uniqueVisitors = $visitors->where('is_returning_visitor', false)->count();
-            $pageViews = WebsiteVisitor::whereBetween('first_visit', [$startDate, $endDate])
-                ->sum('page_views');
-            $avgTimeOnSite = WebsiteVisitor::whereBetween('first_visit', [$startDate, $endDate])
-                ->avg('time_on_site') ?? 0;
-
-            // Get device distribution
-            $deviceStats = WebsiteVisitor::whereBetween('first_visit', [$startDate, $endDate])
-                ->selectRaw('device_type, COUNT(*) as count')
-                ->groupBy('device_type')
-                ->get()
-                ->mapWithKeys(function ($item) {
-                    return [$item->device_type => $item->count];
-                });
+            // Get contact statistics (reliable data source)
+            $totalContacts = Contact::whereBetween('created_at', [$startDate, now()])->count();
+            $pendingContacts = Contact::where('status', 'pending')
+                ->whereBetween('created_at', [$startDate, now()])
+                ->count();
+            $newContacts = Contact::whereDate('created_at', '>=', $startDate)->count();
 
             // Get recent contacts
             $recentContacts = Contact::latest()
                 ->limit(5)
-                ->get(['id', 'nama', 'email', 'subject', 'pesan', 'status', 'created_at']);
+                ->get(['id', 'nama', 'email', 'pesan', 'status', 'created_at']);
 
-            // Get recent visitors
-            $recentVisitors = WebsiteVisitor::latest('last_visit')
-                ->limit(5)
-                ->get(['id', 'ip_address', 'browser', 'os', 'device_type', 'first_visit', 'last_visit']);
-
+            // Return simplified data without visitor tracking (can be added later when setup is ready)
             return response()->json([
                 'success' => true,
                 'data' => [
@@ -67,14 +42,14 @@ class DashboardController extends Controller
                         'new' => $newContacts,
                     ],
                     'visitors' => [
-                        'total' => $totalVisitors,
-                        'unique' => $uniqueVisitors,
-                        'page_views' => $pageViews,
-                        'avg_time_on_site' => round($avgTimeOnSite / 60, 2), // in minutes
+                        'total' => 0,
+                        'unique' => 0,
+                        'page_views' => 0,
+                        'avg_time_on_site' => 0,
                     ],
-                    'devices' => $deviceStats,
+                    'devices' => [],
                     'recent_contacts' => $recentContacts,
-                    'recent_visitors' => $recentVisitors,
+                    'recent_visitors' => [],
                 ]
             ]);
         } catch (\Exception $e) {
@@ -85,7 +60,7 @@ class DashboardController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal mengambil data dashboard'
+                'message' => 'Gagal mengambil data dashboard: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -96,7 +71,7 @@ class DashboardController extends Controller
     public function contacts(Request $request): JsonResponse
     {
         try {
-            $query = Contact::with('repliedBy:id,name');
+            $query = Contact::query();
 
             // Filter by status
             if ($request->has('status')) {
@@ -147,7 +122,7 @@ class DashboardController extends Controller
     public function contactDetails(string|int $id): JsonResponse
     {
         try {
-            $contact = Contact::with('repliedBy:id,name')->findOrFail($id);
+            $contact = Contact::findOrFail($id);
 
             // Update status to read if it was pending
             if ($contact->status === 'pending') {
@@ -181,10 +156,15 @@ class DashboardController extends Controller
 
             $contact->update([
                 'status' => $request->input('status', $contact->status),
-                'notes' => $request->input('notes', $contact->notes),
-                'replied_at' => $request->input('status') === 'replied' ? now() : $contact->replied_at,
-                'replied_by' => $request->input('status') === 'replied' ? (Auth::check() ? Auth::id() : $contact->replied_by) : $contact->replied_by,
+                'notes' => $request->input('notes', $contact->notes ?? ''),
             ]);
+
+            if ($request->input('status') === 'replied') {
+                $contact->update([
+                    'replied_at' => now(),
+                    'replied_by' => null, // Can be updated when auth is properly implemented
+                ]);
+            }
 
             return response()->json([
                 'success' => true,
@@ -200,166 +180,6 @@ class DashboardController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal memperbarui kontak'
-            ], 500);
-        }
-    }
-
-    /**
-     * Get visitor analytics
-     */
-    public function visitors(Request $request): JsonResponse
-    {
-        try {
-            $dateRange = $request->input('date_range', 'today');
-            $startDate = $this->getStartDate($dateRange);
-            $endDate = now();
-
-            $query = WebsiteVisitor::whereBetween('first_visit', [$startDate, $endDate]);
-
-            // Filter by device type
-            if ($request->has('device_type')) {
-                $query->where('device_type', $request->input('device_type'));
-            }
-
-            // Search by IP or session
-            if ($request->has('search')) {
-                $search = $request->input('search');
-                $query->where(function ($q) use ($search) {
-                    $q->where('ip_address', 'like', "%{$search}%")
-                      ->orWhere('session_id', 'like', "%{$search}%");
-                });
-            }
-
-            // Pagination
-            $perPage = $request->input('per_page', 20);
-            $visitors = $query->latest('first_visit')->paginate($perPage);
-
-            // Get aggregated stats
-            $stats = [
-                'total' => $query->count(),
-                'unique' => $query->where('is_returning_visitor', false)->count(),
-                'returning' => $query->where('is_returning_visitor', true)->count(),
-                'desktop' => $query->where('device_type', 'desktop')->count(),
-                'mobile' => $query->where('device_type', 'mobile')->count(),
-                'tablet' => $query->where('device_type', 'tablet')->count(),
-            ];
-
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'visitors' => $visitors,
-                    'stats' => $stats
-                ]
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Dashboard visitors error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal mengambil data pengunjung'
-            ], 500);
-        }
-    }
-
-    /**
-     * Get visitor details
-     */
-    public function visitorDetails(string|int $id): JsonResponse
-    {
-        try {
-            $visitor = WebsiteVisitor::findOrFail($id);
-
-            return response()->json([
-                'success' => true,
-                'data' => $visitor
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Dashboard visitor details error', [
-                'error' => $e->getMessage(),
-                'id' => $id
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Pengunjung tidak ditemukan'
-            ], 404);
-        }
-    }
-
-    /**
-     * Get analytics data for charts
-     */
-    public function analytics(Request $request): JsonResponse
-    {
-        try {
-            $dateRange = $request->input('date_range', 'last_30_days');
-            $startDate = $this->getStartDate($dateRange);
-            $endDate = now();
-
-            // Daily visitor data
-            $dailyVisitors = WebsiteVisitor::whereBetween('first_visit', [$startDate, $endDate])
-                ->selectRaw('DATE(first_visit) as date, COUNT(*) as visitors, SUM(page_views) as page_views')
-                ->groupBy('date')
-                ->orderBy('date')
-                ->get();
-
-            // Daily contact data
-            $dailyContacts = Contact::whereBetween('created_at', [$startDate, $endDate])
-                ->selectRaw('DATE(created_at) as date, COUNT(*) as contacts')
-                ->groupBy('date')
-                ->orderBy('date')
-                ->get();
-
-            // Visitor locations (top countries)
-            $visitorLocations = WebsiteVisitor::whereBetween('first_visit', [$startDate, $endDate])
-                ->selectRaw('country, COUNT(*) as count')
-                ->whereNotNull('country')
-                ->groupBy('country')
-                ->orderByDesc('count')
-                ->limit(10)
-                ->get();
-
-            // Top referrers
-            $topReferrers = WebsiteVisitor::whereBetween('first_visit', [$startDate, $endDate])
-                ->selectRaw('referrer, COUNT(*) as count')
-                ->whereNotNull('referrer')
-                ->where('referrer', '!=', '')
-                ->groupBy('referrer')
-                ->orderByDesc('count')
-                ->limit(10)
-                ->get();
-
-            // Top pages
-            $topPages = WebsiteVisitor::whereBetween('first_visit', [$startDate, $endDate])
-                ->selectRaw('landing_page, COUNT(*) as count')
-                ->whereNotNull('landing_page')
-                ->groupBy('landing_page')
-                ->orderByDesc('count')
-                ->limit(10)
-                ->get();
-
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'daily_visitors' => $dailyVisitors,
-                    'daily_contacts' => $dailyContacts,
-                    'visitor_locations' => $visitorLocations,
-                    'top_referrers' => $topReferrers,
-                    'top_pages' => $topPages,
-                ]
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Dashboard analytics error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal mengambil data analitik'
             ], 500);
         }
     }

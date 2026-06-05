@@ -21,6 +21,25 @@ class VisitorTrackingController extends Controller
             $ipAddress = $request->ip();
             $userAgent = $request->userAgent();
             
+            // Check if IP is blocked before tracking
+            $isBlocked = \App\Models\BlockedUser::active()
+                ->where('blockable_type', 'ip_address')
+                ->where('blockable_value', $ipAddress)
+                ->exists();
+            
+            if ($isBlocked) {
+                Log::warning('Blocked IP attempted visitor tracking', [
+                    'ip' => $ipAddress,
+                    'session_id' => $sessionId,
+                ]);
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Access denied. Your IP address has been blocked.',
+                    'error_code' => 'IP_BLOCKED'
+                ], 403);
+            }
+            
             // Parse user agent to get browser and OS
             $browserInfo = $this->parseUserAgent($userAgent);
             
@@ -39,6 +58,9 @@ class VisitorTrackingController extends Controller
                     'time_on_site' => $existingVisitor->time_on_site + $request->input('time_on_page', 0),
                     'pages_visited' => $this->updatePagesVisited($existingVisitor->pages_visited, $request->input('current_page')),
                 ]);
+
+                // Also trigger AI Agent monitoring for returning visitors
+                $this->triggerAIMonitoring($existingVisitor);
                 
                 return response()->json([
                     'success' => true,
@@ -70,6 +92,9 @@ class VisitorTrackingController extends Controller
                 'country' => $location['country'] ?? null,
                 'city' => $location['city'] ?? null,
             ]);
+
+            // Trigger AI Agent monitoring for new visitor
+            $this->triggerAIMonitoring($visitor);
             
             return response()->json([
                 'success' => true,
@@ -245,6 +270,29 @@ class VisitorTrackingController extends Controller
     }
 
     /**
+     * Get current visitor IP address
+     */
+    public function getCurrentIP(Request $request): JsonResponse
+    {
+        try {
+            return response()->json([
+                'success' => true,
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Get current IP error', [
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to get current IP'
+            ], 500);
+        }
+    }
+
+    /**
      * Update pages visited array
      */
     private function updatePagesVisited(array|null $pagesVisited, string $currentPage): array
@@ -258,5 +306,31 @@ class VisitorTrackingController extends Controller
         }
         
         return $pagesVisited;
+    }
+
+    /**
+     * Trigger AI Agent monitoring for visitor activity
+     */
+    private function triggerAIMonitoring($visitor): void
+    {
+        try {
+            Log::info('Triggering AI Agent monitoring for visitor', [
+                'visitor_id' => $visitor->id,
+                'session_id' => $visitor->session_id,
+                'ip_address' => $visitor->ip_address
+            ]);
+            
+            \App\Services\AIAgentService::monitorVisitor($visitor);
+            
+            Log::info('AI Agent monitoring completed successfully', [
+                'visitor_id' => $visitor->id
+            ]);
+        } catch (\Exception $e) {
+            Log::error('AI Agent monitoring error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'visitor_id' => $visitor->id
+            ]);
+        }
     }
 }

@@ -1,4 +1,4 @@
- import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Users, 
   MessageSquare, 
@@ -10,12 +10,22 @@ import {
   RefreshCw,
   LogOut,
   Home,
-  LayoutDashboard
+  LayoutDashboard,
+  Bot,
+  Bell,
+  FileText,
+  UserX,
+  Shield
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { getApiUrl, API_ENDPOINTS } from '../../../config/api';
+import { AIAgentDashboard } from './AIAgentDashboard';
+import { CareerApplicationsManagement } from './CareerApplicationsManagement';
+import { BlockedUsersManagement } from './BlockedUsersManagement';
+import { NotificationCenter } from './NotificationCenter';
+import { AuditLogHistory } from './AuditLogHistory';
 
 // Simple auth check for demo purposes
 const checkAuth = (): boolean => {
@@ -43,7 +53,7 @@ interface DashboardOverview {
   recent_visitors: any[];
 }
 
-export const AdminDashboard = () => {
+export const AdminDashboardIntegrated = () => {
   const [overview, setOverview] = useState<DashboardOverview | null>(null);
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState('today');
@@ -171,7 +181,7 @@ export const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Admin Navbar */}
+      {/* Admin Navbar - Different from main website */}
       <nav className="bg-white shadow-md border-b">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-16">
@@ -180,7 +190,7 @@ export const AdminDashboard = () => {
                 <LayoutDashboard className="w-6 h-6 text-blue-600" />
                 <div>
                   <h1 className="text-lg font-bold text-gray-900">Admin Dashboard</h1>
-                  <p className="text-xs text-gray-500">PT Surya Inti Gas</p>
+                  <p className="text-xs text-gray-500">PT Surya Inti Gas - AI Agent Enhanced</p>
                 </div>
               </div>
             </div>
@@ -235,92 +245,114 @@ export const AdminDashboard = () => {
           </select>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Total Kontak</CardTitle>
-              <MessageSquare className="w-4 h-4 text-blue-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{overview?.contacts.total || 0}</div>
-              <p className="text-xs text-gray-500 mt-1">
-                {overview?.contacts.new || 0} baru hari ini
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Kontak Pending</CardTitle>
-              <AlertCircle className="w-4 h-4 text-orange-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{overview?.contacts.pending || 0}</div>
-              <p className="text-xs text-orange-500 mt-1">Perlu respon</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Pengunjung</CardTitle>
-              <Users className="w-4 h-4 text-green-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{overview?.visitors.total || 0}</div>
-              <p className="text-xs text-gray-500 mt-1">
-                {overview?.visitors.unique || 0} pengunjung unik
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Page Views</CardTitle>
-              <Eye className="w-4 h-4 text-purple-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{overview?.visitors.page_views || 0}</div>
-              <p className="text-xs text-gray-500 mt-1">
-                Rata-rata {overview?.visitors.avg_time_on_site || 0} menit
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Device Distribution */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Distribusi Perangkat</CardTitle>
-            <CardDescription>Pengunjung berdasarkan jenis perangkat</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-3 gap-4">
-              {Object.entries(overview?.devices || {}).map(([device, count]) => (
-                <div key={device} className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                  <div className="text-blue-600">
-                    {getDeviceIcon(device)}
-                  </div>
-                  <div>
-                    <div className="font-semibold capitalize">{device}</div>
-                    <div className="text-sm text-gray-600">{count} pengunjung</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Main Content Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2">
+        {/* AI Agent Integrated Dashboard */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-6 lg:grid-cols-8">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="contacts">Kontak</TabsTrigger>
+            <TabsTrigger value="ai-agent">
+              <Bot className="w-4 h-4 mr-2" />
+              AI Agent
+            </TabsTrigger>
+            <TabsTrigger value="contacts">Contacts</TabsTrigger>
+            <TabsTrigger value="applications">
+              <FileText className="w-4 h-4 mr-2" />
+              Career
+            </TabsTrigger>
+            <TabsTrigger value="blocked">
+              <UserX className="w-4 h-4 mr-2" />
+              Blocked
+            </TabsTrigger>
+            <TabsTrigger value="notifications">
+              <Bell className="w-4 h-4 mr-2" />
+              Alerts
+            </TabsTrigger>
+            <TabsTrigger value="audit">
+              <Shield className="w-4 h-4 mr-2" />
+              Audit
+            </TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6">
+          <TabsContent value="overview">
+            {/* Original Dashboard Content */}
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-gray-600">Total Kontak</CardTitle>
+                  <MessageSquare className="w-4 h-4 text-blue-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{overview?.contacts.total || 0}</div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {overview?.contacts.new || 0} baru hari ini
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-gray-600">Kontak Pending</CardTitle>
+                  <AlertCircle className="w-4 h-4 text-orange-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{overview?.contacts.pending || 0}</div>
+                  <p className="text-xs text-orange-500 mt-1">Perlu respon</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-gray-600">Pengunjung</CardTitle>
+                  <Users className="w-4 h-4 text-green-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{overview?.visitors.total || 0}</div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {overview?.visitors.unique || 0} pengunjung unik
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-gray-600">Page Views</CardTitle>
+                  <Eye className="w-4 h-4 text-purple-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{overview?.visitors.page_views || 0}</div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Rata-rata {overview?.visitors.avg_time_on_site || 0} menit
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Device Distribution */}
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Distribusi Perangkat</CardTitle>
+                <CardDescription>Pengunjung berdasarkan jenis perangkat</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-3 gap-4">
+                  {Object.entries(overview?.devices || {}).map(([device, count]) => (
+                    <div key={device} className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                      <div className="text-blue-600">
+                        {getDeviceIcon(device)}
+                      </div>
+                      <div>
+                        <div className="font-semibold capitalize">{device}</div>
+                        <div className="text-sm text-gray-600">{count} pengunjung</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Recent Contacts */}
-            <Card>
+            <Card className="mb-8">
               <CardHeader>
                 <CardTitle>Kontak Terbaru</CardTitle>
                 <CardDescription>5 pesan terakhir yang diterima</CardDescription>
@@ -383,6 +415,10 @@ export const AdminDashboard = () => {
             </Card>
           </TabsContent>
 
+          <TabsContent value="ai-agent">
+            <AIAgentDashboard />
+          </TabsContent>
+
           <TabsContent value="contacts">
             <Card>
               <CardHeader>
@@ -393,6 +429,55 @@ export const AdminDashboard = () => {
                 <p className="text-gray-500 text-center py-8">
                   Fitur lengkap manajemen kontak akan diimplementasikan selanjutnya
                 </p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="applications">
+            <CareerApplicationsManagement />
+          </TabsContent>
+
+          <TabsContent value="blocked">
+            <BlockedUsersManagement />
+          </TabsContent>
+
+          <TabsContent value="notifications">
+            <NotificationCenter />
+          </TabsContent>
+
+          <TabsContent value="audit">
+            <AuditLogHistory />
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <Card>
+              <CardHeader>
+                <CardTitle>Dashboard Settings</CardTitle>
+                <CardDescription>Konfigurasi dashboard dan preferensi</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium">Default Date Range</label>
+                    <select className="w-full mt-2 p-2 border rounded-lg">
+                      <option>Today</option>
+                      <option>Last 7 Days</option>
+                      <option>Last 30 Days</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">Dark Mode</label>
+                    <input type="checkbox" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">AI Agent Auto-Monitoring</label>
+                    <input type="checkbox" defaultChecked />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">Email Notifications</label>
+                    <input type="checkbox" defaultChecked />
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

@@ -4,23 +4,8 @@ const getApiBaseUrl = (): string => {
   const envUrl = (import.meta as any).env?.VITE_API_URL;
   if (envUrl) return envUrl;
   
-  // If accessed from external IP, use the same hostname
-  if (typeof window !== 'undefined') {
-    const hostname = window.location.hostname;
-    
-    // Don't use localhost when accessing from external IP
-    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-      return `http://${hostname}:8000`;
-    }
-    
-    // If frontend is on localhost:3000, backend is on localhost:8000
-    if (hostname === 'localhost' || hostname === '127.0.0.1') {
-      return 'http://localhost:8000';
-    }
-  }
-  
-  // Fallback to localhost for development
-  return 'http://localhost:8000';
+  // Use network IP for cross-device access
+  return 'http://10.10.20.7:8000'; // Main network IP
 };
 
 export const API_CONFIG = {
@@ -45,6 +30,42 @@ export const API_ENDPOINTS = {
   DASHBOARD_VISITORS: '/api/v1/admin/dashboard/visitors',
   DASHBOARD_VISITOR_DETAILS: '/api/v1/admin/dashboard/visitors',
   DASHBOARD_ANALYTICS: '/api/v1/admin/dashboard/analytics',
+
+  // AI Agent endpoints (admin)
+  AI_AGENT_STATUS: '/api/v1/admin/ai-agent/status',
+  AI_MONITORING: '/api/v1/admin/ai-agent/monitor',
+  AI_MONITOR_CONTACTS: '/api/v1/admin/ai-agent/monitor/contacts',
+  AI_MONITOR_APPLICATIONS: '/api/v1/admin/ai-agent/monitor/applications',
+  AI_MONITOR_VISITORS: '/api/v1/admin/ai-agent/monitor/visitors',
+
+  // AI Recommendations endpoints (admin)
+  AI_RECOMMENDATIONS: '/api/v1/admin/ai-recommendations',
+  AI_RECOMMENDATIONS_STATISTICS: '/api/v1/admin/ai-recommendations/statistics',
+  AI_RECOMMENDATION_APPROVE: '/api/v1/admin/ai-recommendations', // append /{id}/approve
+  AI_RECOMMENDATION_REJECT: '/api/v1/admin/ai-recommendations', // append /{id}/reject
+
+  // Blocked Users endpoints (admin)
+  BLOCKED_USERS: '/api/v1/admin/blocked-users',
+  BLOCKED_USERS_STATISTICS: '/api/v1/admin/blocked-users/statistics',
+  BLOCKED_USER_UNBLOCK: '/api/v1/admin/blocked-users', // append /{id}/unblock
+  BLOCKED_USER_CHECK: '/api/v1/admin/blocked-users/check',
+
+  // Career Applications endpoints (admin)
+  CAREER_APPLICATIONS: '/api/v1/admin/career-applications',
+  CAREER_APPLICATIONS_STATISTICS: '/api/v1/admin/career-applications/statistics',
+
+  // Notifications endpoints (admin)
+  NOTIFICATIONS: '/api/v1/admin/notifications',
+  NOTIFICATIONS_UNREAD: '/api/v1/admin/notifications/unread',
+  NOTIFICATIONS_UNREAD_COUNT: '/api/v1/admin/notifications/unread-count',
+  NOTIFICATIONS_STATISTICS: '/api/v1/admin/notifications/statistics',
+  NOTIFICATION_MARK_READ: '/api/v1/admin/notifications', // append /{id}/mark-read
+  NOTIFICATIONS_MARK_ALL_READ: '/api/v1/admin/notifications/mark-all-read',
+
+  // Audit Logs endpoints (admin)
+  AUDIT_LOGS: '/api/v1/admin/audit-logs',
+  AUDIT_LOGS_RECENT: '/api/v1/admin/audit-logs/recent',
+  AUDIT_LOGS_STATISTICS: '/api/v1/admin/audit-logs/statistics',
 
   // Visitor tracking endpoints (public)
   VISITOR_TRACK: '/api/v1/visitor/track',

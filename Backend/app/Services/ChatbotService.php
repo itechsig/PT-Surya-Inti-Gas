@@ -29,22 +29,27 @@ class ChatbotService
 
     public function generateResponse(string $message, array $history = [], ?string $userId = null, ?string $sessionId = null): array
     {
-        // Check for active A/B tests
-        $abTestAssignment = null;
-        $activeCampaigns = $this->abTestingService->getActiveCampaigns();
-        
-        if (!empty($activeCampaigns)) {
-            foreach ($activeCampaigns as $campaign) {
-                $assignment = $this->abTestingService->assignUserToVariant(
-                    $campaign->id,
-                    $userId,
-                    $sessionId,
-                    $message
-                );
-                
-                if ($assignment && $assignment['is_new_assignment']) {
-                    $abTestAssignment = $assignment;
-                    break;
+        // Check if A/B testing is enabled in config
+        if (!config('services.chatbot.enable_ab_testing', true)) {
+            $abTestAssignment = null;
+        } else {
+            // Check for active A/B tests
+            $abTestAssignment = null;
+            $activeCampaigns = $this->abTestingService->getActiveCampaigns();
+            
+            if (!empty($activeCampaigns)) {
+                foreach ($activeCampaigns as $campaign) {
+                    $assignment = $this->abTestingService->assignUserToVariant(
+                        $campaign->id,
+                        $userId,
+                        $sessionId,
+                        $message
+                    );
+                    
+                    if ($assignment && $assignment['is_new_assignment']) {
+                        $abTestAssignment = $assignment;
+                        break;
+                    }
                 }
             }
         }
@@ -92,12 +97,10 @@ class ChatbotService
             }
         }
 
-        // Fallback to default response with translation
-        $fallbackResponse = $this->translationService->translate('chatbot.fallback');
-        $fallbackResponses = [$fallbackResponse];
-        
-        // Add additional context-specific fallbacks
-        $fallbackResponses[] = $this->translationService->translate('chatbot.no_results');
+        // Fallback to default response with translation - use config values
+        $fallbackResponses = config('services.chatbot.fallback_responses', [
+            $this->translationService->translate('chatbot.fallback')
+        ]);
         
         return [
             'message' => $fallbackResponses[array_rand($fallbackResponses)],

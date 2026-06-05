@@ -1,0 +1,54 @@
+# robots.txt for PT Surya Inti Gas
+# DEVELOPMENT NOTE: Replace YOUR-DOMAIN.com with your actual domain after hosting
+
+User-agent: *
+Allow: /
+
+# Disallow access to admin and sensitive areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /*.env$
+Disallow: /*.config$
+
+# Allow specific bots for better indexing
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: BaiduSpider
+Allow: /
+
+# Crawl-delay for respectful crawling (optional)
+# Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://YOUR-DOMAIN.com/sitemap.xml
+
+# Additional SEO directives
+# Allow indexing of images
+Allow: /images/
+Allow: /public/
+
+# Disallow tracking and analytics scripts from being indexed
+Disallow: /analytics/
+Disallow: /tracking/
+
+# Allow common static assets
+Allow: *.css
+Allow: *.js
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.ico
+
+# Disallow development and testing directories
+Disallow: /dev/
+Disallow: /test/
+Disallow: /staging/
+Disallow: /temp/
+Disallow: /tmp/

@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 import { Globe, ChevronDown } from "lucide-react";
 
 const languages = [
-  { code: 'id', name: 'Indonesia', flag: '🇮🇩' },
+  { code: 'id', name: 'Indonesia', flag: 'ID' },
   { code: 'en', name: 'English', flag: 'EN' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'zh', name: '中文', flag: 'CN' },
 ];
 
 export const LanguageSwitcher = ({ isLight = true }: { isLight?: boolean }) => {

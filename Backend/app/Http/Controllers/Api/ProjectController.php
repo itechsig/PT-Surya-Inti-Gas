@@ -11,6 +11,45 @@ use Illuminate\Http\JsonResponse;
 
 class ProjectController extends Controller
 {
+    /**
+     * Get all projects
+     * 
+     * @OA\Get(
+     *     path="/api/v1/projects",
+     *     summary="Get all projects",
+     *     description="Returns a list of all active projects ordered by display order with category filtering",
+     *     tags={"Projects"},
+     *     @OA\Parameter(
+     *         name="category",
+     *         in="query",
+     *         required=false,
+     *         description="Filter projects by category",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Projects retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="title", type="string"),
+     *                 @OA\Property(property="description", type="string"),
+     *                 @OA\Property(property="category", type="string"),
+     *                 @OA\Property(property="image", type="string"),
+     *                 @OA\Property(property="client_name", type="string"),
+     *                 @OA\Property(property="location", type="string")
+     *             )),
+     *             @OA\Property(property="categories", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="message", type="string", example="Projects retrieved successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
     public function index(Request $request): JsonResponse
     {
         try {
@@ -42,6 +81,55 @@ class ProjectController extends Controller
         }
     }
 
+    /**
+     * Get a specific project by ID
+     * 
+     * @OA\Get(
+     *     path="/api/v1/projects/{id}",
+     *     summary="Get project by ID",
+     *     description="Returns details of a specific active project",
+     *     tags={"Projects"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Project ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Project retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="title", type="string"),
+     *                 @OA\Property(property="description", type="string"),
+     *                 @OA\Property(property="category", type="string"),
+     *                 @OA\Property(property="image", type="string"),
+     *                 @OA\Property(property="client_name", type="string"),
+     *                 @OA\Property(property="location", type="string"),
+     *                 @OA\Property(property="completion_date", type="string")
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Project retrieved successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Project not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Project not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
     public function show(Project $project): JsonResponse
     {
         try {

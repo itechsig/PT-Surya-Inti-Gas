@@ -216,6 +216,99 @@
       "viewDetails": "View Details"
     }
   },
+  "aiAgent": {
+    "title": "AI Agent Dashboard",
+    "subtitle": "AI-Based Monitoring and Management System",
+    "overview": "Overview",
+    "recommendations": "Recommendations",
+    "careerApplications": "Career Applications",
+    "blockedUsers": "Blocked Users",
+    "notifications": "Notifications",
+    "auditLogs": "Audit Logs",
+    "status": {
+      "online": "Online",
+      "offline": "Offline",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "metrics": {
+      "totalVisitors": "Total Visitors",
+      "totalContacts": "Total Contacts",
+      "pendingRecommendations": "Pending Recommendations",
+      "recentActivities": "Recent Activities",
+      "aiWarnings": "AI Warnings",
+      "uptime": "Uptime"
+    },
+    "actions": {
+      "monitor": "Monitor",
+      "approve": "Approve",
+      "reject": "Reject",
+      "block": "Block",
+      "unblock": "Unblock",
+      "markRead": "Mark as Read",
+      "export": "Export"
+    },
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "completed": "Completed",
+      "failed": "Failed",
+      "today": "Today",
+      "last7Days": "Last 7 Days",
+      "last30Days": "Last 30 Days"
+    },
+    "recommendation": {
+      "type": "Type",
+      "priority": "Priority",
+      "status": "Status",
+      "description": "Description",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "career": {
+      "application": "Application",
+      "position": "Position",
+      "score": "Score",
+      "insights": "AI Insights",
+      "status": "Status",
+      "reviewed": "Reviewed",
+      "interview": "Interview",
+      "hired": "Hired",
+      "rejected": "Rejected"
+    },
+    "blocked": {
+      "user": "User",
+      "type": "Type",
+      "reason": "Reason",
+      "blockedBy": "Blocked By",
+      "blockedAt": "Blocked At",
+      "ipAddress": "IP Address",
+      "email": "Email",
+      "userId": "User ID"
+    },
+    "notification": {
+      "type": "Type",
+      "priority": "Priority",
+      "message": "Message",
+      "status": "Status",
+      "read": "Read",
+      "unread": "Unread",
+      "markRead": "Mark as Read"
+    },
+    "audit": {
+      "action": "Action",
+      "entity": "Entity",
+      "user": "User",
+      "timestamp": "Timestamp",
+      "description": "Description",
+      "export": "Export CSV",
+      "recent": "Recent Activities"
+    }
+  },
   "career": {
     "title": "Career",
     "subtitle": "Join Our Team",

@@ -15,6 +15,12 @@ use App\Http\Controllers\Api\ChatbotSettingsController;
 use App\Http\Controllers\Api\CareerController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\VisitorTrackingController;
+use App\Http\Controllers\Api\AIAgentController;
+use App\Http\Controllers\Api\AIRecommendationController;
+use App\Http\Controllers\Api\BlockedUserController;
+use App\Http\Controllers\Api\CareerApplicationController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\AuditLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +36,7 @@ use App\Http\Controllers\Api\VisitorTrackingController;
 // API Version 1 Routes
 Route::prefix('v1')->group(function () {
     // PUBLIC ROUTES - Website Visitors (No Authentication Required)
-    Route::middleware(['api', 'request.response.log'])->group(function () {
+    Route::middleware(['api', 'request.response.log', 'check.blocked'])->group(function () {
         // Authentication Routes (Public - for admin login) - 100 req/min
         Route::middleware(['throttle:api-user', 'brute.force'])->group(function () {
             Route::post('/auth/register', [AuthController::class, 'register']);
@@ -57,9 +63,60 @@ Route::prefix('v1')->group(function () {
         // Career Application API (Public)
         Route::post('/career', [CareerController::class, 'store']);
 
+        // Admin Dashboard API (Public for testing - will move to protected routes later)
+        Route::get('/admin/dashboard/overview', [DashboardController::class, 'overview']);
+        Route::get('/admin/dashboard/contacts', [DashboardController::class, 'contacts']);
+        Route::get('/admin/dashboard/contacts/{id}', [DashboardController::class, 'contactDetails']);
+        Route::put('/admin/dashboard/contacts/{id}', [DashboardController::class, 'updateContact']);
+
         // Visitor Tracking API (Public) - Track website visitors (no rate limiting for analytics)
         Route::post('/visitor/track', [VisitorTrackingController::class, 'track']);
         Route::post('/visitor/pageview', [VisitorTrackingController::class, 'trackPageView']);
+        Route::get('/visitor/current-ip', [VisitorTrackingController::class, 'getCurrentIP']);
+
+        // AI Agent API (Public for testing - will move to protected routes later)
+        Route::get('/admin/ai-agent/status', [AIAgentController::class, 'getStatus']);
+        Route::post('/admin/ai-agent/monitor', [AIAgentController::class, 'runMonitoring']);
+        Route::post('/admin/ai-agent/monitor/contacts', [AIAgentController::class, 'monitorContacts']);
+        Route::post('/admin/ai-agent/monitor/applications', [AIAgentController::class, 'monitorApplications']);
+        Route::post('/admin/ai-agent/monitor/visitors', [AIAgentController::class, 'monitorVisitors']);
+        Route::get('/admin/ai-agent/monitor/visitors', [AIAgentController::class, 'getActivities']);
+
+        // AI Recommendations API (Public for testing - will move to protected routes later)
+        Route::get('/admin/ai-recommendations', [AIRecommendationController::class, 'index']);
+        Route::get('/admin/ai-recommendations/statistics', [AIRecommendationController::class, 'statistics']);
+        Route::get('/admin/ai-recommendations/{id}', [AIRecommendationController::class, 'show']);
+        Route::post('/admin/ai-recommendations/{id}/approve', [AIRecommendationController::class, 'approve']);
+        Route::post('/admin/ai-recommendations/{id}/reject', [AIRecommendationController::class, 'reject']);
+
+        // Blocked Users API (Public for testing - will move to protected routes later)
+        Route::get('/admin/blocked-users', [BlockedUserController::class, 'index']);
+        Route::get('/admin/blocked-users/statistics', [BlockedUserController::class, 'statistics']);
+        Route::post('/admin/blocked-users', [BlockedUserController::class, 'store']);
+        Route::post('/admin/blocked-users/{id}/unblock', [BlockedUserController::class, 'unblock']);
+        Route::delete('/admin/blocked-users/{id}', [BlockedUserController::class, 'destroy']);
+        Route::get('/admin/blocked-users/check', [BlockedUserController::class, 'checkBlocked']);
+
+        // Career Applications API (Public for testing - will move to protected routes later)
+        Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
+        Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
+        Route::get('/admin/career-applications/{id}', [CareerApplicationController::class, 'show']);
+        Route::put('/admin/career-applications/{id}', [CareerApplicationController::class, 'update']);
+        Route::delete('/admin/career-applications/{id}', [CareerApplicationController::class, 'destroy']);
+
+        // Notifications API (Public for testing - will move to protected routes later)
+        Route::get('/admin/notifications', [NotificationController::class, 'index']);
+        Route::get('/admin/notifications/unread', [NotificationController::class, 'unread']);
+        Route::get('/admin/notifications/unread-count', [NotificationController::class, 'unreadCount']);
+        Route::get('/admin/notifications/statistics', [NotificationController::class, 'statistics']);
+        Route::post('/admin/notifications/{id}/mark-read', [NotificationController::class, 'markAsRead']);
+        Route::post('/admin/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+        Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
+
+        // Audit Logs API (Public for testing - will move to protected routes later)
+        Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
+        Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
+        Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
 
         // Chatbot - Public Info Endpoints
         // Note: reload-kb and rotation-status moved to admin-only for security
@@ -133,6 +190,49 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/dashboard/visitors', [DashboardController::class, 'visitors']);
         Route::get('/admin/dashboard/visitors/{id}', [DashboardController::class, 'visitorDetails']);
         Route::get('/admin/dashboard/analytics', [DashboardController::class, 'analytics']);
+
+        // AI Agent API (Admin Only)
+        Route::get('/admin/ai-agent/status', [AIAgentController::class, 'getStatus']);
+        Route::post('/admin/ai-agent/monitor', [AIAgentController::class, 'runMonitoring']);
+        Route::post('/admin/ai-agent/monitor/contacts', [AIAgentController::class, 'monitorContacts']);
+        Route::post('/admin/ai-agent/monitor/applications', [AIAgentController::class, 'monitorApplications']);
+        Route::post('/admin/ai-agent/monitor/visitors', [AIAgentController::class, 'monitorVisitors']);
+
+        // AI Recommendations API (Admin Only)
+        Route::get('/admin/ai-recommendations', [AIRecommendationController::class, 'index']);
+        Route::get('/admin/ai-recommendations/statistics', [AIRecommendationController::class, 'statistics']);
+        Route::get('/admin/ai-recommendations/{id}', [AIRecommendationController::class, 'show']);
+        Route::post('/admin/ai-recommendations/{id}/approve', [AIRecommendationController::class, 'approve']);
+        Route::post('/admin/ai-recommendations/{id}/reject', [AIRecommendationController::class, 'reject']);
+
+        // Blocked Users API (Admin Only)
+        Route::get('/admin/blocked-users', [BlockedUserController::class, 'index']);
+        Route::get('/admin/blocked-users/statistics', [BlockedUserController::class, 'statistics']);
+        Route::post('/admin/blocked-users', [BlockedUserController::class, 'store']);
+        Route::post('/admin/blocked-users/{id}/unblock', [BlockedUserController::class, 'unblock']);
+        Route::get('/admin/blocked-users/check', [BlockedUserController::class, 'checkBlocked']);
+
+        // Career Applications API (Admin Only)
+        Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
+        Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
+        Route::get('/admin/career-applications/{id}', [CareerApplicationController::class, 'show']);
+        Route::put('/admin/career-applications/{id}', [CareerApplicationController::class, 'update']);
+        Route::delete('/admin/career-applications/{id}', [CareerApplicationController::class, 'destroy']);
+
+        // Notifications API (Admin Only)
+        Route::get('/admin/notifications', [NotificationController::class, 'index']);
+        Route::get('/admin/notifications/unread', [NotificationController::class, 'unread']);
+        Route::get('/admin/notifications/unread-count', [NotificationController::class, 'unreadCount']);
+        Route::get('/admin/notifications/statistics', [NotificationController::class, 'statistics']);
+        Route::post('/admin/notifications/{id}/mark-read', [NotificationController::class, 'markAsRead']);
+        Route::post('/admin/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+        Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
+
+        // Audit Logs API (Admin Only)
+        Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
+        Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
+        Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
+        Route::get('/admin/audit-logs/{id}', [AuditLogController::class, 'show']);
     });
 });
 
@@ -235,6 +335,49 @@ Route::prefix('')->group(function () {
         Route::get('/admin/dashboard/visitors', [DashboardController::class, 'visitors']);
         Route::get('/admin/dashboard/visitors/{id}', [DashboardController::class, 'visitorDetails']);
         Route::get('/admin/dashboard/analytics', [DashboardController::class, 'analytics']);
+
+        // AI Agent API (Admin Only)
+        Route::get('/admin/ai-agent/status', [AIAgentController::class, 'getStatus']);
+        Route::post('/admin/ai-agent/monitor', [AIAgentController::class, 'runMonitoring']);
+        Route::post('/admin/ai-agent/monitor/contacts', [AIAgentController::class, 'monitorContacts']);
+        Route::post('/admin/ai-agent/monitor/applications', [AIAgentController::class, 'monitorApplications']);
+        Route::post('/admin/ai-agent/monitor/visitors', [AIAgentController::class, 'monitorVisitors']);
+
+        // AI Recommendations API (Admin Only)
+        Route::get('/admin/ai-recommendations', [AIRecommendationController::class, 'index']);
+        Route::get('/admin/ai-recommendations/statistics', [AIRecommendationController::class, 'statistics']);
+        Route::get('/admin/ai-recommendations/{id}', [AIRecommendationController::class, 'show']);
+        Route::post('/admin/ai-recommendations/{id}/approve', [AIRecommendationController::class, 'approve']);
+        Route::post('/admin/ai-recommendations/{id}/reject', [AIRecommendationController::class, 'reject']);
+
+        // Blocked Users API (Admin Only)
+        Route::get('/admin/blocked-users', [BlockedUserController::class, 'index']);
+        Route::get('/admin/blocked-users/statistics', [BlockedUserController::class, 'statistics']);
+        Route::post('/admin/blocked-users', [BlockedUserController::class, 'store']);
+        Route::post('/admin/blocked-users/{id}/unblock', [BlockedUserController::class, 'unblock']);
+        Route::get('/admin/blocked-users/check', [BlockedUserController::class, 'checkBlocked']);
+
+        // Career Applications API (Admin Only)
+        Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
+        Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
+        Route::get('/admin/career-applications/{id}', [CareerApplicationController::class, 'show']);
+        Route::put('/admin/career-applications/{id}', [CareerApplicationController::class, 'update']);
+        Route::delete('/admin/career-applications/{id}', [CareerApplicationController::class, 'destroy']);
+
+        // Notifications API (Admin Only)
+        Route::get('/admin/notifications', [NotificationController::class, 'index']);
+        Route::get('/admin/notifications/unread', [NotificationController::class, 'unread']);
+        Route::get('/admin/notifications/unread-count', [NotificationController::class, 'unreadCount']);
+        Route::get('/admin/notifications/statistics', [NotificationController::class, 'statistics']);
+        Route::post('/admin/notifications/{id}/mark-read', [NotificationController::class, 'markAsRead']);
+        Route::post('/admin/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+        Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
+
+        // Audit Logs API (Admin Only)
+        Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
+        Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
+        Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
+        Route::get('/admin/audit-logs/{id}', [AuditLogController::class, 'show']);
     });
 });
 
