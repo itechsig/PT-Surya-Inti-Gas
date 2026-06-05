@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
@@ -10,6 +10,7 @@ import { Chatbot } from "./components/Chatbot";
 import { Career } from "./components/Career";
 import { AdminDashboard } from "./components/Dashboard/AdminDashboard";
 import { initVisitorTracking } from "../utils/visitorTracking";
+import { HeroProduct} from "./components/Hero_Product";
 
 
 // ─── Scroll handler: ke atas atau ke section hash ────────────
@@ -18,20 +19,17 @@ function ScrollToTop() {
 
   useEffect(() => {
     if (hash) {
-      // Ada hash (#kontak, #about, dll) — scroll ke section setelah render
       const target = hash.replace("#", "");
       const tryScroll = (attempt = 0) => {
         const el = document.getElementById(target);
         if (el) {
           el.scrollIntoView({ behavior: "smooth" });
         } else if (attempt < 10) {
-          // Coba lagi setiap 100ms sampai element muncul (max 1 detik)
           setTimeout(() => tryScroll(attempt + 1), 100);
         }
       };
       tryScroll();
     } else {
-      // Tidak ada hash — scroll ke atas
       window.scrollTo({ top: 0, behavior: "instant" });
     }
   }, [pathname, hash]);
@@ -41,10 +39,19 @@ function ScrollToTop() {
 
 // ─── Halaman Utama ────────────────────────────────────────────
 function MainPage() {
+  const navigate = useNavigate();
+
+  const handleViewAll = () => {
+    navigate("/produk?step=produk");
+  };
+
   return (
     <>
       <Hero />
       <About />
+      <HeroProduct
+        onViewAll={handleViewAll}
+      />
       <Kontak />
     </>
   );
@@ -53,7 +60,6 @@ function MainPage() {
 // ─── App ──────────────────────────────────────────────────────
 function App() {
   useEffect(() => {
-    // Initialize visitor tracking when app loads
     initVisitorTracking();
   }, []);
 
