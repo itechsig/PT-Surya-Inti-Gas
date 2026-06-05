@@ -439,7 +439,7 @@ export function About() {
                 </span>
               </div>
               <h1 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(2rem, 5vw, 3.4rem)", fontWeight:700, lineHeight:1.12, color:"#0f172a", margin:0, letterSpacing:"-0.01em" }}>
-                PT. Surya Inti Gas
+                Surya Inti Gas
               </h1>
 
               <p style={{
