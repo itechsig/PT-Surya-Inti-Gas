@@ -12,6 +12,49 @@ use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
+    /**
+     * Store a new contact submission
+     * 
+     * @OA\Post(
+     *     path="/api/v1/contact",
+     *     summary="Submit contact form",
+     *     description="Submit a contact form submission and send email notification",
+     *     tags={"Contact"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nama","email","no_hp","pesan"},
+     *             @OA\Property(property="nama", type="string", maxLength=255, example="John Doe"),
+     *             @OA\Property(property="email", type="string", format="email", maxLength=255, example="john@example.com"),
+     *             @OA\Property(property="no_hp", type="string", maxLength=20, example="08123456789"),
+     *             @OA\Property(property="pesan", type="string", minLength=10, maxLength=2000, example="I would like to inquire about your services...")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Contact submitted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Pesan berhasil dikirim. Kami akan segera menghubungi Anda."),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="nama", type="string"),
+     *                 @OA\Property(property="email", type="string")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Validation failed"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
+     */
     public function store(StoreContactRequest $request): JsonResponse
     {
         try {

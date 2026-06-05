@@ -216,6 +216,99 @@
       "viewDetails": "Lihat Detail"
     }
   },
+  "aiAgent": {
+    "title": "Dashboard AI Agent",
+    "subtitle": "Sistem Monitoring dan Manajemen Berbasis AI",
+    "overview": "Ringkasan",
+    "recommendations": "Rekomendasi",
+    "careerApplications": "Lamaran Kerja",
+    "blockedUsers": "Pengguna Terblokir",
+    "notifications": "Notifikasi",
+    "auditLogs": "Log Audit",
+    "status": {
+      "online": "Online",
+      "offline": "Offline",
+      "active": "Aktif",
+      "inactive": "Tidak Aktif"
+    },
+    "metrics": {
+      "totalVisitors": "Total Pengunjung",
+      "totalContacts": "Total Kontak",
+      "pendingRecommendations": "Rekomendasi Tertunda",
+      "recentActivities": "Aktivitas Terbaru",
+      "aiWarnings": "Peringatan AI",
+      "uptime": "Waktu Operasional"
+    },
+    "actions": {
+      "monitor": "Monitor",
+      "approve": "Setujui",
+      "reject": "Tolak",
+      "block": "Blokir",
+      "unblock": "Hapus Blokir",
+      "markRead": "Tandai Dibaca",
+      "export": "Ekspor"
+    },
+    "filters": {
+      "all": "Semua",
+      "pending": "Tertunda",
+      "completed": "Selesai",
+      "failed": "Gagal",
+      "today": "Hari Ini",
+      "last7Days": "7 Hari Terakhir",
+      "last30Days": "30 Hari Terakhir"
+    },
+    "recommendation": {
+      "type": "Tipe",
+      "priority": "Prioritas",
+      "status": "Status",
+      "description": "Deskripsi",
+      "high": "Tinggi",
+      "medium": "Sedang",
+      "low": "Rendah",
+      "pending": "Menunggu",
+      "approved": "Disetujui",
+      "rejected": "Ditolak"
+    },
+    "career": {
+      "application": "Lamaran",
+      "position": "Posisi",
+      "score": "Skor",
+      "insights": "Insight AI",
+      "status": "Status",
+      "reviewed": "Direview",
+      "interview": "Interview",
+      "hired": "Diterima",
+      "rejected": "Ditolak"
+    },
+    "blocked": {
+      "user": "Pengguna",
+      "type": "Tipe",
+      "reason": "Alasan",
+      "blockedBy": "Diblokir Oleh",
+      "blockedAt": "Diblokir Pada",
+      "ipAddress": "Alamat IP",
+      "email": "Email",
+      "userId": "ID Pengguna"
+    },
+    "notification": {
+      "type": "Tipe",
+      "priority": "Prioritas",
+      "message": "Pesan",
+      "status": "Status",
+      "read": "Dibaca",
+      "unread": "Belum Dibaca",
+      "markRead": "Tandai Dibaca"
+    },
+    "audit": {
+      "action": "Aksi",
+      "entity": "Entitas",
+      "user": "Pengguna",
+      "timestamp": "Waktu",
+      "description": "Deskripsi",
+      "export": "Ekspor CSV",
+      "recent": "Aktivitas Terbaru"
+    }
+  },
   "career": {
     "title": "Karir",
     "subtitle": "Bergabung Bersama Kami",

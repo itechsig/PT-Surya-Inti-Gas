@@ -8,7 +8,7 @@ import { Product } from "./components/Product";
 import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
 import { Career } from "./components/Career";
-import { AdminDashboard } from "./components/Dashboard/AdminDashboard";
+import { AdminDashboardIntegrated } from "./components/Dashboard/AdminDashboardIntegrated";
 import { initVisitorTracking } from "../utils/visitorTracking";
 import { HeroProduct} from "./components/Hero_Product";
 
@@ -73,7 +73,7 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/produk" element={<Product />} />
             <Route path="/karir" element={<Career />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/dashboard" element={<AdminDashboardIntegrated />} />
           </Routes>
         </main>
         <Footer />

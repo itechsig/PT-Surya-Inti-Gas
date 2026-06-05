@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests\Chat;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ChatRequest extends FormRequest
 {
@@ -12,85 +13,54 @@ class ChatRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return true; // Public endpoint - no auth required
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'message' => [
-                'required',
-                'string',
-                'max:1000',
-                'min:2',
-                'not_empty',
-                'no_html',
-                'no_injection',
-            ],
-            'history' => 'array|max:20',
-            'history.*.role' => 'required|in:user,assistant',
-            'history.*.content' => [
-                'required',
-                'string',
-                'max:1000',
-                'min:1',
-                'no_html',
-                'no_injection',
-            ],
+            'message' => 'required|string|min:1|max:2000',
+            'history' => 'nullable|array',
+            'history.*.role' => 'required_with:history|string|in:user,assistant,model',
+            'history.*.content' => 'required_with:history|string|max:2000',
+            'user_id' => 'nullable|string|max:255',
+            'session_id' => 'nullable|string|max:255',
+            'language' => 'nullable|string|in:id,en,zh',
         ];
     }
 
     /**
      * Get custom messages for validator errors.
-     *
-     * @return array<string, string>
      */
     public function messages(): array
     {
         return [
             'message.required' => 'Pesan wajib diisi',
-            'message.min' => 'Pesan minimal 2 karakter',
-            'message.max' => 'Pesan maksimal 1000 karakter',
-            'message.not_empty' => 'Pesan tidak boleh kosong',
-            'message.no_html' => 'Pesan tidak boleh mengandung HTML',
-            'message.no_injection' => 'Pesan mengandung karakter yang tidak valid',
-            'history.max' => 'Riwayat percakapan maksimal 20 pesan',
-            'history.*.role.required' => 'Role wajib diisi',
-            'history.*.role.in' => 'Role harus user atau assistant',
-            'history.*.content.required' => 'Konten wajib diisi',
-            'history.*.content.min' => 'Konten minimal 1 karakter',
-            'history.*.content.max' => 'Konten maksimal 1000 karakter',
-            'history.*.content.no_html' => 'Konten tidak boleh mengandung HTML',
-            'history.*.content.no_injection' => 'Konten mengandung karakter yang tidak valid',
+            'message.min' => 'Pesan minimal 1 karakter',
+            'message.max' => 'Pesan maksimal 2000 karakter',
+            'history.array' => 'History harus berupa array',
+            'history.*.role.required_with' => 'Role history wajib diisi jika history ada',
+            'history.*.role.in' => 'Role history harus salah satu dari: user, assistant, model',
+            'history.*.content.required_with' => 'Content history wajib diisi jika history ada',
+            'history.*.content.max' => 'Content history maksimal 2000 karakter',
+            'language.in' => 'Bahasa harus salah satu dari: id, en, zh',
         ];
     }
 
     /**
-     * Configure the validator instance.
+     * Handle a failed validation attempt.
      */
-    public function after(): array
+    protected function failedValidation(Validator $validator): void
     {
-        return [
-            function ($validator) {
-                $validator->after(function ($validator) {
-                    $message = $this->input('message');
-                    
-                    // Check for repeated characters (potential spam)
-                    if (preg_match('/(.)\1{4,}/', $message)) {
-                        $validator->errors()->add('message', 'Pesan mengandung karakter berulang yang mencurigakan');
-                    }
-                    
-                    // Check for excessive capitalization
-                    if (mb_strtoupper($message) === $message && mb_strlen($message) > 10) {
-                        $validator->errors()->add('message', 'Pesan tidak boleh seluruhnya huruf kapital');
-                    }
-                });
-            }
-        ];
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422)
+        );
     }
 }

@@ -11,6 +11,7 @@ class VisitorTracking {
   private sessionId: string;
   private currentPage: string;
   private startTime: number;
+  private trackingInterval: number | null = null;
 
   constructor() {
     this.sessionId = this.getOrCreateSessionId();
@@ -68,9 +69,55 @@ class VisitorTracking {
           this.sessionId = result.data.session_id;
           sessionStorage.setItem('visitor_session_id', this.sessionId);
         }
+      } else if (response.status === 403) {
+        // Handle blocked user
+        const result = await response.json();
+        console.error('Access denied:', result.message);
+        this.showBlockedMessage(result.message);
+        // Stop further tracking for blocked users
+        this.stopTracking();
       }
     } catch (error) {
       console.error('Error tracking visitor:', error);
+    }
+  }
+
+  private showBlockedMessage(message: string) {
+    // Create a blocked user overlay
+    const blockedOverlay = document.createElement('div');
+    blockedOverlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999999;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    `;
+    blockedOverlay.innerHTML = `
+      <div style="max-width: 600px;">
+        <div style="font-size: 64px; margin-bottom: 20px;">🚫</div>
+        <h1 style="font-size: 32px; margin-bottom: 16px; color: #ff6b6b;">Access Denied</h1>
+        <p style="font-size: 18px; margin-bottom: 20px; color: #ccc;">${message}</p>
+        <p style="font-size: 14px; color: #888;">If you believe this is an error, please contact the administrator.</p>
+      </div>
+    `;
+    document.body.appendChild(blockedOverlay);
+    
+    // Prevent any further interaction
+    document.body.style.overflow = 'hidden';
+  }
+
+  private stopTracking() {
+    // Clear any tracking intervals
+    if (this.trackingInterval) {
+      clearInterval(this.trackingInterval);
     }
   }
 
@@ -101,7 +148,7 @@ class VisitorTracking {
 
   private setupPeriodicTracking() {
     // Track page view every 30 seconds
-    setInterval(() => {
+    this.trackingInterval = setInterval(() => {
       this.trackPageView();
     }, 30000);
   }
