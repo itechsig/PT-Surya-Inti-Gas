@@ -1,0 +1,46 @@
+# fly.toml app configuration file
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+
+app = 'pt-surya-inti-gas-backend'
+primary_region = 'sin'
+
+[build]
+  dockerfile = './Backend/Dockerfile'
+
+[env]
+  APP_ENV = 'production'
+  APP_DEBUG = 'false'
+  APP_URL = 'https://pt-surya-inti-gas-backend.fly.dev'
+  DB_CONNECTION = 'pgsql'
+  DB_HOST = 'localhost'
+  DB_PORT = '5432'
+  SESSION_DRIVER = 'file'
+  CACHE_DRIVER = 'file'
+  QUEUE_CONNECTION = 'sync'
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[http_service.checks]]
+  interval = '15s'
+  timeout = '10s'
+  grace_period = '5s'
+  method = 'GET'
+  path = '/api/v1/health'
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+[deploy]
+  strategy = "rolling"
+
+[experimental]
+  cmd = "php artisan serve --host=0.0.0.0 --port=8000"

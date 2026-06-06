@@ -1,5 +1,8 @@
 import { getApiUrl, API_ENDPOINTS } from '../config/api';
 
+// Visitor tracking enabled - backend issues have been resolved
+const ENABLE_VISITOR_TRACKING = true;
+
 interface VisitorTrackingData {
   session_id?: string;
   current_page?: string;
@@ -38,6 +41,12 @@ class VisitorTracking {
   }
 
   private async initTracking() {
+    // Skip tracking if disabled
+    if (!ENABLE_VISITOR_TRACKING) {
+      console.log('Visitor tracking is disabled');
+      return;
+    }
+
     // Track initial visitor
     await this.trackVisitor({
       session_id: this.sessionId,
@@ -76,9 +85,12 @@ class VisitorTracking {
         this.showBlockedMessage(result.message);
         // Stop further tracking for blocked users
         this.stopTracking();
+      } else {
+        console.warn('Visitor tracking failed with status:', response.status);
       }
     } catch (error) {
       console.error('Error tracking visitor:', error);
+      // Don't break the app if tracking fails
     }
   }
 
@@ -140,13 +152,21 @@ class VisitorTracking {
       if (response.ok) {
         // Reset start time for next page view
         this.startTime = Date.now();
+      } else if (response.status === 404) {
+        console.warn('Page view tracking endpoint not found (404)');
       }
     } catch (error) {
       console.error('Error tracking page view:', error);
+      // Don't break the app if tracking fails
     }
   }
 
   private setupPeriodicTracking() {
+    // Skip if tracking is disabled
+    if (!ENABLE_VISITOR_TRACKING) {
+      return;
+    }
+
     // Track page view every 30 seconds
     this.trackingInterval = setInterval(() => {
       this.trackPageView();
@@ -154,6 +174,11 @@ class VisitorTracking {
   }
 
   private trackPageChanges() {
+    // Skip if tracking is disabled
+    if (!ENABLE_VISITOR_TRACKING) {
+      return;
+    }
+
     // Track page changes using History API
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
