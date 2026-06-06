@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // ─── Types ────────────────────────────────────────────────────
@@ -28,6 +28,7 @@ export type GasProduct = {
   detail: ProductDetail;
   tag: string;
   accentColor: string;
+  accentLight: string;
 };
 
 // ─── Data ─────────────────────────────────────────────────────
@@ -52,6 +53,7 @@ const gasProducts: GasProduct[] = [
     },
     tag:         'Industri',
     accentColor: '#1d4ed8',
+    accentLight: '#dbeafe',
   },
   {
     id: 2,
@@ -73,6 +75,7 @@ const gasProducts: GasProduct[] = [
     },
     tag:         'Medis',
     accentColor: '#0d7c5f',
+    accentLight: '#d1fae5',
   },
   {
     id: 3,
@@ -94,6 +97,7 @@ const gasProducts: GasProduct[] = [
     },
     tag:         'Pengelasan',
     accentColor: '#5b21b6',
+    accentLight: '#ede9fe',
   },
   {
     id: 4,
@@ -115,6 +119,7 @@ const gasProducts: GasProduct[] = [
     },
     tag:         'Spesialiti',
     accentColor: '#92400e',
+    accentLight: '#fef3c7',
   },
 ];
 
@@ -127,9 +132,18 @@ type HeroProductProps = {
 export function HeroProduct({ onViewAll }: HeroProductProps) {
   const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [prevIndex,   setPrevIndex  ] = useState<number | null>(null);
+  const [direction,   setDirection  ] = useState<'next' | 'prev'>('next');
   const [isVisible,   setIsVisible  ] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const [isPaused,    setIsPaused   ] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [hoveredSpec, setHoveredSpec] = useState<number | null>(null);
+  const sectionRef  = useRef<HTMLElement>(null);
+  const touchStartX = useRef<number | null>(null);
 
+  const total = gasProducts.length;
+
+  // ── Intersection observer ──────────────────────────────────
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
@@ -139,22 +153,79 @@ export function HeroProduct({ onViewAll }: HeroProductProps) {
     return () => observer.disconnect();
   }, []);
 
-  const total      = gasProducts.length;
-  const handlePrev = () => setActiveIndex(i => (i - 1 + total) % total);
-  const handleNext = () => setActiveIndex(i => (i + 1) % total);
-  const active     = gasProducts[activeIndex];
-  const prevIdx    = (activeIndex - 1 + total) % total;
-  const nextIdx    = (activeIndex + 1) % total;
+  // ── Navigate with direction tracking ──────────────────────
+  const goTo = useCallback((nextIdx: number, dir: 'next' | 'prev') => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setDirection(dir);
+    setPrevIndex(activeIndex);
+    setActiveIndex(nextIdx);
+    setTimeout(() => {
+      setPrevIndex(null);
+      setIsAnimating(false);
+    }, 600);
+  }, [activeIndex, isAnimating]);
+
+  const handleNext = useCallback(() => goTo((activeIndex + 1) % total, 'next'), [goTo, activeIndex, total]);
+  const handlePrev = useCallback(() => goTo((activeIndex - 1 + total) % total, 'prev'), [goTo, activeIndex, total]);
+
+  // ── Auto-play ──────────────────────────────────────────────
+  useEffect(() => {
+    if (isPaused) return;
+    const id = setInterval(handleNext, 5000);
+    return () => clearInterval(id);
+  }, [isPaused, handleNext]);
+
+  // ── Swipe ──────────────────────────────────────────────────
+  const handleTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+  const handleTouchEnd   = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? handleNext() : handlePrev();
+    touchStartX.current = null;
+  };
+
+  // ── Preload images ─────────────────────────────────────────
+  useEffect(() => {
+    gasProducts.forEach(p => { const img = new Image(); img.src = p.image; });
+  }, []);
+
+  const active = gasProducts[activeIndex];
+
+  // ── Slide direction classes ────────────────────────────────
+  const getSlideClass = (idx: number) => {
+    if (idx === activeIndex)  return direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+    if (idx === prevIndex)    return direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+    return 'hidden-slide';
+  };
 
   return (
-    <section ref={sectionRef} className="w-full bg-white overflow-hidden" style={{ minHeight: '85svh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '80px 5vw 56px' }}>
+    <section
+      ref={sectionRef}
+      className="w-full overflow-hidden"
+      style={{
+        minHeight: '90svh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '80px 5vw 56px',
+        background: '#f8fafc',
+      }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="max-w-7xl mx-auto w-full">
 
         {/* ══ Header ══ */}
         <div
-          className={`text-center mb-4 transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
+          className="text-center mb-10"
+          style={{
+            opacity:    isVisible ? 1 : 0,
+            transform:  isVisible ? 'translateY(0)' : 'translateY(16px)',
+            transition: 'opacity 0.7s ease, transform 0.7s ease',
+          }}
         >
           <div className="flex items-center justify-center gap-3 mb-3">
             <div className="h-px w-8 bg-slate-300" />
@@ -171,201 +242,335 @@ export function HeroProduct({ onViewAll }: HeroProductProps) {
           </p>
         </div>
 
-        {/* ══ Showcase ══ */}
+        {/* ══ Magazine Split Layout ══ */}
         <div
-          className={`relative flex items-center justify-center gap-4 transition-all duration-700 delay-100 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
+          style={{
+            opacity:    isVisible ? 1 : 0,
+            transform:  isVisible ? 'translateY(0)' : 'translateY(24px)',
+            transition: 'opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s',
+          }}
         >
-          {/* Nav Left */}
-          <button
-            onClick={handlePrev}
-            aria-label="Sebelumnya"
-            className="flex-shrink-0 w-10 h-10 rounded-full bg-white border border-slate-200 shadow-md
-                       flex items-center justify-center text-slate-500
-                       hover:text-slate-800 hover:border-slate-400 transition-all duration-200 z-10"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          {/* Side card — prev */}
           <div
-            onClick={handlePrev}
-            className="hidden lg:block flex-shrink-0 cursor-pointer"
-            style={{ width: '240px' }}
+            className="relative rounded-3xl overflow-hidden"
+            style={{
+              height: '580px',
+              boxShadow: '0 32px 80px rgba(0,0,0,0.12)',
+              border: '1px solid rgba(0,0,0,0.06)',
+            }}
           >
-            <div
-              className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm
-                         opacity-50 scale-95 hover:opacity-70 hover:scale-[0.97]
-                         transition-all duration-400"
-              style={{ height: '420px' }}
-            >
-              <img
-                src={gasProducts[prevIdx].image}
-                alt={t(gasProducts[prevIdx].titleKey)}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-              <div className="absolute top-4 left-4">
-                <span
-                  className="px-3 py-1 rounded text-[10px] font-bold text-white uppercase tracking-wider"
-                  style={{ backgroundColor: gasProducts[prevIdx].accentColor }}
-                >
-                  {gasProducts[prevIdx].tag}
-                </span>
+            {/* ── Background image layer (all images stacked) ── */}
+            {gasProducts.map((p, i) => (
+              <div
+                key={p.id}
+                className={`absolute inset-0 ${getSlideClass(i)}`}
+                style={{ zIndex: i === activeIndex ? 2 : i === prevIndex ? 1 : 0 }}
+              >
+                <img
+                  src={p.image}
+                  alt={t(p.titleKey)}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ transform: 'scale(1.04)' }}
+                />
+                {/* subtle dark overlay on right side only */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: 'linear-gradient(105deg, rgba(10,15,30,0.82) 0%, rgba(10,15,30,0.65) 38%, rgba(10,15,30,0.10) 62%, rgba(10,15,30,0.04) 100%)',
+                  }}
+                />
               </div>
-              <div className="absolute bottom-5 left-4 right-4">
-                <p className="text-white font-bold text-lg leading-snug">
-                  {t(gasProducts[prevIdx].titleKey)}
-                </p>
-              </div>
-            </div>
-          </div>
+            ))}
 
-          {/* Center card — large */}
-          <div className="flex-1 max-w-2xl flex-shrink-0">
+            {/* ── Accent color top strip ── */}
             <div
-              className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-2xl w-full"
-              style={{ height: '580px' }}
-            >
-              <img
-                key={active.id}
-                src={active.image}
-                alt={t(active.titleKey)}
-                className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+              className="absolute top-0 left-0 right-0 h-1 transition-all duration-700"
+              style={{ background: active.accentColor, zIndex: 10 }}
+            />
 
-              {/* Badge top-left */}
-              <div className="absolute top-6 left-6">
+            {/* ── Progress bar ── */}
+            {!isPaused && (
+              <div
+                className="absolute top-1 left-0 right-0 h-0.5 overflow-hidden"
+                style={{ zIndex: 11 }}
+              >
+                <div
+                  key={`prog-${activeIndex}`}
+                  style={{
+                    height: '100%',
+                    backgroundColor: 'rgba(255,255,255,0.5)',
+                    animation: 'progress 5s linear forwards',
+                  }}
+                />
+              </div>
+            )}
+
+            {/* ── LEFT: Info panel ── */}
+            <div
+              className="absolute left-0 top-0 bottom-0 flex flex-col justify-between"
+              style={{ width: '48%', padding: '48px 44px', zIndex: 10 }}
+            >
+              {/* Top: tag + counter */}
+              <div className="flex items-center justify-between">
                 <span
-                  className="px-4 py-1.5 rounded text-xs font-bold text-white uppercase tracking-widest shadow"
-                  style={{ backgroundColor: active.accentColor }}
+                  className="text-[11px] font-bold uppercase tracking-[0.18em] px-3 py-1.5 rounded-lg"
+                  style={{
+                    backgroundColor: active.accentColor,
+                    color: '#fff',
+                    transition: 'background-color 0.5s ease',
+                  }}
                 >
                   {active.tag}
                 </span>
+                <span className="text-white/40 text-sm font-medium tabular-nums">
+                  {String(activeIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+                </span>
               </div>
 
-              {/* Bottom content */}
-              <div className="absolute bottom-0 left-0 right-0 px-7 pb-7 pt-4">
-                <h3 className="text-white text-3xl font-bold mb-4 drop-shadow leading-tight">
+              {/* Middle: product name + desc */}
+              <div key={`text-${activeIndex}`} className="content-slide-in">
+                <h3
+                  className="font-bold text-white leading-tight mb-4"
+                  style={{ fontSize: 'clamp(28px, 3.5vw, 44px)' }}
+                >
                   {t(active.titleKey)}
                 </h3>
-
-                {/* Specs strip */}
-                <div
-                  className="flex rounded-xl overflow-hidden border border-white/15 mb-4"
-                  style={{ background: 'rgba(0,0,0,0.45)' }}
-                >
-                  {active.specs.map((spec, i) => (
-                    <div
-                      key={spec.labelKey}
-                      className={`flex-1 flex flex-col items-center py-3 px-3 gap-1.5 ${
-                        i < active.specs.length - 1 ? 'border-r border-white/10' : ''
-                      }`}
-                    >
-                      <span className="text-xl">{spec.icon}</span>
-                      <span className="text-[10px] font-semibold text-white/60 uppercase tracking-wider text-center">
-                        {t(spec.labelKey)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Description */}
-                <p className="text-white/75 text-sm leading-relaxed line-clamp-2 mb-5">
+                <p className="text-white/65 text-sm leading-relaxed line-clamp-3 mb-8">
                   {t(active.descKey)}
                 </p>
 
-                {/* Dots + CTA row */}
-                <div className="flex items-center justify-center">
-                  <div className="flex gap-2">
-                    {gasProducts.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setActiveIndex(i)}
-                        aria-label={`Produk ${i + 1}`}
-                        className="rounded-full transition-all duration-300"
-                        style={{
-                          width:           i === activeIndex ? '24px' : '7px',
-                          height:          '7px',
-                          backgroundColor: i === activeIndex ? '#fff' : 'rgba(255,255,255,0.35)',
-                        }}
-                      />
-                    ))}
-                  </div>
+                {/* Specs — interactive hover cards */}
+                <div className="flex flex-col gap-2">
+                  {active.specs.map((spec, i) => (
+                    <div
+                      key={spec.labelKey}
+                      onMouseEnter={() => setHoveredSpec(i)}
+                      onMouseLeave={() => setHoveredSpec(null)}
+                      className="flex items-center gap-3 rounded-xl cursor-default transition-all duration-200"
+                      style={{
+                        padding: '10px 14px',
+                        background: hoveredSpec === i
+                          ? 'rgba(255,255,255,0.18)'
+                          : 'rgba(255,255,255,0.08)',
+                        border: `1px solid ${hoveredSpec === i ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.10)'}`,
+                        transform: hoveredSpec === i ? 'translateX(4px)' : 'translateX(0)',
+                      }}
+                    >
+                      <span style={{ fontSize: '18px', minWidth: '24px' }}>{spec.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[10px] text-white/45 uppercase tracking-wider font-semibold leading-none mb-0.5">
+                          {t(spec.labelKey)}
+                        </p>
+                        <p className="text-[13px] text-white font-semibold truncate">
+                          {t(spec.valueKey)}
+                        </p>
+                      </div>
+                      {hoveredSpec === i && (
+                        <svg className="w-3.5 h-3.5 text-white/50 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom: dot nav + nav buttons */}
+              <div className="flex items-center justify-between">
+                {/* Dot nav */}
+                <div className="flex gap-2 items-center">
+                  {gasProducts.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => goTo(i, i > activeIndex ? 'next' : 'prev')}
+                      aria-label={`Produk ${i + 1}`}
+                      className="rounded-full transition-all duration-300 hover:scale-125"
+                      style={{
+                        width:           i === activeIndex ? '28px' : '7px',
+                        height:          '7px',
+                        backgroundColor: i === activeIndex ? '#fff' : 'rgba(255,255,255,0.30)',
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Arrow buttons */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={handlePrev}
+                    aria-label="Sebelumnya"
+                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                    style={{
+                      background: 'rgba(255,255,255,0.12)',
+                      border: '1px solid rgba(255,255,255,0.20)',
+                      color: '#fff',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.22)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    aria-label="Berikutnya"
+                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                    style={{
+                      background: active.accentColor,
+                      border: '1px solid transparent',
+                      color: '#fff',
+                      transition: 'background 0.5s ease',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+                    onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Side card — next */}
-          <div
-            onClick={handleNext}
-            className="hidden lg:block flex-shrink-0 cursor-pointer"
-            style={{ width: '240px' }}
-          >
+            {/* ── RIGHT: Thumbnail strip (vertical) ── */}
             <div
-              className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm
-                         opacity-50 scale-95 hover:opacity-70 hover:scale-[0.97]
-                         transition-all duration-400"
-              style={{ height: '420px' }}
+              className="absolute right-6 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3"
+              style={{ zIndex: 10 }}
             >
-              <img
-                src={gasProducts[nextIdx].image}
-                alt={t(gasProducts[nextIdx].titleKey)}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-              <div className="absolute top-4 left-4">
-                <span
-                  className="px-3 py-1 rounded text-[10px] font-bold text-white uppercase tracking-wider"
-                  style={{ backgroundColor: gasProducts[nextIdx].accentColor }}
+              {gasProducts.map((p, i) => (
+                <button
+                  key={p.id}
+                  onClick={() => goTo(i, i > activeIndex ? 'next' : 'prev')}
+                  aria-label={t(p.titleKey)}
+                  className="relative rounded-xl overflow-hidden transition-all duration-300 block"
+                  style={{
+                    width:   i === activeIndex ? '80px' : '64px',
+                    height:  i === activeIndex ? '80px' : '64px',
+                    opacity: i === activeIndex ? 1 : 0.55,
+                    border:  i === activeIndex
+                      ? `2px solid ${p.accentColor}`
+                      : '2px solid rgba(255,255,255,0.15)',
+                    transform: i === activeIndex ? 'scale(1)' : 'scale(0.9)',
+                  }}
+                  onMouseEnter={e => { if (i !== activeIndex) (e.currentTarget as HTMLElement).style.opacity = '0.85'; }}
+                  onMouseLeave={e => { if (i !== activeIndex) (e.currentTarget as HTMLElement).style.opacity = '0.55'; }}
                 >
-                  {gasProducts[nextIdx].tag}
-                </span>
-              </div>
-              <div className="absolute bottom-5 left-4 right-4">
-                <p className="text-white font-bold text-lg leading-snug">
-                  {t(gasProducts[nextIdx].titleKey)}
-                </p>
-              </div>
+                  <img src={p.image} alt={t(p.titleKey)} className="w-full h-full object-cover" />
+                  {i === activeIndex && (
+                    <div
+                      className="absolute inset-0 flex items-end p-1.5"
+                      style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)' }}
+                    >
+                      <span
+                        className="text-[8px] font-bold uppercase text-white leading-none"
+                        style={{ letterSpacing: '0.05em' }}
+                      >
+                        {p.tag}
+                      </span>
+                    </div>
+                  )}
+                </button>
+              ))}
             </div>
           </div>
+        </div>
 
-          {/* Nav Right */}
+        {/* ══ Button Lihat Selengkapnya ══ */}
+        <div
+          className="flex justify-center mt-8"
+          style={{
+            opacity:    isVisible ? 1 : 0,
+            transform:  isVisible ? 'translateY(0)' : 'translateY(16px)',
+            transition: 'opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s',
+          }}
+        >
           <button
-            onClick={handleNext}
-            aria-label="Berikutnya"
-            className="flex-shrink-0 w-10 h-10 rounded-full bg-white border border-slate-200 shadow-md
-                       flex items-center justify-center text-slate-500
-                       hover:text-slate-800 hover:border-slate-400 transition-all duration-200 z-10"
+            onClick={onViewAll}
+            className="group flex items-center gap-2 px-10 py-3.5 rounded-xl text-sm font-semibold text-white shadow-lg"
+            style={{
+              backgroundColor: '#1a4fa0',
+              transition: 'opacity 0.2s, transform 0.2s',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.opacity = '0.9';
+              (e.currentTarget as HTMLElement).style.transform = 'scale(1.04)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.opacity = '1';
+              (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+            }}
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            Lihat Selengkapnya
+            <svg
+              className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
 
-        {/* ══ Button Lihat Selengkapnya — di bawah card ══ */}
-        <div
-          className={`flex justify-center mt-8 transition-all duration-700 delay-200 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <button
-            onClick={onViewAll}
-            className="px-10 py-3.5 rounded-xl text-sm font-semibold text-white
-                       shadow-lg transition-all duration-200 hover:opacity-90 hover:scale-105"
-            style={{ backgroundColor: active.accentColor }}
-          >
-            Lihat Selengkapnya
-          </button>
-        </div>
-
       </div>
+
+      {/* ── Keyframes & utility animations ── */}
+      <style>{`
+        @keyframes progress {
+          from { width: 0%; }
+          to   { width: 100%; }
+        }
+
+        /* Magazine slide transitions */
+        .slide-in-right {
+          animation: slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .slide-in-left {
+          animation: slideInLeft 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .slide-out-left {
+          animation: slideOutLeft 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .slide-out-right {
+          animation: slideOutRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .hidden-slide {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        @keyframes slideInRight {
+          from { transform: translateX(6%) scale(1.02); opacity: 0; }
+          to   { transform: translateX(0)  scale(1);    opacity: 1; }
+        }
+        @keyframes slideInLeft {
+          from { transform: translateX(-6%) scale(1.02); opacity: 0; }
+          to   { transform: translateX(0)   scale(1);    opacity: 1; }
+        }
+        @keyframes slideOutLeft {
+          from { transform: translateX(0)   scale(1);    opacity: 1; }
+          to   { transform: translateX(-4%) scale(0.99); opacity: 0; }
+        }
+        @keyframes slideOutRight {
+          from { transform: translateX(0)  scale(1);    opacity: 1; }
+          to   { transform: translateX(4%) scale(0.99); opacity: 0; }
+        }
+
+        /* Info panel text entrance */
+        .content-slide-in {
+          animation: contentIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        @keyframes contentIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeSlideUp {
+          animation: fadeSlideUp 0.35s ease forwards;
+        }
+      `}</style>
     </section>
   );
 }
