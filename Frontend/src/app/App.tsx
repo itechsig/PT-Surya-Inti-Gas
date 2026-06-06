@@ -66,19 +66,39 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/produk" element={<Product />} />
-            <Route path="/karir" element={<Career />} />
-            <Route path="/admin/dashboard" element={<AdminDashboardIntegrated />} />
-          </Routes>
-        </main>
-        <Footer />
-        <Chatbot />
-      </div>
+      <Routes>
+        <Route path="/" element={
+          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+            <Header />
+            <main>
+              <MainPage />
+            </main>
+            <Footer />
+            <Chatbot />
+          </div>
+        } />
+        <Route path="/produk" element={
+          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+            <Header />
+            <main>
+              <Product />
+            </main>
+            <Footer />
+            <Chatbot />
+          </div>
+        } />
+        <Route path="/karir" element={
+          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+            <Header />
+            <main>
+              <Career />
+            </main>
+            <Footer />
+            <Chatbot />
+          </div>
+        } />
+        <Route path="/admin/dashboard" element={<AdminDashboardIntegrated />} />
+      </Routes>
     </BrowserRouter>
   );
 }

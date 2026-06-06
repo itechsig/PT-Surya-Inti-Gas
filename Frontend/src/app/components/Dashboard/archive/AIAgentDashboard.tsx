@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { 
-  Bot, 
-  Activity, 
-  AlertTriangle, 
-  CheckCircle, 
-  Clock, 
+import {
+  Bot,
+  Activity,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
   Shield,
   Users,
   FileText,

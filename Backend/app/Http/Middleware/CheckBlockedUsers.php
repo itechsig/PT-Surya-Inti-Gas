@@ -21,6 +21,12 @@ class CheckBlockedUsers
         try {
             $ipAddress = $request->ip();
             
+            // Check if blocked_users table exists before querying
+            if (!\Schema::hasTable('blocked_users')) {
+                Log::warning('blocked_users table does not exist, skipping blocked user check');
+                return $next($request);
+            }
+            
             // Log IP check for debugging
             Log::info('Checking blocked users', [
                 'ip' => $ipAddress,

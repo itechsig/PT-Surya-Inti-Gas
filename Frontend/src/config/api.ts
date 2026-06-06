@@ -4,8 +4,8 @@ const getApiBaseUrl = (): string => {
   const envUrl = (import.meta as any).env?.VITE_API_URL;
   if (envUrl) return envUrl;
   
-  // Use network IP for cross-device access
-  return 'http://10.10.20.7:8000'; // Main network IP
+  // Default to localhost for development
+  return 'http://localhost:8000';
 };
 
 export const API_CONFIG = {
@@ -66,6 +66,16 @@ export const API_ENDPOINTS = {
   AUDIT_LOGS: '/api/v1/admin/audit-logs',
   AUDIT_LOGS_RECENT: '/api/v1/admin/audit-logs/recent',
   AUDIT_LOGS_STATISTICS: '/api/v1/admin/audit-logs/statistics',
+
+  // Unmanned Agent endpoints (admin)
+  UNMANNED_OVERVIEW: '/api/v1/admin/unmanned/overview',
+  UNMANNED_AGENTS: '/api/v1/admin/unmanned/agents',
+  UNMANNED_MISSIONS: '/api/v1/admin/unmanned/missions',
+  UNMANNED_ALERTS: '/api/v1/admin/unmanned/alerts',
+  UNMANNED_AGENT_HEALTH: '/api/v1/admin/unmanned/agent-health',
+  UNMANNED_SYSTEM_ACTIVITY: '/api/v1/admin/unmanned/system-activity',
+  UNMANNED_OPERATIONAL_STATS: '/api/v1/admin/unmanned/operational-stats',
+  UNMANNED_MAP_DATA: '/api/v1/admin/unmanned/map-data',
 
   // Visitor tracking endpoints (public)
   VISITOR_TRACK: '/api/v1/visitor/track',

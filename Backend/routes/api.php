@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\BlockedUserController;
 use App\Http\Controllers\Api\CareerApplicationController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\AuditLogController;
+use App\Http\Controllers\Api\UnmannedAgentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,9 +71,12 @@ Route::prefix('v1')->group(function () {
         Route::put('/admin/dashboard/contacts/{id}', [DashboardController::class, 'updateContact']);
 
         // Visitor Tracking API (Public) - Track website visitors (no rate limiting for analytics)
-        Route::post('/visitor/track', [VisitorTrackingController::class, 'track']);
-        Route::post('/visitor/pageview', [VisitorTrackingController::class, 'trackPageView']);
-        Route::get('/visitor/current-ip', [VisitorTrackingController::class, 'getCurrentIP']);
+        // Temporarily removed check.blocked middleware for troubleshooting
+        Route::withoutMiddleware(['check.blocked'])->group(function () {
+            Route::post('/visitor/track', [VisitorTrackingController::class, 'track']);
+            Route::post('/visitor/pageview', [VisitorTrackingController::class, 'trackPageView']);
+            Route::get('/visitor/current-ip', [VisitorTrackingController::class, 'getCurrentIP']);
+        });
 
         // AI Agent API (Public for testing - will move to protected routes later)
         Route::get('/admin/ai-agent/status', [AIAgentController::class, 'getStatus']);
@@ -117,6 +121,16 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
         Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
         Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
+
+        // Unmanned Agent API (Public for testing - will move to protected routes later)
+        Route::get('/admin/unmanned/overview', [UnmannedAgentController::class, 'overview']);
+        Route::get('/admin/unmanned/agents', [UnmannedAgentController::class, 'index']);
+        Route::get('/admin/unmanned/missions', [UnmannedAgentController::class, 'missions']);
+        Route::get('/admin/unmanned/alerts', [UnmannedAgentController::class, 'alerts']);
+        Route::get('/admin/unmanned/agent-health', [UnmannedAgentController::class, 'agentHealth']);
+        Route::get('/admin/unmanned/system-activity', [UnmannedAgentController::class, 'systemActivity']);
+        Route::get('/admin/unmanned/operational-stats', [UnmannedAgentController::class, 'operationalStats']);
+        Route::get('/admin/unmanned/map-data', [UnmannedAgentController::class, 'mapData']);
 
         // Chatbot - Public Info Endpoints
         // Note: reload-kb and rotation-status moved to admin-only for security

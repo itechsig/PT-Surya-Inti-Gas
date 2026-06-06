@@ -1,4 +1,4 @@
-FROM php:8.5.4-cli
+FROM php:8.3-cli
 
 WORKDIR /app
 
@@ -10,13 +10,14 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     zip \
-    unzip
+    unzip \
+    libpq-dev
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
 COPY . .
 
@@ -25,6 +26,10 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Generate application key
 RUN php artisan key:generate --ansi
+
+# Clear config and cache
+RUN php artisan config:clear
+RUN php artisan cache:clear
 
 EXPOSE 8000
 
