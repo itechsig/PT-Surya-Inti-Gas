@@ -20,6 +20,11 @@ class EnvironmentValidationProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Skip validation during console operations (like composer install)
+        if ($this->app->runningInConsole()) {
+            return;
+        }
+
         // Validate critical environment variables
         $this->validateEnvironmentVariables();
     }
