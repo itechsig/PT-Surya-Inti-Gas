@@ -1,7 +1,6 @@
 [build]
 builder = "NIXPACKS"
 buildCommand = "cp .env.example .env && composer install --no-interaction --prefer-dist --optimize-autoloader"
-phpVersion = "8.4"
 
 [deploy]
 startCommand = "php artisan serve --host=0.0.0.0 --port=8000"
