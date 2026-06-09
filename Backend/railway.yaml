@@ -3,7 +3,7 @@ services:
   - type: web
     name: pt-surya-inti-gas-backend
     runtime: php
-    buildCommand: composer install --no-interaction --prefer-dist --optimize-autoloader
+    buildCommand: cp .env.example .env && composer install --no-interaction --prefer-dist --optimize-autoloader
     startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
     envVars:
       - key: APP_ENV
