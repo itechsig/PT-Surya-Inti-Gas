@@ -8,7 +8,7 @@ restartPolicyMaxRetries = 10
 [env]
 APP_ENV = "production"
 APP_DEBUG = "false"
-APP_URL = "https://pt-surya-inti-gas.railway.internal"
+APP_URL = "https://pt-surya-inti-gas-production.up.railway.app"
 DB_CONNECTION = "pgsql"
 DB_HOST = "${{Postgres.PGHOST}}"
 DB_PORT = "${{Postgres.PGPORT}}"
