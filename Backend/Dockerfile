@@ -29,6 +29,15 @@ RUN echo '#!/bin/bash\n\
 if [ ! -f .env ]; then\n\
     cp .env.example .env\n\
 fi\n\
+# If Railway environment variables are set, override .env database settings\n\
+if [ -n "$DB_HOST" ]; then\n\
+    sed -i "/^DB_CONNECTION=/c\\DB_CONNECTION=$DB_CONNECTION" .env || echo "DB_CONNECTION=$DB_CONNECTION" >> .env\n\
+    sed -i "/^DB_HOST=/c\\DB_HOST=$DB_HOST" .env || echo "DB_HOST=$DB_HOST" >> .env\n\
+    sed -i "/^DB_PORT=/c\\DB_PORT=$DB_PORT" .env || echo "DB_PORT=$DB_PORT" >> .env\n\
+    sed -i "/^DB_DATABASE=/c\\DB_DATABASE=$DB_DATABASE" .env || echo "DB_DATABASE=$DB_DATABASE" >> .env\n\
+    sed -i "/^DB_USERNAME=/c\\DB_USERNAME=$DB_USERNAME" .env || echo "DB_USERNAME=$DB_USERNAME" >> .env\n\
+    sed -i "/^DB_PASSWORD=/c\\DB_PASSWORD=$DB_PASSWORD" .env || echo "DB_PASSWORD=$DB_PASSWORD" >> .env\n\
+fi\n\
 # Generate application key\n\
 php artisan key:generate --no-interaction\n\
 \
