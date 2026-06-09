@@ -14,7 +14,7 @@ cmds = ["cp .env.example .env", "composer install --no-interaction --prefer-dist
 [env]
 APP_ENV = "production"
 APP_DEBUG = "false"
-APP_URL = "https://pt-surya-inti-gas-backend.up.railway.app"
+APP_URL = "https://pt-surya-inti-gas.railway.internal"
 DB_CONNECTION = "pgsql"
 SESSION_DRIVER = "file"
 CACHE_DRIVER = "file"
