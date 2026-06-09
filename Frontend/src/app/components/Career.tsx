@@ -10,13 +10,14 @@ import { useTranslation } from 'react-i18next';
 const openings = [
   {
     id: 1,
+
     titleKey: "career.openings.salesExecutive.title",
-    divisionKey: "career.divisions.salesMarketing",
-    locationKey: "career.locations.surabaya",
+    divisionKey: "career.openings.salesExecutive.division",
+    locationKey: "career.openings.salesExecutive.location",
     typeKey: "career.openings.salesExecutive.type",
-    levelKey: "career.levels.junior",
+    levelKey: "career.openings.salesExecutive.level",
     postedDate: "2026-07-01",
-    expiredDate: "2026-10-01",
+    expiredDate: "2026-010-01",
     descKey: "career.openings.salesExecutive.description",
     requirementsKeys: [
       "career.openings.salesExecutive.requirements.0",
@@ -27,11 +28,12 @@ const openings = [
   },
   {
     id: 2,
+
     titleKey: "career.openings.installationTechnician.title",
-    divisionKey: "career.divisions.technicalOperations",
-    locationKey: "career.locations.surabayaSidoarjo",
+    divisionKey: "career.openings.installationTechnician.division",
+    locationKey: "career.openings.installationTechnician.location",
     typeKey: "career.openings.installationTechnician.type",
-    levelKey: "career.levels.entry",
+    levelKey: "career.openings.installationTechnician.level",
     postedDate: "2025-06-03",
     expiredDate: "2025-07-03",
     descKey: "career.openings.installationTechnician.description",
@@ -44,11 +46,12 @@ const openings = [
   },
   {
     id: 3,
+
     titleKey: "career.openings.adminFinanceStaff.title",
-    divisionKey: "career.divisions.financeAdmin",
-    locationKey: "career.locations.surabaya",
+    divisionKey: "career.openings.adminFinanceStaff.division",
+    locationKey: "career.openings.adminFinanceStaff.location",
     typeKey: "career.openings.adminFinanceStaff.type",
-    levelKey: "career.levels.entry",
+    levelKey: "career.openings.adminFinanceStaff.level",
     postedDate: "2025-06-05",
     expiredDate: "2025-06-25",
     descKey: "career.openings.adminFinanceStaff.description",
@@ -61,11 +64,12 @@ const openings = [
   },
   {
     id: 4,
+
     titleKey: "career.openings.gasDeliveryDriver.title",
-    divisionKey: "career.divisions.logisticsDistribution",
-    locationKey: "career.locations.surabayaSidoarjo",
+    divisionKey: "career.openings.gasDeliveryDriver.division",
+    locationKey: "career.openings.gasDeliveryDriver.location",
     typeKey: "career.openings.gasDeliveryDriver.type",
-    levelKey: "career.levels.entry",
+    levelKey: "career.openings.gasDeliveryDriver.level",
     postedDate: "2025-06-07",
     expiredDate: "2025-07-07",
     descKey: "career.openings.gasDeliveryDriver.description",
@@ -190,6 +194,7 @@ function CustomSelect({
         {displayLabel}
       </span>
       <div ref={ref} className="relative">
+        {/* Trigger Button */}
         <button
           type="button"
           onClick={() => { setOpen(o => !o); setDropSearch(''); }}
@@ -210,8 +215,10 @@ function CustomSelect({
           />
         </button>
 
+        {/* Dropdown Panel */}
         {open && (
           <div className="absolute z-50 mt-1.5 w-full min-w-[200px] bg-white rounded-2xl border border-slate-100 shadow-xl overflow-hidden">
+            {/* Search inside dropdown */}
             <div className="p-2 border-b border-slate-100">
               <div className="relative">
                 <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
@@ -234,6 +241,7 @@ function CustomSelect({
               </div>
             </div>
 
+            {/* Options List */}
             <div className="p-1.5 max-h-52 overflow-y-auto">
               {filteredOpts.length > 0 ? (
                 filteredOpts.map(opt => (
@@ -287,12 +295,18 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
     ];
     setErrors(prev => ({ ...prev, cvFile: '' }));
     if (!allowed.includes(file.type)) {
-      setErrors(prev => ({ ...prev, cvFile: t('career.application.validation.fileFormat') }));
+      setErrors(prev => ({
+        ...prev,
+        cvFile: t('career.application.validation.fileFormat')
+      }));
       setCvFile(null);
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setErrors(prev => ({ ...prev, cvFile: t('career.application.validation.fileTooLarge', { size: formatSize(file.size) }) }));
+      setErrors(prev => ({
+        ...prev,
+        cvFile: t('career.application.validation.fileTooLarge', { size: formatSize(file.size) })
+      }));
       setCvFile(null);
       return;
     }
@@ -370,7 +384,9 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
       formData.append('position', t(job.titleKey));
       formData.append('division', t(job.divisionKey));
       formData.append('location', t(job.locationKey));
-      if (cvFile) formData.append('cv_file', cvFile);
+      if (cvFile) {
+        formData.append('cv_file', cvFile);
+      }
       formData.append('_token', generateCSRFToken());
 
       const response = await fetch(getApiUrl(API_ENDPOINTS.CAREER), {
@@ -380,25 +396,34 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
       });
       const result = await response.json();
       if (!response.ok) {
+        // Handle validation errors
         if (result.errors) {
           const errorMessages = Object.values(result.errors).flat();
-          setErrors({ submit: '⚠️ ' + errorMessages.join(' ') });
+          setErrors({
+            submit: '⚠️ ' + errorMessages.join(' ')
+          });
           throw new Error(errorMessages.join(', '));
         }
-        setErrors({ submit: '⚠️ ' + (result.message || t('career.application.validation.submitFailed')) });
+        setErrors({
+          submit: '⚠️ ' + (result.message || t('career.application.validation.submitFailed'))
+        });
         throw new Error(result.message || 'Gagal mengirim lamaran');
       }
       if (result.success) {
         setSubmitted(true);
         setErrors({});
       } else {
-        setErrors({ submit: '⚠️ ' + (result.message || t('career.application.validation.submitFailed')) });
+        setErrors({
+          submit: '⚠️ ' + (result.message || t('career.application.validation.submitFailed'))
+        });
         throw new Error(result.message || t('career.application.validation.submitFailed'));
       }
     } catch (error) {
       console.error('Error submitting application:', error);
       if (!errors.submit) {
-        setErrors({ submit: t('career.application.validation.submitError') });
+        setErrors({
+          submit: t('career.application.validation.submitError')
+        });
       }
     }
   };
@@ -421,6 +446,7 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
         className="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto z-10"
         onClick={e => e.stopPropagation()}
       >
+        {/* Modal Header */}
         <div className="bg-slate-900 rounded-t-3xl px-8 py-7 relative">
           <button
             onClick={onClose}
@@ -449,12 +475,15 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
           </div>
         </div>
 
+        {/* Modal Body */}
         <div className="p-8">
           {submitted ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">✅</div>
+
               <h4 className="text-xl font-bold text-slate-800 mb-2">{t('career.application.applicationSent')}</h4>
-              <p className="text-slate-500 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: t('career.application.applicationSentMessage', { name: form.name }) }}>
+              <p className="text-slate-500 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: t('career.application.applicationSentMessage', { name: form.name }) }}> 
+              Tim HR kami akan menghubungi Anda via email atau WhatsApp dalam 3–5 hari kerja.
               </p>
               <button onClick={onClose} className="mt-6 px-8 py-3 bg-slate-900 text-white rounded-xl text-sm font-medium hover:bg-emerald-700 transition-colors">
                 {t('career.application.close')}
@@ -462,6 +491,7 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
             </div>
           ) : (
             <div className="space-y-5">
+              {/* Nama */}
               <div>
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">{t('career.application.form.fullName')} *</label>
                 <input
@@ -483,46 +513,57 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                 )}
               </div>
 
+              {/* Email */}
               <div>
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">{t('career.application.form.email')} *</label>
                 <input
                   type="email"
                   placeholder={t('career.application.form.emailPlaceholder')}
                   value={form.email}
-                  onChange={e => handleChange('email', e.target.value)}
+                  onChange={e => {
+                    setForm({ ...form, email: e.target.value });
+                    if (errors.email) setErrors(prev => ({ ...prev, email: '' }));
+                  }}
                   className={`w-full px-4 py-3 border rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 transition-all ${
-                    errors.email
-                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+                    errors.email 
+                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100' 
                       : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
                   }`}
                 />
                 {errors.email && (
                   <div className="mt-1.5 flex items-center gap-2 text-xs text-red-600">
-                    <span>⚠️</span><span>{errors.email}</span>
+                    <span>⚠️</span>
+                    <span>{errors.email}</span>
                   </div>
                 )}
               </div>
 
+              {/* Phone */}
               <div>
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">{t('career.application.form.phone')} *</label>
                 <input
                   type="tel"
                   placeholder={t('career.application.form.phonePlaceholder')}
                   value={form.phone}
-                  onChange={e => handleChange('phone', e.target.value)}
+                  onChange={e => {
+                    setForm({ ...form, phone: e.target.value });
+                    if (errors.phone) setErrors(prev => ({ ...prev, phone: '' }));
+                  }}
                   className={`w-full px-4 py-3 border rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 transition-all ${
-                    errors.phone
-                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+                    errors.phone 
+                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100' 
                       : 'border-slate-200 focus:border-emerald-400 focus:ring-emerald-100'
                   }`}
                 />
                 {errors.phone && (
                   <div className="mt-1.5 flex items-center gap-2 text-xs text-red-600">
-                    <span>⚠️</span><span>{errors.phone}</span>
+                    <span>⚠️</span>
+                    <span>{errors.phone}</span>
                   </div>
                 )}
               </div>
 
+              {/* Upload CV */}
               <div>
                 <label className="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">
                   {t('career.application.form.uploadCV')} *
@@ -549,7 +590,9 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                     <button
                       onClick={() => { setCvFile(null); if (fileInputRef.current) fileInputRef.current.value = ''; }}
                       className="w-7 h-7 rounded-full bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 flex items-center justify-center text-xs transition-colors flex-shrink-0"
-                    >✕</button>
+                    >
+                      ✕
+                    </button>
                   </div>
                 ) : (
                   <div
@@ -581,8 +624,8 @@ function ApplyModal({ job, onClose }: { job: typeof openings[0]; onClose: () => 
                     <p className="text-xs text-slate-400 leading-relaxed">
                       📄 <strong>Tips CV yang baik:</strong> cantumkan pengalaman kerja, riwayat pendidikan, dan keahlian yang relevan dengan posisi yang dilamar.
                     </p>
-                    <p className="text-xs text-slate-400">
-                      {t('career.application.form.uploadCVDescription')}
+                    <p className={`text-xs ${errors.cvFile ? 'text-red-500' : 'text-slate-400'}`}>
+                      {errors.cvFile ? errors.cvFile : t('career.application.form.uploadCVDescription')}
                     </p>
                   </div>
                 )}
@@ -646,6 +689,7 @@ function SearchFilterBar({
 
   return (
     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 mb-10 max-w-4xl mx-auto fade-up">
+      {/* Search Bar */}
       <div className="mb-5">
         <span className="text-[11px] text-slate-400 uppercase tracking-widest font-semibold block mb-1.5">
           {t('career.search.searchPositions')}
@@ -672,8 +716,10 @@ function SearchFilterBar({
         </div>
       </div>
 
+      {/* Divider */}
       <div className="border-t border-slate-100 mb-4" />
 
+      {/* Filter Dropdowns */}
       <div className="flex flex-wrap gap-4 items-end">
         <CustomSelect
           value={activeDiv}
@@ -710,6 +756,7 @@ function SearchFilterBar({
         </div>
       </div>
 
+      {/* Active Filter Tags */}
       {hasFilter && (
         <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-100">
           {search && (
@@ -720,20 +767,25 @@ function SearchFilterBar({
           )}
           {activeDiv !== "career.divisions.all" && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 text-white text-xs font-medium rounded-full">
+
               {t(activeDiv)}
               <button onClick={() => setActiveDiv('career.divisions.all')} className="hover:text-slate-300"><X size={11} /></button>
             </span>
           )}
           {activeLocation !== "career.locations.all" && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 text-white text-xs font-medium rounded-full">
+
               📍 {t(activeLocation)}
               <button onClick={() => setActiveLocation('career.locations.all')} className="hover:text-slate-300"><X size={11} /></button>
+
             </span>
           )}
           {activeLevel !== "career.levels.all" && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 text-white text-xs font-medium rounded-full">
-              {t(activeLevel)}
+
+        {t(activeLevel)}
               <button onClick={() => setActiveLevel('career.levels.all')} className="hover:text-slate-300"><X size={11} /></button>
+
             </span>
           )}
         </div>
@@ -787,10 +839,16 @@ export function Career() {
             {t('career.hero.description')}
           </p>
           <div className="mt-8 flex items-center justify-center gap-4">
-            <a href="#lowongan" className="px-7 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm rounded-xl transition-colors">
+            <a
+              href="#lowongan"
+              className="px-7 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm rounded-xl transition-colors"
+            >
               {t('career.search.title')} →
             </a>
-            <a href="#proses" className="px-7 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold text-sm rounded-xl border border-white/20 transition-colors">
+            <a
+              href="#proses"
+              className="px-7 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold text-sm rounded-xl border border-white/20 transition-colors"
+            >
               {t('career.recruitment.title')}
             </a>
           </div>
@@ -877,6 +935,7 @@ export function Career() {
                   {isOpen && (
                     <div className="px-6 pb-7 border-t border-slate-100 pt-5 space-y-5">
                       <p className="text-slate-600 text-sm leading-relaxed">{t(job.descKey)}</p>
+
                       <div>
                         <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-3">{t('career.application.form.requirements')}</p>
                         <ul className="space-y-2">
