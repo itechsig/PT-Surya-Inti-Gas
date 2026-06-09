@@ -1,7 +1,0 @@
-{
-  "providers": ["php"],
-  "phpVersion": "8.4",
-  "phpExtensions": ["mbstring", "xml", "ctype", "json", "bcmath", "pdo", "pdo_mysql", "pdo_pgsql", "gd", "zip", "exif", "pcntl"],
-  "buildCommand": "cp .env.example .env && composer install --no-interaction --prefer-dist --optimize-autoloader",
-  "startCommand": "php artisan serve --host=0.0.0.0 --port=8000"
-}
