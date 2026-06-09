@@ -24,12 +24,10 @@ COPY . .
 # Install dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Generate application key
-RUN php artisan key:generate --ansi
+# Copy .env.example to .env for build process
+RUN cp .env.example .env
 
-# Clear config and cache
-RUN php artisan config:clear
-RUN php artisan cache:clear
+# Skip key:generate and cache clear for Railway - these are handled at runtime
 
 EXPOSE 8000
 
