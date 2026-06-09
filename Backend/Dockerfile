@@ -29,14 +29,15 @@ RUN echo '#!/bin/bash\n\
 if [ ! -f .env ]; then\n\
     cp .env.example .env\n\
 fi\n\
-# Remove database config from .env to use environment variables\n\
-sed -i "/^DB_CONNECTION=/d" .env\n\
-sed -i "/^DB_HOST=/d" .env\n\
-sed -i "/^DB_PORT=/d" .env\n\
-sed -i "/^DB_DATABASE=/d" .env\n\
-sed -i "/^DB_USERNAME=/d" .env\n\
-sed -i "/^DB_PASSWORD=/d" .env\n\
-\
+# Override database config with Railway PostgreSQL variables if available\n\
+if [ -n "$PGHOST" ]; then\n\
+    sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=pgsql|" .env\n\
+    sed -i "s|^DB_HOST=.*|DB_HOST=$PGHOST|" .env\n\
+    sed -i "s|^DB_PORT=.*|DB_PORT=${PGPORT:-5432}|" .env\n\
+    sed -i "s|^DB_DATABASE=.*|DB_DATABASE=$POSTGRES_DB|" .env\n\
+    sed -i "s|^DB_USERNAME=.*|DB_USERNAME=$PGUSER|" .env\n\
+    sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$PGPASSWORD|" .env\n\
+fi\n\
 # Generate application key\n\
 php artisan key:generate --no-interaction\n\
 \
