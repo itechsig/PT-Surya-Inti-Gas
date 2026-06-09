@@ -24,10 +24,22 @@ COPY . .
 # Install dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Copy .env.example to .env for build process
-RUN cp .env.example .env
+# Create entrypoint script
+RUN echo '#!/bin/bash\n\
+if [ ! -f .env ]; then\n\
+    cp .env.example .env\n\
+fi\n\
+# Generate application key\n\
+php artisan key:generate --no-interaction\n\
+\
+# Clear and cache config\n\
+php artisan config:cache --no-interaction\n\
+php artisan route:cache --no-interaction\n\
+\
+# Execute the main command\n\
+exec "$@"' > /usr/local/bin/entrypoint.sh && chmod +x /usr/local/bin/entrypoint.sh
 
-# Skip key:generate and cache clear for Railway - these are handled at runtime
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 EXPOSE 8000
 
