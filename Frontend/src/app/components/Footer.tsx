@@ -465,7 +465,7 @@ export const Footer = () => {
                 background: "#7ca0c7",
                 flexShrink: 0,
                 marginTop: 6,
-                animation: "sig-blink 2s ease-in-out infinite",
+
               }}
             />
             <span>

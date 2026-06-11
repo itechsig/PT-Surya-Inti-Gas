@@ -25,8 +25,8 @@ export const LanguageSwitcher = ({ isLight = true }: { isLight?: boolean }) => {
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
           isLight
-            ? "text-slate-600 hover:text-blue-700 hover:bg-blue-50"
-            : "text-white/85 hover:text-white hover:bg-white/10"
+            ? "!text-slate-600 hover:!text-blue-700 hover:bg-blue-50"
+            : "!text-white/85 hover:!text-white hover:bg-white/10"
         }`}
         aria-label="Change language"
       >

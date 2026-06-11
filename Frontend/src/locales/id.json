@@ -1,10 +1,11 @@
 {
   "header": {
     "home": "Beranda",
-    "about": "Tentang Kami", 
+    "about": "Tentang Kami",
     "products": "Produk & Layanan",
     "contact": "Kontak",
     "career": "Karir",
+    "gallery": "Galeri",
     "comingSoon": "Segera hadir",
     "distributor": "Distributor Gas"
   },
@@ -27,7 +28,7 @@
     "subtitle": "Mitra Terpercaya dalam Solusi Gas Industri",
     "description": "PT Surya Inti Gas adalah perusahaan penyedia gas industri yang telah beroperasi sejak tahun 2003. Kami berkomitmen untuk memberikan solusi gas berkualitas tinggi dengan pelayanan prima untuk mendukung kebutuhan industri di Indonesia.",
     "companyName": "PT. Surya Inti Gas",
-    "intro": "Surya Inti Gas berdiri sejak tahun 2003 dan telah berkembang menjadi distributor gas industri dan medis terpercaya yang melayani lebih dari 150 pelanggan di Jawa Timur, Jawa Tengah, DIY, hingga Kalimantan Timur.",
+    "intro": "Surya Inti Gas berdiri sejak tahun 2003, saat ini perusahan kami berdomisili di Komplek Pergudangan & Industri \"Safe N Lock\" Blok V 1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Ds. Rangkah Kidul, Sidoarjo, Jawa Timur 61232. Perusahaan kami selaku distributor gas yang siap menyediakan dan melayani kebutuhan gas industri (gas & cair), gas campur (mixed gas), speciality gas, medical gas, serta tabung bertekanan tinggi, cryogenic equipment, dry ice dan peralatan-peralatan yang mendukung serta terkait produk tersebut.",
     "highlights": {
       "industrialGas": "Gas Industri, Medis, Speciality & Mixed Gas",
       "delivery": "Armada Pengiriman Mandiri & Tepat Waktu",
@@ -48,28 +49,28 @@
       ]
     },
     "timeline": {
-      "title": "Perjalanan Kami",
-      "subtitle": "Membangun Kepercayaan Sejak 2003",
+      "title": "Sejarah Kami",
+      "subtitle": "Komitmen, Pertumbuhan, dan Pelayanan Sejak 2003",
       "items": [
         {
           "year": "2003",
           "label": "Pendirian",
-          "text": "Berdiri dengan nama CV. Surya Inti Gas, berkantor di Jl. KH. Mukmin, Sidoarjo, Jawa Timur."
+          "text": "CV. Surya Inti Gas mulai dirintis dan didirikan sebagai perusahaan yang bergerak di bidang penyediaan gas industri. Pada awal operasionalnya, kantor perusahaan berlokasi di Jl. KH. Mukmin, Sidoarjo, Jawa Timur."
         },
         {
           "year": "2007",
           "label": "Ekspansi",
-          "text": "Bisnis berkembang pesat, kantor pindah ke Komplek Pergudangan & Industri \"Meiko Abadi\", Gedangan, Sidoarjo."
+          "text": "Seiring dengan perkembangan usaha dan meningkatnya potensi pasar, CV. Surya Inti Gas memindahkan kantor operasionalnya ke Komplek Pergudangan dan Industri Meiko Abadi Blok B-70, Desa Wedi, Kecamatan Gedangan, Sidoarjo, Jawa Timur. Relokasi ini dilakukan untuk mendukung kebutuhan operasional perusahaan yang terus berkembang."
         },
         {
           "year": "2016",
           "label": "Head Office Baru",
-          "text": "Kantor pindah ke Komplek \"Safe N Lock\", Jl. Lingkar Timur KM 5.5, Rangkah Kidul sebagai Head Office."
+          "text": "Untuk meningkatkan kapasitas dan efektivitas operasional, kantor pusat CV. Surya Inti Gas kembali berpindah ke Komplek Pergudangan dan Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, dan 3233, Jl. Lingkar Timur KM 5,5, Desa Rangkah Kidul, Sidoarjo, Jawa Timur, yang hingga kini menjadi Head Office perusahaan."
         },
         {
           "year": "2017",
-          "label": "PT & Cabang",
-          "text": "Resmi berdiri sebagai PT. Surya Inti Gas dan perdana membuka cabang di Balikpapan, Kalimantan Timur."
+          "label": "PT&Cabang",
+          "text": "Menandai fase pertumbuhan yang lebih besar, perusahaan resmi bertransformasi menjadi PT. Surya Inti Gas. Pada tahun yang sama, perusahaan juga membuka cabang pertamanya di Kota Balikpapan, Kalimantan Timur, sebagai langkah awal dalam memperluas jangkauan layanan ke berbagai wilayah di Indonesia."
         }
       ]
     }
@@ -116,10 +117,20 @@
     "highQualityCylinders": "dan berbagai jenis tabung bertekanan tinggi berkualitas",
     "medicalSpecialty": "Medis & Specialty",
     "categories": {
-      "industrial": "Gas Industri",
-      "medical": "Gas Medis",
-      "speciality": "Specialty Gas",
-      "mixed": "Mixed Gas"
+      "highPressure": "High Pressure Seamless Steal Gas",
+      "highPressureDesc": "Tabung gas bertekanan tinggi seamless berkualitas untuk berbagai aplikasi industri",
+      "regulator": "Regulator & Valves",
+      "regulatorDesc": "Peralatan regulasi tekanan dan katup kontrol untuk distribusi gas yang aman",
+      "industrialMedical": "Industrial & Medical (Gas & Cair)",
+      "industrialMedicalDesc": "Gas industri dan medis dalam bentuk gas maupun cair untuk berbagai kebutuhan",
+      "specialityMixed": "Speciality & Mixed Gas",
+      "specialityMixedDesc": "Gas khusus dan gas campuran dengan komposisi presisi untuk aplikasi sensitif",
+      "equipment": "Related Equipment & Accessories",
+      "equipmentDesc": "Peralatan pendukung dan aksesoris untuk sistem distribusi dan penggunaan gas",
+      "assistSupply": "Assist Gas Supply",
+      "assistSupplyDesc": "Layanan pasokan gas terpadu dengan sistem distribusi yang andal dan tepat waktu",
+      "cyrogenic": "Cyrogenic Gas Container",
+      "cyrogenicDesc": "Container kriogenik untuk penyimpanan dan transportasi gas cair bersuhu sangat rendah"
     },
     "details": {
       "color": "Warna",
@@ -140,8 +151,17 @@
         "usage": "Industri & Medis",
         "color": "Tidak berwarna, tidak berbau",
         "pressure": "150 bar / 200 bar",
-        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
-        "applications": ["Pengelasan & pemotongan", "Pernapasan medis", "Proses industri kimia", "Pengolahan air"],
+        "cylinderSizes": [
+          "1 m³",
+          "2 m³",
+          "6 m³"
+        ],
+        "applications": [
+          "Pengelasan & pemotongan",
+          "Pernapasan medis",
+          "Proses industri kimia",
+          "Pengolahan air"
+        ],
         "safety": "Jauhkan dari sumber api. Simpan di tempat berventilasi baik. Gunakan regulator yang sesuai."
       },
       "nitrogen": {
@@ -151,8 +171,17 @@
         "usage": "Pengawetan & Las",
         "color": "Tidak berwarna, tidak berbau",
         "pressure": "150 bar / 200 bar",
-        "cylinderSizes": ["1 m³", "6 m³", "Liquid Bulk"],
-        "applications": ["Pengawetan makanan & minuman", "Purging pipa dan tangki", "Pendinginan kriogenik", "Industri elektronik"],
+        "cylinderSizes": [
+          "1 m³",
+          "6 m³",
+          "Liquid Bulk"
+        ],
+        "applications": [
+          "Pengawetan makanan & minuman",
+          "Purging pipa dan tangki",
+          "Pendinginan kriogenik",
+          "Industri elektronik"
+        ],
         "safety": "Gas inert namun dapat menyebabkan asfiksia di ruang tertutup. Pastikan ventilasi cukup."
       },
       "argon": {
@@ -162,8 +191,17 @@
         "usage": "Las TIG & Specialty",
         "color": "Tidak berwarna, tidak berbau",
         "pressure": "150 bar / 200 bar",
-        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
-        "applications": ["Pengelasan TIG & MIG", "Industri semikonduktor", "Penerangan & lampu", "Produksi specialty gas"],
+        "cylinderSizes": [
+          "1 m³",
+          "2 m³",
+          "6 m³"
+        ],
+        "applications": [
+          "Pengelasan TIG & MIG",
+          "Industri semikonduktor",
+          "Penerangan & lampu",
+          "Produksi specialty gas"
+        ],
         "safety": "Gas inert. Hindari akumulasi di ruang terbatas. Simpan tabung dalam posisi tegak."
       },
       "acetylene": {
@@ -173,40 +211,70 @@
         "usage": "Potong & Las Logam",
         "color": "Tidak berwarna, bau khas",
         "pressure": "Max 15 bar (dissolved)",
-        "cylinderSizes": ["40 L", "60 L"],
-        "applications": ["Pemotongan logam tebal", "Pengelasan oxy-acetylene", "Pemanasan & bending logam", "Industri otomotif & besi"],
+        "cylinderSizes": [
+          "40 L",
+          "60 L"
+        ],
+        "applications": [
+          "Pemotongan logam tebal",
+          "Pengelasan oxy-acetylene",
+          "Pemanasan & bending logam",
+          "Industri otomotif & besi"
+        ],
         "safety": "Gas mudah terbakar. Simpan jauh dari sumber panas. Jangan dimiringkan atau dijatuhkan."
       }
     },
     "services": {
       "title": "Layanan Kami",
       "professionalService": "Layanan Profesional",
+      "distribution": {
+        "title": "Distribusi Gas Industri",
+        "description": "Layanan distribusi gas industri yang andal dan tepat waktu untuk mendukung operasional bisnis Anda dengan armada pengiriman mandiri.",
+        "icon": "🚛",
+        "color": "#1d4ed8"
+      },
+      "cylinderProvision": {
+        "title": "Penyediaan Tabung Gas",
+        "description": "Penyediaan berbagai jenis tabung gas berkualitas tinggi untuk aplikasi industri dan medis sesuai standar keamanan.",
+        "icon": "🗃️",
+        "color": "#0d7c5f"
+      },
+      "technicalConsultation": {
+        "title": "Konsultasi Teknis",
+        "description": "Layanan konsultasi teknis oleh ahli berpengalaman untuk solusi gas yang optimal dan efisien sesuai kebutuhan Anda.",
+        "icon": "👷",
+        "color": "#5b21b6"
+      },
+      "scheduledDelivery": {
+        "title": "Pengiriman Terjadwal",
+        "description": "Jadwal pengiriman teratur dan terprediksi untuk memastikan ketersediaan gas sesuai kebutuhan operasional Anda.",
+        "icon": "📅",
+        "color": "#92400e"
+      },
+      "cylinderMaintenance": {
+        "title": "Maintenance Tabung",
+        "description": "Layanan perawatan dan maintenance tabung gas berkala untuk memastikan keamanan dan kelayakan penggunaan.",
+        "icon": "🔧",
+        "color": "#0891b2"
+      },
+      "industrialSolutions": {
+        "title": "Solusi Kebutuhan Gas Industri",
+        "description": "Solusi komprehensif untuk kebutuhan gas industri yang disesuaikan dengan spesifikasi dan skala bisnis Anda.",
+        "icon": "🏭",
+        "color": "#0ea5e9"
+      },
       "installation": {
         "title": "Instalasi Gas & Pipa",
-        "description": "Layanan instalasi pipa gas industri dan medis yang aman dan sesuai standar. Mencakup perencanaan jalur pipa, pemasangan fitting, dan pengujian kebocoran sistem distribusi gas.",
+        "description": "Instalasi pipa gas industri dan medis yang aman dan sesuai standar. Termasuk perencanaan pipa, instalasi fitting, dan pengujian kebocoran sistem distribusi gas.",
         "steps": {
-          "planning": "Perencanaan Jalur",
-          "installation": "Pemasangan Pipa",
-          "testing": "Uji Kebocoran"
+          "planning": "Perencanaan Rute",
+          "installation": "Instalasi Pipa",
+          "testing": "Pengujian Kebocoran"
         },
         "highlights": [
-          "Pipa tembaga & stainless grade industri",
-          "Sesuai standar SNI & ASME",
+          "Pipa tembaga dan stainless steel kelas industri",
+          "Sesuai standar SNI dan ASME",
           "Garansi instalasi 1 tahun"
-        ]
-      },
-      "tanks": {
-        "title": "Pemasangan Tangki",
-        "description": "Instalasi tangki penyimpanan gas bertekanan dan tangki kriogenik untuk kebutuhan industri skala besar. Dilengkapi sistem keamanan, regulator tekanan, dan commissioning oleh teknisi bersertifikat.",
-        "steps": {
-          "survey": "Survey & Desain",
-          "installation": "Pemasangan Tangki",
-          "commissioning": "Commissioning"
-        },
-        "highlights": [
-          "Tangki bertekanan & kriogenik",
-          "Kapasitas sesuai kebutuhan klien",
-          "Teknisi bersertifikat K3"
         ]
       }
     },
@@ -214,6 +282,125 @@
       "detailProduct": "Detail Produk",
       "close": "Tutup",
       "viewDetails": "Lihat Detail"
+    },
+    "categoryDetails": {
+      "highPressure": {
+        "color": "Berbagai warna sesuai standar internasional",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": [
+          "1 m³",
+          "2 m³",
+          "6 m³",
+          "10 m³",
+          "50 L"
+        ],
+        "applications": [
+          "Industri manufaktur",
+          "Konstruksi",
+          "Laboratorium",
+          "Otomotif"
+        ],
+        "safety": "Simpan di tempat berventilasi baik. Jauhkan dari sumber panas. Periksa secara berkala."
+      },
+      "regulator": {
+        "color": "Silver, Metalik",
+        "pressure": "Adjustable 0-30 bar",
+        "cylinderSizes": [
+          "Universal",
+          "Specific",
+          "High Flow"
+        ],
+        "applications": [
+          "Pengelasan",
+          "Industri medis",
+          "Laboratorium",
+          "Pemotongan logam"
+        ],
+        "safety": "Periksa kebocoran sebelum penggunaan. Gunakan sesuai spesifikasi tekanan."
+      },
+      "industrialMedical": {
+        "color": "Berbagai warna sesuai jenis gas",
+        "pressure": "150 bar / 200 bar / Liquid",
+        "cylinderSizes": [
+          "1 m³",
+          "6 m³",
+          "Liquid Bulk",
+          "ISO Container"
+        ],
+        "applications": [
+          "Rumah sakit",
+          "Industri kimia",
+          "Laboratorium",
+          "Pengolahan air"
+        ],
+        "safety": "Sesuai standar medis & industri. Simpan di area terbuka atau berventilasi baik."
+      },
+      "specialityMixed": {
+        "color": "Custom sesuai kebutuhan",
+        "pressure": "Sesuai komposisi gas",
+        "cylinderSizes": [
+          "1 m³",
+          "2 m³",
+          "6 m³",
+          "Custom"
+        ],
+        "applications": [
+          "Industri elektronik",
+          "Penelitian",
+          "Kalibrasi",
+          "Metalurgi"
+        ],
+        "safety": "Gunakan di area terkontrol. Ikuti prosedur penanganan gas spesial."
+      },
+      "equipment": {
+        "color": "Silver, Kuning, Hijau",
+        "pressure": "Sesuai rating peralatan",
+        "cylinderSizes": [
+          "Standard",
+          "Custom",
+          "Industrial"
+        ],
+        "applications": [
+          "Sistem distribusi gas",
+          "Pengelasan",
+          "Laboratorium",
+          "Industri"
+        ],
+        "safety": "Pasang oleh teknisi bersertifikat. Periksa secara berkala."
+      },
+      "assistSupply": {
+        "color": "Custom sesuai instalasi",
+        "pressure": "Sesuai kebutuhan client",
+        "cylinderSizes": [
+          "On-site",
+          "Bulk",
+          "Skalabel"
+        ],
+        "applications": [
+          "Pabrik",
+          "Rumah sakit",
+          "Laboratorium",
+          "Industri"
+        ],
+        "safety": "Sistem monitoring terpadu. Teknisi tersedia 24/7."
+      },
+      "cyrogenic": {
+        "color": "Stainless steel, Putih",
+        "pressure": "Low pressure / Vacuum",
+        "cylinderSizes": [
+          "20 L",
+          "50 L",
+          "100 L",
+          "Bulk Container"
+        ],
+        "applications": [
+          "Industri medis",
+          "Penelitian",
+          "Metalurgi",
+          "Transportasi gas cair"
+        ],
+        "safety": "Gunakan APD khusus suhu rendah. Jauhkan dari area tertutup."
+      }
     }
   },
   "aiAgent": {

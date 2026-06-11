@@ -39,6 +39,18 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Custom brand colors - simplified palette */
+  --brand-navy: #0C2D5E;
+  --brand-blue: #1565C0;
+  --brand-accent: #3b82f6;
+  --brand-light: #EFF6FF;
+  --brand-muted: #64748B;
+
+  /* Spacing system */
+  --spacing-section: 96px;
+  --spacing-element: 48px;
+  --spacing-component: 24px;
 }
 
 .dark {
@@ -100,6 +112,11 @@
   --color-input-background: var(--input-background);
   --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-light: var(--brand-light);
+  --color-brand-muted: var(--brand-muted);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);

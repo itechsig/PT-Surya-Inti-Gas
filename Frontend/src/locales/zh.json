@@ -5,6 +5,7 @@
     "products": "产品与服务",
     "contact": "联系我们",
     "career": "招聘",
+    "gallery": "画廊",
     "comingSoon": "即将推出",
     "distributor": "气体分销商"
   },
@@ -116,10 +117,13 @@
     "highQualityCylinders": "以及各种高质量压力气瓶",
     "medicalSpecialty": "医用与特种",
     "categories": {
-      "industrial": "工业气体",
-      "medical": "医用气体",
-      "speciality": "特种气体",
-      "mixed": "混合气体"
+      "highPressure": "高压无缝钢瓶气体",
+      "regulator": "调节器与阀门",
+      "industrialMedical": "工业与医用气体（液体）",
+      "specialityMixed": "特种与混合气体",
+      "equipment": "相关设备与配件",
+      "assistSupply": "辅助气体供应",
+      "cyrogenic": "低温气体容器"
     },
     "details": {
       "color": "颜色",
