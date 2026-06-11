@@ -2,7 +2,9 @@
   "header": {
     "home": "Home",
     "about": "About Us",
-    "products": "Products & Services",
+    "solutions": "Solutions",
+    "products": "Products",
+    "services": "Services",
     "contact": "Contact",
     "career": "Career",
     "gallery": "Gallery",

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, X, Mail } from "lucide-react";
+import { Menu, X, Mail, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ContactForm } from "./ContactForm";
 import { Link, useLocation } from "react-router-dom";
@@ -8,11 +8,19 @@ import { useTranslation } from "react-i18next";
 import { useScrolledPast } from "../../hooks/useScrollProgress";
 
 // ─── Nav Config ───────────────────────────────────────────────
-type NavItem = { nameKey: string; href: string; isRoute?: boolean; isDisabled?: boolean };
+type NavItem = { nameKey: string; href: string; isRoute?: boolean; isDisabled?: boolean; hasDropdown?: boolean; dropdownItems?: Array<{ nameKey: string; href: string; isRoute?: boolean }> };
 
 const NAV_LINKS: NavItem[] = [
   { nameKey: "header.home", href: "/", isRoute: true },
-  { nameKey: "header.products", href: "/produk", isRoute: true },
+  {
+    nameKey: "header.solutions",
+    href: "#",
+    hasDropdown: true,
+    dropdownItems: [
+      { nameKey: "header.products", href: "/produk?step=produk", isRoute: true },
+      { nameKey: "header.services", href: "/produk?step=layanan", isRoute: true }
+    ]
+  },
   { nameKey: "header.gallery", href: "/galeri", isRoute: true },
   { nameKey: "header.contact", href: "/#kontak" },
   { nameKey: "header.career", href: "/karir", isRoute: true },
@@ -51,6 +59,7 @@ export const Header = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const scrolled = useScrolledPast(24);
 
 
@@ -155,7 +164,47 @@ export const Header = () => {
                   </span>
                 );
 
-                // 2. React Router Link
+                // 2. Dropdown
+                if (link.hasDropdown) {
+                  return (
+                    <div key={link.nameKey} className="relative">
+                      <button
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                        className={`${desktopLinkClass(isLight)} ${active ? 'bg-blue-50/20' : ''}`}
+                        style={{ ...desktopLinkStyle, border: 'none', background: 'none', cursor: 'pointer' }}
+                      >
+                        {t(link.nameKey)}
+                        <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      <AnimatePresence>
+                        {dropdownOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-xl border border-slate-100 min-w-[180px] z-50"
+                          >
+                            {link.dropdownItems?.map((item) => (
+                              <Link
+                                key={item.nameKey}
+                                to={item.href}
+                                onClick={() => setDropdownOpen(false)}
+                                className="block px-4 py-3 text-sm text-slate-700 hover:text-blue-700 hover:bg-blue-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                                style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 600 }}
+                              >
+                                {t(item.nameKey)}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
+
+
+                // 3. React Router Link
                 if (link.isRoute) return (
                   <Link
                     key={link.nameKey}
@@ -166,7 +215,7 @@ export const Header = () => {
                   </Link>
                 );
 
-                // 3. Anchor biasa (hash link)
+                // 4. Anchor biasa (hash link)
                 return (
                   <a
                     key={link.nameKey}
@@ -247,7 +296,36 @@ export const Header = () => {
                     </span>
                   );
 
-                  // 2. React Router Link
+                  // 2. Dropdown
+                  if (link.hasDropdown) {
+                    return (
+                      <>
+                        <div
+                          key={link.nameKey}
+                          className={mobileLinkClass(active)}
+                          style={{ ...mobileLinkStyle, cursor: 'default' }}
+                        >
+                          {t(link.nameKey)}
+                        </div>
+                        <div className="ml-4 space-y-1">
+                          {link.dropdownItems?.map((item) => (
+                            <Link
+                              key={item.nameKey}
+                              to={item.href}
+                              onClick={() => setIsOpen(false)}
+                              className="block px-3 py-2 rounded-lg text-sm text-slate-600 hover:text-blue-700 hover:bg-blue-50 transition-colors"
+                              style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 600 }}
+                            >
+                              {t(item.nameKey)}
+                            </Link>
+                          ))}
+                        </div>
+                      </>
+                    );
+                  }
+
+
+                  // 3. React Router Link
                   if (link.isRoute) return (
                     <Link
                       key={link.nameKey}
@@ -260,7 +338,7 @@ export const Header = () => {
                     </Link>
                   );
 
-                  // 3. Anchor biasa
+                  // 4. Anchor biasa
                   return (
                     <a
                       key={link.nameKey}

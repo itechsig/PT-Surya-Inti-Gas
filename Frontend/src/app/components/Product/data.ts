@@ -42,9 +42,9 @@ export const subProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z2FzJTIwY3lsaW5kZXJ8ZW58MHx8MHx8fDA%3D",
     slug: "high-pressure-gas",
     specs: [
-      { icon: "🔧", labelKey: "product.details.usage", valueKey: "product.details.available" },
-      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
-      { icon: "⚡", labelKey: "product.details.purity", valueKey: "product.details.available" },
+      { icon: "🔧", labelKey: "product.details.usage", valueKey: "Industri" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "Ready Stock" },
+      { icon: "⚡", labelKey: "product.details.purity", valueKey: "99.5% - 99.9%" },
     ],
     detail: {
       colorKey: "product.categoryDetails.highPressure.color",
@@ -61,9 +61,9 @@ export const subProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0",
     slug: "regulator-valves",
     specs: [
-      { icon: "🔧", labelKey: "product.details.usage", valueKey: "product.details.available" },
-      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
-      { icon: "⚡", labelKey: "product.details.purity", valueKey: "product.details.available" },
+      { icon: "🔧", labelKey: "product.details.usage", valueKey: "Kontrol" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "Ready Stock" },
+      { icon: "⚡", labelKey: "product.details.purity", valueKey: "Standard" },
     ],
     detail: {
       colorKey: "product.categoryDetails.regulator.color",
@@ -80,9 +80,9 @@ export const subProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVkaWNhbCUyMGdhc3xlbnwwfHwwfHx8MA%3D%3D",
     slug: "industrial-medical-gas",
     specs: [
-      { icon: "🏥", labelKey: "product.details.usage", valueKey: "product.details.available" },
-      { icon: "🏭", labelKey: "product.details.availability", valueKey: "product.details.available" },
-      { icon: "💧", labelKey: "product.details.purity", valueKey: "product.details.available" },
+      { icon: "🏥", labelKey: "product.details.usage", valueKey: "Industri & Medis" },
+      { icon: "🏭", labelKey: "product.details.availability", valueKey: "Ready Stock" },
+      { icon: "💧", labelKey: "product.details.purity", valueKey: "Medical Grade" },
     ],
     detail: {
       colorKey: "product.categoryDetails.industrialMedical.color",
@@ -99,9 +99,9 @@ export const subProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2hlbWlzdHJ5fGVufDB8fDB8fHww",
     slug: "speciality-mixed-gas",
     specs: [
-      { icon: "🧪", labelKey: "product.details.usage", valueKey: "product.details.available" },
-      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
-      { icon: "⚡", labelKey: "product.details.purity", valueKey: "product.details.available" },
+      { icon: "🧪", labelKey: "product.details.usage", valueKey: "Khusus" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "By Order" },
+      { icon: "⚡", labelKey: "product.details.purity", valueKey: "High Purity" },
     ],
     detail: {
       colorKey: "product.categoryDetails.specialityMixed.color",
@@ -118,9 +118,9 @@ export const subProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5kdXN0cmlhbCUyMGVxdWlwbWVudHxlbnwwfHwwfHx8MA%3D%3D",
     slug: "related-equipment",
     specs: [
-      { icon: "🔧", labelKey: "product.details.usage", valueKey: "product.details.available" },
-      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
-      { icon: "⚡", labelKey: "product.details.purity", valueKey: "product.details.available" },
+      { icon: "🔧", labelKey: "product.details.usage", valueKey: "Pendukung" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "Ready Stock" },
+      { icon: "⚡", labelKey: "product.details.purity", valueKey: "N/A" },
     ],
     detail: {
       colorKey: "product.categoryDetails.equipment.color",
@@ -137,9 +137,9 @@ export const subProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z2FzJTIwc3VwcGx5fGVufDB8fDB8fHww",
     slug: "assist-gas-supply",
     specs: [
-      { icon: "🔧", labelKey: "product.details.usage", valueKey: "product.details.available" },
-      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
-      { icon: "⚡", labelKey: "product.details.purity", valueKey: "product.details.available" },
+      { icon: "🔧", labelKey: "product.details.usage", valueKey: "Suplai" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "Ready Stock" },
+      { icon: "⚡", labelKey: "product.details.purity", valueKey: "N/A" },
     ],
     detail: {
       colorKey: "product.categoryDetails.assistSupply.color",
@@ -156,9 +156,9 @@ export const subProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1589254065878-42c9da997008?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0",
     slug: "cyrogenic-container",
     specs: [
-      { icon: "❄️", labelKey: "product.details.usage", valueKey: "product.details.available" },
-      { icon: "📦", labelKey: "product.details.availability", valueKey: "product.details.available" },
-      { icon: "⚡", labelKey: "product.details.purity", valueKey: "product.details.available" },
+      { icon: "❄️", labelKey: "product.details.usage", valueKey: "Penyimpanan" },
+      { icon: "📦", labelKey: "product.details.availability", valueKey: "By Order" },
+      { icon: "⚡", labelKey: "product.details.purity", valueKey: "Ultra High" },
     ],
     detail: {
       colorKey: "product.categoryDetails.cyrogenic.color",

@@ -2,7 +2,9 @@
   "header": {
     "home": "Beranda",
     "about": "Tentang Kami",
-    "products": "Produk & Layanan",
+    "solutions": "Solusi",
+    "products": "Produk",
+    "services": "Layanan",
     "contact": "Kontak",
     "career": "Karir",
     "gallery": "Galeri",
