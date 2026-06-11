@@ -12,15 +12,6 @@ import {
   MessageSquare,
 } from "lucide-react";
 
-// ─── Font injection (Barlow, seragam dengan Header) ──────────
-const fontLink = document.createElement("link");
-fontLink.rel = "stylesheet";
-fontLink.href =
-  "https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap";
-if (!document.head.querySelector('link[href*="Barlow"]')) {
-  document.head.appendChild(fontLink);
-}
-
 // ─── Types ────────────────────────────────────────────────────
 type OfficeData = {
   type: "pusat" | "cabang";
@@ -389,7 +380,7 @@ export function Kontak() {
                 <div className="h-64">
                   <iframe
                     title={`${t('contact.offices.headOffice')} - Sidoarjo`}
-                    src="https://maps.google.com/maps?q=-7.4667863,112.7524185&z=17&output=embed"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.984398960524!2d112.74975207592809!3d-7.466973673610107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e14793b1542f%3A0xe5456eaac6d0291d!2sPT.%20Surya%20Inti%20Gas!5e0!3m2!1sen!2sus!4v1781062791502!5m2!1sen!2sus"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
@@ -416,7 +407,7 @@ export function Kontak() {
                 <div className="h-64">
                   <iframe
                     title={`${t('contact.offices.branchOffice')} - Balikpapan`}
-                    src="https://maps.google.com/maps?q=-1.187001,116.8517675&z=17&output=embed"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.9620165118167!2d116.84897217587299!3d-1.1870876355276296!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df148fc497a3ea1%3A0xba6abd6e8257b9b4!2sPT.%20SURYA%20INTI%20GAS%20(%20PT.%20SIG%20)%20BALIKPAPAN!5e0!3m2!1sen!2sus!4v1781062841158!5m2!1sen!2sus"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}

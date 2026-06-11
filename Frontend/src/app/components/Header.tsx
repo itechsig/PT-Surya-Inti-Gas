@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Menu, X, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ContactForm } from "./ContactForm";
 import { Link, useLocation } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
-
-// ─── Import Barlow font ─────────────────
-const fontLink = document.createElement("link");
-fontLink.rel = "stylesheet";
-fontLink.href = "https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:wght@600&display=swap";
-document.head.appendChild(fontLink);
+import { useScrolledPast } from "../../hooks/useScrollProgress";
 
 // ─── Nav Config ───────────────────────────────────────────────
 type NavItem = { nameKey: string; href: string; isRoute?: boolean; isDisabled?: boolean };
@@ -18,29 +13,22 @@ type NavItem = { nameKey: string; href: string; isRoute?: boolean; isDisabled?: 
 const NAV_LINKS: NavItem[] = [
   { nameKey: "header.home", href: "/", isRoute: true },
   { nameKey: "header.products", href: "/produk", isRoute: true },
+  { nameKey: "header.gallery", href: "/galeri", isRoute: true },
   { nameKey: "header.contact", href: "/#kontak" },
   { nameKey: "header.career", href: "/karir", isRoute: true },
 ];
 
 // ─── Shared class builders ────────────────────────────────────
-const desktopLinkClass = (isLight: boolean, isActive: boolean) => {
-  const base = "flex items-center gap-1 px-4 py-2.5 rounded-lg text-sm transition-all duration-200";
-  if (isActive) {
-    return `${base} ${
-      isLight
-        ? "text-blue-700 bg-blue-50 border border-blue-200/80"
-        : "text-white bg-white/12 border border-white/20"
-    }`;
-  }
-  return `${base} ${
+const desktopLinkClass = (isLight: boolean) => {
+  return `flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors font-semibold ${
     isLight
-      ? "text-slate-600 hover:text-blue-700 hover:bg-blue-50"
-      : "text-white/80 hover:text-white hover:bg-white/10"
+      ? "!text-slate-600 hover:!text-blue-700 hover:bg-blue-50"
+      : "!text-white/85 hover:!text-white hover:bg-white/10"
   }`;
 };
 
 const mobileLinkClass = (isActive: boolean) =>
-  `block px-3 py-3 rounded-lg text-sm transition-colors ${
+  `block px-3 py-3 rounded-lg text-sm transition-colors no-underline visited:text-inherit hover:text-inherit ${
     isActive
       ? "text-blue-700 bg-blue-50 font-semibold"
       : "text-slate-700 hover:bg-slate-50 hover:text-blue-700"
@@ -54,20 +42,18 @@ const desktopLinkStyle = {
 const mobileLinkStyle = {
   fontFamily: "'Barlow', system-ui, sans-serif",
   fontWeight: 700,
+  color: 'inherit',
+  textDecoration: 'none',
 } as React.CSSProperties;
 
 // ─── Main Component ───────────────────────────────────────────
 export const Header = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const scrolled = useScrolledPast(24);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
 
   const { pathname, hash } = useLocation();
   const isHomePage = pathname === "/";
@@ -174,8 +160,7 @@ export const Header = () => {
                   <Link
                     key={link.nameKey}
                     to={link.href}
-                    className={desktopLinkClass(isLight, active)}
-                    style={desktopLinkStyle}
+                    className={`${desktopLinkClass(isLight)} ${active ? 'bg-blue-50/20' : ''}`}
                   >
                     {t(link.nameKey)}
                   </Link>
@@ -186,8 +171,7 @@ export const Header = () => {
                   <a
                     key={link.nameKey}
                     href={link.href}
-                    className={desktopLinkClass(isLight, active)}
-                    style={desktopLinkStyle}
+                    className={`${desktopLinkClass(isLight)} ${active ? 'bg-blue-50/20' : ''}`}
                   >
                     {t(link.nameKey)}
                   </a>

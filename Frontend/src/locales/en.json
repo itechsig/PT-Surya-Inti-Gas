@@ -1,10 +1,11 @@
 {
   "header": {
     "home": "Home",
-    "about": "About Us", 
+    "about": "About Us",
     "products": "Products & Services",
     "contact": "Contact",
     "career": "Career",
+    "gallery": "Gallery",
     "comingSoon": "Coming Soon",
     "distributor": "Gas Distributor"
   },
@@ -116,10 +117,13 @@
     "highQualityCylinders": "and various high-quality pressure cylinders",
     "medicalSpecialty": "Medical & Specialty",
     "categories": {
-      "industrial": "Industrial Gas",
-      "medical": "Medical Gas",
-      "speciality": "Specialty Gas",
-      "mixed": "Mixed Gas"
+      "highPressure": "High Pressure Seamless Steal Gas",
+      "regulator": "Regulator & Valves",
+      "industrialMedical": "Industrial & Medical (Gas & Liquid)",
+      "specialityMixed": "Speciality & Mixed Gas",
+      "equipment": "Related Equipment & Accessories",
+      "assistSupply": "Assist Gas Supply",
+      "cyrogenic": "Cyrogenic Gas Container"
     },
     "details": {
       "color": "Color",
@@ -140,8 +144,17 @@
         "usage": "Industrial & Medical",
         "color": "Colorless, odorless",
         "pressure": "150 bar / 200 bar",
-        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
-        "applications": ["Welding & cutting", "Medical respiration", "Chemical industry processes", "Water treatment"],
+        "cylinderSizes": [
+          "1 m³",
+          "2 m³",
+          "6 m³"
+        ],
+        "applications": [
+          "Welding & cutting",
+          "Medical respiration",
+          "Chemical industry processes",
+          "Water treatment"
+        ],
         "safety": "Keep away from fire sources. Store in well-ventilated area. Use appropriate regulator."
       },
       "nitrogen": {
@@ -151,8 +164,17 @@
         "usage": "Preservation & Welding",
         "color": "Colorless, odorless",
         "pressure": "150 bar / 200 bar",
-        "cylinderSizes": ["1 m³", "6 m³", "Liquid Bulk"],
-        "applications": ["Food & beverage preservation", "Pipe and tank purging", "Cryogenic cooling", "Electronics industry"],
+        "cylinderSizes": [
+          "1 m³",
+          "6 m³",
+          "Liquid Bulk"
+        ],
+        "applications": [
+          "Food & beverage preservation",
+          "Pipe and tank purging",
+          "Cryogenic cooling",
+          "Electronics industry"
+        ],
         "safety": "Inert gas but can cause asphyxiation in enclosed spaces. Ensure adequate ventilation."
       },
       "argon": {
@@ -162,8 +184,17 @@
         "usage": "TIG Welding & Specialty",
         "color": "Colorless, odorless",
         "pressure": "150 bar / 200 bar",
-        "cylinderSizes": ["1 m³", "2 m³", "6 m³"],
-        "applications": ["TIG & MIG welding", "Semiconductor industry", "Lighting & lamps", "Specialty gas production"],
+        "cylinderSizes": [
+          "1 m³",
+          "2 m³",
+          "6 m³"
+        ],
+        "applications": [
+          "TIG & MIG welding",
+          "Semiconductor industry",
+          "Lighting & lamps",
+          "Specialty gas production"
+        ],
         "safety": "Inert gas. Avoid accumulation in confined spaces. Store cylinders upright."
       },
       "acetylene": {
@@ -173,40 +204,70 @@
         "usage": "Metal Cutting & Welding",
         "color": "Colorless, distinctive odor",
         "pressure": "Max 15 bar (dissolved)",
-        "cylinderSizes": ["40 L", "60 L"],
-        "applications": ["Thick metal cutting", "Oxy-acetylene welding", "Metal heating & bending", "Automotive & iron industry"],
+        "cylinderSizes": [
+          "40 L",
+          "60 L"
+        ],
+        "applications": [
+          "Thick metal cutting",
+          "Oxy-acetylene welding",
+          "Metal heating & bending",
+          "Automotive & iron industry"
+        ],
         "safety": "Flammable gas. Store away from heat sources. Do not tilt or drop."
       }
     },
     "services": {
       "title": "Our Services",
       "professionalService": "Professional Service",
+      "distribution": {
+        "title": "Industrial Gas Distribution",
+        "description": "Reliable and timely industrial gas distribution service to support your business operations with our own delivery fleet.",
+        "icon": "🚛",
+        "color": "#1d4ed8"
+      },
+      "cylinderProvision": {
+        "title": "Gas Cylinder Provision",
+        "description": "Provision of various high-quality gas cylinders for industrial and medical applications according to safety standards.",
+        "icon": "🗃️",
+        "color": "#0d7c5f"
+      },
+      "technicalConsultation": {
+        "title": "Technical Consultation",
+        "description": "Technical consultation services by experienced experts for optimal and efficient gas solutions according to your needs.",
+        "icon": "👷",
+        "color": "#5b21b6"
+      },
+      "scheduledDelivery": {
+        "title": "Scheduled Delivery",
+        "description": "Regular and predictable delivery schedules to ensure gas availability according to your operational needs.",
+        "icon": "📅",
+        "color": "#92400e"
+      },
+      "cylinderMaintenance": {
+        "title": "Cylinder Maintenance",
+        "description": "Periodic cylinder maintenance and service to ensure safety and usability of gas cylinders.",
+        "icon": "🔧",
+        "color": "#0891b2"
+      },
+      "industrialSolutions": {
+        "title": "Industrial Gas Solutions",
+        "description": "Comprehensive solutions for industrial gas needs customized to your business specifications and scale.",
+        "icon": "🏭",
+        "color": "#0ea5e9"
+      },
       "installation": {
-        "title": "Gas & Pipe Installation",
-        "description": "Safe and standard-compliant industrial and medical gas pipe installation. Includes pipeline planning, fitting installation, and gas distribution system leak testing.",
+        "title": "Gas & Pipeline Installation",
+        "description": "Safe and standard-compliant industrial and medical gas pipeline installation. Includes pipeline planning, fitting installation, and gas distribution system leak testing.",
         "steps": {
           "planning": "Route Planning",
-          "installation": "Pipe Installation",
+          "installation": "Pipeline Installation",
           "testing": "Leak Testing"
         },
         "highlights": [
-          "Industrial grade copper & stainless pipes",
-          "SNI & ASME compliant",
-          "1 year installation warranty"
-        ]
-      },
-      "tanks": {
-        "title": "Tank Installation",
-        "description": "Installation of pressurized gas storage tanks and cryogenic tanks for large-scale industrial needs. Equipped with safety systems, pressure regulators, and commissioning by certified technicians.",
-        "steps": {
-          "survey": "Survey & Design",
-          "installation": "Tank Installation",
-          "commissioning": "Commissioning"
-        },
-        "highlights": [
-          "Pressurized & cryogenic tanks",
-          "Capacity according to client needs",
-          "K3 certified technicians"
+          "Industrial-grade copper and stainless steel pipelines",
+          "Compliant with SNI and ASME standards",
+          "1-year installation warranty"
         ]
       }
     },
@@ -214,6 +275,125 @@
       "detailProduct": "Product Detail",
       "close": "Close",
       "viewDetails": "View Details"
+    },
+    "categoryDetails": {
+      "highPressure": {
+        "color": "Various colors per international standards",
+        "pressure": "150 bar / 200 bar",
+        "cylinderSizes": [
+          "1 m³",
+          "2 m³",
+          "6 m³",
+          "10 m³",
+          "50 L"
+        ],
+        "applications": [
+          "Manufacturing",
+          "Construction",
+          "Laboratories",
+          "Automotive"
+        ],
+        "safety": "Store in well-ventilated areas. Keep away from heat sources. Inspect regularly."
+      },
+      "regulator": {
+        "color": "Silver, Metallic",
+        "pressure": "Adjustable 0-30 bar",
+        "cylinderSizes": [
+          "Universal",
+          "Specific",
+          "High Flow"
+        ],
+        "applications": [
+          "Welding",
+          "Medical industry",
+          "Laboratories",
+          "Metal cutting"
+        ],
+        "safety": "Check for leaks before use. Use according to pressure specifications."
+      },
+      "industrialMedical": {
+        "color": "Various colors per gas type",
+        "pressure": "150 bar / 200 bar / Liquid",
+        "cylinderSizes": [
+          "1 m³",
+          "6 m³",
+          "Liquid Bulk",
+          "ISO Container"
+        ],
+        "applications": [
+          "Hospitals",
+          "Chemical industry",
+          "Laboratories",
+          "Water treatment"
+        ],
+        "safety": "Comply with medical & industrial standards. Store in open or well-ventilated areas."
+      },
+      "specialityMixed": {
+        "color": "Custom per requirements",
+        "pressure": "Depends on gas composition",
+        "cylinderSizes": [
+          "1 m³",
+          "2 m³",
+          "6 m³",
+          "Custom"
+        ],
+        "applications": [
+          "Electronics industry",
+          "Research",
+          "Calibration",
+          "Metallurgy"
+        ],
+        "safety": "Use in controlled areas. Follow special gas handling procedures."
+      },
+      "equipment": {
+        "color": "Silver, Yellow, Green",
+        "pressure": "According to equipment rating",
+        "cylinderSizes": [
+          "Standard",
+          "Custom",
+          "Industrial"
+        ],
+        "applications": [
+          "Gas distribution systems",
+          "Welding",
+          "Laboratories",
+          "Industry"
+        ],
+        "safety": "Install by certified technicians. Inspect regularly."
+      },
+      "assistSupply": {
+        "color": "Custom per installation",
+        "pressure": "According to client needs",
+        "cylinderSizes": [
+          "On-site",
+          "Bulk",
+          "Scalable"
+        ],
+        "applications": [
+          "Factories",
+          "Hospitals",
+          "Laboratories",
+          "Industry"
+        ],
+        "safety": "Integrated monitoring system. 24/7 technician support."
+      },
+      "cyrogenic": {
+        "color": "Stainless steel, White",
+        "pressure": "Low pressure / Vacuum",
+        "cylinderSizes": [
+          "20 L",
+          "50 L",
+          "100 L",
+          "Bulk Container"
+        ],
+        "applications": [
+          "Medical industry",
+          "Research",
+          "Metallurgy",
+          "Liquid gas transport"
+        ],
+        "safety": "Use cryogenic PPE. Keep away from confined spaces."
+      }
     }
   },
   "aiAgent": {

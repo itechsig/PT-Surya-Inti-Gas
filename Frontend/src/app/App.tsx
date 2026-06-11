@@ -8,9 +8,15 @@ import { Product } from "./components/Product";
 import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
 import { Career } from "./components/Career";
+import { Gallery } from "./components/Gallery";
 import { AdminDashboardIntegrated } from "./components/Dashboard/AdminDashboardIntegrated";
 import { initVisitorTracking } from "../utils/visitorTracking";
-import { HeroProduct} from "./components/Hero_Product";
+import { performanceMonitor } from "../utils/performanceMonitor";
+// import { initWebVitals } from "../utils/webVitals";
+import { HeroProduct } from "./components/Hero_Product";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { AppProvider, ProductProvider } from "../context";
+import { createSkipLink } from "../utils/accessibility";
 
 
 // ─── Scroll handler: ke atas atau ke section hash ────────────
@@ -61,16 +67,24 @@ function MainPage() {
 function App() {
   useEffect(() => {
     initVisitorTracking();
+    performanceMonitor.init();
+
+    // Add skip link for accessibility
+    const skipLink = createSkipLink('main-content');
+    document.body.insertBefore(skipLink, document.body.firstChild);
   }, []);
 
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={
+    <AppProvider>
+      <ProductProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <ErrorBoundary>
+            <Routes>
+            <Route path="/" element={
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
-            <main>
+            <main id="main-content" tabIndex={-1}>
               <MainPage />
             </main>
             <Footer />
@@ -80,8 +94,18 @@ function App() {
         <Route path="/produk" element={
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
-            <main>
+            <main id="main-content" tabIndex={-1}>
               <Product />
+            </main>
+            <Footer />
+            <Chatbot />
+          </div>
+        } />
+        <Route path="/galeri" element={
+          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+            <Header />
+            <main id="main-content" tabIndex={-1}>
+              <Gallery />
             </main>
             <Footer />
             <Chatbot />
@@ -90,7 +114,7 @@ function App() {
         <Route path="/karir" element={
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
-            <main>
+            <main id="main-content" tabIndex={-1}>
               <Career />
             </main>
             <Footer />
@@ -99,7 +123,10 @@ function App() {
         } />
         <Route path="/admin/dashboard" element={<AdminDashboardIntegrated />} />
       </Routes>
+      </ErrorBoundary>
     </BrowserRouter>
+      </ProductProvider>
+    </AppProvider>
   );
 }
 
