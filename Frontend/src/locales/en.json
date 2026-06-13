@@ -275,6 +275,7 @@
     },
     "modal": {
       "detailProduct": "Product Detail",
+      "detailService": "Service Detail",
       "close": "Close",
       "viewDetails": "View Details"
     },
