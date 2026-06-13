@@ -243,6 +243,12 @@
           "技术支持"
         ]
       }
+    },
+    "modal": {
+      "detailProduct": "产品详情",
+      "detailService": "服务详情",
+      "close": "关闭",
+      "viewDetails": "查看详情"
     }
   },
   "aiAgent": {

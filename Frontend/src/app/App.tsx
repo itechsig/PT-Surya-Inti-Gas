@@ -4,6 +4,7 @@ import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
 import { Kontak } from "./components/Contact";
+import { ContactPage } from "./components/ContactPage";
 import { Product } from "./components/Product";
 import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
@@ -116,6 +117,16 @@ function App() {
             <Header />
             <main id="main-content" tabIndex={-1}>
               <Career />
+            </main>
+            <Footer />
+            <Chatbot />
+          </div>
+        } />
+        <Route path="/kontak" element={
+          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+            <Header />
+            <main id="main-content" tabIndex={-1}>
+              <ContactPage />
             </main>
             <Footer />
             <Chatbot />

@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { ContactForm } from "./ContactForm";
 import { useTranslation } from "react-i18next";
 import {
   MapPin,
@@ -9,7 +8,6 @@ import {
   Building2,
   Clock,
   ExternalLink,
-  MessageSquare,
 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────
@@ -241,7 +239,7 @@ const OfficeCard = ({ office, delay, t }: { office: OfficeData; delay: number; t
 // ─── Main Component ───────────────────────────────────────────
 export function Kontak() {
   const { t } = useTranslation();
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+
 
   return (
     <>
@@ -325,109 +323,10 @@ export function Kontak() {
             ))}
           </div>
 
-          {/* ── General Email Banner ── */}
-          <FadeIn delay={0.35}>
-            <div className="relative bg-gradient-to-r from-blue-700 to-blue-600 rounded-2xl px-8 py-7 flex flex-col md:flex-row items-center justify-between gap-5 shadow-xl shadow-blue-200/50 overflow-hidden">
-              {/* Decorative circle */}
-              <div className="absolute right-0 top-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/4" />
-              <div className="absolute right-16 bottom-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2" />
 
-              <div className="flex items-center gap-4 relative z-10">
-                <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center shrink-0">
-                  <MessageSquare size={22} className="text-white" />
-                </div>
-                <div>
-                  <p
-                    className="text-white/75 text-xs font-semibold uppercase tracking-widest mb-0.5"
-                    style={{ fontFamily: "'Barlow', sans-serif" }}
-                  >
-                    {t('contact.subtitle')}
-                  </p>
-                  <p
-                    className="text-white text-lg"
-                    style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 700 }}
-                  >
-                    {t('contact.description')}
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setIsContactFormOpen(true)}
-                className="relative z-10 flex items-center gap-2 bg-white text-blue-700 px-6 py-3 rounded-xl text-sm font-bold hover:bg-blue-50 transition-colors shrink-0 cursor-pointer"
-                style={{ fontFamily: "'Barlow', sans-serif" }}
-              >
-                <Mail size={15} />
-                {t('contact.title')}
-              </button>
-            </div>
-          </FadeIn>
-
-          {/* ── Maps Section ── */}
-          <div className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-7">
             {/* Map Sidoarjo */}
-            <FadeIn delay={0.15}>
-              <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-100 overflow-hidden">
-                <div className="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />
-                  <span
-                    className="text-sm font-bold text-slate-800"
-                    style={{ fontFamily: "'Barlow', sans-serif" }}
-                  >
-                    {t('contact.offices.headOffice')} - Sidoarjo
-                  </span>
-                </div>
-                <div className="h-64">
-                  <iframe
-                    title={`${t('contact.offices.headOffice')} - Sidoarjo`}
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.984398960524!2d112.74975207592809!3d-7.466973673610107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e14793b1542f%3A0xe5456eaac6d0291d!2sPT.%20Surya%20Inti%20Gas!5e0!3m2!1sen!2sus!4v1781062791502!5m2!1sen!2sus"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                </div>
-              </div>
-            </FadeIn>
-
-            {/* Map Balikpapan */}
-            <FadeIn delay={0.25}>
-              <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-100 overflow-hidden">
-                <div className="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-sky-600" />
-                  <span
-                    className="text-sm font-bold text-slate-800"
-                    style={{ fontFamily: "'Barlow', sans-serif" }}
-                  >
-                    {t('contact.offices.branchOffice')} - Balikpapan
-                  </span>
-                </div>
-                <div className="h-64">
-                  <iframe
-                    title={`${t('contact.offices.branchOffice')} - Balikpapan`}
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.9620165118167!2d116.84897217587299!3d-1.1870876355276296!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df148fc497a3ea1%3A0xba6abd6e8257b9b4!2sPT.%20SURYA%20INTI%20GAS%20(%20PT.%20SIG%20)%20BALIKPAPAN!5e0!3m2!1sen!2sus!4v1781062841158!5m2!1sen!2sus"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                </div>
-              </div>
-            </FadeIn>
-          </div>
-
         </div>
       </section>
-
-      {/* ── ContactForm Modal ── */}
-      <ContactForm
-        isOpen={isContactFormOpen}
-        onClose={() => setIsContactFormOpen(false)}
-      />
     </>
   );
 }

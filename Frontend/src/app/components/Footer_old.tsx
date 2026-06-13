@@ -1,4 +1,4 @@
-﻿import React, { useEffect, ReactNode } from "react";
+import React, { useEffect, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -36,11 +36,11 @@ function injectStyles() {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.4; }
     }
-.sig-footer-grid {
-  display: grid;
-  grid-template-columns: 1.3fr 0.7fr 1fr 0.9fr 1.2fr;
-  gap: 2.5rem;
-}
+    .sig-footer-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr 1.4fr 1.2fr;
+      gap: 2.5rem;
+    }
     @media (max-width: 1024px) {
       .sig-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
     }
@@ -163,6 +163,12 @@ const IconWhatsapp = () => (
 
 
 
+const IconChevronRight = () => (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
+
 /* ── Nav links config ── */
 const NAV_LINKS = [
   { name: "Beranda", href: "/", isRoute: true },
@@ -170,70 +176,128 @@ const NAV_LINKS = [
 
 
   { name: "Kontak", href: "/#kontak", isRoute: false },
+  { name: "Karir", href: "/karir", isRoute: true },
 
 ];
 
 /* ── Solusi dropdown items ── */
 const SOLUTIONS_ITEMS = [
-  { name: "Produk", href: "/produk?step=produk" },
-  { name: "Layanan", href: "/produk?step=layanan" },
+  { name: "Produk" },
+  { name: "Layanan" },
 ];
 
-/* ── Kolom 3: Solusi ── */
+/* ── Kategori Produk & Layanan ── */
+const CATEGORIES = [
+  {
+    label: "Gas Industri & Medis",
+    title: "Produk",
+    sub: "Gas & Tabung",
+    href: "/produk?step=produk",
+    image: "https://images.unsplash.com/photo-1664396113489-e50bddd4a777?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    label: "Instalasi Profesional",
+    title: "Layanan",
+    sub: "Instalasi Gas",
+    href: "/produk?step=layanan",
+    image: "https://plus.unsplash.com/premium_photo-1664298589198-b15ff5382648?q=80&w=600&auto=format&fit=crop",
+  },
+];
+
+/* ── Kolom 3: Produk & Layanan ── */
 const SolutionsColumn = () => (
   <div>
     <ColLabel>Solusi</ColLabel>
-
-    <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       {SOLUTIONS_ITEMS.map((item) => (
         <Link
           key={item.name}
-          to={item.href}
-          style={{
-            fontSize: 13,
-            color: "#c8daf0",
-            textDecoration: "none",
-            padding: "5px 0",
-            transition: "color .18s",
-          }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.color = "#f0ece4")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "#c8daf0")
-          }
+          to={cat.href}
+          style={{ textDecoration: "none" }}
         >
-          {item.name}
+          <div
+            className="sig-product-item"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "10px 12px",
+              borderRadius: 8,
+              border: "1px solid #1e3a5f",
+              background: "#0a1a32",
+              transition: "border-color .2s, background .2s",
+              cursor: "pointer",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLDivElement).style.borderColor = "#4a7aaa";
+              (e.currentTarget as HTMLDivElement).style.background = "#0f2444";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLDivElement).style.borderColor = "#1e3a5f";
+              (e.currentTarget as HTMLDivElement).style.background = "#0a1a32";
+            }}
+          >
+            {/* Thumbnail foto kecil */}
+            <div
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: 6,
+                overflow: "hidden",
+                flexShrink: 0,
+                position: "relative",
+              }}
+            >
+              <img
+                src={cat.image}
+                alt={cat.title}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "rgba(13,31,60,0.35)",
+              }} />
+            </div>
+
+            {/* Teks */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{
+                fontSize: 9,
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                color: "#5b82a8",
+                marginBottom: 2,
+              }}>
+                {cat.label}
+              </div>
+              <div style={{
+                fontSize: 13,
+                fontWeight: 600,
+                color: "#ffffff",
+                letterSpacing: "0.01em",
+              }}>
+                {cat.title}
+              </div>
+              <div style={{
+                fontSize: 11,
+                color: "#7ca0c7",
+                marginTop: 1,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}>
+                {cat.sub}
+              </div>
+            </div>
+
+            {/* Arrow */}
+            <span style={{ color: "#5b82a8", flexShrink: 0 }}>
+              <IconChevronRight />
+            </span>
+          </div>
         </Link>
       ))}
-    </nav>
-  </div>
-);
-
-const CareerColumn = () => (
-  <div>
-    <ColLabel>Karir</ColLabel>
-
-    <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      <Link
-        to="/karir"
-        style={{
-          fontSize: 13,
-          color: "#c8daf0",
-          textDecoration: "none",
-          padding: "5px 0",
-          transition: "color .18s",
-        }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.color = "#f0ece4")
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.color = "#c8daf0")
-        }
-      >
-        Bergabung dengan Kami
-      </Link>
-    </nav>
+    </div>
   </div>
 );
 
@@ -468,8 +532,9 @@ export const Footer = () => {
             )}
           </nav>
         </div>
+
+        {/* ── Kolom 3: Produk Unggulan ── */}
         <SolutionsColumn />
-        <CareerColumn />
 
         {/* ── Kolom 4: Kontak Cepat ── */}
         <ContactColumn />
@@ -477,29 +542,42 @@ export const Footer = () => {
 
       {/* ── Bottom bar ── */}
       <div style={{ borderTop: "1px solid #1e3a5f", background: "#0a1a32" }}>
-  <div
-    className="sig-footer-bottom"
-    style={{
-      fontSize: 11,
-      color: "#7ca0c7",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "1rem 3rem",
-      textAlign: "center",
-    }}
-  >
-    <span
-      style={{
-        fontSize: 11.5,
-        color: "#7ca0c7",
-        letterSpacing: "0.01em",
-      }}
-    >
-      © 2026 Surya Inti Gas. Hak Cipta Dilindungi Undang-Undang.
-    </span>
-  </div>
-</div>
+        <div
+          className="sig-footer-bottom"
+          style={{
+            fontSize: 11,
+            color: "#7ca0c7",
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+          }}
+        >
+          <span style={{ fontSize: 11.5, color: "#7ca0c7", letterSpacing: "0.01em" }}>
+            © 2026 Surya Inti Gas. Hak Cipta Dilindungi Undang-Undang.
+          </span>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+            <span style={{ color: "#1e3a5f", fontSize: 11 }}>|</span>
+            <a
+              href="mailto:marketing@suryaintigas.co.id"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontSize: 11.5,
+                color: "#7ca0c7",
+                textDecoration: "none",
+                transition: "color .18s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ece4")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#7ca0c7")}
+            >
+              <IconMail />
+              marketing@suryaintigas.co.id
+            </a>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 };

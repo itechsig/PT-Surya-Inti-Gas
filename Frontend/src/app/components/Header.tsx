@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Menu, X, Mail, ChevronDown } from "lucide-react";
+import { Menu, X, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { ContactForm } from "./ContactForm";
-import { Link, useLocation } from "react-router-dom";
+
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import { useScrolledPast } from "../../hooks/useScrollProgress";
@@ -14,15 +14,16 @@ const NAV_LINKS: NavItem[] = [
   { nameKey: "header.home", href: "/", isRoute: true },
   {
     nameKey: "header.solutions",
-    href: "#",
-    hasDropdown: true,
+    href: "/produk",
+
+    isRoute: true,
     dropdownItems: [
       { nameKey: "header.products", href: "/produk?step=produk", isRoute: true },
       { nameKey: "header.services", href: "/produk?step=layanan", isRoute: true }
     ]
   },
   { nameKey: "header.gallery", href: "/galeri", isRoute: true },
-  { nameKey: "header.contact", href: "/#kontak" },
+  { nameKey: "header.contact", href: "/kontak", isRoute: true },
   { nameKey: "header.career", href: "/karir", isRoute: true },
 ];
 
@@ -57,9 +58,11 @@ const mobileLinkStyle = {
 // ─── Main Component ───────────────────────────────────────────
 export const Header = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+
+  const [hoverDropdown, setHoverDropdown] = useState(false);
   const scrolled = useScrolledPast(24);
 
 
@@ -167,17 +170,20 @@ export const Header = () => {
                 // 2. Dropdown
                 if (link.hasDropdown) {
                   return (
-                    <div key={link.nameKey} className="relative">
-                      <button
-                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                    <div key={link.nameKey} className="relative"
+                      onMouseEnter={() => setHoverDropdown(true)}
+                      onMouseLeave={() => setHoverDropdown(false)}
+                    >
+                      <Link
+                        to={link.href}
                         className={`${desktopLinkClass(isLight)} ${active ? 'bg-blue-50/20' : ''}`}
-                        style={{ ...desktopLinkStyle, border: 'none', background: 'none', cursor: 'pointer' }}
+                        style={{ ...desktopLinkStyle }}
                       >
                         {t(link.nameKey)}
-                        <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
-                      </button>
+
+                      </Link>
                       <AnimatePresence>
-                        {dropdownOpen && (
+                        {hoverDropdown && (
                           <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -189,7 +195,7 @@ export const Header = () => {
                               <Link
                                 key={item.nameKey}
                                 to={item.href}
-                                onClick={() => setDropdownOpen(false)}
+
                                 className="block px-4 py-3 text-sm text-slate-700 hover:text-blue-700 hover:bg-blue-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
                                 style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 600 }}
                               >
@@ -215,7 +221,7 @@ export const Header = () => {
                   </Link>
                 );
 
-                // 4. Anchor biasa (hash link)
+
                 return (
                   <a
                     key={link.nameKey}
@@ -338,7 +344,7 @@ export const Header = () => {
                     </Link>
                   );
 
-                  // 4. Anchor biasa
+  
                   return (
                     <a
                       key={link.nameKey}
@@ -354,9 +360,10 @@ export const Header = () => {
 
                 {/* Mobile CTA */}
                 <div className="pt-4 border-t border-slate-100">
+
                   <button
                     onClick={() => {
-                      setIsContactFormOpen(true);
+                      navigate("/kontak");
                       setIsOpen(false);
                     }}
                     className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-sm w-full transition-colors"
@@ -372,11 +379,11 @@ export const Header = () => {
         </AnimatePresence>
       </nav>
 
-      {/* Contact Form Modal */}
-      <ContactForm
-        isOpen={isContactFormOpen}
-        onClose={() => setIsContactFormOpen(false)}
-      />
+
+
+
+
+
     </>
   );
 };

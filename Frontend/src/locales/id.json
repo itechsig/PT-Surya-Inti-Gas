@@ -282,6 +282,7 @@
     },
     "modal": {
       "detailProduct": "Detail Produk",
+      "detailService": "Detail Layanan",
       "close": "Tutup",
       "viewDetails": "Lihat Detail"
     },
