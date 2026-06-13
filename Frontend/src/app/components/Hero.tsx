@@ -250,7 +250,7 @@ export function Hero() {
           <video
             className="hero-video"
             autoPlay muted loop playsInline
-            poster="/hero-poster.jpg"
+
           >
             <source src="/hero-video.mp4" type="video/mp4" />
           </video>
