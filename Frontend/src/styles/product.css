@@ -1,0 +1,549 @@
+/* ═══════════════════════════════════════════════════════════════
+   PT SURYA INTI GAS - Product Page
+   Corporate Style - Blue Theme Matching Hero.tsx
+══════════════════════════════════════════════════════════════ */
+
+/* ── Page Base ── */
+.product-page {
+  background: #ffffff;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Section Container ── */
+.section-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.section-header h2 {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #0C2D5E;
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.section-header p {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #64748B;
+  margin: 0 auto;
+  max-width: 700px;
+  text-align: center;
+}
+
+/* ── Industry Categories Section ── */
+.categories-section {
+  background: #ffffff;
+  padding: 120px 0 100px;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.category-card {
+  text-align: center;
+  padding: 40px 32px;
+  background: #ffffff;
+  border: 1px solid #E3F2FD;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.category-card:hover {
+  border-color: #29ABE2;
+  box-shadow: 0 8px 24px rgba(12, 45, 94, 0.12);
+  transform: translateY(-4px);
+}
+
+.category-card h3 {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0C2D5E;
+  margin: 0 0 12px;
+}
+
+.category-card p {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 300;
+  color: #64748B;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Tabs Section ── */
+.tabs-section {
+  background: #F9FAFB;
+  padding: 40px 0;
+  border-bottom: 1px solid #E3F2FD;
+}
+
+.tabs-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.tab-button {
+  padding: 14px 40px;
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748B;
+  background: white;
+  border: 2px solid #E3F2FD;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.tab-button:hover {
+  border-color: #29ABE2;
+  color: #0C2D5E;
+}
+
+.tab-button.active {
+  background: #0C2D5E;
+  border-color: #0C2D5E;
+  color: white;
+}
+
+/* ── Products Section ── */
+.products-section {
+  background: #ffffff;
+  padding: 100px 0;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 64px;
+}
+
+.product-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #E3F2FD;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  border-color: #29ABE2;
+  box-shadow: 0 12px 32px rgba(12, 45, 94, 0.15);
+  transform: translateY(-4px);
+}
+
+.product-image {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #F9FAFB;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+.product-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(12, 45, 94, 0.9) 0%, rgba(12, 45, 94, 0.3) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-overlay {
+  opacity: 1;
+}
+
+.product-overlay-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.view-details {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.product-info {
+  padding: 24px;
+}
+
+.product-info h3 {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0C2D5E;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.product-info p {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 300;
+  color: #64748B;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Services Section ── */
+.services-section {
+  background: #ffffff;
+  padding: 100px 0;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 64px;
+}
+
+.service-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(12, 45, 94, 0.15);
+}
+
+.service-image {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #F9FAFB;
+}
+
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.service-card:hover .service-image img {
+  transform: scale(1.05);
+}
+
+.service-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: 'Barlow', system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
+.service-content {
+  padding: 24px;
+}
+
+.service-content h3 {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0C2D5E;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.service-content p {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 300;
+  color: #64748B;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Section CTA Buttons ── */
+.section-cta {
+  display: flex;
+  justify-content: center;
+}
+
+.section-cta button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #0C2D5E;
+  border: 2px solid #0C2D5E;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.section-cta button:hover {
+  background: white;
+  color: #0C2D5E;
+  border-color: white;
+}
+
+/* ── Modal Styles ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: #F9FAFB;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: 600;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: #E5E7EB;
+  color: #0C2D5E;
+}
+
+.modal-header {
+  padding: 60px 40px 24px;
+  text-align: center;
+  border-bottom: 1px solid #E3F2FD;
+}
+
+.modal-header h2 {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0C2D5E;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.modal-header p {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1rem;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.modal-body {
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.modal-image {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #F9FAFB;
+}
+
+.modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-details h3 {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0C2D5E;
+  margin: 0 0 20px;
+  letter-spacing: -0.01em;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #E3F2FD;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  color: #0C2D5E;
+  font-weight: 600;
+}
+
+.whatsapp-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #25D366;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.whatsapp-button:hover {
+  background: #128C7E;
+  transform: translateY(-2px);
+}
+
+/* ── Responsive Design ── */
+@media (max-width: 1024px) {
+  .categories-grid,
+  .products-grid,
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .categories-grid,
+  .products-grid,
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-container {
+    padding: 0 20px;
+  }
+
+  .tabs-nav {
+    gap: 12px;
+  }
+
+  .tab-button {
+    padding: 12px 24px;
+    font-size: 0.875rem;
+  }
+
+  .modal-content {
+    max-width: 95%;
+  }
+
+  .modal-header {
+    padding: 40px 20px 20px;
+  }
+
+  .modal-body {
+    padding: 24px 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .modal-image {
+    aspect-ratio: 16/9;
+  }
+}

@@ -1,102 +1,90 @@
 import { ContactForm } from "./ContactForm";
-import { motion } from "motion/react";
+import { ArrowRight, MessageCircle } from "lucide-react";
+import '../../styles/contact-page.css';
 
 export const ContactPage = () => {
+  const whatsappNumber = "628123456789"; // Ganti dengan nomor WhatsApp resmi
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-24 pb-12 px-4">
-      <div className="container mx-auto max-w-7xl">
-        <div className="text-center mb-12">
-          <h1 
-            className="text-4xl font-bold text-slate-900 mb-4"
-            style={{ fontFamily: "Barlow, sans-serif", fontWeight: 800 }}
-          >
-            Hubungi Kami
-          </h1>
-          <p className="text-slate-600 text-lg mx-auto max-w-2xl">
-            Kami siap membantu Anda. Silakan isi formulir di bawah ini.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* ContactForm di kiri */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <ContactForm />
-          </motion.div>
-
-          {/* Maps di kanan */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col gap-6"
-          >
-            {/* Map Sidoarjo */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-100 overflow-hidden"
-            >
-              <div className="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />
-                <span
-                  className="text-sm font-bold text-slate-800"
-                  style={{ fontFamily: "Barlow, sans-serif" }}
+    <div className="contact-page">
+      {/* Contact Form Section */}
+      <div className="form-section">
+        <div className="section-container">
+          <div className="form-grid">
+            <div className="form-content">
+              <div className="section-header">
+                <h2>Kirim Pesan</h2>
+                <p>Isi formulir di bawah ini untuk mengirim pesan kepada tim kami</p>
+              </div>
+              <ContactForm />
+              
+              {/* WhatsApp Alternative */}
+              <div className="whatsapp-alternative">
+                <p>Atau hubungi kami langsung via WhatsApp:</p>
+                <a
+                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Halo, saya ingin bertanya tentang layanan gas industri PT Surya Inti Gas.')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="whatsapp-button"
                 >
-                  Kantor Pusat - Sidoarjo
-                </span>
+                  <MessageCircle size={24} />
+                  <span>Chat WhatsApp</span>
+                  <ArrowRight size={20} />
+                </a>
               </div>
-              <div className="h-64">
-                <iframe
-                  title="Kantor Pusat - Sidoarjo"
-                  src="https://www.google.com/maps?q=PT+Surya+Inti+Gas+Sidoarjo&output=embed"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-            </motion.div>
+            </div>
 
-            {/* Map Balikpapan */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-100 overflow-hidden"
-            >
-              <div className="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-sky-600" />
-                <span
-                  className="text-sm font-bold text-slate-800"
-                  style={{ fontFamily: "Barlow, sans-serif" }}
-                >
-                  Kantor Cabang - Balikpapan
-                </span>
+            {/* Maps Section */}
+            <div className="maps-content">
+              <div className="section-header">
+                <h2>Lokasi Kantor</h2>
+                <p>Kunjungi kantor kami di lokasi strategis</p>
               </div>
-              <div className="h-64">
-                <iframe
-                  title="Kantor Cabang - Balikpapan"
-                  src="https://www.google.com/maps?q=PT+Surya+Inti+Gas+Balikpapan&output=embed"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
+              
+              <div className="maps-grid">
+                <div className="map-card">
+                  <div className="map-header">
+                    <div className="map-indicator"></div>
+                    <span>Kantor Pusat - Sidoarjo</span>
+                  </div>
+                  <div className="map-iframe">
+                    <iframe
+                      title="Kantor Pusat - Sidoarjo"
+                      src="https://www.google.com/maps?q=PT+Surya+Inti+Gas+Sidoarjo&output=embed"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
+                </div>
+
+                <div className="map-card">
+                  <div className="map-header">
+                    <div className="map-indicator secondary"></div>
+                    <span>Kantor Cabang - Balikpapan</span>
+                  </div>
+                  <div className="map-iframe">
+                    <iframe
+                      title="Kantor Cabang - Balikpapan"
+                      src="https://www.google.com/maps?q=PT+Surya+Inti+Gas+Balikpapan&output=embed"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
+                </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
   );
 };

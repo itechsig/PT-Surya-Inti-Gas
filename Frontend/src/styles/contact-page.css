@@ -1,0 +1,233 @@
+/* ═══════════════════════════════════════════════════════════════
+   PT SURYA INTI GAS - Contact Page
+   Corporate Style - Pure White Background
+══════════════════════════════════════════════════════════════ */
+
+/* ── Page Base ── */
+.contact-page {
+  background: #ffffff;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Section Container ── */
+.section-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-header h2 {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: #0C2D5E;
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.section-header p {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 300;
+  color: #64748B;
+  margin: 0 auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* ── Form Section ── */
+.form-section {
+  background: #ffffff;
+  padding: 120px 0 100px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.form-content {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* Override ContactForm styles to match corporate design */
+.form-content .bg-white {
+  background: transparent !important;
+  border: none;
+  box-shadow: none;
+  max-width: 100%;
+  border-radius: 0;
+  padding: 32px 0 0;
+  overflow: visible;
+}
+
+.form-content .bg-gradient-to-r {
+  background: transparent !important;
+  border: none;
+  padding: 0 0 24px 0;
+  border-radius: 0;
+}
+
+.form-content .flex\.items-center\.gap-3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-content .w-10\.h-10 {
+  width: 40px;
+  height: 40px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-content .w-10\.h-10 svg {
+  color: #0C2D5E;
+}
+
+.form-content .text-lg\.font-semibold\.text-white {
+  color: #0C2D5E !important;
+}
+
+.form-content .text-sm\.text-blue-100 {
+  color: #64748B !important;
+}
+
+.form-content p {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1rem;
+  color: #64748B;
+  line-height: 1.6;
+}
+
+/* WhatsApp Alternative */
+.whatsapp-alternative {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid #E5E7EB;
+  text-align: center;
+}
+
+.whatsapp-alternative p {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  color: #64748B;
+  margin: 0 0 16px;
+}
+
+.whatsapp-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #25D366;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.whatsapp-button:hover {
+  background: #128C7E;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+}
+
+/* ── Maps Content ── */
+.maps-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.maps-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.map-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #E5E7EB;
+}
+
+.map-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.map-indicator {
+  width: 12px;
+  height: 12px;
+  background: #29ABE2;
+  border-radius: 50%;
+}
+
+.map-indicator.secondary {
+  background: #1565C0;
+}
+
+.map-header span {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #0C2D5E;
+}
+
+.map-iframe {
+  height: 250px;
+}
+
+/* ── Responsive Design ── */
+@media (max-width: 1024px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .maps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-container {
+    padding: 0 20px;
+  }
+
+  .form-content {
+    padding: 0;
+  }
+
+  .maps-grid {
+    grid-template-columns: 1fr;
+  }
+}
