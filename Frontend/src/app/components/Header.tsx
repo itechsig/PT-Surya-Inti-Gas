@@ -13,7 +13,7 @@ type NavItem = { nameKey: string; href: string; isRoute?: boolean; isDisabled?: 
 const NAV_LINKS: NavItem[] = [
   { nameKey: "header.home", href: "/", isRoute: true },
   {
-    nameKey: "header.solutions",
+    nameKey: "header.productsServices",
     href: "/produk",
 
     isRoute: true,

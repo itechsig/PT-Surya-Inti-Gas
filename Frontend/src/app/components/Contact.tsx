@@ -1,6 +1,5 @@
-import React, { useRef } from "react";
-import { motion, useInView } from "motion/react";
-import { useTranslation } from "react-i18next";
+import { useRef, useEffect } from "react";
+
 import {
   MapPin,
   Phone,
@@ -8,7 +7,10 @@ import {
   Building2,
   Clock,
   ExternalLink,
+  Headset,
 } from "lucide-react";
+
+import "../../styles/contact.css";
 
 // ─── Types ────────────────────────────────────────────────────
 type OfficeData = {
@@ -20,15 +22,13 @@ type OfficeData = {
   fax?: string;
   email: string;
   maps: string;
-  color: string;
-  bgAccent: string;
 };
 
 // ─── Data Kontak ─────────────────────────────────────────────
 const OFFICES: OfficeData[] = [
   {
     type: "pusat",
-    label: "contact.offices.headOffice",
+    label: "Kantor Pusat",
     name: "PT. Surya Inti Gas — Sidoarjo",
     address:
       'Komp. Perg. & Industri "Safe N Lock"\nBlok V1 – 3223, 3225, 3232, 3233\nJl. Lingkar Timur KM. 5.5\nRangkah Kidul, Sidoarjo\nJawa Timur 61232',
@@ -36,299 +36,168 @@ const OFFICES: OfficeData[] = [
     fax: "+62 31 – 9970 4778",
     email: "salescounter.sda@suryaintigas.co.id",
     maps: "https://maps.google.com/?q=Komplek+Pergudangan+Safe+N+Lock+Sidoarjo",
-    color: "#1d4ed8",
-    bgAccent: "#eff6ff",
   },
   {
     type: "cabang",
-    label: "contact.offices.branchOffice",
+    label: "Kantor Cabang",
     name: "PT. Surya Inti Gas — Balikpapan",
     address:
       "Jl. AMD Projakal No.27, Batu Ampar\nKec. Balikpapan Utara\nKota Balikpapan\nKalimantan Timur 76127\nIndonesia",
     phones: ["+62 542 – 8531991", "+62 542 – 8532382"],
     email: "salescounter.bpn@suryaintigas.co.id",
     maps: "https://maps.google.com/?q=Jl+AMD+Projakal+Kariangau+Balikpapan",
-    color: "#0369a1",
-    bgAccent: "#f0f9ff",
   },
 ];
 
-// ─── Fade-in wrapper ─────────────────────────────────────────
-const FadeIn = ({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 28 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-};
+// ─── Office Card Component ─────────────────────────────────────
+const OfficeCard = ({ office }: { office: OfficeData }) => (
+  <div className="office-card">
+    <div className="office-header">
+      <Building2 className="office-icon" />
+      <div>
+        <span className="office-label">{office.label}</span>
+        <h3>{office.name}</h3>
+      </div>
+    </div>
 
-// ─── Office Card ─────────────────────────────────────────────
-const OfficeCard = ({ office, delay, t }: { office: OfficeData; delay: number; t: (key: string) => string }) => (
-  <FadeIn delay={delay}>
-    <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-100 overflow-hidden h-full flex flex-col hover:shadow-xl hover:shadow-slate-200/80 transition-shadow duration-300">
-      {/* Card Header */}
-      <div
-        className="px-7 py-5 flex items-center gap-3"
-        style={{ background: `linear-gradient(135deg, ${office.color} 0%, ${office.color}cc 100%)` }}
-      >
-        <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
-          <Building2 size={20} className="text-white" />
-        </div>
-        <div>
-          <span
-            className="text-xs font-semibold uppercase tracking-widest text-white/70"
-            style={{ fontFamily: "'DM Sans', sans-serif" }}
-          >
-            {t(office.label)}
-          </span>
-          <h3
-            className="text-white text-base leading-tight mt-0.5"
-            style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 700 }}
-          >
-            {office.name}
-          </h3>
+    <div className="office-body">
+      <div className="office-info">
+        <MapPin className="info-icon" />
+        <div className="info-content">
+          <h4>Alamat</h4>
+          <p>{office.address}</p>
+          <a href={office.maps} target="_blank" rel="noopener noreferrer">
+            Lihat Peta <ExternalLink size={14} />
+          </a>
         </div>
       </div>
 
-      {/* Card Body */}
-      <div className="px-7 py-6 flex flex-col gap-5 flex-1">
-        {/* Alamat */}
-        <div className="flex gap-3.5">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
-            style={{ background: office.bgAccent }}
-          >
-            <MapPin size={15} style={{ color: office.color }} />
-          </div>
-          <div>
-            <p
-              className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
-            >
-              {t('contact.info.address')}
-            </p>
-            <p
-              className="text-sm text-slate-700 leading-relaxed whitespace-pre-line"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
-            >
-              {office.address}
-            </p>
-            <a
-              href={office.maps}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 mt-2 text-xs font-semibold transition-colors"
-              style={{ color: office.color, fontFamily: "'Barlow', sans-serif" }}
-            >
-              {t('contact.offices.viewMaps')} <ExternalLink size={11} />
+      <div className="office-info">
+        <Phone className="info-icon" />
+        <div className="info-content">
+          <h4>Telepon</h4>
+          {office.phones.map((phone) => (
+            <a key={phone} href={`tel:${phone.replace(/\D/g, "")}`}>
+              {phone}
             </a>
-          </div>
+          ))}
+          {office.fax && <span>Fax: {office.fax}</span>}
         </div>
+      </div>
 
-        {/* Telepon */}
-        <div className="flex gap-3.5">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-            style={{ background: office.bgAccent }}
-          >
-            <Phone size={15} style={{ color: office.color }} />
-          </div>
-          <div>
-            <p
-              className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
-            >
-              {t('contact.info.phone')}
-            </p>
-            {office.phones.map((phone) => (
-              <a
-                key={phone}
-                href={`tel:${phone.replace(/\D/g, "")}`}
-                className="block text-sm text-slate-700 hover:text-blue-700 transition-colors"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
-              >
-                {phone}
-              </a>
-            ))}
-            {office.fax && (
-              <p
-                className="text-sm text-slate-500 mt-0.5"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
-              >
-                Fax: {office.fax}
-              </p>
-            )}
-          </div>
+      <div className="office-info">
+        <Mail className="info-icon" />
+        <div className="info-content">
+          <h4>Email</h4>
+          <a href={`mailto:${office.email}`}>
+            {office.email}
+          </a>
         </div>
+      </div>
 
-        {/* Email */}
-        <div className="flex gap-3.5">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-            style={{ background: office.bgAccent }}
-          >
-            <Mail size={15} style={{ color: office.color }} />
-          </div>
-          <div>
-            <p
-              className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
-            >
-              {t('contact.info.email')}
-            </p>
-            <a
-              href={`mailto:${office.email}`}
-              className="text-sm transition-colors break-all"
-              style={{ color: office.color, fontFamily: "'DM Sans', sans-serif" }}
-            >
-              {office.email}
-            </a>
-          </div>
-        </div>
-
-        {/* Jam Operasional */}
-        <div className="flex gap-3.5">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-            style={{ background: office.bgAccent }}
-          >
-            <Clock size={15} style={{ color: office.color }} />
-          </div>
-          <div>
-            <p
-              className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
-            >
-              {t('contact.info.hours')}
-            </p>
-            <p
-              className="text-sm text-slate-700"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
-            >
-              {t('contact.hours.weekdays')}
-            </p>
-            <p
-              className="text-sm text-slate-500"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
-            >
-              {t('contact.hours.saturday')}
-            </p>
-          </div>
+      <div className="office-info">
+        <Clock className="info-icon" />
+        <div className="info-content">
+          <h4>Jam Operasional</h4>
+          <p>Senin - Jumat: 08.00 - 17.00</p>
+          <p>Sabtu: 08.00 - 13.00</p>
         </div>
       </div>
     </div>
-  </FadeIn>
+  </div>
 );
 
 // ─── Main Component ───────────────────────────────────────────
 export function Kontak() {
-  const { t } = useTranslation();
+  const sectionRef = useRef<HTMLElement>(null);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll(".fade-in-section").forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <>
-      <section
-        id="kontak"
-        className="relative overflow-hidden"
-        style={{ fontFamily: "'DM Sans', sans-serif", background: "#eff6ff" }}
-      >
-        {/* ── Wave Divider Top ── */}
-        <div className="absolute top-0 left-0 w-full leading-none z-10 pointer-events-none">
-          <svg
-            viewBox="0 0 1440 72"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-            style={{ display: "block", width: "100%", height: "72px" }}
-          >
-            <path
-              d="M0,0 C240,72 480,0 720,36 C960,72 1200,0 1440,36 L1440,0 Z"
-              fill="#eff6ff"
-            />
-          </svg>
+    <section ref={sectionRef} id="kontak" className="contact-section">
+      {/* Hero Section - Blue Theme Matching Hero.tsx */}
+      <div className="contact-hero">
+        <div className="hero-background" />
+        <div className="hero-overlay" />
+        <div className="hero-content">
+          <h1>Hubungi Kami</h1>
+          <p>Tim kami siap membantu Anda dengan solusi gas industri terbaik untuk kebutuhan bisnis Anda di seluruh Indonesia</p>
         </div>
+      </div>
 
-        {/* ── Decorative background ── */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.04]"
-            style={{
-              background: "radial-gradient(circle, #1d4ed8 0%, transparent 70%)",
-              transform: "translate(30%, -30%)",
-            }}
-          />
-          <div
-            className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.04]"
-            style={{
-              background: "radial-gradient(circle, #0369a1 0%, transparent 70%)",
-              transform: "translate(-30%, 30%)",
-            }}
-          />
-          {/* Grid dots pattern */}
-          <svg
-            className="absolute inset-0 w-full h-full opacity-[0.025]"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-                <circle cx="2" cy="2" r="1.5" fill="#1d4ed8" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#dots)" />
-          </svg>
-        </div>
-
-        <div className="relative container mx-auto px-4 md:px-10 pt-28 pb-20 md:pt-32 md:pb-28">
-
-          {/* ── Section Header ── */}
-          <FadeIn>
-            <div className="text-center max-w-2xl mx-auto mb-14">
-              <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full mb-5 border border-blue-100"
-                style={{ fontFamily: "'Barlow', sans-serif" }}
-              >
-                <MapPin size={12} />
-                {t('contact.title')}
+      {/* Contact Methods Section */}
+      <div className="contact-methods">
+        <div className="section-container">
+          <div className="section-header">
+            <h2>Cara Menghubungi Kami</h2>
+            <p>Pilih saluran komunikasi yang paling nyaman untuk Anda</p>
+          </div>
+          
+          <div className="methods-grid">
+            <div className="method-card">
+              <div className="method-icon">
+                <Phone className="icon" />
               </div>
-              <h2
-                className="text-3xl md:text-4xl text-slate-900 leading-tight mb-4"
-                style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 800 }}
-              >
-                {t('contact.title')}
-              </h2>
-              <p className="text-slate-500 text-base leading-relaxed">
-                {t('contact.description')}
-              </p>
+              <h3>Telepon</h3>
+              <p>Konsultasi langsung dengan tim sales kami</p>
+              <a href="tel:+623199704788" className="method-link">
+                +62 31 – 9970 4788
+              </a>
             </div>
-          </FadeIn>
+            <div className="method-card">
+              <div className="method-icon">
+                <Mail className="icon" />
+              </div>
+              <h3>Email</h3>
+              <p>Kirim pertanyaan via email</p>
+              <a href="mailto:salescounter.sda@suryaintigas.co.id" className="method-link">
+                salescounter.sda@suryaintigas.co.id
+              </a>
+            </div>
+            <div className="method-card">
+              <div className="method-icon">
+                <Headset className="icon" />
+              </div>
+              <h3>Layanan Pelanggan</h3>
+              <p>Support 24/7 untuk kebutuhan mendesak</p>
+              <a href="tel:+623199704788" className="method-link">
+                Hubungi Support
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-          {/* ── Office Cards ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 mb-14">
-            {OFFICES.map((office, i) => (
-              <OfficeCard key={office.name} office={office} delay={0.1 + i * 0.12} t={t} />
+      {/* Offices Section */}
+      <div className="offices-section">
+        <div className="section-container">
+          <div className="section-header">
+            <h2>Lokasi Kantor Kami</h2>
+            <p>Kunjungi kantor kami untuk konsultasi langsung atau hubungi melalui kontak yang tersedia</p>
+          </div>
+          
+          <div className="offices-grid">
+            {OFFICES.map((office) => (
+              <OfficeCard key={office.name} office={office} />
             ))}
           </div>
-
-
-            {/* Map Sidoarjo */}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
-
-
