@@ -9,6 +9,8 @@ import { Product } from "./components/Product";
 import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
 import { Career } from "./components/Career";
+import { JobDetail } from "./components/JobDetail";
+import { JobApplicationForm } from "./components/JobApplicationForm";
 import { Gallery } from "./components/Gallery";
 import { AdminDashboardIntegrated } from "./components/Dashboard/AdminDashboardIntegrated";
 import { initVisitorTracking } from "../utils/visitorTracking";
@@ -117,6 +119,26 @@ function App() {
             <Header />
             <main id="main-content" tabIndex={-1}>
               <Career />
+            </main>
+            <Footer />
+            <Chatbot />
+          </div>
+        } />
+        <Route path="/karir/:id" element={
+          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+            <Header />
+            <main id="main-content" tabIndex={-1}>
+              <JobDetail />
+            </main>
+            <Footer />
+            <Chatbot />
+          </div>
+        } />
+        <Route path="/karir/:id/lamar" element={
+          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+            <Header />
+            <main id="main-content" tabIndex={-1}>
+              <JobApplicationForm />
             </main>
             <Footer />
             <Chatbot />

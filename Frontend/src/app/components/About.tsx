@@ -1,29 +1,47 @@
 import { useTranslation } from "react-i18next";
 import { ChevronRight } from "lucide-react";
+import { useState } from 'react';
 
 import "../../styles/about.css";
 
 export function About() {
   const { t } = useTranslation();
+  const [activeYear, setActiveYear] = useState(0);
 
   const timelineData = [
     {
-      year: "2003", label: t('about.timeline.items.0.label'),
+      year: "2003",
+      label: t('about.timeline.items.0.label'),
       text: t('about.timeline.items.0.text'),
+      image: "/images/products/sig-office.jpg",
+      fullDescription: "PT Surya Inti Gas didirikan dengan visi untuk menjadi penyedia gas industri terkemuka di Indonesia. Memulai operasional dengan fokus pada penyediaan gas berkualitas tinggi untuk sektor industri."
     },
     {
-      year: "2007", label: t('about.timeline.items.1.label'),
+      year: "2007",
+      label: t('about.timeline.items.1.label'),
       text: t('about.timeline.items.1.text'),
+      image: "/images/products/sig-office.jpg",
+      fullDescription: "Ekspansi bisnis dengan pembukaan cabang baru di beberapa kota strategis. Meningkatkan kapasitas produksi dan distribusi untuk memenuhi permintaan pasar yang terus berkembang."
     },
     {
-      year: "2016", label: t('about.timeline.items.2.label'),
+      year: "2016",
+      label: t('about.timeline.items.2.label'),
       text: t('about.timeline.items.2.text'),
+      image: "/images/products/sig-office.jpg",
+      fullDescription: "Pencapaian penting dengan sertifikasi standar kualitas internasional. Investasi dalam teknologi terbaru untuk meningkatkan efisiensi operasional dan kualitas produk."
     },
     {
-      year: "2017", label: t('about.timeline.items.3.label'),
+      year: "2017",
+      label: t('about.timeline.items.3.label'),
       text: t('about.timeline.items.3.text'),
-    },
+      image: "/images/products/sig-office.jpg",
+      fullDescription: "Transformasi digital dan modernisasi sistem manajemen. Penetrasi pasar baru dengan layanan yang lebih komprehensif dan teknologi yang mutakhir."
+    }
   ];
+
+  const handleYearClick = (index: number) => {
+    setActiveYear(index);
+  };
 
   return (
     <div className="about-section" id="about">
@@ -101,7 +119,7 @@ export function About() {
         </div>
       </div>
 
-      {/* Timeline - Light */}
+      {/* Interactive Timeline Section */}
       <div className="timeline-section">
         <div className="section-container">
           <div className="section-header">
@@ -109,16 +127,41 @@ export function About() {
             <p>{t('about.timeline.subtitle')}</p>
           </div>
           
-          <div className="timeline-grid">
-            {timelineData.map((item, i) => (
-              <div key={i} className="timeline-card">
-                <span className="timeline-year">{item.year}</span>
-                <div className="timeline-content">
-                  <h4>{item.label}</h4>
-                  <p>{item.text}</p>
+          <div className="interactive-timeline">
+            <div className="timeline-display">
+              <div className="timeline-image-container">
+                <div className="timeline-image-wrapper">
+                  <img 
+                    src={timelineData[activeYear].image} 
+                    alt={`Timeline ${timelineData[activeYear].year}`}
+                    className="timeline-image"
+                  />
+                </div>
+                <div className="timeline-year-badge">
+                  {timelineData[activeYear].year}
                 </div>
               </div>
-            ))}
+              
+              <div className="timeline-info">
+                <h3>{timelineData[activeYear].label}</h3>
+                <p className="timeline-description">{timelineData[activeYear].fullDescription}</p>
+              </div>
+            </div>
+            
+            <div className="timeline-navigation">
+              {timelineData.map((item, index) => (
+                <div 
+                  key={index}
+                  className={`timeline-nav-item ${activeYear === index ? 'active' : ''}`}
+                  onClick={() => handleYearClick(index)}
+                >
+                  <div className="timeline-circle">
+                    <span className="timeline-nav-year">{item.year}</span>
+                  </div>
+                  <div className="timeline-connector" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

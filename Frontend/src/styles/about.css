@@ -187,53 +187,176 @@
   margin-top: 2px;
 }
 
-/* ── Timeline Section - Light ── */
+/* ── Timeline Section - Interactive ── */
 .timeline-section {
   background: #ffffff;
   padding: 100px 40px;
 }
 
-.timeline-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
-}
-
-.timeline-card {
-  background: white;
-  border: 1px solid #E3F2FD;
-  border-radius: 12px;
-  padding: 32px;
+.interactive-timeline {
   display: flex;
-  gap: 24px;
-  box-shadow: 0 4px 6px rgba(12, 45, 94, 0.05);
+  flex-direction: column;
+  gap: 48px;
 }
 
-.timeline-year {
+.timeline-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.timeline-image-container {
+  position: relative;
+}
+
+.timeline-image-wrapper {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(12, 45, 94, 0.15);
+  aspect-ratio: 16/9;
+  background: #F1F5F9;
+}
+
+.timeline-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.timeline-image-wrapper:hover .timeline-image {
+  transform: scale(1.05);
+}
+
+.timeline-year-badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: #0C2D5E;
+  color: white;
   font-family: 'Barlow', system-ui, sans-serif;
   font-size: 2rem;
   font-weight: 800;
-  color: #29ABE2;
-  line-height: 1;
-  min-width: 100px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(12, 45, 94, 0.3);
 }
 
-.timeline-content h4 {
+.timeline-info {
+  padding: 32px;
+  background: #FAFCFD;
+  border-radius: 16px;
+  border: 1px solid #E3F2FD;
+}
+
+.timeline-info h3 {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0C2D5E;
+  margin: 0 0 24px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.timeline-description {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1.0625rem;
+  color: #64748B;
+  line-height: 1.8;
+  margin: 0;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.timeline-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  position: relative;
+}
+
+.timeline-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.timeline-nav-item:hover .timeline-circle {
+  transform: scale(1.15);
+  background: #29ABE2;
+  border-color: #29ABE2;
+}
+
+.timeline-nav-item.active .timeline-circle {
+  background: #0C2D5E;
+  border-color: #0C2D5E;
+  transform: scale(1.25);
+  box-shadow: 0 0 0 4px rgba(12, 45, 94, 0.2);
+}
+
+.timeline-nav-item.active .timeline-nav-year {
+  color: #0C2D5E;
+  font-weight: 700;
+}
+
+.timeline-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #E3F2FD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-nav-year {
   font-family: 'Barlow', system-ui, sans-serif;
   font-size: 1.25rem;
-  font-weight: 700;
-  color: #0C2D5E;
-  margin: 0 0 12px;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  color: #64748B;
+  transition: all 0.3s ease;
 }
 
-.timeline-content p {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 0.9375rem;
-  font-weight: 300;
-  color: #64748B;
-  line-height: 1.6;
-  margin: 0;
+.timeline-connector {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  width: calc(100% + 96px);
+  height: 3px;
+  background: #E3F2FD;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.timeline-nav-item:last-child .timeline-connector {
+  display: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-info {
+  animation: fadeIn 0.6s ease-out;
 }
 
 /* ── Responsive Design ── */
@@ -251,12 +374,66 @@
     grid-template-columns: 1fr;
   }
 
-  .timeline-grid {
+  .timeline-display {
     grid-template-columns: 1fr;
+  }
+
+  .timeline-navigation {
+    gap: 24px;
+  }
+
+  .timeline-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .timeline-nav-year {
+    font-size: 1rem;
   }
 
   .video-wrapper iframe {
     height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .overview-section,
+  .vm-section,
+  .timeline-section,
+  .video-section {
+    padding: 64px 20px;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+
+  .timeline-navigation {
+    gap: 16px;
+  }
+
+  .timeline-circle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .timeline-nav-year {
+    font-size: 0.875rem;
+  }
+
+  .timeline-year-badge {
+    font-size: 1.5rem;
+    padding: 12px 16px;
+    top: 16px;
+    right: 16px;
+  }
+
+  .timeline-info h3 {
+    font-size: 1.5rem;
+  }
+
+  .video-wrapper iframe {
+    height: 300px;
   }
 }
 
