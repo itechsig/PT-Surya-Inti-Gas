@@ -33,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'request.response.log' => \App\Http\Middleware\RequestResponseLoggingMiddleware::class,
             'brute.force' => \App\Http\Middleware\BruteForceProtectionMiddleware::class,
             'check.blocked' => \App\Http\Middleware\CheckBlockedUsers::class,
+            'cors' => \App\Http\Middleware\CorsMiddleware::class,
         ]);
 
         // Disable EnsureFrontendRequestsAreStateful to prevent infinite loop/memory exhaustion
