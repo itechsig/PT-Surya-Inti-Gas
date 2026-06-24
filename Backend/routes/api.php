@@ -73,9 +73,9 @@ Route::prefix('v1')->group(function () {
         // Visitor Tracking API (Public) - Track website visitors (no rate limiting for analytics)
         // Temporarily removed check.blocked middleware for troubleshooting
         Route::withoutMiddleware(['check.blocked'])->group(function () {
-            Route::post('/visitor/track', [VisitorTrackingController::class, 'track']);
-            Route::post('/visitor/pageview', [VisitorTrackingController::class, 'trackPageView']);
-            Route::get('/visitor/current-ip', [VisitorTrackingController::class, 'getCurrentIP']);
+            Route::post('/visitor/track', [VisitorTrackingController::class, 'track'])->middleware('cors');
+            Route::post('/visitor/pageview', [VisitorTrackingController::class, 'trackPageView'])->middleware('cors');
+            Route::get('/visitor/current-ip', [VisitorTrackingController::class, 'getCurrentIP'])->middleware('cors');
         });
 
         // AI Agent API (Public for testing - will move to protected routes later)

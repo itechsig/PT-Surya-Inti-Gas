@@ -23,8 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // Add CORS middleware for API routes (must come before security middleware)
         $middleware->append(\App\Http\Middleware\CorsMiddleware::class);
 
-        // Add security headers middleware (CORS middleware handles API routes differently)
-        $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
+        // Temporarily disable security headers middleware to test CORS
+        // $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
 
         // Register IP whitelist middleware
         $middleware->alias([
@@ -33,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'request.response.log' => \App\Http\Middleware\RequestResponseLoggingMiddleware::class,
             'brute.force' => \App\Http\Middleware\BruteForceProtectionMiddleware::class,
             'check.blocked' => \App\Http\Middleware\CheckBlockedUsers::class,
+            'cors' => \App\Http\Middleware\CorsMiddleware::class,
         ]);
 
         // Disable EnsureFrontendRequestsAreStateful to prevent infinite loop/memory exhaustion
