@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Eye, Send, Search, X } from 'lucide-react';
@@ -33,7 +31,7 @@ export function Career() {
         "Mampu bekerja dengan target dan under pressure",
         "Berdomisili di Sidoarjo atau sekitarnya"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 2,
@@ -52,7 +50,7 @@ export function Career() {
         "Bersedia bekerja di lapangan dan perjalanan dinas",
         "Memahami standar keselamatan kerja"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 3,
@@ -71,7 +69,7 @@ export function Career() {
         "Mampu bekerja dalam tim maupun individu",
         "Berdomisili di Balikpapan"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 4,
@@ -90,7 +88,7 @@ export function Career() {
         "Jujur, disiplin, dan bertanggung jawab",
         "Bersedia bekerja dengan shift"
       ],
-      deadline: "2024-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 5,
@@ -109,7 +107,7 @@ export function Career() {
         "Teliti dan detail dalam pemeriksaan",
         "Bersedia bekerja di area produksi"
       ],
-      deadline: "2026-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 6,
@@ -128,7 +126,7 @@ export function Career() {
         "Kreatif dalam membuat konten marketing",
         "Berdomisili di Balikpapan"
       ],
-      deadline: "2026-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 7,
@@ -147,7 +145,7 @@ export function Career() {
         "Memiliki sertifikat forklift diutamakan",
         "Mampu membuat laporan inventory dan KPI"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 8,
@@ -166,7 +164,7 @@ export function Career() {
         "Kemampuan leadership dan komunikasi yang kuat",
         "Berdomisili di Balikpapan"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 9,
@@ -185,7 +183,7 @@ export function Career() {
         "Mampu melakukan audit keselamatan dan risiko assessment",
         "Bersedia bekerja di area operasional"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     }
   ];
 
@@ -243,14 +241,21 @@ export function Career() {
 
   return (
     <div className="career-page">
-      {/* Job Listings Section */}
-      <div className="listings-section">
+      {/* Career Hero Section */}
+      <div className="career-hero">
         <div className="section-container">
           <div className="section-header">
+            <div className="career-hero-badge">Karir</div>
             <h2>Lowongan Pekerjaan</h2>
             <p>Temukan posisi yang sesuai dengan keahlian dan minat Anda</p>
             <p className="jobs-counter">{totalJobs} Pekerjaan Tersedia</p>
           </div>
+        </div>
+      </div>
+
+      {/* Job Listings Section */}
+      <div className="listings-section">
+        <div className="section-container">
 
           {/* Search and Filters */}
           <div className="search-filters-container">
@@ -436,31 +441,6 @@ export function Career() {
                 );
               })
             )}
-          </div>
-        </div>
-      </div>
-
-      {/* Culture Section */}
-      <div className="culture-section">
-        <div className="section-container">
-          <div className="section-header">
-            <h2>Budaya Perusahaan</h2>
-            <p>Nilai yang kami junjung dalam setiap aspek bisnis kami</p>
-          </div>
-
-          <div className="culture-grid">
-            <div className="culture-card">
-              <h3>Profesional</h3>
-              <p>Kami menghargai profesionalisme dan integritas dalam setiap tindakan dan keputusan bisnis kami.</p>
-            </div>
-            <div className="culture-card">
-              <h3>Inovatif</h3>
-              <p>Kami mendorong inovasi dan perbaikan berkelanjutan untuk memberikan layanan terbaik kepada pelanggan.</p>
-            </div>
-            <div className="culture-card">
-              <h3>Kerjasama Tim</h3>
-              <p>Kami membangun budaya kerjasama dan saling menghargai antar tim untuk mencapai tujuan bersama.</p>
-            </div>
           </div>
         </div>
       </div>

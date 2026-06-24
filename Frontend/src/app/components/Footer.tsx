@@ -1,505 +1,506 @@
-﻿import React, { useEffect, ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { Facebook, Instagram, Linkedin, Twitter, Youtube, Mail, Phone, MapPin, ChevronRight } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
-/* ─────────────────────────────────────────
-   COLOR TOKENS  (navy dark theme)
-   bg-primary   : #0d1f3c  — background utama
-   bg-secondary : #0a1a32  — bottom bar
-   border       : #1e3a5f  — garis pemisah
-   text-primary : #f0ece4  — putih tulang tegas
-   text-body    : #c8daf0  — biru muda terang
-   text-muted   : #7ca0c7  — label & copyright
-   text-icon    : #5b82a8  — ikon diam
-───────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   CORPORATE FOOTER — PT Surya Inti Gas
+   Corporate Design inspired by Air Liquide, Linde, Messer
+══════════════════════════════════════════════════════════════ */
 
-const FONT_HREF =
-  "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap";
+const css = `
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
-function injectFont() {
-  if (!document.head.querySelector(`link[href="${FONT_HREF}"]`)) {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = FONT_HREF;
-    document.head.appendChild(link);
+  /* ── Corporate Footer Variables ── */
+  .corporate-footer {
+    --navy-dark: #0f172a;
+    --navy: #1e293b;
+    --blue-dark: #1e3a8a;
+    --blue: #1e40af;
+    --sky: #3b82f6;
+    --sky-light: #60a5fa;
+    --white: #ffffff;
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+    
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --ff-display: 'Barlow', system-ui, sans-serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+    
+    font-family: var(--ff-body);
+    background: var(--navy-dark);
+    color: var(--white);
   }
-}
 
-const STYLE_ID = "sig-footer-styles";
+  /* ── Corporate Footer Main ── */
+  .corporate-footer-main {
+    padding: 80px 0 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 
-function injectStyles() {
-  if (document.getElementById(STYLE_ID)) return;
-  const style = document.createElement("style");
-  style.id = STYLE_ID;
-  style.textContent = `
-    @keyframes sig-blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.4; }
+  .corporate-footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 48px;
+  }
+
+  /* ── Corporate Footer Company Section ── */
+  .corporate-footer-company {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .corporate-footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+  }
+
+  .corporate-footer-logo img {
+    height: 48px;
+    width: auto;
+    object-contain;
+  }
+
+  .corporate-footer-logo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .corporate-footer-logo-text .name {
+    font-family: var(--ff-display);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    line-height: 1.2;
+  }
+
+  .corporate-footer-logo-text .tagline {
+    font-family: var(--ff-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--sky-light);
+  }
+
+  .corporate-footer-description {
+    font-family: var(--ff-body);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+
+  .corporate-footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .corporate-footer-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-family: var(--ff-body);
+    font-size: 0.875rem;
+    transition: all 0.3s var(--ease);
+  }
+
+  .corporate-footer-contact-item:hover {
+    color: var(--white);
+    gap: 16px;
+  }
+
+  .corporate-footer-contact-item svg {
+    width: 18px;
+    height: 18px;
+    color: var(--sky-light);
+    flex-shrink: 0;
+  }
+
+  /* ── Corporate Footer Columns ── */
+  .corporate-footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .corporate-footer-column-title {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .corporate-footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .corporate-footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-family: var(--ff-body);
+    font-size: 0.9375rem;
+    font-weight: 300;
+    line-height: 1.5;
+    transition: all 0.3s var(--ease);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .corporate-footer-link:hover {
+    color: var(--sky-light);
+    gap: 12px;
+  }
+
+  .corporate-footer-link svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.6;
+    transition: opacity 0.3s var(--ease);
+  }
+
+  .corporate-footer-link:hover svg {
+    opacity: 1;
+  }
+
+  /* ── Corporate Footer CTA Section ── */
+  .corporate-footer-cta {
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.3), rgba(59, 130, 246, 0.2));
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .corporate-footer-cta h4 {
+    font-family: var(--ff-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0 0 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .corporate-footer-cta p {
+    font-family: var(--ff-body);
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 16px;
+    line-height: 1.5;
+  }
+
+  .corporate-footer-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: var(--white);
+    color: var(--blue);
+    border: none;
+    border-radius: 50px;
+    font-family: var(--ff-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    text-decoration: none;
+  }
+
+  .corporate-footer-cta-button:hover {
+    background: var(--sky-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+  }
+
+  /* ── Corporate Footer Social ── */
+  .corporate-footer-social {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .corporate-footer-social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s var(--ease);
+  }
+
+  .corporate-footer-social-link:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+    transform: translateY(-3px);
+  }
+
+  .corporate-footer-social-link svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ── Corporate Footer Bottom ── */
+  .corporate-footer-bottom {
+    background: var(--navy);
+    padding: 32px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .corporate-footer-bottom-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .corporate-footer-copyright {
+    font-family: var(--ff-body);
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+  }
+
+  .corporate-footer-legal-links {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .corporate-footer-legal-link {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-family: var(--ff-body);
+    font-size: 0.875rem;
+    transition: color 0.3s var(--ease);
+  }
+
+  .corporate-footer-legal-link:hover {
+    color: var(--sky-light);
+  }
+
+  /* ── Responsive Design ── */
+  @media (max-width: 1024px) {
+    .corporate-footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
     }
-.sig-footer-grid {
-  display: grid;
-  grid-template-columns: 1.3fr 0.7fr 1fr 0.9fr 1.2fr;
-  gap: 2.5rem;
-}
-    @media (max-width: 1024px) {
-      .sig-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+
+  @media (max-width: 768px) {
+    .corporate-footer-main {
+      padding: 48px 20px;
     }
-    @media (max-width: 560px) {
-      .sig-footer-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-      .sig-footer-bottom {
-        flex-direction: column;
-        align-items: flex-start !important;
-        gap: 6px !important;
-      }
-      .sig-footer-main { padding: 2rem 1.5rem 2rem !important; }
-      .sig-footer-bottom-bar { padding: 1rem 1.5rem !important; }
+
+    .corporate-footer-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
     }
-    .sig-cta-btn:hover {
-      background: #1e3a5f !important;
-      border-color: #4a7aaa !important;
+
+    .corporate-footer-bottom-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 16px;
     }
-    .sig-cta-wa:hover {
-      background: #1a7a4a !important;
+
+    .corporate-footer-legal-links {
+      justify-content: center;
     }
-  `;
-  document.head.appendChild(style);
-}
+  }
+`;
 
-interface ChildrenProps { children: ReactNode; }
-interface SocialBtnProps { href: string; label: string; children: ReactNode; }
-
-const ColLabel = ({ children }: ChildrenProps) => (
-  <div
-    style={{
-      fontSize: 9,
-      textTransform: "uppercase",
-      letterSpacing: "0.2em",
-      fontWeight: 600,
-      color: "#7ca0c7",
-      marginBottom: "1.25rem",
-      paddingBottom: "1rem",
-      borderBottom: "1px solid #1e3a5f",
-    }}
-  >
-    {children}
-  </div>
-);
-
-
-
-const SocialBtn = ({ href, label, children }: SocialBtnProps) => {
-  const [hovered, setHovered] = React.useState(false);
-  return (
-    <a
-      href={href}
-      aria-label={label}
-      target={href.startsWith("http") ? "_blank" : undefined}
-      rel={href.startsWith("http") ? "noreferrer" : undefined}
-      style={{
-        width: 34,
-        height: 34,
-        border: `1px solid ${hovered ? "#4a7aaa" : "#1e3a5f"}`,
-        borderRadius: 6,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: hovered ? "#f0ece4" : "#5b82a8",
-        textDecoration: "none",
-        transition: "border-color .2s, color .2s",
-        flexShrink: 0,
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {children}
-    </a>
-  );
-};
-
-/* ── SVG Icons ── */
-const IconPhone = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.37a16 16 0 006.72 6.72l1.73-1.73a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-  </svg>
-);
-
-const IconMail = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-    <polyline points="22,6 12,13 2,6" />
-  </svg>
-);
-
-const IconFacebook = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
-  </svg>
-);
-
-const IconInstagram = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-  </svg>
-);
-
-const IconLinkedin = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" />
-    <rect x="2" y="9" width="4" height="12" />
-    <circle cx="4" cy="4" r="2" />
-  </svg>
-);
-
-const IconWhatsapp = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
-  </svg>
-);
-
-
-
-/* ── Nav links config ── */
-const NAV_LINKS = [
-  { name: "Beranda", href: "/", isRoute: true },
-  { name: "Galeri", href: "/galeri", isRoute: true },
-
-
-  { name: "Kontak", href: "/#kontak", isRoute: false },
-
-];
-
-/* ── Solusi dropdown items ── */
-const SOLUTIONS_ITEMS = [
-  { name: "Produk", href: "/produk?step=produk" },
-  { name: "Layanan", href: "/produk?step=layanan" },
-];
-
-/* ── Kolom 3: Solusi ── */
-const SolutionsColumn = () => (
-  <div>
-    <ColLabel>Solusi</ColLabel>
-
-    <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      {SOLUTIONS_ITEMS.map((item) => (
-        <Link
-          key={item.name}
-          to={item.href}
-          style={{
-            fontSize: 13,
-            color: "#c8daf0",
-            textDecoration: "none",
-            padding: "5px 0",
-            transition: "color .18s",
-          }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.color = "#f0ece4")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "#c8daf0")
-          }
-        >
-          {item.name}
-        </Link>
-      ))}
-    </nav>
-  </div>
-);
-
-const CareerColumn = () => (
-  <div>
-    <ColLabel>Karir</ColLabel>
-
-    <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      <Link
-        to="/karir"
-        style={{
-          fontSize: 13,
-          color: "#c8daf0",
-          textDecoration: "none",
-          padding: "5px 0",
-          transition: "color .18s",
-        }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.color = "#f0ece4")
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.color = "#c8daf0")
-        }
-      >
-        Bergabung dengan Kami
-      </Link>
-    </nav>
-  </div>
-);
-
-/* ── Kolom 4: Kontak Cepat ── */
-const ContactColumn = () => (
-  <div>
-    <ColLabel>Hubungi Kami</ColLabel>
-
-    <p style={{ fontSize: 12, lineHeight: 1.8, color: "#c8daf0", marginBottom: "1.25rem" }}>
-      Butuh penawaran atau informasi produk? Tim kami siap membantu Anda.
-    </p>
-
-    {/* WhatsApp CTA */}
-    <a
-      href="https://wa.me/62319970478"
-      target="_blank"
-      rel="noreferrer"
-      className="sig-cta-wa"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 8,
-        width: "100%",
-        padding: "9px 0",
-        borderRadius: 6,
-        background: "#166534",
-        color: "#ffffff",
-        fontSize: 12.5,
-        fontWeight: 600,
-        textDecoration: "none",
-        marginBottom: 8,
-        transition: "background .2s",
-        letterSpacing: "0.01em",
-      }}
-    >
-      <IconWhatsapp />
-      Chat WhatsApp
-    </a>
-
-    {/* Telepon */}
-    <a
-      href="tel:+6231997047888"
-      className="sig-cta-btn"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 8,
-        width: "100%",
-        padding: "9px 0",
-        borderRadius: 6,
-        background: "transparent",
-        border: "1px solid #1e3a5f",
-        color: "#c8daf0",
-        fontSize: 12.5,
-        textDecoration: "none",
-        marginBottom: 8,
-        transition: "background .2s, border-color .2s",
-        letterSpacing: "0.01em",
-      }}
-    >
-      <IconPhone />
-      +62 31 – 9970 4788
-    </a>
-
-    {/* Email inquiry */}
-    <a
-      href="mailto:marketing@suryaintigas.co.id"
-      className="sig-cta-btn"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 8,
-        width: "100%",
-        padding: "9px 0",
-        borderRadius: 6,
-        background: "transparent",
-        border: "1px solid #1e3a5f",
-        color: "#c8daf0",
-        fontSize: 12.5,
-        textDecoration: "none",
-        transition: "background .2s, border-color .2s",
-        letterSpacing: "0.01em",
-      }}
-    >
-      <IconMail />
-      Kirim Email
-    </a>
-  </div>
-);
-
-/* ── Main Footer ── */
-export const Footer = () => {
+/* ═══════════════════════════════════════════════════════════════
+   CORPORATE FOOTER COMPONENT
+══════════════════════════════════════════════════════════════ */
+export function Footer() {
   const { t } = useTranslation();
-  useEffect(() => {
-    injectFont();
-    injectStyles();
-  }, []);
-
-  const dm = "'DM Sans', system-ui, sans-serif";
-  const garamond = "'EB Garamond', Georgia, serif";
 
   return (
-    <footer
-      id="contact"
-      style={{ background: "#0d1f3c", color: "#c8daf0", fontFamily: dm }}
-    >
-      {/* Top border */}
-      <div style={{ height: 2, background: "#1e3a5f" }} />
+    <footer className="corporate-footer">
+      <style>{css}</style>
 
-      {/* Main grid — 4 kolom */}
-      <div
-        className="sig-footer-main sig-footer-grid"
-        style={{ padding: "3rem 3rem 2.5rem" }}
-      >
-        {/* ── Kolom 1: Brand ── */}
-        <div>
-          <div
-            style={{
-              fontFamily: garamond,
-              fontSize: 19,
-              fontWeight: 500,
-              color: "#ffffff",
-              letterSpacing: "0.02em",
-              marginBottom: 4,
-            }}
-          >
-            Surya Inti Gas
+      {/* Corporate Footer Main */}
+      <div className="corporate-footer-main">
+        <div className="corporate-footer-grid">
+
+          {/* Company Info */}
+          <div className="corporate-footer-company">
+            <a href="/" className="corporate-footer-logo">
+              <img src="/logo.png" alt="PT Surya Inti Gas Logo" />
+              <div className="corporate-footer-logo-text">
+                <span className="name">SURYA INTI GAS</span>
+                <span className="tagline">{t('footer.tagline')}</span>
+              </div>
+            </a>
+
+            <p className="corporate-footer-description">
+              {t('footer.description')}
+            </p>
+
+            <div className="corporate-footer-contact">
+              <a href="tel:+6281233906378" className="corporate-footer-contact-item">
+                <Phone />
+                081233906378
+              </a>
+              <a href="mailto:salescounter.sda@suryaintigas.co.id" className="corporate-footer-contact-item">
+                <Mail />
+                salescounter.sda@suryaintigas.co.id
+              </a>
+              <div className="corporate-footer-contact-item">
+                <MapPin />
+                Komp. Perg. & Industri Safe N" Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232
+              </div>
+            </div>
+
+            <div className="corporate-footer-social">
+              <a href="#" className="corporate-footer-social-link" aria-label={t('footer.social.facebook')}>
+                <Facebook />
+              </a>
+              <a href="#" className="corporate-footer-social-link" aria-label={t('footer.social.instagram')}>
+                <Instagram />
+              </a>
+              <a href="#" className="corporate-footer-social-link" aria-label={t('footer.social.linkedin')}>
+                <Linkedin />
+              </a>
+              <a href="#" className="corporate-footer-social-link" aria-label={t('footer.social.twitter')}>
+                <Twitter />
+              </a>
+              <a href="#" className="corporate-footer-social-link" aria-label={t('footer.social.youtube')}>
+                <Youtube />
+              </a>
+            </div>
           </div>
 
-          <div
-            style={{
-              fontFamily: garamond,
-              fontSize: 13,
-              fontStyle: "italic",
-              color: "#38bdf8",
-              marginBottom: "1.25rem",
-            }}
-          >
-            Energi yang Andal, Masa Depan yang Cerah
+          {/* About Column */}
+          <div className="corporate-footer-column">
+            <h5 className="corporate-footer-column-title">{t('footer.about.title')}</h5>
+            <nav className="corporate-footer-links">
+              <Link to="/tentang-kami" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.about.companyProfile')}
+              </Link>
+              <Link to="/kepemimpinan" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.about.leadership')}
+              </Link>
+              <Link to="/nilai-nilai" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.about.values')}
+              </Link>
+              <Link to="/fasilitas" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.about.facilities')}
+              </Link>
+              <Link to="/jaringan-distribusi" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.about.distribution')}
+              </Link>
+            </nav>
           </div>
 
-          <p
-            style={{
-              fontSize: 12.5,
-              lineHeight: 1.85,
-              color: "#c8daf0",
-              marginBottom: "1.5rem",
-              maxWidth: 280,
-            }}
-          >
-            {t('footer.description')}
-                        {t('footer.productsOffered')}
-          </p>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              gap: 8,
-              fontSize: 12,
-              color: "#c8daf0",
-              marginBottom: "1.5rem",
-              lineHeight: 1.8,
-            }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "#7ca0c7",
-                flexShrink: 0,
-                marginTop: 6,
-
-              }}
-            />
-            <span>
-              Senin – Jum'at &nbsp;·&nbsp; 08.00 – 16.00 WIB<br />
-              Sabtu &nbsp;·&nbsp; 08.00 – 14.00 WIB
-            </span>
+          {/* Products Column */}
+          <div className="corporate-footer-column">
+            <h5 className="corporate-footer-column-title">{t('footer.product.title')}</h5>
+            <nav className="corporate-footer-links">
+              <Link to="/produk" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.product.industrialGas')}
+              </Link>
+              <Link to="/produk" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.product.medicalGas')}
+              </Link>
+              <Link to="/produk" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.product.specialGas')}
+              </Link>
+              <Link to="/produk" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.product.equipment')}
+              </Link>
+              <Link to="/produk" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.product.services')}
+              </Link>
+            </nav>
           </div>
 
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            <SocialBtn href="#" label="Facebook"><IconFacebook /></SocialBtn>
-            <SocialBtn href="#" label="Instagram"><IconInstagram /></SocialBtn>
-            <SocialBtn href="#" label="LinkedIn"><IconLinkedin /></SocialBtn>
-            <SocialBtn href="https://wa.me/62319970478" label="WhatsApp"><IconWhatsapp /></SocialBtn>
+          {/* CTA & Other Links */}
+          <div className="corporate-footer-column">
+            <h5 className="corporate-footer-column-title">{t('footer.quickLinks')}</h5>
+            <nav className="corporate-footer-links">
+              <Link to="/karir" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.quickLinkItems.career')}
+              </Link>
+              <Link to="/kontak" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.quickLinkItems.contactUs')}
+              </Link>
+              <Link to="/tentang-kami" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.quickLinkItems.aboutUs')}
+              </Link>
+              <Link to="/produk" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.quickLinkItems.products')}
+              </Link>
+            </nav>
           </div>
+
         </div>
-
-        {/* ── Kolom 2: Navigasi ── */}
-        <div>
-          <ColLabel>Navigasi</ColLabel>
-          <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {NAV_LINKS.map((link) =>
-              link.isRoute ? (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  style={{
-                    fontSize: 13,
-                    color: "#c8daf0",
-                    textDecoration: "none",
-                    padding: "5px 0",
-                    transition: "color .18s",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ece4")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#c8daf0")}
-                >
-                  {link.name}
-                </Link>
-              ) : (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  style={{
-                    fontSize: 13,
-                    color: "#c8daf0",
-                    textDecoration: "none",
-                    padding: "5px 0",
-                    transition: "color .18s",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ece4")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#c8daf0")}
-                >
-                  {link.name}
-                </a>
-              )
-            )}
-          </nav>
-        </div>
-        <SolutionsColumn />
-        <CareerColumn />
-
-        {/* ── Kolom 4: Kontak Cepat ── */}
-        <ContactColumn />
       </div>
 
-      {/* ── Bottom bar ── */}
-      <div style={{ borderTop: "1px solid #1e3a5f", background: "#0a1a32" }}>
-  <div
-    className="sig-footer-bottom"
-    style={{
-      fontSize: 11,
-      color: "#7ca0c7",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "1rem 3rem",
-      textAlign: "center",
-    }}
-  >
-    <span
-      style={{
-        fontSize: 11.5,
-        color: "#7ca0c7",
-        letterSpacing: "0.01em",
-      }}
-    >
-      © 2026 Surya Inti Gas. Hak Cipta Dilindungi Undang-Undang.
-    </span>
-  </div>
-</div>
+      {/* Corporate Footer Bottom */}
+      <div className="corporate-footer-bottom">
+        <div className="corporate-footer-bottom-content">
+          <p className="corporate-footer-copyright">
+            © 2026 PT Surya Inti Gas. {t('footer.rights')}
+          </p>
+
+          <div className="corporate-footer-legal-links">
+            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.privacyPolicy')}</Link>
+            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.termsOfService')}</Link>
+            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.cookiePolicy')}</Link>
+            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.accessibility')}</Link>
+            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.sitemap')}</Link>
+          </div>
+        </div>
+      </div>
+
     </footer>
   );
-};
+}
