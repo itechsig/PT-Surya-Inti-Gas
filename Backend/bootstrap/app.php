@@ -23,8 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // Add CORS middleware for API routes (must come before security middleware)
         $middleware->append(\App\Http\Middleware\CorsMiddleware::class);
 
-        // Temporarily disable security headers middleware to test CORS
-        // $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
+        // Add security headers middleware (now properly configured to not block API routes)
+        $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
 
         // Register IP whitelist middleware
         $middleware->alias([
