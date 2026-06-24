@@ -17,6 +17,16 @@ class SecurityHeadersMiddleware
     {
         $response = $next($request);
 
+        // Skip security headers for API routes to allow CORS
+        if ($request->is('api/*')) {
+            // Still apply basic security headers for API
+            $response->headers->set('X-Content-Type-Options', 'nosniff');
+            $response->headers->set('X-XSS-Protection', '1; mode=block');
+            $response->headers->remove('Server');
+            $response->headers->remove('X-Powered-By');
+            return $response;
+        }
+
         // Prevent clickjacking attacks
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
 
