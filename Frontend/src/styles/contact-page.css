@@ -1,233 +1,234 @@
-/* ═══════════════════════════════════════════════════════════════
-   PT SURYA INTI GAS - Contact Page
-   Corporate Style - Pure White Background
-══════════════════════════════════════════════════════════════ */
-
-/* ── Page Base ── */
-.contact-page {
-  background: #ffffff;
+/* ── Container & Grid Dasar ── */
+.clean-contact-page {
   font-family: 'DM Sans', system-ui, sans-serif;
-  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 0;
+  color: #333;
 }
 
-/* ── Section Container ── */
-.section-container {
-  max-width: 1400px;
+.clean-container {
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 40px;
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: 48px;
+.contact-hero .clean-container {
+  padding: 0 40px;
 }
 
-.section-header h2 {
+.contact-content {
+  padding: 80px 20px;
+}
+
+/* ── Contact Hero Section ── */
+.contact-hero {
+  text-align: center;
+  margin-bottom: 0;
+  padding: 120px 0 80px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.contact-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 24px;
+  border-radius: 50px;
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid rgba(96, 165, 250, 0.3);
   font-family: 'Barlow', system-ui, sans-serif;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 32px;
+}
+
+.contact-hero-title {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 800;
-  color: #0C2D5E;
-  margin: 0 0 16px;
+  color: white;
+  margin: 0 0 24px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-hero-subtitle {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 auto;
+  max-width: 800px;
+  position: relative;
+  z-index: 1;
+}
+
+.clean-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* ── Typography Umum ── */
+.section-title {
+  font-family: 'Barlow', system-ui, sans-serif;
+  color: #2b2b4d; /* Warna biru gelap / navy seperti di gambar */
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+  margin-bottom: 40px;
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
 
-.section-header p {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 1.125rem;
-  font-weight: 300;
-  color: #64748B;
-  margin: 0 auto;
-  max-width: 600px;
+.text-center {
   text-align: center;
 }
 
-/* ── Form Section ── */
-.form-section {
-  background: #ffffff;
-  padding: 120px 0 100px;
-}
-
-.form-grid {
+/* ── Kolom Kiri: Lokasi ── */
+.address-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: start;
+  gap: 30px;
+  margin-bottom: 40px;
 }
 
-.form-content {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-}
-
-/* Override ContactForm styles to match corporate design */
-.form-content .bg-white {
-  background: transparent !important;
-  border: none;
-  box-shadow: none;
-  max-width: 100%;
-  border-radius: 0;
-  padding: 32px 0 0;
-  overflow: visible;
-}
-
-.form-content .bg-gradient-to-r {
-  background: transparent !important;
-  border: none;
-  padding: 0 0 24px 0;
-  border-radius: 0;
-}
-
-.form-content .flex\.items-center\.gap-3 {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.form-content .w-10\.h-10 {
-  width: 40px;
-  height: 40px;
-  background: #f5f5f5;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.form-content .w-10\.h-10 svg {
+.address-block h3 {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 1.25rem;
   color: #0C2D5E;
+  margin-bottom: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-.form-content .text-lg\.font-semibold\.text-white {
-  color: #0C2D5E !important;
+.address-block p {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin: 0 0 10px 0;
 }
 
-.form-content .text-sm\.text-blue-100 {
-  color: #64748B !important;
+.address-block .contact-info {
+  margin-top: 15px;
+  color: #0C2D5E;
+  font-weight: 500;
 }
 
-.form-content p {
+/* ── Kolom Kanan: Form ── */
+.form-intro {
   font-family: 'DM Sans', system-ui, sans-serif;
   font-size: 1rem;
   color: #64748B;
+  text-align: center;
+  margin-bottom: 24px;
   line-height: 1.6;
 }
 
-/* WhatsApp Alternative */
-.whatsapp-alternative {
-  margin-top: 32px;
-  padding-top: 32px;
-  border-top: 1px solid #E5E7EB;
-  text-align: center;
-}
-
-.whatsapp-alternative p {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 0.9375rem;
-  color: #64748B;
-  margin: 0 0 16px;
-}
-
-.whatsapp-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 28px;
-  font-family: 'Barlow', system-ui, sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  background: #25D366;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-}
-
-.whatsapp-button:hover {
-  background: #128C7E;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-}
-
-/* ── Maps Content ── */
-.maps-content {
+.contact-form {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 15px;
 }
 
-.maps-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-}
-
-.map-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #E5E7EB;
-}
-
-.map-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid #E5E7EB;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.map-indicator {
-  width: 12px;
-  height: 12px;
-  background: #29ABE2;
-  border-radius: 50%;
-}
-
-.map-indicator.secondary {
-  background: #1565C0;
-}
-
-.map-header span {
-  font-family: 'Barlow', system-ui, sans-serif;
-  font-size: 0.9375rem;
-  font-weight: 600;
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #E3F2FD;
+  border-radius: 8px;
+  font-size: 1rem;
   color: #0C2D5E;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background: white;
 }
 
-.map-iframe {
-  height: 250px;
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #29ABE2;
+  box-shadow: 0 4px 12px rgba(41, 171, 226, 0.1);
 }
 
-/* ── Responsive Design ── */
-@media (max-width: 1024px) {
-  .form-grid {
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #94A3B8;
+}
+
+/* ── Submit Button ── */
+.submit-button {
+  background-color: #0C2D5E;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 36px;
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button:hover {
+  background-color: #29ABE2;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Responsive Mobile ── */
+@media (max-width: 900px) {
+  .clean-grid {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 40px;
+  }
+  
+  .address-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
-  .maps-grid {
-    grid-template-columns: 1fr;
+  .text-center {
+    text-align: left;
+  }
+
+  .contact-hero {
+    padding: 60px 24px;
   }
 }
 
-@media (max-width: 768px) {
-  .section-container {
-    padding: 0 20px;
+@media (max-width: 600px) {
+  .contact-hero-title {
+    font-size: clamp(2rem, 8vw, 2.5rem);
   }
 
-  .form-content {
-    padding: 0;
-  }
-
-  .maps-grid {
-    grid-template-columns: 1fr;
+  .clean-contact-page {
+    padding: 40px 16px;
   }
 }

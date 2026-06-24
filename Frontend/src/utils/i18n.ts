@@ -28,7 +28,11 @@ i18n
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage']
-    }
+    },
+    
+    // Force Indonesian as default regardless of browser detection
+    lowerCaseLng: true,
+    cleanCode: true
   });
 
 export default i18n;

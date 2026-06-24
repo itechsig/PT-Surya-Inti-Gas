@@ -1,231 +1,379 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { ArrowRight } from "lucide-react";
 
-/* ─────────────────────────────────────────────
-   HERO.TSX — PT Surya Inti Gas
-   Tema   : Minimalis, Biru & Putih
-   Video  : Ganti src di <video> tag dengan file
-            video kamu (MP4 recommended).
-───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   HERO.TSX — PT Surya Inti Gas Corporate
+   Corporate Design inspired by Air Liquide, Linde, Messer
+══════════════════════════════════════════════════════════════ */
 
 const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
-  /* ── Variables ── */
-  .hero-root {
-    --navy  : #0C2D5E;
-    --blue  : #1565C0;
-    --sky   : #29ABE2;
-    --aqua  : #38BDF8;
-    --ice   : #EFF6FF;
-    --muted : #64748B;
-    --white : #FFFFFF;
-    --ease  : cubic-bezier(0.22, 1, 0.36, 1);
-    --ff-d  : 'Barlow', system-ui, sans-serif;
-    --ff-b  : 'DM Sans', system-ui, sans-serif;
-    font-family: var(--ff-b);
+  /* ── Corporate Variables ── */
+  .hero-corporate {
+    --navy-dark  : #0f172a;
+    --navy       : #1e293b;
+    --blue-dark  : #1e3a8a;
+    --blue       : #1e40af;
+    --sky        : #3b82f6;
+    --sky-light  : #60a5fa;
+    --white      : #ffffff;
+    --slate-50   : #f8fafc;
+    --slate-100  : #f1f5f9;
+    --slate-200  : #e2e8f0;
+    --slate-600  : #475569;
+    --slate-700  : #334155;
+    --slate-800  : #1e293b;
+    --slate-900  : #0f172a;
+    
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --ff-display: 'Barlow', system-ui, sans-serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+    
+    font-family: var(--ff-body);
   }
 
-  /* ── Keyframes ── */
-  @keyframes hero-fadeUp {
-    from { opacity: 0; transform: translateY(22px); }
+  /* ── Corporate Keyframes ── */
+  @keyframes corporate-fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  @keyframes hero-lineGrow {
-    from { width: 0; opacity: 0; }
-    to   { width: 64px; opacity: 1; }
+  
+  @keyframes corporate-fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
-  @keyframes hero-gradFlow {
-    0%,100% { background-position: 0% 50%; }
+  
+  @keyframes corporate-scale {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  
+  @keyframes corporate-slideIn {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  
+  @keyframes corporate-gradient {
+    0%, 100% { background-position: 0% 50%; }
     50%      { background-position: 100% 50%; }
   }
-  @keyframes hero-pulse {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.5; transform: scale(0.75); }
+  
+  @keyframes corporate-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.05); opacity: 0.8; }
   }
 
-  /* ── Scroll progress bar ── */
-  .hero-progress {
+  /* ── Corporate Scroll Progress ── */
+  .corporate-progress {
     position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
-    height: 3px; background: rgba(255,255,255,0.08); pointer-events: none;
+    height: 3px; background: rgba(255,255,255,0.1); pointer-events: none;
   }
-  .hero-progress-fill {
+  .corporate-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--sky), var(--aqua));
-    transition: width 0.08s linear;
-    border-radius: 0 2px 2px 0;
+    background: linear-gradient(90deg, var(--sky), var(--sky-light), var(--sky));
+    background-size: 200% 100%;
+    animation: corporate-gradient 3s ease infinite;
+    transition: width 0.1s linear;
   }
 
-  /* ── Hero section ── */
-  .hero-section {
-    position: relative; min-height: 100svh;
-    display: flex; flex-direction: column; overflow: hidden;
+  /* ── Corporate Hero Section ── */
+  .corporate-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
   }
 
-  /* Video background */
-  .hero-video-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-  .hero-video {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
+  /* ── Video Background ── */
+  .corporate-video-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .corporate-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.4;
   }
 
-  /* Fallback gradient */
-  .hero-bg-fallback {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, #0C2D5E 0%, #1565C0 45%, #29ABE2 100%);
-    background-size: 300% 300%;
-    animation: hero-gradFlow 9s ease infinite;
-  }
-
-  /* Overlay — gradient dari bawah ke atas agar foto lebih hidup di bagian atas */
-  .hero-overlay {
-    position: absolute; inset: 0;
+  /* ── Corporate Overlay ── */
+  .corporate-overlay {
+    position: absolute;
+    inset: 0;
     background: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.82) 0%,
-      rgba(0, 0, 0, 0.55) 40%,
-      rgba(0, 0, 0, 0.30) 70%,
-      rgba(0, 0, 0, 0.15) 100%
+      rgba(15, 23, 42, 0.95) 0%,
+      rgba(15, 23, 42, 0.8) 30%,
+      rgba(30, 41, 59, 0.6) 60%,
+      rgba(30, 41, 59, 0.4) 85%,
+      rgba(30, 41, 59, 0.3) 100%
     );
+    z-index: 1;
   }
-  /* Overlay tambahan dari atas untuk navbar area tetap terbaca */
-  .hero-overlay-top {
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 140px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent);
-  }
-  .hero-overlay-bottom {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 200px;
-    background: linear-gradient(to top, rgba(0,0,0,0.70), transparent);
-  }
-
-  /* ── Main content ── */
-  .hero-content {
-    position: relative; z-index: 2;
-    flex: 1; display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    text-align: center; padding: 100px 5vw 72px;
+  
+  .corporate-overlay-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), transparent);
+    z-index: 1;
   }
 
-  /* Badge / eyebrow */
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 18px; border-radius: 50px;
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.22);
-    backdrop-filter: blur(8px);
-    font-family: var(--ff-d);
-    font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
-    text-transform: uppercase; color: rgba(255,255,255,0.92);
-    margin-bottom: 30px;
-    animation: hero-fadeUp 0.7s var(--ease) 0.1s both;
+  /* ── Corporate Content ── */
+  .corporate-content {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 140px 6vw 100px;
+    max-width: 1400px;
+    margin: 0 auto;
   }
-  .hero-badge-dot {
-    width: 7px; height: 7px; border-radius: 50%; background: var(--aqua);
-    animation: hero-pulse 2.2s ease-in-out infinite;
+
+  /* ── Corporate Badge ── */
+  .corporate-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 24px;
+    border-radius: 50px;
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    backdrop-filter: blur(12px);
+    font-family: var(--ff-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 40px;
+    animation: corporate-fadeUp 1s var(--ease) 0.2s both;
+  }
+  
+  .corporate-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #60a5fa;
+    animation: corporate-pulse 2s ease-in-out infinite;
     flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
   }
 
-  /* ── OPSI A: Headline — lebih besar & dominan ── */
-  .hero-h1 {
-    font-family: var(--ff-d);
-    /* Dinaikkan dari 5.6rem → 7rem agar nama jauh lebih dominan */
-    font-size: clamp(3.6rem, 9vw, 7rem);
-    font-weight: 800; line-height: 1.0;
-    letter-spacing: -0.02em; color: white;
-    text-shadow: 0 2px 28px rgba(0,0,0,0.5);
-    max-width: 820px;
-    animation: hero-fadeUp 0.8s var(--ease) 0.25s both;
+  /* ── Corporate Headline ── */
+  .corporate-h1 {
+    font-family: var(--ff-display);
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    max-width: 1200px;
+    margin: 0 0 30px 0;
+    animation: corporate-fadeUp 1.2s var(--ease) 0.4s both;
   }
-  .hero-h1 em {
-    font-style: italic; font-weight: 400;
-    color: var(--aqua);
-  }
-
-  /* ── OPSI A: Divider biru — solid, bukan fade ── */
-  .hero-line {
-    height: 3px; border-radius: 9999px;
-    /* Warna solid penuh agar lebih tegas sebagai pemisah */
-    background: var(--aqua);
-    margin: 20px auto 20px;
-    animation: hero-lineGrow 0.9s var(--ease) 0.52s both;
+  
+  .corporate-h1 em {
+    font-style: normal;
+    font-weight: 800;
+    color: var(--white);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
 
-  /* ── OPSI A: Tagline — medium italic, lebih kecil dari nama ── */
-  .hero-tagline {
-    font-family: var(--ff-d);
-    /* Dikecilkan dari 1.6rem → 1.3rem agar kontras dengan nama */
-    font-size: clamp(1rem, 2vw, 1.3rem);
-    font-weight: 300; font-style: italic;
-    color: rgba(255,255,255,0.90);
-    text-shadow: 0 1px 16px rgba(0,0,0,0.75), 0 2px 6px rgba(0,0,0,0.6);
+  /* ── Corporate Tagline ── */
+  .corporate-tagline {
+    font-family: var(--ff-display);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
     letter-spacing: 0.02em;
-    margin-top: 0;
-    animation: hero-fadeUp 0.8s var(--ease) 0.38s both;
+    max-width: 900px;
+    margin: 0 0 25px 0;
+    animation: corporate-fadeUp 1.1s var(--ease) 0.5s both;
   }
 
-  /* ── OPSI A: Body copy — singkat 2 baris, warna muted ── */
-  .hero-desc {
-    font-size: clamp(0.88rem, 1.2vw, 1rem);
-    line-height: 1.8; font-weight: 300;
-    /* Lebih muted agar tidak bersaing dengan tagline */
-    color: rgba(255,255,255,0.60);
-    text-shadow: 0 1px 8px rgba(0,0,0,0.45);
-    max-width: 500px;
-    margin-top: 16px;
-    animation: hero-fadeUp 0.8s var(--ease) 0.62s both;
+  /* ── Corporate Description ── */
+  .corporate-description {
+    font-family: var(--ff-body);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 700px;
+    margin: 0 auto 40px;
+    animation: corporate-fadeUp 1s var(--ease) 0.6s both;
   }
 
-  /* ── Stats bar ── */
-  .hero-stats {
-    position: relative; z-index: 2;
-    display: flex; align-items: stretch; flex-wrap: wrap;
-    background: rgba(10,22,40,0.65);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255,255,255,0.08);
-    animation: hero-fadeUp 0.8s var(--ease) 1s both;
+  /* ── Corporate Stats Bar ── */
+  .corporate-stats {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(30px);
+    border-top: 1px solid rgba(59, 130, 246, 0.2);
+    animation: corporate-fadeUp 1.2s var(--ease) 0.8s both;
   }
-  .hero-stat {
-    flex: 1 1 120px; padding: 22px 12px;
-    display: flex; flex-direction: column; align-items: center;
-    border-right: 1px solid rgba(255,255,255,0.07);
-    transition: background 0.25s;
+  
+  .corporate-stat {
+    flex: 1 1 180px;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s var(--ease);
+    position: relative;
+    overflow: hidden;
   }
-  .hero-stat:last-child { border-right: none; }
-  .hero-stat:hover { background: rgba(255,255,255,0.04); }
-  .hero-stat-num {
-    font-family: var(--ff-d);
-    font-size: clamp(1.7rem, 2.8vw, 2.2rem);
-    font-weight: 800; color: white; line-height: 1;
-    letter-spacing: -0.01em;
+  
+  .corporate-stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
   }
-  .hero-stat-num .accent { color: var(--aqua); font-size: 0.65em; font-weight: 600; }
-  .hero-stat-label {
-    font-family: var(--ff-d);
-    font-size: 10.5px; font-weight: 600; letter-spacing: 0.15em;
-    text-transform: uppercase; color: rgba(255,255,255,0.72);
-    margin-top: 5px; text-align: center;
+  
+  .corporate-stat:last-child {
+    border-right: none;
+  }
+  
+  .corporate-stat:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-5px);
+  }
+  
+  .corporate-stat:hover::before {
+    opacity: 1;
+  }
+  
+  .corporate-stat-icon {
+    width: 48px;
+    height: 48px;
+    color: #60a5fa;
+    margin-bottom: 16px;
+  }
+  
+  .corporate-stat-num {
+    font-family: var(--ff-display);
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .corporate-stat-num .accent {
+    color: #60a5fa;
+    font-size: 0.5em;
+    font-weight: 700;
+  }
+  
+  .corporate-stat-label {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 12px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Corporate Scroll Indicator ── */
+  .corporate-scroll {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    animation: corporate-pulse 2s ease-in-out infinite;
+  }
+  
+  .corporate-scroll-icon {
+    width: 40px;
+    height: 40px;
+    color: rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s var(--ease);
+  }
+  
+  .corporate-scroll-icon:hover {
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.5);
   }
 
   /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .corporate-stat {
+      flex: 1 1 50%;
+      padding: 32px 20px;
+    }
+    
+    .corporate-stat:nth-child(2) {
+      border-right: none;
+    }
+    
+    .corporate-stat:nth-child(4) {
+      border-right: none;
+    }
+  }
+
   @media (max-width: 768px) {
-    .hero-stat { flex: 1 1 50%; }
-    .hero-stat:nth-child(2) { border-right: none; }
+    .corporate-stat {
+      flex: 1 1 100%;
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .corporate-stat:last-child {
+      border-bottom: none;
+    }
   }
 `;
 
-/* ══════════════════════════════════════════════
-   MAIN HERO COMPONENT
-══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   CORPORATE HERO COMPONENT
+══════════════════════════════════════════════════════════════ */
 export function Hero() {
-  const { t } = useTranslation();
   const [scrollPct, setScrollPct] = useState(0);
 
-  /* ── Scroll listener ── */
+  /* Scroll listener */
   useEffect(() => {
     const onScroll = () => {
-      const sy  = window.scrollY;
+      const sy = window.scrollY;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setScrollPct(max > 0 ? (sy / max) * 100 : 0);
     };
@@ -234,62 +382,64 @@ export function Hero() {
   }, []);
 
   return (
-    <div className="hero-root">
+    <div className="hero-corporate">
       <style>{css}</style>
 
-      {/* ── Scroll progress ── */}
-      <div className="hero-progress">
-        <div className="hero-progress-fill" style={{ width: `${scrollPct}%` }} />
+      {/* Corporate Scroll Progress */}
+      <div className="corporate-progress">
+        <div className="corporate-progress-fill" style={{ width: `${scrollPct}%` }} />
       </div>
 
-      {/* ══ HERO SECTION ══ */}
-      <section id="hero" className="hero-section">
+      {/* Corporate Hero Section */}
+      <section className="corporate-hero">
 
-        {/* ── Video Background ── */}
-        <div className="hero-video-wrap">
+        {/* Video Background */}
+        <div className="corporate-video-wrap">
           <video
-            className="hero-video"
+            className="corporate-video"
             autoPlay muted loop playsInline
-
           >
             <source src="/hero-video.mp4" type="video/mp4" />
           </video>
         </div>
 
-        {/* Overlay */}
-        <div className="hero-overlay" />
-        <div className="hero-overlay-top" />
-        <div className="hero-overlay-bottom" />
+        {/* Corporate Overlay */}
+        <div className="corporate-overlay" />
+        <div className="corporate-overlay-top" />
 
-        {/* ── Content ── */}
-        <div className="hero-content">
+        {/* Corporate Content */}
+        <div className="corporate-content">
 
-          {/* Eyebrow badge */}
-          <div className="hero-badge">
-            <span className="hero-badge-dot" />
-            {t('hero.badge')}
+          {/* Corporate Badge */}
+          <div className="corporate-badge">
+            <span className="corporate-badge-dot" />
+            Solusi Industri Gas Terpercaya
           </div>
 
-          {/* OPSI A: Nama perusahaan — sangat besar & dominan */}
-          <h1 className="hero-h1">
+          {/* Corporate Headline */}
+          <h1 className="corporate-h1">
             Surya Inti <em>Gas</em>
           </h1>
 
-          {/* OPSI A: Divider biru solid sebagai pemisah */}
-          <div className="hero-line" style={{ width: 64 }} />
-
-          {/* OPSI A: Tagline — ukuran menengah, italic, berbeda dari nama */}
-          <div className="hero-tagline">
-            {t('hero.tagline')}
+          {/* Corporate Tagline */}
+          <div className="corporate-tagline">
+            Solusi gas inovatif dan berkelanjutan untuk masa depan industri Indonesia
           </div>
 
-          {/* OPSI A: Body copy singkat 2 baris, warna muted */}
-          <p className="hero-desc">
-            Distributor gas industri & medis terpercaya di Indonesia —<br />
-            Oksigen, Nitrogen, dan gas khusus untuk manufaktur, medis, dan energi.
+          {/* Corporate Description */}
+          <p className="corporate-description">
+            Sejak 2003, Surya Inti Gas telah menjadi mitra terpercaya dalam penyediaan gas industri di Indonesia. Dengan dukungan teknologi, jaringan distribusi yang luas, serta komitmen terhadap kualitas dan pelayanan, kami menghadirkan solusi gas industri untuk sektor manufaktur, kesehatan, energi, dan infrastruktur dengan pengiriman yang andal dan tepat waktu.
           </p>
 
         </div>
+
+        {/* Corporate Scroll Indicator */}
+        <div className="corporate-scroll">
+          <div className="corporate-scroll-icon">
+            <ArrowRight size={20} style={{ transform: 'rotate(90deg)' }} />
+          </div>
+        </div>
+
       </section>
 
     </div>

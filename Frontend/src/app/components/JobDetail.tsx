@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MapPin, ArrowLeft, Send, Calendar, Building, Briefcase } from 'lucide-react';
@@ -42,7 +40,7 @@ export function JobDetail() {
         "Mampu bekerja dengan target dan under pressure",
         "Berdomisili di Sidoarjo atau sekitarnya"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 2,
@@ -61,7 +59,7 @@ export function JobDetail() {
         "Bersedia bekerja di lapangan dan perjalanan dinas",
         "Memahami standar keselamatan kerja"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 3,
@@ -80,7 +78,7 @@ export function JobDetail() {
         "Mampu bekerja dalam tim maupun individu",
         "Berdomisili di Balikpapan"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 4,
@@ -99,7 +97,7 @@ export function JobDetail() {
         "Jujur, disiplin, dan bertanggung jawab",
         "Bersedia bekerja dengan shift"
       ],
-      deadline: "2024-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 5,
@@ -118,7 +116,7 @@ export function JobDetail() {
         "Teliti dan detail dalam pemeriksaan",
         "Bersedia bekerja di area produksi"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 6,
@@ -137,7 +135,7 @@ export function JobDetail() {
         "Kreatif dalam membuat konten marketing",
         "Berdomisili di Balikpapan"
       ],
-      deadline: "2026-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 7,
@@ -156,7 +154,7 @@ export function JobDetail() {
         "Memiliki sertifikat forklift diutamakan",
         "Mampu membuat laporan inventory dan KPI"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 8,
@@ -175,7 +173,7 @@ export function JobDetail() {
         "Kemampuan leadership dan komunikasi yang kuat",
         "Berdomisili di Balikpapan"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     },
     {
       id: 9,
@@ -194,7 +192,7 @@ export function JobDetail() {
         "Mampu melakukan audit keselamatan dan risiko assessment",
         "Bersedia bekerja di area operasional"
       ],
-      deadline: "2025-12-31"
+      deadline: "2027-12-30"
     }
   ];
 

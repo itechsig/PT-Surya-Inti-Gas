@@ -1,10 +1,41 @@
 {
   "header": {
     "home": "Home",
-    "about": "About Us",
+    "about": "About",
+    "companyProfile": "Company Profile",
+    "leadership": "Leadership",
+    "ourValues": "Our Values",
+    "facilities": "Facilities",
+    "distribution": "Distribution Network",
+    "quality": "Quality Standards",
     "productsServices": "Products & Services",
+    "industrialMedical": "Industrial & Medical (Gas & Liquid)",
+    "specialityMixed": "Speciality & Mixed Gas",
+    "colorCode": "Color Code High Pressure Gas Supply",
+    "package": "Package High Pressure Gas and Liquid Supply",
+    "assistGas": "Assist Gas for Laser Cutting",
+    "cryogenicTransport": "Cryogenic Transport Tank",
+    "regulatorValves": "Regulator and Valves",
+    "medicalGasEquipment": "Medical Gas Supply Equipment",
+    "industrialGases": "Industrial Gases",
+    "medicalGases": "Medical Gases",
+    "specialGases": "Special Gases",
+    "equipment": "Equipment",
+    "onsiteGeneration": "On-site Generation",
+    "cylinderManagement": "Cylinder Management",
+    "technicalSupport": "Technical Support",
+    "emergencyService": "Emergency Service",
     "products": "Products",
     "services": "Services",
+    "sustainability": "Sustainability",
+    "environmental": "Environmental",
+    "safety": "Safety",
+    "social": "Social Impact",
+    "cleanEnergy": "Clean Energy",
+    "efficiency": "Efficiency",
+    "technology": "Technology",
+    "investors": "Investors",
+    "news": "News",
     "contact": "Contact",
     "career": "Career",
     "gallery": "Gallery",
@@ -662,30 +693,49 @@
     }
   },
   "footer": {
-    "description": "PT Surya Inti Gas - Trusted partner for industrial gas solutions in Indonesia since 2003.",
-    "productsOffered": "speciality gas, cryogenic equipment, and dry ice throughout Indonesia.",
+    "description": "PT Surya Inti Gas is a leader in providing innovative industrial and medical gas solutions to drive productivity and sustainability in Indonesia's industries since 2003.",
+    "tagline": "Corporate Website",
     "quickLinks": "Quick Links",
-    "services": "Services",
+    "aboutUs": "About Us",
+    "products": "Products",
     "contact": "Contact",
-    "contactUs": "Contact Us",
-    "contactDescription": "Need a quote or product information? Our team is ready to help you.",
-    "categories": {
-      "industrialMedicalGas": "Industrial & Medical Gas",
-      "professionalInstallation": "Professional Installation",
-      "products": "Products",
-      "services": "Services",
-      "gasCylinders": "Gas & Cylinders",
-      "gasInstallation": "Gas Installation"
+    "about": {
+      "title": "About Us",
+      "companyProfile": "Company Profile",
+      "leadership": "Leadership",
+      "values": "Company Values",
+      "facilities": "Facilities",
+      "distribution": "Distribution Network"
     },
+    "product": {
+      "title": "Products",
+      "industrialGas": "Industrial Gas",
+      "medicalGas": "Medical Gas",
+      "specialGas": "Special Gas",
+      "equipment": "Equipment",
+      "services": "Services"
+    },
+    "quickLinkItems": {
+      "career": "Careers",
+      "contactUs": "Contact Us",
+      "aboutUs": "About Us",
+      "products": "Products"
+    },
+    "legal": {
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "cookiePolicy": "Cookie Policy",
+      "accessibility": "Accessibility",
+      "sitemap": "Sitemap"
+    },
+    "rights": "All Rights Reserved",
     "social": {
       "facebook": "Facebook",
       "instagram": "Instagram",
       "linkedin": "LinkedIn",
-      "whatsapp": "WhatsApp"
-    },
-    "rights": "All Rights Reserved",
-    "tagline": "Trusted Gas Solutions",
-    "version": "v1.0.0"
+      "twitter": "Twitter",
+      "youtube": "YouTube"
+    }
   },
   "portfolio": {
     "showcase": "Project Showcase",

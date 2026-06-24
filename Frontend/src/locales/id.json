@@ -2,9 +2,40 @@
   "header": {
     "home": "Beranda",
     "about": "Tentang Kami",
-    "productsServices": "Produk&Layanan",
+    "companyProfile": "Profil Perusahaan",
+    "leadership": "Kepemimpinan",
+    "ourValues": "Nilai-Nilai Kami",
+    "facilities": "Fasilitas",
+    "distribution": "Jaringan Distribusi",
+    "quality": "Standar Kualitas",
+    "productsServices": "Produk & Layanan",
+    "industrialMedical": "Industrial & Medical (Gas & Cair)",
+    "specialityMixed": "Speciality & Mixed Gas",
+    "colorCode": "Color Code High Pressure Gas Supply",
+    "package": "Package High Pressure Gas and Liquid Supply",
+    "assistGas": "Assist Gas for Laser Cutting",
+    "cryogenicTransport": "Cryogenic Transport Tank",
+    "regulatorValves": "Regulator dan Velves",
+    "medicalGasEquipment": "Medical Gas Supply Equipment",
+    "industrialGases": "Gas Industri",
+    "medicalGases": "Gas Medis",
+    "specialGases": "Gas Spesial",
+    "equipment": "Peralatan",
+    "onsiteGeneration": "Generasi On-site",
+    "cylinderManagement": "Manajemen Tabung",
+    "technicalSupport": "Dukungan Teknis",
+    "emergencyService": "Layanan Darurat",
     "products": "Produk",
     "services": "Layanan",
+    "sustainability": "Keberlanjutan",
+    "environmental": "Lingkungan",
+    "safety": "Keselamatan",
+    "social": "Dampak Sosial",
+    "cleanEnergy": "Energi Bersih",
+    "efficiency": "Efisiensi",
+    "technology": "Teknologi",
+    "investors": "Investor",
+    "news": "Berita",
     "contact": "Kontak",
     "career": "Karir",
     "gallery": "Galeri",
@@ -669,30 +700,49 @@
     }
   },
   "footer": {
-    "description": "PT Surya Inti Gas - Mitra terpercaya untuk solusi gas industri di Indonesia sejak 2003.",
-    "productsOffered": "speciality gas, cryogenic equipment, dan dry ice di seluruh Indonesia.",
+    "description": "PT Surya Inti Gas adalah pemimpin dalam penyediaan solusi gas industri dan medis yang berinovasi untuk mendorong produktivitas dan keberlanjutan industri Indonesia sejak 2003.",
+    "tagline": "Situs Web Perusahaan",
     "quickLinks": "Tautan Cepat",
-    "services": "Layanan",
+    "aboutUs": "Tentang Kami",
+    "products": "Produk",
     "contact": "Kontak",
-    "contactUs": "Hubungi Kami",
-    "contactDescription": "Butuh penawaran atau informasi produk? Tim kami siap membantu Anda.",
-    "categories": {
-      "industrialMedicalGas": "Gas Industri & Medis",
-      "professionalInstallation": "Instalasi Profesional",
-      "products": "Produk",
-      "services": "Layanan",
-      "gasCylinders": "Gas & Tabung",
-      "gasInstallation": "Instalasi Gas"
+    "about": {
+      "title": "Tentang Kami",
+      "companyProfile": "Profil Perusahaan",
+      "leadership": "Kepemimpinan",
+      "values": "Nilai Perusahaan",
+      "facilities": "Fasilitas",
+      "distribution": "Jaringan Distribusi"
     },
+    "product": {
+      "title": "Produk",
+      "industrialGas": "Gas Industri",
+      "medicalGas": "Gas Medis",
+      "specialGas": "Gas Khusus",
+      "equipment": "Peralatan",
+      "services": "Layanan"
+    },
+    "quickLinkItems": {
+      "career": "Karir",
+      "contactUs": "Hubungi Kami",
+      "aboutUs": "Tentang Kami",
+      "products": "Produk"
+    },
+    "legal": {
+      "privacyPolicy": "Kebijakan Privasi",
+      "termsOfService": "Syarat & Ketentuan",
+      "cookiePolicy": "Kebijakan Cookie",
+      "accessibility": "Aksesibilitas",
+      "sitemap": "Peta Situs"
+    },
+    "rights": "Hak Cipta Dilindungi",
     "social": {
       "facebook": "Facebook",
       "instagram": "Instagram",
       "linkedin": "LinkedIn",
-      "whatsapp": "WhatsApp"
-    },
-    "rights": "Hak Cipta Dilindungi",
-    "tagline": "Solusi Gas Terpercaya",
-    "version": "v1.0.0"
+      "twitter": "Twitter",
+      "youtube": "YouTube"
+    }
   },
   "portfolio": {
     "showcase": "Showcase Proyek",

@@ -1,90 +1,76 @@
-import { ContactForm } from "./ContactForm";
-import { ArrowRight, MessageCircle } from "lucide-react";
 import '../../styles/contact-page.css';
 
 export const ContactPage = () => {
-  const whatsappNumber = "628123456789"; // Ganti dengan nomor WhatsApp resmi
-
   return (
-    <div className="contact-page">
-      {/* Contact Form Section */}
-      <div className="form-section">
-        <div className="section-container">
-          <div className="form-grid">
-            <div className="form-content">
-              <div className="section-header">
-                <h2>Kirim Pesan</h2>
-                <p>Isi formulir di bawah ini untuk mengirim pesan kepada tim kami</p>
-              </div>
-              <ContactForm />
-              
-              {/* WhatsApp Alternative */}
-              <div className="whatsapp-alternative">
-                <p>Atau hubungi kami langsung via WhatsApp:</p>
-                <a
-                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Halo, saya ingin bertanya tentang layanan gas industri PT Surya Inti Gas.')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="whatsapp-button"
-                >
-                  <MessageCircle size={24} />
-                  <span>Chat WhatsApp</span>
-                  <ArrowRight size={20} />
-                </a>
-              </div>
-            </div>
+    <div className="clean-contact-page">
 
-            {/* Maps Section */}
-            <div className="maps-content">
-              <div className="section-header">
-                <h2>Lokasi Kantor</h2>
-                <p>Kunjungi kantor kami di lokasi strategis</p>
-              </div>
-              
-              <div className="maps-grid">
-                <div className="map-card">
-                  <div className="map-header">
-                    <div className="map-indicator"></div>
-                    <span>Kantor Pusat - Sidoarjo</span>
-                  </div>
-                  <div className="map-iframe">
-                    <iframe
-                      title="Kantor Pusat - Sidoarjo"
-                      src="https://www.google.com/maps?q=PT+Surya+Inti+Gas+Sidoarjo&output=embed"
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                    />
-                  </div>
-                </div>
-
-                <div className="map-card">
-                  <div className="map-header">
-                    <div className="map-indicator secondary"></div>
-                    <span>Kantor Cabang - Balikpapan</span>
-                  </div>
-                  <div className="map-iframe">
-                    <iframe
-                      title="Kantor Cabang - Balikpapan"
-                      src="https://www.google.com/maps?q=PT+Surya+Inti+Gas+Balikpapan&output=embed"
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Hero Section */}
+      <div className="contact-hero">
+        <div className="clean-container">
+          <div className="contact-hero-badge">Kontak</div>
+          <h1 className="contact-hero-title">Hubungi Kami</h1>
+          <p className="contact-hero-subtitle">Kami siap membantu Anda dengan solusi gas industri terbaik</p>
         </div>
       </div>
 
+      <div className="clean-container contact-content">
+        <div className="clean-grid">
+          
+          {/* Kolom Kiri: Lokasi & Gambar */}
+          <div className="location-column">
+            <h2 className="section-title">Lokasi Kami</h2>
+            
+            <div className="address-grid">
+              {/* Alamat Sidoarjo */}
+              <div className="address-block">
+                <h3>Kantor Sidoarjo</h3>
+                <p>
+                  Komp. Perg. & Industri Safe N" Lock,<br />
+                  Blok V1 - 3223, 3225, 3232, 3233<br />
+                  Jl. Lingkar Timur KM. 5.5<br />
+                  Rangkah Kidul, Sidoarjo<br />
+                  Jawa Timur 61232
+                </p>
+                <p className="contact-info">
+                  Phone 081233906378
+                </p>
+              </div>
+
+              {/* Alamat Balikpapan */}
+              <div className="address-block">
+                <h3>Kantor Balikpapan</h3>
+                <p>
+                  Jl. AMD Projakal Kariangau Km. 5.5,<br />
+                  RT 046, Kelurahan Graha Indah,<br />
+                  Kecamatan Balikpapan Utara,<br />
+                  Kota Balikpapan, Kalimantan Timur
+                </p>
+                <p className="contact-info">
+                  Phone +62 542 8531991<br />
+                  Fax +62 542 8532382
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Kolom Kanan: Form Kontak */}
+          <div className="form-column">
+            <h2 className="section-title text-center">Kirim Pesan</h2>
+            <p className="form-intro">Isi formulir di bawah ini dan tim kami akan segera menghubungi Anda</p>
+            
+            <form className="contact-form">
+              <input type="text" placeholder="Your Name" required />
+              <input type="email" placeholder="Your Email" required />
+              <input type="text" placeholder="Company Name" />
+              <input type="text" placeholder="Subject" required />
+              <textarea placeholder="Message" rows={6} required></textarea>
+              
+              <button type="submit" className="submit-button">SEND</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
     </div>
   );
 };
