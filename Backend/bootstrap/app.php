@@ -20,6 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'api/chat/stream',
         ]);
 
+        // Add CORS middleware for API routes
+        $middleware->append(\App\Http\Middleware\CorsMiddleware::class);
+
         // Add security headers middleware
         $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
 
