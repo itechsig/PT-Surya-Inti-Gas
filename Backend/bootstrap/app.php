@@ -20,10 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'api/chat/stream',
         ]);
 
-        // Add CORS middleware for API routes (must come before security middleware)
+        // Add CORS middleware for API routes
         $middleware->append(\App\Http\Middleware\CorsMiddleware::class);
 
-        // Add security headers middleware (now properly configured to not block API routes)
+        // Add security headers middleware
         $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
 
         // Register IP whitelist middleware

@@ -15,8 +15,14 @@ class CorsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Allow all origins for now to ensure it works in production
-        $allowedOrigin = $request->header('Origin') ?: '*';
+        // Get allowed origins from environment variable (comma-separated)
+        $allowedOrigins = env('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,https://pt-surya-inti-gas.vercel.app');
+        $originsArray = array_map('trim', explode(',', $allowedOrigins));
+        $requestOrigin = $request->header('Origin');
+
+        // For development/production, allow the origin if it's in the list
+        // If not found, use the first origin as fallback
+        $allowedOrigin = in_array($requestOrigin, $originsArray) ? $requestOrigin : $originsArray[0];
 
         // Handle preflight OPTIONS requests
         if ($request->isMethod('OPTIONS')) {
