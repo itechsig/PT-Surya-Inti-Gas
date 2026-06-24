@@ -91,7 +91,7 @@ const productCategories: ProductCategories = {
             id: 'acetylene',
             title: 'Acetylene (C2H2)',
             description: 'Gas asetilena untuk pengelasan dan pemotongan logam',
-            image: '/images/products/20260618_133830.webp'
+            image: '/images/products/Acetylene.webp'
           },
           {
             id: 'ethylene-oxide',
@@ -103,19 +103,19 @@ const productCategories: ProductCategories = {
             id: 'oxygen',
             title: 'Oksigen (O2)',
             description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
-            image: '/images/products/20260618_133851.webp'
+            image: '/images/products/Oxygen.webp'
           },
           {
             id: 'nitrogen',
             title: 'Nitrogen (N2)',
             description: 'Gas nitrogen untuk inerting, blanketing, dan pendinginan',
-            image: '/images/products/20260618_134003.webp'
+            image: '/images/products/Nitrogen.webp'
           },
           {
             id: 'argon',
             title: 'Argon (Ar)',
             description: 'Gas argon untuk pengelasan TIG dan aplikasi elektronik',
-            image: '/images/products/20260618_134122.webp'
+            image: '/images/products/Argon.webp'
           },
           {
             id: 'hydrogen',
@@ -132,7 +132,7 @@ const productCategories: ProductCategories = {
             id: 'helium',
             title: 'Helium (He)',
             description: 'Gas helium untuk aplikasi medis, industri, dan penelitian',
-            image: '/images/products/20260618_134145.webp'
+            image: '/images/products/Helium.webp'
           },
           {
             id: 'sulfur-hexaflouride',
@@ -144,7 +144,7 @@ const productCategories: ProductCategories = {
             id: 'mixed-gas',
             title: 'Mixed Gas (Gas Campur)',
             description: 'Gas campuran khusus untuk aplikasi industri tertentu',
-            image: '/images/products/20260618_134223.webp'
+            image: '/images/products/Mix_gas.webp'
           }
         ]
       }
@@ -157,19 +157,19 @@ const productCategories: ProductCategories = {
             id: 'color-code-acetylene',
             title: 'Acetylene',
             description: 'Tabung gas asetilena dengan color code standar',
-            image: '/images/products/20260618_134247.webp'
+            image: '/images/products/Acetylene.webp'
           },
           {
             id: 'color-code-special',
             title: 'Special Gas Cylinder',
             description: 'Tabung gas khusus dengan color code',
-            image: '/images/products/20260618_134339.webp'
+            image: '/images/products/Special_gas_.webp'
           },
           {
             id: 'color-code-medical',
             title: 'Medical Gas Cylinder',
             description: 'Tabung gas medis dengan color code standar kesehatan',
-            image: '/images/products/20260618_134402.webp'
+            image: '/images/products/Medical_Gas_Cylinder.webp'
           },
           {
             id: 'color-code-industrial',
@@ -192,37 +192,37 @@ const productCategories: ProductCategories = {
             id: 'cradle-3x2',
             title: 'Cradle (3x2)',
             description: 'Rangka cradle 3x2 untuk penyimpanan tabung gas',
-            image: '/images/products/20260618_134454.webp'
+            image: '/images/products/Craddle_3x2.webp'
           },
           {
             id: 'cradle-4x4',
             title: 'Cradle (4x4)',
             description: 'Rangka cradle 4x4 kapasitas besar',
-            image: '/images/products/20260618_134538.webp'
+            image: '/images/products/Craddle_4x4.webp'
           },
           {
             id: 'cryogenic-dewars',
             title: 'Cryogenic Dewars',
             description: 'Dewars kriogenik untuk penyimpanan gas cair',
-            image: '/images/products/20260618_134547.webp'
+            image: '/images/products/Cryogenic_Dewar.webp'
           },
           {
             id: 'vessel-gas-liquid',
             title: 'Vessel Gas Liquid',
             description: 'Vessel untuk penyimpanan gas cair',
-            image: '/images/products/20260618_135022.webp'
+            image: '/images/products/VGL.webp'
           },
           {
             id: 'microbulk-tank',
             title: 'Microbulk Tank',
             description: 'Tangki microbulk untuk supply gas kontinyu',
-            image: '/images/products/20260618_135052.webp'
+            image: '/images/products/Microbulk_.webp'
           },
           {
             id: 'vertical-storage-tank',
             title: 'Vertical Storage Tank',
             description: 'Tangki penyimpanan vertikal',
-            image: '/images/products/20260618_135257.webp'
+            image: '/images/products/Vertical_Tank.webp'
           }
         ]
       },
@@ -256,19 +256,19 @@ const productCategories: ProductCategories = {
             id: 'liquid-filling-transfer',
             title: 'Liquid Filling Transfer',
             description: 'Sistem transfer pengisian gas cair',
-            image: '/images/products/20260618_135429.webp'
+            image: '/images/products/Liquid_Filling.webp'
           },
           {
             id: 'cryogenic-iso-tank',
             title: 'Cryogenic ISO Tank',
             description: 'Tangki ISO kriogenik untuk transport',
-            image: '/images/products/20260618_135449.webp'
+            image: '/images/products/ISO_Tank.webp'
           },
           {
             id: 'cryogenic-road-tank',
             title: 'Cryogenic Road Tank',
             description: 'Tangki jalan kriogenik untuk distribusi',
-            image: '/images/products/20260618_135526.webp'
+            image: '/images/products/Road_tank.webp'
           }
         ]
       },
@@ -279,25 +279,25 @@ const productCategories: ProductCategories = {
             id: 'cryogenic-gas-valve',
             title: 'Cryogenic & Gas Valve',
             description: 'Valve kriogenik dan gas untuk berbagai aplikasi',
-            image: '/images/products/20260618_135557.webp'
+            image: '/images/products/Cryogenic&Valve.webp'
           },
           {
             id: 'gas-regulator-laser',
             title: 'Gas Regulator for Cutting Gas Laser Machine',
             description: 'Regulator gas khusus untuk mesin laser cutting',
-            image: '/images/products/20260618_135725.webp'
+            image: '/images/products/Gas_Regulator_For_Cutting.webp'
           },
           {
             id: 'high-pressure-regulator',
             title: 'High Pressure Regulator',
             description: 'Regulator tekanan tinggi untuk aplikasi industri',
-            image: '/images/products/20260618_135731.webp'
+            image: '/images/products/High_Pressure_Regulator.webp'
           },
           {
             id: 'high-pressure-gas-valve',
             title: 'High Pressure Gas Valve',
             description: 'Valve gas tekanan tinggi untuk sistem gas',
-            image: '/images/products/20260618_135916.webp'
+            image: '/images/products/High_Pressure_Gas_Valve.webp'
           }
         ]
       },
