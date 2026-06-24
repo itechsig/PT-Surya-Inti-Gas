@@ -18,5 +18,5 @@ Allow: /fonts/
 # Crawl delay for friendly crawling
 Crawl-delay: 1
 
-# Sitemap location
-Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap location (Frontend is hosted on Vercel)
+Sitemap: https://pt-surya-inti-gas.vercel.app/sitemap.xml

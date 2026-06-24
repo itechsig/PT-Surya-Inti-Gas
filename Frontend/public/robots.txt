@@ -1,5 +1,4 @@
 # robots.txt for PT Surya Inti Gas
-# DEVELOPMENT NOTE: Replace YOUR-DOMAIN.com with your actual domain after hosting
 
 User-agent: *
 Allow: /
@@ -25,7 +24,7 @@ Allow: /
 # Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://YOUR-DOMAIN.com/sitemap.xml
+Sitemap: https://pt-surya-inti-gas.vercel.app/sitemap.xml
 
 # Additional SEO directives
 # Allow indexing of images
