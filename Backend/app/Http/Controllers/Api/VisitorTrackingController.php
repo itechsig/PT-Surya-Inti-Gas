@@ -16,6 +16,19 @@ class VisitorTrackingController extends Controller
      */
     public function track(Request $request): JsonResponse
     {
+        // Add CORS headers directly
+        $origin = $request->header('Origin') ?: '*';
+        
+        // Handle preflight OPTIONS request
+        if ($request->isMethod('OPTIONS')) {
+            return response('', 200)
+                ->header('Access-Control-Allow-Origin', $origin)
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+                ->header('Access-Control-Allow-Credentials', 'true')
+                ->header('Access-Control-Max-Age', '86400');
+        }
+        
         try {
             $sessionId = $request->input('session_id') ?? $this->generateSessionId();
             $ipAddress = $request->ip();
@@ -37,7 +50,11 @@ class VisitorTrackingController extends Controller
                     'success' => false,
                     'message' => 'Access denied. Your IP address has been blocked.',
                     'error_code' => 'IP_BLOCKED'
-                ], 403);
+                ], 403)
+                ->header('Access-Control-Allow-Origin', $origin)
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+                ->header('Access-Control-Allow-Credentials', 'true');
             }
             
             // Parse user agent to get browser and OS
@@ -69,7 +86,11 @@ class VisitorTrackingController extends Controller
                         'session_id' => $existingVisitor->session_id,
                         'is_returning' => true
                     ]
-                ]);
+                ])
+                ->header('Access-Control-Allow-Origin', $origin)
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+                ->header('Access-Control-Allow-Credentials', 'true');
             }
             
             // Create new visitor record
@@ -103,7 +124,11 @@ class VisitorTrackingController extends Controller
                     'session_id' => $visitor->session_id,
                     'is_returning' => false
                 ]
-            ]);
+            ])
+            ->header('Access-Control-Allow-Origin', $origin)
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+            ->header('Access-Control-Allow-Credentials', 'true');
             
         } catch (\Exception $e) {
             Log::error('Visitor tracking error', [
@@ -114,7 +139,11 @@ class VisitorTrackingController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to track visitor'
-            ], 500);
+            ], 500)
+            ->header('Access-Control-Allow-Origin', $origin)
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+            ->header('Access-Control-Allow-Credentials', 'true');
         }
     }
 
@@ -123,6 +152,19 @@ class VisitorTrackingController extends Controller
      */
     public function trackPageView(Request $request): JsonResponse
     {
+        // Add CORS headers directly
+        $origin = $request->header('Origin') ?: '*';
+        
+        // Handle preflight OPTIONS request
+        if ($request->isMethod('OPTIONS')) {
+            return response('', 200)
+                ->header('Access-Control-Allow-Origin', $origin)
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+                ->header('Access-Control-Allow-Credentials', 'true')
+                ->header('Access-Control-Max-Age', '86400');
+        }
+        
         try {
             $sessionId = $request->input('session_id');
             
@@ -130,7 +172,11 @@ class VisitorTrackingController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Session ID required'
-                ], 400);
+                ], 400)
+                ->header('Access-Control-Allow-Origin', $origin)
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+                ->header('Access-Control-Allow-Credentials', 'true');
             }
             
             $visitor = WebsiteVisitor::where('session_id', $sessionId)->first();
@@ -139,7 +185,11 @@ class VisitorTrackingController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Visitor not found'
-                ], 404);
+                ], 404)
+                ->header('Access-Control-Allow-Origin', $origin)
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+                ->header('Access-Control-Allow-Credentials', 'true');
             }
             
             $currentPage = $request->input('current_page');
@@ -157,7 +207,11 @@ class VisitorTrackingController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Page view tracked successfully'
-            ]);
+            ])
+            ->header('Access-Control-Allow-Origin', $origin)
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+            ->header('Access-Control-Allow-Credentials', 'true');
             
         } catch (\Exception $e) {
             Log::error('Page view tracking error', [
@@ -168,7 +222,11 @@ class VisitorTrackingController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to track page view'
-            ], 500);
+            ], 500)
+            ->header('Access-Control-Allow-Origin', $origin)
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
+            ->header('Access-Control-Allow-Credentials', 'true');
         }
     }
 
