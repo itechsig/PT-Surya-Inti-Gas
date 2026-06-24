@@ -93,7 +93,7 @@ const productCategories: ProductCategories = {
             title: 'Acetylene (C2H2)',
             description: 'Gas asetilena untuk pengelasan dan pemotongan logam',
             fullDescription: 'Asetilena (C2H2) adalah gas hidrokarbon yang sangat mudah terbakar dan digunakan secara luas dalam industri pengelasan dan pemotongan logam. Gas ini memiliki suhu nyala yang sangat tinggi, mencapai 3.100°C, menjadikannya ideal untuk pengelasan oksi-asetilena dan pemotongan logam. Asetilena juga digunakan dalam sintesis kimia untuk memproduksi berbagai bahan kimia seperti plastik, karet sintetis, dan serat. PT Surya Inti Gas menyediakan asetilena berkualitas tinggi yang memenuhi standar industri untuk keamanan dan kinerja optimal.',
-            image: '/images/products/20260618_133830.webp'
+            image: '/images/products/Acetylene.webp'
           },
           {
             id: 'ethylene-oxide',
@@ -107,21 +107,21 @@ const productCategories: ProductCategories = {
             title: 'Oksigen (O2)',
             description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
             fullDescription: 'Oksigen (O2) adalah gas yang sangat penting dalam berbagai aplikasi industri dan medis. Dalam bidang medis, oksigen digunakan untuk terapi pernapasan, resusitasi, dan sebagai gas pendukung dalam anestesi. Dalam industri, oksigen berperan penting dalam proses metalurgi untuk pembakaran dan pemurnian logam, industri kimia untuk oksidasi, serta dalam pengelasan dan pemotongan logam. Oksigen juga digunakan dalam pengolahan air, pembuatan kertas, dan berbagai proses manufaktur lainnya. PT Surya Inti Gas menyediakan oksigen dengan berbagai tingkat kemurnian sesuai kebutuhan spesifik pelanggan.',
-            image: '/images/products/20260618_133851.webp'
+            image: '/images/products/Oxygen.webp'
           },
           {
             id: 'nitrogen',
             title: 'Nitrogen (N2)',
             description: 'Gas nitrogen untuk inerting, blanketing, dan pendinginan',
             fullDescription: 'Nitrogen (N2) adalah gas inert yang menyusun sekitar 78% dari atmosfer bumi. Dalam industri, nitrogen digunakan secara luas untuk proses inerting (menghilangkan oksigen untuk mencegah korosi dan ledakan), blanketing (melindungi produk cair dan padat dari oksidasi), dan pendinginan (cryogenic cooling). Nitrogen juga digunakan dalam industri makanan untuk pengawetan, dalam elektronik untuk pembuatan semikonduktor, serta dalam metalurgi untuk proses heat treatment. PT Surya Inti Gas menyediakan nitrogen dalam berbagai bentuk dan tingkat kemurnian sesuai kebutuhan aplikasi industri Anda.',
-            image: '/images/products/20260618_134003.webp'
+            image: '/images/products/Nitrogen.webp'
           },
           {
             id: 'argon',
             title: 'Argon (Ar)',
             description: 'Gas argon untuk pengelasan TIG dan aplikasi elektronik',
             fullDescription: 'Argon (Ar) adalah gas inert yang paling sering digunakan dalam pengelasan TIG (Tungsten Inert Gas) dan MIG karena kemampuannya untuk melindungi area las dari kontaminasi atmosfer. Gas ini juga digunakan dalam industri elektronik untuk pembuatan semikonduktor dan panel layar, dalam metalurgi untuk proses perlakuan panas, serta dalam industri kaca untuk produksi kaca berkualitas tinggi. Argon juga digunakan dalam analisis laboratorium sebagai gas pembawa dan dalam perlindungan logam mulia. PT Surya Inti Gas menyediakan argon dengan kemurnian tinggi untuk berbagai aplikasi industri presisi.',
-            image: '/images/products/20260618_134122.webp'
+            image: '/images/products/Argon.webp'
           },
           {
             id: 'hydrogen',
@@ -140,7 +140,7 @@ const productCategories: ProductCategories = {
             title: 'Helium (He)',
             description: 'Gas helium untuk aplikasi medis, industri, dan penelitian',
             fullDescription: 'Helium (He) adalah gas inert yang paling ringan kedua setelah hidrogen. Gas ini memiliki berbagai aplikasi penting: dalam medis digunakan untuk MRI (Magnetic Resonance Imaging), dalam industri digunakan untuk pengelasan dan leak detection, dalam penelitian sains untuk pendinginan superkonduktor, serta untuk pengisian balon dan blimp. Helium juga digunakan dalam industri elektronik untuk pembuatan serat optik dan semikonduktor. PT Surya Inti Gas menyediakan helium dengan kemurnian tinggi untuk berbagai aplikasi medis, industri, dan penelitian.',
-            image: '/images/products/20260618_134145.webp'
+            image: '/images/products/Helium.webp'
           },
           {
             id: 'sulfur-hexaflouride',
@@ -154,7 +154,7 @@ const productCategories: ProductCategories = {
             title: 'Mixed Gas (Gas Campur)',
             description: 'Gas campuran khusus untuk aplikasi industri tertentu',
             fullDescription: 'Gas campuran (Mixed Gas) adalah kombinasi berbagai gas yang diformulasikan khusus untuk aplikasi industri tertentu. Campuran ini mencakup gas calibrasi untuk instrumen pengukuran, gas proses untuk industri manufaktur, gas shielding untuk pengelasan, dan gas campuran medis untuk aplikasi kesehatan. Setiap campuran dirancang dengan komposisi yang presisi untuk memenuhi kebutuhan spesifik pelanggan. PT Surya Inti Gas menyediakan berbagai jenis gas campuran dengan komposisi yang dapat disesuaikan sesuai kebutuhan aplikasi Anda.',
-            image: '/images/products/20260618_134223.webp'
+            image: '/images/products/Mix_gas.webp'
           }
         ]
       }
@@ -168,21 +168,21 @@ const productCategories: ProductCategories = {
             title: 'Acetylene',
             description: 'Tabung gas asetilena dengan color code standar',
             fullDescription: 'Tabung gas asetilena dengan color code standar internasional untuk identifikasi gas dan keamanan. Tabung ini dirancang sesuai standar keamanan industri untuk menyimpan asetilena pada tekanan tinggi. Color code membantu dalam identifikasi cepat dan mencegah kesalahan penggunaan. PT Surya Inti Gas menyediakan tabung asetilena dengan spesifikasi material dan safety features yang memenuhi standar internasional.',
-            image: '/images/products/20260618_134247.webp'
+            image: '/images/products/Acetylene.webp'
           },
           {
             id: 'color-code-special',
             title: 'Special Gas Cylinder',
             description: 'Tabung gas khusus dengan color code',
             fullDescription: 'Tabung gas khusus dengan color code untuk gas-gas spesial yang memerlukan penanganan khusus. Tabung ini dirancang untuk menyimpan gas dengan tingkat kemurnian tinggi atau gas yang reaktif. Color code membantu dalam identifikasi jenis gas dan parameter keamanan yang diperlukan. PT Surya Inti Gas menyediakan berbagai tabung gas khusus sesuai kebutuhan aplikasi Anda.',
-            image: '/images/products/20260618_134339.webp'
+            image: '/images/products/Special_gas_.webp'
           },
           {
             id: 'color-code-medical',
             title: 'Medical Gas Cylinder',
             description: 'Tabung gas medis dengan color code standar kesehatan',
             fullDescription: 'Tabung gas medis dengan color code standar kesehatan untuk memastikan keamanan dan identifikasi yang tepat dalam aplikasi medis. Tabung ini memenuhi standar medis internasional dan dirancang untuk keamanan maksimal dalam penggunaan rumah sakit dan fasilitas kesehatan. Color code standar kesehatan memudahkan identifikasi jenis gas medis yang tepat untuk setiap aplikasi klinis.',
-            image: '/images/products/20260618_134402.webp'
+            image: '/images/products/Medical_Gas_Cylinder.webp'
           },
           {
             id: 'color-code-industrial',
@@ -208,42 +208,42 @@ const productCategories: ProductCategories = {
             title: 'Cradle (3x2)',
             description: 'Rangka cradle 3x2 untuk penyimpanan tabung gas',
             fullDescription: 'Rangka cradle 3x2 adalah sistem penyimpanan tabung gas dengan kapasitas 6 tabung (3 baris x 2 kolom). Cradle ini dirancang untuk efisiensi ruang dan kemudahan handling tabung gas. Cocok untuk fasilitas industri yang membutuhkan supply gas kontinyu dengan kapasitas sedang. PT Surya Inti Gas menyediakan cradle 3x2 dengan sistem penguncian dan safety features.',
-            image: '/images/products/20260618_134454.webp'
+            image: '/images/products/Craddle_3x2.webp'
           },
           {
             id: 'cradle-4x4',
             title: 'Cradle (4x4)',
             description: 'Rangka cradle 4x4 kapasitas besar',
             fullDescription: 'Rangka cradle 4x4 adalah sistem penyimpanan tabung gas dengan kapasitas 16 tabung (4 baris x 4 kolom). Cradle ini dirancang untuk fasilitas industri dengan konsumsi gas tinggi. Sistem ini memaksimalkan kapasitas penyimpanan dengan footprint yang efisien. PT Surya Inti Gas menyediakan cradle 4x4 dengan konstruksi kokoh dan sistem keamanan lengkap.',
-            image: '/images/products/20260618_134538.webp'
+            image: '/images/products/Craddle 4x4.webp'
           },
           {
             id: 'cryogenic-dewars',
             title: 'Cryogenic Dewars',
             description: 'Dewars kriogenik untuk penyimpanan gas cair',
             fullDescription: 'Dewars kriogenik adalah wadah isolasi vakum untuk penyimpanan gas cair pada suhu sangat rendah. Dewars ini menggunakan teknologi isolasi vakum untuk mempertahankan suhu kriogenik dan meminimalkan evaporasi. Tersedia dalam berbagai kapasitas untuk kebutuhan laboratorium, industri, dan medis. PT Surya Inti Gas menyediakan dewars kriogenik dengan standar keamanan dan efisiensi termal tinggi.',
-            image: '/images/products/20260618_134547.webp'
+            image: '/images/products/Cryogenic_Dewar.webp'
           },
           {
             id: 'vessel-gas-liquid',
             title: 'Vessel Gas Liquid',
             description: 'Vessel untuk penyimpanan gas cair',
             fullDescription: 'Vessel gas cair adalah tangki berkapasitas besar untuk penyimpanan gas cair dalam jangka waktu lama. Vessel ini dirancang dengan sistem isolasi termal dan safety features untuk mencegah evaporasi dan menjaga kualitas gas. Cocok untuk fasilitas industri dengan konsumsi gas besar. PT Surya Inti Gas menyediakan vessel gas cair dengan spesifikasi yang dapat disesuaikan dengan kebutuhan operasional.',
-            image: '/images/products/20260618_135022.webp'
+            image: '/images/products/VGL.webp'
           },
           {
             id: 'microbulk-tank',
             title: 'Microbulk Tank',
             description: 'Tangki microbulk untuk supply gas kontinyu',
             fullDescription: 'Tangki microbulk adalah solusi supply gas kontinyu yang efisien untuk fasilitas dengan konsumsi gas menengah. Sistem ini menggabungkan kemudahan cylinder dengan efisiensi bulk supply. Microbulk tank mengurangi frekuensi pengisian dan handling tabung gas. PT Surya Inti Gas menyediakan microbulk tank dengan sistem monitoring dan delivery yang terjadwal.',
-            image: '/images/products/20260618_135052.webp'
+            image: '/images/products/Microbulk_.webp'
           },
           {
             id: 'vertical-storage-tank',
             title: 'Vertical Storage Tank',
             description: 'Tangki penyimpanan vertikal',
             fullDescription: 'Tangki penyimpanan vertikal adalah solusi penyimpanan gas cair dengan desain memanjang untuk efisiensi ruang. Tangki ini cocok untuk fasilitas dengan area terbatas dan membutuhkan kapasitas penyimpanan besar. Desain vertikal meminimalkan footprint sambil memberikan kapasitas maksimal. PT Surya Inti Gas menyediakan tangki penyimpanan vertikal dengan standar keamanan industri yang ketat.',
-            image: '/images/products/20260618_135257.webp'
+            image: '/images/products/Vertical_Tank.webp'
           }
         ]
       },
@@ -281,21 +281,21 @@ const productCategories: ProductCategories = {
             title: 'Liquid Filling Transfer',
             description: 'Sistem transfer pengisian gas cair',
             fullDescription: 'Sistem transfer pengisian gas cair adalah perangkat untuk memindahkan gas cair dari storage tank ke trailer atau dewars dengan aman dan efisien. Sistem ini dilengkapi dengan valve, hose, dan control panel untuk mengontrol aliran gas cair. Mencegah evaporasi dan kebocoran selama proses transfer. PT Surya Inti Gas menyediakan sistem transfer dengan standar keamanan tinggi untuk berbagai jenis gas cair.',
-            image: '/images/products/20260618_135429.webp'
+            image: '/images/products/Liquid_Filling.webp'
           },
           {
             id: 'cryogenic-iso-tank',
             title: 'Cryogenic ISO Tank',
             description: 'Tangki ISO kriogenik untuk transport',
             fullDescription: 'Tangki ISO kriogenik adalah kontainer standar internasional untuk transport gas cair pada suhu sangat rendah. Tangki ini memenuhi standar ISO untuk transport multimoda (darat, laut, udara) dan dilengkapi dengan sistem isolasi vakum canggih. Cocok untuk distribusi gas cair antar negara atau jarak jauh. PT Surya Inti Gas menyediakan ISO tank kriogenik dengan sertifikasi internasional dan sistem monitoring.',
-            image: '/images/products/20260618_135449.webp'
+            image: '/images/products/ISO_Tank.webp'
           },
           {
             id: 'cryogenic-road-tank',
             title: 'Cryogenic Road Tank',
             description: 'Tangki jalan kriogenik untuk distribusi',
             fullDescription: 'Tangki jalan kriogenik adalah kendaraan khusus untuk distribusi gas cair melalui jalan raya. Tangki ini dirancang dengan isolasi termal yang efisien untuk mempertahankan suhu kriogenik selama perjalanan. Cocok untuk distribusi gas cair antar fasilitas industri dan lokasi konsumsi. PT Surya Inti Gas menyediakan layanan distribusi gas cair dengan armada road tank yang memenuhi standar keamanan.',
-            image: '/images/products/20260618_135526.webp'
+            image: '/images/products/Road_tank.webp'
           }
         ]
       },
@@ -307,28 +307,28 @@ const productCategories: ProductCategories = {
             title: 'Cryogenic & Gas Valve',
             description: 'Valve kriogenik dan gas untuk berbagai aplikasi',
             fullDescription: 'Valve kriogenik dan gas adalah komponen vital untuk mengontrol aliran gas dalam berbagai aplikasi suhu rendah maupun normal. Valve ini dirancang khusus untuk menahan kondisi suhu ekstrem dan tekanan tinggi. Tersedia dalam berbagai jenis seperti globe valve, ball valve, dan check valve sesuai kebutuhan aplikasi. PT Surya Inti Gas menyediakan valve dengan material berkualitas tinggi dan sertifikasi keamanan.',
-            image: '/images/products/20260618_135557.webp'
+            image: '/images/products/Cryogenic&Valve.webp'
           },
           {
             id: 'gas-regulator-laser',
             title: 'Gas Regulator for Cutting Gas Laser Machine',
             description: 'Regulator gas khusus untuk mesin laser cutting',
             fullDescription: 'Regulator gas khusus untuk mesin laser cutting dirancang untuk memberikan kontrol tekanan yang presisi untuk proses pemotongan laser. Regulator ini memastikan supply gas (nitrogen, oksigen, atau argon) yang stabil dan konsisten untuk kualitas pemotongan optimal. Dilengkapi dengan gauge dan adjustment valve untuk presisi tinggi. PT Surya Inti Gas menyediakan regulator laser cutting dengan spesifikasi yang sesuai dengan berbagai jenis mesin laser.',
-            image: '/images/products/20260618_135725.webp'
+            image: '/images/products/Gas_Regulator_For_Cutting.webp'
           },
           {
             id: 'high-pressure-regulator',
             title: 'High Pressure Regulator',
             description: 'Regulator tekanan tinggi untuk aplikasi industri',
             fullDescription: 'Regulator tekanan tinggi dirancang untuk mengontrol tekanan gas dari tabung atau manifold dengan tekanan input tinggi. Regulator ini memberikan output tekanan yang stabil dan aman untuk aplikasi industri. Cocok untuk aplikasi pengelasan, cutting, dan proses industri lainnya. PT Surya Inti Gas menyediakan regulator tekanan tinggi dengan berbagai kapasitas dan spesifikasi sesuai kebutuhan.',
-            image: '/images/products/20260618_135731.webp'
+            image: '/images/products/High_Pressure_Regulator.webp'
           },
           {
             id: 'high-pressure-gas-valve',
             title: 'High Pressure Gas Valve',
             description: 'Valve gas tekanan tinggi untuk sistem gas',
             fullDescription: 'Valve gas tekanan tinggi adalah komponen keamanan vital untuk sistem gas bertekanan tinggi. Valve ini dirancang untuk menahan tekanan tinggi dan memberikan kontrol aliran yang presisi. Tersedia dalam berbagai jenis dan material sesuai dengan jenis gas dan aplikasi. PT Surya Inti Gas menyediakan valve tekanan tinggi dengan sertifikasi keamanan dan performa yang andal.',
-            image: '/images/products/20260618_135916.webp'
+            image: '/images/products/High_Pressure_Gas_Valve.webp'
           }
         ]
       },
