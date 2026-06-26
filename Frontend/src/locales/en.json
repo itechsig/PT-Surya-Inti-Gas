@@ -40,7 +40,28 @@
     "career": "Career",
     "gallery": "Gallery",
     "comingSoon": "Coming Soon",
-    "distributor": "Gas Distributor"
+    "distributor": "Gas Distributor",
+    "megaMenu": {
+      "company": "Company",
+      "companyProfileDesc": "Vision, mission, and company history",
+      "leadershipDesc": "Management and leadership team",
+      "ourValuesDesc": "Values we uphold",
+      "operations": "Operations",
+      "facilitiesDesc": "Plants and operational facilities",
+      "distributionDesc": "National distribution network",
+      "gasProducts": "Gas Products",
+      "industrialMedicalDesc": "Industrial & Medical (Gas & Liquid)",
+      "specialityMixedDesc": "Speciality & Mixed Gas",
+      "equipmentAccessories": "Related Equipment & Accessories",
+      "colorCodeDesc": "Color Code High Pressure Gas Supply",
+      "packageDesc": "Package High Pressure Gas and Liquid Supply",
+      "assistGasDesc": "Assist Gas for Laser Cutting",
+      "cryogenicTransportDesc": "Cryogenic Transport Tank",
+      "regulatorValvesDesc": "Regulator and Valves",
+      "medicalGasEquipmentDesc": "Medical Gas Supply Equipment"
+    },
+    "language": "Language",
+    "corporate": "Corporate"
   },
   "hero": {
     "badge": "Trusted Since 2003",
@@ -698,7 +719,6 @@
     "quickLinks": "Quick Links",
     "aboutUs": "About Us",
     "products": "Products",
-    "contact": "Contact",
     "about": {
       "title": "About Us",
       "companyProfile": "Company Profile",
@@ -719,7 +739,9 @@
       "career": "Careers",
       "contactUs": "Contact Us",
       "aboutUs": "About Us",
-      "products": "Products"
+      "products": "Products",
+      "gallery": "Gallery",
+      "news": "News"
     },
     "legal": {
       "privacyPolicy": "Privacy Policy",
@@ -727,6 +749,11 @@
       "cookiePolicy": "Cookie Policy",
       "accessibility": "Accessibility",
       "sitemap": "Sitemap"
+    },
+    "contact": {
+      "phone": "081233906378",
+      "email": "salescounter.sda@suryaintigas.co.id",
+      "address": "Komp. Perg. & Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232"
     },
     "rights": "All Rights Reserved",
     "social": {

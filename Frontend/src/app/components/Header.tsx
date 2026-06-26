@@ -14,7 +14,7 @@ type NavItem = {
   isRoute?: boolean; 
   isDisabled?: boolean; 
   hasMegaMenu?: boolean;
-  megaMenuSections?: Array<{ title: string; items: Array<{ nameKey: string; href: string; description?: string }> }>;
+  megaMenuSections?: Array<{ titleKey: string; items: Array<{ nameKey: string; href: string; descriptionKey?: string }> }>;
 };
 
 const NAV_LINKS: NavItem[] = [
@@ -25,18 +25,18 @@ const NAV_LINKS: NavItem[] = [
     hasMegaMenu: true,
     megaMenuSections: [
       {
-        title: "Perusahaan",
+        titleKey: "header.megaMenu.company",
         items: [
-          { nameKey: "header.companyProfile", href: "/tentang-kami", description: "Visi, misi, dan sejarah perusahaan" },
-          { nameKey: "header.leadership", href: "/kepemimpinan", description: "Tim manajemen dan kepemimpinan" },
-          { nameKey: "header.ourValues", href: "/nilai-nilai", description: "Nilai-nilai yang kami pegang teguh" },
+          { nameKey: "header.companyProfile", href: "/tentang-kami", descriptionKey: "header.megaMenu.companyProfileDesc" },
+          { nameKey: "header.leadership", href: "/kepemimpinan", descriptionKey: "header.megaMenu.leadershipDesc" },
+          { nameKey: "header.ourValues", href: "/nilai-nilai", descriptionKey: "header.megaMenu.ourValuesDesc" },
         ]
       },
       {
-        title: "Operasi",
+        titleKey: "header.megaMenu.operations",
         items: [
-          { nameKey: "header.facilities", href: "/fasilitas", description: "Pabrik dan fasilitas operasional" },
-          { nameKey: "header.distribution", href: "/jaringan-distribusi", description: "Jaringan distribusi nasional" },
+          { nameKey: "header.facilities", href: "/fasilitas", descriptionKey: "header.megaMenu.facilitiesDesc" },
+          { nameKey: "header.distribution", href: "/jaringan-distribusi", descriptionKey: "header.megaMenu.distributionDesc" },
         ]
       }
     ]
@@ -48,21 +48,21 @@ const NAV_LINKS: NavItem[] = [
     hasMegaMenu: true,
     megaMenuSections: [
       {
-        title: "Gas Product",
+        titleKey: "header.megaMenu.gasProducts",
         items: [
-          { nameKey: "header.industrialMedical", href: "/produk?category=gas&subcategory=industrial-medical", description: "Industrial & Medical (Gas & Cair)" },
-          { nameKey: "header.specialityMixed", href: "/produk?category=gas&subcategory=speciality-mixed", description: "Speciality & Mixed Gas" },
+          { nameKey: "header.industrialMedical", href: "/produk?category=gas&subcategory=industrial-medical", descriptionKey: "header.megaMenu.industrialMedicalDesc" },
+          { nameKey: "header.specialityMixed", href: "/produk?category=gas&subcategory=speciality-mixed", descriptionKey: "header.megaMenu.specialityMixedDesc" },
         ]
       },
       {
-        title: "Related Equipment & Accessories",
+        titleKey: "header.megaMenu.equipmentAccessories",
         items: [
-          { nameKey: "header.colorCode", href: "/produk?category=equipment&subcategory=color-code", description: "Color Code High Pressure Gas Supply" },
-          { nameKey: "header.package", href: "/produk?category=equipment&subcategory=package", description: "Package High Pressure Gas and Liquid Supply" },
-          { nameKey: "header.assistGas", href: "/produk?category=equipment&subcategory=assist-gas", description: "Assist Gas for Laser Cutting" },
-          { nameKey: "header.cryogenicTransport", href: "/produk?category=equipment&subcategory=cryogenic-transport", description: "Cryogenic Transport Tank" },
-          { nameKey: "header.regulatorValves", href: "/produk?category=equipment&subcategory=regulator-valves", description: "Regulator dan Velves" },
-          { nameKey: "header.medicalGasEquipment", href: "/produk?category=equipment&subcategory=medical-gas-equipment", description: "Medical Gas Supply Equipment" },
+          { nameKey: "header.colorCode", href: "/produk?category=equipment&subcategory=color-code", descriptionKey: "header.megaMenu.colorCodeDesc" },
+          { nameKey: "header.package", href: "/produk?category=equipment&subcategory=package", descriptionKey: "header.megaMenu.packageDesc" },
+          { nameKey: "header.assistGas", href: "/produk?category=equipment&subcategory=assist-gas", descriptionKey: "header.megaMenu.assistGasDesc" },
+          { nameKey: "header.cryogenicTransport", href: "/produk?category=equipment&subcategory=cryogenic-transport", descriptionKey: "header.megaMenu.cryogenicTransportDesc" },
+          { nameKey: "header.regulatorValves", href: "/produk?category=equipment&subcategory=regulator-valves", descriptionKey: "header.megaMenu.regulatorValvesDesc" },
+          { nameKey: "header.medicalGasEquipment", href: "/produk?category=equipment&subcategory=medical-gas-equipment", descriptionKey: "header.megaMenu.medicalGasEquipmentDesc" },
         ]
       }
     ]
@@ -212,7 +212,7 @@ export const Header = () => {
                     color: isLight ? '#6b7280' : "#ffffff",
                   }}
                 >
-                  Corporate
+                  {t('header.corporate')}
                 </div>
               </div>
             </a>
@@ -263,7 +263,7 @@ export const Header = () => {
                               {link.megaMenuSections?.map((section, sectionIdx) => (
                                 <div key={sectionIdx}>
                                   <h4 className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-4" style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}>
-                                    {section.title}
+                                    {t(section.titleKey)}
                                   </h4>
                                   <div className="space-y-3">
                                     {section.items.map((item, itemIdx) => (
@@ -279,9 +279,9 @@ export const Header = () => {
                                         <div className="text-sm font-semibold text-slate-800 group-hover:text-gray-600 transition-colors mb-1" style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}>
                                           {t(item.nameKey)}
                                         </div>
-                                        {item.description && (
+                                        {item.descriptionKey && (
                                           <div className="text-xs text-slate-500 group-hover:text-slate-600 transition-colors" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-                                            {item.description}
+                                            {t(item.descriptionKey)}
                                           </div>
                                         )}
                                       </Link>
@@ -382,7 +382,7 @@ export const Header = () => {
                         SURYA INTI GAS
                       </div>
                       <div className="text-[10px] sm:text-xs text-blue-600 font-semibold tracking-wider uppercase">
-                        Corporate
+                        {t('header.corporate')}
                       </div>
                     </div>
                   </a>
@@ -407,7 +407,7 @@ export const Header = () => {
                           className="px-4 py-4 sm:py-4 text-blue-400 cursor-not-allowed"
                           style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 600 }}
                         >
-                          {t(link.nameKey)} <span className="text-xs ml-2">(Segera Hadir)</span>
+                          {t(link.nameKey)} <span className="text-xs ml-2">({t('header.comingSoon')})</span>
                         </span>
                       );
                     }
@@ -428,7 +428,7 @@ export const Header = () => {
                               {link.megaMenuSections?.map((section, sectionIdx) => (
                                 <div key={sectionIdx} className="py-4 px-4 border-b border-slate-200 last:border-0">
                                   <h4 className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-3" style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}>
-                                    {section.title}
+                                    {t(section.titleKey)}
                                   </h4>
                                   <div className="space-y-3">
                                     {section.items.map((item, itemIdx) => (
@@ -444,8 +444,8 @@ export const Header = () => {
                                         }}
                                       >
                                         <div className="font-semibold">{t(item.nameKey)}</div>
-                                        {item.description && (
-                                          <div className="text-xs text-slate-500 mt-1">{item.description}</div>
+                                        {item.descriptionKey && (
+                                          <div className="text-xs text-slate-500 mt-1">{t(item.descriptionKey)}</div>
                                         )}
                                       </Link>
                                     ))}
@@ -478,7 +478,7 @@ export const Header = () => {
 
                 <div className="mt-8 pt-6 border-t border-slate-200">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-700">Language</span>
+                    <span className="text-sm font-semibold text-slate-700">{t('header.language')}</span>
                     <LanguageSwitcher isLight={true} />
                   </div>
                 </div>

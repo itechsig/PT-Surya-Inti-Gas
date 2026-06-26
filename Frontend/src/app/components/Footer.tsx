@@ -395,7 +395,7 @@ export function Footer() {
               </a>
               <div className="corporate-footer-contact-item">
                 <MapPin />
-                Komp. Perg. & Industri Safe N" Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232
+                {t('footer.contact.address')}
               </div>
             </div>
 
@@ -475,11 +475,11 @@ export function Footer() {
               </Link>
               <Link to="/galeri" className="corporate-footer-link">
                 <ChevronRight size={16} />
-                Galeri
+                {t('footer.quickLinkItems.gallery')}
               </Link>
               <Link to="/berita" className="corporate-footer-link">
                 <ChevronRight size={16} />
-                Berita
+                {t('footer.quickLinkItems.news')}
               </Link>
               <Link to="/kontak" className="corporate-footer-link">
                 <ChevronRight size={16} />
