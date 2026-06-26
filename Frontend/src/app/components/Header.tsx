@@ -68,7 +68,8 @@ const NAV_LINKS: NavItem[] = [
     ]
   },
   { nameKey: "header.career", href: "/karir", isRoute: true },
-  { nameKey: "header.news", href: "/#news", isRoute: false },
+  { nameKey: "header.gallery", href: "/galeri", isRoute: true },
+  { nameKey: "header.news", href: "/berita", isRoute: true },
   { nameKey: "header.contact", href: "/kontak", isRoute: true },
 ];
 

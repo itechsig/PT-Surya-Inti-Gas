@@ -244,7 +244,7 @@ export function ValuesPage() {
         <div className="values-hero-content">
           <div className="values-hero-badge">Nilai Perusahaan</div>
           <h1 className="values-hero-title">
-            Nilai-nilai <span style={{ color: 'var(--sky-light)' }}>PT Surya Inti Gas</span>
+            Nilai-nilai <span style={{ color: 'var(--white)' }}>PT Surya Inti Gas</span>
           </h1>
           <p className="values-hero-description">
             Surya Inti Gas menjunjung tinggi keselamatan sebagai prioritas utama dalam setiap aktivitas operasional, didukung oleh integritas, profesionalisme, dan tanggung jawab dalam menjalankan bisnis.

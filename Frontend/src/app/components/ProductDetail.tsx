@@ -164,7 +164,7 @@ const productCategories: ProductCategories = {
           title: 'Cradle (4x4)',
           description: 'Rangka cradle 4x4 kapasitas besar',
           fullDescription: 'Rangka cradle 4x4 adalah sistem penyimpanan tabung gas dengan kapasitas 16 tabung (4 baris x 4 kolom). Cradle ini dirancang untuk fasilitas industri dengan konsumsi gas tinggi. Sistem ini memaksimalkan kapasitas penyimpanan dengan footprint yang efisien. PT Surya Inti Gas menyediakan cradle 4x4 dengan konstruksi kokoh dan sistem keamanan lengkap.',
-          image: '/images/products/Craddle 4x4.webp'
+          image: '/images/products/Craddle_4x4_fixed.webp'
         },
         {
           id: 'cryogenic-dewars',

@@ -332,7 +332,7 @@ export function AboutUsPage() {
             Tentang Kami
           </div>
           <h1 className="about-us-hero-title">
-            Mengenal Lebih Dekat <span style={{ color: 'var(--sky-light)' }}>PT Surya Inti Gas</span>
+            Mengenal Lebih Dekat <span style={{ color: 'var(--white)' }}>PT Surya Inti Gas</span>
           </h1>
           <p className="about-us-hero-description">
             Sejak 2003, kami telah menjadi mitra terpercaya dalam solusi gas industri untuk berbagai sektor di Indonesia, berkomitmen pada kualitas, inovasi, dan keberlanjutan.

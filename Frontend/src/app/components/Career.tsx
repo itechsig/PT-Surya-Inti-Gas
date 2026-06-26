@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MapPin, Eye, Send, Search, X } from 'lucide-react';
 import '../../styles/career.css';
 
@@ -212,17 +212,21 @@ export function Career() {
 
   const totalJobs = filteredOpenings.length;
 
+  const handleViewDetail = (e: React.MouseEvent, jobId: number) => {
+    e.preventDefault();
+    navigate(`/karir/${jobId}`);
+  };
+
+  const handleApply = (e: React.MouseEvent, jobId: number) => {
+    e.preventDefault();
+    navigate(`/karir/${jobId}/lamar`);
+  };
+
   const divisions = [...new Set(openings.map(job => job.division))];
   const locations = [...new Set(openings.map(job => job.location))];
   const levels = [...new Set(openings.map(job => job.level))];
 
-  const handleViewDetail = (jobId: number) => {
-    navigate(`/karir/${jobId}`);
-  };
 
-  const handleApply = (jobId: number) => {
-    navigate(`/karir/${jobId}/lamar`);
-  };
 
   const clearFilters = () => {
     setSearchQuery('');
@@ -420,21 +424,32 @@ export function Career() {
                     </div>
                     <div className="job-footer">
                       <div className="job-buttons">
-                        <button
-                          onClick={() => handleViewDetail(job.id)}
+                        <Link
+                          to={`/karir/${job.id}`}
                           className="detail-button"
+                          onClick={(e) => handleViewDetail(e, job.id)}
                         >
                           <Eye size={16} />
                           Lihat Detail
-                        </button>
-                        <button
-                          onClick={() => handleApply(job.id)}
-                          className={`apply-button ${deadlinePassed ? 'disabled' : ''}`}
-                          disabled={deadlinePassed}
-                        >
-                          <Send size={16} />
-                          {deadlinePassed ? 'Ditutup' : 'Lamar'}
-                        </button>
+                        </Link>
+                        {deadlinePassed ? (
+                          <button
+                            className="apply-button disabled"
+                            disabled
+                          >
+                            <Send size={16} />
+                            Ditutup
+                          </button>
+                        ) : (
+                          <Link
+                            to={`/karir/${job.id}/lamar`}
+                            className="apply-button"
+                            onClick={(e) => handleApply(e, job.id)}
+                          >
+                            <Send size={16} />
+                            Lamar
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>

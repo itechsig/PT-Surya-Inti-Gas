@@ -491,6 +491,16 @@
   transform: translateY(-2px);
 }
 
+.detail-button,
+.apply-button {
+  text-decoration: none;
+  display: inline-flex;
+}
+
+.apply-button {
+  color: white !important;
+}
+
 .apply-button {
   display: flex;
   align-items: center;
@@ -633,6 +643,7 @@
   padding: 16px 48px;
   font-size: 1.125rem;
   font-weight: 600;
+  color: white !important;
 }
 
 /* ── Application Form Page ── */

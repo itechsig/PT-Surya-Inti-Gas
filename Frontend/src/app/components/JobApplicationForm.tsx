@@ -180,6 +180,17 @@ export function JobApplicationForm() {
   if (loading) {
     return (
       <div className="career-page">
+        {/* Career Hero Section */}
+        <div className="career-hero">
+          <div className="section-container">
+            <div className="section-header">
+              <div className="career-hero-badge">Karir</div>
+              <h2>Lowongan Pekerjaan</h2>
+              <p>Temukan posisi yang sesuai dengan keahlian dan minat Anda</p>
+              <p className="jobs-counter">9 Pekerjaan Tersedia</p>
+            </div>
+          </div>
+        </div>
         <div className="section-container">
           <div className="loading">Loading...</div>
         </div>
@@ -190,6 +201,17 @@ export function JobApplicationForm() {
   if (!job) {
     return (
       <div className="career-page">
+        {/* Career Hero Section */}
+        <div className="career-hero">
+          <div className="section-container">
+            <div className="section-header">
+              <div className="career-hero-badge">Karir</div>
+              <h2>Lowongan Pekerjaan</h2>
+              <p>Temukan posisi yang sesuai dengan keahlian dan minat Anda</p>
+              <p className="jobs-counter">9 Pekerjaan Tersedia</p>
+            </div>
+          </div>
+        </div>
         <div className="section-container">
           <div className="no-jobs-found">
             <p>Lowongan tidak ditemukan.</p>
@@ -206,6 +228,17 @@ export function JobApplicationForm() {
   if (submitted) {
     return (
       <div className="career-page">
+        {/* Career Hero Section */}
+        <div className="career-hero">
+          <div className="section-container">
+            <div className="section-header">
+              <div className="career-hero-badge">Karir</div>
+              <h2>Lowongan Pekerjaan</h2>
+              <p>Temukan posisi yang sesuai dengan keahlian dan minat Anda</p>
+              <p className="jobs-counter">9 Pekerjaan Tersedia</p>
+            </div>
+          </div>
+        </div>
         <div className="application-success-section">
           <div className="section-container">
             <div className="success-message">
@@ -224,6 +257,18 @@ export function JobApplicationForm() {
 
   return (
     <div className="career-page">
+      {/* Career Hero Section */}
+      <div className="career-hero">
+        <div className="section-container">
+          <div className="section-header">
+            <div className="career-hero-badge">Karir</div>
+            <h2>Lowongan Pekerjaan</h2>
+            <p>Temukan posisi yang sesuai dengan keahlian dan minat Anda</p>
+            <p className="jobs-counter">9 Pekerjaan Tersedia</p>
+          </div>
+        </div>
+      </div>
+
       <div className="application-form-section">
         <div className="section-container">
           <button onClick={handleBack} className="back-button">

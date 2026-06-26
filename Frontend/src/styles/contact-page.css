@@ -203,12 +203,26 @@
 }
 
 /* ── Responsive Mobile ── */
+@media (max-width: 1024px) {
+  .clean-container {
+    padding: 0 24px;
+  }
+
+  .contact-hero .clean-container {
+    padding: 0 24px;
+  }
+
+  .clean-grid {
+    gap: 40px;
+  }
+}
+
 @media (max-width: 900px) {
   .clean-grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  
+
   .address-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -219,16 +233,115 @@
   }
 
   .contact-hero {
-    padding: 60px 24px;
+    padding: 80px 24px 60px;
+  }
+
+  .contact-content {
+    padding: 60px 20px;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin-bottom: 30px;
   }
 }
 
 @media (max-width: 600px) {
-  .contact-hero-title {
-    font-size: clamp(2rem, 8vw, 2.5rem);
+  .clean-container {
+    padding: 0 16px;
   }
 
-  .clean-contact-page {
+  .contact-hero .clean-container {
+    padding: 0 16px;
+  }
+
+  .contact-hero {
+    padding: 60px 16px 40px;
+  }
+
+  .contact-hero-title {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+  }
+
+  .contact-hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .contact-hero-badge {
+    font-size: 10px;
+    padding: 6px 16px;
+  }
+
+  .contact-content {
     padding: 40px 16px;
+  }
+
+  .clean-grid {
+    gap: 30px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+  }
+
+  .address-block h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+
+  .address-block p {
+    font-size: 0.875rem;
+  }
+
+  .form-intro {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .contact-form input[type="text"],
+  .contact-form input[type="email"],
+  .contact-form textarea {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+
+  .submit-button {
+    padding: 14px 28px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 400px) {
+  .contact-hero-title {
+    font-size: 1.5rem;
+  }
+
+  .contact-hero-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .address-block h3 {
+    font-size: 1rem;
+  }
+
+  .address-block p {
+    font-size: 0.8rem;
+  }
+
+  .contact-form input[type="text"],
+  .contact-form input[type="email"],
+  .contact-form textarea {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .submit-button {
+    padding: 12px 24px;
+    font-size: 12px;
   }
 }

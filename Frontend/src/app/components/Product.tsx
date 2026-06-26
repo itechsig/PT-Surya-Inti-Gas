@@ -100,7 +100,7 @@ const productCategories: ProductCategories = {
             title: 'Ethylene Oxide (EO)',
             description: 'Gas etilena oksida untuk sterilisasi dan aplikasi industri',
             fullDescription: 'Etilena oksida (EO) adalah gas yang sangat reaktif dan digunakan terutama sebagai agen sterilisasi untuk peralatan medis dan farmasi. Gas ini efektif untuk mematikan berbagai mikroorganisme termasuk bakteri, virus, dan jamur tanpa merusak bahan yang disterilkan. Selain sterilisasi, etilena oksida digunakan dalam industri kimia sebagai intermediate untuk produksi etilen glikol (bahan utama antifreeze), etoksilat, dan berbagai produk kimia lainnya. PT Surya Inti Gas menyediakan etilena oksida dengan kualitas tinggi untuk aplikasi sterilisasi dan industri kimia.',
-            image: '/images/products/20260618_133834.webp'
+            image: '/images/products/20260618_133830.webp'
           },
           {
             id: 'oxygen',
@@ -215,7 +215,7 @@ const productCategories: ProductCategories = {
             title: 'Cradle (4x4)',
             description: 'Rangka cradle 4x4 kapasitas besar',
             fullDescription: 'Rangka cradle 4x4 adalah sistem penyimpanan tabung gas dengan kapasitas 16 tabung (4 baris x 4 kolom). Cradle ini dirancang untuk fasilitas industri dengan konsumsi gas tinggi. Sistem ini memaksimalkan kapasitas penyimpanan dengan footprint yang efisien. PT Surya Inti Gas menyediakan cradle 4x4 dengan konstruksi kokoh dan sistem keamanan lengkap.',
-            image: '/images/products/Craddle 4x4.webp'
+            image: '/images/products/Craddle_4x4_fixed.webp'
           },
           {
             id: 'cryogenic-dewars',
@@ -255,7 +255,7 @@ const productCategories: ProductCategories = {
             title: 'Assist Gas Supply From Cradle Capacity 4x4 Cylinder',
             description: 'Supply gas bantu dari cradle kapasitas 4x4 untuk laser cutting',
             fullDescription: 'Sistem supply gas bantu dari cradle kapasitas 4x4 cylinder untuk aplikasi laser cutting industri. Sistem ini menyediakan supply gas kontinyu (nitrogen, oksigen, atau argon) untuk proses laser cutting dengan kapasitas tinggi. Cradle 4x4 memastikan supply gas yang stabil dan konsisten untuk kualitas pemotongan yang optimal. PT Surya Inti Gas menyediakan sistem ini dengan konfigurasi yang dapat disesuaikan dengan jenis laser dan material yang dipotong.',
-            image: '/images/products/20260618_135335.webp'
+            image: '/images/products/20260618_135344.webp'
           },
           {
             id: 'microbulk-gas-supply',
@@ -269,7 +269,7 @@ const productCategories: ProductCategories = {
             title: 'Storage Tank Gas Supply',
             description: 'Supply gas dari tangki penyimpanan',
             fullDescription: 'Sistem supply gas dari tangki penyimpanan untuk aplikasi industri dengan konsumsi gas tinggi. Sistem ini menggunakan tangki penyimpanan kapasitas besar yang memberikan supply gas kontinyu untuk berbagai proses industri. Cocok untuk fasilitas yang membutuhkan supply gas yang stabil dan ekonomis dalam jangka panjang. PT Surya Inti Gas menyediakan solusi tangki penyimpanan dengan desain yang sesuai kebutuhan operasional.',
-            image: '/images/products/20260618_135424.webp'
+            image: '/images/products/20260618_135449.webp'
           }
         ]
       },

@@ -241,7 +241,7 @@ export function LeadershipPage() {
         <div className="leadership-hero-content">
           <div className="leadership-hero-badge">Kepemimpinan</div>
           <h1 className="leadership-hero-title">
-            Visi <span style={{ color: 'var(--sky-light)' }}>Kepemimpinan</span>
+            Visi <span style={{ color: 'var(--white)' }}>Kepemimpinan</span>
           </h1>
           <p className="leadership-hero-description">
             Perjalanan Surya Inti Gas dibangun atas satu prinsip sederhana: memberikan nilai terbaik bagi pelanggan melalui kualitas, keandalan, dan integritas.

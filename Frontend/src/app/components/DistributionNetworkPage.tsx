@@ -392,7 +392,7 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
               Jaringan Distribusi
             </div>
             <h1 className="distribution-hero-title">
-              Lokasi Operasional <span style={{ color: 'var(--sky-light)' }}>PT Surya Inti Gas</span>
+              Lokasi Operasional <span style={{ color: 'var(--white)' }}>PT Surya Inti Gas</span>
             </h1>
             <p className="distribution-hero-description">
               Jaringan distribusi kami tersebar di berbagai lokasi strategis untuk memastikan pasokan gas yang andal dan konsisten ke seluruh Indonesia.

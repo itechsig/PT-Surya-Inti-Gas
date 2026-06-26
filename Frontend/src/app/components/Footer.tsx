@@ -451,10 +451,6 @@ export function Footer() {
                 <ChevronRight size={16} />
                 {t('footer.product.equipment')}
               </Link>
-              <Link to="/produk" className="corporate-footer-link">
-                <ChevronRight size={16} />
-                {t('footer.product.services')}
-              </Link>
             </nav>
           </div>
 
@@ -466,17 +462,17 @@ export function Footer() {
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.career')}
               </Link>
+              <Link to="/galeri" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                Galeri
+              </Link>
+              <Link to="/berita" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                Berita
+              </Link>
               <Link to="/kontak" className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.contactUs')}
-              </Link>
-              <Link to="/tentang-kami" className="corporate-footer-link">
-                <ChevronRight size={16} />
-                {t('footer.quickLinkItems.aboutUs')}
-              </Link>
-              <Link to="/produk" className="corporate-footer-link">
-                <ChevronRight size={16} />
-                {t('footer.quickLinkItems.products')}
               </Link>
             </nav>
           </div>

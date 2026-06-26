@@ -198,7 +198,7 @@ const productCategories: ProductCategories = {
             id: 'cradle-4x4',
             title: 'Cradle (4x4)',
             description: 'Rangka cradle 4x4 kapasitas besar',
-            image: '/images/products/Craddle_4x4.webp'
+            image: '/images/products/Craddle_4x4_fixed.webp'
           },
           {
             id: 'cryogenic-dewars',
