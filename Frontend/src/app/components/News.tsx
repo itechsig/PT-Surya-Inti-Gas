@@ -35,11 +35,54 @@ function News() {
 
   return (
     <div className="products-corporate">
+      <style>{`
+        @media (max-width: 768px) {
+          .news-header-responsive {
+            padding: 160px 6vw 80px 6vw !important;
+            margin-top: -80px !important;
+            margin-bottom: 40px !important;
+          }
+          .news-grid-responsive {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          .news-card-image {
+            height: 180px !important;
+          }
+          .news-card-content {
+            padding: 20px !important;
+          }
+          .news-title {
+            font-size: 1.1rem !important;
+          }
+          .news-description {
+            font-size: 0.9rem !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .news-header-responsive {
+            padding: 120px 6vw 60px 6vw !important;
+            margin-top: -60px !important;
+          }
+          .news-card-image {
+            height: 150px !important;
+          }
+          .news-card-content {
+            padding: 16px !important;
+          }
+          .news-title {
+            font-size: 1rem !important;
+          }
+          .news-description {
+            font-size: 0.85rem !important;
+          }
+        }
+      `}</style>
       <section className="products-section" style={{
         paddingTop: '0'
       }}>
         {/* Header Section */}
-        <div className="products-header" style={{
+        <div className="products-header news-header-responsive" style={{
           position: 'relative',
           background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
           padding: '240px 6vw 120px 6vw',
@@ -97,10 +140,10 @@ function News() {
         <div className="products-container">
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             gap: '32px',
             marginBottom: '80px'
-          }}>
+          }} className="news-grid-responsive">
             {newsItems.map((item) => (
               <div key={item.id} style={{
                 background: '#ffffff',
@@ -110,7 +153,7 @@ function News() {
                 transition: 'all 0.3s ease',
                 cursor: 'pointer'
               }}>
-                <div style={{
+                <div className="news-card-image" style={{
                   height: '200px',
                   backgroundImage: `url(${item.image})`,
                   backgroundSize: 'cover',
@@ -134,7 +177,7 @@ function News() {
                     {item.category}
                   </div>
                 </div>
-                <div style={{
+                <div className="news-card-content" style={{
                   padding: '24px'
                 }}>
                   <div style={{
@@ -154,7 +197,7 @@ function News() {
                     </svg>
                     {item.date}
                   </div>
-                  <h3 style={{
+                  <h3 className="news-title" style={{
                     fontFamily: 'Barlow, system-ui, sans-serif',
                     fontSize: '1.25rem',
                     fontWeight: '700',
@@ -164,7 +207,7 @@ function News() {
                   }}>
                     {item.title}
                   </h3>
-                  <p style={{
+                  <p className="news-description" style={{
                     fontFamily: 'DM Sans, system-ui, sans-serif',
                     fontSize: '0.95rem',
                     color: '#64748b',

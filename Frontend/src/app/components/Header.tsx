@@ -361,13 +361,13 @@ export const Header = () => {
           >
             <div className="absolute inset-0 bg-white/98 backdrop-blur-xl" />
             <div className="relative h-full overflow-y-auto">
-              <div className="max-w-lg mx-auto px-6 py-6">
-                <div className="flex justify-between items-center mb-8">
+              <div className="w-full px-4 py-4 sm:px-6 sm:py-6">
+                <div className="flex justify-between items-center mb-6 sm:mb-8">
                   <a href="/" className="flex items-center gap-3">
                     <img
                       src="/logo.png"
                       alt="Logo PT Surya Inti Gas"
-                      className="h-12 w-auto object-contain"
+                      className="h-10 sm:h-12 w-auto object-contain"
                     />
                     <div>
                       <div
@@ -375,23 +375,24 @@ export const Header = () => {
                         style={{
                           fontFamily: "'Barlow', system-ui, sans-serif",
                           fontWeight: 800,
-                          fontSize: "14px",
+                          fontSize: "12px sm:14px",
                           letterSpacing: "0.12em",
                         }}
                       >
                         SURYA INTI GAS
                       </div>
-                      <div className="text-xs text-blue-600 font-semibold tracking-wider uppercase">
+                      <div className="text-[10px] sm:text-xs text-blue-600 font-semibold tracking-wider uppercase">
                         Corporate
                       </div>
                     </div>
                   </a>
                   <button
-                    className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
+                    className="p-3 sm:p-2 rounded-full hover:bg-slate-100 transition-colors"
                     onClick={() => setIsOpen(false)}
                     aria-label="Close menu"
                   >
-                    <X size={22} />
+                    <X size={24} className="sm:hidden" />
+                    <X size={22} className="hidden sm:block" />
                   </button>
                 </div>
 
@@ -403,7 +404,7 @@ export const Header = () => {
                       return (
                         <span
                           key={link.nameKey}
-                          className="px-4 py-4 text-blue-400 cursor-not-allowed"
+                          className="px-4 py-4 sm:py-4 text-blue-400 cursor-not-allowed"
                           style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 600 }}
                         >
                           {t(link.nameKey)} <span className="text-xs ml-2">(Segera Hadir)</span>
@@ -415,26 +416,26 @@ export const Header = () => {
                       return (
                         <div key={link.nameKey}>
                           <div
-                            className="flex items-center justify-between px-4 py-4 text-blue-700 font-semibold cursor-pointer"
+                            className="flex items-center justify-between px-4 py-4 sm:py-4 text-blue-700 font-semibold cursor-pointer border-b border-slate-100"
                             style={{ ...mobileLinkStyle }}
                             onClick={() => setActiveMobileMegaMenu(activeMobileMegaMenu === link.nameKey ? null : link.nameKey)}
                           >
                             {t(link.nameKey)}
-                            <ChevronDown size={16} className={`transition-transform duration-200 ${activeMobileMegaMenu === link.nameKey ? 'rotate-180' : ''}`} />
+                            <ChevronDown size={18} className={`transition-transform duration-200 ${activeMobileMegaMenu === link.nameKey ? 'rotate-180' : ''}`} />
                           </div>
                           {activeMobileMegaMenu === link.nameKey && (
-                            <div className="pl-6 bg-blue-50 border-l-2 border-blue-600">
+                            <div className="bg-slate-50 border-l-4 border-blue-600">
                               {link.megaMenuSections?.map((section, sectionIdx) => (
-                                <div key={sectionIdx} className="py-4 border-b border-blue-100 last:border-0">
+                                <div key={sectionIdx} className="py-4 px-4 border-b border-slate-200 last:border-0">
                                   <h4 className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-3" style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}>
                                     {section.title}
                                   </h4>
-                                  <div className="space-y-2">
+                                  <div className="space-y-3">
                                     {section.items.map((item, itemIdx) => (
                                       <Link
                                         key={itemIdx}
                                         to={item.href}
-                                        className="block text-sm text-blue-700 hover:text-blue-600 py-1"
+                                        className="block text-sm text-slate-700 hover:text-blue-600 py-2 transition-colors"
                                         style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
                                         onClick={(e) => {
                                           e.preventDefault();
@@ -444,7 +445,7 @@ export const Header = () => {
                                       >
                                         <div className="font-semibold">{t(item.nameKey)}</div>
                                         {item.description && (
-                                          <div className="text-xs text-blue-600">{item.description}</div>
+                                          <div className="text-xs text-slate-500 mt-1">{item.description}</div>
                                         )}
                                       </Link>
                                     ))}
