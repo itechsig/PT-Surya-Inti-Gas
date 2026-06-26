@@ -94,12 +94,6 @@ const productCategories: ProductCategories = {
             image: '/images/products/Acetylene.webp'
           },
           {
-            id: 'ethylene-oxide',
-            title: 'Ethylene Oxide (EO)',
-            description: 'Gas etilena oksida untuk sterilisasi dan aplikasi industri',
-            image: '/images/products/20260618_133834.webp'
-          },
-          {
             id: 'oxygen',
             title: 'Oksigen (O2)',
             description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
@@ -121,7 +115,7 @@ const productCategories: ProductCategories = {
             id: 'hydrogen',
             title: 'Hidrogen (H2)',
             description: 'Gas hidrogen untuk berbagai aplikasi industri dan energi',
-            image: '/images/products/20260618_134125.webp'
+            image: '/images/products/Hidrogen.webp'
           }
         ]
       },
@@ -233,19 +227,19 @@ const productCategories: ProductCategories = {
             id: 'assist-gas-cradle-4x4',
             title: 'Assist Gas Supply From Cradle Capacity 4x4 Cylinder',
             description: 'Supply gas bantu dari cradle kapasitas 4x4 untuk laser cutting',
-            image: '/images/products/20260618_135335.webp'
+            image: '/images/products/Assist_Gas_Supply.webp'
           },
           {
             id: 'microbulk-gas-supply',
             title: 'Microbulk Gas Supply',
             description: 'Supply gas microbulk untuk aplikasi laser cutting',
-            image: '/images/products/20260618_135344.webp'
+            image: '/images/products/Microbulk_Gas_Supply.webp'
           },
           {
             id: 'storage-tank-gas-supply',
             title: 'Storage Tank Gas Supply',
             description: 'Supply gas dari tangki penyimpanan',
-            image: '/images/products/20260618_135424.webp'
+            image: '/images/products/Storage_Tank_Gas.webp'
           }
         ]
       },
@@ -308,7 +302,7 @@ const productCategories: ProductCategories = {
             id: 'gdms-systems',
             title: 'GDMS Systems',
             description: 'Sistem manajemen distribusi gas medis terintegrasi',
-            image: '/images/products/20260618_140001.webp'
+            image: '/images/products/GDMS.webp'
           }
         ]
       }

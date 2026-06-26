@@ -96,13 +96,6 @@ const productCategories: ProductCategories = {
             image: '/images/products/Acetylene.webp'
           },
           {
-            id: 'ethylene-oxide',
-            title: 'Ethylene Oxide (EO)',
-            description: 'Gas etilena oksida untuk sterilisasi dan aplikasi industri',
-            fullDescription: 'Etilena oksida (EO) adalah gas yang sangat reaktif dan digunakan terutama sebagai agen sterilisasi untuk peralatan medis dan farmasi. Gas ini efektif untuk mematikan berbagai mikroorganisme termasuk bakteri, virus, dan jamur tanpa merusak bahan yang disterilkan. Selain sterilisasi, etilena oksida digunakan dalam industri kimia sebagai intermediate untuk produksi etilen glikol (bahan utama antifreeze), etoksilat, dan berbagai produk kimia lainnya. PT Surya Inti Gas menyediakan etilena oksida dengan kualitas tinggi untuk aplikasi sterilisasi dan industri kimia.',
-            image: '/images/products/20260618_133830.webp'
-          },
-          {
             id: 'oxygen',
             title: 'Oksigen (O2)',
             description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
@@ -128,7 +121,7 @@ const productCategories: ProductCategories = {
             title: 'Hidrogen (H2)',
             description: 'Gas hidrogen untuk berbagai aplikasi industri dan energi',
             fullDescription: 'Hidrogen (H2) adalah gas yang paling ringan dan paling melimpah di alam semesta. Dalam industri, hidrogen digunakan dalam pemurnian minyak bumi, produksi amonia, pembuatan metanol, dan berbagai proses kimia lainnya. Hidrogen juga digunakan sebagai bahan bakar untuk kendaraan bertenaga fuel cell, dalam industri elektronik untuk pembuatan semikonduktor, serta sebagai gas pembawa dalam analisis gas kromatografi. PT Surya Inti Gas menyediakan hidrogen dengan tingkat kemurnian yang sesuai untuk aplikasi industri dan energi.',
-            image: '/images/products/20260618_134125.webp'
+            image: '/images/products/Hidrogen.webp'
           }
         ]
       },
@@ -255,21 +248,21 @@ const productCategories: ProductCategories = {
             title: 'Assist Gas Supply From Cradle Capacity 4x4 Cylinder',
             description: 'Supply gas bantu dari cradle kapasitas 4x4 untuk laser cutting',
             fullDescription: 'Sistem supply gas bantu dari cradle kapasitas 4x4 cylinder untuk aplikasi laser cutting industri. Sistem ini menyediakan supply gas kontinyu (nitrogen, oksigen, atau argon) untuk proses laser cutting dengan kapasitas tinggi. Cradle 4x4 memastikan supply gas yang stabil dan konsisten untuk kualitas pemotongan yang optimal. PT Surya Inti Gas menyediakan sistem ini dengan konfigurasi yang dapat disesuaikan dengan jenis laser dan material yang dipotong.',
-            image: '/images/products/20260618_135344.webp'
+            image: '/images/products/Assist_Gas_Supply.webp'
           },
           {
             id: 'microbulk-gas-supply',
             title: 'Microbulk Gas Supply',
             description: 'Supply gas microbulk untuk aplikasi laser cutting',
             fullDescription: 'Sistem supply gas microbulk untuk aplikasi laser cutting dengan efisiensi tinggi. Sistem ini menggantikan multiple cylinder dengan tangki microbulk yang dapat dipantau dan diisi secara otomatis. Microbulk supply mengurangi downtime dan handling costs sambil memberikan supply gas yang konsisten untuk proses laser cutting. PT Surya Inti Gas menyediakan solusi microbulk dengan sistem monitoring dan maintenance yang terintegrasi.',
-            image: '/images/products/20260618_135344.webp'
+            image: '/images/products/Microbulk_Gas_Supply.webp'
           },
           {
             id: 'storage-tank-gas-supply',
             title: 'Storage Tank Gas Supply',
             description: 'Supply gas dari tangki penyimpanan',
             fullDescription: 'Sistem supply gas dari tangki penyimpanan untuk aplikasi industri dengan konsumsi gas tinggi. Sistem ini menggunakan tangki penyimpanan kapasitas besar yang memberikan supply gas kontinyu untuk berbagai proses industri. Cocok untuk fasilitas yang membutuhkan supply gas yang stabil dan ekonomis dalam jangka panjang. PT Surya Inti Gas menyediakan solusi tangki penyimpanan dengan desain yang sesuai kebutuhan operasional.',
-            image: '/images/products/20260618_135449.webp'
+            image: '/images/products/Storage_Tank_Gas.webp'
           }
         ]
       },
@@ -340,7 +333,7 @@ const productCategories: ProductCategories = {
             title: 'GDMS Systems',
             description: 'Sistem manajemen distribusi gas medis terintegrasi',
             fullDescription: 'GDMS (Gas Distribution Management System) adalah sistem terintegrasi untuk manajemen distribusi gas medis di fasilitas kesehatan. Sistem ini mencakup monitoring tekanan, alarm safety, dan control panel untuk memastikan supply gas medis yang kontinyu dan aman. GDMS memudahkan manajemen gas oksigen, nitrogen, nitrous oxide, dan gas medis lainnya di rumah sakit. PT Surya Inti Gas menyediakan GDMS dengan teknologi terkini dan sesuai standar medis internasional.',
-            image: '/images/products/20260618_140001.webp'
+            image: '/images/products/GDMS.webp'
           }
         ]
       }
