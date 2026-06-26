@@ -64,6 +64,35 @@ const css = `
     50%      { transform: scale(1.05); opacity: 0.8; }
   }
 
+  /* Enhanced entrance animations */
+  @keyframes corporate-staggerFadeUp {
+    0% { opacity: 0; transform: translateY(60px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes corporate-reveal {
+    0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes corporate-textReveal {
+    0% { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  @keyframes corporate-heroEntrance {
+    0% { 
+      opacity: 0; 
+      transform: scale(1.1) translateY(20px);
+      filter: brightness(0.8);
+    }
+    100% { 
+      opacity: 1; 
+      transform: scale(1) translateY(0);
+      filter: brightness(1);
+    }
+  }
+
   /* ── Corporate Scroll Progress ── */
   .corporate-progress {
     position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
@@ -85,6 +114,7 @@ const css = `
     flex-direction: column;
     overflow: hidden;
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    animation: corporate-heroEntrance 1.8s var(--ease) both;
   }
 
   /* ── Video Background ── */
@@ -93,6 +123,7 @@ const css = `
     inset: 0;
     z-index: 0;
     overflow: hidden;
+    animation: corporate-fadeIn 2s var(--ease) 0.3s both;
   }
   
   .corporate-video {
@@ -116,6 +147,7 @@ const css = `
       rgba(30, 41, 59, 0.3) 100%
     );
     z-index: 1;
+    animation: corporate-fadeIn 1.5s var(--ease) 0.5s both;
   }
   
   .corporate-overlay-top {
@@ -126,6 +158,7 @@ const css = `
     height: 150px;
     background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), transparent);
     z-index: 1;
+    animation: corporate-fadeIn 1.2s var(--ease) 0.6s both;
   }
 
   /* ── Corporate Content ── */
@@ -160,7 +193,7 @@ const css = `
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.95);
     margin-bottom: 40px;
-    animation: corporate-fadeUp 1s var(--ease) 0.2s both;
+    animation: corporate-reveal 0.8s var(--ease) 0.1s both;
   }
   
   .corporate-badge-dot {
@@ -184,7 +217,7 @@ const css = `
     text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
     max-width: 1200px;
     margin: 0 0 30px 0;
-    animation: corporate-fadeUp 1.2s var(--ease) 0.4s both;
+    animation: corporate-textReveal 1.4s var(--ease) 0.25s both;
   }
   
   .corporate-h1 em {
@@ -205,7 +238,7 @@ const css = `
     letter-spacing: 0.02em;
     max-width: 900px;
     margin: 0 0 25px 0;
-    animation: corporate-fadeUp 1.1s var(--ease) 0.5s both;
+    animation: corporate-staggerFadeUp 1.2s var(--ease) 0.4s both;
   }
 
   /* ── Corporate Description ── */
@@ -217,7 +250,7 @@ const css = `
     color: rgba(255, 255, 255, 0.8);
     max-width: 700px;
     margin: 0 auto 40px;
-    animation: corporate-fadeUp 1s var(--ease) 0.6s both;
+    animation: corporate-staggerFadeUp 1.1s var(--ease) 0.55s both;
   }
 
   /* ── Corporate Stats Bar ── */

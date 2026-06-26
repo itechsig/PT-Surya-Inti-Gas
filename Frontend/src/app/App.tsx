@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
@@ -29,6 +29,68 @@ import { performanceMonitor } from "../utils/performanceMonitor";
 import { AppProvider, ProductProvider } from "../context";
 import { createSkipLink } from "../utils/accessibility";
 
+// Page transition styles
+const pageTransitionStyles = `
+  @keyframes pageFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pageSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .page-transition {
+    animation: pageFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  .page-transition-fast {
+    animation: pageFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  .page-transition-slide {
+    animation: pageSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+`;
+
+// Inject page transition styles
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = pageTransitionStyles;
+  document.head.appendChild(styleSheet);
+}
+
+// ─── Page Transition Component ───────────────────────────────
+function PageTransition({ children, variant = 'default' }: { children: React.ReactNode; variant?: 'default' | 'fast' | 'slide' }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const className = variant === 'fast' ? 'page-transition-fast' : 
+                    variant === 'slide' ? 'page-transition-slide' : 
+                    'page-transition';
+
+  return (
+    <div className={className} style={{ opacity: isVisible ? 1 : 0 }}>
+      {children}
+    </div>
+  );
+}
 
 // ─── Scroll handler: ke atas atau ke section hash ────────────
 function ScrollToTop() {
@@ -57,7 +119,7 @@ function ScrollToTop() {
 // ─── Halaman Utama ────────────────────────────────────────────
 function MainPage() {
   return (
-    <>
+    <PageTransition variant="default">
       <Hero />
       <AboutCompany />
       <CompanyProfileVideo />
@@ -66,7 +128,7 @@ function MainPage() {
       <div style={{ height: '80px', background: '#f8fafc' }} />
       <DistributionNetworkPage showHero={false} />
       <WhyChooseUs />
-    </>
+    </PageTransition>
   );
 }
 
@@ -102,7 +164,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <Product />
+              <PageTransition variant="fast">
+                <Product />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -113,7 +177,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <ProductDetail />
+              <PageTransition variant="fast">
+                <ProductDetail />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -124,7 +190,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <Gallery />
+              <PageTransition variant="fast">
+                <Gallery />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -135,7 +203,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <News />
+              <PageTransition variant="fast">
+                <News />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -146,7 +216,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <Career />
+              <PageTransition variant="fast">
+                <Career />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -157,7 +229,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <JobDetail />
+              <PageTransition variant="fast">
+                <JobDetail />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -168,7 +242,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <JobApplicationForm />
+              <PageTransition variant="fast">
+                <JobApplicationForm />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -179,7 +255,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <ContactPage />
+              <PageTransition variant="fast">
+                <ContactPage />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -190,7 +268,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <AboutUsPage />
+              <PageTransition variant="fast">
+                <AboutUsPage />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -201,7 +281,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <DistributionNetworkPage />
+              <PageTransition variant="fast">
+                <DistributionNetworkPage />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -212,7 +294,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <LeadershipPage />
+              <PageTransition variant="fast">
+                <LeadershipPage />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -223,7 +307,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <ValuesPage />
+              <PageTransition variant="fast">
+                <ValuesPage />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
@@ -234,7 +320,9 @@ function App() {
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <FacilitiesPage />
+              <PageTransition variant="fast">
+                <FacilitiesPage />
+              </PageTransition>
             </main>
             <Footer />
             <Chatbot />
