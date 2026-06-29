@@ -140,7 +140,7 @@ const productCategories: ProductCategories = {
             title: 'Sulfur Hexaflouride (SF6)',
             description: 'Gas SF6 untuk isolasi listrik dan aplikasi industri',
             fullDescription: 'Sulfur heksafluorida (SF6) adalah gas dielektrik yang sangat efektif dengan kekuatan isolasi listrik yang tinggi. Gas ini digunakan secara luas dalam industri kelistrikan sebagai medium isolasi untuk switchgear, circuit breaker, dan transformator. SF6 juga digunakan dalam aplikasi pelacakan kebocoran, dalam industri magnesium untuk casting, serta dalam proses plasma etching dalam pembuatan semikonduktor. PT Surya Inti Gas menyediakan SF6 dengan kualitas tinggi untuk aplikasi isolasi listrik dan industri lainnya.',
-            image: '/images/products/20260618_134221.webp'
+            image: '/images/products/Sulfur_Hexaflouride.webp'
           },
           {
             id: 'mixed-gas',

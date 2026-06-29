@@ -10,50 +10,19 @@ class ChatbotService
     private KnowledgeBaseService $knowledgeBaseService;
     private GeminiApiKeyRotationService $apiKeyRotationService;
     private ?HttpClientPoolService $httpClientPool;
-    private TranslationService $translationService;
-    private ?ABTestingService $abTestingService;
 
     public function __construct(
         KnowledgeBaseService $knowledgeBaseService,
         GeminiApiKeyRotationService $apiKeyRotationService,
-        HttpClientPoolService $httpClientPool = null,
-        TranslationService $translationService = null,
-        ABTestingService $abTestingService = null
+        HttpClientPoolService $httpClientPool = null
     ) {
         $this->knowledgeBaseService = $knowledgeBaseService;
         $this->apiKeyRotationService = $apiKeyRotationService;
         $this->httpClientPool = $httpClientPool;
-        $this->translationService = $translationService ?? app(TranslationService::class);
-        $this->abTestingService = $abTestingService ?? app(ABTestingService::class);
     }
 
     public function generateResponse(string $message, array $history = [], ?string $userId = null, ?string $sessionId = null): array
     {
-        // Check if A/B testing is enabled in config
-        if (!config('services.chatbot.enable_ab_testing', true)) {
-            $abTestAssignment = null;
-        } else {
-            // Check for active A/B tests
-            $abTestAssignment = null;
-            $activeCampaigns = $this->abTestingService->getActiveCampaigns();
-            
-            if (!empty($activeCampaigns)) {
-                foreach ($activeCampaigns as $campaign) {
-                    $assignment = $this->abTestingService->assignUserToVariant(
-                        $campaign->id,
-                        $userId,
-                        $sessionId,
-                        $message
-                    );
-                    
-                    if ($assignment && $assignment['is_new_assignment']) {
-                        $abTestAssignment = $assignment;
-                        break;
-                    }
-                }
-            }
-        }
-
         // Check local knowledge base first (fastest - no database, no external calls)
         $localResponse = $this->knowledgeBaseService->search($message);
 
@@ -62,63 +31,30 @@ class ChatbotService
                 'message' => $localResponse,
                 'source' => 'local',
                 'timestamp' => now()->toISOString(),
-                'ab_test' => $abTestAssignment,
             ];
         }
 
-        // Apply A/B test configuration if assigned
-        $aiConfig = [];
-        if ($abTestAssignment && !empty($abTestAssignment['response_config'])) {
-            $aiConfig = $abTestAssignment['response_config'];
-        }
-
-        // Try Gemini AI if API key is configured
-        $currentApiKey = $this->apiKeyRotationService->getCurrentApiKey();
-        if (!empty($currentApiKey)) {
-            try {
-                $geminiResponse = $this->callGeminiAI($message, $history, $currentApiKey, $aiConfig);
-                
-                if ($geminiResponse !== null) {
-                    $this->apiKeyRotationService->recordKeyUsage($currentApiKey);
-                    
-                    return [
-                        'message' => $geminiResponse,
-                        'source' => 'gemini',
-                        'timestamp' => now()->toISOString(),
-                        'rotation_enabled' => $this->apiKeyRotationService->isRotationEnabled(),
-                        'available_keys' => $this->apiKeyRotationService->getAvailableKeysCount(),
-                        'ab_test' => $abTestAssignment,
-                    ];
-                }
-            } catch (\Exception $e) {
-                // Mark current key as failed and try next
-                $this->apiKeyRotationService->markKeyAsFailed($currentApiKey);
-                Log::error('Gemini API Error: ' . $e->getMessage());
-            }
-        }
-
-        // Fallback to default response with translation - use config values
+        // Fallback to default response
         $fallbackResponses = config('services.chatbot.fallback_responses', [
-            $this->translationService->translate('chatbot.fallback')
+            'Maaf, saya tidak dapat menemukan informasi yang Anda cari.'
         ]);
         
         return [
             'message' => $fallbackResponses[array_rand($fallbackResponses)],
             'source' => 'fallback',
             'timestamp' => now()->toISOString(),
-            'ab_test' => $abTestAssignment,
         ];
     }
 
     /**
      * Call Gemini AI API for response generation
      */
-    private function callGeminiAI(string $message, array $history = [], string $apiKey = '', array $aiConfig = []): ?string
+    private function callGeminiAI(string $message, array $history = [], string $apiKey = ''): ?string
     {
         $endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
 
-        // Build the prompt with context - allow override from A/B test config
-        $systemInstruction = $aiConfig['system_prompt'] ?? "You are a helpful customer service assistant for PT Surya Inti Gas, a gas company. Provide professional, friendly, and accurate responses about the company's services, products. Always answer questions based on the information available on the website. If the information is not available on the website, politely inform the user that you don't have that specific information and suggest they contact customer service. Respond in Indonesian language.";
+        // Build the prompt with context
+        $systemInstruction = "You are a helpful customer service assistant for PT Surya Inti Gas, a gas company. Provide professional, friendly, and accurate responses about the company's services, products. Always answer questions based on the information available on the website. If the information is not available on the website, politely inform the user that you don't have that specific information and suggest they contact customer service. Respond in Indonesian language.";
 
         // Format conversation history - matching official Gemini API format
         $contents = [];
@@ -148,12 +84,12 @@ class ChatbotService
             ];
         }
 
-        // Generation config with A/B test overrides
+        // Generation config
         $generationConfig = [
-            'temperature' => $aiConfig['temperature'] ?? 0.7,
-            'topK' => $aiConfig['top_k'] ?? 40,
-            'topP' => $aiConfig['top_p'] ?? 0.95,
-            'maxOutputTokens' => $aiConfig['max_output_tokens'] ?? 1024,
+            'temperature' => 0.7,
+            'topK' => 40,
+            'topP' => 0.95,
+            'maxOutputTokens' => 1024,
         ];
 
         // Build request body matching official Gemini API format

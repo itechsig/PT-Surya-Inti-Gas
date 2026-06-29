@@ -1,4 +1,5 @@
 import '../../styles/ProductsAndServices.css';
+import { useNavigate } from 'react-router-dom';
 
 /* ═══════════════════════════════════════════════════════════════
    NEWS.TSX — PT Surya Inti Gas Corporate
@@ -6,36 +7,59 @@ import '../../styles/ProductsAndServices.css';
 ══════════════════════════════════════════════════════════════ */
 
 function News() {
+  const navigate = useNavigate();
+
   const newsItems = [
     {
       id: 1,
-      title: "PT Surya Inti Gas Menambah Cabang Baru di Balikpapan",
-      date: "15 Januari 2024",
-      category: "Ekspansi",
-      description: "PT Surya Inti Gas terus melakukan ekspansi dengan membuka cabang baru di Balikpapan. Cabang ini akan melayani kebutuhan gas industri untuk sektor manufaktur dan kesehatan di wilayah Kalimantan Timur.",
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop"
+      slug: 'sejarah-2003-pendirian-cv-surya-inti-gas',
+      title: "Sejarah 2003: Pendirian CV. Surya Inti Gas",
+      date: "1 Januari 2003",
+      category: "Sejarah",
+      description: "Pendirian CV. Surya Inti Gas di Jl. KH. Mukmin, Sidoarjo, Jawa Timur.",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=600&fit=crop"
     },
     {
       id: 2,
-      title: "Pencapaian K3 Excellence Award 2023",
-      date: "10 November 2023",
-      category: "Prestasi",
-      description: "PT Surya Inti Gas berhasil meraih penghargaan K3 Excellence Award 2023 atas komitmen perusahaan dalam menerapkan standar Keselamatan dan Kesehatan Kerja (K3) yang tinggi di seluruh operasional.",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=400&fit=crop"
+      slug: 'sejarah-2007-ekspansi-operasional',
+      title: "Sejarah 2007: Ekspansi Operasional dan Relokasi Kantor",
+      date: "1 Januari 2007",
+      category: "Sejarah",
+      description: "Relokasi ke Komplek Pergudangan dan Industri \"Meiko Abadi\" di Gedangan, Sidoarjo.",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=600&fit=crop"
     },
     {
       id: 3,
-      title: "Pengenalan Sistem Pengisian Gas Baru dengan Teknologi Terkini",
-      date: "25 Oktober 2023",
-      category: "Inovasi",
-      description: "PT Surya Inti Gas mengimplementasikan sistem pengisian gas baru dengan teknologi otomatis terkini untuk meningkatkan efisiensi dan keamanan dalam proses produksi dan distribusi gas industri.",
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=400&fit=crop"
+      slug: 'sejarah-2016-relokasi-head-office',
+      title: "Sejarah 2016: Relokasi Head Office ke Safe N Lock",
+      date: "1 Januari 2016",
+      category: "Sejarah",
+      description: "Pindah ke Komplek Pergudangan dan Industri \"Safe N Lock\" sebagai Head Office Sidoarjo.",
+      image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&h=600&fit=crop"
+    },
+    {
+      id: 4,
+      slug: 'sejarah-2017-pendirian-pt-surya-inti-gas',
+      title: "Sejarah 2017: Pendirian PT. Surya Inti Gas dan Cabang Balikpapan",
+      date: "1 Januari 2017",
+      category: "Sejarah",
+      description: "Berdirinya PT. Surya Inti Gas dan pembukaan cabang pertama di Balikpapan, Kalimantan Timur.",
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=600&fit=crop"
     }
   ];
+
+  const handleReadMore = (slug: string) => {
+    navigate(`/berita/${slug}`);
+  };
 
   return (
     <div className="products-corporate">
       <style>{`
+        @media (max-width: 1024px) {
+          .news-grid-responsive {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
         @media (max-width: 768px) {
           .news-header-responsive {
             padding: 160px 6vw 80px 6vw !important;
@@ -140,25 +164,41 @@ function News() {
         <div className="products-container">
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(4, 1fr)',
             gap: '32px',
             marginBottom: '80px'
           }} className="news-grid-responsive">
             {newsItems.map((item) => (
-              <div key={item.id} style={{
-                background: '#ffffff',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                border: '1px solid #e2e8f0',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer'
-              }}>
+              <div 
+                key={item.id} 
+                onClick={() => handleReadMore(item.slug)}
+                style={{
+                  background: '#ffffff',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  border: '1px solid #e2e8f0',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
                 <div className="news-card-image" style={{
                   height: '200px',
                   backgroundImage: `url(${item.image})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
-                  position: 'relative'
+                  position: 'relative',
+                  flexShrink: 0
                 }}>
                   <div style={{
                     position: 'absolute',
@@ -178,7 +218,10 @@ function News() {
                   </div>
                 </div>
                 <div className="news-card-content" style={{
-                  padding: '24px'
+                  padding: '24px',
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column'
                 }}>
                   <div style={{
                     display: 'flex',
@@ -212,26 +255,11 @@ function News() {
                     fontSize: '0.95rem',
                     color: '#64748b',
                     lineHeight: '1.6',
-                    marginBottom: '16px'
+                    marginBottom: '0',
+                    flex: 1
                   }}>
                     {item.description}
                   </p>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    color: '#1e40af',
-                    fontFamily: 'DM Sans, system-ui, sans-serif',
-                    fontSize: '14px',
-                    fontWeight: '600',
-                    textDecoration: 'none'
-                  }}>
-                    Baca Selengkapnya
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M5 12h14"></path>
-                      <path d="M12 5l7 7-7 7"></path>
-                    </svg>
-                  </div>
                 </div>
               </div>
             ))}

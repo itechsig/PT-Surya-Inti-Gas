@@ -54,11 +54,11 @@ return [
         ],
         'max_history_length' => env('CHATBOT_MAX_HISTORY', 10),
         'response_timeout' => env('CHATBOT_TIMEOUT', 30),
-        'enable_translation' => env('CHATBOT_ENABLE_TRANSLATION', true),
+        'enable_translation' => env('CHATBOT_ENABLE_TRANSLATION', false),
         'default_language' => env('CHATBOT_DEFAULT_LANGUAGE', 'id'),
         'supported_languages' => ['id', 'en', 'zh'],
-        'enable_sentiment_analysis' => env('CHATBOT_ENABLE_SENTIMENT', true),
-        'enable_ab_testing' => env('CHATBOT_ENABLE_AB_TESTING', true),
+        'enable_sentiment_analysis' => env('CHATBOT_ENABLE_SENTIMENT', false),
+        'enable_ab_testing' => env('CHATBOT_ENABLE_AB_TESTING', false),
     ],
 
     'rate_limiting' => [

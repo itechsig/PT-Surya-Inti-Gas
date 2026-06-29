@@ -195,6 +195,74 @@ const css = `
     margin-bottom: 0;
   }
 
+  /* ── Values Section ── */
+  .values-section {
+    background: var(--white);
+    padding: 120px 6vw;
+  }
+
+  .values-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .value-card {
+    background: var(--slate-50);
+    border-radius: 20px;
+    padding: 40px 32px;
+    border: 1px solid var(--slate-200);
+    transition: all 0.4s var(--ease);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .value-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--sky), var(--sky-light));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .value-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-color: var(--sky-light);
+  }
+
+  .value-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .value-title {
+    font-family: var(--ff-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin: 0 0 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .value-description {
+    font-family: var(--ff-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--slate-600);
+    margin: 0;
+  }
+
   /* ── History Timeline ── */
   .history-section {
     background: var(--slate-50);
@@ -279,8 +347,18 @@ const css = `
   @media (max-width: 768px) {
     .about-us-hero,
     .about-us-section,
+    .values-section,
     .history-section {
       padding: 80px 6vw;
+    }
+
+    .values-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .value-card {
+      padding: 32px 24px;
     }
 
     .timeline {
@@ -298,6 +376,41 @@ const css = `
 `;
 
 export function AboutUsPage() {
+  const values = [
+    {
+      title: 'Keselamatan',
+      description: 'Menjunjung tinggi keselamatan sebagai prioritas utama dalam setiap aktivitas operasional untuk memastikan lingkungan kerja yang aman bagi semua pihak.'
+    },
+    {
+      title: 'Integritas',
+      description: 'Menjalankan bisnis dengan kejujuran, transparansi, dan prinsip etika yang kuat dalam setiap pengambilan keputusan.'
+    },
+    {
+      title: 'Profesionalisme',
+      description: 'Menyajikan layanan dengan standar profesional tinggi, kompetensi, dan dedikasi dalam setiap aspek operasional.'
+    },
+    {
+      title: 'Tanggung Jawab',
+      description: 'Bertanggung jawab penuh atas setiap tindakan dan keputusan, serta berkomitmen terhadap keberlanjutan bisnis.'
+    },
+    {
+      title: 'Fokus Pelanggan',
+      description: 'Berfokus pada kebutuhan pelanggan dengan menghadirkan solusi yang tepat, cepat, dan terpercaya.'
+    },
+    {
+      title: 'Kualitas',
+      description: 'Berkomitmen memberikan produk dan layanan berkualitas tinggi secara konsisten untuk kepuasan pelanggan.'
+    },
+    {
+      title: 'Inovasi',
+      description: 'Melalui inovasi dan perbaikan berkelanjutan, kami terus meningkatkan efisiensi dan standar pelayanan.'
+    },
+    {
+      title: 'Kerja Sama Tim',
+      description: 'Diperkuat oleh kerja sama tim yang solid untuk mencapai pertumbuhan dan keberhasilan bersama.'
+    }
+  ];
+
   const milestones = [
     {
       year: "2003",
@@ -344,9 +457,6 @@ export function AboutUsPage() {
       <section className="about-us-section">
         <div className="about-us-container">
           <div className="about-us-section-header">
-            <div className="about-us-section-badge">
-              Visi & Misi
-            </div>
             <h2 className="about-us-section-title">
               Tujuan dan Dedikasi Kami
             </h2>
@@ -380,9 +490,6 @@ export function AboutUsPage() {
       <section className="history-section">
         <div className="history-container">
           <div className="about-us-section-header">
-            <div className="about-us-section-badge">
-              Sejarah Kami
-            </div>
             <h2 className="about-us-section-title">
               Perjalanan PT Surya Inti Gas
             </h2>
@@ -398,6 +505,29 @@ export function AboutUsPage() {
                 <div className="timeline-year">{milestone.year}</div>
                 <h3 className="timeline-title">{milestone.title}</h3>
                 <p className="timeline-description">{milestone.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="values-section">
+        <div className="values-container">
+          <div className="about-us-section-header">
+            <h2 className="about-us-section-title">
+              Nilai-nilai PT Surya Inti Gas
+            </h2>
+            <p className="about-us-section-subtitle">
+              Prinsip yang memandu setiap langkah kami dalam melayani pelanggan dan menjalankan bisnis.
+            </p>
+          </div>
+
+          <div className="values-grid">
+            {values.map((value, index) => (
+              <div key={index} className="value-card">
+                <h3 className="value-title">{value.title}</h3>
+                <p className="value-description">{value.description}</p>
               </div>
             ))}
           </div>

@@ -423,18 +423,6 @@ export function Footer() {
                 <ChevronRight size={16} />
                 {t('footer.about.companyProfile')}
               </Link>
-              <Link to="/kepemimpinan" className="corporate-footer-link">
-                <ChevronRight size={16} />
-                {t('footer.about.leadership')}
-              </Link>
-              <Link to="/nilai-nilai" className="corporate-footer-link">
-                <ChevronRight size={16} />
-                {t('footer.about.values')}
-              </Link>
-              <Link to="/fasilitas" className="corporate-footer-link">
-                <ChevronRight size={16} />
-                {t('footer.about.facilities')}
-              </Link>
               <Link to="/jaringan-distribusi" className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.about.distribution')}
@@ -469,21 +457,21 @@ export function Footer() {
           <div className="corporate-footer-column">
             <h5 className="corporate-footer-column-title">{t('footer.quickLinks')}</h5>
             <nav className="corporate-footer-links">
-              <Link to="/karir" className="corporate-footer-link">
+              <Link to="/berita" className="corporate-footer-link">
                 <ChevronRight size={16} />
-                {t('footer.quickLinkItems.career')}
+                {t('footer.quickLinkItems.news')}
               </Link>
               <Link to="/galeri" className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.gallery')}
               </Link>
-              <Link to="/berita" className="corporate-footer-link">
-                <ChevronRight size={16} />
-                {t('footer.quickLinkItems.news')}
-              </Link>
               <Link to="/kontak" className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.contactUs')}
+              </Link>
+              <Link to="/karir" className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.quickLinkItems.career')}
               </Link>
             </nav>
           </div>

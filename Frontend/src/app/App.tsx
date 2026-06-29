@@ -19,11 +19,9 @@ import { JobDetail } from "./components/JobDetail";
 import { JobApplicationForm } from "./components/JobApplicationForm";
 import { AdminDashboardIntegrated } from "./components/Dashboard/AdminDashboardIntegrated";
 import { DistributionNetworkPage } from "./components/DistributionNetworkPage";
-import { LeadershipPage } from "./components/LeadershipPage";
-import { ValuesPage } from "./components/ValuesPage";
-import { FacilitiesPage } from "./components/FacilitiesPage";
 import Gallery from "./components/Gallery";
 import News from "./components/News";
+import NewsDetail from "./components/NewsDetail";
 import { initVisitorTracking } from "../utils/visitorTracking";
 import { performanceMonitor } from "../utils/performanceMonitor";
 import { AppProvider, ProductProvider } from "../context";
@@ -212,6 +210,19 @@ function App() {
             <ScrollToTopButton />
           </div>
         } />
+        <Route path="/berita/:slug" element={
+          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+            <Header />
+            <main id="main-content" tabIndex={-1}>
+              <PageTransition variant="fast">
+                <NewsDetail />
+              </PageTransition>
+            </main>
+            <Footer />
+            <Chatbot />
+            <ScrollToTopButton />
+          </div>
+        } />
         <Route path="/karir" element={
           <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
             <Header />
@@ -283,45 +294,6 @@ function App() {
             <main id="main-content" tabIndex={-1}>
               <PageTransition variant="fast">
                 <DistributionNetworkPage />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/kepemimpinan" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <LeadershipPage />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/nilai-nilai" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <ValuesPage />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/fasilitas" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <FacilitiesPage />
               </PageTransition>
             </main>
             <Footer />

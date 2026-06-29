@@ -18,29 +18,8 @@ type NavItem = {
 };
 
 const NAV_LINKS: NavItem[] = [
-  {
-    nameKey: "header.about",
-    href: "/tentang-kami",
-    isRoute: true,
-    hasMegaMenu: true,
-    megaMenuSections: [
-      {
-        titleKey: "header.megaMenu.company",
-        items: [
-          { nameKey: "header.companyProfile", href: "/tentang-kami", descriptionKey: "header.megaMenu.companyProfileDesc" },
-          { nameKey: "header.leadership", href: "/kepemimpinan", descriptionKey: "header.megaMenu.leadershipDesc" },
-          { nameKey: "header.ourValues", href: "/nilai-nilai", descriptionKey: "header.megaMenu.ourValuesDesc" },
-        ]
-      },
-      {
-        titleKey: "header.megaMenu.operations",
-        items: [
-          { nameKey: "header.facilities", href: "/fasilitas", descriptionKey: "header.megaMenu.facilitiesDesc" },
-          { nameKey: "header.distribution", href: "/jaringan-distribusi", descriptionKey: "header.megaMenu.distributionDesc" },
-        ]
-      }
-    ]
-  },
+  { nameKey: "header.about", href: "/tentang-kami", isRoute: true },
+  { nameKey: "header.distribution", href: "/jaringan-distribusi", isRoute: true },
   {
     nameKey: "header.productsServices",
     href: "/produk",
@@ -67,10 +46,10 @@ const NAV_LINKS: NavItem[] = [
       }
     ]
   },
-  { nameKey: "header.career", href: "/karir", isRoute: true },
-  { nameKey: "header.gallery", href: "/galeri", isRoute: true },
   { nameKey: "header.news", href: "/berita", isRoute: true },
+  { nameKey: "header.gallery", href: "/galeri", isRoute: true },
   { nameKey: "header.contact", href: "/kontak", isRoute: true },
+  { nameKey: "header.career", href: "/karir", isRoute: true },
 ];
 
 // ─── Corporate Shared class builders (Air Liquide inspired) ────────────────────────────────────

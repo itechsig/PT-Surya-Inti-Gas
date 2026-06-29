@@ -271,7 +271,7 @@ export function AboutCompany() {
             {/* Corporate Image Section */}
             <div className="about-image-section">
               <div className="about-main-image">
-                <img src="/20260609_120342.jpg" alt="PT Surya Inti Gas" />
+                <img src="/office.jpg" alt="PT Surya Inti Gas" />
               </div>
               
               <div className="about-overlay-card">

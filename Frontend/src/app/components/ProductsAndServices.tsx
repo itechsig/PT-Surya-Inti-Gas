@@ -132,7 +132,7 @@ const productCategories: ProductCategories = {
             id: 'sulfur-hexaflouride',
             title: 'Sulfur Hexaflouride (SF6)',
             description: 'Gas SF6 untuk isolasi listrik dan aplikasi industri',
-            image: '/images/products/20260618_134221.webp'
+            image: '/images/products/Sulfur_Hexaflouride.webp'
           },
           {
             id: 'mixed-gas',
