@@ -22,7 +22,7 @@ RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 COPY . .
 
 # Install dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-interaction --prefer-source --optimize-autoloader
 
 # Create entrypoint script
 RUN echo '#!/bin/bash\n\
