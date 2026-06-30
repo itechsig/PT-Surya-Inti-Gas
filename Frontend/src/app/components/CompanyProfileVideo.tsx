@@ -90,7 +90,7 @@ const css = `
   /* ── Corporate Video Wrapper ── */
   .video-wrapper {
     position: relative;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     border-radius: 24px;
     overflow: hidden;
@@ -228,6 +228,13 @@ const css = `
     background: var(--navy-dark);
   }
 
+  .video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+  }
+
   /* ── Responsive Design ── */
   @media (max-width: 1024px) {
     .video-section {
@@ -298,16 +305,14 @@ export function CompanyProfileVideo() {
 
           {/* Corporate Video Wrapper */}
           <div className="video-wrapper">
-            <video
+            <iframe
               className="video-modal-video"
-              controls
-              autoPlay
-              loop
-              muted
-            >
-              <source src="/hero-video.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+              src="https://www.youtube.com/embed/O_NcnrY0RSc?loop=1&playlist=O_NcnrY0RSc&vq=hd1080&autoplay=1&mute=1&controls=1&rel=0"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="PT Surya Inti Gas Company Profile"
+            />
           </div>
 
         </div>
