@@ -23,7 +23,8 @@ COPY . .
 
 # Install dependencies
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install --no-interaction --prefer-source --optimize-autoloader
+RUN composer config -g repo.packagist composer https://packagist.org && \
+    composer install --no-interaction --optimize-autoloader
 
 # Create entrypoint script
 RUN echo '#!/bin/bash\n\
