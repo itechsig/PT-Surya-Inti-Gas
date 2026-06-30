@@ -274,65 +274,166 @@ const css = `
     margin: 0 auto;
   }
 
-  .timeline {
+  .timeline-wrapper {
     position: relative;
-    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
   }
 
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--blue), var(--sky-light));
-  }
-
-  .timeline-item {
+  .timeline-circles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    flex: 1;
+    padding: 8px 16px;
     position: relative;
-    padding-bottom: 48px;
-    padding-left: 32px;
+    min-height: 60px;
   }
 
-  .timeline-item:last-child {
-    padding-bottom: 0;
-  }
-
-  .timeline-dot {
+  .timeline-line-container {
     position: absolute;
-    left: -45px;
-    top: 0;
-    width: 12px;
-    height: 12px;
-    background: var(--blue);
+    top: 50%;
+    left: 16px;
+    right: 16px;
+    height: 3px;
+    background: var(--slate-300);
+    transform: translateY(-50%);
+    z-index: 0;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .timeline-circle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    min-width: 60px;
+  }
+
+  .timeline-circle-dot {
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    border: 3px solid var(--white);
-    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.2);
+    background: var(--white);
+    border: 3px solid var(--slate-300);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s var(--ease);
+    position: relative;
+    z-index: 2;
   }
 
-  .timeline-year {
+  .timeline-circle-year {
+    font-family: var(--ff-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--slate-600);
+    margin-bottom: 8px;
+    transition: color 0.3s var(--ease);
+  }
+
+  .timeline-circle:hover .timeline-circle-year {
+    color: var(--sky);
+  }
+
+  .timeline-circle:hover .timeline-circle-dot {
+    border-color: var(--sky);
+    transform: scale(1.2);
+  }
+
+  .timeline-circle.active .timeline-circle-year {
+    color: var(--sky);
+    font-weight: 800;
+  }
+
+  .timeline-circle.active .timeline-circle-dot {
+    background: var(--sky);
+    border-color: var(--sky);
+    transform: scale(1.3);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  }
+
+  .timeline-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInSlide 0.4s ease-in-out forwards;
+  }
+
+  @keyframes fadeInSlide {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .timeline-content.reverse {
+    direction: rtl;
+  }
+
+  .timeline-content.reverse > * {
+    direction: ltr;
+  }
+
+  .timeline-image {
+    width: 100%;
+    height: 400px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--slate-200) 0%, var(--slate-100) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--slate-400);
     font-family: var(--ff-display);
     font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--blue);
-    margin-bottom: 12px;
-    letter-spacing: -0.01em;
+    font-weight: 600;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   }
 
-  .timeline-title {
+  .timeline-info {
+    padding: 24px;
+  }
+
+  .timeline-info-year {
     font-family: var(--ff-display);
-    font-size: 1.25rem;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--sky);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .timeline-info-title {
+    font-family: var(--ff-display);
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--navy-dark);
-    margin: 0 0 12px;
+    margin: 0 0 16px;
     letter-spacing: -0.01em;
   }
 
-  .timeline-description {
+  .timeline-info-description {
     font-family: var(--ff-body);
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.125rem;
+    line-height: 1.7;
     color: var(--slate-600);
     margin: 0;
   }
@@ -341,6 +442,15 @@ const css = `
   @media (max-width: 1024px) {
     .vision-mission-grid {
       grid-template-columns: 1fr;
+    }
+
+    .timeline-circles {
+      gap: 60px;
+    }
+
+    .timeline-line-container {
+      left: 12px;
+      right: 12px;
     }
   }
 
@@ -361,21 +471,90 @@ const css = `
       padding: 32px 24px;
     }
 
-    .timeline {
-      padding-left: 24px;
+    .timeline-navigation {
+      gap: 8px;
     }
 
-    .timeline-item {
-      padding-left: 24px;
+    .timeline-nav-button {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
     }
 
-    .timeline-dot {
-      left: -33px;
+    .timeline-circles {
+      gap: 40px;
+      padding: 8px 12px;
+    }
+
+    .timeline-line-container {
+      left: 12px;
+      right: 12px;
+    }
+
+    .timeline-circle-year {
+      font-size: 0.875rem;
+    }
+
+    .timeline-circle-dot {
+      width: 12px;
+      height: 12px;
+    }
+
+    .timeline-content {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .timeline-content.reverse {
+      direction: ltr;
+    }
+
+    .timeline-image {
+      height: 300px;
+    }
+
+    .timeline-info-year {
+      font-size: 2.5rem;
+    }
+
+    .timeline-info-title {
+      font-size: 1.5rem;
+    }
+
+    .timeline-info-description {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .timeline-circles {
+      gap: 32px;
+    }
+
+    .timeline-line-container {
+      left: 12px;
+      right: 12px;
+    }
+
+    .timeline-circle-year {
+      font-size: 0.75rem;
+    }
+
+    .timeline-circle-dot {
+      width: 10px;
+      height: 10px;
     }
   }
 `;
 
+import { useState } from 'react';
+
 export function AboutUsPage() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const handleSlideChange = (newIndex: number) => {
+    setCurrentSlide(newIndex);
+  };
+
   const values = [
     {
       title: 'Keselamatan',
@@ -414,23 +593,23 @@ export function AboutUsPage() {
   const milestones = [
     {
       year: "2003",
-      title: "Kami mulai berdiri dan dirintis dengan nama CV. Surya Inti Gas",
-      description: "Kantor kami berada di Jl. KH. Mukmin, Sidoarjo, Jawa Timur"
+      title: "Awal Berdiri",
+      description: "CV. Surya Inti Gas resmi didirikan di Sidoarjo, Jawa Timur, dengan kantor pertama yang berlokasi di Jl. KH. Mukmin. Sejak awal, perusahaan berkomitmen menyediakan solusi gas industri yang berkualitas dan terpercaya."
     },
     {
       year: "2007",
-      title: "Usaha dan bisnis CV. Surya Inti Gas berkembang dan melihat potensi prospek yang luar biasa",
-      description: "Untuk menunjang operasional kantor berpindah ke Komplek Pergudangan dan Industri \"Meiko Abadi\" Blok B 70, Ds. Wedi, Gedangan, Sidoarjo, Jawa Timur"
+      title: "Perluasan Operasional",
+      description: "Seiring pertumbuhan bisnis dan meningkatnya permintaan pasar, kantor operasional dipindahkan ke Komplek Pergudangan & Industri Meiko Abadi Blok B70, Wedi, Gedangan, Sidoarjo guna mendukung kapasitas layanan dan distribusi yang lebih optimal."
     },
     {
       year: "2016",
-      title: "Kantor CV. Surya Inti Gas berpindah ke Komplek Pergudangan dan Industri \"Safe N Lock\"",
-      description: "Blok V 1 No. 3223, 3225, 3232, 3233 Jl. Lingkar Timur KM 5.5, Ds. Rangkah Kidul, sebagai Head Office Sidoarjo"
+      title: "Menempati Kantor Pusat",
+      description: "Untuk menunjang perkembangan perusahaan, kantor pusat (Head Office) dipindahkan ke Komplek Pergudangan & Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo, yang hingga kini menjadi pusat operasional PT Surya Inti Gas."
     },
     {
       year: "2017",
-      title: "Berdirinya PT. Surya Inti Gas",
-      description: "Pada tahun tersebut pertama kalinya kami membuka cabang di Balikpapan Kalimantan Timur"
+      title: "Transformasi dan Ekspansi",
+      description: "Perusahaan resmi bertransformasi dari CV. Surya Inti Gas menjadi PT. Surya Inti Gas. Pada tahun yang sama, perusahaan memperluas jangkauan layanan dengan membuka cabang pertama di Balikpapan, Kalimantan Timur, sebagai langkah strategis untuk melayani kebutuhan pelanggan di wilayah Indonesia bagian timur."
     }
   ];
 
@@ -498,15 +677,31 @@ export function AboutUsPage() {
             </p>
           </div>
 
-          <div className="timeline">
-            {milestones.map((milestone, index) => (
-              <div key={index} className="timeline-item">
-                <div className="timeline-dot" />
-                <div className="timeline-year">{milestone.year}</div>
-                <h3 className="timeline-title">{milestone.title}</h3>
-                <p className="timeline-description">{milestone.description}</p>
+          <div className="timeline-wrapper">
+            <div className="timeline-circles">
+              <div className="timeline-line-container" />
+              {milestones.map((milestone, index) => (
+                <div
+                  key={index}
+                  className={`timeline-circle ${currentSlide === index ? 'active' : ''}`}
+                  onClick={() => handleSlideChange(index)}
+                >
+                  <div className="timeline-circle-year">{milestone.year}</div>
+                  <div className="timeline-circle-dot" />
+                </div>
+              ))}
+            </div>
+
+            <div className={`timeline-content ${currentSlide % 2 === 1 ? 'reverse' : ''}`} key={currentSlide}>
+              <div className="timeline-image">
+                Foto {milestones[currentSlide].year}
               </div>
-            ))}
+              <div className="timeline-info">
+                <div className="timeline-info-year">{milestones[currentSlide].year}</div>
+                <h3 className="timeline-info-title">{milestones[currentSlide].title}</h3>
+                <p className="timeline-info-description">{milestones[currentSlide].description}</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
