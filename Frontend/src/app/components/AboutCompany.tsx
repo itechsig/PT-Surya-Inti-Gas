@@ -6,8 +6,6 @@ import { ArrowRight } from "lucide-react";
 ══════════════════════════════════════════════════════════════ */
 
 const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
-
   /* ── Corporate Variables ── */
   .about-corporate {
     --navy-dark: #0f172a;
@@ -271,7 +269,7 @@ export function AboutCompany() {
             {/* Corporate Image Section */}
             <div className="about-image-section">
               <div className="about-main-image">
-                <img src="/office.jpg" alt="PT Surya Inti Gas" />
+                <img src="/office-optimized.jpg" alt="PT Surya Inti Gas" loading="lazy" />
               </div>
               
               <div className="about-overlay-card">

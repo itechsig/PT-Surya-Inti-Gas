@@ -81,6 +81,7 @@
     "@vitejs/plugin-react": "4.7.0",
     "@vitest/ui": "^4.1.8",
     "jsdom": "^29.1.1",
+    "sharp": "^0.35.2",
     "stylelint": "^16.0.0",
     "stylelint-config-standard": "^36.0.0",
     "tailwindcss": "4.1.12",

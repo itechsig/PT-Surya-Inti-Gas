@@ -91,31 +91,31 @@ const productCategories: ProductCategories = {
             id: 'acetylene',
             title: 'Acetylene (C2H2)',
             description: 'Gas asetilena untuk pengelasan dan pemotongan logam',
-            image: '/images/products/Acetylene.webp'
+            image: '/images/products/Acetylene-optimized.webp'
           },
           {
             id: 'oxygen',
             title: 'Oksigen (O2)',
             description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
-            image: '/images/products/Oxygen.webp'
+            image: '/images/products/Oxygen-optimized.webp'
           },
           {
             id: 'nitrogen',
             title: 'Nitrogen (N2)',
             description: 'Gas nitrogen untuk inerting, blanketing, dan pendinginan',
-            image: '/images/products/Nitrogen.webp'
+            image: '/images/products/Nitrogen-optimized.webp'
           },
           {
             id: 'argon',
             title: 'Argon (Ar)',
             description: 'Gas argon untuk pengelasan TIG dan aplikasi elektronik',
-            image: '/images/products/Argon.webp'
+            image: '/images/products/Argon-optimized.webp'
           },
           {
             id: 'hydrogen',
             title: 'Hidrogen (H2)',
             description: 'Gas hidrogen untuk berbagai aplikasi industri dan energi',
-            image: '/images/products/Hidrogen.webp'
+            image: '/images/products/Hidrogen-optimized.webp'
           }
         ]
       },
@@ -126,7 +126,7 @@ const productCategories: ProductCategories = {
             id: 'helium',
             title: 'Helium (He)',
             description: 'Gas helium untuk aplikasi medis, industri, dan penelitian',
-            image: '/images/products/Helium.webp'
+            image: '/images/products/Helium-optimized.webp'
           },
           {
             id: 'sulfur-hexaflouride',

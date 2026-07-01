@@ -1,4 +1,4 @@
-
+import { useState } from 'react';
 
 /* ═══════════════════════════════════════════════════════════════
    COMPANY PROFILE VIDEO.TSX — PT Surya Inti Gas Corporate
@@ -6,8 +6,6 @@
 ══════════════════════════════════════════════════════════════ */
 
 const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
-
   /* ── Corporate Variables ── */
   .video-corporate {
     --navy-dark: #0f172a;
@@ -283,6 +281,12 @@ const css = `
 `;
 
 export function CompanyProfileVideo() {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  const handleThumbnailClick = () => {
+    setIsVideoLoaded(true);
+  };
+
   return (
     <div className="video-corporate">
       <style>{css}</style>
@@ -305,14 +309,45 @@ export function CompanyProfileVideo() {
 
           {/* Corporate Video Wrapper */}
           <div className="video-wrapper">
-            <iframe
-              className="video-modal-video"
-              src="https://www.youtube.com/embed/O_NcnrY0RSc?loop=1&playlist=O_NcnrY0RSc&vq=hd1080&autoplay=1&mute=1&controls=1&rel=0"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="PT Surya Inti Gas Company Profile"
-            />
+            {!isVideoLoaded ? (
+              <div 
+                className="video-thumbnail" 
+                onClick={handleThumbnailClick}
+                role="button"
+                tabIndex={0}
+                aria-label="Play company profile video"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleThumbnailClick();
+                  }
+                }}
+              >
+                <img
+                  src="https://img.youtube.com/vi/O_NcnrY0RSc/maxresdefault.jpg"
+                  alt="PT Surya Inti Gas Company Profile Thumbnail"
+                  className="video-thumbnail-image"
+                  loading="lazy"
+                />
+                <div className="video-play-button">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </div>
+                <div className="video-thumbnail-text">
+                  Klik untuk memutar video
+                </div>
+              </div>
+            ) : (
+              <iframe
+                className="video-modal-video"
+                src="https://www.youtube.com/embed/O_NcnrY0RSc?autoplay=1&rel=0"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="PT Surya Inti Gas Company Profile"
+                loading="lazy"
+              />
+            )}
           </div>
 
         </div>

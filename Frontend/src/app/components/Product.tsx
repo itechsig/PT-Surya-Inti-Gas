@@ -65,6 +65,9 @@ function ProductCard({ product, onClick }: { product: Product; onClick: (id: str
           <img
             src={product.image}
             alt={product.title}
+            loading="lazy"
+            width="400"
+            height="300"
             onError={() => setImageError(true)}
           />
         )}
@@ -93,35 +96,35 @@ const productCategories: ProductCategories = {
             title: 'Acetylene (C2H2)',
             description: 'Gas asetilena untuk pengelasan dan pemotongan logam',
             fullDescription: 'Asetilena (C2H2) adalah gas hidrokarbon yang sangat mudah terbakar dan digunakan secara luas dalam industri pengelasan dan pemotongan logam. Gas ini memiliki suhu nyala yang sangat tinggi, mencapai 3.100°C, menjadikannya ideal untuk pengelasan oksi-asetilena dan pemotongan logam. Asetilena juga digunakan dalam sintesis kimia untuk memproduksi berbagai bahan kimia seperti plastik, karet sintetis, dan serat. PT Surya Inti Gas menyediakan asetilena berkualitas tinggi yang memenuhi standar industri untuk keamanan dan kinerja optimal.',
-            image: '/images/products/Acetylene.webp'
+            image: '/images/products/Acetylene-optimized.webp'
           },
           {
             id: 'oxygen',
             title: 'Oksigen (O2)',
             description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
             fullDescription: 'Oksigen (O2) adalah gas yang sangat penting dalam berbagai aplikasi industri dan medis. Dalam bidang medis, oksigen digunakan untuk terapi pernapasan, resusitasi, dan sebagai gas pendukung dalam anestesi. Dalam industri, oksigen berperan penting dalam proses metalurgi untuk pembakaran dan pemurnian logam, industri kimia untuk oksidasi, serta dalam pengelasan dan pemotongan logam. Oksigen juga digunakan dalam pengolahan air, pembuatan kertas, dan berbagai proses manufaktur lainnya. PT Surya Inti Gas menyediakan oksigen dengan berbagai tingkat kemurnian sesuai kebutuhan spesifik pelanggan.',
-            image: '/images/products/Oxygen.webp'
+            image: '/images/products/Oxygen-optimized.webp'
           },
           {
             id: 'nitrogen',
             title: 'Nitrogen (N2)',
             description: 'Gas nitrogen untuk inerting, blanketing, dan pendinginan',
             fullDescription: 'Nitrogen (N2) adalah gas inert yang menyusun sekitar 78% dari atmosfer bumi. Dalam industri, nitrogen digunakan secara luas untuk proses inerting (menghilangkan oksigen untuk mencegah korosi dan ledakan), blanketing (melindungi produk cair dan padat dari oksidasi), dan pendinginan (cryogenic cooling). Nitrogen juga digunakan dalam industri makanan untuk pengawetan, dalam elektronik untuk pembuatan semikonduktor, serta dalam metalurgi untuk proses heat treatment. PT Surya Inti Gas menyediakan nitrogen dalam berbagai bentuk dan tingkat kemurnian sesuai kebutuhan aplikasi industri Anda.',
-            image: '/images/products/Nitrogen.webp'
+            image: '/images/products/Nitrogen-optimized.webp'
           },
           {
             id: 'argon',
             title: 'Argon (Ar)',
             description: 'Gas argon untuk pengelasan TIG dan aplikasi elektronik',
             fullDescription: 'Argon (Ar) adalah gas inert yang paling sering digunakan dalam pengelasan TIG (Tungsten Inert Gas) dan MIG karena kemampuannya untuk melindungi area las dari kontaminasi atmosfer. Gas ini juga digunakan dalam industri elektronik untuk pembuatan semikonduktor dan panel layar, dalam metalurgi untuk proses perlakuan panas, serta dalam industri kaca untuk produksi kaca berkualitas tinggi. Argon juga digunakan dalam analisis laboratorium sebagai gas pembawa dan dalam perlindungan logam mulia. PT Surya Inti Gas menyediakan argon dengan kemurnian tinggi untuk berbagai aplikasi industri presisi.',
-            image: '/images/products/Argon.webp'
+            image: '/images/products/Argon-optimized.webp'
           },
           {
             id: 'hydrogen',
             title: 'Hidrogen (H2)',
             description: 'Gas hidrogen untuk berbagai aplikasi industri dan energi',
             fullDescription: 'Hidrogen (H2) adalah gas yang paling ringan dan paling melimpah di alam semesta. Dalam industri, hidrogen digunakan dalam pemurnian minyak bumi, produksi amonia, pembuatan metanol, dan berbagai proses kimia lainnya. Hidrogen juga digunakan sebagai bahan bakar untuk kendaraan bertenaga fuel cell, dalam industri elektronik untuk pembuatan semikonduktor, serta sebagai gas pembawa dalam analisis gas kromatografi. PT Surya Inti Gas menyediakan hidrogen dengan tingkat kemurnian yang sesuai untuk aplikasi industri dan energi.',
-            image: '/images/products/Hidrogen.webp'
+            image: '/images/products/Hidrogen-optimized.webp'
           }
         ]
       },
@@ -161,7 +164,7 @@ const productCategories: ProductCategories = {
             title: 'Acetylene',
             description: 'Tabung gas asetilena dengan color code standar',
             fullDescription: 'Tabung gas asetilena dengan color code standar internasional untuk identifikasi gas dan keamanan. Tabung ini dirancang sesuai standar keamanan industri untuk menyimpan asetilena pada tekanan tinggi. Color code membantu dalam identifikasi cepat dan mencegah kesalahan penggunaan. PT Surya Inti Gas menyediakan tabung asetilena dengan spesifikasi material dan safety features yang memenuhi standar internasional.',
-            image: '/images/products/Acetylene.webp'
+            image: '/images/products/Acetylene-optimized.webp'
           },
           {
             id: 'color-code-special',
