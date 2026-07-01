@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <!-- Homepage -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/</loc>
     <lastmod>2026-07-01</lastmod>
@@ -13,8 +11,6 @@
     <xhtml:link rel="alternate" hreflang="zh" href="https://pt-surya-inti-gas.vercel.app/zh" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pt-surya-inti-gas.vercel.app" />
   </url>
-  
-  <!-- Indonesian Version -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/id</loc>
     <lastmod>2026-07-01</lastmod>
@@ -25,8 +21,6 @@
     <xhtml:link rel="alternate" hreflang="zh" href="https://pt-surya-inti-gas.vercel.app/zh" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pt-surya-inti-gas.vercel.app" />
   </url>
-  
-  <!-- English Version -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/en</loc>
     <lastmod>2026-07-01</lastmod>
@@ -37,8 +31,6 @@
     <xhtml:link rel="alternate" hreflang="zh" href="https://pt-surya-inti-gas.vercel.app/zh" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pt-surya-inti-gas.vercel.app" />
   </url>
-  
-  <!-- Chinese Version -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/zh</loc>
     <lastmod>2026-07-01</lastmod>
@@ -49,103 +41,82 @@
     <xhtml:link rel="alternate" hreflang="zh" href="https://pt-surya-inti-gas.vercel.app/zh" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pt-surya-inti-gas.vercel.app" />
   </url>
-  
-  <!-- About Page -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/about</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
-  <!-- Products Page -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/products</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  
-  <!-- Product Categories -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/products/industrial-gas</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/products/medical-gas</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/products/specialty-gas</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/products/mixed-gas</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  
-  <!-- Specific Product Pages -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/products/oxygen</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/products/nitrogen</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/products/argon</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/products/acetylene</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <!-- Services Page -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/services</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
-  <!-- Contact Page -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/contact</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  
-  <!-- Career Page -->
   <url>
     <loc>https://pt-surya-inti-gas.vercel.app/career</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-  
 </urlset>
