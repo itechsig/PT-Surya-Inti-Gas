@@ -19,11 +19,15 @@
       "dest": "/robots.txt"
     },
     {
+      "src": "/google20ef713f750a3bec.html",
+      "dest": "/google20ef713f750a3bec.html"
+    },
+    {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },
     {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|mp4|webp|xml|txt))",
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|mp4|webp|xml|txt|html))",
       "dest": "/$1"
     },
     {
