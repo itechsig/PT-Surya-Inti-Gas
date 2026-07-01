@@ -472,15 +472,6 @@ const galleryItems: GalleryItem[] = [
     category: 'products'
   },
   {
-    id: 'office-view-1',
-    thumbnail: '/images/office/office_view.webp',
-    fullSize: '/images/office/office_view.webp',
-    alt: 'Office View 1',
-    title: 'Ruang Kerja',
-    description: 'Tampilan ruang kerja',
-    category: 'facility'
-  },
-  {
     id: 'office-view-2',
     thumbnail: '/images/office/office_view2.webp',
     fullSize: '/images/office/office_view2.webp',
