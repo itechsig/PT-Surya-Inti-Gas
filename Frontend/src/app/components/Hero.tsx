@@ -439,10 +439,22 @@ export function Hero() {
             <video
               ref={videoRef}
               className="corporate-video"
-              autoPlay muted loop playsInline
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
               onError={handleVideoError}
+              onCanPlay={() => {
+                if (videoRef.current) {
+                  videoRef.current.play().catch(err => {
+                    console.log('Autoplay prevented:', err);
+                  });
+                }
+              }}
             >
               <source src="/hero-video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
             </video>
           )}
         </div>

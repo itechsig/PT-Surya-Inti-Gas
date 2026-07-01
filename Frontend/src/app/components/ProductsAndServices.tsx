@@ -375,6 +375,8 @@ export function ProductsAndServices() {
                 key={category.id}
                 className={`products-tab ${mainCategory === category.id ? 'active' : ''}`}
                 onClick={() => handleMainCategoryChange(category.id)}
+                aria-label={`Select ${category.label} category`}
+                aria-pressed={mainCategory === category.id}
               >
                 {category.label}
               </button>
@@ -388,6 +390,8 @@ export function ProductsAndServices() {
                 key={subCat.id}
                 className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
                 onClick={() => handleSubCategoryChange(subCat.id)}
+                aria-label={`Select ${subCat.title} subcategory`}
+                aria-pressed={subCategory === subCat.id}
               >
                 {subCat.title}
               </button>

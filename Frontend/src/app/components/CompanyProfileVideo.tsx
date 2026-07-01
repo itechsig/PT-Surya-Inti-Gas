@@ -325,6 +325,9 @@ export function CompanyProfileVideo() {
                 <img
                   src="https://img.youtube.com/vi/O_NcnrY0RSc/maxresdefault.jpg"
                   alt="PT Surya Inti Gas Company Profile Thumbnail"
+                  width="634"
+                  height="357"
+                  loading="lazy"
                   className="video-thumbnail-image"
                   loading="lazy"
                 />

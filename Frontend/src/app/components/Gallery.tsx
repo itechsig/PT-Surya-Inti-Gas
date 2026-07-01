@@ -719,6 +719,8 @@ function Gallery() {
                 key={category.id}
                 className={`gallery-filter-btn ${selectedCategory === category.id ? 'active' : ''}`}
                 onClick={() => handleCategoryChange(category.id)}
+                aria-label={`Filter by ${category.name}`}
+                aria-pressed={selectedCategory === category.id}
               >
                 {category.name}
               </button>

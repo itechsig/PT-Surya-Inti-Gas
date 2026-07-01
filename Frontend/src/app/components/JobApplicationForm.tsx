@@ -215,7 +215,7 @@ export function JobApplicationForm() {
         <div className="section-container">
           <div className="no-jobs-found">
             <p>Lowongan tidak ditemukan.</p>
-            <button onClick={() => navigate('/karir')} className="back-button">
+            <button onClick={() => navigate('/karir')} className="back-button" aria-label="Back to job listings">
               <ArrowLeft size={16} />
               Kembali ke Lowongan
             </button>
@@ -245,7 +245,7 @@ export function JobApplicationForm() {
               <CheckCircle size={64} className="success-icon" />
               <h2>Lamaran Berhasil Dikirim!</h2>
               <p>Terima kasih telah melamar untuk posisi {job.title}. Tim HR kami akan menghubungi Anda jika Anda memenuhi kualifikasi.</p>
-              <button onClick={() => navigate('/karir')} className="back-button">
+              <button onClick={() => navigate('/karir')} className="back-button" aria-label="Back to job listings">
                 Kembali ke Lowongan
               </button>
             </div>
@@ -271,7 +271,7 @@ export function JobApplicationForm() {
 
       <div className="application-form-section">
         <div className="section-container">
-          <button onClick={handleBack} className="back-button">
+          <button onClick={handleBack} className="back-button" aria-label="Back to job details">
             <ArrowLeft size={16} />
             Kembali ke Detail Lowongan
           </button>
@@ -405,6 +405,7 @@ export function JobApplicationForm() {
                 type="submit"
                 className="submit-button"
                 disabled={submitting}
+                aria-label="Submit job application"
               >
                 {submitting ? 'Mengirim...' : (
                   <>

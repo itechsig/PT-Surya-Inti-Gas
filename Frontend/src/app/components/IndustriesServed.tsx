@@ -248,41 +248,68 @@ const css = `
   }
 `;
 
+type Industry = {
+  id: string;
+  title: string;
+  image: string;
+  imageSrcSet?: string;
+  width?: number;
+  height?: number;
+};
+
 export function IndustriesServed() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  const industries = [
+  const industries: Industry[] = [
     {
       id: 'manufaktur',
       title: 'Manufaktur',
-      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158'
+      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80 800w',
+      width: 800,
+      height: 533
     },
     {
       id: 'kesehatan',
       title: 'Kesehatan',
-      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d'
+      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80 800w',
+      width: 800,
+      height: 533
     },
     {
       id: 'makanan-minuman',
       title: 'Makanan & Minuman',
-      image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836'
+      image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80 800w',
+      width: 800,
+      height: 533
     },
     {
       id: 'minyak-gas',
       title: 'Minyak & Gas',
-      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23'
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80 800w',
+      width: 800,
+      height: 533
     },
     {
       id: 'energi',
       title: 'Energi',
-      image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e'
+      image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80 800w',
+      width: 800,
+      height: 533
     },
     {
       id: 'konstruksi',
       title: 'Konstruksi',
-      image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd'
+      image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80 800w',
+      width: 800,
+      height: 533
     }
   ];
 
@@ -353,7 +380,12 @@ export function IndustriesServed() {
                   <div className="industry-card-image">
                     <img
                       src={industry.image}
+                      srcSet={industry.imageSrcSet}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       alt={industry.title}
+                      width={industry.width}
+                      height={industry.height}
+                      loading="lazy"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                         e.currentTarget.parentElement!.style.background = '#e2e8f0';
@@ -375,6 +407,7 @@ export function IndustriesServed() {
                 className="carousel-nav-button"
                 onClick={scrollLeft}
                 disabled={!canScrollLeft}
+                aria-label="Previous slide"
               >
                 <ChevronLeft size={24} />
               </button>
@@ -382,6 +415,7 @@ export function IndustriesServed() {
                 className="carousel-nav-button"
                 onClick={scrollRight}
                 disabled={!canScrollRight}
+                aria-label="Next slide"
               >
                 <ChevronRight size={24} />
               </button>

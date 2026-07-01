@@ -136,7 +136,7 @@ const productCategories: ProductCategories = {
             title: 'Helium (He)',
             description: 'Gas helium untuk aplikasi medis, industri, dan penelitian',
             fullDescription: 'Helium (He) adalah gas inert yang paling ringan kedua setelah hidrogen. Gas ini memiliki berbagai aplikasi penting: dalam medis digunakan untuk MRI (Magnetic Resonance Imaging), dalam industri digunakan untuk pengelasan dan leak detection, dalam penelitian sains untuk pendinginan superkonduktor, serta untuk pengisian balon dan blimp. Helium juga digunakan dalam industri elektronik untuk pembuatan serat optik dan semikonduktor. PT Surya Inti Gas menyediakan helium dengan kemurnian tinggi untuk berbagai aplikasi medis, industri, dan penelitian.',
-            image: '/images/products/Helium.webp'
+            image: '/images/products/Helium-optimized.webp'
           },
           {
             id: 'sulfur-hexaflouride',
@@ -470,6 +470,8 @@ export function Product() {
                 key={category.id}
                 className={`products-tab ${mainCategory === category.id ? 'active' : ''}`}
                 onClick={() => handleMainCategoryChange(category.id)}
+                aria-label={`Select ${category.label} category`}
+                aria-pressed={mainCategory === category.id}
               >
                 {category.label}
               </button>
@@ -483,6 +485,8 @@ export function Product() {
                 key={subCat.id}
                 className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
                 onClick={() => handleSubCategoryChange(subCat.id)}
+                aria-label={`Select ${subCat.title} subcategory`}
+                aria-pressed={subCategory === subCat.id}
               >
                 {subCat.title}
               </button>
