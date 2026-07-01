@@ -392,8 +392,8 @@ type GalleryItem = {
 const galleryItems: GalleryItem[] = [
   {
     id: 'oxygen',
-    thumbnail: '/images/products/Oxygen.webp',
-    fullSize: '/images/products/Oxygen.webp',
+    thumbnail: '/images/products/Oxygen-optimized.webp',
+    fullSize: '/images/products/Oxygen-optimized.webp',
     alt: 'Oxygen Cylinder',
     title: 'Oksigen (O2)',
     description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
@@ -401,8 +401,8 @@ const galleryItems: GalleryItem[] = [
   },
   {
     id: 'nitrogen',
-    thumbnail: '/images/products/Nitrogen.webp',
-    fullSize: '/images/products/Nitrogen.webp',
+    thumbnail: '/images/products/Nitrogen-optimized.webp',
+    fullSize: '/images/products/Nitrogen-optimized.webp',
     alt: 'Nitrogen Cylinder',
     title: 'Nitrogen (N2)',
     description: 'Gas nitrogen untuk inerting, blanketing, dan pendinginan',
@@ -428,8 +428,8 @@ const galleryItems: GalleryItem[] = [
   },
   {
     id: 'acetylene',
-    thumbnail: '/images/products/Acetylene.webp',
-    fullSize: '/images/products/Acetylene.webp',
+    thumbnail: '/images/products/Acetylene-optimized.webp',
+    fullSize: '/images/products/Acetylene-optimized.webp',
     alt: 'Acetylene Cylinder',
     title: 'Asetilena (C2H2)',
     description: 'Gas asetilena untuk pengelasan dan pemotongan logam',
@@ -524,6 +524,9 @@ function GalleryCard({ item, onClick }: { item: GalleryItem; onClick: () => void
           <img
             src={item.thumbnail}
             alt={item.alt}
+            loading="lazy"
+            width="400"
+            height="250"
             className=""
             style={{
               width: '100%',

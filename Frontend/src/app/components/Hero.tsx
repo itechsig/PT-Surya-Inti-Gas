@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -7,8 +7,6 @@ import { ArrowRight } from "lucide-react";
 ══════════════════════════════════════════════════════════════ */
 
 const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
-
   /* ── Corporate Variables ── */
   .hero-corporate {
     --navy-dark  : #0f172a;
@@ -402,6 +400,8 @@ const css = `
 ══════════════════════════════════════════════════════════════ */
 export function Hero() {
   const [scrollPct, setScrollPct] = useState(0);
+  const [videoError, setVideoError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   /* Scroll listener */
   useEffect(() => {
@@ -413,6 +413,11 @@ export function Hero() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const handleVideoError = () => {
+    console.error('Video failed to load, using fallback background');
+    setVideoError(true);
+  };
 
   return (
     <div className="hero-corporate">
@@ -427,13 +432,19 @@ export function Hero() {
       <section className="corporate-hero">
 
         {/* Video Background */}
-        <div className="corporate-video-wrap">
-          <video
-            className="corporate-video"
-            autoPlay muted loop playsInline
-          >
-            <source src="/hero-video.mp4" type="video/mp4" />
-          </video>
+        <div className="corporate-video-wrap" style={{
+          background: videoError ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' : undefined
+        }}>
+          {!videoError && (
+            <video
+              ref={videoRef}
+              className="corporate-video"
+              autoPlay muted loop playsInline
+              onError={handleVideoError}
+            >
+              <source src="/hero-video.mp4" type="video/mp4" />
+            </video>
+          )}
         </div>
 
         {/* Corporate Overlay */}
