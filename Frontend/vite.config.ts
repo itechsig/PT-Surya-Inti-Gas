@@ -68,5 +68,7 @@ export default defineConfig({
       },
     },
     chunkSizeWarningLimit: 1000,
+    // Ensure public folder is copied to dist
+    copyPublicDir: true,
   },
 })
