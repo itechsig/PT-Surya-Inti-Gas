@@ -255,7 +255,7 @@ export function JobDetail() {
         <div className="section-container">
           <div className="no-jobs-found">
             <p>Lowongan tidak ditemukan.</p>
-            <button onClick={() => navigate('/karir')} className="back-button">
+            <button onClick={() => navigate('/karir')} className="back-button" aria-label="Back to job listings">
               <ArrowLeft size={16} />
               Kembali ke Lowongan
             </button>
@@ -283,7 +283,7 @@ export function JobDetail() {
 
       <div className="job-detail-section">
         <div className="section-container">
-          <button onClick={() => navigate('/karir')} className="back-button">
+          <button onClick={() => navigate('/karir')} className="back-button" aria-label="Back to job listings">
             <ArrowLeft size={16} />
             Kembali ke Lowongan
           </button>
@@ -332,11 +332,11 @@ export function JobDetail() {
 
             <div className="job-detail-actions">
               {deadlinePassed ? (
-                <button className="apply-button disabled" disabled>
+                <button className="apply-button disabled" disabled aria-label="Job application closed">
                   Lowongan Ditutup
                 </button>
               ) : (
-                <button onClick={handleApply} className="apply-button">
+                <button onClick={handleApply} className="apply-button" aria-label="Apply for this job">
                   <Send size={18} />
                   Lamar Sekarang
                 </button>

@@ -417,6 +417,8 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
                 key={region}
                 className={`distribution-filter ${regionFilter === region ? 'active' : ''}`}
                 onClick={() => handleRegionChange(region)}
+                aria-label={`Filter by ${region === 'all' ? 'Semua' : region === 'jawa-timur' ? 'Jawa Timur' : 'Kalimantan Timur'}`}
+                aria-pressed={regionFilter === region}
               >
                 {region === 'all' ? 'Semua' : region === 'jawa-timur' ? 'Jawa Timur' : 'Kalimantan Timur'}
               </button>
@@ -430,6 +432,8 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
                   key={filter.id}
                   className={`sub-filter ${locationFilter === filter.id ? 'active' : ''}`}
                   onClick={() => setLocationFilter(filter.id)}
+                  aria-label={`Filter by ${filter.label}`}
+                  aria-pressed={locationFilter === filter.id}
                 >
                   {filter.label}
                 </button>

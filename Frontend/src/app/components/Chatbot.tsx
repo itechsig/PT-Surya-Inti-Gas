@@ -926,6 +926,7 @@ export function Chatbot() {
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-7 right-6 z-50 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+        aria-label={isOpen ? "Close chat" : "Open chat"}
       >
         {isOpen ? (
           <X size={24} />
@@ -1114,12 +1115,12 @@ export function Chatbot() {
                 />
 
                 <button
-                
                   onClick={handleSendMessage}
                   disabled={
                     isLoading || !inputValue.trim()
                   }
                   className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Send message"
                 >
                   <Send size={20} />
                 </button>

@@ -158,6 +158,9 @@ export const Header = () => {
                   src="/logo.png"
                   alt="Logo PT Surya Inti Gas"
                   className="h-14 w-auto object-contain transition-all duration-300"
+                  fetchPriority="high"
+                  width="200"
+                  height="56"
                 />
               </div>
               <div className="hidden md:block">
@@ -347,6 +350,8 @@ export const Header = () => {
                       src="/logo.png"
                       alt="Logo PT Surya Inti Gas"
                       className="h-10 sm:h-12 w-auto object-contain"
+                      width="200"
+                      height="56"
                     />
                     <div>
                       <div

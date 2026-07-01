@@ -371,7 +371,7 @@ export function Footer() {
           {/* Company Info */}
           <div className="corporate-footer-company">
             <a href="/" className="corporate-footer-logo">
-              <img src="/logo.png" alt="PT Surya Inti Gas Logo" />
+              <img src="/logo.png" alt="PT Surya Inti Gas Logo" width="200" height="56" />
               <div className="corporate-footer-logo-text">
                 <span className="name">SURYA INTI GAS</span>
                 <span className="tagline">{t('footer.tagline')}</span>

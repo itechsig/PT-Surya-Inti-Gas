@@ -51,9 +51,10 @@ interface SidebarProps {
 // Back Button Component
 const BackButton = ({ navigate }: { navigate: (path: string) => void }) => {
   return (
-    <button 
-      onClick={() => navigate('/berita')} 
+    <button
+      onClick={() => navigate('/berita')}
       className="back-button"
+      aria-label="Back to news"
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -332,6 +333,7 @@ const ShareButtons = ({ title, url }: { title: string; url: string }) => {
       </a>
       <button
         onClick={copyLink}
+        aria-label="Copy link"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -410,6 +412,7 @@ const Navigation = ({ hasPrev, hasNext }: { hasPrev: boolean; hasNext: boolean }
   }}>
     {hasPrev && (
       <button
+        aria-label="Previous news article"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -441,6 +444,7 @@ const Navigation = ({ hasPrev, hasNext }: { hasPrev: boolean; hasNext: boolean }
     )}
     {hasNext && (
       <button
+        aria-label="Next news article"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -1120,18 +1124,18 @@ const newsItems: NewsArticle[] = [
     featuredImage: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=600&fit=crop",
     content: `
       <p>Pada tahun 2003, CV. Surya Inti Gas didirikan dan mulai beroperasi dengan kantor pertama yang terletak di Jl. KH. Mukmin, Sidoarjo, Jawa Timur. Ini menandai awal perjalanan kami dalam industri gas Indonesia dengan fokus pada penyediaan gas industri berkualitas tinggi untuk berbagai sektor.</p>
-      
-      <h2>Awal Perjalanan Kami</h2>
+
+      <h3>Awal Perjalanan Kami</h3>
       <p>Didirikan dengan visi untuk menjadi penyedia gas industri terpercaya di Indonesia, CV. Surya Inti Gas memulai operasional dengan fokus pada kualitas dan pelayanan pelanggan.</p>
-      
-      <h3>Lokasi Pertama</h3>
+
+      <h4>Lokasi Pertama</h4>
       <p>Kantor pertama kami di Jl. KH. Mukmin, Sidoarjo, Jawa Timur menjadi fondasi bagi pertumbuhan perusahaan dan hubungan dengan pelanggan awal kami.</p>
-      
+
       <blockquote>
         "Setiap perjalanan besar dimulai dengan langkah pertama. Tahun 2003 menandai awal komitmen kami terhadap industri gas Indonesia."
       </blockquote>
-      
-      <h3>Fokus Awal</h3>
+
+      <h4>Fokus Awal</h4>
       <ul>
         <li>Penyediaan gas industri berkualitas tinggi</li>
         <li>Pelayanan pelanggan yang responsif</li>
@@ -1152,11 +1156,11 @@ const newsItems: NewsArticle[] = [
     featuredImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=600&fit=crop",
     content: `
       <p>Pada tahun 2007, usaha dan bisnis CV. Surya Inti Gas mengalami perkembangan signifikan dengan melihat potensi prospek yang luar biasa. Untuk menunjang operasional yang semakin berkembang, kantor kami berpindah ke Komplek Pergudangan dan Industri "Meiko Abadi" Blok B 70, Ds. Wedi, Gedangan, Sidoarjo, Jawa Timur.</p>
-      
-      <h2>Perkembangan Bisnis</h2>
+
+      <h3>Perkembangan Bisnis</h3>
       <p>Pertumbuhan yang signifikan dalam bisnis kami memerlukan fasilitas yang lebih besar dan lebih strategis untuk mendukung operasional yang terus berkembang.</p>
-      
-      <h3>Relokasi ke Meiko Abadi</h3>
+
+      <h4>Relokasi ke Meiko Abadi</h4>
       <p>Pemindahan kantor ke Komplek Pergudangan dan Industri "Meiko Abadi" merupakan langkah strategis untuk:</p>
       <ul>
         <li>Fasilitas yang lebih luas untuk operasional</li>
@@ -1164,12 +1168,12 @@ const newsItems: NewsArticle[] = [
         <li>Akses yang lebih baik untuk distribusi</li>
         <li>Skalabilitas untuk pertumbuhan masa depan</li>
       </ul>
-      
+
       <blockquote>
         "Pertumbuhan yang pesat memerlukan infrastruktur yang memadai. Relokasi tahun 2007 adalah bukti komitmen kami terhadap ekspansi."
       </blockquote>
-      
-      <h3>Dampak pada Operasional</h3>
+
+      <h4>Dampak pada Operasional</h4>
       <p>Fasilitas baru di Meiko Abadi memungkinkan kami untuk meningkatkan kapasitas produksi dan distribusi, serta memberikan pelayanan yang lebih baik kepada pelanggan yang terus bertambah.</p>
     `,
     tags: ['Sejarah', 'Ekspansi', '2007', 'Relokasi', 'Meiko Abadi']
@@ -1185,11 +1189,11 @@ const newsItems: NewsArticle[] = [
     featuredImage: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&h=600&fit=crop",
     content: `
       <p>Tahun 2016 menandai milestone penting dengan perpindahan kantor CV. Surya Inti Gas ke Komplek Pergudangan dan Industri "Safe N Lock" Blok V 1 No. 3223, 3225, 3232, 3233 Jl. Lingkar Timur KM 5.5, Ds. Rangkah Kidul, yang kemudian menjadi Head Office Sidoarjo hingga saat ini.</p>
-      
-      <h2>Milestone Penting</h2>
+
+      <h3>Milestone Penting</h3>
       <p>Relokasi ke Safe N Lock merupakan langkah strategis yang mendefinisikan posisi kami sebagai pemimpin dalam industri gas di wilayah Sidoarjo dan sekitarnya.</p>
-      
-      <h3>Fasilitas Head Office Baru</h3>
+
+      <h4>Fasilitas Head Office Baru</h4>
       <p>Komplek Pergudangan dan Industri "Safe N Lock" menyediakan:</p>
       <ul>
         <li>Fasilitas modern dan comprehensive</li>
@@ -1197,12 +1201,12 @@ const newsItems: NewsArticle[] = [
         <li>Multiple unit untuk berbagai divisi</li>
         <li>Infrastructure yang mendukung pertumbuhan</li>
       </ul>
-      
+
       <blockquote>
         "Safe N Lock bukan hanya sekadar lokasi baru, tetapi representasi dari pertumbuhan dan maturity perusahaan kami."
       </blockquote>
-      
-      <h3>Transformasi Organisasi</h3>
+
+      <h4>Transformasi Organisasi</h4>
       <p>Head Office baru ini menjadi simbol transformasi kami dari perusahaan kecil menjadi pemain utama dalam industri gas, dengan kapabilitas untuk melayani pelanggan di seluruh Indonesia.</p>
     `,
     tags: ['Sejarah', 'Relokasi', '2016', 'Head Office', 'Safe N Lock']
@@ -1218,11 +1222,11 @@ const newsItems: NewsArticle[] = [
     featuredImage: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=600&fit=crop",
     content: `
       <p>Tahun 2017 merupakan tahun transformasi bagi perusahaan kami dengan berdirinya PT. Surya Inti Gas. Pada tahun yang sama, untuk pertama kalinya kami membuka cabang di Balikpapan, Kalimantan Timur, sebagai langkah strategis dalam ekspansi layanan ke seluruh Indonesia.</p>
-      
-      <h2>Transformasi Menjadi PT</h2>
+
+      <h3>Transformasi Menjadi PT</h3>
       <p>Perubahan bentuk hukum dari CV menjadi PT merupakan langkah penting yang mencerminkan pertumbuhan dan komitmen kami untuk terus berkembang dan memberikan layanan yang lebih profesional.</p>
-      
-      <h3>Ekspansi ke Balikpapan</h3>
+
+      <h4>Ekspansi ke Balikpapan</h4>
       <p>Pembukaan cabang pertama di Balikpapan, Kalimantan Timur adalah langkah strategis untuk:</p>
       <ul>
         <li>Ekspansi geografis ke luar Jawa</li>
@@ -1230,12 +1234,12 @@ const newsItems: NewsArticle[] = [
         <li>Memperkuat jaringan distribusi nasional</li>
         <li>Mendekatkan layanan ke pelanggan regional</li>
       </ul>
-      
+
       <blockquote>
         "Transformasi menjadi PT dan ekspansi ke Balikpapan adalah bukti komitmen kami untuk menjadi pemimpin industri gas di Indonesia."
       </blockquote>
-      
-      <h3>Dampak Nasional</h3>
+
+      <h4>Dampak Nasional</h4>
       <p>Langkah ini menandai awal dari ekspansi nasional kami, dengan rencana untuk membuka lebih banyak cabang di kota-kota besar lainnya di seluruh Indonesia.</p>
     `,
     tags: ['Sejarah', 'Pendirian', '2017', 'PT Surya Inti Gas', 'Balikpapan', 'Ekspansi']
@@ -1684,7 +1688,7 @@ function NewsDetail() {
             border: '1px solid #e2e8f0',
             boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
           }}>
-            <h1 className="article-title" style={{
+            <h2 className="article-title" style={{
               fontFamily: 'Barlow, system-ui, sans-serif',
               fontSize: 'clamp(24px, 4vw, 32px)',
               fontWeight: '700',
@@ -1693,7 +1697,7 @@ function NewsDetail() {
               lineHeight: '1.2'
             }}>
               {newsArticle.title}
-            </h1>
+            </h2>
             
             <FeaturedImage src={newsArticle.featuredImage} alt={newsArticle.title} />
             <ArticleMetadata article={newsArticle} />
