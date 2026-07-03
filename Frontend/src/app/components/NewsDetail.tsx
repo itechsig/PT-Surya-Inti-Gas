@@ -598,8 +598,8 @@ const SearchBox = () => {
 const sidebarGalleryItems: GalleryItem[] = [
   {
     id: 'news-1',
-    thumbnail: '/images/products/Oxygen.webp',
-    fullSize: '/images/products/Oxygen.webp',
+    thumbnail: '/images/products/Oxygen-optimized.webp',
+    fullSize: '/images/products/Oxygen-optimized.webp',
     alt: 'Oxygen Cylinder',
     title: 'Oksigen (O2)',
     description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
@@ -607,8 +607,8 @@ const sidebarGalleryItems: GalleryItem[] = [
   },
   {
     id: 'news-2',
-    thumbnail: '/images/products/Nitrogen.webp',
-    fullSize: '/images/products/Nitrogen.webp',
+    thumbnail: '/images/products/Nitrogen-optimized.webp',
+    fullSize: '/images/products/Nitrogen-optimized.webp',
     alt: 'Nitrogen Cylinder',
     title: 'Nitrogen (N2)',
     description: 'Gas nitrogen untuk inerting, blanketing, dan pendinginan',
@@ -634,8 +634,8 @@ const sidebarGalleryItems: GalleryItem[] = [
   },
   {
     id: 'news-5',
-    thumbnail: '/images/products/Acetylene.webp',
-    fullSize: '/images/products/Acetylene.webp',
+    thumbnail: '/images/products/Acetylene-optimized.webp',
+    fullSize: '/images/products/Acetylene-optimized.webp',
     alt: 'Acetylene Cylinder',
     title: 'Asetilena (C2H2)',
     description: 'Gas asetilena untuk pengelasan dan pemotongan logam',
@@ -1608,6 +1608,83 @@ function NewsDetail() {
           background: #f8fafc;
           font-weight: 600;
         }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+          .news-detail-layout {
+            grid-template-columns: 1fr !important;
+          }
+
+          .sidebar-sticky {
+            position: static !important;
+          }
+
+          .news-header-responsive {
+            padding: 180px 6vw 80px 6vw !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .news-header-responsive {
+            padding: 140px 6vw 60px 6vw !important;
+            margin-bottom: 40px !important;
+          }
+
+          .news-detail-article {
+            padding: 20px !important;
+          }
+
+          .article-title {
+            font-size: clamp(20px, 5vw, 28px) !important;
+          }
+
+          .article-content {
+            font-size: 15px !important;
+          }
+
+          .article-content h2 {
+            font-size: 20px !important;
+          }
+
+          .article-content h3 {
+            font-size: 18px !important;
+          }
+
+          .article-content blockquote {
+            padding: 12px 16px !important;
+            font-size: 14px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .news-header-responsive {
+            padding: 120px 6vw 40px 6vw !important;
+          }
+
+          .news-detail-article {
+            padding: 16px !important;
+            border-radius: 8px !important;
+          }
+
+          .article-content {
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+          }
+
+          .article-content h2 {
+            font-size: 18px !important;
+            margin: 24px 0 12px 0 !important;
+          }
+
+          .article-content h3 {
+            font-size: 16px !important;
+            margin: 20px 0 10px 0 !important;
+          }
+
+          .article-content ul, .article-content ol {
+            padding-left: 20px !important;
+          }
+        }
       `}</style>
       <section className="products-section" style={{
         paddingTop: '0'
@@ -1623,7 +1700,8 @@ function NewsDetail() {
           marginTop: '-120px',
           textAlign: 'center',
           overflow: 'hidden'
-        }}>
+        }}
+        >
           <div className="products-container">
             <div className="products-badge" style={{
               display: 'inline-flex',
@@ -1678,6 +1756,7 @@ function NewsDetail() {
             
             <div className="news-detail-layout" style={{
               display: 'grid',
+              gridTemplateColumns: '1fr 300px',
               gap: '32px'
             }}>
           {/* Main Content */}
