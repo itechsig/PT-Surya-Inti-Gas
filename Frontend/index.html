@@ -118,6 +118,7 @@
         "@type": "Product",
         "name": "Oxygen (O₂)",
         "description": "Industrial and medical oxygen gas with high purity. 工业和医用氧气，纯度高。",
+        "image": "https://pt-surya-inti-gas.vercel.app/images/products/Oxygen-optimized.webp",
         "keywords": ["oksigen", "oxygen", "氧气", "medical oxygen", "industrial oxygen", "医用氧气", "工业氧气"],
         "brand": {
           "@type": "Brand",
@@ -132,6 +133,40 @@
           "seller": {
             "@type": "Organization",
             "name": "PT Surya Inti Gas"
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 30,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/ReturnShippingFees"
+          },
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "IDR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "ID"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 2,
+                "maxValue": 7,
+                "unitCode": "DAY"
+              }
+            }
           }
         },
         "aggregateRating": {
