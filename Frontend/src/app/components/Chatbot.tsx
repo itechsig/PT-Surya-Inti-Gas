@@ -368,10 +368,6 @@ export function Chatbot() {
       return knowledgeBase["kamu"];
     }
     
-    if (lowerMessage.includes('kalian') || lowerMessage.includes('perusahaan')) {
-      return knowledgeBase["kalian"];
-    }
-    
     // Check for greetings (more comprehensive)
     if (lowerMessage.includes('halo') || lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hai') || lowerMessage.includes('hy') || lowerMessage.includes('selamat') || lowerMessage.includes('pagi') || lowerMessage.includes('siang') || lowerMessage.includes('sore') || lowerMessage.includes('malam') || lowerMessage.includes('assalam') || lowerMessage.includes('salam')) {
       return knowledgeBase["greeting"];
@@ -408,13 +404,25 @@ export function Chatbot() {
     if (lowerMessage.includes('sedih') || lowerMessage.includes('sad') || lowerMessage.includes('nangis')) {
       return "Jangan sedih ya! 😢 Semoga harinya lebih baik. Saya di sini siap membantu dengan informasi apa saja tentang PT Surya Inti Gas. Mungkin ada yang bisa saya bantu?";
     }
-    
+
+    // Special handling for specific question patterns (must be before exact match loop)
+    if (lowerMessage.includes('produk') && (lowerMessage.includes('sebutkan') || lowerMessage.includes('apa saja') || lowerMessage.includes('daftar'))) {
+      return knowledgeBase["produk apa saja yang dijual pt surya inti gas"];
+    }
+
+    if ((lowerMessage.includes('lokasi') || lowerMessage.includes('alamat')) && (lowerMessage.includes('dimana') || lowerMessage.includes('di mana') || lowerMessage.includes('perusahaan'))) {
+      return knowledgeBase["lokasi"];
+    }
+
     // Check exact matches first
     for (const [key, value] of Object.entries(knowledgeBase)) {
       if (key === 'default' || key === 'greeting' || key === 'help' || key === 'siapa' || key === 'kamu' || key === 'kalian') continue; // Skip these special keys
 
       // Only match if the key is a significant part of the message (avoid partial matches on short words)
+      // Also avoid matching keys that are partial matches of larger words in the message
       if (key.length > 4 && (lowerMessage.includes(key) || key.includes(lowerMessage) || lowerMessage.includes(key.replace(/ /g, ' ')))) {
+        // Don't match if this would conflict with more specific patterns we handle later
+        if (key === 'regulator' || key === 'aksesoris' || key === 'perbedaan') continue;
         return value;
       }
     }
@@ -432,8 +440,7 @@ export function Chatbot() {
     if (lowerMessage.includes('perbedaan') && (lowerMessage.includes('oksigen') || lowerMessage.includes('nitrogen') || lowerMessage.includes('argon') || lowerMessage.includes('oxygen') || lowerMessage.includes('nitrogen') || lowerMessage.includes('argon'))) {
       return knowledgeBase["perbedaan oksigen nitrogen argon"];
     }
-    
-    // Special handling for specific question patterns
+
     if (lowerMessage.includes('apa itu') && lowerMessage.includes('pt surya inti gas')) {
       return knowledgeBase["apa itu pt surya inti gas"];
     }
@@ -445,11 +452,25 @@ export function Chatbot() {
     if (lowerMessage.includes('visi') && lowerMessage.includes('misi')) {
       return knowledgeBase["apa visi dan misi pt surya inti gas"];
     }
-    
-    if (lowerMessage.includes('bidang usaha')) {
-      return knowledgeBase["apa saja bidang usaha pt surya inti gas"];
+
+    if (lowerMessage.includes('mengapa harus memilih') || lowerMessage.includes('keunggulan') || lowerMessage.includes('kelebihan') || lowerMessage.includes('kenapa pilih')) {
+      return "Keunggulan PT Surya Inti Gas: 1) Produk berkualitas tinggi yang memenuhi standar internasional. 2) Pengalaman lebih dari 20 tahun di industri gas. 3) Jaringan distribusi luas di Jawa Timur dan Kalimantan. 4) Layanan pelanggan yang responsif dan profesional. 5) Tim teknis yang berpengalaman. 6) Kepatuhan ketat terhadap standar keselamatan. 7) Harga kompetitif dengan kualitas terjamin.";
     }
     
+    if (lowerMessage.includes('bidang usaha') || (lowerMessage.includes('bergerak') && lowerMessage.includes('bidang'))) {
+      return knowledgeBase["apa saja bidang usaha pt surya inti gas"];
+    }
+
+    // Product handling - must come before generic "perusahaan" check
+    if (lowerMessage.includes('produk') && (lowerMessage.includes('sebutkan') || lowerMessage.includes('apa saja') || lowerMessage.includes('daftar'))) {
+      return knowledgeBase["produk apa saja yang dijual pt surya inti gas"];
+    }
+
+    // Location/Address handling - must come before generic "perusahaan" check
+    if ((lowerMessage.includes('lokasi') || lowerMessage.includes('alamat')) && (lowerMessage.includes('dimana') || lowerMessage.includes('di mana') || lowerMessage.includes('perusahaan'))) {
+      return knowledgeBase["lokasi"];
+    }
+
     if (lowerMessage.includes('lokasi kantor pusat')) {
       return knowledgeBase["di mana lokasi kantor pusat pt surya inti gas"];
     }
@@ -564,6 +585,23 @@ export function Chatbot() {
     
     if (lowerMessage.includes('menuju kantor')) {
       return knowledgeBase["bagaimana cara menuju kantor pt surya inti gas"];
+    }
+
+    if (lowerMessage.includes('gas') && (lowerMessage.includes('cocok') || lowerMessage.includes('sesuai')) && lowerMessage.includes('industri')) {
+      return "Untuk menentukan gas yang cocok untuk industri Anda, kami perlu mengetahui jenis industri dan aplikasinya. Secara umum: Oksigen untuk pengelasan dan medis, Nitrogen untuk pendinginan dan inerting, Argon untuk pengelasan TIG, Acetylene untuk pemotongan logam, CO2 untuk industri makanan dan minuman. Hubungi tim teknis kami untuk konsultasi yang lebih spesifik.";
+    }
+
+    if (lowerMessage.includes('regulator') && (lowerMessage.includes('tersedia') || lowerMessage.includes('ada') || lowerMessage.includes('aksesoris'))) {
+      return "Ya, kami menyediakan berbagai peralatan gas termasuk Regulator & Valves, Color Code High Pressure Gas Supply, Package System, Assist Gas Equipment, Cryogenic Transport, dan Medical Gas Equipment. Hubungi tim sales kami untuk informasi lebih lanjut tentang peralatan yang sesuai dengan kebutuhan Anda.";
+    }
+
+    if (lowerMessage.includes('perbedaan') && (lowerMessage.includes('jenis gas') || lowerMessage.includes('setiap') || lowerMessage.includes('semua'))) {
+      return knowledgeBase["perbedaan oksigen nitrogen argon"];
+    }
+
+    // General company question - only if not already matched by specific patterns
+    if (lowerMessage.includes('kalian') || (lowerMessage.includes('perusahaan') && !lowerMessage.includes('produk') && !lowerMessage.includes('lokasi') && !lowerMessage.includes('alamat') && !lowerMessage.includes('sejarah') && !lowerMessage.includes('visi') && !lowerMessage.includes('misi') && !lowerMessage.includes('bidang') && !lowerMessage.includes('mengapa') && !lowerMessage.includes('keunggulan') && !lowerMessage.includes('kelebihan'))) {
+      return knowledgeBase["kalian"];
     }
     
     if (lowerMessage.includes('promo') && (lowerMessage.includes('sedang') || lowerMessage.includes('berlangsung'))) {
