@@ -405,6 +405,13 @@ const css = `
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   }
 
+  .timeline-image-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
   .timeline-info {
     padding: 24px;
   }
@@ -592,22 +599,26 @@ export function AboutUsPage() {
     {
       year: "2003",
       title: "Awal Berdiri",
-      description: "CV. Surya Inti Gas resmi didirikan di Sidoarjo, Jawa Timur, dengan kantor pertama yang berlokasi di Jl. KH. Mukmin. Sejak awal, perusahaan berkomitmen menyediakan solusi gas industri yang berkualitas dan terpercaya."
+      description: "CV. Surya Inti Gas resmi didirikan di Sidoarjo, Jawa Timur, dengan kantor pertama yang berlokasi di Jl. KH. Mukmin. Sejak awal, perusahaan berkomitmen menyediakan solusi gas industri yang berkualitas dan terpercaya.",
+      image: "/images/office/2003.jpg"
     },
     {
       year: "2007",
       title: "Perluasan Operasional",
-      description: "Seiring pertumbuhan bisnis dan meningkatnya permintaan pasar, kantor operasional dipindahkan ke Komplek Pergudangan & Industri Meiko Abadi Blok B70, Wedi, Gedangan, Sidoarjo guna mendukung kapasitas layanan dan distribusi yang lebih optimal."
+      description: "Seiring pertumbuhan bisnis dan meningkatnya permintaan pasar, kantor operasional dipindahkan ke Komplek Pergudangan & Industri Meiko Abadi Blok B70, Wedi, Gedangan, Sidoarjo guna mendukung kapasitas layanan dan distribusi yang lebih optimal.",
+      image: "/images/office/2007.jpeg"
     },
     {
       year: "2016",
       title: "Menempati Kantor Pusat",
-      description: "Untuk menunjang perkembangan perusahaan, kantor pusat (Head Office) dipindahkan ke Komplek Pergudangan & Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo, yang hingga kini menjadi pusat operasional PT Surya Inti Gas."
+      description: "Untuk menunjang perkembangan perusahaan, kantor pusat (Head Office) dipindahkan ke Komplek Pergudangan & Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo, yang hingga kini menjadi pusat operasional PT Surya Inti Gas.",
+      image: "/images/office/2016.jpg"
     },
     {
       year: "2017",
       title: "Transformasi dan Ekspansi",
-      description: "Perusahaan resmi bertransformasi dari CV. Surya Inti Gas menjadi PT. Surya Inti Gas. Pada tahun yang sama, perusahaan memperluas jangkauan layanan dengan membuka cabang pertama di Balikpapan, Kalimantan Timur, sebagai langkah strategis untuk melayani kebutuhan pelanggan di wilayah Indonesia bagian timur."
+      description: "Perusahaan resmi bertransformasi dari CV. Surya Inti Gas menjadi PT. Surya Inti Gas. Pada tahun yang sama, perusahaan memperluas jangkauan layanan dengan membuka cabang pertama di Balikpapan, Kalimantan Timur, sebagai langkah strategis untuk melayani kebutuhan pelanggan di wilayah Indonesia bagian timur.",
+      image: "/images/office/2017.PNG"
     }
   ];
 
@@ -692,7 +703,11 @@ export function AboutUsPage() {
 
             <div className={`timeline-content ${currentSlide % 2 === 1 ? 'reverse' : ''}`} key={currentSlide}>
               <div className="timeline-image">
-                Foto {milestones[currentSlide].year}
+                <img 
+                  src={milestones[currentSlide].image} 
+                  alt={`Foto ${milestones[currentSlide].year} - ${milestones[currentSlide].title}`}
+                  className="timeline-image-img"
+                />
               </div>
               <div className="timeline-info">
                 <div className="timeline-info-year">{milestones[currentSlide].year}</div>
