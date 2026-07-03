@@ -323,13 +323,12 @@ export function CompanyProfileVideo() {
                 }}
               >
                 <img
-                  src="https://img.youtube.com/vi/O_NcnrY0RSc/maxresdefault.jpg"
+                  src="https://img.youtube.com/vi/Hxg5_L_vj-w/maxresdefault.jpg"
                   alt="PT Surya Inti Gas Company Profile Thumbnail"
                   width="634"
                   height="357"
                   loading="lazy"
                   className="video-thumbnail-image"
-                  loading="lazy"
                 />
                 <div className="video-play-button">
                   <svg viewBox="0 0 24 24" fill="currentColor">
@@ -343,7 +342,7 @@ export function CompanyProfileVideo() {
             ) : (
               <iframe
                 className="video-modal-video"
-                src="https://www.youtube.com/embed/O_NcnrY0RSc?autoplay=1&rel=0"
+                src="https://www.youtube.com/embed/Hxg5_L_vj-w?autoplay=1&rel=0"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
