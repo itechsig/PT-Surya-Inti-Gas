@@ -27,6 +27,14 @@
       }
     },
     {
+      "src": "/favicon.ico",
+      "dest": "/logo.png",
+      "headers": {
+        "Cache-Control": "public, max-age=86400",
+        "Content-Type": "image/png"
+      }
+    },
+    {
       "src": "/google20ef713f750a3bec.html",
       "dest": "/google20ef713f750a3bec.html"
     },
