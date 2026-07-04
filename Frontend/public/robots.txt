@@ -5,7 +5,6 @@ Allow: /
 
 # Disallow access to admin and sensitive areas
 Disallow: /admin/
-Disallow: /api/
 Disallow: /private/
 Disallow: /*.env$
 Disallow: /*.config$
@@ -26,14 +25,12 @@ Allow: /
 # Sitemap location
 Sitemap: https://pt-surya-inti-gas.vercel.app/sitemap.xml
 
-# Additional SEO directives
-# Allow indexing of images
+# Allow indexing of important static assets
 Allow: /images/
 Allow: /public/
-
-# Disallow tracking and analytics scripts from being indexed
-Disallow: /analytics/
-Disallow: /tracking/
+Allow: /logo.png
+Allow: /hero-video.mp4
+Allow: /office-optimized.jpg
 
 # Allow common static assets
 Allow: *.css
@@ -44,6 +41,14 @@ Allow: *.jpeg
 Allow: *.gif
 Allow: *.svg
 Allow: *.ico
+Allow: *.webp
+Allow: *.mp4
+Allow: *.woff
+Allow: *.woff2
+
+# Disallow tracking and analytics scripts from being indexed
+Disallow: /analytics/
+Disallow: /tracking/
 
 # Disallow development and testing directories
 Disallow: /dev/
