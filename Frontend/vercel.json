@@ -12,7 +12,7 @@
   "routes": [
     {
       "src": "/sitemap.xml",
-      "dest": "/public/sitemap.xml",
+      "dest": "/sitemap.xml",
       "headers": {
         "Cache-Control": "public, max-age=3600",
         "Content-Type": "application/xml"
@@ -20,7 +20,7 @@
     },
     {
       "src": "/robots.txt",
-      "dest": "/public/robots.txt",
+      "dest": "/robots.txt",
       "headers": {
         "Cache-Control": "public, max-age=3600",
         "Content-Type": "text/plain"
@@ -28,7 +28,7 @@
     },
     {
       "src": "/google20ef713f750a3bec.html",
-      "dest": "/public/google20ef713f750a3bec.html"
+      "dest": "/google20ef713f750a3bec.html"
     },
     {
       "src": "/assets/(.*)",
