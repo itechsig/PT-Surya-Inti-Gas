@@ -20,6 +20,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
 COPY . .
+RUN mkdir -p bootstrap/cache \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+ && chmod -R 775 bootstrap storage
 
 # Install dependencies
 ENV COMPOSER_ALLOW_SUPERUSER=1

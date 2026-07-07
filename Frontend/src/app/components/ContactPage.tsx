@@ -18,9 +18,9 @@ export const ContactPage = () => {
           
           {/* Kolom Kiri: Lokasi & Gambar */}
           <div className="location-column">
-            <h2 className="section-title">Lokasi Kami</h2>
-            
             <div className="address-grid">
+              <h2 className="section-title text-center full-width location-title">Lokasi Kami</h2>
+              
               {/* Alamat Sidoarjo */}
               <div className="address-block">
                 <h3>Kantor Sidoarjo</h3>
@@ -50,6 +50,8 @@ export const ContactPage = () => {
                   Fax +62 542 8532382
                 </p>
               </div>
+
+              <img src="/office-optimized.jpg" alt="Kantor Sidoarjo" className="office-image full-width" />
             </div>
           </div>
 

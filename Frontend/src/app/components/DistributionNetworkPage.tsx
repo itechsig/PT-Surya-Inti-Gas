@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -110,72 +109,6 @@ const css = `
     margin: 0 auto;
   }
 
-  .distribution-filters {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-  }
-
-  .distribution-filter {
-    padding: 12px 24px;
-    background: var(--white);
-    border: 2px solid var(--slate-200);
-    border-radius: 50px;
-    font-family: var(--ff-body);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--slate-700);
-    cursor: pointer;
-    transition: all 0.3s var(--ease);
-  }
-
-  .distribution-filter:hover,
-  .distribution-filter.active {
-    border-color: var(--blue);
-    color: var(--blue);
-  }
-
-  .distribution-filter.active {
-    background: var(--blue);
-    color: var(--white);
-  }
-
-  .sub-filters {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-  }
-
-  .sub-filter {
-    padding: 8px 20px;
-    background: var(--slate-100);
-    border: 1px solid var(--slate-300);
-    border-radius: 50px;
-    font-family: var(--ff-body);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--slate-600);
-    cursor: pointer;
-    transition: all 0.3s var(--ease);
-  }
-
-  .sub-filter:hover,
-  .sub-filter.active {
-    background: var(--slate-200);
-    border-color: var(--sky-light);
-    color: var(--blue);
-  }
-
-  .sub-filter.active {
-    background: var(--blue);
-    color: var(--white);
-    border-color: var(--blue);
-  }
-
   .map-container {
     background: var(--slate-50);
     border-radius: 24px;
@@ -261,18 +194,6 @@ const css = `
       padding: 80px 6vw;
     }
 
-    .distribution-filters,
-    .sub-filters {
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .distribution-filter,
-    .sub-filter {
-      width: 100%;
-      text-align: center;
-    }
-
     .map-container {
       padding: 24px;
       min-height: 400px;
@@ -280,26 +201,24 @@ const css = `
   }
 `;
 
-const locations = {
-  'jawa-timur': [
-    {
-      id: 'kantor-pusat',
-      name: 'Kantor Pusat',
-      lat: -7.4669737,
-      lng: 112.7497521,
-      type: 'kantor-pusat'
-    }
-  ],
-  'kalimantan-timur': [
-    {
-      id: 'pabrik-balikpapan',
-      name: 'Pabrik dan Stasiun Pengisian',
-      lat: -1.1870876,
-      lng: 116.8489722,
-      type: 'pabrik'
-    }
-  ]
-};
+const locations = [
+  {
+    id: 'kantor-pusat',
+    name: 'Kantor Pusat',
+    lat: -7.4669737,
+    lng: 112.7497521,
+    type: 'kantor-pusat',
+    region: 'Jawa Timur'
+  },
+  {
+    id: 'pabrik-balikpapan',
+    name: 'Pabrik dan Stasiun Pengisian',
+    lat: -1.1870876,
+    lng: 116.8489722,
+    type: 'pabrik',
+    region: 'Kalimantan Timur'
+  }
+];
 
 // Fix untuk default marker icon di React-Leaflet agar tidak error (menggunakan CDN)
 const customIcon = new L.Icon({
@@ -334,49 +253,7 @@ interface DistributionNetworkPageProps {
 }
 
 export function DistributionNetworkPage({ showHero = true }: DistributionNetworkPageProps) {
-  const [regionFilter, setRegionFilter] = useState('all');
-  const [locationFilter, setLocationFilter] = useState('all');
-
-  const getFilteredLocations = () => {
-    if (regionFilter === 'all' && locationFilter === 'all') {
-      return [...locations['jawa-timur'], ...locations['kalimantan-timur']];
-    }
-    if (regionFilter === 'jawa-timur') {
-      return locationFilter === 'all' 
-        ? locations['jawa-timur'] 
-        : locations['jawa-timur'].filter(loc => loc.type === locationFilter);
-    }
-    if (regionFilter === 'kalimantan-timur') {
-      return locationFilter === 'all' 
-        ? locations['kalimantan-timur'] 
-        : locations['kalimantan-timur'].filter(loc => loc.type === locationFilter);
-    }
-    return [];
-  };
-
-  const handleRegionChange = (region: string) => {
-    setRegionFilter(region);
-    setLocationFilter('all');
-  };
-
-  const getSubFilters = () => {
-    if (regionFilter === 'all') return [];
-    if (regionFilter === 'jawa-timur') {
-      return [
-        { id: 'all', label: 'Semua' },
-        { id: 'kantor-pusat', label: 'Kantor Pusat' }
-      ];
-    }
-    if (regionFilter === 'kalimantan-timur') {
-      return [
-        { id: 'all', label: 'Semua' },
-        { id: 'pabrik', label: 'Pabrik dan Stasiun Pengisian' }
-      ];
-    }
-    return [];
-  };
-
-  const currentLocations = getFilteredLocations();
+  const currentLocations = locations;
 
   return (
     <div className="distribution-corporate">
@@ -407,39 +284,9 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
               Peta Jaringan Distribusi
             </h2>
             <p className="distribution-network-subtitle">
-              Temukan lokasi operasional kami melalui filter region dan jenis fasilitas
+              Lokasi operasional PT Surya Inti Gas di Indonesia
             </p>
           </div>
-
-          <div className="distribution-filters">
-            {['all', 'jawa-timur', 'kalimantan-timur'].map((region) => (
-              <button 
-                key={region}
-                className={`distribution-filter ${regionFilter === region ? 'active' : ''}`}
-                onClick={() => handleRegionChange(region)}
-                aria-label={`Filter by ${region === 'all' ? 'Semua' : region === 'jawa-timur' ? 'Jawa Timur' : 'Kalimantan Timur'}`}
-                aria-pressed={regionFilter === region}
-              >
-                {region === 'all' ? 'Semua' : region === 'jawa-timur' ? 'Jawa Timur' : 'Kalimantan Timur'}
-              </button>
-            ))}
-          </div>
-
-          {getSubFilters().length > 0 && (
-            <div className="sub-filters">
-              {getSubFilters().map(filter => (
-                <button
-                  key={filter.id}
-                  className={`sub-filter ${locationFilter === filter.id ? 'active' : ''}`}
-                  onClick={() => setLocationFilter(filter.id)}
-                  aria-label={`Filter by ${filter.label}`}
-                  aria-pressed={locationFilter === filter.id}
-                >
-                  {filter.label}
-                </button>
-              ))}
-            </div>
-          )}
 
           {/* Penggantian iframe dengan React-Leaflet */}
           <div className="map-container">
@@ -468,7 +315,7 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
                     <div style={{ fontFamily: 'var(--ff-body)' }}>
                       <strong>{location.name}</strong><br />
                       <span style={{ color: 'var(--slate-600)', fontSize: '0.85em' }}>
-                        {location.type === 'kantor-pusat' ? 'Jawa Timur' : 'Kalimantan Timur'}
+                        {location.region}
                       </span>
                     </div>
                   </Popup>
@@ -487,7 +334,7 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
                 <div key={location.id} className="location-card">
                   <h3 className="location-card-title">{location.name}</h3>
                   <p className="location-card-region">
-                    {location.type === 'kantor-pusat' ? 'Jawa Timur' : 'Kalimantan Timur'}
+                    {location.region}
                   </p>
                   <p className="location-card-description">
                     {location.type === 'kantor-pusat' 

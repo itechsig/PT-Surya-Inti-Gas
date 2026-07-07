@@ -1,7 +1,6 @@
 import '../../styles/ProductsAndServices.css';
-import { useState, useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { createPortal } from 'react-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const galleryStyles = `
   .gallery-filters {
@@ -44,14 +43,42 @@ const galleryStyles = `
   }
 
   .ui-gallery-items {
-    margin-left: -24px;
+    margin-left: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 200px;
+    gap: 4px;
+    grid-auto-flow: dense;
   }
 
   .ui-gallery-items > * {
     padding-left: 0;
+  }
+
+  /* Size variants for gallery items */
+  .gallery-item-small {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .gallery-item-medium {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  .gallery-item-large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .gallery-item-wide {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .gallery-item-tall {
+    grid-column: span 1;
+    grid-row: span 2;
   }
 
   .uk-card-custom {
@@ -96,25 +123,114 @@ const galleryStyles = `
     background: rgba(0, 0, 0, 0.5);
   }
 
+  /* Custom Hover Overlay */
+  .gallery-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(30, 64, 175, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .gallery-hover-overlay.visible {
+    opacity: 1;
+  }
+
+  .gallery-hover-title {
+    color: white;
+    font-family: 'Barlow', system-ui, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+
+  .gallery-image.dimmed {
+    opacity: 0.6;
+  }
+
   @media (max-width: 1024px) {
     .ui-gallery-items {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 180px;
+      gap: 4px;
       margin-left: 0;
+      grid-auto-flow: dense;
     }
-    .ui-gallery-thumbnail {
-      height: 220px;
+
+    .gallery-item-small {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    .gallery-item-medium {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+
+    .gallery-item-large {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .gallery-item-wide {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    .gallery-item-tall {
+      grid-column: span 1;
+      grid-row: span 2;
     }
   }
   
   @media (max-width: 640px) {
     .ui-gallery-items {
-      grid-template-columns: 1fr;
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 150px;
+      gap: 4px;
       margin-left: 0;
+      grid-auto-flow: dense;
     }
-    .ui-gallery-thumbnail {
-      height: 200px;
+
+    .gallery-item-small {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    .gallery-item-medium {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+
+    .gallery-item-large {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .gallery-item-wide {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    .gallery-item-tall {
+      grid-column: span 1;
+      grid-row: span 2;
     }
 
     .gallery-filters {
@@ -133,249 +249,11 @@ const galleryStyles = `
     .ui-gallery-info-wrap {
       padding: 12px;
     }
-  }
 
-  /* Modern Premium Lightbox Styles */
-  .lightbox-modal {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    background: rgba(0, 0, 0, 0.92);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-    animation: lightboxFadeIn 0.3s ease;
-    backdrop-filter: blur(8px);
-    overflow: hidden;
-  }
-
-  @keyframes lightboxFadeIn {
-    from {
-      opacity: 0;
+    .gallery-hover-title {
+      font-size: 1rem;
+      padding: 15px;
     }
-    to {
-      opacity: 1;
-    }
-  }
-
-  .lightbox-content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    animation: contentScaleIn 0.3s ease;
-  }
-
-  @keyframes contentScaleIn {
-    from {
-      transform: scale(0.96);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-
-  .lightbox-image-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    flex: 1;
-    min-height: 0;
-  }
-
-  .lightbox-image {
-    max-width: 90vw;
-    max-height: 80vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    border-radius: 4px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    animation: imageScaleIn 0.3s ease;
-  }
-
-  @keyframes imageScaleIn {
-    from {
-      transform: scale(0.96);
-    }
-    to {
-      transform: scale(1);
-    }
-  }
-
-  .lightbox-close {
-    position: fixed;
-    top: 24px;
-    right: 24px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: white;
-    transition: all 0.3s ease;
-    z-index: 10000;
-  }
-
-  .lightbox-close:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  }
-
-  .lightbox-nav {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: white;
-    transition: all 0.3s ease;
-    z-index: 10000;
-  }
-
-  .lightbox-nav:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-50%) scale(1.15);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  }
-
-  .lightbox-nav-prev {
-    left: 24px;
-  }
-
-  .lightbox-nav-next {
-    right: 24px;
-  }
-
-  .lightbox-caption {
-    margin-top: 24px;
-    text-align: center;
-    max-width: 800px;
-    padding: 0 24px;
-  }
-
-  .lightbox-title {
-    color: white;
-    font-family: 'Barlow, system-ui, sans-serif';
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0 0 8px 0;
-    letter-spacing: -0.02em;
-  }
-
-  .lightbox-description {
-    color: rgba(255, 255, 255, 0.7);
-    font-family: 'DM Sans, system-ui, sans-serif';
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  @media (max-width: 768px) {
-    .lightbox-close {
-      top: 16px;
-      right: 16px;
-      width: 40px;
-      height: 40px;
-    }
-
-    .lightbox-nav {
-      width: 48px;
-      height: 48px;
-    }
-
-    .lightbox-nav-prev {
-      left: 16px;
-    }
-
-    .lightbox-nav-next {
-      right: 16px;
-    }
-
-    .lightbox-image {
-      max-width: 92vw;
-      max-height: calc(100vh - 180px);
-    }
-
-    .lightbox-title {
-      font-size: 1.25rem;
-    }
-
-    .lightbox-description {
-      font-size: 0.9rem;
-    }
-
-    .lightbox-caption {
-      margin-top: 16px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .lightbox-content {
-      padding: 16px;
-    }
-
-    .lightbox-close {
-      top: 12px;
-      right: 12px;
-      width: 36px;
-      height: 36px;
-    }
-
-    .lightbox-nav {
-      width: 40px;
-      height: 40px;
-    }
-
-    .lightbox-nav-prev {
-      left: 12px;
-    }
-
-    .lightbox-nav-next {
-      right: 12px;
-    }
-
-    .lightbox-image {
-      max-width: 90vw;
-      max-height: calc(100vh - 160px);
-    }
-
-    .lightbox-title {
-      font-size: 1.1rem;
-    }
-
-    .lightbox-description {
-      font-size: 0.85rem;
-    }
-  }
-
-  body.lightbox-open {
-    overflow: hidden !important;
   }
 `;
 
@@ -387,6 +265,8 @@ type GalleryItem = {
   title: string;
   description: string;
   category: string;
+  year: number;
+  size?: 'small' | 'medium' | 'large' | 'wide' | 'tall';
 };
 
 const galleryItems: GalleryItem[] = [
@@ -397,7 +277,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'Oxygen Cylinder',
     title: 'Oksigen (O2)',
     description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
-    category: 'products'
+    category: 'products',
+    year: 2007,
+    size: 'medium'
   },
   {
     id: 'nitrogen',
@@ -406,7 +288,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'Nitrogen Cylinder',
     title: 'Nitrogen (N2)',
     description: 'Gas nitrogen untuk inerting, blanketing, dan pendinginan',
-    category: 'products'
+    category: 'products',
+    year: 2008,
+    size: 'small'
   },
   {
     id: 'mix-gas',
@@ -415,7 +299,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'Mix Gas Cylinder',
     title: 'Mix Gas',
     description: 'Gas mix untuk aplikasi khusus',
-    category: 'products'
+    category: 'products',
+    year: 2009,
+    size: 'small'
   },
   {
     id: 'vertical-tank',
@@ -424,7 +310,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'Vertical Tank',
     title: 'Vertical Tank',
     description: 'Tangki vertikal untuk storage gas',
-    category: 'equipment'
+    category: 'equipment',
+    year: 2010,
+    size: 'tall'
   },
   {
     id: 'acetylene',
@@ -433,7 +321,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'Acetylene Cylinder',
     title: 'Asetilena (C2H2)',
     description: 'Gas asetilena untuk pengelasan dan pemotongan logam',
-    category: 'products'
+    category: 'products',
+    year: 2011,
+    size: 'medium'
   },
   {
     id: 'iso-tank',
@@ -442,7 +332,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'ISO Tank',
     title: 'ISO Tank',
     description: 'Tangki ISO untuk transportasi gas cair dalam volume besar',
-    category: 'equipment'
+    category: 'equipment',
+    year: 2012,
+    size: 'wide'
   },
   {
     id: 'liquid-filling',
@@ -451,7 +343,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'Liquid Filling System',
     title: 'Liquid Filling',
     description: 'Sistem pengisian gas cair untuk tabung dan tangki',
-    category: 'facility'
+    category: 'facility',
+    year: 2013,
+    size: 'large'
   },
   {
     id: 'microbulk',
@@ -460,7 +354,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'Microbulk Tank',
     title: 'Microbulk',
     description: 'Tangki microbulk untuk supply gas dalam volume menengah',
-    category: 'equipment'
+    category: 'equipment',
+    year: 2014,
+    size: 'small'
   },
   {
     id: 'medical-gas',
@@ -469,7 +365,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'Medical Gas Cylinder',
     title: 'Tabung Gas Medis',
     description: 'Tabung gas medis untuk rumah sakit dan fasilitas kesehatan',
-    category: 'products'
+    category: 'products',
+    year: 2015,
+    size: 'medium'
   },
   {
     id: 'office-view-2',
@@ -478,7 +376,9 @@ const galleryItems: GalleryItem[] = [
     alt: 'Office View 2',
     title: 'Ruang Meeting',
     description: 'Ruang meeting untuk diskusi dan kolaborasi',
-    category: 'facility'
+    category: 'facility',
+    year: 2016,
+    size: 'wide'
   },
   {
     id: 'office-view-3',
@@ -487,64 +387,277 @@ const galleryItems: GalleryItem[] = [
     alt: 'Office View 3',
     title: 'Ruang Kerja',
     description: 'Ruang kerja modern dan profesional',
-    category: 'facility'
+    category: 'facility',
+    year: 2017,
+    size: 'tall'
+  },
+  {
+    id: 'gas-cylinder-1',
+    thumbnail: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop',
+    alt: 'Gas Cylinder Storage',
+    title: 'Penyimpanan Tabung Gas',
+    description: 'Area penyimpanan tabung gas yang aman dan terorganisir',
+    category: 'facility',
+    year: 2018,
+    size: 'large'
+  },
+  {
+    id: 'industrial-plant-1',
+    thumbnail: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&h=800&fit=crop',
+    alt: 'Industrial Plant',
+    title: 'Pabrik Industri',
+    description: 'Fasilitas produksi gas industri modern',
+    category: 'facility',
+    year: 2019,
+    size: 'wide'
+  },
+  {
+    id: 'welding-1',
+    thumbnail: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&h=800&fit=crop',
+    alt: 'Welding Process',
+    title: 'Proses Pengelasan',
+    description: 'Aplikasi gas industri untuk pengelasan',
+    category: 'products',
+    year: 2020,
+    size: 'medium'
+  },
+  {
+    id: 'lab-1',
+    thumbnail: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&h=800&fit=crop',
+    alt: 'Laboratory',
+    title: 'Laboratorium Gas',
+    description: 'Fasilitas laboratorium untuk analisis gas',
+    category: 'facility',
+    year: 2021,
+    size: 'small'
+  },
+  {
+    id: 'delivery-1',
+    thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&h=800&fit=crop',
+    alt: 'Gas Delivery',
+    title: 'Pengiriman Gas',
+    description: 'Armada pengiriman gas untuk pelanggan',
+    category: 'facility',
+    year: 2022,
+    size: 'tall'
+  },
+  {
+    id: 'tank-1',
+    thumbnail: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1200&h=800&fit=crop',
+    alt: 'Storage Tank',
+    title: 'Tangki Penyimpanan',
+    description: 'Tangki penyimpanan gas cair kapasitas besar',
+    category: 'equipment',
+    year: 2023,
+    size: 'large'
+  },
+  {
+    id: 'valve-1',
+    thumbnail: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop',
+    alt: 'Gas Valve',
+    title: 'Katup Gas',
+    description: 'Sistem katup untuk kontrol aliran gas',
+    category: 'equipment',
+    year: 2024,
+    size: 'small'
+  },
+  {
+    id: 'hospital-1',
+    thumbnail: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&h=800&fit=crop',
+    alt: 'Hospital Gas System',
+    title: 'Sistem Gas Rumah Sakit',
+    description: 'Instalasi gas medis untuk rumah sakit',
+    category: 'facility',
+    year: 2025,
+    size: 'wide'
+  },
+  {
+    id: 'quality-1',
+    thumbnail: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&h=800&fit=crop',
+    alt: 'Quality Control',
+    title: 'Quality Control',
+    description: 'Proses quality control untuk produk gas',
+    category: 'facility',
+    year: 2026,
+    size: 'medium'
+  },
+  {
+    id: 'training-1',
+    thumbnail: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1200&h=800&fit=crop',
+    alt: 'Safety Training',
+    title: 'Pelatihan Keselamatan',
+    description: 'Program pelatihan keselamatan kerja',
+    category: 'facility',
+    year: 2007,
+    size: 'small'
+  },
+  {
+    id: 'pressure-gauge-1',
+    thumbnail: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&h=800&fit=crop',
+    alt: 'Pressure Gauge',
+    title: 'Pressure Gauge',
+    description: 'Alat pengukur tekanan gas',
+    category: 'equipment',
+    year: 2009,
+    size: 'small'
+  },
+  {
+    id: 'factory-1',
+    thumbnail: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&h=800&fit=crop',
+    alt: 'Factory Floor',
+    title: 'Lantai Pabrik',
+    description: 'Area produksi pabrik gas',
+    category: 'facility',
+    year: 2010,
+    size: 'large'
+  },
+  {
+    id: 'medical-equipment-1',
+    thumbnail: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1200&h=800&fit=crop',
+    alt: 'Medical Equipment',
+    title: 'Peralatan Medis',
+    description: 'Peralatan medis menggunakan gas',
+    category: 'products',
+    year: 2011,
+    size: 'medium'
+  },
+  {
+    id: 'cryogenic-1',
+    thumbnail: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=1200&h=800&fit=crop',
+    alt: 'Cryogenic System',
+    title: 'Sistem Kriogenik',
+    description: 'Sistem penyimpanan gas cair suhu rendah',
+    category: 'equipment',
+    year: 2012,
+    size: 'tall'
+  },
+  {
+    id: 'assembly-1',
+    thumbnail: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&h=800&fit=crop',
+    alt: 'Assembly Line',
+    title: 'Lini Perakitan',
+    description: 'Lini perakitan tabung gas',
+    category: 'facility',
+    year: 2013,
+    size: 'wide'
+  },
+  {
+    id: 'fire-safety-1',
+    thumbnail: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&h=800&fit=crop',
+    alt: 'Fire Safety',
+    title: 'Keselamatan Kebakaran',
+    description: 'Sistem keselamatan kebakaran industri',
+    category: 'facility',
+    year: 2014,
+    size: 'small'
+  },
+  {
+    id: 'transport-1',
+    thumbnail: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1200&h=800&fit=crop',
+    alt: 'Gas Transport',
+    title: 'Transportasi Gas',
+    description: 'Kendaraan transportasi gas industri',
+    category: 'facility',
+    year: 2015,
+    size: 'large'
+  },
+  {
+    id: 'laboratory-2',
+    thumbnail: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1200&h=800&fit=crop',
+    alt: 'Chemistry Lab',
+    title: 'Laboratorium Kimia',
+    description: 'Laboratorium untuk penelitian gas',
+    category: 'facility',
+    year: 2016,
+    size: 'medium'
+  },
+  {
+    id: 'regulator-1',
+    thumbnail: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&h=250&fit=crop',
+    fullSize: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&h=800&fit=crop',
+    alt: 'Gas Regulator',
+    title: 'Regulator Gas',
+    description: 'Regulator untuk kontrol tekanan gas',
+    category: 'equipment',
+    year: 2017,
+    size: 'small'
   }
 ];
 
 const categories = [
   { id: 'all', name: 'Semua' },
-  { id: 'products', name: 'Produk' },
-  { id: 'equipment', name: 'Peralatan' },
-  { id: 'facility', name: 'Fasilitas' }
+  ...Array.from({ length: 2026 - 2007 + 1 }, (_, i) => ({
+    id: (2007 + i).toString(),
+    name: (2007 + i).toString()
+  }))
 ];
 
-function GalleryCard({ item, onClick }: { item: GalleryItem; onClick: () => void }) {
+function GalleryCard({ item }: { item: GalleryItem }) {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onClick();
+    navigate(`/galeri/${item.id}`);
+  };
+
+  const getSizeClass = () => {
+    switch (item.size) {
+      case 'small': return 'gallery-item-small';
+      case 'medium': return 'gallery-item-medium';
+      case 'large': return 'gallery-item-large';
+      case 'wide': return 'gallery-item-wide';
+      case 'tall': return 'gallery-item-tall';
+      default: return 'gallery-item-small';
+    }
   };
 
   return (
     <article 
       data-tag="" 
-      className="uk-first-column"
+      className={`uk-first-column ${getSizeClass()}`}
       style={{ transform: 'translate(0px, 0px)' }}
     >
       <div 
         className="uk-article uk-card uk-overflow-hidden uk-card-custom uk-border-rounded uk-transition-toggle"
-        style={{ cursor: 'pointer', position: 'relative' }}
+        style={{ cursor: 'pointer', position: 'relative', height: '100%' }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
       >
-        <div className="ui-gallery-thumbnail uk-display-block uk-card-media-top tz-image-cover">
+        <div className="ui-gallery-thumbnail uk-display-block uk-card-media-top tz-image-cover" style={{ height: '100%' }}>
           <img
             src={item.thumbnail}
             alt={item.alt}
             loading="lazy"
             width="400"
             height="250"
-            className=""
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              transition: 'opacity 0.3s ease',
-              opacity: isHovered ? 0.7 : 1
-            }}
+            className={`gallery-image ${isHovered ? 'dimmed' : ''}`}
+            style={{ height: '100%' }}
           />
-        </div>
-        <div className="uk-position-cover uk-overlay uk-overlay-primary uk-transition-fade"></div>
-        <div className="ui-gallery-info-wrap uk-position-bottom uk-light uk-transition-fade" style={{
-          opacity: isHovered ? 1 : 0,
-          transition: 'opacity 0.3s ease'
-        }}>
-          <div className="uk-card-body">
-            <div className="ui-gallery-item-caption uk-article-meta uk-margin-top uk-margin-bottom"></div>
-            <h3 className="ui-title uk-margin-remove-top uk-h3 uk-margin-bottom">{item.title}</h3>
+          <div className={`gallery-hover-overlay ${isHovered ? 'visible' : ''}`}>
+            <h3 className="gallery-hover-title">
+              {item.title}
+            </h3>
           </div>
         </div>
       </div>
@@ -553,101 +666,14 @@ function GalleryCard({ item, onClick }: { item: GalleryItem; onClick: () => void
 }
 
 function Gallery() {
-  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-
-  // Toggle body scroll when lightbox is open/closed
-  useEffect(() => {
-    if (selectedItem) {
-      document.body.classList.add('lightbox-open');
-    } else {
-      document.body.classList.remove('lightbox-open');
-    }
-
-    // Cleanup on unmount
-    return () => {
-      document.body.classList.remove('lightbox-open');
-    };
-  }, [selectedItem]);
-
-  // Keyboard support
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!selectedItem) return;
-
-      switch (e.key) {
-        case 'Escape':
-          handleCloseLightbox();
-          break;
-        case 'ArrowLeft':
-          handlePrevImage();
-          break;
-        case 'ArrowRight':
-          handleNextImage();
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedItem, selectedIndex]);
 
   const filteredItems = selectedCategory === 'all' 
     ? galleryItems 
-    : galleryItems.filter(item => item.category === selectedCategory);
-
-  const handleImageClick = (item: GalleryItem) => {
-    const index = filteredItems.findIndex(i => i.id === item.id);
-    setSelectedIndex(index);
-    setSelectedItem(item);
-  };
-
-  const handleCloseLightbox = () => {
-    setSelectedItem(null);
-  };
-
-  const handlePrevImage = () => {
-    const newIndex = selectedIndex > 0 ? selectedIndex - 1 : filteredItems.length - 1;
-    setSelectedIndex(newIndex);
-    setSelectedItem(filteredItems[newIndex]);
-  };
-
-  const handleNextImage = () => {
-    const newIndex = selectedIndex < filteredItems.length - 1 ? selectedIndex + 1 : 0;
-    setSelectedIndex(newIndex);
-    setSelectedItem(filteredItems[newIndex]);
-  };
+    : galleryItems.filter(item => item.year.toString() === selectedCategory);
 
   const handleCategoryChange = (categoryId: string) => {
     setSelectedCategory(categoryId);
-    setSelectedItem(null);
-  };
-
-  // Touch handlers for swipe
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      handleNextImage();
-    } else if (isRightSwipe) {
-      handlePrevImage();
-    }
   };
 
   return (
@@ -729,13 +755,17 @@ function Gallery() {
         </div>
 
         {/* Gallery Grid */}
-        <div className="products-container">
+        <div style={{
+          marginLeft: '-6vw',
+          marginRight: '-6vw',
+          width: 'calc(100% + 12vw)'
+        }}>
           <div className="ui-gallery">
             <div className="ui-gallery-inner">
               <div className="">
                 <div className="ui-gallery-items">
                   {filteredItems.map((item) => (
-                    <GalleryCard key={item.id} item={item} onClick={() => handleImageClick(item)} />
+                    <GalleryCard key={item.id} item={item} />
                   ))}
                 </div>
               </div>
@@ -743,58 +773,6 @@ function Gallery() {
           </div>
         </div>
       </section>
-
-      {/* Lightbox Modal - Rendered via Portal to body */}
-      {selectedItem && createPortal(
-        <div 
-          className="lightbox-modal" 
-          onClick={handleCloseLightbox}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          <button 
-            className="lightbox-close" 
-            onClick={(e) => { e.stopPropagation(); handleCloseLightbox(); }}
-            aria-label="Close lightbox"
-          >
-            <X size={24} />
-          </button>
-          
-          <button 
-            className="lightbox-nav lightbox-nav-prev" 
-            onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
-            aria-label="Previous image"
-          >
-            <ChevronLeft size={28} />
-          </button>
-          
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <div className="lightbox-image-wrapper">
-              <img
-                src={selectedItem.fullSize}
-                alt={selectedItem.alt}
-                className="lightbox-image"
-                onClick={(e) => e.stopPropagation()}
-              />
-            </div>
-            
-            <div className="lightbox-caption">
-              <h2 className="lightbox-title">{selectedItem.title}</h2>
-              <p className="lightbox-description">{selectedItem.description}</p>
-            </div>
-          </div>
-          
-          <button 
-            className="lightbox-nav lightbox-nav-next" 
-            onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
-            aria-label="Next image"
-          >
-            <ChevronRight size={28} />
-          </button>
-        </div>,
-        document.body
-      )}
     </div>
   );
 }

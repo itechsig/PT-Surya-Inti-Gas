@@ -17,7 +17,7 @@ function News() {
       date: "1 Januari 2003",
       category: "Sejarah",
       description: "Pendirian CV. Surya Inti Gas di Jl. KH. Mukmin, Sidoarjo, Jawa Timur.",
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=600&fit=crop"
+      image: "/images/office/2003.jpg"
     },
     {
       id: 2,
@@ -26,7 +26,7 @@ function News() {
       date: "1 Januari 2007",
       category: "Sejarah",
       description: "Relokasi ke Komplek Pergudangan dan Industri \"Meiko Abadi\" di Gedangan, Sidoarjo.",
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=600&fit=crop"
+      image: "/images/office/2007.jpeg"
     },
     {
       id: 3,
@@ -35,7 +35,7 @@ function News() {
       date: "1 Januari 2016",
       category: "Sejarah",
       description: "Pindah ke Komplek Pergudangan dan Industri \"Safe N Lock\" sebagai Head Office Sidoarjo.",
-      image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&h=600&fit=crop"
+      image: "/images/office/2016.jpg"
     },
     {
       id: 4,
@@ -44,7 +44,7 @@ function News() {
       date: "1 Januari 2017",
       category: "Sejarah",
       description: "Berdirinya PT. Surya Inti Gas dan pembukaan cabang pertama di Balikpapan, Kalimantan Timur.",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=600&fit=crop"
+      image: "/images/office/2017.PNG"
     }
   ];
 
