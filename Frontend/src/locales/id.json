@@ -19,7 +19,19 @@
     "comingSoon": "Segera hadir",
     "distributor": "Distributor Gas",
     "language": "Bahasa",
-    "corporate": "Corporate"
+    "corporate": "Corporate",
+    "megaMenu": {
+      "gasProducts": "Produk Gas",
+      "industrialMedicalDesc": "Gas industri dan medis dalam bentuk gas maupun cair untuk berbagai kebutuhan",
+      "specialityMixedDesc": "Gas khusus dan gas campuran dengan komposisi presisi untuk aplikasi sensitif",
+      "equipmentAccessories": "Peralatan & Aksesoris",
+      "colorCodeDesc": "Sistem kode warna untuk identifikasi tabung gas bertekanan tinggi",
+      "packageDesc": "Pasokan gas bertekanan tinggi dan cair dalam paket lengkap",
+      "assistGasDesc": "Gas bantu untuk proses pemotongan laser dengan presisi tinggi",
+      "cryogenicTransportDesc": "Tangki transport kriogenik untuk penyimpanan dan distribusi gas cair",
+      "regulatorValvesDesc": "Regulator dan katup untuk kontrol tekanan gas yang aman",
+      "medicalGasEquipmentDesc": "Peralatan pasokan gas medis untuk rumah sakit dan fasilitas kesehatan"
+    }
   },
   "hero": {
     "badge": "Terpercaya Sejak 2003",
@@ -432,7 +444,6 @@
       "inactive": "Tidak Aktif"
     },
     "metrics": {
-      "totalVisitors": "Total Pengunjung",
       "totalContacts": "Total Kontak",
       "pendingRecommendations": "Rekomendasi Tertunda",
       "recentActivities": "Aktivitas Terbaru",
@@ -680,7 +691,7 @@
   },
   "footer": {
     "description": "PT Surya Inti Gas adalah pemimpin dalam penyediaan solusi gas industri dan medis yang berinovasi untuk mendorong produktivitas dan keberlanjutan industri Indonesia sejak 2003.",
-    "tagline": "Situs Web Perusahaan",
+    "tagline": "Corporate",
     "quickLinks": "Tautan Cepat",
     "aboutUs": "Tentang Kami",
     "products": "Produk",

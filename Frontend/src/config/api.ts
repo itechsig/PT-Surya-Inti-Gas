@@ -27,8 +27,6 @@ export const API_ENDPOINTS = {
   DASHBOARD_OVERVIEW: '/api/v1/admin/dashboard/overview',
   DASHBOARD_CONTACTS: '/api/v1/admin/dashboard/contacts',
   DASHBOARD_CONTACT_DETAILS: '/api/v1/admin/dashboard/contacts',
-  DASHBOARD_VISITORS: '/api/v1/admin/dashboard/visitors',
-  DASHBOARD_VISITOR_DETAILS: '/api/v1/admin/dashboard/visitors',
   DASHBOARD_ANALYTICS: '/api/v1/admin/dashboard/analytics',
 
   // AI Agent endpoints (admin)
@@ -36,7 +34,6 @@ export const API_ENDPOINTS = {
   AI_MONITORING: '/api/v1/admin/ai-agent/monitor',
   AI_MONITOR_CONTACTS: '/api/v1/admin/ai-agent/monitor/contacts',
   AI_MONITOR_APPLICATIONS: '/api/v1/admin/ai-agent/monitor/applications',
-  AI_MONITOR_VISITORS: '/api/v1/admin/ai-agent/monitor/visitors',
 
   // AI Recommendations endpoints (admin)
   AI_RECOMMENDATIONS: '/api/v1/admin/ai-recommendations',
@@ -76,10 +73,6 @@ export const API_ENDPOINTS = {
   UNMANNED_SYSTEM_ACTIVITY: '/api/v1/admin/unmanned/system-activity',
   UNMANNED_OPERATIONAL_STATS: '/api/v1/admin/unmanned/operational-stats',
   UNMANNED_MAP_DATA: '/api/v1/admin/unmanned/map-data',
-
-  // Visitor tracking endpoints (public)
-  VISITOR_TRACK: '/api/v1/visitor/track',
-  VISITOR_PAGEVIEW: '/api/v1/visitor/pageview',
 
   // Other endpoints (public)
   TEAM: '/api/v1/team',

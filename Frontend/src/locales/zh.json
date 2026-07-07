@@ -19,7 +19,19 @@
     "comingSoon": "即将推出",
     "distributor": "气体分销商",
     "language": "语言",
-    "corporate": "企业"
+    "corporate": "企业",
+    "megaMenu": {
+      "gasProducts": "气体产品",
+      "industrialMedicalDesc": "用于各种需求的工业和医用气体及液体形式",
+      "specialityMixedDesc": "用于敏感应用的精确组成的特种和混合气体",
+      "equipmentAccessories": "设备与配件",
+      "colorCodeDesc": "用于高压气瓶识别的颜色编码系统",
+      "packageDesc": "完整包装的高压气体和液体供应",
+      "assistGasDesc": "用于高精度激光切割工艺的辅助气体",
+      "cryogenicTransportDesc": "用于液态气体储存和分销的低温运输罐",
+      "regulatorValvesDesc": "用于安全气体压力控制的调节器和阀门",
+      "medicalGasEquipmentDesc": "用于医院和医疗保健设施的医用气体供应设备"
+    }
   },
   "hero": {
     "badge": "自2003年以来值得信赖",
@@ -277,7 +289,6 @@
       "inactive": "不活跃"
     },
     "metrics": {
-      "totalVisitors": "总访客数",
       "totalContacts": "总联系数",
       "pendingRecommendations": "待处理推荐",
       "recentActivities": "最近活动",
@@ -366,7 +377,7 @@
   },
   "footer": {
     "description": "PT Surya Inti Gas是印度尼西亚工业和医疗气体解决方案的创新领导者，自2003年以来致力于推动印度尼西亚工业的生产力和可持续发展。",
-    "tagline": "公司网站",
+    "tagline": "Corporate",
     "quickLinks": "快速链接",
     "aboutUs": "关于我们",
     "products": "产品",

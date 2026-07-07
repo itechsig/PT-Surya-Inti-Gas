@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Instagram, Linkedin, Youtube, Mail, Phone, MapPin, ChevronRight } from "lucide-react";
+import { Instagram, Mail, Phone, MapPin, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 
 // TikTok icon component (SVG)
@@ -398,16 +398,10 @@ export function Footer() {
             </div>
 
             <div className="corporate-footer-social">
-              <a href="https://www.instagram.com/surya.inti.gas?igsh=MXM3czQyOWx5ZjNzYw==" className="corporate-footer-social-link" aria-label={t('footer.social.instagram')}>
+              <a href="https://www.instagram.com/surya.inti.gas?igsh=MXM3czQyOWx5ZjNzYw==" className="corporate-footer-social-link" aria-label={t('footer.social.instagram')} target="_blank" rel="noopener noreferrer">
                 <Instagram />
               </a>
-              <a href="#" className="corporate-footer-social-link" aria-label={t('footer.social.linkedin')}>
-                <Linkedin />
-              </a>
-              <a href="#" className="corporate-footer-social-link" aria-label={t('footer.social.youtube')}>
-                <Youtube />
-              </a>
-              <a href="https://www.tiktok.com/@surya.inti.gas?_r=1&_t=ZS-97WlfSPPexY" className="corporate-footer-social-link" aria-label="TikTok">
+              <a href="https://www.tiktok.com/@surya.inti.gas?_r=1&_t=ZS-97WlfSPPexY" className="corporate-footer-social-link" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
                 <TikTok />
               </a>
             </div>

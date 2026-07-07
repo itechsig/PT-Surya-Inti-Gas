@@ -326,6 +326,13 @@ export function ProductDetail() {
     navigate('/produk');
   };
 
+  const handleContactSales = (productTitle: string) => {
+    const whatsappNumber = '6281233906378';
+    const message = `Halo, saya ingin menanyakan persediaan produk ${productTitle}. Apakah produk ini tersedia?`;
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   useEffect(() => {
     const productId = searchParams.get('id');
     if (!productId) {
@@ -465,9 +472,51 @@ export function ProductDetail() {
               
               <div className="products-detail-info">
                 <h3>Informasi Produk</h3>
-                <p>ID: {product.id}</p>
-                <p>Kategori: {category}</p>
-                <p>Sub-Kategori: {subCategory}</p>
+                <div className="product-specifications">
+                  <div className="spec-item">
+                    <span className="spec-label">ID Produk:</span>
+                    <span className="spec-value">{product.id}</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Kategori:</span>
+                    <span className="spec-value">{category.charAt(0).toUpperCase() + category.slice(1)}</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Sub-Kategori:</span>
+                    <span className="spec-value">{subCategory}</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Ketersediaan:</span>
+                    <span className="spec-value available">Tersedia</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Kualitas:</span>
+                    <span className="spec-value">Grade Industri / Medis</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Pengiriman:</span>
+                    <span className="spec-value">Seluruh Indonesia</span>
+                  </div>
+                </div>
+                
+                <div className="product-applications">
+                  <h4>Aplikasi Utama</h4>
+                  <ul>
+                    <li>Industri manufaktur dan pengolahan</li>
+                    <li>Aplikasi medis dan kesehatan</li>
+                    <li>Laboratorium dan penelitian</li>
+                    <li>Pengelasan dan pemotongan logam</li>
+                    <li>Proses industri khusus</li>
+                  </ul>
+                </div>
+                
+                <div className="product-contact">
+                  <h4>Informasi Pemesanan</h4>
+                  <p>Untuk informasi lebih lanjut tentang spesifikasi teknis, harga, dan pemesanan, silakan hubungi tim sales kami.</p>
+                  <button className="contact-button" onClick={() => handleContactSales(product.title)}>
+                    Tanya Ketersediaan via WhatsApp
+                  </button>
+                </div>
               </div>
             </div>
           </div>

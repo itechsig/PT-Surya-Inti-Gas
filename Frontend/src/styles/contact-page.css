@@ -112,6 +112,15 @@
   margin-bottom: 40px;
 }
 
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.location-title {
+  text-align: center;
+  margin-left: -100px;
+}
+
 .address-block h3 {
   font-family: 'Barlow', system-ui, sans-serif;
   font-size: 1.25rem;
@@ -133,6 +142,15 @@
   margin-top: 15px;
   color: #0C2D5E;
   font-weight: 500;
+}
+
+.office-image {
+  width: 100%;
+  height: 290px;
+  border-radius: 8px;
+  margin-top: 30px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* ── Kolom Kanan: Form ── */

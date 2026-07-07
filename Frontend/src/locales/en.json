@@ -19,7 +19,19 @@
     "comingSoon": "Coming Soon",
     "distributor": "Gas Distributor",
     "language": "Language",
-    "corporate": "Corporate"
+    "corporate": "Corporate",
+    "megaMenu": {
+      "gasProducts": "Gas Products",
+      "industrialMedicalDesc": "Industrial and medical gases in gas and liquid form for various needs",
+      "specialityMixedDesc": "Specialty and mixed gases with precise composition for sensitive applications",
+      "equipmentAccessories": "Equipment & Accessories",
+      "colorCodeDesc": "Color code system for high-pressure gas cylinder identification",
+      "packageDesc": "High-pressure gas and liquid supply in complete packages",
+      "assistGasDesc": "Assist gas for laser cutting processes with high precision",
+      "cryogenicTransportDesc": "Cryogenic transport tanks for storage and distribution of liquid gases",
+      "regulatorValvesDesc": "Regulators and valves for safe gas pressure control",
+      "medicalGasEquipmentDesc": "Medical gas supply equipment for hospitals and healthcare facilities"
+    }
   },
   "hero": {
     "badge": "Trusted Since 2003",
@@ -425,7 +437,6 @@
       "inactive": "Inactive"
     },
     "metrics": {
-      "totalVisitors": "Total Visitors",
       "totalContacts": "Total Contacts",
       "pendingRecommendations": "Pending Recommendations",
       "recentActivities": "Recent Activities",
@@ -673,7 +684,7 @@
   },
   "footer": {
     "description": "PT Surya Inti Gas is a leader in providing innovative industrial and medical gas solutions to drive productivity and sustainability in Indonesia's industries since 2003.",
-    "tagline": "Corporate Website",
+    "tagline": "Corporate",
     "quickLinks": "Quick Links",
     "aboutUs": "About Us",
     "products": "Products",

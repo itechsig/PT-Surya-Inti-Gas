@@ -158,7 +158,6 @@ export const Header = () => {
                   src="/logo.png"
                   alt="Logo PT Surya Inti Gas"
                   className="h-14 w-auto object-contain transition-all duration-300"
-                  fetchPriority="high"
                   width="200"
                   height="56"
                 />
