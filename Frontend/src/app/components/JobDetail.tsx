@@ -18,7 +18,8 @@ interface Job {
 
 export function JobDetail() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { id, lang } = useParams<{ id: string; lang: string }>();
+  const currentLang = lang || 'id';
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -255,7 +256,7 @@ export function JobDetail() {
         <div className="section-container">
           <div className="no-jobs-found">
             <p>Lowongan tidak ditemukan.</p>
-            <button onClick={() => navigate('/karir')} className="back-button" aria-label="Back to job listings">
+            <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label="Back to job listings">
               <ArrowLeft size={16} />
               Kembali ke Lowongan
             </button>
@@ -283,7 +284,7 @@ export function JobDetail() {
 
       <div className="job-detail-section">
         <div className="section-container">
-          <button onClick={() => navigate('/karir')} className="back-button" aria-label="Back to job listings">
+          <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label="Back to job listings">
             <ArrowLeft size={16} />
             Kembali ke Lowongan
           </button>

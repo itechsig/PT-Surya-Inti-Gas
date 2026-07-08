@@ -642,10 +642,10 @@ const galleryDetailStyles = `
 `;
 
 // Back Button Component
-const BackButton = ({ navigate }: { navigate: (path: string) => void }) => {
+const BackButton = ({ navigate, currentLang }: { navigate: (path: string) => void; currentLang: string }) => {
   return (
     <button
-      onClick={() => navigate('/galeri')}
+      onClick={() => navigate(`/${currentLang}/galeri`)}
       className="back-button"
       aria-label="Back to gallery"
     >
@@ -657,8 +657,9 @@ const BackButton = ({ navigate }: { navigate: (path: string) => void }) => {
 
 // Main GalleryDetail Component
 function GalleryDetail() {
-  const { id } = useParams<{ id: string }>();
+  const { id, lang } = useParams<{ id: string; lang: string }>();
   const navigate = useNavigate();
+  const currentLang = lang || 'id';
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -776,7 +777,7 @@ function GalleryDetail() {
         </div>
 
         <div className="gallery-detail-container">
-          <BackButton navigate={navigate} />
+          <BackButton navigate={navigate} currentLang={currentLang} />
           <div style={{ textAlign: 'center', padding: '40px' }}>
             <h2 style={{ fontFamily: 'Barlow, system-ui, sans-serif', fontSize: '1.5rem', color: '#0C2D5E' }}>
               Foto tidak ditemukan
@@ -853,7 +854,7 @@ function GalleryDetail() {
       </div>
 
       <div className="gallery-detail-container">
-        <BackButton navigate={navigate} />
+        <BackButton navigate={navigate} currentLang={currentLang} />
 
         <div className="gallery-detail-header">
           <h1 className="gallery-detail-title">{currentItem.title}</h1>

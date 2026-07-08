@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Instagram, Mail, Phone, MapPin, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 
@@ -359,6 +359,8 @@ const css = `
 ══════════════════════════════════════════════════════════════ */
 export function Footer() {
   const { t } = useTranslation();
+  const { lang } = useParams<{ lang: string }>();
+  const currentLang = lang || 'id';
 
   return (
     <footer className="corporate-footer">
@@ -370,7 +372,7 @@ export function Footer() {
 
           {/* Company Info */}
           <div className="corporate-footer-company">
-            <a href="/" className="corporate-footer-logo">
+            <a href={`/${currentLang}`} className="corporate-footer-logo">
               <img src="/logo.png" alt="PT Surya Inti Gas Logo" width="200" height="56" />
               <div className="corporate-footer-logo-text">
                 <span className="name">SURYA INTI GAS</span>
@@ -411,11 +413,11 @@ export function Footer() {
           <div className="corporate-footer-column">
             <h5 className="corporate-footer-column-title">{t('footer.about.title')}</h5>
             <nav className="corporate-footer-links">
-              <Link to="/tentang-kami" className="corporate-footer-link">
+              <Link to={`/${currentLang}/tentang-kami`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.about.companyProfile')}
               </Link>
-              <Link to="/jaringan-distribusi" className="corporate-footer-link">
+              <Link to={`/${currentLang}/jaringan-distribusi`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.about.distribution')}
               </Link>
@@ -426,19 +428,19 @@ export function Footer() {
           <div className="corporate-footer-column">
             <h5 className="corporate-footer-column-title">{t('footer.product.title')}</h5>
             <nav className="corporate-footer-links">
-              <Link to="/produk" className="corporate-footer-link">
+              <Link to={`/${currentLang}/produk`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.product.industrialGas')}
               </Link>
-              <Link to="/produk" className="corporate-footer-link">
+              <Link to={`/${currentLang}/produk`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.product.medicalGas')}
               </Link>
-              <Link to="/produk" className="corporate-footer-link">
+              <Link to={`/${currentLang}/produk`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.product.specialGas')}
               </Link>
-              <Link to="/produk" className="corporate-footer-link">
+              <Link to={`/${currentLang}/produk`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.product.equipment')}
               </Link>
@@ -449,19 +451,19 @@ export function Footer() {
           <div className="corporate-footer-column">
             <h5 className="corporate-footer-column-title">{t('footer.quickLinks')}</h5>
             <nav className="corporate-footer-links">
-              <Link to="/berita" className="corporate-footer-link">
+              <Link to={`/${currentLang}/berita`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.news')}
               </Link>
-              <Link to="/galeri" className="corporate-footer-link">
+              <Link to={`/${currentLang}/galeri`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.gallery')}
               </Link>
-              <Link to="/kontak" className="corporate-footer-link">
+              <Link to={`/${currentLang}/kontak`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.contactUs')}
               </Link>
-              <Link to="/karir" className="corporate-footer-link">
+              <Link to={`/${currentLang}/karir`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.career')}
               </Link>
