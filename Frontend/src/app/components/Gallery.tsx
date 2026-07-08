@@ -1,6 +1,6 @@
 import '../../styles/ProductsAndServices.css';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const galleryStyles = `
   .gallery-filters {
@@ -610,14 +610,14 @@ const categories = [
   }))
 ];
 
-function GalleryCard({ item }: { item: GalleryItem }) {
+function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: string }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(`/galeri/${item.id}`);
+    navigate(`/${currentLang}/galeri/${item.id}`);
   };
 
   const getSizeClass = () => {
@@ -666,6 +666,8 @@ function GalleryCard({ item }: { item: GalleryItem }) {
 }
 
 function Gallery() {
+  const { lang } = useParams<{ lang: string }>();
+  const currentLang = lang || 'id';
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const filteredItems = selectedCategory === 'all' 
@@ -765,7 +767,7 @@ function Gallery() {
               <div className="">
                 <div className="ui-gallery-items">
                   {filteredItems.map((item) => (
-                    <GalleryCard key={item.id} item={item} />
+                    <GalleryCard key={item.id} item={item} currentLang={currentLang} />
                   ))}
                 </div>
               </div>

@@ -175,7 +175,7 @@ export function JobApplicationForm() {
   };
 
   const handleBack = () => {
-    navigate(`/karir/${id}`);
+    navigate(`/${currentLang}/karir/${id}`);
   };
 
   if (loading) {

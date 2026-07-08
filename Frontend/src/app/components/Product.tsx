@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import '../../styles/ProductsAndServices.css';
 
@@ -350,6 +350,8 @@ const mainCategories: { id: MainCategory; label: string }[] = [
 
 export function Product() {
   const navigate = useNavigate();
+  const { lang } = useParams<{ lang: string }>();
+  const currentLang = lang || 'id';
   const [searchParams] = useSearchParams();
   const [mainCategory, setMainCategory] = useState<MainCategory>('gas');
   const [subCategory, setSubCategory] = useState<string>('industrial-medical');
@@ -398,7 +400,7 @@ export function Product() {
   };
 
   const handleCardClick = (productId: string) => {
-    navigate(`/produk/detail?id=${productId}`);
+    navigate(`/${currentLang}/produk/detail?id=${productId}`);
   };
 
   return (

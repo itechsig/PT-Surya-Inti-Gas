@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { MapPin, Eye, Send, Search, X } from 'lucide-react';
 import '../../styles/career.css';
 
 export function Career() {
   const navigate = useNavigate();
+  const { lang } = useParams<{ lang: string }>();
+  const currentLang = lang || 'id';
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDivision, setSelectedDivision] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
@@ -214,12 +216,12 @@ export function Career() {
 
   const handleViewDetail = (e: React.MouseEvent, jobId: number) => {
     e.preventDefault();
-    navigate(`/karir/${jobId}`);
+    navigate(`/${currentLang}/karir/${jobId}`);
   };
 
   const handleApply = (e: React.MouseEvent, jobId: number) => {
     e.preventDefault();
-    navigate(`/karir/${jobId}/lamar`);
+    navigate(`/${currentLang}/karir/${jobId}/lamar`);
   };
 
   const divisions = [...new Set(openings.map(job => job.division))];
@@ -425,7 +427,7 @@ export function Career() {
                     <div className="job-footer">
                       <div className="job-buttons">
                         <Link
-                          to={`/karir/${job.id}`}
+                          to={`/${currentLang}/karir/${job.id}`}
                           className="detail-button"
                           onClick={(e) => handleViewDetail(e, job.id)}
                         >
@@ -442,7 +444,7 @@ export function Career() {
                           </button>
                         ) : (
                           <Link
-                            to={`/karir/${job.id}/lamar`}
+                            to={`/${currentLang}/karir/${job.id}/lamar`}
                             className="apply-button"
                             onClick={(e) => handleApply(e, job.id)}
                           >
