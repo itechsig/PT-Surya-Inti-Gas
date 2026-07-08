@@ -1,5 +1,5 @@
 import '../../styles/ProductsAndServices.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 /* ═══════════════════════════════════════════════════════════════
    NEWS.TSX — PT Surya Inti Gas Corporate
@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 function News() {
   const navigate = useNavigate();
+  const { lang } = useParams<{ lang: string }>();
+  const currentLang = lang || 'id';
 
   const newsItems = [
     {
@@ -49,7 +51,7 @@ function News() {
   ];
 
   const handleReadMore = (slug: string) => {
-    navigate(`/berita/${slug}`);
+    navigate(`/${currentLang}/berita/${slug}`);
   };
 
   return (

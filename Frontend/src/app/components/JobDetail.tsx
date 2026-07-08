@@ -214,7 +214,7 @@ export function JobDetail() {
 
   const handleApply = () => {
     if (job) {
-      navigate(`/karir/${job.id}/lamar`);
+      navigate(`/${currentLang}/karir/${job.id}/lamar`);
     }
   };
 
