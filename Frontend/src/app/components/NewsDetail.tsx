@@ -49,10 +49,10 @@ interface SidebarProps {
 }
 
 // Back Button Component
-const BackButton = ({ navigate }: { navigate: (path: string) => void }) => {
+const BackButton = ({ navigate, currentLang }: { navigate: (path: string) => void; currentLang: string }) => {
   return (
     <button
-      onClick={() => navigate('/berita')}
+      onClick={() => navigate(`/${currentLang}/berita`)}
       className="back-button"
       aria-label="Back to news"
       style={{
@@ -1249,7 +1249,8 @@ const newsItems: NewsArticle[] = [
 // Main NewsDetail Component
 function NewsDetail() {
   const navigate = useNavigate();
-  const { slug } = useParams<{ slug: string }>();
+  const { slug, lang } = useParams<{ slug: string; lang: string }>();
+  const currentLang = lang || 'id';
   
   // Find the article based on the slug
   const newsArticle = newsItems.find(item => item.slug === slug) || newsItems[0];
@@ -1752,7 +1753,7 @@ function NewsDetail() {
             margin: '0 auto',
             padding: '0 24px'
           }}>
-            <BackButton navigate={navigate} />
+            <BackButton navigate={navigate} currentLang={currentLang} />
             
             <div className="news-detail-layout" style={{
               display: 'grid',

@@ -47,6 +47,10 @@
       "dest": "/$1"
     },
     {
+      "src": "/(en|id|zh)/(.*)",
+      "dest": "/index.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Globe, ChevronDown } from "lucide-react";
 
 const languages = [
@@ -10,12 +11,25 @@ const languages = [
 
 export const LanguageSwitcher = ({ isLight = true }: { isLight?: boolean }) => {
   const { i18n } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const currentLang = languages.find(lang => lang.code === i18n.language) || languages[0];
 
   const changeLanguage = (langCode: string) => {
-    i18n.changeLanguage(langCode);
+    const currentPath = location.pathname;
+    const segments = currentPath.split('/').filter(Boolean);
+    
+    // Replace or add language prefix
+    if (segments.length > 0 && languages.some(lang => lang.code === segments[0])) {
+      segments[0] = langCode;
+    } else {
+      segments.unshift(langCode);
+    }
+    
+    const newPath = '/' + segments.join('/');
+    navigate(newPath);
     setIsOpen(false);
   };
 

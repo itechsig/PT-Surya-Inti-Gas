@@ -13,13 +13,27 @@ const resources = {
   zh: { translation: zh }
 };
 
+// Detect language from URL path
+const detectLanguageFromPath = () => {
+  if (typeof window !== 'undefined') {
+    const path = window.location.pathname;
+    const segments = path.split('/').filter(Boolean);
+    const validLanguages = ['en', 'id', 'zh'];
+    
+    if (segments.length > 0 && validLanguages.includes(segments[0])) {
+      return segments[0];
+    }
+  }
+  return 'id'; // Default to Indonesian
+};
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
     fallbackLng: 'id',
-    lng: 'id',
+    lng: detectLanguageFromPath(),
     
     interpolation: {
       escapeValue: false

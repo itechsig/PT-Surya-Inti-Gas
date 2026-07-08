@@ -1,4 +1,4 @@
-import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import '../../styles/ProductsAndServices.css';
 
@@ -307,6 +307,8 @@ export function ProductDetail() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const { lang } = useParams<{ lang: string }>();
+  const currentLang = lang || 'id';
   const [productData, setProductData] = useState<{ product: Product; category: string; subCategory: string } | null>(null);
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -323,7 +325,7 @@ export function ProductDetail() {
   }, [location.search]);
 
   const handleBack = () => {
-    navigate('/produk');
+    navigate(`/${currentLang}/produk`);
   };
 
   const handleContactSales = (productTitle: string) => {
@@ -336,9 +338,9 @@ export function ProductDetail() {
   useEffect(() => {
     const productId = searchParams.get('id');
     if (!productId) {
-      navigate('/produk');
+      navigate(`/${currentLang}/produk`);
     }
-  }, [searchParams, navigate]);
+  }, [searchParams, navigate, currentLang]);
 
   if (isLoading) {
     return (

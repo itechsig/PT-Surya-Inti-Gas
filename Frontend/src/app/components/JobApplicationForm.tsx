@@ -12,7 +12,8 @@ interface Job {
 
 export function JobApplicationForm() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { id, lang } = useParams<{ id: string; lang: string }>();
+  const currentLang = lang || 'id';
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -215,7 +216,7 @@ export function JobApplicationForm() {
         <div className="section-container">
           <div className="no-jobs-found">
             <p>Lowongan tidak ditemukan.</p>
-            <button onClick={() => navigate('/karir')} className="back-button" aria-label="Back to job listings">
+            <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label="Back to job listings">
               <ArrowLeft size={16} />
               Kembali ke Lowongan
             </button>
@@ -245,7 +246,7 @@ export function JobApplicationForm() {
               <CheckCircle size={64} className="success-icon" />
               <h2>Lamaran Berhasil Dikirim!</h2>
               <p>Terima kasih telah melamar untuk posisi {job.title}. Tim HR kami akan menghubungi Anda jika Anda memenuhi kualifikasi.</p>
-              <button onClick={() => navigate('/karir')} className="back-button" aria-label="Back to job listings">
+              <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label="Back to job listings">
                 Kembali ke Lowongan
               </button>
             </div>

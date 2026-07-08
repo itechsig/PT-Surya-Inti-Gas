@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useParams, Navigate } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { AboutCompany } from "./components/AboutCompany";
@@ -26,6 +26,7 @@ import NewsDetail from "./components/NewsDetail";
 import { performanceMonitor } from "../utils/performanceMonitor";
 import { AppProvider, ProductProvider } from "../context";
 import { createSkipLink } from "../utils/accessibility";
+import i18n from "../utils/i18n";
 
 // Page transition styles
 const pageTransitionStyles = `
@@ -90,6 +91,24 @@ function PageTransition({ children, variant = 'default' }: { children: React.Rea
   );
 }
 
+// ─── Language Route Component ───────────────────────────────
+function LanguageRouteWrapper() {
+  const { lang } = useParams<{ lang: string }>();
+  const validLanguages = ['en', 'id', 'zh'];
+
+  useEffect(() => {
+    if (lang && validLanguages.includes(lang)) {
+      i18n.changeLanguage(lang);
+    }
+  }, [lang]);
+
+  if (!lang || !validLanguages.includes(lang)) {
+    return <Navigate to="/id" replace />;
+  }
+
+  return null;
+}
+
 // ─── Scroll handler: ke atas atau ke section hash ────────────
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -146,175 +165,223 @@ function App() {
         <BrowserRouter>
           <ScrollToTop />
           <Routes>
-            <Route path="/" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <MainPage />
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/produk" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <Product />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/produk/detail" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <ProductDetail />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/galeri/:id" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <GalleryDetail />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/galeri" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <Gallery />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/berita" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <News />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/berita/:slug" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <NewsDetail />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/karir" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <Career />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/karir/:id" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <JobDetail />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/karir/:id/lamar" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <JobApplicationForm />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/kontak" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <ContactPage />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/tentang-kami" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <AboutUsPage />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/jaringan-distribusi" element={
-          <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              <PageTransition variant="fast">
-                <DistributionNetworkPage />
-              </PageTransition>
-            </main>
-            <Footer />
-            <Chatbot />
-            <ScrollToTopButton />
-          </div>
-        } />
-        <Route path="/admin/dashboard" element={<AdminDashboardIntegrated />} />
-      </Routes>
+            <Route path="/" element={<Navigate to="/id" replace />} />
+            <Route path="/:lang" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <MainPage />
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/produk" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <Product />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/produk/detail" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <ProductDetail />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/galeri/:id" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <GalleryDetail />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/galeri" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <Gallery />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/berita" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <News />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/berita/:slug" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <NewsDetail />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/karir" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <Career />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/karir/:id" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <JobDetail />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/karir/:id/lamar" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <JobApplicationForm />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/kontak" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <ContactPage />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/tentang-kami" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <AboutUsPage />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/jaringan-distribusi" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <DistributionNetworkPage />
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/admin/dashboard" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <AdminDashboardIntegrated />
+                </div>
+              </>
+            } />
+            <Route path="*" element={<Navigate to="/id" replace />} />
+          </Routes>
     </BrowserRouter>
     </ProductProvider>
     </AppProvider>

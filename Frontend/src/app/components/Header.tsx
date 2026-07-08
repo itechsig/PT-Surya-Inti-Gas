@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import { useScrolledPast } from "../../hooks/useScrollProgress";
@@ -82,6 +82,7 @@ const mobileLinkStyle = {
 export const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { lang } = useParams<{ lang: string }>();
   const [isOpen, setIsOpen] = useState(false);
 
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
@@ -89,11 +90,12 @@ export const Header = () => {
   const scrolled = useScrolledPast(50);
 
   const { pathname, hash } = useLocation();
-  const isHomePage = pathname === "/";
+  const currentLang = lang || 'id';
+  const isHomePage = pathname === `/${currentLang}` || pathname === "/";
   const isLight = scrolled;
 
   // Debug logging
-  console.log('Header debug:', { pathname, isHomePage, scrolled, isLight });
+  console.log('Header debug:', { pathname, isHomePage, scrolled, isLight, currentLang });
 
   // Helper: cek apakah link ini aktif
   const isActive = (href: string) => {
@@ -116,15 +118,20 @@ export const Header = () => {
       e.preventDefault();
     }
     
+    // Add language prefix to navigation if not already present
+    const langHref = href.startsWith('/') && !href.startsWith(`/${currentLang}`) 
+      ? `/${currentLang}${href}` 
+      : href;
+    
     if (href.startsWith('#')) {
       // Hash navigation
-      if (window.location.pathname === '/') {
+      if (window.location.pathname === `/${currentLang}`) {
         const target = document.getElementById(href.substring(1));
         if (target) {
           target.scrollIntoView({ behavior: 'smooth' });
         }
       } else {
-        navigate('/');
+        navigate(`/${currentLang}`);
         setTimeout(() => {
           const target = document.getElementById(href.substring(1));
           if (target) {
@@ -133,7 +140,7 @@ export const Header = () => {
         }, 100);
       }
     } else {
-      navigate(href);
+      navigate(langHref);
     }
     setActiveMegaMenu(null);
   };
@@ -152,7 +159,7 @@ export const Header = () => {
           <div className="flex justify-between items-center px-6 lg:px-12">
 
             {/* Corporate Logo */}
-            <a href="/" className="flex items-center gap-4 shrink-0 -ml-2 lg:-ml-4">
+            <a href={`/${currentLang}`} className="flex items-center gap-4 shrink-0 -ml-2 lg:-ml-4">
               <div className="relative">
                 <img
                   src="/logo.png"
@@ -344,7 +351,7 @@ export const Header = () => {
             <div className="relative h-full overflow-y-auto">
               <div className="w-full px-4 py-4 sm:px-6 sm:py-6">
                 <div className="flex justify-between items-center mb-6 sm:mb-8">
-                  <a href="/" className="flex items-center gap-3">
+                  <a href={`/${currentLang}`} className="flex items-center gap-3">
                     <img
                       src="/logo.png"
                       alt="Logo PT Surya Inti Gas"
