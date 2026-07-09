@@ -12,7 +12,6 @@
     "cryogenicTransport": "Cryogenic Transport Tank",
     "regulatorValves": "Regulator dan Valves",
     "medicalGasEquipment": "Medical Gas Supply Equipment",
-    "news": "Berita",
     "contact": "Kontak",
     "career": "Karir",
     "gallery": "Galeri",
@@ -709,7 +708,6 @@
       "services": "Layanan"
     },
     "quickLinkItems": {
-      "news": "Berita",
       "gallery": "Galeri",
       "contactUs": "Hubungi Kami",
       "career": "Karir"

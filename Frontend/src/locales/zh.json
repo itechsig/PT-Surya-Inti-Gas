@@ -12,7 +12,6 @@
     "cryogenicTransport": "低温运输罐",
     "regulatorValves": "调节器和阀门",
     "medicalGasEquipment": "医疗气体供应设备",
-    "news": "新闻",
     "contact": "联系我们",
     "career": "招聘",
     "gallery": "画廊",
@@ -395,7 +394,6 @@
       "services": "服务"
     },
     "quickLinkItems": {
-      "news": "新闻",
       "gallery": "画廊",
       "contactUs": "联系我们",
       "career": "招聘"

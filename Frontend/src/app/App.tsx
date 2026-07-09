@@ -21,8 +21,6 @@ import { AdminDashboardIntegrated } from "./components/Dashboard/AdminDashboardI
 import { DistributionNetworkPage } from "./components/DistributionNetworkPage";
 import Gallery from "./components/Gallery";
 import GalleryDetail from "./components/GalleryDetail";
-import News from "./components/News";
-import NewsDetail from "./components/NewsDetail";
 import { performanceMonitor } from "../utils/performanceMonitor";
 import { AppProvider, ProductProvider } from "../context";
 import { createSkipLink } from "../utils/accessibility";
@@ -236,38 +234,6 @@ function App() {
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
                       <Gallery />
-                    </PageTransition>
-                  </main>
-                  <Footer />
-                  <Chatbot />
-                  <ScrollToTopButton />
-                </div>
-              </>
-            } />
-            <Route path="/:lang/berita" element={
-              <>
-                <LanguageRouteWrapper />
-                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-                  <Header />
-                  <main id="main-content" tabIndex={-1}>
-                    <PageTransition variant="fast">
-                      <News />
-                    </PageTransition>
-                  </main>
-                  <Footer />
-                  <Chatbot />
-                  <ScrollToTopButton />
-                </div>
-              </>
-            } />
-            <Route path="/:lang/berita/:slug" element={
-              <>
-                <LanguageRouteWrapper />
-                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
-                  <Header />
-                  <main id="main-content" tabIndex={-1}>
-                    <PageTransition variant="fast">
-                      <NewsDetail />
                     </PageTransition>
                   </main>
                   <Footer />

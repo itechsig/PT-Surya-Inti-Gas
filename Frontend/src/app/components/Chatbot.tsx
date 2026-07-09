@@ -139,11 +139,6 @@ const knowledgeBase = {
   "posisi dibutuhkan": "Posisi yang sedang dibutuhkan meliputi Sales Executive, Installation Technician, Admin & Finance Staff, Gas Delivery Driver, Quality Control Engineer, Marketing Specialist, Warehouse Supervisor, HR Manager, dan Safety Officer. Kunjungi halaman Karir untuk detail masing-masing posisi.",
 
   "proses rekrutmen": "Proses rekrutmen PT Surya Inti Gas meliputi seleksi administrasi, tes kemampuan, interview, dan medical check-up. Kami mengutamakan kandidat yang memiliki kompetensi dan sesuai dengan nilai perusahaan kami.",
-  
-  // News
-  "berita": "Berita terbaru tentang PT Surya Inti Gas mencakup sejarah perkembangan perusahaan dari tahun 2003 hingga sekarang, termasuk pendirian perusahaan, ekspansi operasional, dan pembukaan cabang baru.",
-  
-  "apa berita terbaru dari pt surya inti gas": "Berita terbaru tentang PT Surya Inti Gas mencakup sejarah perkembangan perusahaan dari tahun 2003 hingga sekarang, termasuk pendirian perusahaan, ekspansi operasional, dan pembukaan cabang baru.",
 
   "promo": "Untuk informasi promo yang sedang berlangsung, silakan hubungi tim sales kami atau kunjungi website kami secara berkala untuk update terbaru.",
 
@@ -523,10 +518,6 @@ export function Chatbot() {
       return knowledgeBase["apa jam operasional perusahaan"];
     }
     
-    if (lowerMessage.includes('berita terbaru')) {
-      return knowledgeBase["apa berita terbaru dari pt surya inti gas"];
-    }
-    
     if (lowerMessage.includes('prosedur keselamatan')) {
       return knowledgeBase["apa saja prosedur keselamatan penggunaan gas industri"];
     }
@@ -728,10 +719,6 @@ export function Chatbot() {
 
     if (lowerMessage.includes('lowongan') || lowerMessage.includes('vacancy')) {
       return knowledgeBase["lowongan"];
-    }
-
-    if (lowerMessage.includes('berita') || lowerMessage.includes('news')) {
-      return knowledgeBase["berita"];
     }
 
     if (lowerMessage.includes('promo') || lowerMessage.includes('diskon') || lowerMessage.includes('promotion')) {
