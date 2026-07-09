@@ -256,10 +256,10 @@ export function AboutCompany() {
               Tentang Perusahaan
             </div>
             <h2 className="about-title">
-              Mitra Terpercaya dalam Solusi Gas Industri
+              Mitra Terpercaya Dalam Solusi Gas Industri
             </h2>
             <p className="about-subtitle">
-              PT Surya Inti Gas telah menjadi pemimpin industri dalam penyediaan gas berkualitas tinggi untuk berbagai sektor di Indonesia.
+              Berkomitmen menghadirkan produk berkualitas, layanan terbaik, dan standar keselamatan dalam setiap proses.
             </p>
           </div>
 
@@ -286,7 +286,7 @@ export function AboutCompany() {
               <div>
                 <h3 className="about-content-title">Profil Perusahaan</h3>
                 <p className="about-content-text">
-                  PT Surya Inti Gas adalah perusahaan gas industri terkemuka yang berdedikasi untuk menyediakan solusi gas berkualitas tinggi bagi berbagai sektor industri di Indonesia. Dengan pengalaman lebih dari 25 tahun, kami telah membangun reputasi sebagai mitra terpercaya dalam industri manufaktur, kesehatan, energi, dan infrastruktur.
+                  PT Surya Inti Gas adalah perusahaan gas industri terkemuka yang berdedikasi untuk menyediakan solusi gas berkualitas tinggi bagi berbagai sektor industri di Indonesia. Dengan pengalaman sejak 2003, kami telah membangun reputasi sebagai mitra terpercaya dalam industri manufaktur, kesehatan, energi, dan infrastruktur.
                 </p>
                 <a href="/tentang-kami" className="about-cta">
                   Lihat Selengkapnya

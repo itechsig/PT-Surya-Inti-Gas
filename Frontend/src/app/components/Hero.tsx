@@ -479,12 +479,12 @@ export function Hero() {
 
           {/* Corporate Tagline */}
           <div className="corporate-tagline">
-            Solusi gas inovatif dan berkelanjutan untuk masa depan industri Indonesia
+            Solusi Gas Inovatif dan Berkelanjutan Untuk Masa Depan Industri Indonesia
           </div>
 
           {/* Corporate Description */}
           <p className="corporate-description">
-            Sejak 2003, Surya Inti Gas telah menjadi mitra terpercaya dalam penyediaan gas industri di Indonesia. Dengan dukungan teknologi, jaringan distribusi yang luas, serta komitmen terhadap kualitas dan pelayanan, kami menghadirkan solusi gas industri untuk sektor manufaktur, kesehatan, energi, dan infrastruktur dengan pengiriman yang andal dan tepat waktu.
+            Sejak 2003, Surya Inti Gas menghadirkan solusi gas berkualitas dengan layanan profesional dan distribusi yang andal.
           </p>
 
         </div>

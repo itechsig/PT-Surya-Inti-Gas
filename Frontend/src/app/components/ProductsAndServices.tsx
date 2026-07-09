@@ -364,7 +364,7 @@ export function ProductsAndServices() {
               Solusi Gas <span className="accent">Komprehensif</span>
             </h2>
             <p className="products-subtitle">
-              Bisnis utama kami adalah memasok gas industri, termasuk Gas Udara (Oksigen, Nitrogen, dan Argon), Gas Medis, Gas Sintetis, Gas Bahan Bakar, dan sebagainya. Produk-produk Gas tersebut memiliki aplikasi yang sangat luas sehingga kami mampu melayani berbagai kebutuhan industri diantaranya medis, metalurgi, energi, infrastruktur dan barang konsumsi.
+              Beragam produk gas dan peralatan pendukung yang dirancang untuk memenuhi kebutuhan operasional Anda.
             </p>
           </div>
 
