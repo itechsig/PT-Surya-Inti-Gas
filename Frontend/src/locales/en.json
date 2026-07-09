@@ -12,7 +12,6 @@
     "cryogenicTransport": "Cryogenic Transport Tank",
     "regulatorValves": "Regulator and Valves",
     "medicalGasEquipment": "Medical Gas Supply Equipment",
-    "news": "News",
     "contact": "Contact",
     "career": "Career",
     "gallery": "Gallery",
@@ -702,7 +701,6 @@
       "services": "Services"
     },
     "quickLinkItems": {
-      "news": "News",
       "gallery": "Gallery",
       "contactUs": "Contact Us",
       "career": "Careers"

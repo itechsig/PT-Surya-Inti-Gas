@@ -451,10 +451,6 @@ export function Footer() {
           <div className="corporate-footer-column">
             <h5 className="corporate-footer-column-title">{t('footer.quickLinks')}</h5>
             <nav className="corporate-footer-links">
-              <Link to={`/${currentLang}/berita`} className="corporate-footer-link">
-                <ChevronRight size={16} />
-                {t('footer.quickLinkItems.news')}
-              </Link>
               <Link to={`/${currentLang}/galeri`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.gallery')}
