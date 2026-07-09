@@ -303,7 +303,7 @@ export function CompanyProfileVideo() {
               Mengenal Lebih Dekat PT Surya Inti Gas
             </h2>
             <p className="video-subtitle">
-              Saksikan perjalanan kami dalam melayani industri Indonesia dengan solusi gas berkualitas tinggi dan komitmen terhadap inovasi berkelanjutan.
+              Kenali profil perusahaan, nilai-nilai, dan komitmen yang menjadi landasan kami dalam memberikan pelayanan terbaik.
             </p>
           </div>
 

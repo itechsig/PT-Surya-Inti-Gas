@@ -362,10 +362,10 @@ export function IndustriesServed() {
               Industri yang Dilayani
             </div>
             <h2 className="industries-title">
-              Solusi untuk Berbagai <span className="accent">Sektor Industri</span>
+              Solusi Untuk Berbagai <span className="accent">Sektor Industri</span>
             </h2>
             <p className="industries-subtitle">
-              Kami melayani berbagai sektor industri dengan solusi gas yang disesuaikan untuk memenuhi kebutuhan spesifik setiap industri.
+              Mendukung kebutuhan berbagai bidang usaha melalui solusi gas yang tepat, aman, dan efisien.
             </p>
           </div>
 
