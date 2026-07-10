@@ -33,7 +33,7 @@ const css = `
   /* ── Corporate Section ── */
   .about-section {
     position: relative;
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.95);
     padding: 120px 6vw;
     overflow: hidden;
   }
@@ -120,7 +120,7 @@ const css = `
     position: absolute;
     bottom: -40px;
     right: -40px;
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.98);
     border-radius: 16px;
     padding: 32px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);

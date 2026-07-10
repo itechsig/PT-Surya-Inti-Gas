@@ -113,6 +113,16 @@ const css = `
     overflow: hidden;
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
     animation: corporate-heroEntrance 1.8s var(--ease) both;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .corporate-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    z-index: -1;
   }
 
   /* ── Video Background ── */

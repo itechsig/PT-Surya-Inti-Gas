@@ -33,7 +33,7 @@ const css = `
   /* ── Corporate Why Section ── */
   .why-section {
     position: relative;
-    background: var(--white);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
     padding: 120px 6vw;
     overflow: hidden;
   }
@@ -45,7 +45,7 @@ const css = `
 
   /* ── Corporate Content Section ── */
   .why-content {
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 24px;
     padding: 60px;
     border: 1px solid var(--slate-200);
@@ -63,7 +63,7 @@ const css = `
   }
 
   .why-content h2 .highlight {
-    color: var(--navy-dark);
+    color: var(--blue);
   }
 
   .why-content p {
