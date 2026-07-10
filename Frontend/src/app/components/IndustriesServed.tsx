@@ -34,7 +34,7 @@ const css = `
   /* ── Corporate Industries Section ── */
   .industries-section {
     position: relative;
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.95);
     padding: 120px 6vw;
     overflow: hidden;
   }

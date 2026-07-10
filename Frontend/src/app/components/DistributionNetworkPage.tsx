@@ -77,7 +77,7 @@ const css = `
   }
 
   .distribution-network-section {
-    background: var(--slate-50);
+    background: transparent;
     padding: 120px 6vw;
   }
 
@@ -89,6 +89,10 @@ const css = `
   .distribution-network-header {
     text-align: center;
     margin-bottom: 48px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   }
 
   .distribution-network-title {
@@ -110,7 +114,7 @@ const css = `
   }
 
   .map-container {
-    background: var(--slate-50);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 24px;
     padding: 32px;
     border: 1px solid var(--slate-200);
@@ -131,7 +135,7 @@ const css = `
   }
 
   .location-card {
-    background: var(--slate-50);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 16px;
     padding: 24px;
     border: 1px solid var(--slate-200);

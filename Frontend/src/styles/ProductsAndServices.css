@@ -27,7 +27,7 @@
 /* ── Corporate Products Section ── */
 .products-section {
   position: relative;
-  background: var(--slate-50);
+  background: transparent;
   padding: 120px 6vw;
   overflow: hidden;
 }
@@ -41,6 +41,10 @@
 .products-header {
   text-align: center;
   margin-bottom: 80px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .products-badge {

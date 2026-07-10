@@ -19,6 +19,7 @@ import { JobDetail } from "./components/JobDetail";
 import { JobApplicationForm } from "./components/JobApplicationForm";
 import { AdminDashboardIntegrated } from "./components/Dashboard/AdminDashboardIntegrated";
 import { DistributionNetworkPage } from "./components/DistributionNetworkPage";
+import { DistributionNetworkSection } from "./components/DistributionNetworkSection";
 import Gallery from "./components/Gallery";
 import GalleryDetail from "./components/GalleryDetail";
 import { performanceMonitor } from "../utils/performanceMonitor";
@@ -141,7 +142,7 @@ function MainPage() {
       <ProductsAndServices />
       <IndustriesServed />
       <div style={{ height: '80px', background: '#f8fafc' }} />
-      <DistributionNetworkPage showHero={false} />
+      <DistributionNetworkSection />
       <WhyChooseUs />
     </PageTransition>
   );
@@ -167,7 +168,7 @@ function App() {
             <Route path="/:lang" element={
               <>
                 <LanguageRouteWrapper />
-                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900" style={{ backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)), url(/images/office/wp2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <MainPage />
@@ -341,7 +342,7 @@ function App() {
             <Route path="/:lang/admin/dashboard" element={
               <>
                 <LanguageRouteWrapper />
-                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900" style={{ backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)), url(/images/office/wp2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
                   <AdminDashboardIntegrated />
                 </div>
               </>
