@@ -63,7 +63,7 @@ const css = `
   }
 
   .why-content h2 .highlight {
-    color: var(--blue);
+    color: #000000;
   }
 
   .why-content p {

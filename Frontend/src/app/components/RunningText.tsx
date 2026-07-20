@@ -65,7 +65,6 @@ const css = `
 
 export function RunningText() {
   const textItems = [
-    'Melayani Industri Sejak 2003',
     'Kualitas Terjamin',
     'Distribusi Nasional',
     'Customer First',

@@ -164,7 +164,7 @@ const locations = [
   },
   {
     id: 'pabrik-balikpapan',
-    name: 'Pabrik dan Stasiun Pengisian',
+    name: 'Stasiun Pengisian',
     lat: -1.1870876,
     lng: 116.8489722,
     type: 'pabrik',
