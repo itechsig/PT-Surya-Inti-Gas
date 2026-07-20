@@ -38,6 +38,22 @@ const css = `
     overflow: hidden;
   }
 
+  .about-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('/gambar about.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
+  }
+
   .about-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -149,11 +165,13 @@ const css = `
     display: flex;
     flex-direction: column;
     gap: 40px;
+    position: relative;
+    z-index: 1;
   }
 
   .about-content-title {
     font-family: var(--ff-display);
-    font-size: 2.25rem;
+    font-size: 2.75rem;
     font-weight: 700;
     color: var(--navy-dark);
     margin: 0 0 20px;
@@ -162,7 +180,7 @@ const css = `
 
   .about-content-text {
     font-family: var(--ff-body);
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     line-height: 1.7;
     color: var(--slate-600);
     margin: 0 0 32px;

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation, useParams, Navigate } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
+import { RunningText } from "./components/RunningText";
 import { AboutCompany } from "./components/AboutCompany";
 import { AboutUsPage } from "./components/AboutUsPage";
 import { CompanyProfileVideo } from "./components/CompanyProfileVideo";
@@ -137,6 +138,7 @@ function MainPage() {
   return (
     <>
       <Hero />
+      <RunningText />
       <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900" style={{ backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)), url(/images/office/wp2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
         <PageTransition variant="default">
           <AboutCompany />
