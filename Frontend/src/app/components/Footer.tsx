@@ -59,15 +59,15 @@ const css = `
 
   .corporate-footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 48px;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 40px;
   }
 
   /* ── Corporate Footer Company Section ── */
   .corporate-footer-company {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 32px;
   }
 
   .corporate-footer-logo {
@@ -119,6 +119,16 @@ const css = `
     display: flex;
     flex-direction: column;
     gap: 16px;
+  }
+
+  .corporate-footer-contact-title {
+    font-family: var(--ff-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sky-light);
+    margin-bottom: 8px;
   }
 
   .corporate-footer-contact-item {
@@ -333,6 +343,13 @@ const css = `
   }
 
   @media (max-width: 768px) {
+    .corporate-footer-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 768px) {
     .corporate-footer-main {
       padding: 48px 20px;
     }
@@ -385,19 +402,22 @@ export function Footer() {
             </p>
 
             <div className="corporate-footer-contact">
+              <div className="corporate-footer-contact-title">Kantor Pusat</div>
               <a href="tel:+6281233906378" className="corporate-footer-contact-item">
                 <Phone />
-                081233906378
+                +6281233906378
               </a>
-              <a href="mailto:salescounter.sda@suryaintigas.co.id" className="corporate-footer-contact-item">
+              <a href="#" className="corporate-footer-contact-item" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.sda@suryaintigas.com'; }}>
                 <Mail />
-                salescounter.sda@suryaintigas.co.id
+                salescounter.sda@suryaintigas.com
               </a>
               <div className="corporate-footer-contact-item">
                 <MapPin />
-                {t('footer.contact.address')}
+                Komp. Perg. & Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232
               </div>
             </div>
+
+
 
             <div className="corporate-footer-social">
               <a href="https://www.instagram.com/surya.inti.gas?igsh=MXM3czQyOWx5ZjNzYw==" className="corporate-footer-social-link" aria-label={t('footer.social.instagram')} target="_blank" rel="noopener noreferrer">
@@ -406,6 +426,25 @@ export function Footer() {
               <a href="https://www.tiktok.com/@surya.inti.gas?_r=1&_t=ZS-97WlfSPPexY" className="corporate-footer-social-link" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
                 <TikTok />
               </a>
+            </div>
+          </div>
+
+          {/* Stasiun Pengisian Column */}
+          <div className="corporate-footer-column">
+            <div className="corporate-footer-contact-title">Stasiun Pengisian</div>
+            <div className="corporate-footer-contact">
+              <a href="tel:+625428531991" className="corporate-footer-contact-item">
+                <Phone />
+                +62542 – 8531991, 8532382
+              </a>
+              <a href="#" className="corporate-footer-contact-item" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.bpn@suryaintigas.com'; }}>
+                <Mail />
+                salescounter.bpn@suryaintigas.com
+              </a>
+              <div className="corporate-footer-contact-item">
+                <MapPin />
+                Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur
+              </div>
             </div>
           </div>
 
