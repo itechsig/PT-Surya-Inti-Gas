@@ -894,7 +894,7 @@ function GalleryDetail() {
                 <div
                   key={item.id}
                   className="related-gallery-item"
-                  onClick={() => navigate(`/galeri/${item.id}`)}
+                  onClick={() => navigate(`/${currentLang}/galeri/${item.id}`)}
                 >
                   <img src={item.thumbnail} alt={item.alt} />
                   <div className="related-gallery-item-title">{item.title}</div>

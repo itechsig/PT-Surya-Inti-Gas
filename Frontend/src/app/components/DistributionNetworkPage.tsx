@@ -283,15 +283,6 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
       {/* Distribution Network Section */}
       <section className="distribution-network-section">
         <div className="distribution-network-container">
-          <div className="distribution-network-header">
-            <h2 className="distribution-network-title">
-              Peta Jaringan Distribusi
-            </h2>
-            <p className="distribution-network-subtitle">
-              Lokasi operasional PT Surya Inti Gas di Indonesia
-            </p>
-          </div>
-
           {/* Penggantian iframe dengan React-Leaflet */}
           <div className="map-container">
             <MapContainer 
