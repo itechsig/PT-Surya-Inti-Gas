@@ -135,16 +135,20 @@ function ScrollToTop() {
 // ─── Halaman Utama ────────────────────────────────────────────
 function MainPage() {
   return (
-    <PageTransition variant="default">
+    <>
       <Hero />
-      <AboutCompany />
-      <CompanyProfileVideo />
-      <ProductsAndServices />
-      <IndustriesServed />
-      <div style={{ height: '80px', background: '#f8fafc' }} />
-      <DistributionNetworkSection />
-      <WhyChooseUs />
-    </PageTransition>
+      <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900" style={{ backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)), url(/images/office/wp2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
+        <PageTransition variant="default">
+          <AboutCompany />
+          <CompanyProfileVideo />
+          <ProductsAndServices />
+          <IndustriesServed />
+          <div style={{ height: '80px', background: '#f8fafc' }} />
+          <DistributionNetworkSection />
+          <WhyChooseUs />
+        </PageTransition>
+      </div>
+    </>
   );
 }
 
@@ -168,7 +172,7 @@ function App() {
             <Route path="/:lang" element={
               <>
                 <LanguageRouteWrapper />
-                <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900" style={{ backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)), url(/images/office/wp2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
+                <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900">
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <MainPage />

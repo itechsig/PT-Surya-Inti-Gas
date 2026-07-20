@@ -205,15 +205,6 @@ export function DistributionNetworkSection() {
 
       <section className="distribution-network-section">
         <div className="distribution-network-container">
-          <div className="distribution-network-header">
-            <h2 className="distribution-network-title">
-              Peta Jaringan Distribusi
-            </h2>
-            <p className="distribution-network-subtitle">
-              Lokasi operasional PT Surya Inti Gas di Indonesia
-            </p>
-          </div>
-
           <div className="map-container">
             <MapContainer 
               center={[-2.5, 118.0]}

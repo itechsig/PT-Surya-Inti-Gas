@@ -1,14 +1,26 @@
 import '../../styles/ProductsAndServices.css';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ChevronDown } from 'lucide-react';
 
 const galleryStyles = `
   .gallery-filters {
     display: flex;
-    justify-content: center;
-    gap: 12px;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 40px;
+    gap: 20px;
+  }
+
+  .gallery-filter-left {
+    display: flex;
+    gap: 12px;
     flex-wrap: wrap;
+  }
+
+  .gallery-filter-right {
+    display: flex;
+    align-items: center;
   }
 
   .gallery-filter-btn {
@@ -31,6 +43,125 @@ const galleryStyles = `
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+  }
+
+  .gallery-filter-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .gallery-filter-dropdown {
+    padding: 10px 36px 10px 16px;
+    background: #f1f5f9;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Barlow, system-ui, sans-serif';
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    appearance: none;
+  }
+
+  .gallery-filter-dropdown:hover,
+  .gallery-filter-dropdown:focus {
+    border-color: #1e40af;
+    outline: none;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+  }
+
+  .gallery-filter-dropdown-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #475569;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+
+  .gallery-filter-dropdown-icon.rotated {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .gallery-filter-dropdown:hover + .gallery-filter-dropdown-icon,
+  .gallery-filter-dropdown:focus + .gallery-filter-dropdown-icon {
+    color: #1e40af;
+  }
+
+  .gallery-filter-custom-dropdown {
+    position: relative;
+  }
+
+  .gallery-filter-custom-select {
+    padding: 10px 36px 10px 16px;
+    background: #f1f5f9;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Barlow, system-ui, sans-serif';
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    user-select: none;
+  }
+
+  .gallery-filter-custom-select:hover,
+  .gallery-filter-custom-select:focus {
+    border-color: #1e40af;
+    outline: none;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+  }
+
+  .gallery-filter-custom-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+  }
+
+  .gallery-filter-custom-options.show {
+    display: block;
+  }
+
+  .gallery-filter-custom-option {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-family: 'Barlow, system-ui, sans-serif';
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  .gallery-filter-custom-option:hover {
+    background: #f1f5f9;
+    color: #1e40af;
+  }
+
+  .gallery-filter-custom-option.selected {
+    background: #1e40af;
+    color: white;
+  }
+
+  .gallery-filter-label {
+    font-family: 'Barlow, system-ui, sans-serif';
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    margin-right: 12px;
   }
 
   /* UI Gallery Styles */
@@ -234,7 +365,22 @@ const galleryStyles = `
     }
 
     .gallery-filters {
-      gap: 8px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .gallery-filter-left {
+      width: 100%;
+    }
+
+    .gallery-filter-right {
+      width: 100%;
+    }
+
+    .gallery-filter-dropdown {
+      width: 100%;
+      min-width: auto;
     }
 
     .gallery-filter-btn {
@@ -602,12 +748,21 @@ const galleryItems: GalleryItem[] = [
   }
 ];
 
-const categories = [
-  { id: 'all', name: 'Semua' },
-  ...Array.from({ length: 2026 - 2007 + 1 }, (_, i) => ({
-    id: (2007 + i).toString(),
-    name: (2007 + i).toString()
+const years = [
+  { id: 'all', name: 'Semua Tahun' },
+  ...Array.from({ length: 2026 - 2022 + 1 }, (_, i) => ({
+    id: (2022 + i).toString(),
+    name: (2022 + i).toString()
   }))
+];
+
+const activityCategories = [
+  { id: 'all', name: 'Semua Kegiatan' },
+  { id: 'products', name: 'Produk' },
+  { id: 'equipment', name: 'Peralatan' },
+  { id: 'facility', name: 'Fasilitas' },
+  { id: 'activities', name: 'Kegiatan' },
+  { id: 'projects', name: 'Proyek' }
 ];
 
 function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: string }) {
@@ -668,15 +823,41 @@ function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: st
 function Gallery() {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedYear, setSelectedYear] = useState('all');
+  const [selectedActivity, setSelectedActivity] = useState('all');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const filteredItems = selectedCategory === 'all' 
-    ? galleryItems 
-    : galleryItems.filter(item => item.year.toString() === selectedCategory);
+  const filteredItems = galleryItems.filter(item => {
+    const yearMatch = selectedYear === 'all' || item.year.toString() === selectedYear;
+    const activityMatch = selectedActivity === 'all' || item.category === selectedActivity;
+    return yearMatch && activityMatch;
+  });
 
-  const handleCategoryChange = (categoryId: string) => {
-    setSelectedCategory(categoryId);
+  const handleYearChange = (yearId: string) => {
+    setSelectedYear(yearId);
   };
+
+  const handleActivityChange = (activityId: string) => {
+    setSelectedActivity(activityId);
+  };
+
+  const handleDropdownClick = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="products-corporate">
@@ -742,17 +923,45 @@ function Gallery() {
         {/* Category Filters */}
         <div className="products-container">
           <div className="gallery-filters">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                className={`gallery-filter-btn ${selectedCategory === category.id ? 'active' : ''}`}
-                onClick={() => handleCategoryChange(category.id)}
-                aria-label={`Filter by ${category.name}`}
-                aria-pressed={selectedCategory === category.id}
-              >
-                {category.name}
-              </button>
-            ))}
+            <div className="gallery-filter-left">
+              {years.map((year) => (
+                <button
+                  key={year.id}
+                  className={`gallery-filter-btn ${selectedYear === year.id ? 'active' : ''}`}
+                  onClick={() => handleYearChange(year.id)}
+                  aria-label={`Filter by ${year.name}`}
+                  aria-pressed={selectedYear === year.id}
+                >
+                  {year.name}
+                </button>
+              ))}
+            </div>
+            <div className="gallery-filter-right">
+              <span className="gallery-filter-label">Kegiatan:</span>
+              <div className="gallery-filter-custom-dropdown" ref={dropdownRef}>
+                <div 
+                  className="gallery-filter-custom-select"
+                  onClick={handleDropdownClick}
+                >
+                  {activityCategories.find(cat => cat.id === selectedActivity)?.name || 'Semua Kegiatan'}
+                  <ChevronDown size={16} className={`gallery-filter-dropdown-icon ${isDropdownOpen ? 'rotated' : ''}`} />
+                </div>
+                <div className={`gallery-filter-custom-options ${isDropdownOpen ? 'show' : ''}`}>
+                  {activityCategories.map((category) => (
+                    <div
+                      key={category.id}
+                      className={`gallery-filter-custom-option ${selectedActivity === category.id ? 'selected' : ''}`}
+                      onClick={() => {
+                        handleActivityChange(category.id);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      {category.name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

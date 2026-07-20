@@ -153,16 +153,16 @@ const css = `
 
   .about-content-title {
     font-family: var(--ff-display);
-    font-size: 1.75rem;
+    font-size: 2.25rem;
     font-weight: 700;
     color: var(--navy-dark);
-    margin: 0 0 16px;
+    margin: 0 0 20px;
     letter-spacing: -0.01em;
   }
 
   .about-content-text {
     font-family: var(--ff-body);
-    font-size: 1rem;
+    font-size: 1.25rem;
     line-height: 1.7;
     color: var(--slate-600);
     margin: 0 0 32px;
@@ -288,7 +288,7 @@ export function AboutCompany() {
                 <p className="about-content-text">
                   PT Surya Inti Gas adalah perusahaan gas industri terkemuka yang berdedikasi untuk menyediakan solusi gas berkualitas tinggi bagi berbagai sektor industri di Indonesia. Dengan pengalaman sejak 2003, kami telah membangun reputasi sebagai mitra terpercaya dalam industri manufaktur, kesehatan, energi, dan infrastruktur.
                 </p>
-                <a href="/tentang-kami" className="about-cta">
+                <a href="/id/tentang-kami" className="about-cta">
                   Lihat Selengkapnya
                   <ArrowRight size={18} />
                 </a>
