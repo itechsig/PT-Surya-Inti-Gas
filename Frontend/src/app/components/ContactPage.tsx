@@ -1,4 +1,5 @@
 import '../../styles/contact-page.css';
+import { Phone, Mail } from 'lucide-react';
 
 export const ContactPage = () => {
   return (
@@ -31,9 +32,14 @@ export const ContactPage = () => {
                   Rangkah Kidul, Sidoarjo<br />
                   Jawa Timur 61232
                 </p>
-                <p className="contact-info">
-                  Phone 081233906378
-                </p>
+                <a href="tel:+6281233906378" className="contact-info" style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', textDecoration: 'none', color: 'inherit' }}>
+                  <Phone size={16} style={{ marginRight: '8px', color: '#1e40af' }} />
+                  +6281233906378
+                </a>
+                <a href="#" className="contact-info" style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', textDecoration: 'none', color: 'inherit' }} onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.sda@suryaintigas.com'; }}>
+                  <Mail size={16} style={{ marginRight: '8px', color: '#1e40af' }} />
+                  salescounter.sda@suryaintigas.com
+                </a>
               </div>
 
               {/* Alamat Balikpapan */}
@@ -45,10 +51,14 @@ export const ContactPage = () => {
                   Kecamatan Balikpapan Utara,<br />
                   Kota Balikpapan, Kalimantan Timur
                 </p>
-                <p className="contact-info">
-                  Phone +62 542 8531991<br />
-                  Fax +62 542 8532382
-                </p>
+                <a href="tel:+625428531991" className="contact-info" style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', textDecoration: 'none', color: 'inherit' }}>
+                  <Phone size={16} style={{ marginRight: '8px', color: '#1e40af' }} />
+                  +62 542 8531991
+                </a>
+                <a href="#" className="contact-info" style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', textDecoration: 'none', color: 'inherit' }} onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.bpn@suryaintigas.com'; }}>
+                  <Mail size={16} style={{ marginRight: '8px', color: '#1e40af' }} />
+                  salescounter.bpn@suryaintigas.com
+                </a>
               </div>
 
               <img src="/office-optimized.jpg" alt="Kantor Sidoarjo" className="office-image full-width" />
