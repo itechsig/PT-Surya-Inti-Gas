@@ -23,7 +23,7 @@ Allow: /
 # Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://pt-surya-inti-gas.vercel.app/sitemap.xml
+Sitemap: https://suryaintigas.com/sitemap.xml
 
 # Allow indexing of important static assets
 Allow: /images/

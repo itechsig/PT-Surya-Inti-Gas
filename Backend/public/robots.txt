@@ -19,4 +19,4 @@ Allow: /fonts/
 Crawl-delay: 1
 
 # Sitemap location (Frontend is hosted on Vercel)
-Sitemap: https://pt-surya-inti-gas.vercel.app/sitemap.xml
+Sitemap: https://suryaintigas.com/sitemap.xml
