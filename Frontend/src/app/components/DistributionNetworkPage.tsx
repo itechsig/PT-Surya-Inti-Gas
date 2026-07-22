@@ -1,6 +1,8 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useTranslation } from "react-i18next";
+import { getDistributionLocations } from "../../data/distribution";
 
 const css = `
   .distribution-corporate {
@@ -205,25 +207,6 @@ const css = `
   }
 `;
 
-const locations = [
-  {
-    id: 'kantor-pusat',
-    name: 'Kantor Pusat',
-    lat: -7.4669737,
-    lng: 112.7497521,
-    type: 'kantor-pusat',
-    region: 'Jawa Timur'
-  },
-  {
-    id: 'pabrik-balikpapan',
-    name: 'Stasiun Pengisian',
-    lat: -1.1870876,
-    lng: 116.8489722,
-    type: 'pabrik',
-    region: 'Kalimantan Timur'
-  }
-];
-
 // Fix untuk default marker icon di React-Leaflet agar tidak error (menggunakan CDN)
 const customIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -257,7 +240,8 @@ interface DistributionNetworkPageProps {
 }
 
 export function DistributionNetworkPage({ showHero = true }: DistributionNetworkPageProps) {
-  const currentLocations = locations;
+  const { t } = useTranslation();
+  const currentLocations = getDistributionLocations(t);
 
   return (
     <div className="distribution-corporate">
@@ -268,13 +252,13 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
         <section className="distribution-hero">
           <div className="distribution-hero-content">
             <div className="distribution-hero-badge">
-              Jaringan Distribusi
+              {t('distribution.page.badge')}
             </div>
             <h1 className="distribution-hero-title">
-              Lokasi Operasional <span style={{ color: 'var(--white)' }}>PT Surya Inti Gas</span>
+              {t('distribution.page.title')} <span style={{ color: 'var(--white)' }}>{t('distribution.page.titleHighlight')}</span>
             </h1>
             <p className="distribution-hero-description">
-              Jaringan distribusi kami tersebar di berbagai lokasi strategis untuk memastikan pasokan gas yang andal dan konsisten ke seluruh Indonesia.
+              {t('distribution.page.description')}
             </p>
           </div>
         </section>
@@ -322,9 +306,6 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
           {/* Locations Information (Kartu di bawah peta) */}
           <div className="locations-info">
             {currentLocations.map((location) => {
-              const mapsUrl = location.type === 'kantor-pusat'
-                ? 'http://google.com/maps/place/PT.+Surya+Inti+Gas/@-7.4669737,112.7497521,16z/data=!3m1!4b1!4m6!3m5!1s0x2dd7e14793b1542f:0xe5456eaac6d0291d!8m2!3d-7.466979!4d112.752327!16s%2Fg%2F11gcm0cz2j?entry=ttu&g_ep=EgoyMDI2MDYxNi4wIKXMDSoASAFQAw%3D%3D'
-                : 'https://www.google.com/maps/place/PT.+SURYA+INTI+GAS+(+PT.+SIG+)+BALIKPAPAN/@-1.1870876,116.8489722,17z/data=!3m1!4b1!4m6!3m5!1s0x2df148fc497a3ea1:0xba6abd6e8257b9b4!8m2!3d-1.187093!4d116.8515471!16s%2Fg%2F11g887kpnd?entry=ttu&g_ep=EgoyMDI2MDYxNi4wIKXMDSoASAFQAw%3D%3D';
               return (
                 <div key={location.id} className="location-card">
                   <h3 className="location-card-title">{location.name}</h3>
@@ -332,17 +313,15 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
                     {location.region}
                   </p>
                   <p className="location-card-description">
-                    {location.type === 'kantor-pusat' 
-                      ? 'Kantor pusat PT Surya Inti Gas berlokasi di Sidoarjo, Jawa Timur.'
-                      : 'Pabrik dan stasiun pengisian PT Surya Inti Gas berlokasi di Balikpapan, Kalimantan Timur.'}
+                    {location.description}
                   </p>
-                  <a 
-                    href={mapsUrl}
+                  <a
+                    href={location.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="location-card-link"
                   >
-                    Lihat di Google Maps
+                    {t('distribution.page.viewOnGoogleMaps')}
                   </a>
                 </div>
               );

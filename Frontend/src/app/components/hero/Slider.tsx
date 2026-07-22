@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ShieldCheck } from "lucide-react";
-import { heroSlides, SLIDE_DURATION_MS } from "./slides";
+import { useTranslation } from "react-i18next";
+import { ChevronDown } from "lucide-react";
+import { getHeroSlides, SLIDE_DURATION_MS } from "./slides";
 import { SlideContent } from "./SlideContent";
 import { SliderControls } from "./SliderControls";
-import { ProgressBar } from "./ProgressBar";
 
 const css = `
   @keyframes hero-progress {
@@ -89,6 +89,8 @@ const PARTICLES = Array.from({ length: 14 }).map((_, i) => ({
 }));
 
 export function Slider() {
+  const { t, i18n } = useTranslation();
+  const heroSlides = useMemo(() => getHeroSlides(t), [t, i18n.language]);
   const total = heroSlides.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -191,7 +193,7 @@ export function Slider() {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       aria-roledescription="carousel"
-      aria-label="PT Surya Inti Gas highlights"
+      aria-label={t('hero.ariaLabel')}
     >
       <style>{css}</style>
 
@@ -268,14 +270,14 @@ export function Slider() {
       </div>
 
       {/* Trusted by industry badge */}
-      <div className="absolute right-4 top-24 z-10 hidden items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md sm:top-28 md:flex">
+      {/* <div className="absolute right-4 top-24 z-10 hidden items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md sm:top-28 md:flex">
         <ShieldCheck className="h-4 w-4 text-[#00AEEF]" />
         Trusted by Industry Since 2003
-      </div>
+      </div> */}
 
       {/* Main content */}
       <div
-        className="relative z-10 flex h-full w-full flex-col justify-center px-6 pb-28 pt-24 sm:px-10 md:px-16 lg:px-24"
+        className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6 pb-28 pt-24 text-center sm:px-10 md:px-16 lg:px-24"
         style={{
           transform: `translate3d(${parallax.x * 6}px, ${parallax.y * 6}px, 0)`,
           transition: "transform 0.4s ease-out",
@@ -293,7 +295,7 @@ export function Slider() {
 
       {/* Live region for screen readers */}
       <p className="sr-only" role="status" aria-live="polite">
-        {`Slide ${activeIndex + 1} of ${total}: ${slide.title}`}
+        {t('hero.liveRegion', { current: activeIndex + 1, total, title: slide.title })}
       </p>
 
       <SliderControls

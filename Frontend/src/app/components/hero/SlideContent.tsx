@@ -1,20 +1,21 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { ArrowRight, PhoneCall } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import type { HeroSlide } from "./slides";
 
 interface SlideContentProps {
   slide: HeroSlide;
 }
 
-const container = {
+const container: Variants = {
   hidden: {},
   visible: {
     transition: { staggerChildren: 0.12, delayChildren: 0.1 },
   },
 };
 
-const item = {
+const item: Variants = {
   hidden: { opacity: 0, y: 36 },
   visible: {
     opacity: 1,
@@ -27,6 +28,7 @@ export function SlideContent({ slide }: SlideContentProps) {
   const navigate = useNavigate();
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || "id";
+  const { t } = useTranslation();
 
   return (
     <motion.div
@@ -34,7 +36,7 @@ export function SlideContent({ slide }: SlideContentProps) {
       initial="hidden"
       animate="visible"
       exit="hidden"
-      className="max-w-2xl"
+      className="mx-auto flex max-w-2xl flex-col items-center"
     >
       <motion.span
         variants={item}
@@ -52,18 +54,18 @@ export function SlideContent({ slide }: SlideContentProps) {
 
       <motion.p
         variants={item}
-        className="mb-8 max-w-xl text-base font-light leading-relaxed text-white/85 sm:text-lg"
+        className="mx-auto mb-8 max-w-xl text-base font-light leading-relaxed text-white/85 sm:text-lg"
       >
         {slide.description}
       </motion.p>
 
-      <motion.div variants={item} className="flex flex-wrap items-center gap-4">
+      <motion.div variants={item} className="flex flex-wrap items-center justify-center gap-4">
         <button
           type="button"
           onClick={() => navigate(slide.ctaTo(currentLang))}
           className="hero-cta-primary"
         >
-          {slide.ctaLabel}
+          {t('hero.viewProducts')}
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </button>
 
@@ -73,7 +75,7 @@ export function SlideContent({ slide }: SlideContentProps) {
           className="hero-cta-secondary"
         >
           <PhoneCall className="h-4 w-4" />
-          Hubungi Kami
+          {t('hero.contactUs')}
         </button>
       </motion.div>
     </motion.div>

@@ -1,6 +1,8 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useTranslation } from "react-i18next";
+import { getDistributionLocations } from "../../data/distribution";
 
 const css = `
   .distribution-corporate {
@@ -153,25 +155,6 @@ const css = `
   }
 `;
 
-const locations = [
-  {
-    id: 'kantor-pusat',
-    name: 'Kantor Pusat',
-    lat: -7.4669737,
-    lng: 112.7497521,
-    type: 'kantor-pusat',
-    region: 'Jawa Timur'
-  },
-  {
-    id: 'pabrik-balikpapan',
-    name: 'Stasiun Pengisian',
-    lat: -1.1870876,
-    lng: 116.8489722,
-    type: 'pabrik',
-    region: 'Kalimantan Timur'
-  }
-];
-
 const customIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -197,7 +180,8 @@ function MapUpdater({ activeLocations }: { activeLocations: any[] }) {
 }
 
 export function DistributionNetworkSection() {
-  const currentLocations = locations;
+  const { t } = useTranslation();
+  const currentLocations = getDistributionLocations(t);
 
   return (
     <div className="distribution-corporate">
@@ -244,17 +228,15 @@ export function DistributionNetworkSection() {
                   Lat: {location.lat}, Lng: {location.lng}
                 </div>
                 <p className="location-card-description">
-                  {location.type === 'kantor-pusat' 
-                    ? 'Kantor pusat operasional PT Surya Inti Gas.'
-                    : 'Pabrik produksi dan stasiun pengisian gas industri.'}
+                  {location.shortDescription}
                 </p>
-                <a 
+                <a
                   href={`https://www.google.com/maps?q=${location.lat},${location.lng}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="location-card-link"
                 >
-                  Lihat di Google Maps
+                  {t('distribution.page.viewOnGoogleMaps')}
                 </a>
               </div>
             ))}
