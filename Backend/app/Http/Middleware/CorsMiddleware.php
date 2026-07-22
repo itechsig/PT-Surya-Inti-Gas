@@ -16,7 +16,7 @@ class CorsMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Get allowed origins from environment variable (comma-separated)
-        $allowedOrigins = env('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,https://pt-surya-inti-gas.vercel.app');
+        $allowedOrigins = env('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,https://suryaintigas.com');
         $originsArray = array_map('trim', explode(',', $allowedOrigins));
         $requestOrigin = $request->header('Origin');
 
