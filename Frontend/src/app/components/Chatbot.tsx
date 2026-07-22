@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { MessageCircle, X, Send, Bot, User } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { useTranslation } from "react-i18next";
 import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 
 // Simple UUID generator for compatibility
@@ -297,12 +298,13 @@ interface HistoryItem {
 }
 
 export function Chatbot() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Halo! Selamat datang di PT Surya Inti Gas. Ada yang bisa saya bantu?",
+      text: t("chatbot.greeting"),
       sender: "bot",
       timestamp: new Date(),
     },
@@ -841,7 +843,7 @@ export function Chatbot() {
             msg.id === botMessageId
               ? {
                   ...msg,
-                  text: data.data?.message || "Maaf, terjadi kesalahan.",
+                  text: data.data?.message || t("chatbot.errorFallback"),
                   source: data.data?.source || "fallback",
                 }
               : msg
@@ -920,7 +922,7 @@ export function Chatbot() {
 
       const errorMessage: Message = {
         id: generateUUID(),
-        text: "Maaf, terjadi kesalahan. Silakan coba lagi nanti.",
+        text: t("chatbot.errorFallbackRetry"),
         sender: "bot",
         timestamp: new Date(),
         source: "fallback",
@@ -951,7 +953,7 @@ export function Chatbot() {
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-7 right-6 z-50 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
-        aria-label={isOpen ? "Close chat" : "Open chat"}
+        aria-label={isOpen ? t("chatbot.closeChat") : t("chatbot.openChat")}
       >
         {isOpen ? (
           <X size={24} />
@@ -991,7 +993,7 @@ export function Chatbot() {
 
                 <div>
                   <h3 className="font-semibold">
-                    Asisten Virtual
+                    {t("chatbot.title")}
                   </h3>
 
                   <p className="text-xs text-blue-100">
@@ -1134,7 +1136,7 @@ export function Chatbot() {
                     setInputValue(e.target.value)
                   }
                   onKeyDown={handleKeyDown}
-                  placeholder="Ketik pesan Anda..."
+                  placeholder={t("chatbot.inputPlaceholder")}
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   disabled={isLoading}
                 />
@@ -1145,14 +1147,14 @@ export function Chatbot() {
                     isLoading || !inputValue.trim()
                   }
                   className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
-                  aria-label="Send message"
+                  aria-label={t("chatbot.sendMessage")}
                 >
                   <Send size={20} />
                 </button>
               </div>
 
               <p className="text-xs text-gray-400 mt-2 text-center">
-                Tekan Enter untuk mengirim
+                {t("chatbot.pressEnterHint")}
               </p>
             </div>
           </motion.div>

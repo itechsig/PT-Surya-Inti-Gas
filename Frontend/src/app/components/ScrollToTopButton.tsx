@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 
 export const ScrollToTopButton = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export const ScrollToTopButton = () => {
           transition={{ duration: 0.3 }}
           onClick={scrollToTop}
           className="fixed bottom-7 left-6 z-50 bg-blue-600 text-white p-4 rounded-full shadow-lg shadow-blue-600/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-600/40 hover:-translate-y-1"
-          aria-label="Scroll to top"
+          aria-label={t('common.scrollToTop')}
         >
           <ArrowUp className="w-6 h-6" />
         </motion.button>

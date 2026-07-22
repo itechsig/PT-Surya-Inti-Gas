@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 /* ═══════════════════════════════════════════════════════════════
    INDUSTRIES SERVED.TSX — PT Surya Inti Gas Corporate
@@ -258,6 +259,7 @@ type Industry = {
 };
 
 export function IndustriesServed() {
+  const { t } = useTranslation();
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -265,7 +267,7 @@ export function IndustriesServed() {
   const industries: Industry[] = [
     {
       id: 'manufaktur',
-      title: 'Manufaktur',
+      title: t('industriesServed.industries.manufaktur'),
       image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
       imageSrcSet: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
@@ -273,7 +275,7 @@ export function IndustriesServed() {
     },
     {
       id: 'kesehatan',
-      title: 'Kesehatan',
+      title: t('industriesServed.industries.kesehatan'),
       image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
       imageSrcSet: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
@@ -281,7 +283,7 @@ export function IndustriesServed() {
     },
     {
       id: 'makanan-minuman',
-      title: 'Makanan & Minuman',
+      title: t('industriesServed.industries.makanan-minuman'),
       image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80',
       imageSrcSet: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
@@ -289,7 +291,7 @@ export function IndustriesServed() {
     },
     {
       id: 'minyak-gas',
-      title: 'Minyak & Gas',
+      title: t('industriesServed.industries.minyak-gas'),
       image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
       imageSrcSet: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
@@ -297,7 +299,7 @@ export function IndustriesServed() {
     },
     {
       id: 'energi',
-      title: 'Energi',
+      title: t('industriesServed.industries.energi'),
       image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80',
       imageSrcSet: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
@@ -305,7 +307,7 @@ export function IndustriesServed() {
     },
     {
       id: 'konstruksi',
-      title: 'Konstruksi',
+      title: t('industriesServed.industries.konstruksi'),
       image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
       imageSrcSet: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
@@ -359,13 +361,13 @@ export function IndustriesServed() {
           {/* Corporate Header */}
           <div className="industries-header">
             <div className="industries-badge">
-              Industri yang Dilayani
+              {t('industriesServed.badge')}
             </div>
             <h2 className="industries-title">
-              Solusi Untuk Berbagai <span className="accent">Sektor Industri</span>
+              {t('industriesServed.title')}
             </h2>
             <p className="industries-subtitle">
-              Mendukung kebutuhan berbagai bidang usaha melalui solusi gas yang tepat, aman, dan efisien.
+              {t('industriesServed.subtitle')}
             </p>
           </div>
 
@@ -407,7 +409,7 @@ export function IndustriesServed() {
                 className="carousel-nav-button"
                 onClick={scrollLeft}
                 disabled={!canScrollLeft}
-                aria-label="Previous slide"
+                aria-label={t('hero.previousSlide')}
               >
                 <ChevronLeft size={24} />
               </button>
@@ -415,7 +417,7 @@ export function IndustriesServed() {
                 className="carousel-nav-button"
                 onClick={scrollRight}
                 disabled={!canScrollRight}
-                aria-label="Next slide"
+                aria-label={t('hero.nextSlide')}
               >
                 <ChevronRight size={24} />
               </button>

@@ -553,74 +553,30 @@ const css = `
 `;
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export function AboutUsPage() {
+  const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
   const handleSlideChange = (newIndex: number) => {
     setCurrentSlide(newIndex);
   };
 
-  const values = [
-    {
-      title: 'Keselamatan',
-      description: 'Menjunjung tinggi keselamatan sebagai prioritas utama dalam setiap aktivitas operasional untuk memastikan lingkungan kerja yang aman bagi semua pihak.'
-    },
-    {
-      title: 'Integritas',
-      description: 'Menjalankan bisnis dengan kejujuran, transparansi, dan prinsip etika yang kuat dalam setiap pengambilan keputusan.'
-    },
-    {
-      title: 'Profesionalisme',
-      description: 'Menyajikan layanan dengan standar profesional tinggi, kompetensi, dan dedikasi dalam setiap aspek operasional.'
-    },
-    {
-      title: 'Tanggung Jawab',
-      description: 'Bertanggung jawab penuh atas setiap tindakan dan keputusan, serta berkomitmen terhadap keberlanjutan bisnis.'
-    },
-    {
-      title: 'Fokus Pelanggan',
-      description: 'Berfokus pada kebutuhan pelanggan dengan menghadirkan solusi yang tepat, cepat, dan terpercaya.'
-    },
-    {
-      title: 'Kualitas',
-      description: 'Berkomitmen memberikan produk dan layanan berkualitas tinggi secara konsisten untuk kepuasan pelanggan.'
-    },
-    {
-      title: 'Inovasi',
-      description: 'Melalui inovasi dan perbaikan berkelanjutan, kami terus meningkatkan efisiensi dan standar pelayanan.'
-    },
-    {
-      title: 'Kerja Sama Tim',
-      description: 'Diperkuat oleh kerja sama tim yang solid untuk mencapai pertumbuhan dan keberhasilan bersama.'
-    }
-  ];
+  const values = t('aboutUsPage.values.items', { returnObjects: true }) as { title: string; description: string }[];
 
-  const milestones = [
-    {
-      year: "2003",
-      title: "Awal Berdiri",
-      description: "CV. Surya Inti Gas resmi didirikan di Sidoarjo, Jawa Timur, dengan kantor pertama yang berlokasi di Jl. KH. Mukmin. Sejak awal, perusahaan berkomitmen menyediakan solusi gas industri yang berkualitas dan terpercaya.",
-      image: "/images/office/2003.jpg"
-    },
-    {
-      year: "2007",
-      title: "Perluasan Operasional",
-      description: "Seiring pertumbuhan bisnis dan meningkatnya permintaan pasar, kantor operasional dipindahkan ke Komplek Pergudangan & Industri Meiko Abadi Blok B70, Wedi, Gedangan, Sidoarjo guna mendukung kapasitas layanan dan distribusi yang lebih optimal.",
-      image: "/images/office/2007.jpeg"
-    },
-    {
-      year: "2016",
-      title: "Menempati Kantor Pusat",
-      description: "Untuk menunjang perkembangan perusahaan, kantor pusat (Head Office) dipindahkan ke Komplek Pergudangan & Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo, yang hingga kini menjadi pusat operasional PT Surya Inti Gas.",
-      image: "/images/office/2016.jpg"
-    },
-    {
-      year: "2017",
-      title: "Transformasi dan Ekspansi",
-      description: "Perusahaan resmi bertransformasi dari CV. Surya Inti Gas menjadi PT. Surya Inti Gas. Pada tahun yang sama, perusahaan memperluas jangkauan layanan dengan membuka cabang pertama di Balikpapan, Kalimantan Timur, sebagai langkah strategis untuk melayani kebutuhan pelanggan di wilayah Indonesia bagian timur.",
-      image: "/images/office/2017.PNG"
-    }
-  ];
+  const milestoneYears = ['2003', '2007', '2016', '2017'] as const;
+  const milestoneImages: Record<(typeof milestoneYears)[number], string> = {
+    '2003': '/images/office/2003.jpg',
+    '2007': '/images/office/2007.jpeg',
+    '2016': '/images/office/2016.jpg',
+    '2017': '/images/office/2017.PNG',
+  };
+  const milestones = milestoneYears.map((year) => ({
+    year,
+    title: t(`aboutUsPage.milestones.${year}.title`),
+    description: t(`aboutUsPage.milestones.${year}.description`),
+    image: milestoneImages[year],
+  }));
 
   return (
     <div className="about-us-corporate">
@@ -630,13 +586,13 @@ export function AboutUsPage() {
       <section className="about-us-hero">
         <div className="about-us-hero-content">
           <div className="about-us-hero-badge">
-            Tentang Kami
+            {t('aboutUsPage.hero.badge')}
           </div>
           <h1 className="about-us-hero-title">
-            Mengenal Lebih Dekat <span style={{ color: 'var(--white)' }}>PT Surya Inti Gas</span>
+            {t('aboutUsPage.hero.title')} <span style={{ color: 'var(--white)' }}>{t('aboutUsPage.hero.titleHighlight')}</span>
           </h1>
           <p className="about-us-hero-description">
-            Sejak 2003, kami telah menjadi mitra terpercaya dalam solusi gas industri untuk berbagai sektor di Indonesia, berkomitmen pada kualitas, inovasi, dan keberlanjutan.
+            {t('aboutUsPage.hero.description')}
           </p>
         </div>
       </section>
@@ -646,28 +602,27 @@ export function AboutUsPage() {
         <div className="about-us-container">
           <div className="about-us-section-header">
             <h2 className="about-us-section-title">
-              Tujuan dan Dedikasi Kami
+              {t('aboutUsPage.visionMission.title')}
             </h2>
             <p className="about-us-section-subtitle">
-              Visi dan misi yang menjadi landasan setiap langkah kami dalam melayani industri Indonesia.
+              {t('aboutUsPage.visionMission.subtitle')}
             </p>
           </div>
 
           <div className="vision-mission-grid">
             <div className="vision-mission-card">
-              <h3 className="vision-mission-title">Visi</h3>
+              <h3 className="vision-mission-title">{t('about.vision.title')}</h3>
               <p className="vision-mission-text">
-                Menjadi sebuah perusahaan yang berkembang, memiliki cabang di seluruh kota besar Indonesia, yang mampu untuk memenuhi dan menunjang kebutuhan gas-gas industri di dalam negeri serta melayani kebutuhan gas Oksigen Medis di seluruh Rumah Sakit di Indonesia
+                {t('about.vision.text')}
               </p>
             </div>
 
             <div className="vision-mission-card">
-              <h3 className="vision-mission-title">Misi</h3>
+              <h3 className="vision-mission-title">{t('about.mission.title')}</h3>
               <ol className="vision-mission-list">
-                <li className="vision-mission-list-item">Mampu menyediakan produk yang berkecukupan dengan standar tinggi</li>
-                <li className="vision-mission-list-item">Memiliki sumber daya manusia yang kuat dan solid</li>
-                <li className="vision-mission-list-item">Mampu memenuhi kebutuhan dan keinginan pelanggan dengan cepat, tepat dan baik</li>
-                <li className="vision-mission-list-item">Kepuasan pelanggan adalah prioritas kami</li>
+                {(t('about.mission.items', { returnObjects: true }) as string[]).map((item, index) => (
+                  <li key={index} className="vision-mission-list-item">{item}</li>
+                ))}
               </ol>
             </div>
           </div>
@@ -679,10 +634,10 @@ export function AboutUsPage() {
         <div className="history-container">
           <div className="about-us-section-header">
             <h2 className="about-us-section-title">
-              Perjalanan PT Surya Inti Gas
+              {t('aboutUsPage.timeline.title')}
             </h2>
             <p className="about-us-section-subtitle">
-              Milestone penting dalam perjalanan kami menjadi pemimpin industri gas di Indonesia.
+              {t('aboutUsPage.timeline.subtitle')}
             </p>
           </div>
 
@@ -705,7 +660,7 @@ export function AboutUsPage() {
               <div className="timeline-image">
                 <img 
                   src={milestones[currentSlide].image} 
-                  alt={`Foto ${milestones[currentSlide].year} - ${milestones[currentSlide].title}`}
+                  alt={t('aboutUsPage.timeline.imageAlt', { year: milestones[currentSlide].year, title: milestones[currentSlide].title })}
                   className="timeline-image-img"
                 />
               </div>
@@ -724,10 +679,10 @@ export function AboutUsPage() {
         <div className="values-container">
           <div className="about-us-section-header">
             <h2 className="about-us-section-title">
-              Nilai-nilai PT Surya Inti Gas
+              {t('aboutUsPage.values.title')}
             </h2>
             <p className="about-us-section-subtitle">
-              Prinsip yang memandu setiap langkah kami dalam melayani pelanggan dan menjalankan bisnis.
+              {t('aboutUsPage.values.subtitle')}
             </p>
           </div>
 

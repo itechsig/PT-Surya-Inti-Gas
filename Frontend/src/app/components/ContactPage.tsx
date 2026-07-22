@@ -1,30 +1,32 @@
 import '../../styles/contact-page.css';
 import { Phone, Mail } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const ContactPage = () => {
+  const { t } = useTranslation();
   return (
     <div className="clean-contact-page">
 
       {/* Hero Section */}
       <div className="contact-hero">
         <div className="clean-container">
-          <div className="contact-hero-badge">Kontak</div>
-          <h1 className="contact-hero-title">Hubungi Kami</h1>
-          <p className="contact-hero-subtitle">Kami siap membantu Anda dengan solusi gas industri terbaik</p>
+          <div className="contact-hero-badge">{t('contactPage.badge')}</div>
+          <h1 className="contact-hero-title">{t('contactPage.title')}</h1>
+          <p className="contact-hero-subtitle">{t('contactPage.subtitle')}</p>
         </div>
       </div>
 
       <div className="clean-container contact-content">
         <div className="clean-grid">
-          
+
           {/* Kolom Kiri: Lokasi & Gambar */}
           <div className="location-column">
             <div className="address-grid">
-              <h2 className="section-title text-center full-width location-title">Lokasi Kami</h2>
-              
+              <h2 className="section-title text-center full-width location-title">{t('contactPage.locationTitle')}</h2>
+
               {/* Alamat Sidoarjo */}
               <div className="address-block">
-                <h3>Kantor Sidoarjo</h3>
+                <h3>{t('contactPage.sidoarjoOffice')}</h3>
                 <p>
                   Komp. Perg. & Industri Safe N" Lock,<br />
                   Blok V1 - 3223, 3225, 3232, 3233<br />
@@ -44,7 +46,7 @@ export const ContactPage = () => {
 
               {/* Alamat Balikpapan */}
               <div className="address-block">
-                <h3>Kantor Balikpapan</h3>
+                <h3>{t('contactPage.balikpapanOffice')}</h3>
                 <p>
                   Jl. AMD Projakal Kariangau Km. 5.5,<br />
                   RT 046, Kelurahan Graha Indah,<br />
@@ -61,23 +63,23 @@ export const ContactPage = () => {
                 </a>
               </div>
 
-              <img src="/office-optimized.jpg" alt="Kantor Sidoarjo" className="office-image full-width" />
+              <img src="/office-optimized.jpg" alt={t('contactPage.sidoarjoOffice')} className="office-image full-width" />
             </div>
           </div>
 
           {/* Kolom Kanan: Form Kontak */}
           <div className="form-column">
-            <h2 className="section-title text-center">Kirim Pesan</h2>
-            <p className="form-intro">Isi formulir di bawah ini dan tim kami akan segera menghubungi Anda</p>
-            
+            <h2 className="section-title text-center">{t('contactPage.sendMessage')}</h2>
+            <p className="form-intro">{t('contactPage.formIntro')}</p>
+
             <form className="contact-form">
-              <input type="text" placeholder="Your Name" required />
-              <input type="email" placeholder="Your Email" required />
-              <input type="text" placeholder="Company Name" />
-              <input type="text" placeholder="Subject" required />
-              <textarea placeholder="Message" rows={6} required></textarea>
-              
-              <button type="submit" className="submit-button">SEND</button>
+              <input type="text" placeholder={t('contactPage.placeholders.name')} required />
+              <input type="email" placeholder={t('contactPage.placeholders.email')} required />
+              <input type="text" placeholder={t('contactPage.placeholders.company')} />
+              <input type="text" placeholder={t('contactPage.placeholders.subject')} required />
+              <textarea placeholder={t('contactPage.placeholders.message')} rows={6} required></textarea>
+
+              <button type="submit" className="submit-button">{t('contactPage.send')}</button>
             </form>
           </div>
 

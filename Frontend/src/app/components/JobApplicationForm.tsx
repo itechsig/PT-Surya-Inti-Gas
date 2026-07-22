@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Send, Upload, CheckCircle } from 'lucide-react';
 import '../../styles/career.css';
+import { getJobs } from '../../data/jobs';
 
 interface Job {
   id: number;
@@ -14,6 +16,7 @@ export function JobApplicationForm() {
   const navigate = useNavigate();
   const { id, lang } = useParams<{ id: string; lang: string }>();
   const currentLang = lang || 'id';
+  const { t } = useTranslation();
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -32,68 +35,12 @@ export function JobApplicationForm() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const openings: Job[] = [
-    {
-      id: 1,
-      title: "Sales Executive",
-      division: "Sales & Marketing",
-      location: "Sidoarjo"
-    },
-    {
-      id: 2,
-      title: "Installation Technician",
-      division: "Technical Operations",
-      location: "Sidoarjo"
-    },
-    {
-      id: 3,
-      title: "Admin & Finance Staff",
-      division: "Finance & Admin",
-      location: "Balikpapan"
-    },
-    {
-      id: 4,
-      title: "Gas Delivery Driver",
-      division: "Logistics & Distribution",
-      location: "Sidoarjo"
-    },
-    {
-      id: 5,
-      title: "Quality Control Engineer",
-      division: "Technical Operations",
-      location: "Sidoarjo"
-    },
-    {
-      id: 6,
-      title: "Marketing Specialist",
-      division: "Sales & Marketing",
-      location: "Balikpapan"
-    },
-    {
-      id: 7,
-      title: "Warehouse Supervisor",
-      division: "Logistics & Distribution",
-      location: "Sidoarjo"
-    },
-    {
-      id: 8,
-      title: "HR Manager",
-      division: "Finance & Admin",
-      location: "Balikpapan"
-    },
-    {
-      id: 9,
-      title: "Safety Officer",
-      division: "Technical Operations",
-      location: "Sidoarjo"
-    }
-  ];
-
   useEffect(() => {
+    const openings = getJobs(t);
     const foundJob = openings.find(j => j.id === parseInt(id || '0'));
     setJob(foundJob || null);
     setLoading(false);
-  }, [id]);
+  }, [id, t]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -110,13 +57,13 @@ export function JobApplicationForm() {
       // Check file type (only PDF, DOC, DOCX)
       const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
       if (!allowedTypes.includes(file.type)) {
-        setErrors(prev => ({ ...prev, resume: 'Hanya file PDF, DOC, atau DOCX yang diperbolehkan' }));
+        setErrors(prev => ({ ...prev, resume: t('career.validation.resumeTypeInvalid') }));
         return;
       }
-      
+
       // Check file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setErrors(prev => ({ ...prev, resume: 'Ukuran file maksimal 5MB' }));
+        setErrors(prev => ({ ...prev, resume: t('career.validation.resumeSizeInvalid') }));
         return;
       }
 
@@ -131,27 +78,27 @@ export function JobApplicationForm() {
     const newErrors: Record<string, string> = {};
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Nama lengkap harus diisi';
+      newErrors.fullName = t('career.validation.fullNameRequired');
     }
     if (!formData.email.trim()) {
-      newErrors.email = 'Email harus diisi';
+      newErrors.email = t('career.validation.emailRequired');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Format email tidak valid';
+      newErrors.email = t('career.validation.emailInvalid');
     }
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Nomor telepon harus diisi';
+      newErrors.phone = t('career.validation.phoneRequired');
     }
     if (!formData.address.trim()) {
-      newErrors.address = 'Alamat harus diisi';
+      newErrors.address = t('career.validation.addressRequired');
     }
     if (!formData.education.trim()) {
-      newErrors.education = 'Pendidikan terakhir harus diisi';
+      newErrors.education = t('career.validation.educationRequired');
     }
     if (!formData.experience.trim()) {
-      newErrors.experience = 'Pengalaman kerja harus diisi';
+      newErrors.experience = t('career.validation.experienceRequired');
     }
     if (!formData.resume) {
-      newErrors.resume = 'CV/Resume harus diunggah';
+      newErrors.resume = t('career.validation.resumeRequired');
     }
 
     setErrors(newErrors);
@@ -178,6 +125,8 @@ export function JobApplicationForm() {
     navigate(`/${currentLang}/karir/${id}`);
   };
 
+  const totalJobs = getJobs(t).length;
+
   if (loading) {
     return (
       <div className="career-page">
@@ -185,15 +134,15 @@ export function JobApplicationForm() {
         <div className="career-hero">
           <div className="section-container">
             <div className="section-header">
-              <div className="career-hero-badge">Karir</div>
-              <h2>Lowongan Pekerjaan</h2>
-              <p>Temukan posisi yang sesuai dengan keahlian dan minat Anda</p>
-              <p className="jobs-counter">9 Pekerjaan Tersedia</p>
+              <div className="career-hero-badge">{t('career.page.badge')}</div>
+              <h2>{t('career.page.title')}</h2>
+              <p>{t('career.page.subtitle')}</p>
+              <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
             </div>
           </div>
         </div>
         <div className="section-container">
-          <div className="loading">Loading...</div>
+          <div className="loading">{t('common.loading')}</div>
         </div>
       </div>
     );
@@ -206,19 +155,19 @@ export function JobApplicationForm() {
         <div className="career-hero">
           <div className="section-container">
             <div className="section-header">
-              <div className="career-hero-badge">Karir</div>
-              <h2>Lowongan Pekerjaan</h2>
-              <p>Temukan posisi yang sesuai dengan keahlian dan minat Anda</p>
-              <p className="jobs-counter">9 Pekerjaan Tersedia</p>
+              <div className="career-hero-badge">{t('career.page.badge')}</div>
+              <h2>{t('career.page.title')}</h2>
+              <p>{t('career.page.subtitle')}</p>
+              <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
             </div>
           </div>
         </div>
         <div className="section-container">
           <div className="no-jobs-found">
-            <p>Lowongan tidak ditemukan.</p>
-            <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label="Back to job listings">
+            <p>{t('career.page.jobNotFound')}</p>
+            <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label={t('career.aria.backToListings')}>
               <ArrowLeft size={16} />
-              Kembali ke Lowongan
+              {t('career.page.backToListings')}
             </button>
           </div>
         </div>
@@ -233,10 +182,10 @@ export function JobApplicationForm() {
         <div className="career-hero">
           <div className="section-container">
             <div className="section-header">
-              <div className="career-hero-badge">Karir</div>
-              <h2>Lowongan Pekerjaan</h2>
-              <p>Temukan posisi yang sesuai dengan keahlian dan minat Anda</p>
-              <p className="jobs-counter">9 Pekerjaan Tersedia</p>
+              <div className="career-hero-badge">{t('career.page.badge')}</div>
+              <h2>{t('career.page.title')}</h2>
+              <p>{t('career.page.subtitle')}</p>
+              <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
             </div>
           </div>
         </div>
@@ -244,10 +193,10 @@ export function JobApplicationForm() {
           <div className="section-container">
             <div className="success-message">
               <CheckCircle size={64} className="success-icon" />
-              <h2>Lamaran Berhasil Dikirim!</h2>
-              <p>Terima kasih telah melamar untuk posisi {job.title}. Tim HR kami akan menghubungi Anda jika Anda memenuhi kualifikasi.</p>
-              <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label="Back to job listings">
-                Kembali ke Lowongan
+              <h2>{t('career.page.applicationSuccessTitle')}</h2>
+              <p>{t('career.page.applicationSuccessMessage', { title: job.title })}</p>
+              <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label={t('career.aria.backToListings')}>
+                {t('career.page.backToListings')}
               </button>
             </div>
           </div>
@@ -262,31 +211,31 @@ export function JobApplicationForm() {
       <div className="career-hero">
         <div className="section-container">
           <div className="section-header">
-            <div className="career-hero-badge">Karir</div>
-            <h2>Lowongan Pekerjaan</h2>
-            <p>Temukan posisi yang sesuai dengan keahlian dan minat Anda</p>
-            <p className="jobs-counter">9 Pekerjaan Tersedia</p>
+            <div className="career-hero-badge">{t('career.page.badge')}</div>
+            <h2>{t('career.page.title')}</h2>
+            <p>{t('career.page.subtitle')}</p>
+            <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
           </div>
         </div>
       </div>
 
       <div className="application-form-section">
         <div className="section-container">
-          <button onClick={handleBack} className="back-button" aria-label="Back to job details">
+          <button onClick={handleBack} className="back-button" aria-label={t('career.aria.backToDetail')}>
             <ArrowLeft size={16} />
-            Kembali ke Detail Lowongan
+            {t('career.page.backToDetail')}
           </button>
 
           <div className="form-header">
-            <h1>Form Lamaran</h1>
-            <p>Posisi: {job.title}</p>
+            <h1>{t('career.page.formTitle')}</h1>
+            <p>{t('career.page.position', { title: job.title })}</p>
             <p>{job.division} - {job.location}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="application-form">
             <div className="form-grid">
               <div className="form-group">
-                <label htmlFor="fullName">Nama Lengkap *</label>
+                <label htmlFor="fullName">{t('career.form.fullName')}</label>
                 <input
                   type="text"
                   id="fullName"
@@ -294,13 +243,13 @@ export function JobApplicationForm() {
                   value={formData.fullName}
                   onChange={handleInputChange}
                   className={errors.fullName ? 'error' : ''}
-                  placeholder="Masukkan nama lengkap Anda"
+                  placeholder={t('career.form.fullNamePlaceholder')}
                 />
                 {errors.fullName && <span className="error-message">{errors.fullName}</span>}
               </div>
 
               <div className="form-group">
-                <label htmlFor="email">Email *</label>
+                <label htmlFor="email">{t('career.form.email')}</label>
                 <input
                   type="email"
                   id="email"
@@ -308,13 +257,13 @@ export function JobApplicationForm() {
                   value={formData.email}
                   onChange={handleInputChange}
                   className={errors.email ? 'error' : ''}
-                  placeholder="contoh@email.com"
+                  placeholder={t('career.form.emailPlaceholder')}
                 />
                 {errors.email && <span className="error-message">{errors.email}</span>}
               </div>
 
               <div className="form-group">
-                <label htmlFor="phone">Nomor Telepon *</label>
+                <label htmlFor="phone">{t('career.form.phone')}</label>
                 <input
                   type="tel"
                   id="phone"
@@ -322,13 +271,13 @@ export function JobApplicationForm() {
                   value={formData.phone}
                   onChange={handleInputChange}
                   className={errors.phone ? 'error' : ''}
-                  placeholder="08xxxxxxxxxx"
+                  placeholder={t('career.form.phonePlaceholder')}
                 />
                 {errors.phone && <span className="error-message">{errors.phone}</span>}
               </div>
 
               <div className="form-group">
-                <label htmlFor="address">Alamat *</label>
+                <label htmlFor="address">{t('career.form.address')}</label>
                 <input
                   type="text"
                   id="address"
@@ -336,13 +285,13 @@ export function JobApplicationForm() {
                   value={formData.address}
                   onChange={handleInputChange}
                   className={errors.address ? 'error' : ''}
-                  placeholder="Alamat lengkap Anda"
+                  placeholder={t('career.form.addressPlaceholder')}
                 />
                 {errors.address && <span className="error-message">{errors.address}</span>}
               </div>
 
               <div className="form-group">
-                <label htmlFor="education">Pendidikan Terakhir *</label>
+                <label htmlFor="education">{t('career.form.education')}</label>
                 <input
                   type="text"
                   id="education"
@@ -350,13 +299,13 @@ export function JobApplicationForm() {
                   value={formData.education}
                   onChange={handleInputChange}
                   className={errors.education ? 'error' : ''}
-                  placeholder="Contoh: S1 Teknik Mesin"
+                  placeholder={t('career.form.educationPlaceholder')}
                 />
                 {errors.education && <span className="error-message">{errors.education}</span>}
               </div>
 
               <div className="form-group">
-                <label htmlFor="experience">Pengalaman Kerja *</label>
+                <label htmlFor="experience">{t('career.form.experience')}</label>
                 <input
                   type="text"
                   id="experience"
@@ -364,25 +313,25 @@ export function JobApplicationForm() {
                   value={formData.experience}
                   onChange={handleInputChange}
                   className={errors.experience ? 'error' : ''}
-                  placeholder="Contoh: 2 tahun di bidang sales"
+                  placeholder={t('career.form.experiencePlaceholder')}
                 />
                 {errors.experience && <span className="error-message">{errors.experience}</span>}
               </div>
 
               <div className="form-group full-width">
-                <label htmlFor="coverLetter">Cover Letter</label>
+                <label htmlFor="coverLetter">{t('career.form.coverLetter')}</label>
                 <textarea
                   id="coverLetter"
                   name="coverLetter"
                   value={formData.coverLetter}
                   onChange={handleInputChange}
                   rows={6}
-                  placeholder="Jelaskan mengapa Anda cocok untuk posisi ini..."
+                  placeholder={t('career.form.coverLetterPlaceholder')}
                 />
               </div>
 
               <div className="form-group full-width">
-                <label htmlFor="resume">CV/Resume * (PDF, DOC, DOCX - Max 5MB)</label>
+                <label htmlFor="resume">{t('career.form.resume')}</label>
                 <div className="file-upload">
                   <input
                     type="file"
@@ -394,7 +343,7 @@ export function JobApplicationForm() {
                   />
                   <div className="file-upload-label">
                     <Upload size={24} />
-                    <span>{formData.resume ? formData.resume.name : 'Klik untuk upload CV/Resume'}</span>
+                    <span>{formData.resume ? formData.resume.name : t('career.form.uploadCta')}</span>
                   </div>
                 </div>
                 {errors.resume && <span className="error-message">{errors.resume}</span>}
@@ -406,12 +355,12 @@ export function JobApplicationForm() {
                 type="submit"
                 className="submit-button"
                 disabled={submitting}
-                aria-label="Submit job application"
+                aria-label={t('career.aria.submitApplication')}
               >
-                {submitting ? 'Mengirim...' : (
+                {submitting ? t('career.form.submitting') : (
                   <>
                     <Send size={18} />
-                    Kirim Lamaran
+                    {t('career.form.submit')}
                   </>
                 )}
               </button>

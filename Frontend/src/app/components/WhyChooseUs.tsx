@@ -1,4 +1,6 @@
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 /* ═══════════════════════════════════════════════════════════════
    WHY CHOOSE US.TSX — PT Surya Inti Gas Corporate
@@ -124,6 +126,10 @@ const css = `
 `;
 
 export function WhyChooseUs() {
+  const { t } = useTranslation();
+  const { lang } = useParams<{ lang: string }>();
+  const currentLang = lang || "id";
+
   return (
     <div className="why-corporate">
       <style>{css}</style>
@@ -134,16 +140,14 @@ export function WhyChooseUs() {
           {/* Corporate Content Section */}
           <div className="why-content">
             <h2>
-              Kami Siap <span className="highlight">Melayani</span> Kebutuhan Gas Anda
+              {t('whyChooseUs.title')}
             </h2>
             <p>
-              Kami siap memenuhi keinginan dan kebutuhan Anda akan produk gas. Kami siap berdiskusi dengan Anda, 
-              agar keinginan dan kebutuhan Anda akan produk gas bisa kami support dengan baik 
-              (stok, jenis dan type produk, jadwal pengiriman, maintenance, dll).
+              {t('whyChooseUs.description')}
             </p>
 
-            <a href="/kontak" className="why-content-cta">
-              Mulai Diskusi Sekarang
+            <a href={`/${currentLang}/kontak`} className="why-content-cta">
+              {t('whyChooseUs.cta')}
               <ArrowRight size={16} />
             </a>
           </div>

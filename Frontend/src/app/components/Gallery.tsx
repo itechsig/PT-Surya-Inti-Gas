@@ -1,7 +1,9 @@
 import '../../styles/ProductsAndServices.css';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
+import { getGalleryItems, type GalleryItem } from '../../data/gallery';
 
 const galleryStyles = `
   .gallery-filters {
@@ -403,368 +405,6 @@ const galleryStyles = `
   }
 `;
 
-type GalleryItem = {
-  id: string;
-  thumbnail: string;
-  fullSize: string;
-  alt: string;
-  title: string;
-  description: string;
-  category: string;
-  year: number;
-  size?: 'small' | 'medium' | 'large' | 'wide' | 'tall';
-};
-
-const galleryItems: GalleryItem[] = [
-  {
-    id: 'oxygen',
-    thumbnail: '/images/products/Oxygen-optimized.webp',
-    fullSize: '/images/products/Oxygen-optimized.webp',
-    alt: 'Oxygen Cylinder',
-    title: 'Oksigen (O2)',
-    description: 'Gas oksigen untuk medis, metalurgi, dan aplikasi industri',
-    category: 'products',
-    year: 2007,
-    size: 'medium'
-  },
-  {
-    id: 'nitrogen',
-    thumbnail: '/images/products/Nitrogen-optimized.webp',
-    fullSize: '/images/products/Nitrogen-optimized.webp',
-    alt: 'Nitrogen Cylinder',
-    title: 'Nitrogen (N2)',
-    description: 'Gas nitrogen untuk inerting, blanketing, dan pendinginan',
-    category: 'products',
-    year: 2008,
-    size: 'small'
-  },
-  {
-    id: 'mix-gas',
-    thumbnail: '/images/products/Mix_gas.webp',
-    fullSize: '/images/products/Mix_gas.webp',
-    alt: 'Mix Gas Cylinder',
-    title: 'Mix Gas',
-    description: 'Gas mix untuk aplikasi khusus',
-    category: 'products',
-    year: 2009,
-    size: 'small'
-  },
-  {
-    id: 'vertical-tank',
-    thumbnail: '/images/products/Vertical_Tank.webp',
-    fullSize: '/images/products/Vertical_Tank.webp',
-    alt: 'Vertical Tank',
-    title: 'Vertical Tank',
-    description: 'Tangki vertikal untuk storage gas',
-    category: 'equipment',
-    year: 2010,
-    size: 'tall'
-  },
-  {
-    id: 'acetylene',
-    thumbnail: '/images/products/Acetylene-optimized.webp',
-    fullSize: '/images/products/Acetylene-optimized.webp',
-    alt: 'Acetylene Cylinder',
-    title: 'Asetilena (C2H2)',
-    description: 'Gas asetilena untuk pengelasan dan pemotongan logam',
-    category: 'products',
-    year: 2011,
-    size: 'medium'
-  },
-  {
-    id: 'iso-tank',
-    thumbnail: '/images/products/ISO_Tank.webp',
-    fullSize: '/images/products/ISO_Tank.webp',
-    alt: 'ISO Tank',
-    title: 'ISO Tank',
-    description: 'Tangki ISO untuk transportasi gas cair dalam volume besar',
-    category: 'equipment',
-    year: 2012,
-    size: 'wide'
-  },
-  {
-    id: 'liquid-filling',
-    thumbnail: '/images/products/Liquid_Filling.webp',
-    fullSize: '/images/products/Liquid_Filling.webp',
-    alt: 'Liquid Filling System',
-    title: 'Liquid Filling',
-    description: 'Sistem pengisian gas cair untuk tabung dan tangki',
-    category: 'facility',
-    year: 2013,
-    size: 'large'
-  },
-  {
-    id: 'microbulk',
-    thumbnail: '/images/products/Microbulk.webp',
-    fullSize: '/images/products/Microbulk.webp',
-    alt: 'Microbulk Tank',
-    title: 'Microbulk',
-    description: 'Tangki microbulk untuk supply gas dalam volume menengah',
-    category: 'equipment',
-    year: 2014,
-    size: 'small'
-  },
-  {
-    id: 'medical-gas',
-    thumbnail: '/images/products/Medical_Gas_Cylinder.webp',
-    fullSize: '/images/products/Medical_Gas_Cylinder.webp',
-    alt: 'Medical Gas Cylinder',
-    title: 'Tabung Gas Medis',
-    description: 'Tabung gas medis untuk rumah sakit dan fasilitas kesehatan',
-    category: 'products',
-    year: 2015,
-    size: 'medium'
-  },
-  {
-    id: 'office-view-2',
-    thumbnail: '/images/office/office_view2.webp',
-    fullSize: '/images/office/office_view2.webp',
-    alt: 'Office View 2',
-    title: 'Ruang Meeting',
-    description: 'Ruang meeting untuk diskusi dan kolaborasi',
-    category: 'facility',
-    year: 2016,
-    size: 'wide'
-  },
-  {
-    id: 'office-view-3',
-    thumbnail: '/images/office/office_view3.webp',
-    fullSize: '/images/office/office_view3.webp',
-    alt: 'Office View 3',
-    title: 'Ruang Kerja',
-    description: 'Ruang kerja modern dan profesional',
-    category: 'facility',
-    year: 2017,
-    size: 'tall'
-  },
-  {
-    id: 'gas-cylinder-1',
-    thumbnail: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop',
-    alt: 'Gas Cylinder Storage',
-    title: 'Penyimpanan Tabung Gas',
-    description: 'Area penyimpanan tabung gas yang aman dan terorganisir',
-    category: 'facility',
-    year: 2018,
-    size: 'large'
-  },
-  {
-    id: 'industrial-plant-1',
-    thumbnail: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&h=800&fit=crop',
-    alt: 'Industrial Plant',
-    title: 'Pabrik Industri',
-    description: 'Fasilitas produksi gas industri modern',
-    category: 'facility',
-    year: 2019,
-    size: 'wide'
-  },
-  {
-    id: 'welding-1',
-    thumbnail: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&h=800&fit=crop',
-    alt: 'Welding Process',
-    title: 'Proses Pengelasan',
-    description: 'Aplikasi gas industri untuk pengelasan',
-    category: 'products',
-    year: 2020,
-    size: 'medium'
-  },
-  {
-    id: 'lab-1',
-    thumbnail: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&h=800&fit=crop',
-    alt: 'Laboratory',
-    title: 'Laboratorium Gas',
-    description: 'Fasilitas laboratorium untuk analisis gas',
-    category: 'facility',
-    year: 2021,
-    size: 'small'
-  },
-  {
-    id: 'delivery-1',
-    thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&h=800&fit=crop',
-    alt: 'Gas Delivery',
-    title: 'Pengiriman Gas',
-    description: 'Armada pengiriman gas untuk pelanggan',
-    category: 'facility',
-    year: 2022,
-    size: 'tall'
-  },
-  {
-    id: 'tank-1',
-    thumbnail: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1200&h=800&fit=crop',
-    alt: 'Storage Tank',
-    title: 'Tangki Penyimpanan',
-    description: 'Tangki penyimpanan gas cair kapasitas besar',
-    category: 'equipment',
-    year: 2023,
-    size: 'large'
-  },
-  {
-    id: 'valve-1',
-    thumbnail: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop',
-    alt: 'Gas Valve',
-    title: 'Katup Gas',
-    description: 'Sistem katup untuk kontrol aliran gas',
-    category: 'equipment',
-    year: 2024,
-    size: 'small'
-  },
-  {
-    id: 'hospital-1',
-    thumbnail: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&h=800&fit=crop',
-    alt: 'Hospital Gas System',
-    title: 'Sistem Gas Rumah Sakit',
-    description: 'Instalasi gas medis untuk rumah sakit',
-    category: 'facility',
-    year: 2025,
-    size: 'wide'
-  },
-  {
-    id: 'quality-1',
-    thumbnail: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&h=800&fit=crop',
-    alt: 'Quality Control',
-    title: 'Quality Control',
-    description: 'Proses quality control untuk produk gas',
-    category: 'facility',
-    year: 2026,
-    size: 'medium'
-  },
-  {
-    id: 'training-1',
-    thumbnail: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1200&h=800&fit=crop',
-    alt: 'Safety Training',
-    title: 'Pelatihan Keselamatan',
-    description: 'Program pelatihan keselamatan kerja',
-    category: 'facility',
-    year: 2007,
-    size: 'small'
-  },
-  {
-    id: 'pressure-gauge-1',
-    thumbnail: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&h=800&fit=crop',
-    alt: 'Pressure Gauge',
-    title: 'Pressure Gauge',
-    description: 'Alat pengukur tekanan gas',
-    category: 'equipment',
-    year: 2009,
-    size: 'small'
-  },
-  {
-    id: 'factory-1',
-    thumbnail: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&h=800&fit=crop',
-    alt: 'Factory Floor',
-    title: 'Lantai Pabrik',
-    description: 'Area produksi pabrik gas',
-    category: 'facility',
-    year: 2010,
-    size: 'large'
-  },
-  {
-    id: 'medical-equipment-1',
-    thumbnail: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1200&h=800&fit=crop',
-    alt: 'Medical Equipment',
-    title: 'Peralatan Medis',
-    description: 'Peralatan medis menggunakan gas',
-    category: 'products',
-    year: 2011,
-    size: 'medium'
-  },
-  {
-    id: 'cryogenic-1',
-    thumbnail: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=1200&h=800&fit=crop',
-    alt: 'Cryogenic System',
-    title: 'Sistem Kriogenik',
-    description: 'Sistem penyimpanan gas cair suhu rendah',
-    category: 'equipment',
-    year: 2012,
-    size: 'tall'
-  },
-  {
-    id: 'assembly-1',
-    thumbnail: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&h=800&fit=crop',
-    alt: 'Assembly Line',
-    title: 'Lini Perakitan',
-    description: 'Lini perakitan tabung gas',
-    category: 'facility',
-    year: 2013,
-    size: 'wide'
-  },
-  {
-    id: 'fire-safety-1',
-    thumbnail: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&h=800&fit=crop',
-    alt: 'Fire Safety',
-    title: 'Keselamatan Kebakaran',
-    description: 'Sistem keselamatan kebakaran industri',
-    category: 'facility',
-    year: 2014,
-    size: 'small'
-  },
-  {
-    id: 'transport-1',
-    thumbnail: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1200&h=800&fit=crop',
-    alt: 'Gas Transport',
-    title: 'Transportasi Gas',
-    description: 'Kendaraan transportasi gas industri',
-    category: 'facility',
-    year: 2015,
-    size: 'large'
-  },
-  {
-    id: 'laboratory-2',
-    thumbnail: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1200&h=800&fit=crop',
-    alt: 'Chemistry Lab',
-    title: 'Laboratorium Kimia',
-    description: 'Laboratorium untuk penelitian gas',
-    category: 'facility',
-    year: 2016,
-    size: 'medium'
-  },
-  {
-    id: 'regulator-1',
-    thumbnail: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&h=250&fit=crop',
-    fullSize: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&h=800&fit=crop',
-    alt: 'Gas Regulator',
-    title: 'Regulator Gas',
-    description: 'Regulator untuk kontrol tekanan gas',
-    category: 'equipment',
-    year: 2017,
-    size: 'small'
-  }
-];
-
-const years = [
-  { id: 'all', name: 'Semua Tahun' },
-  ...Array.from({ length: 2026 - 2022 + 1 }, (_, i) => ({
-    id: (2022 + i).toString(),
-    name: (2022 + i).toString()
-  }))
-];
-
-const activityCategories = [
-  { id: 'all', name: 'Semua Kegiatan' },
-  { id: 'products', name: 'Produk' },
-  { id: 'equipment', name: 'Peralatan' },
-  { id: 'facility', name: 'Fasilitas' },
-  { id: 'activities', name: 'Kegiatan' },
-  { id: 'projects', name: 'Proyek' }
-];
-
 function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: string }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
@@ -823,10 +463,36 @@ function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: st
 function Gallery() {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
+  const { t, i18n } = useTranslation();
   const [selectedYear, setSelectedYear] = useState('all');
   const [selectedActivity, setSelectedActivity] = useState('all');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const galleryItems = useMemo(() => getGalleryItems(t), [t, i18n.language]);
+
+  const years = useMemo(
+    () => [
+      { id: 'all', name: t('gallery.page.allYears') },
+      ...Array.from({ length: 2026 - 2022 + 1 }, (_, i) => ({
+        id: (2022 + i).toString(),
+        name: (2022 + i).toString(),
+      })),
+    ],
+    [t]
+  );
+
+  const activityCategories = useMemo(
+    () => [
+      { id: 'all', name: t('gallery.categories.all') },
+      { id: 'products', name: t('gallery.categories.products') },
+      { id: 'equipment', name: t('gallery.categories.equipment') },
+      { id: 'facility', name: t('gallery.categories.facility') },
+      { id: 'activities', name: t('gallery.categories.activities') },
+      { id: 'projects', name: t('gallery.categories.projects') },
+    ],
+    [t]
+  );
 
   const filteredItems = galleryItems.filter(item => {
     const yearMatch = selectedYear === 'all' || item.year.toString() === selectedYear;
@@ -894,7 +560,7 @@ function Gallery() {
               color: 'rgba(255, 255, 255, 0.9)',
               marginBottom: '32px'
             }}>
-              Galeri
+              {t('gallery.page.badge')}
             </div>
             <h1 className="products-title" style={{
               fontFamily: 'Barlow, system-ui, sans-serif',
@@ -905,7 +571,7 @@ function Gallery() {
               color: '#ffffff',
               margin: '0 0 24px'
             }}>
-              Dokumentasi Perusahaan
+              {t('gallery.page.title')}
             </h1>
             <p className="products-subtitle" style={{
               fontFamily: 'DM Sans, system-ui, sans-serif',
@@ -915,7 +581,7 @@ function Gallery() {
               maxWidth: '700px',
               margin: '0 auto'
             }}>
-              Jelajahi galeri foto PT Surya Inti Gas yang menampilkan fasilitas operasional, kegiatan perusahaan, dan dokumentasi proyek kami dalam melayani berbagai industri di Indonesia.
+              {t('gallery.page.subtitle')}
             </p>
           </div>
         </div>
@@ -929,7 +595,7 @@ function Gallery() {
                   key={year.id}
                   className={`gallery-filter-btn ${selectedYear === year.id ? 'active' : ''}`}
                   onClick={() => handleYearChange(year.id)}
-                  aria-label={`Filter by ${year.name}`}
+                  aria-label={t('gallery.page.filterByYearAria', { year: year.name })}
                   aria-pressed={selectedYear === year.id}
                 >
                   {year.name}
@@ -937,13 +603,13 @@ function Gallery() {
               ))}
             </div>
             <div className="gallery-filter-right">
-              <span className="gallery-filter-label">Kegiatan:</span>
+              <span className="gallery-filter-label">{t('gallery.page.activityLabel')}</span>
               <div className="gallery-filter-custom-dropdown" ref={dropdownRef}>
-                <div 
+                <div
                   className="gallery-filter-custom-select"
                   onClick={handleDropdownClick}
                 >
-                  {activityCategories.find(cat => cat.id === selectedActivity)?.name || 'Semua Kegiatan'}
+                  {activityCategories.find(cat => cat.id === selectedActivity)?.name || t('gallery.categories.all')}
                   <ChevronDown size={16} className={`gallery-filter-dropdown-icon ${isDropdownOpen ? 'rotated' : ''}`} />
                 </div>
                 <div className={`gallery-filter-custom-options ${isDropdownOpen ? 'show' : ''}`}>

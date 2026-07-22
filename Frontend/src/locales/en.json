@@ -44,6 +44,368 @@
       "clients": "Satisfied Clients",
       "products": "Available Products",
       "coverage": "Coverage Area"
+    },
+    "chromeBadge": "Industrial Gas Solution",
+    "ariaLabel": "PT Surya Inti Gas highlights",
+    "liveRegion": "Slide {{current}} of {{total}}: {{title}}",
+    "trustedBadge": "Trusted by Industry Since 2003",
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "slideIndicators": "Slide indicators",
+    "goToSlide": "Go to slide {{number}}",
+    "slides": {
+      "company": {
+        "subtitle": "Trusted Industrial Gas Supplier",
+        "title": "PT Surya Inti Gas",
+        "description": "Providing high-quality industrial gases for manufacturing, healthcare, food processing, welding, laboratories, and many other industries with reliable distribution and excellent service."
+      },
+      "oxygen": {
+        "subtitle": "High Purity Oxygen",
+        "title": "Oxygen (O₂)",
+        "description": "Supports hospitals, laboratories, metal fabrication, welding, and industrial manufacturing processes with high purity and consistent quality."
+      },
+      "nitrogen": {
+        "subtitle": "Reliable Nitrogen Supply",
+        "title": "Nitrogen (N₂)",
+        "description": "Ideal for food preservation, electronics, laboratories, pharmaceuticals, and industrial production requiring stable nitrogen gas."
+      },
+      "co2": {
+        "subtitle": "Food Grade & Industrial",
+        "title": "Carbon Dioxide (CO₂)",
+        "description": "Suitable for beverage industries, food processing, fire suppression systems, welding, and industrial applications."
+      },
+      "argon": {
+        "subtitle": "Precision Gas Solution",
+        "title": "Argon & Specialty Gas",
+        "description": "Providing Argon and specialty gases for welding, laboratories, semiconductor manufacturing, calibration, and precision industries."
+      }
+    }
+  },
+  "productDetail": {
+    "notFoundTitle": "Product not found",
+    "backToList": "Back to Product List",
+    "backAria": "Back to product list",
+    "info": {
+      "title": "Product Information",
+      "productId": "Product ID:",
+      "category": "Category:",
+      "subCategory": "Sub-Category:",
+      "availability": "Availability:",
+      "available": "Available",
+      "quality": "Quality:",
+      "qualityValue": "Industrial / Medical Grade",
+      "shipping": "Shipping:",
+      "shippingValue": "Nationwide Indonesia"
+    },
+    "applications": {
+      "title": "Main Applications",
+      "items": [
+        "Manufacturing and processing industries",
+        "Medical and healthcare applications",
+        "Laboratories and research",
+        "Welding and metal cutting",
+        "Specialized industrial processes"
+      ]
+    },
+    "contact": {
+      "title": "Ordering Information",
+      "description": "For more information on technical specifications, pricing, and ordering, please contact our sales team.",
+      "button": "Ask Availability via WhatsApp",
+      "whatsappMessage": "Hello, I would like to ask about the availability of {{title}}. Is this product in stock?"
+    }
+  },
+  "products": {
+    "pageHeader": {
+      "badge": "Products & Services",
+      "title": "Comprehensive Gas Solutions",
+      "subtitle": "Our core business is supplying industrial gases, including Air Gases (Oxygen, Nitrogen, and Argon), Medical Gas, Synthetic Gas, Fuel Gas, and more. These gas products have extremely broad applications, allowing us to serve a wide range of industry needs including healthcare, metallurgy, energy, infrastructure, and consumer goods."
+    },
+    "homeSection": {
+      "subtitle": "A wide range of gas products and supporting equipment designed to meet your operational needs."
+    },
+    "mainCategories": {
+      "gas": "Gas Product",
+      "equipment": "Related Equipment & Accessories"
+    },
+    "categories": {
+      "industrial-medical": "Industrial & Medical (Gas & Liquid)",
+      "speciality-mixed": "Speciality & Mixed Gas",
+      "color-code": "Color Code High Pressure Gas Supply",
+      "package": "Package High Pressure Gas and Liquid Supply",
+      "assist-gas": "Assist Gas for Laser Cutting",
+      "cryogenic-transport": "Cryogenic Transport Tank",
+      "regulator-valves": "Regulator and Valves",
+      "medical-gas-equipment": "Medical Gas Supply Equipment"
+    },
+    "items": {
+      "acetylene": {
+        "title": "Acetylene (C2H2)",
+        "description": "Acetylene gas for metal welding and cutting",
+        "fullDescription": "Acetylene (C2H2) is a highly flammable hydrocarbon gas widely used in the metal welding and cutting industry. This gas has an extremely high flame temperature, reaching 3,100°C, making it ideal for oxy-acetylene welding and metal cutting. Acetylene is also used in chemical synthesis to produce chemicals such as plastics, synthetic rubber, and fibers. PT Surya Inti Gas provides high-quality acetylene that meets industry standards for safety and optimal performance."
+      },
+      "oxygen": {
+        "title": "Oxygen (O2)",
+        "description": "Oxygen gas for medical, metallurgical, and industrial applications",
+        "fullDescription": "Oxygen (O2) is a critical gas across a wide range of industrial and medical applications. In healthcare, oxygen is used for respiratory therapy, resuscitation, and as a supporting gas in anesthesia. In industry, oxygen plays a key role in metallurgical combustion and metal refining, in the chemical industry for oxidation, and in welding and metal cutting. Oxygen is also used in water treatment, paper manufacturing, and various other manufacturing processes. PT Surya Inti Gas supplies oxygen at purity levels tailored to each customer's specific needs."
+      },
+      "nitrogen": {
+        "title": "Nitrogen (N2)",
+        "description": "Nitrogen gas for inerting, blanketing, and cooling",
+        "fullDescription": "Nitrogen (N2) is an inert gas that makes up about 78% of the earth's atmosphere. In industry, nitrogen is widely used for inerting (removing oxygen to prevent corrosion and explosions), blanketing (protecting liquid and solid products from oxidation), and cooling (cryogenic cooling). Nitrogen is also used in the food industry for preservation, in electronics for semiconductor manufacturing, and in metallurgy for heat-treatment processes. PT Surya Inti Gas supplies nitrogen in various forms and purity levels to suit your industrial application needs."
+      },
+      "argon": {
+        "title": "Argon (Ar)",
+        "description": "Argon gas for TIG welding and electronics applications",
+        "fullDescription": "Argon (Ar) is an inert gas most commonly used in TIG (Tungsten Inert Gas) and MIG welding for its ability to shield the weld area from atmospheric contamination. This gas is also used in the electronics industry for semiconductor and display panel manufacturing, in metallurgy for heat-treatment processes, and in the glass industry for producing high-quality glass. Argon is also used in laboratory analysis as a carrier gas and in the protection of precious metals. PT Surya Inti Gas supplies high-purity argon for a wide range of precision industrial applications."
+      },
+      "hydrogen": {
+        "title": "Hydrogen (H2)",
+        "description": "Hydrogen gas for various industrial and energy applications",
+        "fullDescription": "Hydrogen (H2) is the lightest and most abundant gas in the universe. In industry, hydrogen is used in petroleum refining, ammonia production, methanol manufacturing, and various other chemical processes. Hydrogen is also used as a fuel for fuel-cell-powered vehicles, in the electronics industry for semiconductor manufacturing, and as a carrier gas in gas chromatography analysis. PT Surya Inti Gas supplies hydrogen at purity levels suited to industrial and energy applications."
+      },
+      "helium": {
+        "title": "Helium (He)",
+        "description": "Helium gas for medical, industrial, and research applications",
+        "fullDescription": "Helium (He) is the second-lightest inert gas after hydrogen. It has a wide range of important applications: in healthcare it is used for MRI (Magnetic Resonance Imaging), in industry for welding and leak detection, in scientific research for superconductor cooling, and for filling balloons and blimps. Helium is also used in the electronics industry for optical fiber and semiconductor manufacturing. PT Surya Inti Gas supplies high-purity helium for a wide range of medical, industrial, and research applications."
+      },
+      "sulfur-hexaflouride": {
+        "title": "Sulfur Hexaflouride (SF6)",
+        "description": "SF6 gas for electrical insulation and industrial applications",
+        "fullDescription": "Sulfur hexafluoride (SF6) is a highly effective dielectric gas with excellent electrical insulation properties. It is widely used in the electrical industry as an insulating medium for switchgear, circuit breakers, and transformers. SF6 is also used in leak-detection applications, in the magnesium industry for casting, and in plasma-etching processes for semiconductor manufacturing. PT Surya Inti Gas supplies high-quality SF6 for electrical insulation and other industrial applications."
+      },
+      "mixed-gas": {
+        "title": "Mixed Gas",
+        "description": "Custom gas mixtures for specific industrial applications",
+        "fullDescription": "Mixed Gas is a combination of various gases specially formulated for specific industrial applications. These mixtures include calibration gases for measuring instruments, process gases for manufacturing industries, shielding gases for welding, and medical gas mixtures for healthcare applications. Each mixture is designed with a precise composition to meet each customer's specific needs. PT Surya Inti Gas supplies a wide range of mixed gases with compositions tailored to your application requirements."
+      },
+      "color-code-acetylene": {
+        "title": "Acetylene",
+        "description": "Acetylene gas cylinder with standard color coding",
+        "fullDescription": "An acetylene gas cylinder with international standard color coding for gas identification and safety. This cylinder is designed to meet industrial safety standards for storing acetylene at high pressure. Color coding enables quick identification and helps prevent misuse. PT Surya Inti Gas supplies acetylene cylinders with material specifications and safety features that meet international standards."
+      },
+      "color-code-special": {
+        "title": "Special Gas Cylinder",
+        "description": "Special gas cylinder with color coding",
+        "fullDescription": "A special gas cylinder with color coding for specialty gases that require special handling. This cylinder is designed to store high-purity or reactive gases. Color coding helps identify the gas type and the required safety parameters. PT Surya Inti Gas supplies a range of special gas cylinders to suit your application needs."
+      },
+      "color-code-medical": {
+        "title": "Medical Gas Cylinder",
+        "description": "Medical gas cylinder with healthcare-standard color coding",
+        "fullDescription": "A medical gas cylinder with healthcare-standard color coding to ensure safety and accurate identification in medical applications. This cylinder meets international medical standards and is designed for maximum safety in hospital and healthcare facility use. Healthcare-standard color coding makes it easy to identify the correct medical gas type for each clinical application."
+      },
+      "color-code-industrial": {
+        "title": "Industrial Gas Cylinder",
+        "description": "Industrial gas cylinder with color coding",
+        "fullDescription": "An industrial gas cylinder with color coding for identification and safety in industrial applications. This cylinder is designed to withstand high pressure and demanding industrial operating conditions. The color-coding system helps with inventory management and prevents misuse of industrial gases. PT Surya Inti Gas supplies industrial gas cylinders in various sizes to suit your operational needs."
+      },
+      "package-high-pressure": {
+        "title": "High Pressure Gas Cylinder",
+        "description": "High-pressure gas cylinder for industry",
+        "fullDescription": "A high-pressure gas cylinder designed to store and distribute industrial gas at high pressure. This cylinder is made from high-quality materials with locking systems and safety features that meet international standards. Available in various capacities and pressure ratings to suit industrial application needs. PT Surya Inti Gas supplies high-pressure gas cylinders with safety certification and regular maintenance."
+      },
+      "cradle-3x2": {
+        "title": "Cradle (3x2)",
+        "description": "3x2 cradle rack for gas cylinder storage",
+        "fullDescription": "The 3x2 cradle is a gas cylinder storage system with a capacity of 6 cylinders (3 rows x 2 columns). This cradle is designed for space efficiency and easy cylinder handling. Suitable for industrial facilities that require a continuous gas supply at moderate capacity. PT Surya Inti Gas supplies the 3x2 cradle with locking systems and safety features."
+      },
+      "cradle-4x4": {
+        "title": "Cradle (4x4)",
+        "description": "Large-capacity 4x4 cradle rack",
+        "fullDescription": "The 4x4 cradle is a gas cylinder storage system with a capacity of 16 cylinders (4 rows x 4 columns). This cradle is designed for industrial facilities with high gas consumption. The system maximizes storage capacity with an efficient footprint. PT Surya Inti Gas supplies the 4x4 cradle with sturdy construction and a complete safety system."
+      },
+      "cryogenic-dewars": {
+        "title": "Cryogenic Dewars",
+        "description": "Cryogenic dewars for liquid gas storage",
+        "fullDescription": "Cryogenic dewars are vacuum-insulated containers for storing liquid gas at extremely low temperatures. These dewars use vacuum insulation technology to maintain cryogenic temperatures and minimize evaporation. Available in various capacities for laboratory, industrial, and medical needs. PT Surya Inti Gas supplies cryogenic dewars with high safety standards and thermal efficiency."
+      },
+      "vessel-gas-liquid": {
+        "title": "Vessel Gas Liquid",
+        "description": "Vessel for liquid gas storage",
+        "fullDescription": "A liquid gas vessel is a large-capacity tank for storing liquid gas over extended periods. This vessel is designed with a thermal insulation system and safety features to prevent evaporation and maintain gas quality. Suitable for industrial facilities with high gas consumption. PT Surya Inti Gas supplies liquid gas vessels with specifications tailored to operational needs."
+      },
+      "microbulk-tank": {
+        "title": "Microbulk Tank",
+        "description": "Microbulk tank for continuous gas supply",
+        "fullDescription": "A microbulk tank is an efficient continuous gas supply solution for facilities with medium gas consumption. This system combines the convenience of cylinders with the efficiency of bulk supply. Microbulk tanks reduce the frequency of refilling and cylinder handling. PT Surya Inti Gas supplies microbulk tanks with scheduled monitoring and delivery systems."
+      },
+      "vertical-storage-tank": {
+        "title": "Vertical Storage Tank",
+        "description": "Vertical storage tank",
+        "fullDescription": "A vertical storage tank is a liquid gas storage solution with an elongated design for space efficiency. This tank is suitable for facilities with limited space that require large storage capacity. The vertical design minimizes footprint while providing maximum capacity. PT Surya Inti Gas supplies vertical storage tanks that meet strict industrial safety standards."
+      },
+      "assist-gas-cradle-4x4": {
+        "title": "Assist Gas Supply From Cradle Capacity 4x4 Cylinder",
+        "description": "Assist gas supply from a 4x4 capacity cradle for laser cutting",
+        "fullDescription": "An assist gas supply system from a 4x4 cylinder capacity cradle for industrial laser cutting applications. This system provides a continuous supply of gas (nitrogen, oxygen, or argon) for high-capacity laser cutting processes. The 4x4 cradle ensures a stable and consistent gas supply for optimal cutting quality. PT Surya Inti Gas supplies this system with configurations tailored to the type of laser and material being cut."
+      },
+      "microbulk-gas-supply": {
+        "title": "Microbulk Gas Supply",
+        "description": "Microbulk gas supply for laser cutting applications",
+        "fullDescription": "A microbulk gas supply system for laser cutting applications with high efficiency. This system replaces multiple cylinders with a microbulk tank that can be monitored and refilled automatically. Microbulk supply reduces downtime and handling costs while providing a consistent gas supply for laser cutting processes. PT Surya Inti Gas supplies microbulk solutions with integrated monitoring and maintenance systems."
+      },
+      "storage-tank-gas-supply": {
+        "title": "Storage Tank Gas Supply",
+        "description": "Gas supply from a storage tank",
+        "fullDescription": "A gas supply system from a storage tank for industrial applications with high gas consumption. This system uses a large-capacity storage tank that provides a continuous gas supply for various industrial processes. Suitable for facilities that require a stable and economical gas supply over the long term. PT Surya Inti Gas supplies storage tank solutions with designs tailored to operational needs."
+      },
+      "liquid-filling-transfer": {
+        "title": "Liquid Filling Transfer",
+        "description": "Liquid gas filling transfer system",
+        "fullDescription": "A liquid gas filling transfer system safely and efficiently moves liquid gas from a storage tank to a trailer or dewar. This system is equipped with valves, hoses, and a control panel to control the flow of liquid gas, preventing evaporation and leakage during the transfer process. PT Surya Inti Gas supplies transfer systems with high safety standards for various types of liquid gas."
+      },
+      "cryogenic-iso-tank": {
+        "title": "Cryogenic ISO Tank",
+        "description": "Cryogenic ISO tank for transport",
+        "fullDescription": "A cryogenic ISO tank is an internationally standardized container for transporting liquid gas at extremely low temperatures. This tank meets ISO standards for multimodal transport (road, sea, air) and is equipped with advanced vacuum insulation systems. Suitable for distributing liquid gas across countries or long distances. PT Surya Inti Gas supplies cryogenic ISO tanks with international certification and monitoring systems."
+      },
+      "cryogenic-road-tank": {
+        "title": "Cryogenic Road Tank",
+        "description": "Cryogenic road tank for distribution",
+        "fullDescription": "A cryogenic road tank is a specialized vehicle for distributing liquid gas by road. This tank is designed with efficient thermal insulation to maintain cryogenic temperatures during transit. Suitable for distributing liquid gas between industrial facilities and consumption sites. PT Surya Inti Gas provides liquid gas distribution services with a road tank fleet that meets safety standards."
+      },
+      "cryogenic-gas-valve": {
+        "title": "Cryogenic & Gas Valve",
+        "description": "Cryogenic and gas valves for various applications",
+        "fullDescription": "Cryogenic and gas valves are vital components for controlling gas flow in a wide range of low- and normal-temperature applications. These valves are specially designed to withstand extreme temperature conditions and high pressure. Available in various types such as globe valves, ball valves, and check valves to suit application needs. PT Surya Inti Gas supplies valves made from high-quality materials with safety certification."
+      },
+      "gas-regulator-laser": {
+        "title": "Gas Regulator for Cutting Gas Laser Machine",
+        "description": "Special gas regulator for laser cutting machines",
+        "fullDescription": "A special gas regulator for laser cutting machines is designed to provide precise pressure control for the laser cutting process. This regulator ensures a stable and consistent gas supply (nitrogen, oxygen, or argon) for optimal cutting quality. Equipped with a gauge and adjustment valve for high precision. PT Surya Inti Gas supplies laser cutting regulators with specifications suited to various types of laser machines."
+      },
+      "high-pressure-regulator": {
+        "title": "High Pressure Regulator",
+        "description": "High-pressure regulator for industrial applications",
+        "fullDescription": "A high-pressure regulator is designed to control gas pressure from a cylinder or manifold with high input pressure. This regulator provides stable and safe output pressure for industrial applications. Suitable for welding, cutting, and other industrial processes. PT Surya Inti Gas supplies high-pressure regulators in various capacities and specifications to suit your needs."
+      },
+      "high-pressure-gas-valve": {
+        "title": "High Pressure Gas Valve",
+        "description": "High-pressure gas valve for gas systems",
+        "fullDescription": "A high-pressure gas valve is a vital safety component for high-pressure gas systems. This valve is designed to withstand high pressure and provide precise flow control. Available in various types and materials to suit the gas type and application. PT Surya Inti Gas supplies high-pressure valves with safety certification and reliable performance."
+      },
+      "gdms-systems": {
+        "title": "GDMS Systems",
+        "description": "Integrated medical gas distribution management system",
+        "fullDescription": "GDMS (Gas Distribution Management System) is an integrated system for managing medical gas distribution in healthcare facilities. This system includes pressure monitoring, safety alarms, and a control panel to ensure a continuous and safe medical gas supply. GDMS simplifies the management of oxygen, nitrogen, nitrous oxide, and other medical gases in hospitals. PT Surya Inti Gas supplies GDMS with the latest technology in accordance with international medical standards."
+      }
+    }
+  },
+  "contactPage": {
+    "badge": "Contact",
+    "title": "Contact Us",
+    "subtitle": "We're ready to help you with the best industrial gas solutions",
+    "locationTitle": "Our Locations",
+    "sidoarjoOffice": "Sidoarjo Office",
+    "balikpapanOffice": "Balikpapan Office",
+    "sendMessage": "Send a Message",
+    "formIntro": "Fill out the form below and our team will get back to you shortly",
+    "placeholders": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "company": "Company Name",
+      "subject": "Subject",
+      "message": "Message"
+    },
+    "send": "SEND"
+  },
+  "companyProfileVideo": {
+    "badge": "Company Profile",
+    "title": "Get to Know PT Surya Inti Gas Better",
+    "subtitle": "Learn about our company profile, values, and the commitments that form the foundation of our best-in-class service.",
+    "playAria": "Play company profile video",
+    "clickToPlay": "Click to play video",
+    "thumbnailAlt": "PT Surya Inti Gas Company Profile Thumbnail",
+    "iframeTitle": "PT Surya Inti Gas Company Profile"
+  },
+  "runningText": {
+    "items": ["Guaranteed Quality", "Nationwide Distribution", "Customer First", "Safety First", "Innovation", "Reliability", "Sustainability"]
+  },
+  "industriesServed": {
+    "badge": "Industries Served",
+    "title": "Solutions for Various Industry Sectors",
+    "subtitle": "Supporting the needs of various business sectors through precise, safe, and efficient gas solutions.",
+    "industries": {
+      "manufaktur": "Manufacturing",
+      "kesehatan": "Healthcare",
+      "makanan-minuman": "Food & Beverage",
+      "minyak-gas": "Oil & Gas",
+      "energi": "Energy",
+      "konstruksi": "Construction"
+    }
+  },
+  "whyChooseUs": {
+    "title": "We're Ready to Serve Your Gas Needs",
+    "description": "We're ready to meet your wants and needs for gas products. We're ready to discuss with you, so that your gas product wants and needs can be well supported by us (stock, product types, delivery schedules, maintenance, etc.).",
+    "cta": "Start a Discussion Now"
+  },
+  "homeAbout": {
+    "badge": "About the Company",
+    "title": "Trusted Partner in Industrial Gas Solutions",
+    "subtitle": "Committed to delivering quality products, excellent service, and safety standards in every process.",
+    "overlayStat": "20+",
+    "overlayLabel": "Years of Experience in Indonesia's Gas Industry",
+    "profileTitle": "Company Profile",
+    "profileText": "PT Surya Inti Gas is a leading industrial gas company dedicated to providing high-quality gas solutions for various industrial sectors in Indonesia. With experience since 2003, we have built a reputation as a trusted partner in the manufacturing, healthcare, energy, and infrastructure industries.",
+    "cta": "Learn More"
+  },
+  "chatbot": {
+    "title": "Virtual Assistant",
+    "greeting": "Hello! Welcome to PT Surya Inti Gas. How can I help you?",
+    "errorFallback": "Sorry, an error occurred.",
+    "errorFallbackRetry": "Sorry, an error occurred. Please try again later.",
+    "closeChat": "Close chat",
+    "openChat": "Open chat",
+    "inputPlaceholder": "Type your message...",
+    "sendMessage": "Send message",
+    "pressEnterHint": "Press Enter to send"
+  },
+  "aboutUsPage": {
+    "hero": {
+      "badge": "About Us",
+      "title": "Get to Know",
+      "titleHighlight": "PT Surya Inti Gas",
+      "description": "Since 2003, we have been a trusted partner in industrial gas solutions for various sectors in Indonesia, committed to quality, innovation, and sustainability."
+    },
+    "visionMission": {
+      "title": "Our Purpose and Dedication",
+      "subtitle": "The vision and mission that form the foundation of every step we take in serving Indonesian industry."
+    },
+    "timeline": {
+      "title": "The Journey of PT Surya Inti Gas",
+      "subtitle": "Key milestones on our journey to becoming a leader in Indonesia's gas industry.",
+      "imageAlt": "Photo {{year}} - {{title}}"
+    },
+    "milestones": {
+      "2003": {
+        "title": "Founding",
+        "description": "CV. Surya Inti Gas was officially established in Sidoarjo, East Java, with its first office located at Jl. KH. Mukmin. From the very beginning, the company has been committed to providing quality, reliable industrial gas solutions."
+      },
+      "2007": {
+        "title": "Operational Expansion",
+        "description": "As the business grew and market demand increased, operations were relocated to the Meiko Abadi Warehousing & Industrial Complex, Block B70, Wedi, Gedangan, Sidoarjo, to support more optimal service and distribution capacity."
+      },
+      "2016": {
+        "title": "Moving to the Head Office",
+        "description": "To support the company's growth, the head office was relocated to the Safe N Lock Warehousing & Industrial Complex, Block V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo, which remains PT Surya Inti Gas's operational center to this day."
+      },
+      "2017": {
+        "title": "Transformation and Expansion",
+        "description": "The company officially transformed from CV. Surya Inti Gas into PT. Surya Inti Gas. In the same year, the company expanded its service reach by opening its first branch in Balikpapan, East Kalimantan, as a strategic step to serve customers in eastern Indonesia."
+      }
+    },
+    "values": {
+      "title": "The Values of PT Surya Inti Gas",
+      "subtitle": "The principles that guide every step we take in serving customers and running our business.",
+      "items": [
+        { "title": "Safety", "description": "Upholding safety as the top priority in every operational activity to ensure a safe working environment for everyone involved." },
+        { "title": "Integrity", "description": "Conducting business with honesty, transparency, and strong ethical principles in every decision we make." },
+        { "title": "Professionalism", "description": "Delivering services with high professional standards, competence, and dedication in every operational aspect." },
+        { "title": "Responsibility", "description": "Taking full responsibility for every action and decision, and committing to business sustainability." },
+        { "title": "Customer Focus", "description": "Focusing on customer needs by delivering solutions that are precise, fast, and reliable." },
+        { "title": "Quality", "description": "Committed to consistently delivering high-quality products and services for customer satisfaction." },
+        { "title": "Innovation", "description": "Through innovation and continuous improvement, we keep raising our efficiency and service standards." },
+        { "title": "Teamwork", "description": "Strengthened by solid teamwork to achieve growth and success together." }
+      ]
     }
   },
   "about": {
@@ -512,6 +874,89 @@
       "recent": "Recent Activities"
     }
   },
+  "distribution": {
+    "page": {
+      "badge": "Distribution Network",
+      "title": "Operational Locations",
+      "titleHighlight": "PT Surya Inti Gas",
+      "description": "Our distribution network is spread across strategic locations to ensure a reliable and consistent gas supply throughout Indonesia.",
+      "viewOnGoogleMaps": "View on Google Maps"
+    },
+    "locations": {
+      "kantor-pusat": {
+        "name": "Head Office",
+        "region": "East Java",
+        "shortDescription": "PT Surya Inti Gas's operational head office.",
+        "description": "PT Surya Inti Gas's head office is located in Sidoarjo, East Java."
+      },
+      "pabrik-balikpapan": {
+        "name": "Filling Station",
+        "region": "East Kalimantan",
+        "shortDescription": "Industrial gas production plant and filling station.",
+        "description": "PT Surya Inti Gas's plant and filling station is located in Balikpapan, East Kalimantan."
+      }
+    }
+  },
+  "gallery": {
+    "page": {
+      "badge": "Gallery",
+      "title": "Company Documentation",
+      "subtitle": "Explore PT Surya Inti Gas's photo gallery showcasing our operational facilities, company activities, and project documentation as we serve various industries across Indonesia.",
+      "activityLabel": "Activity:",
+      "allYears": "All Years",
+      "filterByYearAria": "Filter by {{year}}",
+      "notFoundTitle": "Photo not found",
+      "notFoundMessage": "Sorry, the photo you are looking for is not available.",
+      "relatedPhotos": "Related Photos",
+      "backToGallery": "Back to Gallery"
+    },
+    "aria": {
+      "backToGallery": "Back to gallery",
+      "closeLightbox": "Close lightbox",
+      "previousImage": "Previous image",
+      "nextImage": "Next image"
+    },
+    "categories": {
+      "all": "All Activities",
+      "products": "Products",
+      "equipment": "Equipment",
+      "facility": "Facility",
+      "activities": "Activities",
+      "projects": "Projects"
+    },
+    "items": {
+      "oxygen": { "alt": "Oxygen Cylinder", "title": "Oxygen (O2)", "description": "Oxygen gas for medical, metallurgical, and industrial applications", "detailedDescription": "Oxygen (O2) is a critical gas in a wide range of industrial and medical applications. PT Surya Inti Gas supplies high-purity oxygen for hospital medical needs, metallurgical processes in manufacturing, and various other industrial applications. Our products are manufactured to international quality standards and available in various cylinder sizes to suit customer needs." },
+      "nitrogen": { "alt": "Nitrogen Cylinder", "title": "Nitrogen (N2)", "description": "Nitrogen gas for inerting, blanketing, and cooling", "detailedDescription": "Nitrogen (N2) is an inert gas widely used for inerting, blanketing, and cooling processes across various industries. PT Surya Inti Gas supplies high-purity nitrogen to prevent oxidation, preserve product quality, and serve as a cooling medium in industrial processes. Our nitrogen is available in both gas and liquid form to suit application needs." },
+      "mix-gas": { "alt": "Mix Gas Cylinder", "title": "Mix Gas", "description": "Mixed gas for special applications", "detailedDescription": "Mix Gas is specially formulated for applications that require a specific gas composition. PT Surya Inti Gas can supply various gas mixture combinations according to the technical specifications customers need, including for instrument calibration, laboratory research, and special industrial processes. Each mixture is produced with high precision to ensure consistent quality." },
+      "vertical-tank": { "alt": "Vertical Tank", "title": "Vertical Tank", "description": "Vertical tank for gas storage", "detailedDescription": "The vertical tank is an efficient gas storage solution with a compact design for limited spaces. This tank is suitable for storing both liquid gas and high-pressure gas. PT Surya Inti Gas supplies vertical tanks in various capacities, equipped with best-in-class safety systems to ensure secure gas storage and distribution to customers." },
+      "acetylene": { "alt": "Acetylene Cylinder", "title": "Acetylene (C2H2)", "description": "Acetylene gas for metal welding and cutting", "detailedDescription": "Acetylene (C2H2) is a vital gas in the metal welding and cutting industry. PT Surya Inti Gas supplies high-quality acetylene that produces a high-temperature flame, ideal for welding and cutting various types of metal. Our products are available in safe cylinders that meet international safety standards for use in the construction and manufacturing industries." },
+      "iso-tank": { "alt": "ISO Tank", "title": "ISO Tank", "description": "ISO tank for transporting large volumes of liquid gas", "detailedDescription": "The ISO tank is an internationally standardized solution for transporting large volumes of liquid gas. PT Surya Inti Gas uses certified ISO tanks to distribute liquid gas across Indonesia. This tank is designed to maintain optimal temperature and pressure throughout the journey, ensuring gas quality is preserved until it reaches the customer's location." },
+      "liquid-filling": { "alt": "Liquid Filling System", "title": "Liquid Filling", "description": "Liquid gas filling system for cylinders and tanks", "detailedDescription": "Our liquid gas filling system uses advanced technology to fill gas cylinders and tanks with high precision. PT Surya Inti Gas operates modern filling facilities equipped with strict quality control systems to ensure every fill is carried out with accurate volume and pressure. This process guarantees the safety and quality of the products we distribute to customers." },
+      "microbulk": { "alt": "Microbulk Tank", "title": "Microbulk", "description": "Microbulk tank for medium-volume gas supply", "detailedDescription": "The microbulk tank is a gas supply solution for medium-volume needs that is more efficient than conventional gas cylinders. PT Surya Inti Gas provides microbulk systems that reduce the frequency of cylinder replacement, saving time and operational costs. This system is ideal for customers with regular gas consumption who don't need large storage tanks." },
+      "medical-gas": { "alt": "Medical Gas Cylinder", "title": "Medical Gas Cylinder", "description": "Medical gas cylinders for hospitals and healthcare facilities", "detailedDescription": "PT Surya Inti Gas's medical gas cylinders are specially designed for medical needs in hospitals and healthcare facilities. These cylinders meet international medical safety standards and are available in various sizes to suit healthcare facility needs. Our medical gas is produced with high purity and undergoes strict quality control to ensure patient safety." },
+      "office-view-2": { "alt": "Office View 2", "title": "Meeting Room", "description": "Meeting room for discussion and collaboration", "detailedDescription": "PT Surya Inti Gas's meeting room is designed to support productive discussions and team collaboration. This room is equipped with modern facilities for presentations and meetings, creating an environment conducive to strategic planning and project coordination. The professional interior design reflects our commitment to quality and efficiency." },
+      "office-view-3": { "alt": "Office View 3", "title": "Workspace", "description": "Modern and professional workspace", "detailedDescription": "PT Surya Inti Gas's workspace is designed to be modern and professional to support employee productivity. The ergonomic layout and complete facilities create a comfortable and efficient working environment. This workspace reflects a company culture that prioritizes employee wellbeing and quality of work." },
+      "gas-cylinder-1": { "alt": "Gas Cylinder Storage", "title": "Gas Cylinder Storage", "description": "Safe and organized gas cylinder storage area", "detailedDescription": "PT Surya Inti Gas's gas cylinder storage area is designed to high safety standards to ensure safe and organized storage. Each storage area is equipped with ventilation systems, leak detection, and gas-type separation to prevent contamination. The systematic layout makes inventory management and stock rotation easier." },
+      "industrial-plant-1": { "alt": "Industrial Plant", "title": "Industrial Plant", "description": "Modern industrial gas production facility", "detailedDescription": "PT Surya Inti Gas's industrial plant is equipped with modern production facilities that meet international safety and quality standards. This facility has the production capacity to meet industrial gas needs throughout Indonesia. With advanced technology and strict quality control processes, we ensure every gas product produced has consistent quality and meets specifications." },
+      "welding-1": { "alt": "Welding Process", "title": "Welding Process", "description": "Industrial gas application for welding", "detailedDescription": "The welding process using industrial gas is one of the main applications of PT Surya Inti Gas's products. Our gases are widely used in the construction, manufacturing, and automotive industries to produce high-quality welds. We supply various types of welding gas to suit specific welding process needs, including acetylene, argon, and other gas mixtures." },
+      "lab-1": { "alt": "Laboratory", "title": "Gas Laboratory", "description": "Laboratory facility for gas analysis", "detailedDescription": "PT Surya Inti Gas's gas laboratory is equipped with modern analytical equipment to ensure the quality and purity of every gas product. Our team of experts conducts routine testing to verify gas composition, detect contamination, and ensure compliance with industry standards. This laboratory facility is a vital part of our quality control system." },
+      "delivery-1": { "alt": "Gas Delivery", "title": "Gas Delivery", "description": "Gas delivery fleet for customers", "detailedDescription": "PT Surya Inti Gas's delivery fleet consists of specialized vehicles designed for safe gas transport. Each unit is equipped with the most advanced safety systems and operated by an experienced team. Our distribution network covers all of Indonesia, ensuring timely gas delivery to customer locations with the highest safety standards." },
+      "tank-1": { "alt": "Storage Tank", "title": "Storage Tank", "description": "Large-capacity liquid gas storage tank", "detailedDescription": "The large-capacity liquid gas storage tank is a vital facility in PT Surya Inti Gas's operations. This tank is designed to store large volumes of liquid gas while maintaining optimal temperature and pressure. Our storage system is equipped with dual safety features and 24-hour monitoring to ensure a continuous gas supply to customers." },
+      "valve-1": { "alt": "Gas Valve", "title": "Gas Valve", "description": "Valve system for gas flow control", "detailedDescription": "PT Surya Inti Gas's gas valve system uses high-quality components for precise gas flow control. Our valves are designed to withstand high pressure and demanding operating conditions. Each unit is equipped with automatic safety features and regularly inspected to ensure optimal performance in regulating gas flow to various industrial applications." },
+      "hospital-1": { "alt": "Hospital Gas System", "title": "Hospital Gas System", "description": "Medical gas installation for hospitals", "detailedDescription": "PT Surya Inti Gas's hospital gas system is specially designed for medical needs with the highest safety standards. We provide medical gas installations covering oxygen, nitrogen, and other medical gases for hospitals and healthcare facilities. Our system meets health regulations and is equipped with automatic safety features for the comfort of patients and medical staff." },
+      "quality-1": { "alt": "Quality Control", "title": "Quality Control", "description": "Quality control process for gas products", "detailedDescription": "PT Surya Inti Gas's quality control process is carried out thoroughly at every stage of production. From raw materials to finished products, every stage is inspected to ensure compliance with quality standards. Our QC system uses the latest analytical technology and is run by a certified team to guarantee consistent, reliable product quality." },
+      "training-1": { "alt": "Safety Training", "title": "Safety Training", "description": "Occupational safety training program", "detailedDescription": "PT Surya Inti Gas's occupational safety training program is designed to ensure employee competency in handling gas safely. Training covers emergency response, safety procedures, and the use of personal protective equipment. Every employee must pass certification before being allowed to work with gas, ensuring the highest safety standards in our operations." },
+      "pressure-gauge-1": { "alt": "Pressure Gauge", "title": "Pressure Gauge", "description": "Gas pressure measuring device", "detailedDescription": "The pressure gauge is a vital measuring device in PT Surya Inti Gas's gas systems. We use high-accuracy calibrated pressure gauges to monitor gas pressure in real time. Each device is routinely calibrated and inspected to ensure accurate readings, supporting the safety and operational efficiency of our gas distribution." },
+      "factory-1": { "alt": "Factory Floor", "title": "Factory Floor", "description": "Gas plant production area", "detailedDescription": "PT Surya Inti Gas's factory floor is designed with an efficient and safe workflow system. The production area is equipped with ventilation systems, gas detection, and strict safety procedures. Each production area has clearly defined zones for different processes, ensuring an organized production flow and minimizing the risk of cross-contamination between products." },
+      "medical-equipment-1": { "alt": "Medical Equipment", "title": "Medical Equipment", "description": "Medical equipment using gas", "detailedDescription": "Medical equipment using gas from PT Surya Inti Gas meets international health standards. We supply gas for various medical equipment including ventilators, anesthesia machines, and hospital oxygen systems. Every medical gas product we produce has the high purity and certification required for use in healthcare facilities." },
+      "cryogenic-1": { "alt": "Cryogenic System", "title": "Cryogenic System", "description": "Low-temperature liquid gas storage system", "detailedDescription": "PT Surya Inti Gas's cryogenic system uses advanced technology to store liquid gas at extremely low temperatures. This system maintains gas in liquid form with maximum efficiency, enabling large-volume storage in a compact space. Our cryogenic facility is equipped with dual safety systems and 24-hour temperature monitoring for operational safety." },
+      "assembly-1": { "alt": "Assembly Line", "title": "Assembly Line", "description": "Gas cylinder assembly line", "detailedDescription": "PT Surya Inti Gas's gas cylinder assembly line uses both automated and manual processes to ensure the quality of every cylinder. Each cylinder undergoes a series of quality tests, including pressure and leak tests, before being approved for distribution. Our assembly line is designed for high production efficiency without compromising safety and quality standards." },
+      "fire-safety-1": { "alt": "Fire Safety", "title": "Fire Safety", "description": "Industrial fire safety system", "detailedDescription": "PT Surya Inti Gas's fire safety system is designed to gas industry safety standards. Our facilities are equipped with automatic fire detection systems, hydrants, and easily accessible fire extinguishers. Fire drills and emergency response training are conducted routinely to ensure our team is ready to respond to emergencies quickly and effectively." },
+      "transport-1": { "alt": "Gas Transport", "title": "Gas Transport", "description": "Industrial gas transport vehicles", "detailedDescription": "PT Surya Inti Gas's gas transport vehicles are specially designed to safely carry various types of gas. Each vehicle is equipped with a GPS system, leak sensors, and compartments that meet hazardous gas transport standards. Our drivers hold special certification and follow strict safety procedures for every delivery." },
+      "laboratory-2": { "alt": "Chemistry Lab", "title": "Chemistry Lab", "description": "Laboratory for gas research", "detailedDescription": "PT Surya Inti Gas's chemistry lab supports research and development of new gas products. This facility is equipped with modern analytical equipment for gas composition research, new formula development, and gas application testing. Our research team works continuously to improve product quality and discover innovative gas solutions for customers' industrial needs." },
+      "regulator-1": { "alt": "Gas Regulator", "title": "Gas Regulator", "description": "Regulator for gas pressure control", "detailedDescription": "PT Surya Inti Gas's gas regulator is designed for precise and safe gas pressure control. Our regulators are available in various capacities and types to suit industrial application needs. Each unit is equipped with safety features such as a relief valve and pressure gauge to ensure safe and efficient gas use at customer locations." }
+    }
+  },
   "career": {
     "title": "Career",
     "subtitle": "Join Our Team",
@@ -567,6 +1012,212 @@
     },
     "employmentTypes": {
       "fullTime": "Full-time"
+    },
+    "page": {
+      "badge": "Career",
+      "title": "Job Openings",
+      "subtitle": "Find a position that matches your skills and interests",
+      "jobsAvailable": "{{count}} Jobs Available",
+      "searchPlaceholder": "Search job openings...",
+      "allDivisions": "All Divisions",
+      "allCities": "All Cities",
+      "allLevels": "All Levels",
+      "searchDivision": "Search division...",
+      "searchCity": "Search city...",
+      "searchLevel": "Search level...",
+      "resetFilter": "Reset Filters",
+      "noJobsFound": "No job openings found matching your search criteria.",
+      "deadlineLabel": "Application Deadline: {{date}}",
+      "closed": "Closed",
+      "viewDetail": "View Details",
+      "apply": "Apply",
+      "jobNotFound": "Job opening not found.",
+      "backToListings": "Back to Job Listings",
+      "jobDescription": "Job Description",
+      "requirements": "Requirements",
+      "applicationClosed": "Application Closed",
+      "applyNow": "Apply Now",
+      "backToDetail": "Back to Job Details",
+      "formTitle": "Application Form",
+      "position": "Position: {{title}}",
+      "applicationSuccessTitle": "Application Submitted Successfully!",
+      "applicationSuccessMessage": "Thank you for applying for the {{title}} position. Our HR team will contact you if you meet the qualifications."
+    },
+    "form": {
+      "fullName": "Full Name *",
+      "fullNamePlaceholder": "Enter your full name",
+      "email": "Email *",
+      "emailPlaceholder": "example@email.com",
+      "phone": "Phone Number *",
+      "phonePlaceholder": "08xxxxxxxxxx",
+      "address": "Address *",
+      "addressPlaceholder": "Your full address",
+      "education": "Last Education *",
+      "educationPlaceholder": "e.g. Bachelor's in Mechanical Engineering",
+      "experience": "Work Experience *",
+      "experiencePlaceholder": "e.g. 2 years in sales",
+      "coverLetter": "Cover Letter",
+      "coverLetterPlaceholder": "Explain why you are a good fit for this position...",
+      "resume": "CV/Resume * (PDF, DOC, DOCX - Max 5MB)",
+      "uploadCta": "Click to upload your CV/Resume",
+      "submit": "Submit Application",
+      "submitting": "Submitting..."
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "phoneRequired": "Phone number is required",
+      "addressRequired": "Address is required",
+      "educationRequired": "Last education is required",
+      "experienceRequired": "Work experience is required",
+      "resumeRequired": "CV/Resume must be uploaded",
+      "resumeTypeInvalid": "Only PDF, DOC, or DOCX files are allowed",
+      "resumeSizeInvalid": "Maximum file size is 5MB"
+    },
+    "aria": {
+      "backToListings": "Back to job listings",
+      "backToDetail": "Back to job details",
+      "applyForJob": "Apply for this job",
+      "applicationClosed": "Job application closed",
+      "submitApplication": "Submit job application"
+    },
+    "jobDivisions": {
+      "salesMarketing": "Sales & Marketing",
+      "technicalOperations": "Technical Operations",
+      "financeAdmin": "Finance & Admin",
+      "logisticsDistribution": "Logistics & Distribution"
+    },
+    "jobLocations": {
+      "sidoarjo": "Sidoarjo",
+      "balikpapan": "Balikpapan"
+    },
+    "jobLevels": {
+      "entry": "Entry-level",
+      "mid": "Mid-level",
+      "senior": "Senior-level"
+    },
+    "jobTypes": {
+      "fullTime": "Full-time"
+    },
+    "jobs": {
+      "1": {
+        "title": "Sales Executive",
+        "description": "Responsible for selling industrial gas products to new customers and maintaining relationships with existing customers.",
+        "fullDescription": "The Sales Executive is responsible for growing the company's business by finding new customers and maintaining relationships with existing ones. This role includes product presentations, price negotiation, and achieving the sales targets set by the company.",
+        "requirements": [
+          "Minimum D3/Bachelor's degree in any major",
+          "At least 2 years of experience in sales",
+          "Good communication and negotiation skills",
+          "Owns a personal vehicle and a Driver's License C",
+          "Able to work under targets and pressure",
+          "Based in Sidoarjo or surrounding areas"
+        ]
+      },
+      "2": {
+        "title": "Installation Technician",
+        "description": "Performs installation and maintenance of industrial gas systems, high-pressure cylinders, and related equipment at customer sites.",
+        "fullDescription": "The Installation Technician is responsible for installing, maintaining, and troubleshooting industrial gas systems at customer sites. This role ensures all equipment functions properly and meets safety standards.",
+        "requirements": [
+          "Minimum vocational high school (Mechanical/Electrical Engineering)",
+          "At least 2 years of experience in gas installation",
+          "Technical certification is an advantage",
+          "Able to read schematics and technical drawings",
+          "Willing to work in the field and travel",
+          "Understands occupational safety standards"
+        ]
+      },
+      "3": {
+        "title": "Admin & Finance Staff",
+        "description": "Handles financial administration and office operations, including bookkeeping, financial reports, and HR administration.",
+        "fullDescription": "The Admin & Finance Staff is responsible for managing daily financial administration, bookkeeping, preparing financial reports, and basic HR administration. This role covers operational expenses, invoicing, and office documentation.",
+        "requirements": [
+          "Minimum D3 in Accounting/Financial Management",
+          "Fresh graduates are welcome to apply",
+          "Proficient in Microsoft Office (Excel, Word, PowerPoint)",
+          "Thorough and organized in administration",
+          "Able to work in a team or independently",
+          "Based in Balikpapan"
+        ]
+      },
+      "4": {
+        "title": "Gas Delivery Driver",
+        "description": "Responsible for delivering industrial gas to customer locations safely and on time according to the set schedule.",
+        "fullDescription": "The Gas Delivery Driver is responsible for delivering industrial gas products to customer locations safely and on time. This role includes checking cylinder condition, delivering along the route, and delivery documentation.",
+        "requirements": [
+          "Minimum high school diploma or equivalent",
+          "Holds a valid B1 driver's license",
+          "Minimum 3 years of truck driving experience",
+          "Familiar with Sidoarjo and surrounding routes",
+          "Honest, disciplined, and responsible",
+          "Willing to work in shifts"
+        ]
+      },
+      "5": {
+        "title": "Quality Control Engineer",
+        "description": "Ensures industrial gas product quality meets standards and performs routine product testing.",
+        "fullDescription": "The Quality Control Engineer is responsible for ensuring all industrial gas products meet established quality standards. This role includes product testing, production process inspection, and QC result documentation.",
+        "requirements": [
+          "Minimum Bachelor's degree in Chemical/Industrial Engineering",
+          "At least 2 years of experience in Quality Control",
+          "Understands ISO standards and gas industry regulations",
+          "Able to analyze data and prepare QC reports",
+          "Thorough and detail-oriented in inspections",
+          "Willing to work in the production area"
+        ]
+      },
+      "6": {
+        "title": "Marketing Specialist",
+        "description": "Develops marketing strategies and promotes industrial gas products to the target market.",
+        "fullDescription": "The Marketing Specialist is responsible for developing and implementing marketing strategies for industrial gas products. This role includes market research, digital marketing, event management, and campaign analysis.",
+        "requirements": [
+          "Minimum Bachelor's degree in Marketing/Communications",
+          "At least 2 years of experience in marketing",
+          "Proficient in digital marketing and social media",
+          "Good market analysis skills",
+          "Creative in producing marketing content",
+          "Based in Balikpapan"
+        ]
+      },
+      "7": {
+        "title": "Warehouse Supervisor",
+        "description": "Manages warehouse operations, inventory, and coordination of gas product distribution.",
+        "fullDescription": "The Warehouse Supervisor is responsible for managing all warehouse operations including receiving, storage, picking, packing, and shipping. This role includes team management, inventory control, and coordination with other departments.",
+        "requirements": [
+          "Minimum D3/Bachelor's degree in Management/Logistics",
+          "At least 5 years of experience in warehousing",
+          "At least 3 years of experience leading a team",
+          "Proficient in inventory management systems",
+          "Forklift certification is an advantage",
+          "Able to prepare inventory reports and KPIs"
+        ]
+      },
+      "8": {
+        "title": "HR Manager",
+        "description": "Manages recruitment, employee development, and the company's human resources policies.",
+        "fullDescription": "The HR Manager is responsible for the full range of HR functions including recruitment, training & development, compensation & benefits, employee relations, and HR operations. This role includes developing HR policies and implementing HR strategy.",
+        "requirements": [
+          "Minimum Bachelor's degree in Psychology/Law/HR Management",
+          "At least 5 years of experience in HR",
+          "At least 3 years of experience leading an HR team",
+          "Understands Indonesian labor regulations",
+          "Strong leadership and communication skills",
+          "Based in Balikpapan"
+        ]
+      },
+      "9": {
+        "title": "Safety Officer",
+        "description": "Ensures compliance with occupational safety standards in industrial gas operations.",
+        "fullDescription": "The Safety Officer is responsible for ensuring compliance with occupational health and safety (HSE) standards across all company operations. This role includes safety inspections, accident investigations, HSE training, and safety program implementation.",
+        "requirements": [
+          "Minimum D3 in Occupational Health & Safety/Environmental Engineering",
+          "Holds a General/Industrial HSE Expert certification",
+          "At least 3 years of experience in HSE",
+          "Understands HSE regulations and related laws",
+          "Able to conduct safety audits and risk assessments",
+          "Willing to work in operational areas"
+        ]
+      }
     },
     "openings": {
       "salesExecutive": {
@@ -751,6 +1402,11 @@
     "reset": "Reset",
     "loading": "Loading...",
     "error": "An error occurred",
-    "details": "Product Details"
+    "details": "Product Details",
+    "imageNotFound": "Image not found",
+    "selectCategoryAria": "Select {{category}} category",
+    "selectSubcategoryAria": "Select {{subcategory}} subcategory",
+    "backToTop": "Back to top",
+    "scrollToTop": "Scroll to top"
   }
 }

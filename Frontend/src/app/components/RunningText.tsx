@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 const css = `
   .running-text-container {
     position: relative;
@@ -64,15 +66,8 @@ const css = `
 `;
 
 export function RunningText() {
-  const textItems = [
-    'Kualitas Terjamin',
-    'Distribusi Nasional',
-    'Customer First',
-    'Safety First',
-    'Innovation',
-    'Reliability',
-    'Sustainability'
-  ];
+  const { t } = useTranslation();
+  const textItems = t('runningText.items', { returnObjects: true }) as string[];
 
   return (
     <div className="running-text-container">

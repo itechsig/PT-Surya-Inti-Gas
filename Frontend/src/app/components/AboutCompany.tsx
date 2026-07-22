@@ -1,4 +1,6 @@
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 /* ═══════════════════════════════════════════════════════════════
    ABOUT COMPANY.TSX — PT Surya Inti Gas Corporate
@@ -261,53 +263,57 @@ const css = `
 `;
 
 export function AboutCompany() {
+  const { t } = useTranslation();
+  const { lang } = useParams<{ lang: string }>();
+  const currentLang = lang || "id";
+
   return (
     <div className="about-corporate" id="about-section">
       <style>{css}</style>
 
       <section className="about-section">
         <div className="about-container">
-          
+
           {/* Corporate Header */}
           <div className="about-header">
             <div className="about-badge">
-              Tentang Perusahaan
+              {t('homeAbout.badge')}
             </div>
             <h2 className="about-title">
-              Mitra Terpercaya Dalam Solusi Gas Industri
+              {t('homeAbout.title')}
             </h2>
             <p className="about-subtitle">
-              Berkomitmen menghadirkan produk berkualitas, layanan terbaik, dan standar keselamatan dalam setiap proses.
+              {t('homeAbout.subtitle')}
             </p>
           </div>
 
           {/* Corporate Grid Layout */}
           <div className="about-grid">
-            
+
             {/* Corporate Image Section */}
             <div className="about-image-section">
               <div className="about-main-image">
                 <img src="/office-optimized.jpg" alt="PT Surya Inti Gas" loading="lazy" width="634" height="476" />
               </div>
-              
+
               <div className="about-overlay-card">
-                <div className="about-overlay-stat">20+</div>
+                <div className="about-overlay-stat">{t('homeAbout.overlayStat')}</div>
                 <div className="about-overlay-label">
-                  Tahun Pengalaman dalam Industri Gas Indonesia
+                  {t('homeAbout.overlayLabel')}
                 </div>
               </div>
             </div>
 
             {/* Corporate Content Section */}
             <div className="about-content-section">
-              
+
               <div>
-                <h3 className="about-content-title">Profil Perusahaan</h3>
+                <h3 className="about-content-title">{t('homeAbout.profileTitle')}</h3>
                 <p className="about-content-text">
-                  PT Surya Inti Gas adalah perusahaan gas industri terkemuka yang berdedikasi untuk menyediakan solusi gas berkualitas tinggi bagi berbagai sektor industri di Indonesia. Dengan pengalaman sejak 2003, kami telah membangun reputasi sebagai mitra terpercaya dalam industri manufaktur, kesehatan, energi, dan infrastruktur.
+                  {t('homeAbout.profileText')}
                 </p>
-                <a href="/id/tentang-kami" className="about-cta">
-                  Lihat Selengkapnya
+                <a href={`/${currentLang}/tentang-kami`} className="about-cta">
+                  {t('homeAbout.cta')}
                   <ArrowRight size={18} />
                 </a>
               </div>

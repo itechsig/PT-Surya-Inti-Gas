@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* ═══════════════════════════════════════════════════════════════
    COMPANY PROFILE VIDEO.TSX — PT Surya Inti Gas Corporate
@@ -281,6 +282,7 @@ const css = `
 `;
 
 export function CompanyProfileVideo() {
+  const { t } = useTranslation();
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   const handleThumbnailClick = () => {
@@ -297,13 +299,13 @@ export function CompanyProfileVideo() {
           {/* Corporate Video Header */}
           <div className="video-header">
             <div className="video-badge">
-              Company Profile
+              {t('companyProfileVideo.badge')}
             </div>
             <h2 className="video-title">
-              Mengenal Lebih Dekat PT Surya Inti Gas
+              {t('companyProfileVideo.title')}
             </h2>
             <p className="video-subtitle">
-              Kenali profil perusahaan, nilai-nilai, dan komitmen yang menjadi landasan kami dalam memberikan pelayanan terbaik.
+              {t('companyProfileVideo.subtitle')}
             </p>
           </div>
 
@@ -315,7 +317,7 @@ export function CompanyProfileVideo() {
                 onClick={handleThumbnailClick}
                 role="button"
                 tabIndex={0}
-                aria-label="Play company profile video"
+                aria-label={t('companyProfileVideo.playAria')}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     handleThumbnailClick();
@@ -324,7 +326,7 @@ export function CompanyProfileVideo() {
               >
                 <img
                   src="https://img.youtube.com/vi/Hxg5_L_vj-w/maxresdefault.jpg"
-                  alt="PT Surya Inti Gas Company Profile Thumbnail"
+                  alt={t('companyProfileVideo.thumbnailAlt')}
                   width="634"
                   height="357"
                   loading="lazy"
@@ -336,7 +338,7 @@ export function CompanyProfileVideo() {
                   </svg>
                 </div>
                 <div className="video-thumbnail-text">
-                  Klik untuk memutar video
+                  {t('companyProfileVideo.clickToPlay')}
                 </div>
               </div>
             ) : (
@@ -346,7 +348,7 @@ export function CompanyProfileVideo() {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                title="PT Surya Inti Gas Company Profile"
+                title={t('companyProfileVideo.iframeTitle')}
                 loading="lazy"
               />
             )}

@@ -44,6 +44,368 @@
       "clients": "Klien Puas",
       "products": "Produk Tersedia",
       "coverage": "Area Cakupan"
+    },
+    "chromeBadge": "Solusi Industri Gas",
+    "ariaLabel": "Sorotan PT Surya Inti Gas",
+    "liveRegion": "Slide {{current}} dari {{total}}: {{title}}",
+    "trustedBadge": "Dipercaya Industri Sejak 2003",
+    "previousSlide": "Slide sebelumnya",
+    "nextSlide": "Slide berikutnya",
+    "slideIndicators": "Indikator slide",
+    "goToSlide": "Ke slide {{number}}",
+    "slides": {
+      "company": {
+        "subtitle": "Pemasok Gas Industri Terpercaya",
+        "title": "PT Surya Inti Gas",
+        "description": "Menyediakan gas industri berkualitas tinggi untuk manufaktur, kesehatan, pengolahan makanan, pengelasan, laboratorium, dan berbagai industri lainnya dengan distribusi yang andal serta layanan yang unggul."
+      },
+      "oxygen": {
+        "subtitle": "Oksigen Kemurnian Tinggi",
+        "title": "Oksigen (O₂)",
+        "description": "Mendukung rumah sakit, laboratorium, fabrikasi logam, pengelasan, dan proses manufaktur industri dengan kemurnian tinggi serta kualitas yang konsisten."
+      },
+      "nitrogen": {
+        "subtitle": "Pasokan Nitrogen yang Andal",
+        "title": "Nitrogen (N₂)",
+        "description": "Ideal untuk pengawetan makanan, elektronik, laboratorium, farmasi, dan produksi industri yang membutuhkan gas nitrogen yang stabil."
+      },
+      "co2": {
+        "subtitle": "Food Grade & Industri",
+        "title": "Karbon Dioksida (CO₂)",
+        "description": "Cocok untuk industri minuman, pengolahan makanan, sistem pemadam kebakaran, pengelasan, dan berbagai aplikasi industri."
+      },
+      "argon": {
+        "subtitle": "Solusi Gas Presisi",
+        "title": "Argon & Gas Khusus",
+        "description": "Menyediakan Argon dan gas khusus untuk pengelasan, laboratorium, manufaktur semikonduktor, kalibrasi, dan industri presisi."
+      }
+    }
+  },
+  "productDetail": {
+    "notFoundTitle": "Produk tidak ditemukan",
+    "backToList": "Kembali ke Daftar Produk",
+    "backAria": "Kembali ke daftar produk",
+    "info": {
+      "title": "Informasi Produk",
+      "productId": "ID Produk:",
+      "category": "Kategori:",
+      "subCategory": "Sub-Kategori:",
+      "availability": "Ketersediaan:",
+      "available": "Tersedia",
+      "quality": "Kualitas:",
+      "qualityValue": "Grade Industri / Medis",
+      "shipping": "Pengiriman:",
+      "shippingValue": "Seluruh Indonesia"
+    },
+    "applications": {
+      "title": "Aplikasi Utama",
+      "items": [
+        "Industri manufaktur dan pengolahan",
+        "Aplikasi medis dan kesehatan",
+        "Laboratorium dan penelitian",
+        "Pengelasan dan pemotongan logam",
+        "Proses industri khusus"
+      ]
+    },
+    "contact": {
+      "title": "Informasi Pemesanan",
+      "description": "Untuk informasi lebih lanjut tentang spesifikasi teknis, harga, dan pemesanan, silakan hubungi tim sales kami.",
+      "button": "Tanya Ketersediaan via WhatsApp",
+      "whatsappMessage": "Halo, saya ingin menanyakan persediaan produk {{title}}. Apakah produk ini tersedia?"
+    }
+  },
+  "products": {
+    "pageHeader": {
+      "badge": "Produk & Layanan",
+      "title": "Solusi Gas Komprehensif",
+      "subtitle": "Bisnis utama kami adalah memasok gas industri, termasuk Gas Udara (Oksigen, Nitrogen, dan Argon), Gas Medis, Gas Sintetis, Gas Bahan Bakar, dan sebagainya. Produk-produk Gas tersebut memiliki aplikasi yang sangat luas sehingga kami mampu melayani berbagai kebutuhan industri diantaranya medis, metalurgi, energi, infrastruktur dan barang konsumsi."
+    },
+    "homeSection": {
+      "subtitle": "Beragam produk gas dan peralatan pendukung yang dirancang untuk memenuhi kebutuhan operasional Anda."
+    },
+    "mainCategories": {
+      "gas": "Produk Gas",
+      "equipment": "Peralatan & Aksesoris Terkait"
+    },
+    "categories": {
+      "industrial-medical": "Industrial & Medical (Gas & Cair)",
+      "speciality-mixed": "Speciality & Mixed Gas",
+      "color-code": "Color Code High Pressure Gas Supply",
+      "package": "Package High Pressure Gas and Liquid Supply",
+      "assist-gas": "Assist Gas for Laser Cutting",
+      "cryogenic-transport": "Cryogenic Transport Tank",
+      "regulator-valves": "Regulator dan Valve",
+      "medical-gas-equipment": "Medical Gas Supply Equipment"
+    },
+    "items": {
+      "acetylene": {
+        "title": "Acetylene (C2H2)",
+        "description": "Gas asetilena untuk pengelasan dan pemotongan logam",
+        "fullDescription": "Asetilena (C2H2) adalah gas hidrokarbon yang sangat mudah terbakar dan digunakan secara luas dalam industri pengelasan dan pemotongan logam. Gas ini memiliki suhu nyala yang sangat tinggi, mencapai 3.100°C, menjadikannya ideal untuk pengelasan oksi-asetilena dan pemotongan logam. Asetilena juga digunakan dalam sintesis kimia untuk memproduksi berbagai bahan kimia seperti plastik, karet sintetis, dan serat. PT Surya Inti Gas menyediakan asetilena berkualitas tinggi yang memenuhi standar industri untuk keamanan dan kinerja optimal."
+      },
+      "oxygen": {
+        "title": "Oksigen (O2)",
+        "description": "Gas oksigen untuk medis, metalurgi, dan aplikasi industri",
+        "fullDescription": "Oksigen (O2) adalah gas yang sangat penting dalam berbagai aplikasi industri dan medis. Dalam bidang medis, oksigen digunakan untuk terapi pernapasan, resusitasi, dan sebagai gas pendukung dalam anestesi. Dalam industri, oksigen berperan penting dalam proses metalurgi untuk pembakaran dan pemurnian logam, industri kimia untuk oksidasi, serta dalam pengelasan dan pemotongan logam. Oksigen juga digunakan dalam pengolahan air, pembuatan kertas, dan berbagai proses manufaktur lainnya. PT Surya Inti Gas menyediakan oksigen dengan berbagai tingkat kemurnian sesuai kebutuhan spesifik pelanggan."
+      },
+      "nitrogen": {
+        "title": "Nitrogen (N2)",
+        "description": "Gas nitrogen untuk inerting, blanketing, dan pendinginan",
+        "fullDescription": "Nitrogen (N2) adalah gas inert yang menyusun sekitar 78% dari atmosfer bumi. Dalam industri, nitrogen digunakan secara luas untuk proses inerting (menghilangkan oksigen untuk mencegah korosi dan ledakan), blanketing (melindungi produk cair dan padat dari oksidasi), dan pendinginan (cryogenic cooling). Nitrogen juga digunakan dalam industri makanan untuk pengawetan, dalam elektronik untuk pembuatan semikonduktor, serta dalam metalurgi untuk proses heat treatment. PT Surya Inti Gas menyediakan nitrogen dalam berbagai bentuk dan tingkat kemurnian sesuai kebutuhan aplikasi industri Anda."
+      },
+      "argon": {
+        "title": "Argon (Ar)",
+        "description": "Gas argon untuk pengelasan TIG dan aplikasi elektronik",
+        "fullDescription": "Argon (Ar) adalah gas inert yang paling sering digunakan dalam pengelasan TIG (Tungsten Inert Gas) dan MIG karena kemampuannya untuk melindungi area las dari kontaminasi atmosfer. Gas ini juga digunakan dalam industri elektronik untuk pembuatan semikonduktor dan panel layar, dalam metalurgi untuk proses perlakuan panas, serta dalam industri kaca untuk produksi kaca berkualitas tinggi. Argon juga digunakan dalam analisis laboratorium sebagai gas pembawa dan dalam perlindungan logam mulia. PT Surya Inti Gas menyediakan argon dengan kemurnian tinggi untuk berbagai aplikasi industri presisi."
+      },
+      "hydrogen": {
+        "title": "Hidrogen (H2)",
+        "description": "Gas hidrogen untuk berbagai aplikasi industri dan energi",
+        "fullDescription": "Hidrogen (H2) adalah gas yang paling ringan dan paling melimpah di alam semesta. Dalam industri, hidrogen digunakan dalam pemurnian minyak bumi, produksi amonia, pembuatan metanol, dan berbagai proses kimia lainnya. Hidrogen juga digunakan sebagai bahan bakar untuk kendaraan bertenaga fuel cell, dalam industri elektronik untuk pembuatan semikonduktor, serta sebagai gas pembawa dalam analisis gas kromatografi. PT Surya Inti Gas menyediakan hidrogen dengan tingkat kemurnian yang sesuai untuk aplikasi industri dan energi."
+      },
+      "helium": {
+        "title": "Helium (He)",
+        "description": "Gas helium untuk aplikasi medis, industri, dan penelitian",
+        "fullDescription": "Helium (He) adalah gas inert yang paling ringan kedua setelah hidrogen. Gas ini memiliki berbagai aplikasi penting: dalam medis digunakan untuk MRI (Magnetic Resonance Imaging), dalam industri digunakan untuk pengelasan dan leak detection, dalam penelitian sains untuk pendinginan superkonduktor, serta untuk pengisian balon dan blimp. Helium juga digunakan dalam industri elektronik untuk pembuatan serat optik dan semikonduktor. PT Surya Inti Gas menyediakan helium dengan kemurnian tinggi untuk berbagai aplikasi medis, industri, dan penelitian."
+      },
+      "sulfur-hexaflouride": {
+        "title": "Sulfur Hexaflouride (SF6)",
+        "description": "Gas SF6 untuk isolasi listrik dan aplikasi industri",
+        "fullDescription": "Sulfur heksafluorida (SF6) adalah gas dielektrik yang sangat efektif dengan kekuatan isolasi listrik yang tinggi. Gas ini digunakan secara luas dalam industri kelistrikan sebagai medium isolasi untuk switchgear, circuit breaker, dan transformator. SF6 juga digunakan dalam aplikasi pelacakan kebocoran, dalam industri magnesium untuk casting, serta dalam proses plasma etching dalam pembuatan semikonduktor. PT Surya Inti Gas menyediakan SF6 dengan kualitas tinggi untuk aplikasi isolasi listrik dan industri lainnya."
+      },
+      "mixed-gas": {
+        "title": "Mixed Gas (Gas Campur)",
+        "description": "Gas campuran khusus untuk aplikasi industri tertentu",
+        "fullDescription": "Gas campuran (Mixed Gas) adalah kombinasi berbagai gas yang diformulasikan khusus untuk aplikasi industri tertentu. Campuran ini mencakup gas calibrasi untuk instrumen pengukuran, gas proses untuk industri manufaktur, gas shielding untuk pengelasan, dan gas campuran medis untuk aplikasi kesehatan. Setiap campuran dirancang dengan komposisi yang presisi untuk memenuhi kebutuhan spesifik pelanggan. PT Surya Inti Gas menyediakan berbagai jenis gas campuran dengan komposisi yang dapat disesuaikan sesuai kebutuhan aplikasi Anda."
+      },
+      "color-code-acetylene": {
+        "title": "Acetylene",
+        "description": "Tabung gas asetilena dengan color code standar",
+        "fullDescription": "Tabung gas asetilena dengan color code standar internasional untuk identifikasi gas dan keamanan. Tabung ini dirancang sesuai standar keamanan industri untuk menyimpan asetilena pada tekanan tinggi. Color code membantu dalam identifikasi cepat dan mencegah kesalahan penggunaan. PT Surya Inti Gas menyediakan tabung asetilena dengan spesifikasi material dan safety features yang memenuhi standar internasional."
+      },
+      "color-code-special": {
+        "title": "Special Gas Cylinder",
+        "description": "Tabung gas khusus dengan color code",
+        "fullDescription": "Tabung gas khusus dengan color code untuk gas-gas spesial yang memerlukan penanganan khusus. Tabung ini dirancang untuk menyimpan gas dengan tingkat kemurnian tinggi atau gas yang reaktif. Color code membantu dalam identifikasi jenis gas dan parameter keamanan yang diperlukan. PT Surya Inti Gas menyediakan berbagai tabung gas khusus sesuai kebutuhan aplikasi Anda."
+      },
+      "color-code-medical": {
+        "title": "Medical Gas Cylinder",
+        "description": "Tabung gas medis dengan color code standar kesehatan",
+        "fullDescription": "Tabung gas medis dengan color code standar kesehatan untuk memastikan keamanan dan identifikasi yang tepat dalam aplikasi medis. Tabung ini memenuhi standar medis internasional dan dirancang untuk keamanan maksimal dalam penggunaan rumah sakit dan fasilitas kesehatan. Color code standar kesehatan memudahkan identifikasi jenis gas medis yang tepat untuk setiap aplikasi klinis."
+      },
+      "color-code-industrial": {
+        "title": "Industrial Gas Cylinder",
+        "description": "Tabung gas industri dengan color code",
+        "fullDescription": "Tabung gas industri dengan color code untuk identifikasi dan keamanan dalam aplikasi industri. Tabung ini dirancang untuk menahan tekanan tinggi dan kondisi operasional industri yang berat. Color code sistem membantu dalam manajemen inventory dan mencegah kesalahan penggunaan gas industri. PT Surya Inti Gas menyediakan berbagai ukuran tabung gas industri sesuai kebutuhan operasional Anda."
+      },
+      "package-high-pressure": {
+        "title": "High Pressure Gas Cylinder",
+        "description": "Tabung gas tekanan tinggi untuk industri",
+        "fullDescription": "Tabung gas tekanan tinggi dirancang untuk menyimpan dan mendistribusikan gas industri pada tekanan tinggi. Tabung ini dibuat dari material berkualitas tinggi dengan sistem penguncian dan safety features yang memenuhi standar internasional. Tersedia dalam berbagai kapasitas dan tekanan sesuai kebutuhan aplikasi industri. PT Surya Inti Gas menyediakan tabung gas tekanan tinggi dengan sertifikasi keamanan dan maintenance berkala."
+      },
+      "cradle-3x2": {
+        "title": "Cradle (3x2)",
+        "description": "Rangka cradle 3x2 untuk penyimpanan tabung gas",
+        "fullDescription": "Rangka cradle 3x2 adalah sistem penyimpanan tabung gas dengan kapasitas 6 tabung (3 baris x 2 kolom). Cradle ini dirancang untuk efisiensi ruang dan kemudahan handling tabung gas. Cocok untuk fasilitas industri yang membutuhkan supply gas kontinyu dengan kapasitas sedang. PT Surya Inti Gas menyediakan cradle 3x2 dengan sistem penguncian dan safety features."
+      },
+      "cradle-4x4": {
+        "title": "Cradle (4x4)",
+        "description": "Rangka cradle 4x4 kapasitas besar",
+        "fullDescription": "Rangka cradle 4x4 adalah sistem penyimpanan tabung gas dengan kapasitas 16 tabung (4 baris x 4 kolom). Cradle ini dirancang untuk fasilitas industri dengan konsumsi gas tinggi. Sistem ini memaksimalkan kapasitas penyimpanan dengan footprint yang efisien. PT Surya Inti Gas menyediakan cradle 4x4 dengan konstruksi kokoh dan sistem keamanan lengkap."
+      },
+      "cryogenic-dewars": {
+        "title": "Cryogenic Dewars",
+        "description": "Dewars kriogenik untuk penyimpanan gas cair",
+        "fullDescription": "Dewars kriogenik adalah wadah isolasi vakum untuk penyimpanan gas cair pada suhu sangat rendah. Dewars ini menggunakan teknologi isolasi vakum untuk mempertahankan suhu kriogenik dan meminimalkan evaporasi. Tersedia dalam berbagai kapasitas untuk kebutuhan laboratorium, industri, dan medis. PT Surya Inti Gas menyediakan dewars kriogenik dengan standar keamanan dan efisiensi termal tinggi."
+      },
+      "vessel-gas-liquid": {
+        "title": "Vessel Gas Liquid",
+        "description": "Vessel untuk penyimpanan gas cair",
+        "fullDescription": "Vessel gas cair adalah tangki berkapasitas besar untuk penyimpanan gas cair dalam jangka waktu lama. Vessel ini dirancang dengan sistem isolasi termal dan safety features untuk mencegah evaporasi dan menjaga kualitas gas. Cocok untuk fasilitas industri dengan konsumsi gas besar. PT Surya Inti Gas menyediakan vessel gas cair dengan spesifikasi yang dapat disesuaikan dengan kebutuhan operasional."
+      },
+      "microbulk-tank": {
+        "title": "Microbulk Tank",
+        "description": "Tangki microbulk untuk supply gas kontinyu",
+        "fullDescription": "Tangki microbulk adalah solusi supply gas kontinyu yang efisien untuk fasilitas dengan konsumsi gas menengah. Sistem ini menggabungkan kemudahan cylinder dengan efisiensi bulk supply. Microbulk tank mengurangi frekuensi pengisian dan handling tabung gas. PT Surya Inti Gas menyediakan microbulk tank dengan sistem monitoring dan delivery yang terjadwal."
+      },
+      "vertical-storage-tank": {
+        "title": "Vertical Storage Tank",
+        "description": "Tangki penyimpanan vertikal",
+        "fullDescription": "Tangki penyimpanan vertikal adalah solusi penyimpanan gas cair dengan desain memanjang untuk efisiensi ruang. Tangki ini cocok untuk fasilitas dengan area terbatas dan membutuhkan kapasitas penyimpanan besar. Desain vertikal meminimalkan footprint sambil memberikan kapasitas maksimal. PT Surya Inti Gas menyediakan tangki penyimpanan vertikal dengan standar keamanan industri yang ketat."
+      },
+      "assist-gas-cradle-4x4": {
+        "title": "Assist Gas Supply From Cradle Capacity 4x4 Cylinder",
+        "description": "Supply gas bantu dari cradle kapasitas 4x4 untuk laser cutting",
+        "fullDescription": "Sistem supply gas bantu dari cradle kapasitas 4x4 cylinder untuk aplikasi laser cutting industri. Sistem ini menyediakan supply gas kontinyu (nitrogen, oksigen, atau argon) untuk proses laser cutting dengan kapasitas tinggi. Cradle 4x4 memastikan supply gas yang stabil dan konsisten untuk kualitas pemotongan yang optimal. PT Surya Inti Gas menyediakan sistem ini dengan konfigurasi yang dapat disesuaikan dengan jenis laser dan material yang dipotong."
+      },
+      "microbulk-gas-supply": {
+        "title": "Microbulk Gas Supply",
+        "description": "Supply gas microbulk untuk aplikasi laser cutting",
+        "fullDescription": "Sistem supply gas microbulk untuk aplikasi laser cutting dengan efisiensi tinggi. Sistem ini menggantikan multiple cylinder dengan tangki microbulk yang dapat dipantau dan diisi secara otomatis. Microbulk supply mengurangi downtime dan handling costs sambil memberikan supply gas yang konsisten untuk proses laser cutting. PT Surya Inti Gas menyediakan solusi microbulk dengan sistem monitoring dan maintenance yang terintegrasi."
+      },
+      "storage-tank-gas-supply": {
+        "title": "Storage Tank Gas Supply",
+        "description": "Supply gas dari tangki penyimpanan",
+        "fullDescription": "Sistem supply gas dari tangki penyimpanan untuk aplikasi industri dengan konsumsi gas tinggi. Sistem ini menggunakan tangki penyimpanan kapasitas besar yang memberikan supply gas kontinyu untuk berbagai proses industri. Cocok untuk fasilitas yang membutuhkan supply gas yang stabil dan ekonomis dalam jangka panjang. PT Surya Inti Gas menyediakan solusi tangki penyimpanan dengan desain yang sesuai kebutuhan operasional."
+      },
+      "liquid-filling-transfer": {
+        "title": "Liquid Filling Transfer",
+        "description": "Sistem transfer pengisian gas cair",
+        "fullDescription": "Sistem transfer pengisian gas cair adalah perangkat untuk memindahkan gas cair dari storage tank ke trailer atau dewars dengan aman dan efisien. Sistem ini dilengkapi dengan valve, hose, dan control panel untuk mengontrol aliran gas cair. Mencegah evaporasi dan kebocoran selama proses transfer. PT Surya Inti Gas menyediakan sistem transfer dengan standar keamanan tinggi untuk berbagai jenis gas cair."
+      },
+      "cryogenic-iso-tank": {
+        "title": "Cryogenic ISO Tank",
+        "description": "Tangki ISO kriogenik untuk transport",
+        "fullDescription": "Tangki ISO kriogenik adalah kontainer standar internasional untuk transport gas cair pada suhu sangat rendah. Tangki ini memenuhi standar ISO untuk transport multimoda (darat, laut, udara) dan dilengkapi dengan sistem isolasi vakum canggih. Cocok untuk distribusi gas cair antar negara atau jarak jauh. PT Surya Inti Gas menyediakan ISO tank kriogenik dengan sertifikasi internasional dan sistem monitoring."
+      },
+      "cryogenic-road-tank": {
+        "title": "Cryogenic Road Tank",
+        "description": "Tangki jalan kriogenik untuk distribusi",
+        "fullDescription": "Tangki jalan kriogenik adalah kendaraan khusus untuk distribusi gas cair melalui jalan raya. Tangki ini dirancang dengan isolasi termal yang efisien untuk mempertahankan suhu kriogenik selama perjalanan. Cocok untuk distribusi gas cair antar fasilitas industri dan lokasi konsumsi. PT Surya Inti Gas menyediakan layanan distribusi gas cair dengan armada road tank yang memenuhi standar keamanan."
+      },
+      "cryogenic-gas-valve": {
+        "title": "Cryogenic & Gas Valve",
+        "description": "Valve kriogenik dan gas untuk berbagai aplikasi",
+        "fullDescription": "Valve kriogenik dan gas adalah komponen vital untuk mengontrol aliran gas dalam berbagai aplikasi suhu rendah maupun normal. Valve ini dirancang khusus untuk menahan kondisi suhu ekstrem dan tekanan tinggi. Tersedia dalam berbagai jenis seperti globe valve, ball valve, dan check valve sesuai kebutuhan aplikasi. PT Surya Inti Gas menyediakan valve dengan material berkualitas tinggi dan sertifikasi keamanan."
+      },
+      "gas-regulator-laser": {
+        "title": "Gas Regulator for Cutting Gas Laser Machine",
+        "description": "Regulator gas khusus untuk mesin laser cutting",
+        "fullDescription": "Regulator gas khusus untuk mesin laser cutting dirancang untuk memberikan kontrol tekanan yang presisi untuk proses pemotongan laser. Regulator ini memastikan supply gas (nitrogen, oksigen, atau argon) yang stabil dan konsisten untuk kualitas pemotongan optimal. Dilengkapi dengan gauge dan adjustment valve untuk presisi tinggi. PT Surya Inti Gas menyediakan regulator laser cutting dengan spesifikasi yang sesuai dengan berbagai jenis mesin laser."
+      },
+      "high-pressure-regulator": {
+        "title": "High Pressure Regulator",
+        "description": "Regulator tekanan tinggi untuk aplikasi industri",
+        "fullDescription": "Regulator tekanan tinggi dirancang untuk mengontrol tekanan gas dari tabung atau manifold dengan tekanan input tinggi. Regulator ini memberikan output tekanan yang stabil dan aman untuk aplikasi industri. Cocok untuk aplikasi pengelasan, cutting, dan proses industri lainnya. PT Surya Inti Gas menyediakan regulator tekanan tinggi dengan berbagai kapasitas dan spesifikasi sesuai kebutuhan."
+      },
+      "high-pressure-gas-valve": {
+        "title": "High Pressure Gas Valve",
+        "description": "Valve gas tekanan tinggi untuk sistem gas",
+        "fullDescription": "Valve gas tekanan tinggi adalah komponen keamanan vital untuk sistem gas bertekanan tinggi. Valve ini dirancang untuk menahan tekanan tinggi dan memberikan kontrol aliran yang presisi. Tersedia dalam berbagai jenis dan material sesuai dengan jenis gas dan aplikasi. PT Surya Inti Gas menyediakan valve tekanan tinggi dengan sertifikasi keamanan dan performa yang andal."
+      },
+      "gdms-systems": {
+        "title": "GDMS Systems",
+        "description": "Sistem manajemen distribusi gas medis terintegrasi",
+        "fullDescription": "GDMS (Gas Distribution Management System) adalah sistem terintegrasi untuk manajemen distribusi gas medis di fasilitas kesehatan. Sistem ini mencakup monitoring tekanan, alarm safety, dan control panel untuk memastikan supply gas medis yang kontinyu dan aman. GDMS memudahkan manajemen gas oksigen, nitrogen, nitrous oxide, dan gas medis lainnya di rumah sakit. PT Surya Inti Gas menyediakan GDMS dengan teknologi terkini dan sesuai standar medis internasional."
+      }
+    }
+  },
+  "contactPage": {
+    "badge": "Kontak",
+    "title": "Hubungi Kami",
+    "subtitle": "Kami siap membantu Anda dengan solusi gas industri terbaik",
+    "locationTitle": "Lokasi Kami",
+    "sidoarjoOffice": "Kantor Sidoarjo",
+    "balikpapanOffice": "Kantor Balikpapan",
+    "sendMessage": "Kirim Pesan",
+    "formIntro": "Isi formulir di bawah ini dan tim kami akan segera menghubungi Anda",
+    "placeholders": {
+      "name": "Nama Anda",
+      "email": "Email Anda",
+      "company": "Nama Perusahaan",
+      "subject": "Subjek",
+      "message": "Pesan"
+    },
+    "send": "KIRIM"
+  },
+  "companyProfileVideo": {
+    "badge": "Company Profile",
+    "title": "Mengenal Lebih Dekat PT Surya Inti Gas",
+    "subtitle": "Kenali profil perusahaan, nilai-nilai, dan komitmen yang menjadi landasan kami dalam memberikan pelayanan terbaik.",
+    "playAria": "Putar video profil perusahaan",
+    "clickToPlay": "Klik untuk memutar video",
+    "thumbnailAlt": "Thumbnail Profil Perusahaan PT Surya Inti Gas",
+    "iframeTitle": "Profil Perusahaan PT Surya Inti Gas"
+  },
+  "runningText": {
+    "items": ["Kualitas Terjamin", "Distribusi Nasional", "Customer First", "Safety First", "Innovation", "Reliability", "Sustainability"]
+  },
+  "industriesServed": {
+    "badge": "Industri yang Dilayani",
+    "title": "Solusi Untuk Berbagai Sektor Industri",
+    "subtitle": "Mendukung kebutuhan berbagai bidang usaha melalui solusi gas yang tepat, aman, dan efisien.",
+    "industries": {
+      "manufaktur": "Manufaktur",
+      "kesehatan": "Kesehatan",
+      "makanan-minuman": "Makanan & Minuman",
+      "minyak-gas": "Minyak & Gas",
+      "energi": "Energi",
+      "konstruksi": "Konstruksi"
+    }
+  },
+  "whyChooseUs": {
+    "title": "Kami Siap Melayani Kebutuhan Gas Anda",
+    "description": "Kami siap memenuhi keinginan dan kebutuhan Anda akan produk gas. Kami siap berdiskusi dengan Anda, agar keinginan dan kebutuhan Anda akan produk gas bisa kami support dengan baik (stok, jenis dan type produk, jadwal pengiriman, maintenance, dll).",
+    "cta": "Mulai Diskusi Sekarang"
+  },
+  "homeAbout": {
+    "badge": "Tentang Perusahaan",
+    "title": "Mitra Terpercaya Dalam Solusi Gas Industri",
+    "subtitle": "Berkomitmen menghadirkan produk berkualitas, layanan terbaik, dan standar keselamatan dalam setiap proses.",
+    "overlayStat": "20+",
+    "overlayLabel": "Tahun Pengalaman dalam Industri Gas Indonesia",
+    "profileTitle": "Profil Perusahaan",
+    "profileText": "PT Surya Inti Gas adalah perusahaan gas industri terkemuka yang berdedikasi untuk menyediakan solusi gas berkualitas tinggi bagi berbagai sektor industri di Indonesia. Dengan pengalaman sejak 2003, kami telah membangun reputasi sebagai mitra terpercaya dalam industri manufaktur, kesehatan, energi, dan infrastruktur.",
+    "cta": "Lihat Selengkapnya"
+  },
+  "chatbot": {
+    "title": "Asisten Virtual",
+    "greeting": "Halo! Selamat datang di PT Surya Inti Gas. Ada yang bisa saya bantu?",
+    "errorFallback": "Maaf, terjadi kesalahan.",
+    "errorFallbackRetry": "Maaf, terjadi kesalahan. Silakan coba lagi nanti.",
+    "closeChat": "Tutup chat",
+    "openChat": "Buka chat",
+    "inputPlaceholder": "Ketik pesan Anda...",
+    "sendMessage": "Kirim pesan",
+    "pressEnterHint": "Tekan Enter untuk mengirim"
+  },
+  "aboutUsPage": {
+    "hero": {
+      "badge": "Tentang Kami",
+      "title": "Mengenal Lebih Dekat",
+      "titleHighlight": "PT Surya Inti Gas",
+      "description": "Sejak 2003, kami telah menjadi mitra terpercaya dalam solusi gas industri untuk berbagai sektor di Indonesia, berkomitmen pada kualitas, inovasi, dan keberlanjutan."
+    },
+    "visionMission": {
+      "title": "Tujuan dan Dedikasi Kami",
+      "subtitle": "Visi dan misi yang menjadi landasan setiap langkah kami dalam melayani industri Indonesia."
+    },
+    "timeline": {
+      "title": "Perjalanan PT Surya Inti Gas",
+      "subtitle": "Milestone penting dalam perjalanan kami menjadi pemimpin industri gas di Indonesia.",
+      "imageAlt": "Foto {{year}} - {{title}}"
+    },
+    "milestones": {
+      "2003": {
+        "title": "Awal Berdiri",
+        "description": "CV. Surya Inti Gas resmi didirikan di Sidoarjo, Jawa Timur, dengan kantor pertama yang berlokasi di Jl. KH. Mukmin. Sejak awal, perusahaan berkomitmen menyediakan solusi gas industri yang berkualitas dan terpercaya."
+      },
+      "2007": {
+        "title": "Perluasan Operasional",
+        "description": "Seiring pertumbuhan bisnis dan meningkatnya permintaan pasar, kantor operasional dipindahkan ke Komplek Pergudangan & Industri Meiko Abadi Blok B70, Wedi, Gedangan, Sidoarjo guna mendukung kapasitas layanan dan distribusi yang lebih optimal."
+      },
+      "2016": {
+        "title": "Menempati Kantor Pusat",
+        "description": "Untuk menunjang perkembangan perusahaan, kantor pusat (Head Office) dipindahkan ke Komplek Pergudangan & Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo, yang hingga kini menjadi pusat operasional PT Surya Inti Gas."
+      },
+      "2017": {
+        "title": "Transformasi dan Ekspansi",
+        "description": "Perusahaan resmi bertransformasi dari CV. Surya Inti Gas menjadi PT. Surya Inti Gas. Pada tahun yang sama, perusahaan memperluas jangkauan layanan dengan membuka cabang pertama di Balikpapan, Kalimantan Timur, sebagai langkah strategis untuk melayani kebutuhan pelanggan di wilayah Indonesia bagian timur."
+      }
+    },
+    "values": {
+      "title": "Nilai-nilai PT Surya Inti Gas",
+      "subtitle": "Prinsip yang memandu setiap langkah kami dalam melayani pelanggan dan menjalankan bisnis.",
+      "items": [
+        { "title": "Keselamatan", "description": "Menjunjung tinggi keselamatan sebagai prioritas utama dalam setiap aktivitas operasional untuk memastikan lingkungan kerja yang aman bagi semua pihak." },
+        { "title": "Integritas", "description": "Menjalankan bisnis dengan kejujuran, transparansi, dan prinsip etika yang kuat dalam setiap pengambilan keputusan." },
+        { "title": "Profesionalisme", "description": "Menyajikan layanan dengan standar profesional tinggi, kompetensi, dan dedikasi dalam setiap aspek operasional." },
+        { "title": "Tanggung Jawab", "description": "Bertanggung jawab penuh atas setiap tindakan dan keputusan, serta berkomitmen terhadap keberlanjutan bisnis." },
+        { "title": "Fokus Pelanggan", "description": "Berfokus pada kebutuhan pelanggan dengan menghadirkan solusi yang tepat, cepat, dan terpercaya." },
+        { "title": "Kualitas", "description": "Berkomitmen memberikan produk dan layanan berkualitas tinggi secara konsisten untuk kepuasan pelanggan." },
+        { "title": "Inovasi", "description": "Melalui inovasi dan perbaikan berkelanjutan, kami terus meningkatkan efisiensi dan standar pelayanan." },
+        { "title": "Kerja Sama Tim", "description": "Diperkuat oleh kerja sama tim yang solid untuk mencapai pertumbuhan dan keberhasilan bersama." }
+      ]
     }
   },
   "about": {
@@ -519,6 +881,89 @@
       "recent": "Aktivitas Terbaru"
     }
   },
+  "distribution": {
+    "page": {
+      "badge": "Jaringan Distribusi",
+      "title": "Lokasi Operasional",
+      "titleHighlight": "PT Surya Inti Gas",
+      "description": "Jaringan distribusi kami tersebar di berbagai lokasi strategis untuk memastikan pasokan gas yang andal dan konsisten ke seluruh Indonesia.",
+      "viewOnGoogleMaps": "Lihat di Google Maps"
+    },
+    "locations": {
+      "kantor-pusat": {
+        "name": "Kantor Pusat",
+        "region": "Jawa Timur",
+        "shortDescription": "Kantor pusat operasional PT Surya Inti Gas.",
+        "description": "Kantor pusat PT Surya Inti Gas berlokasi di Sidoarjo, Jawa Timur."
+      },
+      "pabrik-balikpapan": {
+        "name": "Stasiun Pengisian",
+        "region": "Kalimantan Timur",
+        "shortDescription": "Pabrik produksi dan stasiun pengisian gas industri.",
+        "description": "Pabrik dan stasiun pengisian PT Surya Inti Gas berlokasi di Balikpapan, Kalimantan Timur."
+      }
+    }
+  },
+  "gallery": {
+    "page": {
+      "badge": "Galeri",
+      "title": "Dokumentasi Perusahaan",
+      "subtitle": "Jelajahi galeri foto PT Surya Inti Gas yang menampilkan fasilitas operasional, kegiatan perusahaan, dan dokumentasi proyek kami dalam melayani berbagai industri di Indonesia.",
+      "activityLabel": "Kegiatan:",
+      "allYears": "Semua Tahun",
+      "filterByYearAria": "Filter berdasarkan {{year}}",
+      "notFoundTitle": "Foto tidak ditemukan",
+      "notFoundMessage": "Maaf, foto yang Anda cari tidak tersedia.",
+      "relatedPhotos": "Foto Terkait",
+      "backToGallery": "Kembali ke Galeri"
+    },
+    "aria": {
+      "backToGallery": "Kembali ke galeri",
+      "closeLightbox": "Tutup lightbox",
+      "previousImage": "Gambar sebelumnya",
+      "nextImage": "Gambar berikutnya"
+    },
+    "categories": {
+      "all": "Semua Kegiatan",
+      "products": "Produk",
+      "equipment": "Peralatan",
+      "facility": "Fasilitas",
+      "activities": "Kegiatan",
+      "projects": "Proyek"
+    },
+    "items": {
+      "oxygen": { "alt": "Oxygen Cylinder", "title": "Oksigen (O2)", "description": "Gas oksigen untuk medis, metalurgi, dan aplikasi industri", "detailedDescription": "Oksigen (O2) adalah gas yang sangat penting dalam berbagai aplikasi industri dan medis. PT Surya Inti Gas menyediakan oksigen dengan kemurnian tinggi untuk kebutuhan medis di rumah sakit, proses metalurgi dalam industri manufaktur, serta berbagai aplikasi industri lainnya. Produk kami diproduksi dengan standar kualitas internasional dan tersedia dalam berbagai ukuran tabung sesuai kebutuhan pelanggan." },
+      "nitrogen": { "alt": "Nitrogen Cylinder", "title": "Nitrogen (N2)", "description": "Gas nitrogen untuk inerting, blanketing, dan pendinginan", "detailedDescription": "Nitrogen (N2) adalah gas inert yang banyak digunakan untuk proses inerting, blanketing, dan pendinginan dalam berbagai industri. PT Surya Inti Gas menyediakan nitrogen dengan kemurnian tinggi untuk mencegah oksidasi, mempertahankan kualitas produk, dan sebagai media pendingin dalam proses industri. Nitrogen kami tersedia dalam bentuk gas maupun cair sesuai kebutuhan aplikasi." },
+      "mix-gas": { "alt": "Mix Gas Cylinder", "title": "Mix Gas", "description": "Gas mix untuk aplikasi khusus", "detailedDescription": "Gas campuran (Mix Gas) dirancang khusus untuk aplikasi yang membutuhkan komposisi gas tertentu. PT Surya Inti Gas dapat menyediakan berbagai kombinasi gas campuran sesuai spesifikasi teknis yang dibutuhkan pelanggan, termasuk untuk kalibrasi instrumen, penelitian laboratorium, dan proses industri khusus. Setiap campuran diproduksi dengan presisi tinggi untuk memastikan konsistensi kualitas." },
+      "vertical-tank": { "alt": "Vertical Tank", "title": "Vertical Tank", "description": "Tangki vertikal untuk storage gas", "detailedDescription": "Tangki vertikal adalah solusi penyimpanan gas yang efisien dengan desain kompak untuk ruang terbatas. Tangki ini cocok untuk penyimpanan gas cair maupun gas bertekanan tinggi. PT Surya Inti Gas menyediakan tangki vertikal dengan berbagai kapasitas, dilengkapi dengan sistem safety terbaik untuk memastikan keamanan dalam penyimpanan dan distribusi gas kepada pelanggan." },
+      "acetylene": { "alt": "Acetylene Cylinder", "title": "Asetilena (C2H2)", "description": "Gas asetilena untuk pengelasan dan pemotongan logam", "detailedDescription": "Asetilena (C2H2) adalah gas yang sangat penting dalam industri pengelasan dan pemotongan logam. PT Surya Inti Gas menyediakan asetilena berkualitas tinggi yang menghasilkan api dengan suhu tinggi, ideal untuk welding dan cutting berbagai jenis logam. Produk kami tersedia dalam tabung aman dengan standar keamanan internasional untuk penggunaan di industri konstruksi dan manufaktur." },
+      "iso-tank": { "alt": "ISO Tank", "title": "ISO Tank", "description": "Tangki ISO untuk transportasi gas cair dalam volume besar", "detailedDescription": "Tangki ISO adalah solusi transportasi gas cair dalam volume besar dengan standar internasional. PT Surya Inti Gas menggunakan tangki ISO bersertifikasi untuk distribusi gas cair ke seluruh Indonesia. Tangki ini dirancang untuk mempertahankan suhu dan tekanan optimal selama perjalanan, memastikan kualitas gas tetap terjaga hingga sampai ke lokasi pelanggan." },
+      "liquid-filling": { "alt": "Liquid Filling System", "title": "Liquid Filling", "description": "Sistem pengisian gas cair untuk tabung dan tangki", "detailedDescription": "Sistem pengisian gas cair kami menggunakan teknologi canggih untuk mengisi tabung dan tangki gas dengan presisi tinggi. PT Surya Inti Gas memiliki fasilitas filling modern yang dilengkapi dengan sistem kontrol kualitas ketat untuk memastikan setiap pengisian dilakukan dengan akurasi volume dan tekanan yang tepat. Proses ini menjamin keamanan dan kualitas produk yang kami distribusikan ke pelanggan." },
+      "microbulk": { "alt": "Microbulk Tank", "title": "Microbulk", "description": "Tangki microbulk untuk supply gas dalam volume menengah", "detailedDescription": "Tangki microbulk adalah solusi supply gas untuk kebutuhan volume menengah yang lebih efisien dibandingkan tabung gas konvensional. PT Surya Inti Gas menyediakan sistem microbulk yang mengurangi frekuensi penggantian tabung, menghemat waktu dan biaya operasional. Sistem ini ideal untuk pelanggan dengan konsumsi gas reguler namun tidak membutuhkan tangki penyimpanan besar." },
+      "medical-gas": { "alt": "Medical Gas Cylinder", "title": "Tabung Gas Medis", "description": "Tabung gas medis untuk rumah sakit dan fasilitas kesehatan", "detailedDescription": "Tabung gas medis PT Surya Inti Gas dirancang khusus untuk kebutuhan medis di rumah sakit dan fasilitas kesehatan. Tabung ini memenuhi standar keamanan medis internasional dan tersedia dalam berbagai ukuran sesuai kebutuhan fasilitas kesehatan. Gas medis kami diproduksi dengan kemurnian tinggi dan melalui proses quality control ketat untuk memastikan keamanan pasien." },
+      "office-view-2": { "alt": "Office View 2", "title": "Ruang Meeting", "description": "Ruang meeting untuk diskusi dan kolaborasi", "detailedDescription": "Ruang meeting PT Surya Inti Gas dirancang untuk mendukung diskusi produktif dan kolaborasi tim. Ruang ini dilengkapi dengan fasilitas modern untuk presentasi dan pertemuan, menciptakan lingkungan yang kondusif untuk perencanaan strategis dan koordinasi proyek. Desain interior yang profesional mencerminkan komitmen kami terhadap kualitas dan efisiensi." },
+      "office-view-3": { "alt": "Office View 3", "title": "Ruang Kerja", "description": "Ruang kerja modern dan profesional", "detailedDescription": "Ruang kerja PT Surya Inti Gas didesain modern dan profesional untuk mendukung produktivitas karyawan. Layout yang ergonomis dan fasilitas lengkap menciptakan lingkungan kerja yang nyaman dan efisien. Ruang kerja ini mencerminkan budaya perusahaan yang mengutamakan kesejahteraan karyawan dan kualitas kerja." },
+      "gas-cylinder-1": { "alt": "Gas Cylinder Storage", "title": "Penyimpanan Tabung Gas", "description": "Area penyimpanan tabung gas yang aman dan terorganisir", "detailedDescription": "Area penyimpanan tabung gas PT Surya Inti Gas dirancang dengan standar keamanan tinggi untuk memastikan penyimpanan yang aman dan terorganisir. Setiap area penyimpanan dilengkapi dengan sistem ventilasi, deteksi kebocoran, dan pemisahan jenis gas untuk mencegah kontaminasi. Layout yang sistematis memudahkan manajemen inventaris dan rotasi stok." },
+      "industrial-plant-1": { "alt": "Industrial Plant", "title": "Pabrik Industri", "description": "Fasilitas produksi gas industri modern", "detailedDescription": "Pabrik industri PT Surya Inti Gas dilengkapi dengan fasilitas produksi modern yang memenuhi standar keamanan dan kualitas internasional. Fasilitas ini memiliki kapasitas produksi yang mampu memenuhi kebutuhan gas industri di seluruh Indonesia. Dengan teknologi canggih dan proses quality control ketat, kami memastikan setiap produk gas yang dihasilkan memiliki kualitas yang konsisten dan sesuai spesifikasi." },
+      "welding-1": { "alt": "Welding Process", "title": "Proses Pengelasan", "description": "Aplikasi gas industri untuk pengelasan", "detailedDescription": "Proses pengelasan menggunakan gas industri adalah salah satu aplikasi utama produk PT Surya Inti Gas. Gas kami digunakan secara luas dalam industri konstruksi, manufaktur, dan otomotif untuk menghasilkan lasan berkualitas tinggi. Kami menyediakan berbagai jenis gas welding sesuai kebutuhan spesifik proses pengelasan, termasuk asetilena, argon, dan gas campuran lainnya." },
+      "lab-1": { "alt": "Laboratory", "title": "Laboratorium Gas", "description": "Fasilitas laboratorium untuk analisis gas", "detailedDescription": "Laboratorium gas PT Surya Inti Gas dilengkapi dengan peralatan analisis modern untuk memastikan kualitas dan kemurnian setiap produk gas. Tim ahli kami melakukan pengujian rutin untuk memverifikasi komposisi gas, mendeteksi kontaminasi, dan memastikan kepatuhan terhadap standar industri. Fasilitas laboratorium ini merupakan bagian penting dari sistem quality control kami." },
+      "delivery-1": { "alt": "Gas Delivery", "title": "Pengiriman Gas", "description": "Armada pengiriman gas untuk pelanggan", "detailedDescription": "Armada pengiriman gas PT Surya Inti Gas terdiri dari kendaraan khusus yang dirancang untuk transportasi gas dengan aman. Setiap unit dilengkapi dengan sistem keamanan tercanggih dan dioperasikan oleh tim berpengalaman. Jaringan distribusi kami mencakup seluruh Indonesia, memastikan pengiriman gas tepat waktu ke lokasi pelanggan dengan standar keamanan tertinggi." },
+      "tank-1": { "alt": "Storage Tank", "title": "Tangki Penyimpanan", "description": "Tangki penyimpanan gas cair kapasitas besar", "detailedDescription": "Tangki penyimpanan gas cair dengan kapasitas besar adalah fasilitas penting dalam operasional PT Surya Inti Gas. Tangki ini dirancang untuk menyimpan gas cair dalam volume besar dengan mempertahankan suhu dan tekanan optimal. Sistem penyimpanan kami dilengkapi dengan fitur keamanan ganda dan pemantauan 24 jam untuk memastikan ketersediaan supply gas yang kontinu kepada pelanggan." },
+      "valve-1": { "alt": "Gas Valve", "title": "Katup Gas", "description": "Sistem katup untuk kontrol aliran gas", "detailedDescription": "Sistem katup gas PT Surya Inti Gas menggunakan komponen berkualitas tinggi untuk kontrol aliran gas yang presisi. Katup kami dirancang untuk menahan tekanan tinggi dan kondisi operasional yang berat. Setiap unit dilengkapi dengan fitur keamanan otomatis dan rutin diperiksa untuk memastikan performa optimal dalam mengatur aliran gas ke berbagai aplikasi industri." },
+      "hospital-1": { "alt": "Hospital Gas System", "title": "Sistem Gas Rumah Sakit", "description": "Instalasi gas medis untuk rumah sakit", "detailedDescription": "Sistem gas rumah sakit PT Surya Inti Gas dirancang khusus untuk kebutuhan medis dengan standar keamanan tertinggi. Kami menyediakan instalasi gas medis yang mencakup oksigen, nitrogen, dan gas medis lainnya untuk rumah sakit dan fasilitas kesehatan. Sistem kami memenuhi regulasi kesehatan dan dilengkapi dengan fitur keamanan otomatis untuk kenyamanan pasien dan tenaga medis." },
+      "quality-1": { "alt": "Quality Control", "title": "Quality Control", "description": "Proses quality control untuk produk gas", "detailedDescription": "Proses quality control PT Surya Inti Gas dilakukan secara menyeluruh pada setiap tahap produksi. Mulai dari bahan baku hingga produk jadi, setiap tahap diperiksa untuk memastikan kepatuhan terhadap standar kualitas. Sistem QC kami menggunakan teknologi analisis terbaru dan dijalankan oleh tim bersertifikasi untuk menjamin kualitas produk yang konsisten dan dapat diandalkan." },
+      "training-1": { "alt": "Safety Training", "title": "Pelatihan Keselamatan", "description": "Program pelatihan keselamatan kerja", "detailedDescription": "Program pelatihan keselamatan kerja PT Surya Inti Gas dirancang untuk memastikan kompetensi karyawan dalam menangani gas secara aman. Pelatihan mencakup penanganan darurat, prosedur keamanan, dan penggunaan peralatan pelindung diri. Setiap karyawan wajib lulus sertifikasi sebelum diperbolehkan bekerja dengan gas, memastikan standar keamanan tertinggi dalam operasional kami." },
+      "pressure-gauge-1": { "alt": "Pressure Gauge", "title": "Pressure Gauge", "description": "Alat pengukur tekanan gas", "detailedDescription": "Pressure gauge adalah alat pengukur tekanan yang vital dalam sistem gas PT Surya Inti Gas. Kami menggunakan pressure gauge kalibrasi dengan akurasi tinggi untuk memantau tekanan gas secara real-time. Setiap alat rutin dikalibrasi dan diperiksa untuk memastikan pembacaan yang akurat, mendukung sistem keamanan dan efisiensi operasional dalam distribusi gas." },
+      "factory-1": { "alt": "Factory Floor", "title": "Lantai Pabrik", "description": "Area produksi pabrik gas", "detailedDescription": "Lantai pabrik PT Surya Inti Gas dirancang dengan sistem workflow yang efisien dan aman. Area produksi dilengkapi dengan sistem ventilasi, deteksi gas, dan prosedur keamanan ketat. Setiap area produksi memiliki zona yang jelas untuk proses berbeda, memastikan aliran produksi yang terorganisir dan meminimalkan risiko kontaminasi antar produk." },
+      "medical-equipment-1": { "alt": "Medical Equipment", "title": "Peralatan Medis", "description": "Peralatan medis menggunakan gas", "detailedDescription": "Peralatan medis yang menggunakan gas dari PT Surya Inti Gas memenuhi standar kesehatan internasional. Kami menyediakan gas untuk berbagai peralatan medis termasuk ventilator, anestesia, dan sistem oksigen rumah sakit. Setiap produk gas medis kami diproduksi dengan kemurnian tinggi dan sertifikasi yang diperlukan untuk penggunaan dalam fasilitas kesehatan." },
+      "cryogenic-1": { "alt": "Cryogenic System", "title": "Sistem Kriogenik", "description": "Sistem penyimpanan gas cair suhu rendah", "detailedDescription": "Sistem kriogenik PT Surya Inti Gas menggunakan teknologi canggih untuk penyimpanan gas cair pada suhu sangat rendah. Sistem ini mempertahankan gas dalam bentuk cair dengan efisiensi maksimal, memungkinkan penyimpanan volume besar dalam ruang kompak. Fasilitas kriogenik kami dilengkapi dengan sistem keamanan ganda dan pemantauan suhu 24 jam untuk keamanan operasional." },
+      "assembly-1": { "alt": "Assembly Line", "title": "Lini Perakitan", "description": "Lini perakitan tabung gas", "detailedDescription": "Lini perakitan tabung gas PT Surya Inti Gas menggunakan proses otomatis dan manual untuk memastikan kualitas setiap tabung. Setiap tabung melalui serangkaian tes kualitas termasuk tes tekanan dan kebocoran sebelum disetujui untuk distribusi. Lini perakitan kami dirancang untuk efisiensi produksi tinggi tanpa mengorbankan standar keamanan dan kualitas." },
+      "fire-safety-1": { "alt": "Fire Safety", "title": "Keselamatan Kebakaran", "description": "Sistem keselamatan kebakaran industri", "detailedDescription": "Sistem keselamatan kebakaran PT Surya Inti Gas dirancang sesuai standar keselamatan industri gas. Fasilitas kami dilengkapi dengan sistem deteksi api otomatis, hydrant, dan alat pemadam api yang mudah diakses. Rutin dilakukan simulasi kebakaran dan pelatihan penanganan darurat untuk memastikan kesiapan tim dalam menghadapi situasi darurat dengan cepat dan efektif." },
+      "transport-1": { "alt": "Gas Transport", "title": "Transportasi Gas", "description": "Kendaraan transportasi gas industri", "detailedDescription": "Kendaraan transportasi gas PT Surya Inti Gas dirancang khusus untuk mengangkut berbagai jenis gas dengan aman. Setiap kendaraan dilengkapi dengan sistem GPS, sensor kebocoran, dan kompartemen yang sesuai standar transportasi gas berbahaya. Tim pengemudi kami memiliki sertifikasi khusus dan mengikuti prosedur keamanan ketat dalam setiap pengiriman." },
+      "laboratory-2": { "alt": "Chemistry Lab", "title": "Laboratorium Kimia", "description": "Laboratorium untuk penelitian gas", "detailedDescription": "Laboratorium kimia PT Surya Inti Gas mendukung penelitian dan pengembangan produk gas baru. Fasilitas ini dilengkapi dengan peralatan analisis modern untuk riset komposisi gas, pengembangan formula baru, dan pengujian aplikasi gas. Tim riset kami bekerja secara terus-menerus untuk meningkatkan kualitas produk dan menemukan solusi gas inovatif untuk kebutuhan industri pelanggan." },
+      "regulator-1": { "alt": "Gas Regulator", "title": "Regulator Gas", "description": "Regulator untuk kontrol tekanan gas", "detailedDescription": "Regulator gas PT Surya Inti Gas dirancang untuk kontrol tekanan gas yang presisi dan aman. Regulator kami tersedia dalam berbagai kapasitas dan tipe sesuai kebutuhan aplikasi industri. Setiap unit dilengkapi dengan fitur keamanan seperti relief valve dan gauge tekanan untuk memastikan penggunaan gas yang aman dan efisien di lokasi pelanggan." }
+    }
+  },
   "career": {
     "title": "Karir",
     "subtitle": "Bergabung Bersama Kami",
@@ -574,6 +1019,212 @@
     },
     "employmentTypes": {
       "fullTime": "Full-time"
+    },
+    "page": {
+      "badge": "Karir",
+      "title": "Lowongan Pekerjaan",
+      "subtitle": "Temukan posisi yang sesuai dengan keahlian dan minat Anda",
+      "jobsAvailable": "{{count}} Pekerjaan Tersedia",
+      "searchPlaceholder": "Cari lowongan pekerjaan...",
+      "allDivisions": "Semua Divisi",
+      "allCities": "Semua Kota",
+      "allLevels": "Semua Jenjang",
+      "searchDivision": "Cari divisi...",
+      "searchCity": "Cari kota...",
+      "searchLevel": "Cari jenjang...",
+      "resetFilter": "Reset Filter",
+      "noJobsFound": "Tidak ada lowongan yang ditemukan dengan kriteria pencarian Anda.",
+      "deadlineLabel": "Batas Lamar: {{date}}",
+      "closed": "Ditutup",
+      "viewDetail": "Lihat Detail",
+      "apply": "Lamar",
+      "jobNotFound": "Lowongan tidak ditemukan.",
+      "backToListings": "Kembali ke Lowongan",
+      "jobDescription": "Deskripsi Pekerjaan",
+      "requirements": "Persyaratan",
+      "applicationClosed": "Lowongan Ditutup",
+      "applyNow": "Lamar Sekarang",
+      "backToDetail": "Kembali ke Detail Lowongan",
+      "formTitle": "Form Lamaran",
+      "position": "Posisi: {{title}}",
+      "applicationSuccessTitle": "Lamaran Berhasil Dikirim!",
+      "applicationSuccessMessage": "Terima kasih telah melamar untuk posisi {{title}}. Tim HR kami akan menghubungi Anda jika Anda memenuhi kualifikasi."
+    },
+    "form": {
+      "fullName": "Nama Lengkap *",
+      "fullNamePlaceholder": "Masukkan nama lengkap Anda",
+      "email": "Email *",
+      "emailPlaceholder": "contoh@email.com",
+      "phone": "Nomor Telepon *",
+      "phonePlaceholder": "08xxxxxxxxxx",
+      "address": "Alamat *",
+      "addressPlaceholder": "Alamat lengkap Anda",
+      "education": "Pendidikan Terakhir *",
+      "educationPlaceholder": "Contoh: S1 Teknik Mesin",
+      "experience": "Pengalaman Kerja *",
+      "experiencePlaceholder": "Contoh: 2 tahun di bidang sales",
+      "coverLetter": "Cover Letter",
+      "coverLetterPlaceholder": "Jelaskan mengapa Anda cocok untuk posisi ini...",
+      "resume": "CV/Resume * (PDF, DOC, DOCX - Max 5MB)",
+      "uploadCta": "Klik untuk upload CV/Resume",
+      "submit": "Kirim Lamaran",
+      "submitting": "Mengirim..."
+    },
+    "validation": {
+      "fullNameRequired": "Nama lengkap harus diisi",
+      "emailRequired": "Email harus diisi",
+      "emailInvalid": "Format email tidak valid",
+      "phoneRequired": "Nomor telepon harus diisi",
+      "addressRequired": "Alamat harus diisi",
+      "educationRequired": "Pendidikan terakhir harus diisi",
+      "experienceRequired": "Pengalaman kerja harus diisi",
+      "resumeRequired": "CV/Resume harus diunggah",
+      "resumeTypeInvalid": "Hanya file PDF, DOC, atau DOCX yang diperbolehkan",
+      "resumeSizeInvalid": "Ukuran file maksimal 5MB"
+    },
+    "aria": {
+      "backToListings": "Kembali ke daftar lowongan",
+      "backToDetail": "Kembali ke detail lowongan",
+      "applyForJob": "Lamar pekerjaan ini",
+      "applicationClosed": "Lamaran pekerjaan ditutup",
+      "submitApplication": "Kirim lamaran pekerjaan"
+    },
+    "jobDivisions": {
+      "salesMarketing": "Sales & Marketing",
+      "technicalOperations": "Technical Operations",
+      "financeAdmin": "Finance & Admin",
+      "logisticsDistribution": "Logistics & Distribution"
+    },
+    "jobLocations": {
+      "sidoarjo": "Sidoarjo",
+      "balikpapan": "Balikpapan"
+    },
+    "jobLevels": {
+      "entry": "Entry-level",
+      "mid": "Mid-level",
+      "senior": "Senior-level"
+    },
+    "jobTypes": {
+      "fullTime": "Full-time"
+    },
+    "jobs": {
+      "1": {
+        "title": "Sales Executive",
+        "description": "Bertanggung jawab atas penjualan produk gas industri ke pelanggan baru dan mempertahankan hubungan dengan pelanggan yang ada.",
+        "fullDescription": "Sales Executive bertanggung jawab untuk mengembangkan bisnis perusahaan dengan mencari pelanggan baru dan mempertahankan hubungan dengan pelanggan yang sudah ada. Tugas ini mencakup presentasi produk, negosiasi harga, dan mencapai target penjualan yang ditetapkan perusahaan.",
+        "requirements": [
+          "Pendidikan minimal D3/S1 semua jurusan",
+          "Pengalaman minimal 2 tahun di bidang sales",
+          "Kemampuan komunikasi dan negosiasi yang baik",
+          "Memiliki kendaraan pribadi dan SIM C",
+          "Mampu bekerja dengan target dan under pressure",
+          "Berdomisili di Sidoarjo atau sekitarnya"
+        ]
+      },
+      "2": {
+        "title": "Installation Technician",
+        "description": "Melakukan instalasi dan maintenance sistem gas industri, tabung bertekanan tinggi, dan peralatan terkait di lokasi pelanggan.",
+        "fullDescription": "Installation Technician bertanggung jawab untuk instalasi, maintenance, dan troubleshooting sistem gas industri di lokasi pelanggan. Tugas ini memastikan semua peralatan berfungsi dengan baik dan memenuhi standar keselamatan.",
+        "requirements": [
+          "Pendidikan minimal SMK Teknik Mesin/Teknik Listrik",
+          "Pengalaman minimal 2 tahun di bidang instalasi gas",
+          "Memiliki sertifikat keahlian teknik diutamakan",
+          "Mampu membaca schematic dan technical drawing",
+          "Bersedia bekerja di lapangan dan perjalanan dinas",
+          "Memahami standar keselamatan kerja"
+        ]
+      },
+      "3": {
+        "title": "Admin & Finance Staff",
+        "description": "Menangani administrasi keuangan dan operasional kantor, termasuk pembukuan, laporan keuangan, dan administrasi HR.",
+        "fullDescription": "Admin & Finance Staff bertanggung jawab untuk mengelola administrasi keuangan harian, pembukuan, pembuatan laporan keuangan, dan administrasi HR sederhana. Tugas ini mencakup pengeluaran operasional, invoice, dan dokumentasi kantor.",
+        "requirements": [
+          "Pendidikan minimal D3 Akuntansi/Manajemen Keuangan",
+          "Fresh graduate dipertimbangkan",
+          "Menguasai Microsoft Office (Excel, Word, PowerPoint)",
+          "Teliti dan terorganisir dalam administrasi",
+          "Mampu bekerja dalam tim maupun individu",
+          "Berdomisili di Balikpapan"
+        ]
+      },
+      "4": {
+        "title": "Gas Delivery Driver",
+        "description": "Bertanggung jawab pengiriman gas industri ke lokasi pelanggan dengan aman dan tepat waktu sesuai jadwal yang ditentukan.",
+        "fullDescription": "Gas Delivery Driver bertanggung jawab untuk mengantar produk gas industri ke lokasi pelanggan dengan aman dan tepat waktu. Tugas ini mencakup pengecekan kondisi tabung, pengiriman sesuai rute, dan dokumentasi pengiriman.",
+        "requirements": [
+          "Pendidikan minimal SMA/SMK sederajat",
+          "Memiliki SIM B1 yang masih berlaku",
+          "Pengalaman mengendarai truck min 3 tahun",
+          "Memahami rute Sidoarjo dan sekitarnya",
+          "Jujur, disiplin, dan bertanggung jawab",
+          "Bersedia bekerja dengan shift"
+        ]
+      },
+      "5": {
+        "title": "Quality Control Engineer",
+        "description": "Memastikan kualitas produk gas industri sesuai standar dan melakukan pengujian rutin terhadap produk.",
+        "fullDescription": "Quality Control Engineer bertanggung jawab untuk memastikan semua produk gas industri memenuhi standar kualitas yang ditetapkan. Tugas ini mencakup pengujian produk, inspeksi proses produksi, dan dokumentasi hasil QC.",
+        "requirements": [
+          "Pendidikan minimal S1 Teknik Kimia/Teknik Industri",
+          "Pengalaman minimal 2 tahun di bidang Quality Control",
+          "Memahami standar ISO dan regulasi industri gas",
+          "Mampu menganalisa data dan membuat laporan QC",
+          "Teliti dan detail dalam pemeriksaan",
+          "Bersedia bekerja di area produksi"
+        ]
+      },
+      "6": {
+        "title": "Marketing Specialist",
+        "description": "Mengembangkan strategi pemasaran dan mempromosikan produk gas industri kepada pasar target.",
+        "fullDescription": "Marketing Specialist bertanggung jawab untuk mengembangkan dan implementasi strategi pemasaran produk gas industri. Tugas ini mencakup market research, digital marketing, event management, dan analisis campaign.",
+        "requirements": [
+          "Pendidikan minimal S1 Marketing/Komunikasi",
+          "Pengalaman minimal 2 tahun di bidang marketing",
+          "Menguasai digital marketing dan social media",
+          "Kemampuan analisis pasar yang baik",
+          "Kreatif dalam membuat konten marketing",
+          "Berdomisili di Balikpapan"
+        ]
+      },
+      "7": {
+        "title": "Warehouse Supervisor",
+        "description": "Mengelola operasional gudang, inventaris, dan koordinasi distribusi produk gas.",
+        "fullDescription": "Warehouse Supervisor bertanggung jawab untuk mengelola seluruh operasional gudang termasuk receiving, storage, picking, packing, dan shipping. Tugas ini mencakup manajemen tim, inventory control, dan koordinasi dengan departemen lain.",
+        "requirements": [
+          "Pendidikan minimal D3/S1 Manajemen/Logistik",
+          "Pengalaman minimal 5 tahun di bidang warehouse",
+          "Pengalaman memimpin tim minimal 3 tahun",
+          "Menguasai sistem inventory management",
+          "Memiliki sertifikat forklift diutamakan",
+          "Mampu membuat laporan inventory dan KPI"
+        ]
+      },
+      "8": {
+        "title": "HR Manager",
+        "description": "Mengelola rekrutmen, pengembangan karyawan, dan kebijakan sumber daya manusia perusahaan.",
+        "fullDescription": "HR Manager bertanggung jawab untuk seluruh fungsi HR termasuk rekrutmen, training & development, compensation & benefits, employee relations, dan HR operations. Tugas ini mencakup pengembangan kebijakan HR dan implementasi strategi SDM.",
+        "requirements": [
+          "Pendidikan minimal S1 Psikologi/Hukum/Manajemen SDM",
+          "Pengalaman minimal 5 tahun di bidang HR",
+          "Pengalaman memimpin tim HR minimal 3 tahun",
+          "Memahami regulasi ketenagakerjaan Indonesia",
+          "Kemampuan leadership dan komunikasi yang kuat",
+          "Berdomisili di Balikpapan"
+        ]
+      },
+      "9": {
+        "title": "Safety Officer",
+        "description": "Memastikan kepatuhan terhadap standar keselamatan kerja dalam operasional gas industri.",
+        "fullDescription": "Safety Officer bertanggung jawab untuk memastikan kepatuhan terhadap standar keselamatan kerja (HSE) di seluruh operasional perusahaan. Tugas ini mencakup inspeksi keselamatan, investigasi kecelakaan, training K3, dan implementasi program keselamatan.",
+        "requirements": [
+          "Pendidikan minimal D3 K3/Teknik Lingkungan",
+          "Memiliki sertifikat Ahli K3 Umum/K3 Industri",
+          "Pengalaman minimal 3 tahun di bidang HSE",
+          "Memahami regulasi K3 dan perundangan terkait",
+          "Mampu melakukan audit keselamatan dan risiko assessment",
+          "Bersedia bekerja di area operasional"
+        ]
+      }
     },
     "openings": {
       "salesExecutive": {
@@ -758,6 +1409,11 @@
     "reset": "Reset",
     "loading": "Memuat...",
     "error": "Terjadi kesalahan",
-    "details": "Detail Produk"
+    "details": "Detail Produk",
+    "imageNotFound": "Gambar tidak ditemukan",
+    "selectCategoryAria": "Pilih kategori {{category}}",
+    "selectSubcategoryAria": "Pilih subkategori {{subcategory}}",
+    "backToTop": "Kembali ke atas",
+    "scrollToTop": "Gulir ke atas"
   }
 }
