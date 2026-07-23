@@ -364,13 +364,33 @@
       "badge": "Tentang Kami",
       "title": "Mengenal Lebih Dekat",
       "titleHighlight": "PT Surya Inti Gas",
-      "description": "Sejak 2003, kami telah menjadi mitra terpercaya dalam solusi gas industri untuk berbagai sektor di Indonesia, berkomitmen pada kualitas, inovasi, dan keberlanjutan."
+      "description": "Sejak 2003, kami telah menjadi mitra terpercaya dalam solusi gas industri untuk berbagai sektor di Indonesia, berkomitmen pada kualitas, inovasi, dan keberlanjutan.",
+      "breadcrumbHome": "Beranda"
+    },
+    "intro": {
+      "badge": "Profil Singkat",
+      "title": "Siapa Kami & Apa yang Kami Kerjakan",
+      "subtitle": "Mengenal PT Surya Inti Gas melalui tiga hal mendasar yang membentuk cara kami bekerja.",
+      "whoWeAre": {
+        "title": "Siapa Kami",
+        "text": "PT Surya Inti Gas berdiri sejak 2003 dan berdomisili di Sidoarjo, Jawa Timur. Kami hadir sebagai distributor gas industri yang terus berkembang, melayani berbagai sektor industri di Indonesia."
+      },
+      "whatWeDo": {
+        "title": "Apa yang Kami Kerjakan",
+        "text": "Kami menyediakan gas industri & cair, gas campur (mixed gas), speciality gas, medical gas, tabung bertekanan tinggi, cryogenic equipment, dry ice, hingga peralatan pendukungnya."
+      },
+      "whyChooseUs": {
+        "title": "Mengapa Memilih Kami",
+        "text": "Didukung armada pengiriman mandiri, tim berpengalaman, dan komitmen keselamatan, kami menjadi mitra andal bagi 150+ pelanggan industri di Indonesia."
+      }
     },
     "visionMission": {
+      "badge": "Visi & Misi",
       "title": "Tujuan dan Dedikasi Kami",
       "subtitle": "Visi dan misi yang menjadi landasan setiap langkah kami dalam melayani industri Indonesia."
     },
     "timeline": {
+      "badge": "Sejarah Kami",
       "title": "Perjalanan PT Surya Inti Gas",
       "subtitle": "Milestone penting dalam perjalanan kami menjadi pemimpin industri gas di Indonesia.",
       "imageAlt": "Foto {{year}} - {{title}}"
@@ -394,6 +414,7 @@
       }
     },
     "values": {
+      "badge": "Nilai Perusahaan",
       "title": "Nilai-nilai PT Surya Inti Gas",
       "subtitle": "Prinsip yang memandu setiap langkah kami dalam melayani pelanggan dan menjalankan bisnis.",
       "items": [
@@ -406,6 +427,52 @@
         { "title": "Inovasi", "description": "Melalui inovasi dan perbaikan berkelanjutan, kami terus meningkatkan efisiensi dan standar pelayanan." },
         { "title": "Kerja Sama Tim", "description": "Diperkuat oleh kerja sama tim yang solid untuk mencapai pertumbuhan dan keberhasilan bersama." }
       ]
+    },
+    "whyUs": {
+      "badge": "Keunggulan Kami",
+      "title": "Mengapa Memilih PT Surya Inti Gas",
+      "subtitle": "Enam alasan utama mengapa pelanggan industri mempercayakan kebutuhan gas mereka kepada kami.",
+      "items": [
+        { "title": "Produk Berkualitas Tinggi", "description": "Gas industri, medis, speciality, dan mixed gas yang memenuhi standar kualitas tinggi." },
+        { "title": "Distribusi Cepat & Tepat Waktu", "description": "Armada pengiriman mandiri yang siap melayani kebutuhan pelanggan secara tepat waktu." },
+        { "title": "Harga Kompetitif", "description": "Solusi gas industri dengan harga yang bersaing tanpa mengorbankan kualitas." },
+        { "title": "Tim Berpengalaman", "description": "Didukung sumber daya manusia yang kuat dan solid sejak berdiri tahun 2003." },
+        { "title": "Standar Keselamatan Tinggi", "description": "Keselamatan menjadi prioritas utama dalam setiap proses operasional kami." },
+        { "title": "Layanan Pelanggan Terbaik", "description": "Kepuasan pelanggan adalah prioritas kami, dengan pelayanan yang cepat dan responsif." }
+      ]
+    },
+    "stats": {
+      "badge": "Pencapaian Kami",
+      "title": "PT Surya Inti Gas dalam Angka",
+      "items": [
+        { "value": "20", "suffix": "+", "label": "Tahun Pengalaman" },
+        { "value": "150", "suffix": "+", "label": "Pelanggan Industri" },
+        { "value": "2", "suffix": "", "label": "Kantor Operasional" },
+        { "value": "24/7", "suffix": "", "label": "Dukungan Pelanggan" }
+      ]
+    },
+    "gallery": {
+      "badge": "Galeri",
+      "title": "Sekilas Fasilitas & Produk Kami",
+      "subtitle": "Dokumentasi kantor, fasilitas, dan produk PT Surya Inti Gas.",
+      "viewAll": "Lihat Semua Galeri",
+      "lightboxClose": "Tutup pratinjau gambar",
+      "lightboxPrev": "Gambar sebelumnya",
+      "lightboxNext": "Gambar berikutnya",
+      "items": [
+        { "title": "Kantor Operasional" },
+        { "title": "Fasilitas Perusahaan" },
+        { "title": "Area Kerja" },
+        { "title": "Tabung Oksigen" },
+        { "title": "Cryogenic Dewar" },
+        { "title": "ISO Tank" }
+      ]
+    },
+    "cta": {
+      "title": "Butuh Solusi Gas Industri yang Andal?",
+      "subtitle": "Tim kami siap membantu memenuhi kebutuhan gas industri, medis, dan speciality gas Anda dengan layanan terbaik.",
+      "primaryButton": "Hubungi Kami",
+      "secondaryButton": "Lihat Produk"
     }
   },
   "about": {

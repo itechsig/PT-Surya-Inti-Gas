@@ -655,13 +655,33 @@
       "badge": "关于我们",
       "title": "深入了解",
       "titleHighlight": "PT Surya Inti Gas",
-      "description": "自2003年以来，我们一直是印度尼西亚各行业工业气体解决方案的可信赖合作伙伴，致力于质量、创新和可持续发展。"
+      "description": "自2003年以来，我们一直是印度尼西亚各行业工业气体解决方案的可信赖合作伙伴，致力于质量、创新和可持续发展。",
+      "breadcrumbHome": "首页"
+    },
+    "intro": {
+      "badge": "公司概览",
+      "title": "我们是谁，我们做什么",
+      "subtitle": "通过三个基本方面深入了解PT Surya Inti Gas。",
+      "whoWeAre": {
+        "title": "我们是谁",
+        "text": "PT Surya Inti Gas自2003年成立，总部位于东爪哇泗水。我们是一家不断发展的工业气体分销商，服务于印度尼西亚各个工业领域。"
+      },
+      "whatWeDo": {
+        "title": "我们做什么",
+        "text": "我们提供工业气体和液态气体、混合气体、特种气体、医用气体、高压气瓶、低温设备、干冰及其配套设备。"
+      },
+      "whyChooseUs": {
+        "title": "为何选择我们",
+        "text": "凭借自有运输车队、经验丰富的团队和坚定的安全承诺，我们成为印度尼西亚150多家工业客户信赖的合作伙伴。"
+      }
     },
     "visionMission": {
+      "badge": "愿景与使命",
       "title": "我们的目标与使命",
       "subtitle": "我们服务印度尼西亚工业的每一步都以此愿景和使命为基础。"
     },
     "timeline": {
+      "badge": "我们的历程",
       "title": "PT Surya Inti Gas 的发展历程",
       "subtitle": "我们成为印度尼西亚气体行业领导者过程中的重要里程碑。",
       "imageAlt": "{{year}}年照片 - {{title}}"
@@ -685,6 +705,7 @@
       }
     },
     "values": {
+      "badge": "企业价值观",
       "title": "PT Surya Inti Gas 的核心价值观",
       "subtitle": "指导我们服务客户和运营业务每一步的原则。",
       "items": [
@@ -697,6 +718,52 @@
         { "title": "创新", "description": "通过创新和持续改进，不断提升效率和服务标准。" },
         { "title": "团队合作", "description": "依靠稳固的团队合作，共同实现成长与成功。" }
       ]
+    },
+    "whyUs": {
+      "badge": "我们的优势",
+      "title": "为何选择PT Surya Inti Gas",
+      "subtitle": "六大理由让工业客户信赖我们的气体解决方案。",
+      "items": [
+        { "title": "高品质产品", "description": "符合高质量标准的工业气体、医用气体、特种气体和混合气体。" },
+        { "title": "快速准时配送", "description": "自有运输车队，随时准时满足客户需求。" },
+        { "title": "价格具竞争力", "description": "在不牺牲质量的前提下提供具竞争力价格的工业气体解决方案。" },
+        { "title": "经验丰富的团队", "description": "自2003年成立以来，拥有强大而稳固的人力资源。" },
+        { "title": "高安全标准", "description": "安全是我们每一项运营流程的首要任务。" },
+        { "title": "卓越的客户服务", "description": "客户满意是我们的首要任务，提供快速且积极的服务。" }
+      ]
+    },
+    "stats": {
+      "badge": "我们的成就",
+      "title": "数字背后的PT Surya Inti Gas",
+      "items": [
+        { "value": "20", "suffix": "+", "label": "年经验" },
+        { "value": "150", "suffix": "+", "label": "工业客户" },
+        { "value": "2", "suffix": "", "label": "运营办公室" },
+        { "value": "24/7", "suffix": "", "label": "客户支持" }
+      ]
+    },
+    "gallery": {
+      "badge": "图库",
+      "title": "我们的设施与产品一览",
+      "subtitle": "PT Surya Inti Gas办公室、设施与产品的影像记录。",
+      "viewAll": "查看完整图库",
+      "lightboxClose": "关闭图片预览",
+      "lightboxPrev": "上一张图片",
+      "lightboxNext": "下一张图片",
+      "items": [
+        { "title": "运营办公室" },
+        { "title": "公司设施" },
+        { "title": "工作区域" },
+        { "title": "氧气瓶" },
+        { "title": "低温杜瓦瓶" },
+        { "title": "ISO罐" }
+      ]
+    },
+    "cta": {
+      "title": "需要可靠的工业气体解决方案？",
+      "subtitle": "我们的团队随时准备以优质服务满足您的工业、医用和特种气体需求。",
+      "primaryButton": "联系我们",
+      "secondaryButton": "查看产品"
     }
   },
   "about": {

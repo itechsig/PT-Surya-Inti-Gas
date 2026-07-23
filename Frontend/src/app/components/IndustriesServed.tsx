@@ -51,23 +51,6 @@ const css = `
     margin-bottom: 80px;
   }
 
-  .industries-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 24px;
-    border-radius: 50px;
-    background: rgba(30, 64, 175, 0.08);
-    border: 1px solid rgba(30, 64, 175, 0.15);
-    font-family: var(--ff-display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 24px;
-  }
-
   .industries-title {
     font-family: var(--ff-display);
     font-size: clamp(2.5rem, 5vw, 4rem);
@@ -360,9 +343,6 @@ export function IndustriesServed() {
 
           {/* Corporate Header */}
           <div className="industries-header">
-            <div className="industries-badge">
-              {t('industriesServed.badge')}
-            </div>
             <h2 className="industries-title">
               {t('industriesServed.title')}
             </h2>
