@@ -10,7 +10,6 @@ export const ContactPage = () => {
       {/* Hero Section */}
       <div className="contact-hero">
         <div className="clean-container">
-          <div className="contact-hero-badge">{t('contactPage.badge')}</div>
           <h1 className="contact-hero-title">{t('contactPage.title')}</h1>
           <p className="contact-hero-subtitle">{t('contactPage.subtitle')}</p>
         </div>

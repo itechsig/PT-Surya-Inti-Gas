@@ -42,23 +42,6 @@ const css = `
     color: var(--white);
   }
 
-  .distribution-hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 24px;
-    border-radius: 50px;
-    background: rgba(96, 165, 250, 0.15);
-    border: 1px solid rgba(96, 165, 250, 0.3);
-    font-family: var(--ff-display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 32px;
-  }
-
   .distribution-hero-title {
     font-family: var(--ff-display);
     font-size: clamp(2.5rem, 5vw, 4rem);
@@ -251,9 +234,6 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
       {showHero && (
         <section className="distribution-hero">
           <div className="distribution-hero-content">
-            <div className="distribution-hero-badge">
-              {t('distribution.page.badge')}
-            </div>
             <h1 className="distribution-hero-title">
               {t('distribution.page.title')} <span style={{ color: 'var(--white)' }}>{t('distribution.page.titleHighlight')}</span>
             </h1>

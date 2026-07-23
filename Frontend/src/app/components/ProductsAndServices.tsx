@@ -104,9 +104,6 @@ export function ProductsAndServices() {
 
           {/* Corporate Header */}
           <div className="products-header">
-            <div className="products-badge">
-              {t('products.pageHeader.badge')}
-            </div>
             <h2 className="products-title">
               {t('products.pageHeader.title')}
             </h2>

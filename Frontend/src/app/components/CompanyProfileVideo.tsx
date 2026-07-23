@@ -298,9 +298,9 @@ export function CompanyProfileVideo() {
           
           {/* Corporate Video Header */}
           <div className="video-header">
-            <div className="video-badge">
+            {/* <div className="video-badge">
               {t('companyProfileVideo.badge')}
-            </div>
+            </div> */}
             <h2 className="video-title">
               {t('companyProfileVideo.title')}
             </h2>

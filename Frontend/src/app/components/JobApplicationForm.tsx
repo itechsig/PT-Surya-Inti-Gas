@@ -134,7 +134,6 @@ export function JobApplicationForm() {
         <div className="career-hero">
           <div className="section-container">
             <div className="section-header">
-              <div className="career-hero-badge">{t('career.page.badge')}</div>
               <h2>{t('career.page.title')}</h2>
               <p>{t('career.page.subtitle')}</p>
               <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
@@ -155,7 +154,6 @@ export function JobApplicationForm() {
         <div className="career-hero">
           <div className="section-container">
             <div className="section-header">
-              <div className="career-hero-badge">{t('career.page.badge')}</div>
               <h2>{t('career.page.title')}</h2>
               <p>{t('career.page.subtitle')}</p>
               <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
@@ -182,7 +180,6 @@ export function JobApplicationForm() {
         <div className="career-hero">
           <div className="section-container">
             <div className="section-header">
-              <div className="career-hero-badge">{t('career.page.badge')}</div>
               <h2>{t('career.page.title')}</h2>
               <p>{t('career.page.subtitle')}</p>
               <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
@@ -211,7 +208,6 @@ export function JobApplicationForm() {
       <div className="career-hero">
         <div className="section-container">
           <div className="section-header">
-            <div className="career-hero-badge">{t('career.page.badge')}</div>
             <h2>{t('career.page.title')}</h2>
             <p>{t('career.page.subtitle')}</p>
             <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
