@@ -13,7 +13,7 @@ const structure: StructureItem[] = [
   { id: "company", image: "/images/products/20260618_134247.webp", ctaTo: (lang) => `/${lang}/produk` },
   { id: "oxygen", image: "/images/products/Oxygen-optimized.webp", ctaTo: (lang) => `/${lang}/produk/detail?id=oxygen` },
   { id: "nitrogen", image: "/images/products/Nitrogen-optimized.webp", ctaTo: (lang) => `/${lang}/produk/detail?id=nitrogen` },
-  { id: "co2", image: "/images/products/Storage_Tank_Gas.webp", ctaTo: (lang) => `/${lang}/produk` },
+  { id: "hidrogen", image: "/images/products/Hidrogen-optimized.webp", ctaTo: (lang) => `/${lang}/produk/detail?id=hidrogen` },
   { id: "argon", image: "/images/products/Argon-optimized.webp", ctaTo: (lang) => `/${lang}/produk/detail?id=argon` },
 ];
 

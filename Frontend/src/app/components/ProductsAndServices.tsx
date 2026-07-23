@@ -1,13 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import '../../styles/ProductsAndServices.css';
 import { getProductCategories, mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
 
-/* ═══════════════════════════════════════════════════════════════
-   PRODUCTS AND SERVICES.TSX — PT Surya Inti Gas Corporate
-   Corporate Design inspired by Linde, Samator, Yingde
-══════════════════════════════════════════════════════════════ */
 
 // Product Card Component
 function ProductCard({ product, onClick }: { product: Product; onClick: (id: string) => void }) {
@@ -57,6 +53,7 @@ function ProductCard({ product, onClick }: { product: Product; onClick: (id: str
 
 export function ProductsAndServices() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { t } = useTranslation();
   const productCategories = getProductCategories(t);
   const mainCategories: { id: MainCategory; label: string }[] = mainCategoryIds.map((id) => ({
@@ -66,11 +63,36 @@ export function ProductsAndServices() {
   const [mainCategory, setMainCategory] = useState<MainCategory>('gas');
   const [subCategory, setSubCategory] = useState<string>('industrial-medical');
 
+  // Handle URL parameters from mega menu
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const subcategoryParam = searchParams.get('subcategory');
+
+    if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
+      setMainCategory(categoryParam as MainCategory);
+      if (subcategoryParam && categoryParam === 'gas') {
+        setSubCategory(subcategoryParam);
+      } else if (categoryParam === 'gas') {
+        setSubCategory('industrial-medical');
+      } else {
+        setSubCategory('');
+      }
+    }
+  }, [searchParams]);
+
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;
     setMainCategory(category);
     // Set default subcategory for each main category
-    const newSubCategory = category === 'gas' ? 'industrial-medical' : 'color-code';
+    let newSubCategory: string;
+    if (category === 'gas') {
+      newSubCategory = 'industrial-medical';
+    } else if (category === 'package' || category === 'services') {
+      // For package and services, no subcategory needed
+      newSubCategory = '';
+    } else {
+      newSubCategory = 'industrial-medical';
+    }
     setSubCategory(newSubCategory);
   };
 
@@ -80,6 +102,10 @@ export function ProductsAndServices() {
   };
 
   const getSubCategories = () => {
+    // Package and services don't have subcategories
+    if (mainCategory === 'package' || mainCategory === 'services') {
+      return [];
+    }
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     return Object.keys(categories).map(key => ({
       id: key,
@@ -88,6 +114,12 @@ export function ProductsAndServices() {
   };
 
   const getCurrentProducts = () => {
+    // For package and services, get products directly
+    if (mainCategory === 'package' || mainCategory === 'services') {
+      const category = productCategories[mainCategory] as SubCategory;
+      return category?.products || [];
+    }
+    // For gas, get from subcategory
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     const subCat = categories[subCategory];
     return subCat?.products || [];

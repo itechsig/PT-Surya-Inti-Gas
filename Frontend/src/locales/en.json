@@ -6,12 +6,8 @@
     "productsServices": "Products & Services",
     "industrialMedical": "Industrial & Medical (Gas & Liquid)",
     "specialityMixed": "Speciality & Mixed Gas",
-    "colorCode": "Color Code High Pressure Gas Supply",
-    "package": "Package High Pressure Gas and Liquid Supply",
-    "assistGas": "Assist Gas for Laser Cutting",
-    "cryogenicTransport": "Cryogenic Transport Tank",
-    "regulatorValves": "Regulator and Valves",
-    "medicalGasEquipment": "Medical Gas Supply Equipment",
+    "package": "Package",
+    "services": "Services",
     "contact": "Contact",
     "career": "Career",
     "gallery": "Gallery",
@@ -23,13 +19,9 @@
       "gasProducts": "Gas Products",
       "industrialMedicalDesc": "Industrial and medical gases in gas and liquid form for various needs",
       "specialityMixedDesc": "Specialty and mixed gases with precise composition for sensitive applications",
-      "equipmentAccessories": "Equipment & Accessories",
-      "colorCodeDesc": "Color code system for high-pressure gas cylinder identification",
-      "packageDesc": "High-pressure gas and liquid supply in complete packages",
-      "assistGasDesc": "Assist gas for laser cutting processes with high precision",
-      "cryogenicTransportDesc": "Cryogenic transport tanks for storage and distribution of liquid gases",
-      "regulatorValvesDesc": "Regulators and valves for safe gas pressure control",
-      "medicalGasEquipmentDesc": "Medical gas supply equipment for hospitals and healthcare facilities"
+      "packageServices": "Package & Services",
+      "packageDesc": "High-pressure gas and liquid supply in complete packages including cylinders, cradles, tanks, and more",
+      "servicesDesc": "Professional gas services including installation, delivery, and refilling for your operational needs"
     }
   },
   "hero": {
@@ -74,6 +66,11 @@
         "title": "Carbon Dioxide (CO₂)",
         "description": "Suitable for beverage industries, food processing, fire suppression systems, welding, and industrial applications."
       },
+      "hidrogen": {
+        "subtitle": "Clean Fuel Gas",
+        "title": "Hydrogen (H₂)",
+        "description": "Used for oil refining, ammonia production, electronics manufacturing, and as alternative fuel for a greener future."
+      },
       "argon": {
         "subtitle": "Precision Gas Solution",
         "title": "Argon & Specialty Gas",
@@ -111,7 +108,13 @@
       "title": "Ordering Information",
       "description": "For more information on technical specifications, pricing, and ordering, please contact our sales team.",
       "button": "Ask Availability via WhatsApp",
-      "whatsappMessage": "Hello, I would like to ask about the availability of {{title}}. Is this product in stock?"
+      "whatsappMessage": "Hello, I would like to ask about the availability of {{title}}. Is this product in stock?",
+      "selectedPackaging": "Selected Packaging"
+    },
+    "packaging": {
+      "title": "Select Packaging",
+      "description": "Choose the packaging type for this gas product:",
+      "selectAria": "Select {{packaging}} packaging"
     }
   },
   "products": {
@@ -124,18 +127,13 @@
       "subtitle": "A wide range of gas products and supporting equipment designed to meet your operational needs."
     },
     "mainCategories": {
-      "gas": "Gas Product",
-      "equipment": "Related Equipment & Accessories"
+      "gas": "Gas Products",
+      "package": "Package",
+      "services": "Services"
     },
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Liquid)",
-      "speciality-mixed": "Speciality & Mixed Gas",
-      "color-code": "Color Code High Pressure Gas Supply",
-      "package": "Package High Pressure Gas and Liquid Supply",
-      "assist-gas": "Assist Gas for Laser Cutting",
-      "cryogenic-transport": "Cryogenic Transport Tank",
-      "regulator-valves": "Regulator and Valves",
-      "medical-gas-equipment": "Medical Gas Supply Equipment"
+      "speciality-mixed": "Speciality & Mixed Gas"
     },
     "items": {
       "acetylene": {
@@ -158,6 +156,11 @@
         "description": "Argon gas for TIG welding and electronics applications",
         "fullDescription": "Argon (Ar) is an inert gas most commonly used in TIG (Tungsten Inert Gas) and MIG welding for its ability to shield the weld area from atmospheric contamination. This gas is also used in the electronics industry for semiconductor and display panel manufacturing, in metallurgy for heat-treatment processes, and in the glass industry for producing high-quality glass. Argon is also used in laboratory analysis as a carrier gas and in the protection of precious metals. PT Surya Inti Gas supplies high-purity argon for a wide range of precision industrial applications."
       },
+      "carbon-dioxide": {
+        "title": "Carbon Dioxide (CO2)",
+        "description": "CO2 gas for food, beverage, and industrial applications",
+        "fullDescription": "Carbon Dioxide (CO2) is a gas widely used in various industries. In the food and beverage industry, CO2 is used for beverage carbonation, food preservation, and cooling. In industry, CO2 is used for fire suppression, welding, and as a raw material in chemical processes. CO2 is also used in agriculture for greenhouses and in medical applications for various procedures. PT Surya Inti Gas supplies CO2 in food grade and industrial grade quality according to your application needs."
+      },
       "hydrogen": {
         "title": "Hydrogen (H2)",
         "description": "Hydrogen gas for various industrial and energy applications",
@@ -178,40 +181,30 @@
         "description": "Custom gas mixtures for specific industrial applications",
         "fullDescription": "Mixed Gas is a combination of various gases specially formulated for specific industrial applications. These mixtures include calibration gases for measuring instruments, process gases for manufacturing industries, shielding gases for welding, and medical gas mixtures for healthcare applications. Each mixture is designed with a precise composition to meet each customer's specific needs. PT Surya Inti Gas supplies a wide range of mixed gases with compositions tailored to your application requirements."
       },
-      "color-code-acetylene": {
-        "title": "Acetylene",
-        "description": "Acetylene gas cylinder with standard color coding",
-        "fullDescription": "An acetylene gas cylinder with international standard color coding for gas identification and safety. This cylinder is designed to meet industrial safety standards for storing acetylene at high pressure. Color coding enables quick identification and helps prevent misuse. PT Surya Inti Gas supplies acetylene cylinders with material specifications and safety features that meet international standards."
-      },
-      "color-code-special": {
-        "title": "Special Gas Cylinder",
-        "description": "Special gas cylinder with color coding",
-        "fullDescription": "A special gas cylinder with color coding for specialty gases that require special handling. This cylinder is designed to store high-purity or reactive gases. Color coding helps identify the gas type and the required safety parameters. PT Surya Inti Gas supplies a range of special gas cylinders to suit your application needs."
-      },
-      "color-code-medical": {
-        "title": "Medical Gas Cylinder",
-        "description": "Medical gas cylinder with healthcare-standard color coding",
-        "fullDescription": "A medical gas cylinder with healthcare-standard color coding to ensure safety and accurate identification in medical applications. This cylinder meets international medical standards and is designed for maximum safety in hospital and healthcare facility use. Healthcare-standard color coding makes it easy to identify the correct medical gas type for each clinical application."
-      },
-      "color-code-industrial": {
-        "title": "Industrial Gas Cylinder",
-        "description": "Industrial gas cylinder with color coding",
-        "fullDescription": "An industrial gas cylinder with color coding for identification and safety in industrial applications. This cylinder is designed to withstand high pressure and demanding industrial operating conditions. The color-coding system helps with inventory management and prevents misuse of industrial gases. PT Surya Inti Gas supplies industrial gas cylinders in various sizes to suit your operational needs."
-      },
-      "package-high-pressure": {
-        "title": "High Pressure Gas Cylinder",
-        "description": "High-pressure gas cylinder for industry",
-        "fullDescription": "A high-pressure gas cylinder designed to store and distribute industrial gas at high pressure. This cylinder is made from high-quality materials with locking systems and safety features that meet international standards. Available in various capacities and pressure ratings to suit industrial application needs. PT Surya Inti Gas supplies high-pressure gas cylinders with safety certification and regular maintenance."
+      "cradle-2x2": {
+        "title": "Cradle (2x2)",
+        "description": "2x2 cradle rack for gas cylinder storage",
+        "fullDescription": "The 2x2 cradle is a gas cylinder storage system with a capacity of 4 cylinders (2 rows x 2 columns). This cradle is designed for space efficiency and easy cylinder handling. Suitable for industrial facilities that require a continuous gas supply at small to moderate capacity. PT Surya Inti Gas supplies the 2x2 cradle with locking systems and safety features."
       },
       "cradle-3x2": {
         "title": "Cradle (3x2)",
         "description": "3x2 cradle rack for gas cylinder storage",
         "fullDescription": "The 3x2 cradle is a gas cylinder storage system with a capacity of 6 cylinders (3 rows x 2 columns). This cradle is designed for space efficiency and easy cylinder handling. Suitable for industrial facilities that require a continuous gas supply at moderate capacity. PT Surya Inti Gas supplies the 3x2 cradle with locking systems and safety features."
       },
+      "cradle-3x3": {
+        "title": "Cradle (3x3)",
+        "description": "3x3 cradle rack for gas cylinder storage",
+        "fullDescription": "The 3x3 cradle is a gas cylinder storage system with a capacity of 9 cylinders (3 rows x 3 columns). This cradle is designed for space efficiency and easy cylinder handling. Suitable for industrial facilities that require a continuous gas supply at medium capacity. PT Surya Inti Gas supplies the 3x3 cradle with locking systems and safety features."
+      },
       "cradle-4x4": {
         "title": "Cradle (4x4)",
         "description": "Large-capacity 4x4 cradle rack",
         "fullDescription": "The 4x4 cradle is a gas cylinder storage system with a capacity of 16 cylinders (4 rows x 4 columns). This cradle is designed for industrial facilities with high gas consumption. The system maximizes storage capacity with an efficient footprint. PT Surya Inti Gas supplies the 4x4 cradle with sturdy construction and a complete safety system."
+      },
+      "cylinder": {
+        "title": "Cylinder",
+        "description": "Gas cylinder for various applications",
+        "fullDescription": "Gas cylinders are pressurized containers for storing and distributing industrial and medical gases. Available in various sizes and capacities to suit application needs. Gas cylinders are designed with high-quality materials and secure locking systems. PT Surya Inti Gas supplies various types of gas cylinders for industrial, medical, and laboratory applications."
       },
       "cryogenic-dewars": {
         "title": "Cryogenic Dewars",
@@ -233,60 +226,30 @@
         "description": "Vertical storage tank",
         "fullDescription": "A vertical storage tank is a liquid gas storage solution with an elongated design for space efficiency. This tank is suitable for facilities with limited space that require large storage capacity. The vertical design minimizes footprint while providing maximum capacity. PT Surya Inti Gas supplies vertical storage tanks that meet strict industrial safety standards."
       },
-      "assist-gas-cradle-4x4": {
-        "title": "Assist Gas Supply From Cradle Capacity 4x4 Cylinder",
-        "description": "Assist gas supply from a 4x4 capacity cradle for laser cutting",
-        "fullDescription": "An assist gas supply system from a 4x4 cylinder capacity cradle for industrial laser cutting applications. This system provides a continuous supply of gas (nitrogen, oxygen, or argon) for high-capacity laser cutting processes. The 4x4 cradle ensures a stable and consistent gas supply for optimal cutting quality. PT Surya Inti Gas supplies this system with configurations tailored to the type of laser and material being cut."
-      },
-      "microbulk-gas-supply": {
-        "title": "Microbulk Gas Supply",
-        "description": "Microbulk gas supply for laser cutting applications",
-        "fullDescription": "A microbulk gas supply system for laser cutting applications with high efficiency. This system replaces multiple cylinders with a microbulk tank that can be monitored and refilled automatically. Microbulk supply reduces downtime and handling costs while providing a consistent gas supply for laser cutting processes. PT Surya Inti Gas supplies microbulk solutions with integrated monitoring and maintenance systems."
-      },
-      "storage-tank-gas-supply": {
-        "title": "Storage Tank Gas Supply",
-        "description": "Gas supply from a storage tank",
-        "fullDescription": "A gas supply system from a storage tank for industrial applications with high gas consumption. This system uses a large-capacity storage tank that provides a continuous gas supply for various industrial processes. Suitable for facilities that require a stable and economical gas supply over the long term. PT Surya Inti Gas supplies storage tank solutions with designs tailored to operational needs."
-      },
-      "liquid-filling-transfer": {
-        "title": "Liquid Filling Transfer",
-        "description": "Liquid gas filling transfer system",
-        "fullDescription": "A liquid gas filling transfer system safely and efficiently moves liquid gas from a storage tank to a trailer or dewar. This system is equipped with valves, hoses, and a control panel to control the flow of liquid gas, preventing evaporation and leakage during the transfer process. PT Surya Inti Gas supplies transfer systems with high safety standards for various types of liquid gas."
-      },
-      "cryogenic-iso-tank": {
-        "title": "Cryogenic ISO Tank",
+      "iso-tank": {
+        "title": "ISO Tank",
         "description": "Cryogenic ISO tank for transport",
         "fullDescription": "A cryogenic ISO tank is an internationally standardized container for transporting liquid gas at extremely low temperatures. This tank meets ISO standards for multimodal transport (road, sea, air) and is equipped with advanced vacuum insulation systems. Suitable for distributing liquid gas across countries or long distances. PT Surya Inti Gas supplies cryogenic ISO tanks with international certification and monitoring systems."
       },
-      "cryogenic-road-tank": {
-        "title": "Cryogenic Road Tank",
-        "description": "Cryogenic road tank for distribution",
-        "fullDescription": "A cryogenic road tank is a specialized vehicle for distributing liquid gas by road. This tank is designed with efficient thermal insulation to maintain cryogenic temperatures during transit. Suitable for distributing liquid gas between industrial facilities and consumption sites. PT Surya Inti Gas provides liquid gas distribution services with a road tank fleet that meets safety standards."
+      "lorry-tank": {
+        "title": "Lorry Tank",
+        "description": "Cryogenic lorry tank for distribution",
+        "fullDescription": "A cryogenic lorry tank is a specialized vehicle for distributing liquid gas by road. This tank is designed with efficient thermal insulation to maintain cryogenic temperatures during transit. Suitable for distributing liquid gas between industrial facilities and consumption sites. PT Surya Inti Gas provides liquid gas distribution services with a lorry tank fleet that meets safety standards."
       },
-      "cryogenic-gas-valve": {
-        "title": "Cryogenic & Gas Valve",
-        "description": "Cryogenic and gas valves for various applications",
-        "fullDescription": "Cryogenic and gas valves are vital components for controlling gas flow in a wide range of low- and normal-temperature applications. These valves are specially designed to withstand extreme temperature conditions and high pressure. Available in various types such as globe valves, ball valves, and check valves to suit application needs. PT Surya Inti Gas supplies valves made from high-quality materials with safety certification."
+      "installation": {
+        "title": "Installation",
+        "description": "Industrial gas system installation service",
+        "fullDescription": "Industrial gas system installation service includes planning, installation, and commissioning of gas systems for industrial and medical facilities. Our experienced technicians install pipelines, manifolds, regulators, and gas safety systems. We ensure installation meets international safety standards and the specific operational needs of customers. PT Surya Inti Gas provides installation services with quality assurance and technical support."
       },
-      "gas-regulator-laser": {
-        "title": "Gas Regulator for Cutting Gas Laser Machine",
-        "description": "Special gas regulator for laser cutting machines",
-        "fullDescription": "A special gas regulator for laser cutting machines is designed to provide precise pressure control for the laser cutting process. This regulator ensures a stable and consistent gas supply (nitrogen, oxygen, or argon) for optimal cutting quality. Equipped with a gauge and adjustment valve for high precision. PT Surya Inti Gas supplies laser cutting regulators with specifications suited to various types of laser machines."
+      "delivery": {
+        "title": "Delivery",
+        "description": "Gas delivery service to customer locations",
+        "fullDescription": "Our gas delivery service includes distribution of gas cylinders, bulk liquid gas, and cryogenic tanks to customer locations throughout Indonesia. Our fleet is equipped with safety systems and monitoring to ensure safe and timely delivery. We provide delivery schedules that can be customized to customer operational needs. PT Surya Inti Gas guarantees efficient and reliable delivery."
       },
-      "high-pressure-regulator": {
-        "title": "High Pressure Regulator",
-        "description": "High-pressure regulator for industrial applications",
-        "fullDescription": "A high-pressure regulator is designed to control gas pressure from a cylinder or manifold with high input pressure. This regulator provides stable and safe output pressure for industrial applications. Suitable for welding, cutting, and other industrial processes. PT Surya Inti Gas supplies high-pressure regulators in various capacities and specifications to suit your needs."
-      },
-      "high-pressure-gas-valve": {
-        "title": "High Pressure Gas Valve",
-        "description": "High-pressure gas valve for gas systems",
-        "fullDescription": "A high-pressure gas valve is a vital safety component for high-pressure gas systems. This valve is designed to withstand high pressure and provide precise flow control. Available in various types and materials to suit the gas type and application. PT Surya Inti Gas supplies high-pressure valves with safety certification and reliable performance."
-      },
-      "gdms-systems": {
-        "title": "GDMS Systems",
-        "description": "Integrated medical gas distribution management system",
-        "fullDescription": "GDMS (Gas Distribution Management System) is an integrated system for managing medical gas distribution in healthcare facilities. This system includes pressure monitoring, safety alarms, and a control panel to ensure a continuous and safe medical gas supply. GDMS simplifies the management of oxygen, nitrogen, nitrous oxide, and other medical gases in hospitals. PT Surya Inti Gas supplies GDMS with the latest technology in accordance with international medical standards."
+      "refilling": {
+        "title": "Refilling",
+        "description": "Cylinder and tank gas refilling service",
+        "fullDescription": "Gas refilling service includes refill of industrial and medical gas cylinders, as well as filling of bulk liquid tanks and cryogenic vessels. Our refilling facilities are equipped with modern equipment and quality control systems to ensure gas purity and safety. We provide on-site refilling and exchange systems for operational efficiency. PT Surya Inti Gas guarantees consistent gas quality for every refill."
       }
     }
   },

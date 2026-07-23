@@ -6,12 +6,8 @@
     "productsServices": "产品与服务",
     "industrialMedical": "工业与医疗（气体与液体）",
     "specialityMixed": "特种与混合气体",
-    "colorCode": "颜色编码高压气体供应",
-    "package": "包装高压气体和液体供应",
-    "assistGas": "激光切割辅助气体",
-    "cryogenicTransport": "低温运输罐",
-    "regulatorValves": "调节器和阀门",
-    "medicalGasEquipment": "医疗气体供应设备",
+    "package": "包装",
+    "services": "服务",
     "contact": "联系我们",
     "career": "招聘",
     "gallery": "画廊",
@@ -23,13 +19,9 @@
       "gasProducts": "气体产品",
       "industrialMedicalDesc": "用于各种需求的工业和医用气体及液体形式",
       "specialityMixedDesc": "用于敏感应用的精确组成的特种和混合气体",
-      "equipmentAccessories": "设备与配件",
-      "colorCodeDesc": "用于高压气瓶识别的颜色编码系统",
-      "packageDesc": "完整包装的高压气体和液体供应",
-      "assistGasDesc": "用于高精度激光切割工艺的辅助气体",
-      "cryogenicTransportDesc": "用于液态气体储存和分销的低温运输罐",
-      "regulatorValvesDesc": "用于安全气体压力控制的调节器和阀门",
-      "medicalGasEquipmentDesc": "用于医院和医疗保健设施的医用气体供应设备"
+      "packageServices": "包装与服务",
+      "packageDesc": "完整包装的高压气体和液体供应，包括气瓶、摇篮、储罐等",
+      "servicesDesc": "专业气体服务，包括安装、交付和充装，满足您的运营需求"
     }
   },
   "hero": {
@@ -74,6 +66,11 @@
         "title": "二氧化碳 (CO₂)",
         "description": "适用于饮料行业、食品加工、消防系统、焊接及工业应用。"
       },
+      "hidrogen": {
+        "subtitle": "清洁燃料气体",
+        "title": "氢气 (H₂)",
+        "description": "用于石油精炼、氨气生产、电子制造，以及作为更绿色未来的替代燃料。"
+      },
       "argon": {
         "subtitle": "精密气体解决方案",
         "title": "氩气与特种气体",
@@ -111,7 +108,13 @@
       "title": "订购信息",
       "description": "如需了解更多技术规格、价格及订购信息，请联系我们的销售团队。",
       "button": "通过WhatsApp咨询库存",
-      "whatsappMessage": "您好，我想咨询{{title}}产品的库存情况。请问该产品是否有货？"
+      "whatsappMessage": "您好，我想咨询{{title}}产品的库存情况。请问该产品是否有货？",
+      "selectedPackaging": "选择的包装"
+    },
+    "packaging": {
+      "title": "选择包装",
+      "description": "为此气体产品选择包装类型：",
+      "selectAria": "选择{{packaging}}包装"
     }
   },
   "products": {
@@ -125,17 +128,12 @@
     },
     "mainCategories": {
       "gas": "气体产品",
-      "equipment": "相关设备与配件"
+      "package": "包装",
+      "services": "服务"
     },
     "categories": {
       "industrial-medical": "工业与医用（气态与液态）",
-      "speciality-mixed": "特种与混合气体",
-      "color-code": "高压气体供应色标",
-      "package": "高压气体与液体供应套装",
-      "assist-gas": "激光切割辅助气体",
-      "cryogenic-transport": "低温运输罐",
-      "regulator-valves": "调节器与阀门",
-      "medical-gas-equipment": "医用气体供应设备"
+      "speciality-mixed": "特种与混合气体"
     },
     "items": {
       "acetylene": {
@@ -158,6 +156,11 @@
         "description": "用于TIG焊接和电子应用的氩气",
         "fullDescription": "氩气（Ar）是最常用于TIG（钨极惰性气体保护焊）和MIG焊接的惰性气体，能够保护焊接区域免受大气污染。该气体还用于电子行业的半导体和显示面板制造、冶金行业的热处理工艺，以及玻璃行业的高质量玻璃生产。氩气还用作实验室分析的载气及贵金属保护气体。PT Surya Inti Gas为各种精密工业应用提供高纯度氩气。"
       },
+      "carbon-dioxide": {
+        "title": "二氧化碳 (CO2)",
+        "description": "用于食品、饮料和工业应用的CO2气体",
+        "fullDescription": "二氧化碳（CO2）是广泛应用于各种行业的气体。在食品和饮料行业，CO2用于饮料碳酸化、食品保鲜和冷却。在工业领域，CO2用于灭火、焊接以及作为化学工艺的原料。CO2还用于农业温室和医疗领域的各种程序。PT Surya Inti Gas根据您的应用需求提供食品级和工业级质量的CO2。"
+      },
       "hydrogen": {
         "title": "氢气 (H2)",
         "description": "用于各种工业和能源应用的氢气",
@@ -178,40 +181,30 @@
         "description": "针对特定工业应用的定制混合气体",
         "fullDescription": "混合气体是为特定工业应用专门配制的多种气体组合。这些混合气体包括用于测量仪器的校准气体、用于制造业的工艺气体、用于焊接的保护气体，以及用于医疗应用的医用混合气体。每种混合气体均按精确配比设计，以满足客户的具体需求。PT Surya Inti Gas提供多种可根据您的应用需求定制配比的混合气体。"
       },
-      "color-code-acetylene": {
-        "title": "乙炔",
-        "description": "带标准色标的乙炔气瓶",
-        "fullDescription": "带有国际标准色标的乙炔气瓶，用于气体识别和安全防护。该气瓶按照工业安全标准设计，用于在高压下储存乙炔。色标有助于快速识别并防止误用。PT Surya Inti Gas提供符合国际标准的材料规格和安全特性的乙炔气瓶。"
-      },
-      "color-code-special": {
-        "title": "特种气体气瓶",
-        "description": "带色标的特种气体气瓶",
-        "fullDescription": "带色标的特种气体气瓶，适用于需要特殊处理的特种气体。该气瓶设计用于储存高纯度或反应性气体。色标有助于识别气体类型及所需的安全参数。PT Surya Inti Gas提供多种特种气体气瓶，满足您的应用需求。"
-      },
-      "color-code-medical": {
-        "title": "医用气体气瓶",
-        "description": "带医疗标准色标的医用气体气瓶",
-        "fullDescription": "带医疗标准色标的医用气体气瓶，确保医疗应用中的安全性和准确识别。该气瓶符合国际医疗标准，专为医院和医疗机构使用的最高安全性而设计。医疗标准色标便于为每种临床应用识别正确的医用气体类型。"
-      },
-      "color-code-industrial": {
-        "title": "工业气体气瓶",
-        "description": "带色标的工业气体气瓶",
-        "fullDescription": "带色标的工业气体气瓶，用于工业应用中的识别和安全防护。该气瓶设计用于承受高压和恶劣的工业操作条件。色标系统有助于库存管理并防止工业气体误用。PT Surya Inti Gas提供多种规格的工业气体气瓶，满足您的运营需求。"
-      },
-      "package-high-pressure": {
-        "title": "高压气瓶",
-        "description": "用于工业的高压气瓶",
-        "fullDescription": "高压气瓶专为在高压下储存和分配工业气体而设计。该气瓶采用高质量材料制成，配备符合国际标准的锁定系统和安全特性。提供多种容量和压力规格，满足工业应用需求。PT Surya Inti Gas提供带有安全认证并定期维护的高压气瓶。"
+      "cradle-2x2": {
+        "title": "护笼 (2x2)",
+        "description": "用于气瓶存储的2x2护笼架",
+        "fullDescription": "2x2护笼是一种容量为4个气瓶（2行x2列）的气瓶储存系统。该护笼设计注重空间效率和气瓶搬运的便利性。适用于需要小到中等容量持续气体供应的工业设施。PT Surya Inti Gas提供带锁定系统和安全特性的2x2护笼。"
       },
       "cradle-3x2": {
         "title": "护笼 (3x2)",
         "description": "用于气瓶存储的3x2护笼架",
         "fullDescription": "3x2护笼是一种容量为6个气瓶（3行x2列）的气瓶储存系统。该护笼设计注重空间效率和气瓶搬运的便利性。适用于需要中等容量持续气体供应的工业设施。PT Surya Inti Gas提供带锁定系统和安全特性的3x2护笼。"
       },
+      "cradle-3x3": {
+        "title": "护笼 (3x3)",
+        "description": "用于气瓶存储的3x3护笼架",
+        "fullDescription": "3x3护笼是一种容量为9个气瓶（3行x3列）的气瓶储存系统。该护笼设计注重空间效率和气瓶搬运的便利性。适用于需要中等容量持续气体供应的工业设施。PT Surya Inti Gas提供带锁定系统和安全特性的3x3护笼。"
+      },
       "cradle-4x4": {
         "title": "护笼 (4x4)",
         "description": "大容量4x4护笼架",
         "fullDescription": "4x4护笼是一种容量为16个气瓶（4行x4列）的气瓶储存系统。该护笼专为气体消耗量大的工业设施设计。该系统以高效的占地面积最大化储存容量。PT Surya Inti Gas提供结构坚固、安全系统完善的4x4护笼。"
+      },
+      "cylinder": {
+        "title": "气瓶",
+        "description": "用于各种应用的气瓶",
+        "fullDescription": "气瓶是用于储存和分配工业及医用气体的压力容器。提供多种规格和容量，满足应用需求。气瓶采用高质量材料设计，配备安全的锁定系统。PT Surya Inti Gas为工业、医疗和实验室应用提供多种类型的气瓶。"
       },
       "cryogenic-dewars": {
         "title": "低温杜瓦瓶",
@@ -233,60 +226,30 @@
         "description": "立式储罐",
         "fullDescription": "立式储罐是一种采用细长设计以提高空间效率的液态气体储存解决方案。该储罐适用于空间有限但需要大储存容量的设施。立式设计在提供最大容量的同时将占地面积降至最低。PT Surya Inti Gas提供符合严格工业安全标准的立式储罐。"
       },
-      "assist-gas-cradle-4x4": {
-        "title": "4x4护笼容量辅助气体供应",
-        "description": "来自4x4容量护笼的激光切割辅助气体供应",
-        "fullDescription": "来自4x4气瓶容量护笼的辅助气体供应系统，适用于工业激光切割应用。该系统为高容量激光切割工艺提供持续的气体供应（氮气、氧气或氩气）。4x4护笼确保稳定一致的气体供应，实现最佳切割质量。PT Surya Inti Gas提供可根据激光类型和切割材料定制配置的该系统。"
-      },
-      "microbulk-gas-supply": {
-        "title": "微型散装气体供应",
-        "description": "用于激光切割应用的微型散装气体供应",
-        "fullDescription": "用于激光切割应用的高效微型散装气体供应系统。该系统用可自动监控和补充的微型散装罐取代多个气瓶。微型散装供应减少了停机时间和搬运成本，同时为激光切割工艺提供稳定的气体供应。PT Surya Inti Gas提供带有集成监控和维护系统的微型散装解决方案。"
-      },
-      "storage-tank-gas-supply": {
-        "title": "储罐气体供应",
-        "description": "来自储罐的气体供应",
-        "fullDescription": "来自储罐的气体供应系统，适用于气体消耗量大的工业应用。该系统使用大容量储罐为各种工业工艺提供持续的气体供应。适用于需要长期稳定且经济的气体供应的设施。PT Surya Inti Gas提供可根据运营需求定制设计的储罐解决方案。"
-      },
-      "liquid-filling-transfer": {
-        "title": "液体灌装转注",
-        "description": "液态气体灌装转注系统",
-        "fullDescription": "液态气体灌装转注系统用于安全高效地将液态气体从储罐转移到拖车或杜瓦瓶。该系统配备阀门、软管和控制面板，以控制液态气体流量，防止转注过程中的蒸发和泄漏。PT Surya Inti Gas提供适用于各种液态气体、具有高安全标准的转注系统。"
-      },
-      "cryogenic-iso-tank": {
-        "title": "低温ISO罐",
+      "iso-tank": {
+        "title": "ISO罐",
         "description": "用于运输的低温ISO罐",
         "fullDescription": "低温ISO罐是用于在极低温度下运输液态气体的国际标准集装箱。该罐体符合多式联运（公路、海运、空运）的ISO标准，并配备先进的真空绝热系统。适用于跨国或长途的液态气体配送。PT Surya Inti Gas提供具有国际认证和监控系统的低温ISO罐。"
       },
-      "cryogenic-road-tank": {
-        "title": "低温公路罐车",
-        "description": "用于配送的低温公路罐车",
-        "fullDescription": "低温公路罐车是通过公路配送液态气体的专用车辆。该罐车采用高效热绝缘设计，在运输过程中维持低温。适用于工业设施与消费地点之间的液态气体配送。PT Surya Inti Gas提供符合安全标准的公路罐车车队液态气体配送服务。"
+      "lorry-tank": {
+        "title": "罐车",
+        "description": "用于配送的低温罐车",
+        "fullDescription": "低温罐车是通过公路配送液态气体的专用车辆。该罐车采用高效热绝缘设计，在运输过程中维持低温。适用于工业设施与消费地点之间的液态气体配送。PT Surya Inti Gas提供符合安全标准的罐车车队液态气体配送服务。"
       },
-      "cryogenic-gas-valve": {
-        "title": "低温与气体阀门",
-        "description": "适用于各种应用的低温与气体阀门",
-        "fullDescription": "低温与气体阀门是控制各种低温及常温应用中气体流量的关键部件。这些阀门专为承受极端温度条件和高压而设计。提供球阀、截止阀和止回阀等多种类型，满足应用需求。PT Surya Inti Gas提供采用高质量材料制造并具有安全认证的阀门。"
+      "installation": {
+        "title": "安装",
+        "description": "工业气体系统安装服务",
+        "fullDescription": "工业气体系统安装服务包括为工业和医疗设施进行气体系统的规划、安装和调试。我们经验丰富的技术人员安装管道、集气管、调节器和气体安全系统。我们确保安装符合国际安全标准和客户的具体运营需求。PT Surya Inti Gas提供具有质量保证和技术支持的安装服务。"
       },
-      "gas-regulator-laser": {
-        "title": "激光切割气体调节器",
-        "description": "专用于激光切割机的气体调节器",
-        "fullDescription": "专用于激光切割机的气体调节器，旨在为激光切割工艺提供精确的压力控制。该调节器确保稳定一致的气体供应（氮气、氧气或氩气），以实现最佳切割质量。配备压力表和调节阀，实现高精度控制。PT Surya Inti Gas提供适用于各种激光切割机型号规格的调节器。"
+      "delivery": {
+        "title": "配送",
+        "description": "将气体配送至客户地点的服务",
+        "fullDescription": "我们的气体配送服务包括将气瓶、散装液态气体和低温罐配送至印度尼西亚各地的客户地点。我们的车队配备安全系统和监控，确保安全及时的配送。我们提供可根据客户运营需求定制的配送时间表。PT Surya Inti Gas保证高效可靠的配送。"
       },
-      "high-pressure-regulator": {
-        "title": "高压调节器",
-        "description": "用于工业应用的高压调节器",
-        "fullDescription": "高压调节器专为控制来自气瓶或集气管的高输入压力气体而设计。该调节器为工业应用提供稳定安全的输出压力。适用于焊接、切割及其他工业工艺。PT Surya Inti Gas提供多种容量和规格的高压调节器，满足您的需求。"
-      },
-      "high-pressure-gas-valve": {
-        "title": "高压气体阀门",
-        "description": "用于气体系统的高压气体阀门",
-        "fullDescription": "高压气体阀门是高压气体系统中至关重要的安全部件。该阀门设计用于承受高压并提供精确的流量控制。提供多种类型和材质，满足不同气体类型和应用需求。PT Surya Inti Gas提供具有安全认证和可靠性能的高压阀门。"
-      },
-      "gdms-systems": {
-        "title": "GDMS系统",
-        "description": "集成医用气体配送管理系统",
-        "fullDescription": "GDMS（气体配送管理系统）是用于医疗机构医用气体配送管理的集成系统。该系统包括压力监测、安全报警和控制面板，确保持续安全的医用气体供应。GDMS简化了医院氧气、氮气、笑气及其他医用气体的管理。PT Surya Inti Gas提供采用最新技术、符合国际医疗标准的GDMS系统。"
+      "refilling": {
+        "title": "充装",
+        "description": "气瓶和储罐气体充装服务",
+        "fullDescription": "气体充装服务包括工业和医用气瓶的充装，以及散装液态罐和低温容器的充装。我们的充装设施配备现代设备和质量控制系统，确保气体纯度和安全。我们提供现场充装和交换系统，提高运营效率。PT Surya Inti Gas保证每次充装的气体质量一致。"
       }
     }
   },
