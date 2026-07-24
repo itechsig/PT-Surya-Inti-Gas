@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import '../../styles/ProductsAndServices.css';
 import { useProductDetail } from "../../hooks/useProductDetail";
+import { useProductCatalog } from "../../hooks/useProductCatalog";
+import type { Product, SubCategory } from "../../data/products";
 
 export function ProductDetail() {
   const [searchParams] = useSearchParams();
@@ -12,15 +14,29 @@ export function ProductDetail() {
   const { t } = useTranslation();
   const productSlug = searchParams.get('id');
   const { data: productData, isLoading } = useProductDetail(productSlug, currentLang);
+  const { categories: productCategories } = useProductCatalog(currentLang);
   const [imageError, setImageError] = useState(false);
+  const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
 
   const handleBack = () => {
     navigate(`/${currentLang}/produk`);
   };
 
+  const getPackagingOptions = () => {
+    const packageCategory = productCategories.equipment?.package as SubCategory | undefined;
+    return packageCategory?.products || [];
+  };
+
   const handleContactSales = (productTitle: string) => {
     const whatsappNumber = '6281233906378';
-    const message = t('productDetail.contact.whatsappMessage', { title: productTitle });
+    let message = t('productDetail.contact.whatsappMessage', { title: productTitle });
+
+    // Add selected packaging information if available
+    if (selectedPackaging && productData?.mainCategory === 'gas') {
+      const packagingLabel = t(`products.items.${selectedPackaging}.title`);
+      message += `\n${t('productDetail.contact.selectedPackaging')}: ${packagingLabel}`;
+    }
+    
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -145,56 +161,90 @@ export function ProductDetail() {
                 {product.fullDescription || product.description}
               </p>
 
-              <div className="products-detail-info">
-                <h3>{t('productDetail.info.title')}</h3>
-                <div className="product-specifications">
-                  <div className="spec-item">
-                    <span className="spec-label">{t('productDetail.info.productId')}</span>
-                    <span className="spec-value">{product.id}</span>
-                  </div>
-                  <div className="spec-item">
-                    <span className="spec-label">{t('productDetail.info.category')}</span>
-                    <span className="spec-value">{categoryLabel}</span>
-                  </div>
-                  <div className="spec-item">
-                    <span className="spec-label">{t('productDetail.info.subCategory')}</span>
-                    <span className="spec-value">{subCategoryLabel}</span>
-                  </div>
-                  <div className="spec-item">
-                    <span className="spec-label">{t('productDetail.info.availability')}</span>
-                    <span className="spec-value available">{t('productDetail.info.available')}</span>
-                  </div>
-                  <div className="spec-item">
-                    <span className="spec-label">{t('productDetail.info.quality')}</span>
-                    <span className="spec-value">{t('productDetail.info.qualityValue')}</span>
-                  </div>
-                  <div className="spec-item">
-                    <span className="spec-label">{t('productDetail.info.shipping')}</span>
-                    <span className="spec-value">{t('productDetail.info.shippingValue')}</span>
-                  </div>
-                </div>
+              {/* Product Information and Applications Only for Gas Products */}
+              {productData?.mainCategory === 'gas' && (
+                <>
+                  <div className="products-detail-info">
+                    <h3>{t('productDetail.info.title')}</h3>
+                    <div className="product-specifications">
+                      <div className="spec-item">
+                        <span className="spec-label">{t('productDetail.info.productId')}</span>
+                        <span className="spec-value">{product.id}</span>
+                      </div>
+                      <div className="spec-item">
+                        <span className="spec-label">{t('productDetail.info.category')}</span>
+                        <span className="spec-value">{categoryLabel}</span>
+                      </div>
+                      <div className="spec-item">
+                        <span className="spec-label">{t('productDetail.info.subCategory')}</span>
+                        <span className="spec-value">{subCategoryLabel}</span>
+                      </div>
+                      <div className="spec-item">
+                        <span className="spec-label">{t('productDetail.info.availability')}</span>
+                        <span className="spec-value available">{t('productDetail.info.available')}</span>
+                      </div>
+                      <div className="spec-item">
+                        <span className="spec-label">{t('productDetail.info.quality')}</span>
+                        <span className="spec-value">{t('productDetail.info.qualityValue')}</span>
+                      </div>
+                      <div className="spec-item">
+                        <span className="spec-label">{t('productDetail.info.shipping')}</span>
+                        <span className="spec-value">{t('productDetail.info.shippingValue')}</span>
+                      </div>
+                    </div>
 
-                <div className="product-applications">
-                  <h4>{t('productDetail.applications.title')}</h4>
-                  <ul>
-                    {(t('productDetail.applications.items', { returnObjects: true }) as string[]).map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
+                    <div className="product-applications">
+                      <h4>{t('productDetail.applications.title')}</h4>
+                      <ul>
+                        {(t('productDetail.applications.items', { returnObjects: true }) as string[]).map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
 
-                <div className="product-contact">
-                  <h4>{t('productDetail.contact.title')}</h4>
-                  <p>{t('productDetail.contact.description')}</p>
-                  <button className="contact-button" onClick={() => handleContactSales(product.title)}>
-                    {t('productDetail.contact.button')}
-                  </button>
-                </div>
-              </div>
+                  {/* Packaging Selection for Gas Products */}
+                  <div className="product-packaging">
+                    <h4>{t('productDetail.packaging.title')}</h4>
+                    <p>{t('productDetail.packaging.description')}</p>
+                    <div className="packaging-options">
+                      {getPackagingOptions().map((packaging: Product) => (
+                        <button
+                          key={packaging.id}
+                          className={`packaging-option ${selectedPackaging === packaging.id ? 'selected' : ''}`}
+                          onClick={() => setSelectedPackaging(selectedPackaging === packaging.id ? null : packaging.id)}
+                          aria-label={t('productDetail.packaging.selectAria', { packaging: packaging.title })}
+                          aria-pressed={selectedPackaging === packaging.id}
+                        >
+                          <div className="packaging-option-image">
+                            <img
+                              src={packaging.image}
+                              alt={packaging.title}
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
+                            />
+                          </div>
+                          <span className="packaging-option-title">{packaging.title}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* WhatsApp Contact Button Only for Gas Products */}
+                  <div className="product-contact">
+                    <h4>{t('productDetail.contact.title')}</h4>
+                    <p>{t('productDetail.contact.description')}</p>
+                    <button className="contact-button" onClick={() => handleContactSales(product.title)}>
+                      {t('productDetail.contact.button')}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
-
         </div>
+
       </section>
     </div>
   );

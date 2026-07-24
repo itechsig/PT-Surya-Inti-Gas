@@ -34,14 +34,10 @@ const NAV_LINKS: NavItem[] = [
         ]
       },
       {
-        titleKey: "header.megaMenu.equipmentAccessories",
+        titleKey: "header.megaMenu.packageServices",
         items: [
-          { nameKey: "header.colorCode", href: "/produk?category=equipment&subcategory=color-code", descriptionKey: "header.megaMenu.colorCodeDesc" },
-          { nameKey: "header.package", href: "/produk?category=equipment&subcategory=package", descriptionKey: "header.megaMenu.packageDesc" },
-          { nameKey: "header.assistGas", href: "/produk?category=equipment&subcategory=assist-gas", descriptionKey: "header.megaMenu.assistGasDesc" },
-          { nameKey: "header.cryogenicTransport", href: "/produk?category=equipment&subcategory=cryogenic-transport", descriptionKey: "header.megaMenu.cryogenicTransportDesc" },
-          { nameKey: "header.regulatorValves", href: "/produk?category=equipment&subcategory=regulator-valves", descriptionKey: "header.megaMenu.regulatorValvesDesc" },
-          { nameKey: "header.medicalGasEquipment", href: "/produk?category=equipment&subcategory=medical-gas-equipment", descriptionKey: "header.megaMenu.medicalGasEquipmentDesc" },
+          { nameKey: "header.package", href: "/produk?category=package", descriptionKey: "header.megaMenu.packageDesc" },
+          { nameKey: "header.services", href: "/produk?category=services", descriptionKey: "header.megaMenu.servicesDesc" },
         ]
       }
     ]

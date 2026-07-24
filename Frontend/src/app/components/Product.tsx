@@ -77,24 +77,20 @@ export function Product() {
   useEffect(() => {
     const categoryParam = searchParams.get('category');
     const subcategoryParam = searchParams.get('subcategory');
-    
-    if (categoryParam && (categoryParam === 'gas' || categoryParam === 'equipment')) {
-      setMainCategory(categoryParam);
-      if (subcategoryParam) {
-        setSubCategory(subcategoryParam);
-      } else {
-        // Set default subcategory for the main category
-        setSubCategory(categoryParam === 'gas' ? 'industrial-medical' : 'color-code');
-      }
+
+    if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
+      setMainCategory(categoryParam as MainCategory);
+      const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
+      const firstSubCategory = Object.keys(categories)[0] || '';
+      setSubCategory(subcategoryParam && categories[subcategoryParam] ? subcategoryParam : firstSubCategory);
     }
-  }, [searchParams]);
+  }, [searchParams, productCategories]);
 
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;
     setMainCategory(category);
-    // Set default subcategory for each main category
-    const newSubCategory = category === 'gas' ? 'industrial-medical' : 'color-code';
-    setSubCategory(newSubCategory);
+    const categories = productCategories[category] as Record<string, SubCategory>;
+    setSubCategory(Object.keys(categories)[0] || '');
   };
 
   const handleSubCategoryChange = (subCatId: string) => {
@@ -103,10 +99,10 @@ export function Product() {
   };
 
   const getSubCategories = () => {
-    const categories = productCategories[mainCategory] as Record<string, SubCategory>;
-    return Object.keys(categories).map(key => ({
+    const categoryData = productCategories[mainCategory] as Record<string, SubCategory>;
+    return Object.keys(categoryData).map(key => ({
       id: key,
-      title: categories[key]?.title || ''
+      title: categoryData[key]?.title || ''
     }));
   };
 
@@ -179,24 +175,26 @@ export function Product() {
             ))}
           </div>
 
-          {/* Sub-Category Navigation */}
-          <div className="products-subcategories">
-            {getSubCategories().map((subCat) => (
-              <button
-                key={subCat.id}
-                className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
-                onClick={() => handleSubCategoryChange(subCat.id)}
-                aria-label={t('common.selectSubcategoryAria', { subcategory: subCat.title })}
-                aria-pressed={subCategory === subCat.id}
-              >
-                {subCat.title}
-              </button>
-            ))}
-          </div>
+          {/* Sub-Category Navigation - only for gas category */}
+          {getSubCategories().length > 0 && (
+            <div className="products-subcategories">
+              {getSubCategories().map((subCat) => (
+                <button
+                  key={subCat.id}
+                  className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
+                  onClick={() => handleSubCategoryChange(subCat.id)}
+                  aria-label={t('common.selectSubcategoryAria', { subcategory: subCat.title })}
+                  aria-pressed={subCategory === subCat.id}
+                >
+                  {subCat.title}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Corporate Products Grid */}
           <div className="products-grid">
-            {getCurrentProducts().map((product) => (
+            {getCurrentProducts().map((product: Product) => (
               <ProductCard
                 key={product.id}
                 product={product}

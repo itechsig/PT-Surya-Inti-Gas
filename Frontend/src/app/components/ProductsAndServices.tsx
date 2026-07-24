@@ -1,14 +1,10 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import '../../styles/ProductsAndServices.css';
 import { mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 
-/* ═══════════════════════════════════════════════════════════════
-   PRODUCTS AND SERVICES.TSX — PT Surya Inti Gas Corporate
-   Corporate Design inspired by Linde, Samator, Yingde
-══════════════════════════════════════════════════════════════ */
 
 // Product Card Component
 function ProductCard({ product, onClick }: { product: Product; onClick: (id: string) => void }) {
@@ -58,6 +54,7 @@ function ProductCard({ product, onClick }: { product: Product; onClick: (id: str
 
 export function ProductsAndServices() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { t } = useTranslation();
   const { lang } = useParams<{ lang: string }>();
   const { categories: productCategories } = useProductCatalog(lang || "id");
@@ -68,12 +65,24 @@ export function ProductsAndServices() {
   const [mainCategory, setMainCategory] = useState<MainCategory>('gas');
   const [subCategory, setSubCategory] = useState<string>('industrial-medical');
 
+  // Handle URL parameters from mega menu
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const subcategoryParam = searchParams.get('subcategory');
+
+    if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
+      setMainCategory(categoryParam as MainCategory);
+      const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
+      const firstSubCategory = Object.keys(categories)[0] || '';
+      setSubCategory(subcategoryParam && categories[subcategoryParam] ? subcategoryParam : firstSubCategory);
+    }
+  }, [searchParams, productCategories]);
+
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;
     setMainCategory(category);
-    // Set default subcategory for each main category
-    const newSubCategory = category === 'gas' ? 'industrial-medical' : 'color-code';
-    setSubCategory(newSubCategory);
+    const categories = productCategories[category] as Record<string, SubCategory>;
+    setSubCategory(Object.keys(categories)[0] || '');
   };
 
   const handleSubCategoryChange = (subCatId: string) => {
@@ -96,7 +105,7 @@ export function ProductsAndServices() {
   };
 
   const handleCardClick = (productId: string) => {
-    navigate(`/produk/detail?id=${productId}`);
+    navigate(`/${lang || 'id'}/produk/detail?id=${productId}`);
   };
 
   return (
