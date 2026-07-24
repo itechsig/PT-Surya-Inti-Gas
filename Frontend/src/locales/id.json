@@ -6,12 +6,8 @@
     "productsServices": "Produk & Layanan",
     "industrialMedical": "Industrial & Medical (Gas & Cair)",
     "specialityMixed": "Speciality & Mixed Gas",
-    "colorCode": "Color Code High Pressure Gas Supply",
-    "package": "Package High Pressure Gas and Liquid Supply",
-    "assistGas": "Assist Gas for Laser Cutting",
-    "cryogenicTransport": "Cryogenic Transport Tank",
-    "regulatorValves": "Regulator dan Valves",
-    "medicalGasEquipment": "Medical Gas Supply Equipment",
+    "package": "Package",
+    "services": "Layanan",
     "contact": "Kontak",
     "career": "Karir",
     "gallery": "Galeri",
@@ -23,13 +19,9 @@
       "gasProducts": "Produk Gas",
       "industrialMedicalDesc": "Gas industri dan medis dalam bentuk gas maupun cair untuk berbagai kebutuhan",
       "specialityMixedDesc": "Gas khusus dan gas campuran dengan komposisi presisi untuk aplikasi sensitif",
-      "equipmentAccessories": "Peralatan & Aksesoris",
-      "colorCodeDesc": "Sistem kode warna untuk identifikasi tabung gas bertekanan tinggi",
-      "packageDesc": "Pasokan gas bertekanan tinggi dan cair dalam paket lengkap",
-      "assistGasDesc": "Gas bantu untuk proses pemotongan laser dengan presisi tinggi",
-      "cryogenicTransportDesc": "Tangki transport kriogenik untuk penyimpanan dan distribusi gas cair",
-      "regulatorValvesDesc": "Regulator dan katup untuk kontrol tekanan gas yang aman",
-      "medicalGasEquipmentDesc": "Peralatan pasokan gas medis untuk rumah sakit dan fasilitas kesehatan"
+      "packageServices": "Package & Layanan",
+      "packageDesc": "Pasokan gas bertekanan tinggi dan cair dalam paket lengkap termasuk tabung, cradle, tangki, dan lainnya",
+      "servicesDesc": "Layanan gas profesional termasuk instalasi, pengiriman, dan pengisian ulang untuk kebutuhan operasional Anda"
     }
   },
   "hero": {
@@ -74,6 +66,11 @@
         "title": "Karbon Dioksida (CO₂)",
         "description": "Cocok untuk industri minuman, pengolahan makanan, sistem pemadam kebakaran, pengelasan, dan berbagai aplikasi industri."
       },
+      "hidrogen": {
+        "subtitle": "Gas Bahan Bakar Bersih",
+        "title": "Hidrogen (H₂)",
+        "description": "Digunakan untuk pengolahan minyak, produksi amonia, manufaktur elektronik, dan sebagai bahan bakar alternatif untuk masa depan yang lebih hijau."
+      },
       "argon": {
         "subtitle": "Solusi Gas Presisi",
         "title": "Argon & Gas Khusus",
@@ -111,7 +108,13 @@
       "title": "Informasi Pemesanan",
       "description": "Untuk informasi lebih lanjut tentang spesifikasi teknis, harga, dan pemesanan, silakan hubungi tim sales kami.",
       "button": "Tanya Ketersediaan via WhatsApp",
-      "whatsappMessage": "Halo, saya ingin menanyakan persediaan produk {{title}}. Apakah produk ini tersedia?"
+      "whatsappMessage": "Halo, saya ingin menanyakan persediaan produk {{title}}. Apakah produk ini tersedia?",
+      "selectedPackaging": "Kemasan yang Dipilih"
+    },
+    "packaging": {
+      "title": "Pilih Kemasan",
+      "description": "Pilih jenis kemasan untuk produk gas ini:",
+      "selectAria": "Pilih kemasan {{packaging}}"
     }
   },
   "products": {
@@ -125,17 +128,12 @@
     },
     "mainCategories": {
       "gas": "Produk Gas",
-      "equipment": "Peralatan & Aksesoris Terkait"
+      "package": "Package",
+      "services": "Layanan"
     },
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Cair)",
-      "speciality-mixed": "Speciality & Mixed Gas",
-      "color-code": "Color Code High Pressure Gas Supply",
-      "package": "Package High Pressure Gas and Liquid Supply",
-      "assist-gas": "Assist Gas for Laser Cutting",
-      "cryogenic-transport": "Cryogenic Transport Tank",
-      "regulator-valves": "Regulator dan Valve",
-      "medical-gas-equipment": "Medical Gas Supply Equipment"
+      "speciality-mixed": "Speciality & Mixed Gas"
     },
     "items": {
       "acetylene": {
@@ -158,6 +156,11 @@
         "description": "Gas argon untuk pengelasan TIG dan aplikasi elektronik",
         "fullDescription": "Argon (Ar) adalah gas inert yang paling sering digunakan dalam pengelasan TIG (Tungsten Inert Gas) dan MIG karena kemampuannya untuk melindungi area las dari kontaminasi atmosfer. Gas ini juga digunakan dalam industri elektronik untuk pembuatan semikonduktor dan panel layar, dalam metalurgi untuk proses perlakuan panas, serta dalam industri kaca untuk produksi kaca berkualitas tinggi. Argon juga digunakan dalam analisis laboratorium sebagai gas pembawa dan dalam perlindungan logam mulia. PT Surya Inti Gas menyediakan argon dengan kemurnian tinggi untuk berbagai aplikasi industri presisi."
       },
+      "carbon-dioxide": {
+        "title": "Karbon Dioksida (CO2)",
+        "description": "Gas CO2 untuk industri makanan, minuman, dan aplikasi industri",
+        "fullDescription": "Karbon Dioksida (CO2) adalah gas yang banyak digunakan dalam berbagai industri. Dalam industri makanan dan minuman, CO2 digunakan untuk karbonasi minuman, pengawetan makanan, dan pendinginan. Dalam industri, CO2 digunakan untuk pemadam kebakaran, pengelasan, dan sebagai bahan baku dalam proses kimia. CO2 juga digunakan dalam pertanian untuk greenhouse dan dalam industri medis untuk berbagai prosedur. PT Surya Inti Gas menyediakan CO2 dengan kualitas food grade dan industrial grade sesuai kebutuhan aplikasi Anda."
+      },
       "hydrogen": {
         "title": "Hidrogen (H2)",
         "description": "Gas hidrogen untuk berbagai aplikasi industri dan energi",
@@ -178,40 +181,30 @@
         "description": "Gas campuran khusus untuk aplikasi industri tertentu",
         "fullDescription": "Gas campuran (Mixed Gas) adalah kombinasi berbagai gas yang diformulasikan khusus untuk aplikasi industri tertentu. Campuran ini mencakup gas calibrasi untuk instrumen pengukuran, gas proses untuk industri manufaktur, gas shielding untuk pengelasan, dan gas campuran medis untuk aplikasi kesehatan. Setiap campuran dirancang dengan komposisi yang presisi untuk memenuhi kebutuhan spesifik pelanggan. PT Surya Inti Gas menyediakan berbagai jenis gas campuran dengan komposisi yang dapat disesuaikan sesuai kebutuhan aplikasi Anda."
       },
-      "color-code-acetylene": {
-        "title": "Acetylene",
-        "description": "Tabung gas asetilena dengan color code standar",
-        "fullDescription": "Tabung gas asetilena dengan color code standar internasional untuk identifikasi gas dan keamanan. Tabung ini dirancang sesuai standar keamanan industri untuk menyimpan asetilena pada tekanan tinggi. Color code membantu dalam identifikasi cepat dan mencegah kesalahan penggunaan. PT Surya Inti Gas menyediakan tabung asetilena dengan spesifikasi material dan safety features yang memenuhi standar internasional."
-      },
-      "color-code-special": {
-        "title": "Special Gas Cylinder",
-        "description": "Tabung gas khusus dengan color code",
-        "fullDescription": "Tabung gas khusus dengan color code untuk gas-gas spesial yang memerlukan penanganan khusus. Tabung ini dirancang untuk menyimpan gas dengan tingkat kemurnian tinggi atau gas yang reaktif. Color code membantu dalam identifikasi jenis gas dan parameter keamanan yang diperlukan. PT Surya Inti Gas menyediakan berbagai tabung gas khusus sesuai kebutuhan aplikasi Anda."
-      },
-      "color-code-medical": {
-        "title": "Medical Gas Cylinder",
-        "description": "Tabung gas medis dengan color code standar kesehatan",
-        "fullDescription": "Tabung gas medis dengan color code standar kesehatan untuk memastikan keamanan dan identifikasi yang tepat dalam aplikasi medis. Tabung ini memenuhi standar medis internasional dan dirancang untuk keamanan maksimal dalam penggunaan rumah sakit dan fasilitas kesehatan. Color code standar kesehatan memudahkan identifikasi jenis gas medis yang tepat untuk setiap aplikasi klinis."
-      },
-      "color-code-industrial": {
-        "title": "Industrial Gas Cylinder",
-        "description": "Tabung gas industri dengan color code",
-        "fullDescription": "Tabung gas industri dengan color code untuk identifikasi dan keamanan dalam aplikasi industri. Tabung ini dirancang untuk menahan tekanan tinggi dan kondisi operasional industri yang berat. Color code sistem membantu dalam manajemen inventory dan mencegah kesalahan penggunaan gas industri. PT Surya Inti Gas menyediakan berbagai ukuran tabung gas industri sesuai kebutuhan operasional Anda."
-      },
-      "package-high-pressure": {
-        "title": "High Pressure Gas Cylinder",
-        "description": "Tabung gas tekanan tinggi untuk industri",
-        "fullDescription": "Tabung gas tekanan tinggi dirancang untuk menyimpan dan mendistribusikan gas industri pada tekanan tinggi. Tabung ini dibuat dari material berkualitas tinggi dengan sistem penguncian dan safety features yang memenuhi standar internasional. Tersedia dalam berbagai kapasitas dan tekanan sesuai kebutuhan aplikasi industri. PT Surya Inti Gas menyediakan tabung gas tekanan tinggi dengan sertifikasi keamanan dan maintenance berkala."
+      "cradle-2x2": {
+        "title": "Cradle (2x2)",
+        "description": "Rangka cradle 2x2 untuk penyimpanan tabung gas",
+        "fullDescription": "Rangka cradle 2x2 adalah sistem penyimpanan tabung gas dengan kapasitas 4 tabung (2 baris x 2 kolom). Cradle ini dirancang untuk efisiensi ruang dan kemudahan handling tabung gas. Cocok untuk fasilitas industri yang membutuhkan supply gas kontinyu dengan kapasitas kecil hingga sedang. PT Surya Inti Gas menyediakan cradle 2x2 dengan sistem penguncian dan safety features."
       },
       "cradle-3x2": {
         "title": "Cradle (3x2)",
         "description": "Rangka cradle 3x2 untuk penyimpanan tabung gas",
         "fullDescription": "Rangka cradle 3x2 adalah sistem penyimpanan tabung gas dengan kapasitas 6 tabung (3 baris x 2 kolom). Cradle ini dirancang untuk efisiensi ruang dan kemudahan handling tabung gas. Cocok untuk fasilitas industri yang membutuhkan supply gas kontinyu dengan kapasitas sedang. PT Surya Inti Gas menyediakan cradle 3x2 dengan sistem penguncian dan safety features."
       },
+      "cradle-3x3": {
+        "title": "Cradle (3x3)",
+        "description": "Rangka cradle 3x3 untuk penyimpanan tabung gas",
+        "fullDescription": "Rangka cradle 3x3 adalah sistem penyimpanan tabung gas dengan kapasitas 9 tabung (3 baris x 3 kolom). Cradle ini dirancang untuk efisiensi ruang dan kemudahan handling tabung gas. Cocok untuk fasilitas industri yang membutuhkan supply gas kontinyu dengan kapasitas menengah. PT Surya Inti Gas menyediakan cradle 3x3 dengan sistem penguncian dan safety features."
+      },
       "cradle-4x4": {
         "title": "Cradle (4x4)",
         "description": "Rangka cradle 4x4 kapasitas besar",
         "fullDescription": "Rangka cradle 4x4 adalah sistem penyimpanan tabung gas dengan kapasitas 16 tabung (4 baris x 4 kolom). Cradle ini dirancang untuk fasilitas industri dengan konsumsi gas tinggi. Sistem ini memaksimalkan kapasitas penyimpanan dengan footprint yang efisien. PT Surya Inti Gas menyediakan cradle 4x4 dengan konstruksi kokoh dan sistem keamanan lengkap."
+      },
+      "cylinder": {
+        "title": "Cylinder",
+        "description": "Tabung gas untuk berbagai aplikasi",
+        "fullDescription": "Tabung gas adalah wadah bertekanan untuk menyimpan dan mendistribusikan gas industri dan medis. Tersedia dalam berbagai ukuran dan kapasitas sesuai kebutuhan aplikasi. Tabung gas dirancang dengan material berkualitas tinggi dan sistem penguncian yang aman. PT Surya Inti Gas menyediakan berbagai jenis tabung gas untuk aplikasi industri, medis, dan laboratorium."
       },
       "cryogenic-dewars": {
         "title": "Cryogenic Dewars",
@@ -233,60 +226,30 @@
         "description": "Tangki penyimpanan vertikal",
         "fullDescription": "Tangki penyimpanan vertikal adalah solusi penyimpanan gas cair dengan desain memanjang untuk efisiensi ruang. Tangki ini cocok untuk fasilitas dengan area terbatas dan membutuhkan kapasitas penyimpanan besar. Desain vertikal meminimalkan footprint sambil memberikan kapasitas maksimal. PT Surya Inti Gas menyediakan tangki penyimpanan vertikal dengan standar keamanan industri yang ketat."
       },
-      "assist-gas-cradle-4x4": {
-        "title": "Assist Gas Supply From Cradle Capacity 4x4 Cylinder",
-        "description": "Supply gas bantu dari cradle kapasitas 4x4 untuk laser cutting",
-        "fullDescription": "Sistem supply gas bantu dari cradle kapasitas 4x4 cylinder untuk aplikasi laser cutting industri. Sistem ini menyediakan supply gas kontinyu (nitrogen, oksigen, atau argon) untuk proses laser cutting dengan kapasitas tinggi. Cradle 4x4 memastikan supply gas yang stabil dan konsisten untuk kualitas pemotongan yang optimal. PT Surya Inti Gas menyediakan sistem ini dengan konfigurasi yang dapat disesuaikan dengan jenis laser dan material yang dipotong."
-      },
-      "microbulk-gas-supply": {
-        "title": "Microbulk Gas Supply",
-        "description": "Supply gas microbulk untuk aplikasi laser cutting",
-        "fullDescription": "Sistem supply gas microbulk untuk aplikasi laser cutting dengan efisiensi tinggi. Sistem ini menggantikan multiple cylinder dengan tangki microbulk yang dapat dipantau dan diisi secara otomatis. Microbulk supply mengurangi downtime dan handling costs sambil memberikan supply gas yang konsisten untuk proses laser cutting. PT Surya Inti Gas menyediakan solusi microbulk dengan sistem monitoring dan maintenance yang terintegrasi."
-      },
-      "storage-tank-gas-supply": {
-        "title": "Storage Tank Gas Supply",
-        "description": "Supply gas dari tangki penyimpanan",
-        "fullDescription": "Sistem supply gas dari tangki penyimpanan untuk aplikasi industri dengan konsumsi gas tinggi. Sistem ini menggunakan tangki penyimpanan kapasitas besar yang memberikan supply gas kontinyu untuk berbagai proses industri. Cocok untuk fasilitas yang membutuhkan supply gas yang stabil dan ekonomis dalam jangka panjang. PT Surya Inti Gas menyediakan solusi tangki penyimpanan dengan desain yang sesuai kebutuhan operasional."
-      },
-      "liquid-filling-transfer": {
-        "title": "Liquid Filling Transfer",
-        "description": "Sistem transfer pengisian gas cair",
-        "fullDescription": "Sistem transfer pengisian gas cair adalah perangkat untuk memindahkan gas cair dari storage tank ke trailer atau dewars dengan aman dan efisien. Sistem ini dilengkapi dengan valve, hose, dan control panel untuk mengontrol aliran gas cair. Mencegah evaporasi dan kebocoran selama proses transfer. PT Surya Inti Gas menyediakan sistem transfer dengan standar keamanan tinggi untuk berbagai jenis gas cair."
-      },
-      "cryogenic-iso-tank": {
-        "title": "Cryogenic ISO Tank",
+      "iso-tank": {
+        "title": "ISO Tank",
         "description": "Tangki ISO kriogenik untuk transport",
         "fullDescription": "Tangki ISO kriogenik adalah kontainer standar internasional untuk transport gas cair pada suhu sangat rendah. Tangki ini memenuhi standar ISO untuk transport multimoda (darat, laut, udara) dan dilengkapi dengan sistem isolasi vakum canggih. Cocok untuk distribusi gas cair antar negara atau jarak jauh. PT Surya Inti Gas menyediakan ISO tank kriogenik dengan sertifikasi internasional dan sistem monitoring."
       },
-      "cryogenic-road-tank": {
-        "title": "Cryogenic Road Tank",
-        "description": "Tangki jalan kriogenik untuk distribusi",
-        "fullDescription": "Tangki jalan kriogenik adalah kendaraan khusus untuk distribusi gas cair melalui jalan raya. Tangki ini dirancang dengan isolasi termal yang efisien untuk mempertahankan suhu kriogenik selama perjalanan. Cocok untuk distribusi gas cair antar fasilitas industri dan lokasi konsumsi. PT Surya Inti Gas menyediakan layanan distribusi gas cair dengan armada road tank yang memenuhi standar keamanan."
+      "lorry-tank": {
+        "title": "Lorry Tank",
+        "description": "Tangki lorry kriogenik untuk distribusi",
+        "fullDescription": "Tangki lorry kriogenik adalah kendaraan khusus untuk distribusi gas cair melalui jalan raya. Tangki ini dirancang dengan isolasi termal yang efisien untuk mempertahankan suhu kriogenik selama perjalanan. Cocok untuk distribusi gas cair antar fasilitas industri dan lokasi konsumsi. PT Surya Inti Gas menyediakan layanan distribusi gas cair dengan armada lorry tank yang memenuhi standar keamanan."
       },
-      "cryogenic-gas-valve": {
-        "title": "Cryogenic & Gas Valve",
-        "description": "Valve kriogenik dan gas untuk berbagai aplikasi",
-        "fullDescription": "Valve kriogenik dan gas adalah komponen vital untuk mengontrol aliran gas dalam berbagai aplikasi suhu rendah maupun normal. Valve ini dirancang khusus untuk menahan kondisi suhu ekstrem dan tekanan tinggi. Tersedia dalam berbagai jenis seperti globe valve, ball valve, dan check valve sesuai kebutuhan aplikasi. PT Surya Inti Gas menyediakan valve dengan material berkualitas tinggi dan sertifikasi keamanan."
+      "installation": {
+        "title": "Instalasi",
+        "description": "Layanan instalasi sistem gas industri",
+        "fullDescription": "Layanan instalasi sistem gas industri mencakup perencanaan, instalasi, dan commissioning sistem gas untuk fasilitas industri dan medis. Tim teknisi kami berpengalaman dalam memasang pipeline, manifold, regulator, dan sistem keamanan gas. Kami memastikan instalasi sesuai standar keamanan internasional dan kebutuhan operasional spesifik pelanggan. PT Surya Inti Gas menyediakan layanan instalasi dengan jaminan kualitas dan dukungan teknis."
       },
-      "gas-regulator-laser": {
-        "title": "Gas Regulator for Cutting Gas Laser Machine",
-        "description": "Regulator gas khusus untuk mesin laser cutting",
-        "fullDescription": "Regulator gas khusus untuk mesin laser cutting dirancang untuk memberikan kontrol tekanan yang presisi untuk proses pemotongan laser. Regulator ini memastikan supply gas (nitrogen, oksigen, atau argon) yang stabil dan konsisten untuk kualitas pemotongan optimal. Dilengkapi dengan gauge dan adjustment valve untuk presisi tinggi. PT Surya Inti Gas menyediakan regulator laser cutting dengan spesifikasi yang sesuai dengan berbagai jenis mesin laser."
+      "delivery": {
+        "title": "Pengiriman",
+        "description": "Layanan pengiriman gas ke lokasi pelanggan",
+        "fullDescription": "Layanan pengiriman gas kami mencakup distribusi tabung gas, bulk liquid gas, dan cryogenic tank ke lokasi pelanggan di seluruh Indonesia. Armada kami dilengkapi dengan sistem keamanan dan monitoring untuk memastikan pengiriman yang aman dan tepat waktu. Kami menyediakan jadwal pengiriman yang dapat disesuaikan dengan kebutuhan operasional pelanggan. PT Surya Inti Gas menjamin pengiriman yang efisien dan andal."
       },
-      "high-pressure-regulator": {
-        "title": "High Pressure Regulator",
-        "description": "Regulator tekanan tinggi untuk aplikasi industri",
-        "fullDescription": "Regulator tekanan tinggi dirancang untuk mengontrol tekanan gas dari tabung atau manifold dengan tekanan input tinggi. Regulator ini memberikan output tekanan yang stabil dan aman untuk aplikasi industri. Cocok untuk aplikasi pengelasan, cutting, dan proses industri lainnya. PT Surya Inti Gas menyediakan regulator tekanan tinggi dengan berbagai kapasitas dan spesifikasi sesuai kebutuhan."
-      },
-      "high-pressure-gas-valve": {
-        "title": "High Pressure Gas Valve",
-        "description": "Valve gas tekanan tinggi untuk sistem gas",
-        "fullDescription": "Valve gas tekanan tinggi adalah komponen keamanan vital untuk sistem gas bertekanan tinggi. Valve ini dirancang untuk menahan tekanan tinggi dan memberikan kontrol aliran yang presisi. Tersedia dalam berbagai jenis dan material sesuai dengan jenis gas dan aplikasi. PT Surya Inti Gas menyediakan valve tekanan tinggi dengan sertifikasi keamanan dan performa yang andal."
-      },
-      "gdms-systems": {
-        "title": "GDMS Systems",
-        "description": "Sistem manajemen distribusi gas medis terintegrasi",
-        "fullDescription": "GDMS (Gas Distribution Management System) adalah sistem terintegrasi untuk manajemen distribusi gas medis di fasilitas kesehatan. Sistem ini mencakup monitoring tekanan, alarm safety, dan control panel untuk memastikan supply gas medis yang kontinyu dan aman. GDMS memudahkan manajemen gas oksigen, nitrogen, nitrous oxide, dan gas medis lainnya di rumah sakit. PT Surya Inti Gas menyediakan GDMS dengan teknologi terkini dan sesuai standar medis internasional."
+      "refilling": {
+        "title": "Pengisian",
+        "description": "Layanan pengisian ulang tabung dan tangki gas",
+        "fullDescription": "Layanan pengisian ulang gas mencakup refill tabung gas industri dan medis, serta pengisian bulk liquid tank dan cryogenic vessel. Fasilitas pengisian kami dilengkapi dengan peralatan modern dan sistem kualitas kontrol untuk memastikan kemurnian dan keamanan gas. Kami menyediakan layanan pengisian on-site dan exchange system untuk efisiensi operasional. PT Surya Inti Gas menjamin kualitas gas yang konsisten untuk setiap pengisian."
       }
     }
   },

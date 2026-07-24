@@ -77,13 +77,15 @@ export function Product() {
     const categoryParam = searchParams.get('category');
     const subcategoryParam = searchParams.get('subcategory');
     
-    if (categoryParam && (categoryParam === 'gas' || categoryParam === 'equipment')) {
+    if (categoryParam && (categoryParam === 'gas' || categoryParam === 'package' || categoryParam === 'services')) {
       setMainCategory(categoryParam);
-      if (subcategoryParam) {
-        setSubCategory(subcategoryParam);
-      } else {
-        // Set default subcategory for the main category
-        setSubCategory(categoryParam === 'gas' ? 'industrial-medical' : 'color-code');
+      // Only handle subcategory for gas category
+      if (categoryParam === 'gas') {
+        if (subcategoryParam) {
+          setSubCategory(subcategoryParam);
+        } else {
+          setSubCategory('industrial-medical');
+        }
       }
     }
   }, [searchParams]);
@@ -91,9 +93,10 @@ export function Product() {
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;
     setMainCategory(category);
-    // Set default subcategory for each main category
-    const newSubCategory = category === 'gas' ? 'industrial-medical' : 'color-code';
-    setSubCategory(newSubCategory);
+    // Only set subcategory for gas category
+    if (category === 'gas') {
+      setSubCategory('industrial-medical');
+    }
   };
 
   const handleSubCategoryChange = (subCatId: string) => {
@@ -102,17 +105,32 @@ export function Product() {
   };
 
   const getSubCategories = () => {
-    const categories = productCategories[mainCategory] as Record<string, SubCategory>;
-    return Object.keys(categories).map(key => ({
-      id: key,
-      title: categories[key]?.title || ''
-    }));
+    // Only return subcategories for gas category
+    if (mainCategory === 'gas') {
+      const categoryData = productCategories[mainCategory] as Record<string, SubCategory>;
+      return Object.keys(categoryData).map(key => ({
+        id: key,
+        title: categoryData[key]?.title || ''
+      }));
+    }
+    
+    // Return empty array for package and services (no subcategories)
+    return [];
   };
 
   const getCurrentProducts = () => {
-    const categories = productCategories[mainCategory] as Record<string, SubCategory>;
-    const subCat = categories[subCategory];
-    return subCat?.products || [];
+    const categoryData = productCategories[mainCategory];
+    
+    // Handle gas category which has subcategories as an object
+    if (mainCategory === 'gas') {
+      const categories = categoryData as Record<string, SubCategory>;
+      const subCat = categories[subCategory as keyof typeof categories];
+      return subCat?.products || [];
+    }
+    
+    // Handle package and services which are direct SubCategory objects
+    const directSubCategory = categoryData as SubCategory;
+    return directSubCategory?.products || [];
   };
 
   const handleCardClick = (productId: string) => {
@@ -178,24 +196,26 @@ export function Product() {
             ))}
           </div>
 
-          {/* Sub-Category Navigation */}
-          <div className="products-subcategories">
-            {getSubCategories().map((subCat) => (
-              <button
-                key={subCat.id}
-                className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
-                onClick={() => handleSubCategoryChange(subCat.id)}
-                aria-label={t('common.selectSubcategoryAria', { subcategory: subCat.title })}
-                aria-pressed={subCategory === subCat.id}
-              >
-                {subCat.title}
-              </button>
-            ))}
-          </div>
+          {/* Sub-Category Navigation - only for gas category */}
+          {getSubCategories().length > 0 && (
+            <div className="products-subcategories">
+              {getSubCategories().map((subCat) => (
+                <button
+                  key={subCat.id}
+                  className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
+                  onClick={() => handleSubCategoryChange(subCat.id)}
+                  aria-label={t('common.selectSubcategoryAria', { subcategory: subCat.title })}
+                  aria-pressed={subCategory === subCat.id}
+                >
+                  {subCat.title}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Corporate Products Grid */}
           <div className="products-grid">
-            {getCurrentProducts().map((product) => (
+            {getCurrentProducts().map((product: Product) => (
               <ProductCard
                 key={product.id}
                 product={product}
