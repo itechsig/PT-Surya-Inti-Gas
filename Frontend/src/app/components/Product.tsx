@@ -2,7 +2,8 @@ import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import '../../styles/ProductsAndServices.css';
-import { getProductCategories, mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { useProductCatalog } from "../../hooks/useProductCatalog";
 
 /* ═══════════════════════════════════════════════════════════════
    PRODUCT.TSX — PT Surya Inti Gas Corporate
@@ -63,7 +64,7 @@ export function Product() {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
   const { t } = useTranslation();
-  const productCategories = getProductCategories(t);
+  const { categories: productCategories } = useProductCatalog(currentLang);
   const mainCategories: { id: MainCategory; label: string }[] = mainCategoryIds.map((id) => ({
     id,
     label: t(`products.mainCategories.${id}`),
@@ -76,27 +77,20 @@ export function Product() {
   useEffect(() => {
     const categoryParam = searchParams.get('category');
     const subcategoryParam = searchParams.get('subcategory');
-    
-    if (categoryParam && (categoryParam === 'gas' || categoryParam === 'package' || categoryParam === 'services')) {
-      setMainCategory(categoryParam);
-      // Only handle subcategory for gas category
-      if (categoryParam === 'gas') {
-        if (subcategoryParam) {
-          setSubCategory(subcategoryParam);
-        } else {
-          setSubCategory('industrial-medical');
-        }
-      }
+
+    if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
+      setMainCategory(categoryParam as MainCategory);
+      const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
+      const firstSubCategory = Object.keys(categories)[0] || '';
+      setSubCategory(subcategoryParam && categories[subcategoryParam] ? subcategoryParam : firstSubCategory);
     }
-  }, [searchParams]);
+  }, [searchParams, productCategories]);
 
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;
     setMainCategory(category);
-    // Only set subcategory for gas category
-    if (category === 'gas') {
-      setSubCategory('industrial-medical');
-    }
+    const categories = productCategories[category] as Record<string, SubCategory>;
+    setSubCategory(Object.keys(categories)[0] || '');
   };
 
   const handleSubCategoryChange = (subCatId: string) => {
@@ -105,32 +99,17 @@ export function Product() {
   };
 
   const getSubCategories = () => {
-    // Only return subcategories for gas category
-    if (mainCategory === 'gas') {
-      const categoryData = productCategories[mainCategory] as Record<string, SubCategory>;
-      return Object.keys(categoryData).map(key => ({
-        id: key,
-        title: categoryData[key]?.title || ''
-      }));
-    }
-    
-    // Return empty array for package and services (no subcategories)
-    return [];
+    const categoryData = productCategories[mainCategory] as Record<string, SubCategory>;
+    return Object.keys(categoryData).map(key => ({
+      id: key,
+      title: categoryData[key]?.title || ''
+    }));
   };
 
   const getCurrentProducts = () => {
-    const categoryData = productCategories[mainCategory];
-    
-    // Handle gas category which has subcategories as an object
-    if (mainCategory === 'gas') {
-      const categories = categoryData as Record<string, SubCategory>;
-      const subCat = categories[subCategory as keyof typeof categories];
-      return subCat?.products || [];
-    }
-    
-    // Handle package and services which are direct SubCategory objects
-    const directSubCategory = categoryData as SubCategory;
-    return directSubCategory?.products || [];
+    const categories = productCategories[mainCategory] as Record<string, SubCategory>;
+    const subCat = categories[subCategory];
+    return subCat?.products || [];
   };
 
   const handleCardClick = (productId: string) => {

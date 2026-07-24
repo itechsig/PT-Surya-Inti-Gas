@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import type { Product } from '../app/components/Product/data';
+import type { Product } from '../data/products';
 
 // ─── Types ────────────────────────────────────────────────────
 type StepType = 'hero' | 'selection' | 'produk' | 'layanan';

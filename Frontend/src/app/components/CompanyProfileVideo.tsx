@@ -353,10 +353,8 @@ export function CompanyProfileVideo() {
               />
             )}
           </div>
-
         </div>
       </section>
-
     </div>
   );
 }

@@ -1,73 +1,38 @@
-import { useSearchParams, useNavigate, useLocation, useParams } from "react-router-dom";
+import { useSearchParams, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import '../../styles/ProductsAndServices.css';
-import { getProductCategories, type Product, type SubCategory } from "../../data/products";
-
-function findProductById(
-  productCategories: ReturnType<typeof getProductCategories>,
-  id: string
-): { product: Product; category: string; subCategory: string } | null {
-  for (const [mainCat, subCats] of Object.entries(productCategories)) {
-    // Check if this is a direct SubCategory (package, services) or Record (gas)
-    if (subCats && typeof subCats === 'object' && 'products' in subCats) {
-      // Direct SubCategory (package, services)
-      const product = (subCats as SubCategory).products.find((p: Product) => p.id === id);
-      if (product) {
-        return { product, category: mainCat, subCategory: mainCat };
-      }
-    } else {
-      // Record with subcategories (gas)
-      for (const [subCat, data] of Object.entries(subCats as Record<string, SubCategory>)) {
-        const product = data.products.find((p: Product) => p.id === id);
-        if (product) {
-          return { product, category: mainCat, subCategory: subCat };
-        }
-      }
-    }
-  }
-  return null;
-}
+import { useProductDetail } from "../../hooks/useProductDetail";
+import { useProductCatalog } from "../../hooks/useProductCatalog";
+import type { Product, SubCategory } from "../../data/products";
 
 export function ProductDetail() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
   const { t } = useTranslation();
-  const productCategories = getProductCategories(t);
-  const [productData, setProductData] = useState<{ product: Product; category: string; subCategory: string } | null>(null);
+  const productSlug = searchParams.get('id');
+  const { data: productData, isLoading } = useProductDetail(productSlug, currentLang);
+  const { categories: productCategories } = useProductCatalog(currentLang);
   const [imageError, setImageError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
-
-  useEffect(() => {
-    const productId = searchParams.get('id');
-    if (productId) {
-      const data = findProductById(productCategories, productId);
-      setProductData(data);
-    } else {
-      setProductData(null);
-    }
-    setIsLoading(false);
-  }, [location.search, lang]);
 
   const handleBack = () => {
     navigate(`/${currentLang}/produk`);
   };
 
   const getPackagingOptions = () => {
-    const packageCategory = productCategories.package as SubCategory;
+    const packageCategory = productCategories.equipment?.package as SubCategory | undefined;
     return packageCategory?.products || [];
   };
 
   const handleContactSales = (productTitle: string) => {
     const whatsappNumber = '6281233906378';
     let message = t('productDetail.contact.whatsappMessage', { title: productTitle });
-    
+
     // Add selected packaging information if available
-    if (selectedPackaging && productData?.category === 'gas') {
+    if (selectedPackaging && productData?.mainCategory === 'gas') {
       const packagingLabel = t(`products.items.${selectedPackaging}.title`);
       message += `\n${t('productDetail.contact.selectedPackaging')}: ${packagingLabel}`;
     }
@@ -77,11 +42,10 @@ export function ProductDetail() {
   };
 
   useEffect(() => {
-    const productId = searchParams.get('id');
-    if (!productId) {
+    if (!productSlug) {
       navigate(`/${currentLang}/produk`);
     }
-  }, [searchParams, navigate, currentLang]);
+  }, [productSlug, navigate, currentLang]);
 
   if (isLoading) {
     return (
@@ -114,9 +78,9 @@ export function ProductDetail() {
     );
   }
 
-  const { product, category, subCategory } = productData;
-  const categoryLabel = t(`products.mainCategories.${category}`);
-  const subCategoryLabel = t(`products.categories.${subCategory}`);
+  const { product, mainCategory, subCategoryTitle } = productData;
+  const categoryLabel = t(`products.mainCategories.${mainCategory}`);
+  const subCategoryLabel = subCategoryTitle;
 
   return (
     <div className="products-corporate">
@@ -198,7 +162,7 @@ export function ProductDetail() {
               </p>
 
               {/* Product Information and Applications Only for Gas Products */}
-              {productData?.category === 'gas' && (
+              {productData?.mainCategory === 'gas' && (
                 <>
                   <div className="products-detail-info">
                     <h3>{t('productDetail.info.title')}</h3>
