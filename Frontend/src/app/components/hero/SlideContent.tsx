@@ -2,7 +2,7 @@ import { motion, type Variants } from "framer-motion";
 import { ArrowRight, PhoneCall } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { HeroSlide } from "./slides";
+import type { HeroSlide } from "./types";
 
 interface SlideContentProps {
   slide: HeroSlide;
@@ -62,7 +62,7 @@ export function SlideContent({ slide }: SlideContentProps) {
       <motion.div variants={item} className="flex flex-wrap items-center justify-center gap-4">
         <button
           type="button"
-          onClick={() => navigate(slide.ctaTo(currentLang))}
+          onClick={() => navigate(`/${currentLang}/${slide.ctaPath || "produk"}`)}
           className="hero-cta-primary"
         >
           {t('hero.viewProducts')}

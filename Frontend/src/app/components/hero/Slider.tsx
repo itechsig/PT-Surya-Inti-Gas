@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { getHeroSlides, SLIDE_DURATION_MS } from "./slides";
+import { useHeroSlides } from "./useHeroSlides";
+import { DEFAULT_SLIDE_DURATION_MS } from "./types";
 import { SlideContent } from "./SlideContent";
 import { SliderControls } from "./SliderControls";
 
@@ -89,8 +91,9 @@ const PARTICLES = Array.from({ length: 14 }).map((_, i) => ({
 }));
 
 export function Slider() {
-  const { t, i18n } = useTranslation();
-  const heroSlides = useMemo(() => getHeroSlides(t), [t, i18n.language]);
+  const { t } = useTranslation();
+  const { lang } = useParams<{ lang: string }>();
+  const { slides: heroSlides, isLoading } = useHeroSlides(lang || "id");
   const total = heroSlides.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -114,13 +117,15 @@ export function Slider() {
 
   /* Autoplay */
   useEffect(() => {
-    if (isPaused) return;
-    const timer = setTimeout(() => goTo(activeIndex + 1), SLIDE_DURATION_MS);
+    if (isPaused || total === 0) return;
+    const duration = heroSlides[activeIndex]?.durationMs ?? DEFAULT_SLIDE_DURATION_MS;
+    const timer = setTimeout(() => goTo(activeIndex + 1), duration);
     return () => clearTimeout(timer);
-  }, [activeIndex, isPaused, goTo]);
+  }, [activeIndex, isPaused, goTo, total, heroSlides]);
 
   /* Preload the upcoming background image so the crossfade never pops */
   useEffect(() => {
+    if (total === 0) return;
     setPreloadedNext((activeIndex + 1) % total);
   }, [activeIndex, total]);
 
@@ -183,6 +188,10 @@ export function Slider() {
 
   const slide = heroSlides[activeIndex];
 
+  if (isLoading || total === 0 || !slide) {
+    return <section className="h-[100svh] min-h-[560px] w-full bg-[#0F4C81]" aria-busy="true" />;
+  }
+
   return (
     <section
       ref={sectionRef}
@@ -228,7 +237,7 @@ export function Slider() {
             transition={{
               opacity: { duration: 1.1, ease: "easeOut" },
               scale: {
-                duration: (SLIDE_DURATION_MS + 1200) / 1000,
+                duration: (slide.durationMs + 1200) / 1000,
                 ease: "linear",
               },
             }}
@@ -301,7 +310,7 @@ export function Slider() {
       <SliderControls
         total={total}
         activeIndex={activeIndex}
-        duration={SLIDE_DURATION_MS}
+        duration={slide.durationMs}
         isPaused={isPaused}
         onPrev={goPrev}
         onNext={goNext}

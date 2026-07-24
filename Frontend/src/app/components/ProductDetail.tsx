@@ -1,46 +1,18 @@
-import { useSearchParams, useNavigate, useLocation, useParams } from "react-router-dom";
+import { useSearchParams, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import '../../styles/ProductsAndServices.css';
-import { getProductCategories, type Product, type SubCategory } from "../../data/products";
-
-function findProductById(
-  productCategories: ReturnType<typeof getProductCategories>,
-  id: string
-): { product: Product; category: string; subCategory: string } | null {
-  for (const [mainCat, subCats] of Object.entries(productCategories)) {
-    for (const [subCat, data] of Object.entries(subCats as Record<string, SubCategory>)) {
-      const product = data.products.find((p: Product) => p.id === id);
-      if (product) {
-        return { product, category: mainCat, subCategory: subCat };
-      }
-    }
-  }
-  return null;
-}
+import { useProductDetail } from "../../hooks/useProductDetail";
 
 export function ProductDetail() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
   const { t } = useTranslation();
-  const productCategories = getProductCategories(t);
-  const [productData, setProductData] = useState<{ product: Product; category: string; subCategory: string } | null>(null);
+  const productSlug = searchParams.get('id');
+  const { data: productData, isLoading } = useProductDetail(productSlug, currentLang);
   const [imageError, setImageError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const productId = searchParams.get('id');
-    if (productId) {
-      const data = findProductById(productCategories, productId);
-      setProductData(data);
-    } else {
-      setProductData(null);
-    }
-    setIsLoading(false);
-  }, [location.search, lang]);
 
   const handleBack = () => {
     navigate(`/${currentLang}/produk`);
@@ -54,11 +26,10 @@ export function ProductDetail() {
   };
 
   useEffect(() => {
-    const productId = searchParams.get('id');
-    if (!productId) {
+    if (!productSlug) {
       navigate(`/${currentLang}/produk`);
     }
-  }, [searchParams, navigate, currentLang]);
+  }, [productSlug, navigate, currentLang]);
 
   if (isLoading) {
     return (
@@ -91,9 +62,9 @@ export function ProductDetail() {
     );
   }
 
-  const { product, category, subCategory } = productData;
-  const categoryLabel = t(`products.mainCategories.${category}`);
-  const subCategoryLabel = t(`products.categories.${subCategory}`);
+  const { product, mainCategory, subCategoryTitle } = productData;
+  const categoryLabel = t(`products.mainCategories.${mainCategory}`);
+  const subCategoryLabel = subCategoryTitle;
 
   return (
     <div className="products-corporate">

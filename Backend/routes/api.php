@@ -22,6 +22,8 @@ use App\Http\Controllers\Api\CareerApplicationController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\AuditLogController;
 use App\Http\Controllers\Api\UnmannedAgentController;
+use App\Http\Controllers\Api\HeroSlideController;
+use App\Http\Controllers\Api\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,9 +40,8 @@ use App\Http\Controllers\Api\UnmannedAgentController;
 Route::prefix('v1')->group(function () {
     // PUBLIC ROUTES - Website Visitors (No Authentication Required)
     // Route::middleware(['api', 'request.response.log', 'check.blocked'])->group(function () {
-        // Authentication Routes (Public - for admin login) - 100 req/min
+        // Authentication Routes (Public - login only; account creation is admin-only)
         // Route::middleware(['throttle:api-user', 'brute.force'])->group(function () {
-            Route::post('/auth/register', [AuthController::class, 'register']);
             Route::post('/auth/login', [AuthController::class, 'login']);
             Route::post('/auth/email/verification-notification', [AuthController::class, 'sendVerificationEmail']);
         // });
@@ -58,17 +59,18 @@ Route::prefix('v1')->group(function () {
         Route::get('/certifications', [CertificationController::class, 'index']);
         Route::get('/certifications/{certification}', [CertificationController::class, 'show']);
 
+        // Hero Slides API (Public)
+        Route::get('/hero-slides', [HeroSlideController::class, 'index']);
+
+        // Products API (Public)
+        Route::get('/products', [ProductController::class, 'index']);
+        Route::get('/products/{slug}', [ProductController::class, 'show']);
+
         // Contact Form API (Public)
         Route::post('/contact', [ContactController::class, 'store']);
 
         // Career Application API (Public)
         Route::post('/career', [CareerController::class, 'store']);
-
-        // Admin Dashboard API (Public for testing - will move to protected routes later)
-        Route::get('/admin/dashboard/overview', [DashboardController::class, 'overview']);
-        Route::get('/admin/dashboard/contacts', [DashboardController::class, 'contacts']);
-        Route::get('/admin/dashboard/contacts/{id}', [DashboardController::class, 'contactDetails']);
-        Route::put('/admin/dashboard/contacts/{id}', [DashboardController::class, 'updateContact']);
 
         // Visitor Tracking API (Public) - Track website visitors (no rate limiting for analytics)
         // Temporarily removed check.blocked middleware for troubleshooting
@@ -77,63 +79,6 @@ Route::prefix('v1')->group(function () {
             Route::post('/visitor/pageview', [VisitorTrackingController::class, 'trackPageView']);
             Route::get('/visitor/current-ip', [VisitorTrackingController::class, 'getCurrentIP']);
         // });
-
-        // AI Agent API (Public for testing - will move to protected routes later)
-        Route::get('/admin/ai-agent/status', [AIAgentController::class, 'getStatus']);
-        Route::post('/admin/ai-agent/monitor', [AIAgentController::class, 'runMonitoring']);
-        Route::post('/admin/ai-agent/monitor/contacts', [AIAgentController::class, 'monitorContacts']);
-        Route::post('/admin/ai-agent/monitor/applications', [AIAgentController::class, 'monitorApplications']);
-        Route::post('/admin/ai-agent/monitor/visitors', [AIAgentController::class, 'monitorVisitors']);
-        Route::get('/admin/ai-agent/monitor/visitors', [AIAgentController::class, 'getActivities']);
-
-        // AI Recommendations API (Public for testing - will move to protected routes later)
-        Route::get('/admin/ai-recommendations', [AIRecommendationController::class, 'index']);
-        Route::get('/admin/ai-recommendations/statistics', [AIRecommendationController::class, 'statistics']);
-        Route::get('/admin/ai-recommendations/{id}', [AIRecommendationController::class, 'show']);
-        Route::post('/admin/ai-recommendations/{id}/approve', [AIRecommendationController::class, 'approve']);
-        Route::post('/admin/ai-recommendations/{id}/reject', [AIRecommendationController::class, 'reject']);
-
-        // Blocked Users API (Public for testing - will move to protected routes later)
-        Route::get('/admin/blocked-users', [BlockedUserController::class, 'index']);
-        Route::get('/admin/blocked-users/statistics', [BlockedUserController::class, 'statistics']);
-        Route::post('/admin/blocked-users', [BlockedUserController::class, 'store']);
-        Route::post('/admin/blocked-users/{id}/unblock', [BlockedUserController::class, 'unblock']);
-        Route::delete('/admin/blocked-users/{id}', [BlockedUserController::class, 'destroy']);
-        Route::get('/admin/blocked-users/check', [BlockedUserController::class, 'checkBlocked']);
-
-        // Career Applications API (Public for testing - will move to protected routes later)
-        Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
-        Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
-        Route::get('/admin/career-applications/{id}', [CareerApplicationController::class, 'show']);
-        Route::put('/admin/career-applications/{id}', [CareerApplicationController::class, 'update']);
-        Route::delete('/admin/career-applications/{id}', [CareerApplicationController::class, 'destroy']);
-
-        // Notifications API (Public for testing - will move to protected routes later)
-        Route::get('/admin/notifications', [NotificationController::class, 'index']);
-        Route::get('/admin/notifications/unread', [NotificationController::class, 'unread']);
-        Route::get('/admin/notifications/unread-count', [NotificationController::class, 'unreadCount']);
-        Route::get('/admin/notifications/statistics', [NotificationController::class, 'statistics']);
-        Route::post('/admin/notifications/{id}/mark-read', [NotificationController::class, 'markAsRead']);
-        Route::post('/admin/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
-        Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
-
-        // Audit Logs API (Public for testing - will move to protected routes later)
-        Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
-        Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
-        Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
-
-        // Unmanned Agent API (Public for testing - will move to protected routes later)
-        Route::get('/admin/unmanned/overview', [UnmannedAgentController::class, 'overview']);
-        Route::get('/admin/unmanned/agents', [UnmannedAgentController::class, 'index']);
-        Route::get('/admin/unmanned/missions', [UnmannedAgentController::class, 'missions']);
-        Route::get('/admin/unmanned/alerts', [UnmannedAgentController::class, 'alerts']);
-        Route::get('/admin/unmanned/agent-health', [UnmannedAgentController::class, 'agentHealth']);
-        Route::get('/admin/unmanned/system-activity', [UnmannedAgentController::class, 'systemActivity']);
-        Route::get('/admin/unmanned/operational-stats', [UnmannedAgentController::class, 'operationalStats']);
-        Route::get('/admin/unmanned/map-data', [UnmannedAgentController::class, 'mapData']);
-
-        // Chatbot - Public Info Endpoints
-        // Note: reload-kb and rotation-status moved to admin-only for security
 
         // Chatbot API - Core Features (Public) - 30 req/min (API calls are expensive)
         // Route::middleware('throttle:60,1')->group(function () {
@@ -146,16 +91,115 @@ Route::prefix('v1')->group(function () {
     // });
 
     // ADMIN ROUTES - Admin Panel (Authentication Required)
-    Route::middleware(['audit.log'])->group(function () {
+    Route::middleware(['auth:sanctum', 'audit.log'])->group(function () {
         // Authentication Routes (Protected)
         Route::post('/auth/logout', [AuthController::class, 'logout']);
         Route::get('/auth/me', [AuthController::class, 'me']);
 
-        // Chatbot Key Management (Admin Only) - Security sensitive
-        Route::post('/admin/chatbot/reload-kb', [ChatbotController::class, 'reloadKnowledgeBase']);
-        Route::get('/admin/chatbot/rotation-status', [ChatbotController::class, 'apiKeyRotationStatus']);
+        // User Management (Administrator Only)
+        Route::middleware(['role:administrator'])->group(function () {
+            Route::post('/auth/register', [AuthController::class, 'register']);
+        });
 
-        // Chatbot Analytics (Admin Only)
+        // Hero Slides API (Admin)
+        Route::get('/admin/hero-slides', [HeroSlideController::class, 'adminIndex']);
+        Route::get('/admin/hero-slides/{heroSlide}', [HeroSlideController::class, 'show']);
+        Route::middleware(['role:administrator,editor,content_manager'])->group(function () {
+            Route::post('/admin/hero-slides', [HeroSlideController::class, 'store']);
+            Route::put('/admin/hero-slides/{heroSlide}', [HeroSlideController::class, 'update']); // frontend POSTs with _method=PUT (multipart/form-data can't send real PUT)
+            Route::patch('/admin/hero-slides/{heroSlide}/toggle-active', [HeroSlideController::class, 'toggleActive']);
+        });
+        Route::middleware(['role:administrator,editor'])->group(function () {
+            Route::delete('/admin/hero-slides/{heroSlide}', [HeroSlideController::class, 'destroy']);
+            Route::post('/admin/hero-slides/reorder', [HeroSlideController::class, 'reorder']);
+        });
+
+        // Products API (Admin)
+        Route::get('/admin/product-categories', [ProductController::class, 'categories']);
+        Route::get('/admin/products', [ProductController::class, 'adminIndex']);
+        Route::get('/admin/products/{product}', [ProductController::class, 'adminShow']);
+        Route::middleware(['role:administrator,editor,content_manager'])->group(function () {
+            Route::post('/admin/products', [ProductController::class, 'store']);
+            Route::put('/admin/products/{product}', [ProductController::class, 'update']); // frontend POSTs with _method=PUT (multipart)
+            Route::patch('/admin/products/{product}/toggle-featured', [ProductController::class, 'toggleFeatured']);
+            Route::patch('/admin/products/{product}/toggle-published', [ProductController::class, 'togglePublished']);
+        });
+        Route::middleware(['role:administrator,editor'])->group(function () {
+            Route::delete('/admin/products/{product}', [ProductController::class, 'destroy']);
+            Route::post('/admin/products/reorder', [ProductController::class, 'reorder']);
+        });
+
+        // Admin Dashboard API
+        Route::get('/admin/dashboard/overview', [DashboardController::class, 'overview']);
+        Route::get('/admin/dashboard/contacts', [DashboardController::class, 'contacts']);
+        Route::get('/admin/dashboard/contacts/{id}', [DashboardController::class, 'contactDetails']);
+        Route::put('/admin/dashboard/contacts/{id}', [DashboardController::class, 'updateContact']);
+
+        // AI Agent API
+        Route::get('/admin/ai-agent/status', [AIAgentController::class, 'getStatus']);
+        Route::post('/admin/ai-agent/monitor', [AIAgentController::class, 'runMonitoring']);
+        Route::post('/admin/ai-agent/monitor/contacts', [AIAgentController::class, 'monitorContacts']);
+        Route::post('/admin/ai-agent/monitor/applications', [AIAgentController::class, 'monitorApplications']);
+        Route::post('/admin/ai-agent/monitor/visitors', [AIAgentController::class, 'monitorVisitors']);
+        Route::get('/admin/ai-agent/monitor/visitors', [AIAgentController::class, 'getActivities']);
+
+        // AI Recommendations API
+        Route::get('/admin/ai-recommendations', [AIRecommendationController::class, 'index']);
+        Route::get('/admin/ai-recommendations/statistics', [AIRecommendationController::class, 'statistics']);
+        Route::get('/admin/ai-recommendations/{id}', [AIRecommendationController::class, 'show']);
+        Route::post('/admin/ai-recommendations/{id}/approve', [AIRecommendationController::class, 'approve']);
+        Route::post('/admin/ai-recommendations/{id}/reject', [AIRecommendationController::class, 'reject']);
+
+        // Blocked Users API (Administrator Only - security sensitive)
+        Route::middleware(['role:administrator'])->group(function () {
+            Route::get('/admin/blocked-users', [BlockedUserController::class, 'index']);
+            Route::get('/admin/blocked-users/statistics', [BlockedUserController::class, 'statistics']);
+            Route::post('/admin/blocked-users', [BlockedUserController::class, 'store']);
+            Route::post('/admin/blocked-users/{id}/unblock', [BlockedUserController::class, 'unblock']);
+            Route::delete('/admin/blocked-users/{id}', [BlockedUserController::class, 'destroy']);
+            Route::get('/admin/blocked-users/check', [BlockedUserController::class, 'checkBlocked']);
+        });
+
+        // Career Applications API
+        Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
+        Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
+        Route::get('/admin/career-applications/{id}', [CareerApplicationController::class, 'show']);
+        Route::put('/admin/career-applications/{id}', [CareerApplicationController::class, 'update']);
+        Route::delete('/admin/career-applications/{id}', [CareerApplicationController::class, 'destroy']);
+
+        // Notifications API
+        Route::get('/admin/notifications', [NotificationController::class, 'index']);
+        Route::get('/admin/notifications/unread', [NotificationController::class, 'unread']);
+        Route::get('/admin/notifications/unread-count', [NotificationController::class, 'unreadCount']);
+        Route::get('/admin/notifications/statistics', [NotificationController::class, 'statistics']);
+        Route::post('/admin/notifications/{id}/mark-read', [NotificationController::class, 'markAsRead']);
+        Route::post('/admin/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+        Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
+
+        // Audit Logs API (Administrator Only)
+        Route::middleware(['role:administrator'])->group(function () {
+            Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
+            Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
+            Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
+        });
+
+        // Unmanned Agent API
+        Route::get('/admin/unmanned/overview', [UnmannedAgentController::class, 'overview']);
+        Route::get('/admin/unmanned/agents', [UnmannedAgentController::class, 'index']);
+        Route::get('/admin/unmanned/missions', [UnmannedAgentController::class, 'missions']);
+        Route::get('/admin/unmanned/alerts', [UnmannedAgentController::class, 'alerts']);
+        Route::get('/admin/unmanned/agent-health', [UnmannedAgentController::class, 'agentHealth']);
+        Route::get('/admin/unmanned/system-activity', [UnmannedAgentController::class, 'systemActivity']);
+        Route::get('/admin/unmanned/operational-stats', [UnmannedAgentController::class, 'operationalStats']);
+        Route::get('/admin/unmanned/map-data', [UnmannedAgentController::class, 'mapData']);
+
+        // Chatbot Key Management (Administrator Only) - Security sensitive
+        Route::middleware(['role:administrator'])->group(function () {
+            Route::post('/admin/chatbot/reload-kb', [ChatbotController::class, 'reloadKnowledgeBase']);
+            Route::get('/admin/chatbot/rotation-status', [ChatbotController::class, 'apiKeyRotationStatus']);
+        });
+
+        // Chatbot Analytics
         Route::get('/admin/chatbot/analytics', [ChatbotAnalyticsController::class, 'index']);
         Route::get('/admin/chatbot/analytics/summary', [ChatbotAnalyticsController::class, 'summary']);
         Route::get('/admin/chatbot/analytics/popular-topics', [ChatbotAnalyticsController::class, 'popularTopics']);
@@ -166,7 +210,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/chatbot/analytics/ab-testing', [ChatbotAnalyticsController::class, 'abTesting']);
         Route::get('/admin/chatbot/analytics/export', [ChatbotAnalyticsController::class, 'exportAnalytics']);
 
-        // Chatbot Monitoring (Admin Only)
+        // Chatbot Monitoring
         Route::get('/admin/chatbot/monitoring/health', [ChatbotMonitoringController::class, 'health']);
         Route::get('/admin/chatbot/monitoring/performance', [ChatbotMonitoringController::class, 'performance']);
         Route::get('/admin/chatbot/monitoring/errors', [ChatbotMonitoringController::class, 'errors']);
@@ -174,7 +218,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/chatbot/monitoring/alerts', [ChatbotMonitoringController::class, 'alerts']);
         Route::post('/admin/chatbot/monitoring/test-connection', [ChatbotMonitoringController::class, 'testConnection']);
 
-        // Chatbot A/B Testing (Admin Only)
+        // Chatbot A/B Testing
         Route::get('/admin/chatbot/ab-testing/campaigns', [ChatbotABTestingController::class, 'campaigns']);
         Route::post('/admin/chatbot/ab-testing/campaigns', [ChatbotABTestingController::class, 'createCampaign']);
         Route::get('/admin/chatbot/ab-testing/campaigns/{id}', [ChatbotABTestingController::class, 'getCampaign']);
@@ -185,11 +229,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/chatbot/ab-testing/results/{id}', [ChatbotABTestingController::class, 'getResults']);
         Route::get('/admin/chatbot/ab-testing/analytics', [ChatbotABTestingController::class, 'analytics']);
 
-        // Chatbot Settings (Admin Only)
-        Route::get('/admin/chatbot/settings', [ChatbotSettingsController::class, 'index']);
-        Route::put('/admin/chatbot/settings', [ChatbotSettingsController::class, 'update']);
-        Route::post('/admin/chatbot/settings/reset', [ChatbotSettingsController::class, 'reset']);
-        Route::get('/admin/chatbot/settings/maintenance', [ChatbotSettingsController::class, 'maintenanceMode']);
-        Route::post('/admin/chatbot/settings/maintenance', [ChatbotSettingsController::class, 'toggleMaintenance']);
+        // Chatbot Settings (Administrator Only)
+        Route::middleware(['role:administrator'])->group(function () {
+            Route::get('/admin/chatbot/settings', [ChatbotSettingsController::class, 'index']);
+            Route::put('/admin/chatbot/settings', [ChatbotSettingsController::class, 'update']);
+            Route::post('/admin/chatbot/settings/reset', [ChatbotSettingsController::class, 'reset']);
+            Route::get('/admin/chatbot/settings/maintenance', [ChatbotSettingsController::class, 'maintenanceMode']);
+            Route::post('/admin/chatbot/settings/maintenance', [ChatbotSettingsController::class, 'toggleMaintenance']);
+        });
     });
 });

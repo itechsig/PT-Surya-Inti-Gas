@@ -68,6 +68,7 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
+                'role' => 'sometimes|in:administrator,editor,content_manager',
                 'password' => [
                     'required',
                     'string',
@@ -91,10 +92,9 @@ class AuthController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'role' => $request->input('role', User::ROLE_CONTENT_MANAGER),
                 'password' => Hash::make($request->password),
             ]);
-
-            $token = $user->createToken('api-token')->plainTextToken;
 
             return response()->json([
                 'success' => true,
@@ -104,8 +104,8 @@ class AuthController extends Controller
                         'id' => $user->id,
                         'name' => $user->name,
                         'email' => $user->email,
+                        'role' => $user->role,
                     ],
-                    'token' => $token,
                 ]
             ], 201);
         } catch (\Exception $e) {
@@ -206,6 +206,7 @@ class AuthController extends Controller
                         'id' => $user->id,
                         'name' => $user->name,
                         'email' => $user->email,
+                        'role' => $user->role,
                     ],
                     'token' => $token,
                 ]
@@ -304,6 +305,7 @@ class AuthController extends Controller
                         'id' => $request->user()->id,
                         'name' => $request->user()->name,
                         'email' => $request->user()->email,
+                        'role' => $request->user()->role,
                         'email_verified' => $request->user()->hasVerifiedEmail(),
                     ]
                 ]

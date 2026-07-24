@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import '../../styles/ProductsAndServices.css';
-import { getProductCategories, mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { useProductCatalog } from "../../hooks/useProductCatalog";
 
 /* ═══════════════════════════════════════════════════════════════
    PRODUCTS AND SERVICES.TSX — PT Surya Inti Gas Corporate
@@ -58,7 +59,8 @@ function ProductCard({ product, onClick }: { product: Product; onClick: (id: str
 export function ProductsAndServices() {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const productCategories = getProductCategories(t);
+  const { lang } = useParams<{ lang: string }>();
+  const { categories: productCategories } = useProductCatalog(lang || "id");
   const mainCategories: { id: MainCategory; label: string }[] = mainCategoryIds.map((id) => ({
     id,
     label: t(`products.mainCategories.${id}`),
