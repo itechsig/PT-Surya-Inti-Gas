@@ -78,9 +78,9 @@ export function ProductDetail() {
     );
   }
 
-  const { product, mainCategory, subCategoryTitle } = productData;
-  const categoryLabel = t(`products.mainCategories.${mainCategory}`);
-  const subCategoryLabel = subCategoryTitle;
+  const { product, category, subCategory } = productData;
+  const categoryLabel = t(`products.mainCategories.${category}`);
+  const subCategoryLabel = (subCategory && category === 'gas') ? t(`products.categories.${subCategory}`) : null;
 
   return (
     <div className="products-corporate">
@@ -120,7 +120,7 @@ export function ProductDetail() {
               maxWidth: '800px',
               margin: '0 auto'
             }}>
-              {categoryLabel} / {subCategoryLabel}
+              {subCategoryLabel ? `${categoryLabel} / ${subCategoryLabel}` : categoryLabel}
             </p>
           </div>
         </div>
@@ -175,10 +175,12 @@ export function ProductDetail() {
                         <span className="spec-label">{t('productDetail.info.category')}</span>
                         <span className="spec-value">{categoryLabel}</span>
                       </div>
-                      <div className="spec-item">
-                        <span className="spec-label">{t('productDetail.info.subCategory')}</span>
-                        <span className="spec-value">{subCategoryLabel}</span>
-                      </div>
+                      {subCategoryLabel && (
+                        <div className="spec-item">
+                          <span className="spec-label">{t('productDetail.info.subCategory')}</span>
+                          <span className="spec-value">{subCategoryLabel}</span>
+                        </div>
+                      )}
                       <div className="spec-item">
                         <span className="spec-label">{t('productDetail.info.availability')}</span>
                         <span className="spec-value available">{t('productDetail.info.available')}</span>

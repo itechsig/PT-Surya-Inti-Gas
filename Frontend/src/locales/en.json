@@ -133,8 +133,28 @@
     },
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Liquid)",
-      "speciality-mixed": "Speciality & Mixed Gas"
+      "speciality-mixed": "Speciality & Mixed Gas",
+      "package": "Package",
+      "services": "Services"
     },
+    "featured": {
+      "gas": {
+        "title": "Industrial Gas Solutions",
+        "description": "Reliable oxygen, nitrogen, argon, helium and specialty gases for industries across Indonesia.",
+        "shortDescription": "Complete gas solutions for industrial applications"
+      },
+      "package": {
+        "title": "Cryogenic Equipment",
+        "description": "High-quality storage tanks, cylinders, and complete gas handling systems for your operations.",
+        "shortDescription": "Premium storage and handling solutions"
+      },
+      "services": {
+        "title": "Engineering Services",
+        "description": "Professional installation, delivery, and refilling services with expert technical support.",
+        "shortDescription": "End-to-end gas service solutions"
+      }
+    },
+
     "items": {
       "acetylene": {
         "title": "Acetylene (C2H2)",

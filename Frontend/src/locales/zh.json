@@ -133,8 +133,28 @@
     },
     "categories": {
       "industrial-medical": "工业与医用（气态与液态）",
-      "speciality-mixed": "特种与混合气体"
+      "speciality-mixed": "特种与混合气体",
+      "package": "包装",
+      "services": "服务"
     },
+    "featured": {
+      "gas": {
+        "title": "工业气体解决方案",
+        "description": "为印度尼西亚各地工业提供可靠的氧气、氮气、氩气、氦气和特种气体。",
+        "shortDescription": "工业应用的完整气体解决方案"
+      },
+      "package": {
+        "title": "低温设备",
+        "description": "高质量储罐、气瓶和完整的气体处理系统，满足您的运营需求。",
+        "shortDescription": "优质储存和处理解决方案"
+      },
+      "services": {
+        "title": "工程服务",
+        "description": "专业安装、交付和再充装服务，提供专业技术支持。",
+        "shortDescription": "端到端气体服务解决方案"
+      }
+    },
+
     "items": {
       "acetylene": {
         "title": "乙炔 (C2H2)",
