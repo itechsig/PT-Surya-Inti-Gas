@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { motion, type Variants } from "motion/react";
 
 /* ═══════════════════════════════════════════════════════════════
    INDUSTRIES SERVED.TSX — PT Surya Inti Gas Corporate
@@ -232,6 +233,17 @@ const css = `
   }
 `;
 
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
 type Industry = {
   id: string;
   title: string;
@@ -342,17 +354,29 @@ export function IndustriesServed() {
         <div className="industries-container">
 
           {/* Corporate Header */}
-          <div className="industries-header">
-            <h2 className="industries-title">
+          <motion.div
+            className="industries-header"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="industries-title" variants={fadeUp}>
               {t('industriesServed.title')}
-            </h2>
-            <p className="industries-subtitle">
+            </motion.h2>
+            <motion.p className="industries-subtitle" variants={fadeUp}>
               {t('industriesServed.subtitle')}
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           {/* Corporate Industries Carousel */}
-          <div className="industries-carousel-wrapper">
+          <motion.div
+            className="industries-carousel-wrapper"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={fadeUp}
+          >
             <div
               ref={carouselRef}
               className="industries-carousel"
@@ -402,7 +426,7 @@ export function IndustriesServed() {
                 <ChevronRight size={24} />
               </button>
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </section>

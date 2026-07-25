@@ -1,6 +1,18 @@
 import '../../styles/contact-page.css';
 import { Phone, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { motion, type Variants } from 'motion/react';
+
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
 
 export const ContactPage = () => {
   const { t } = useTranslation();
@@ -8,23 +20,36 @@ export const ContactPage = () => {
     <div className="clean-contact-page">
 
       {/* Hero Section */}
-      <div className="contact-hero">
+      <motion.section
+        className="contact-hero"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-80px' }}
+        variants={staggerContainer}
+      >
+        <div className="contact-hero-bg"></div>
         <div className="clean-container">
-          <h1 className="contact-hero-title">{t('contactPage.title')}</h1>
-          <p className="contact-hero-subtitle">{t('contactPage.subtitle')}</p>
+          <motion.h1 className="contact-hero-title" variants={fadeUp}>{t('contactPage.title')}</motion.h1>
+          <motion.p className="contact-hero-subtitle" variants={fadeUp}>{t('contactPage.subtitle')}</motion.p>
         </div>
-      </div>
+      </motion.section>
 
-      <div className="clean-container contact-content">
+      <motion.div 
+        className="clean-container contact-content"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-80px' }}
+        variants={staggerContainer}
+      >
         <div className="clean-grid">
 
           {/* Kolom Kiri: Lokasi & Gambar */}
-          <div className="location-column">
+          <motion.div className="location-column" variants={fadeUp}>
             <div className="address-grid">
-              <h2 className="section-title text-center full-width location-title">{t('contactPage.locationTitle')}</h2>
+              <motion.h2 className="section-title text-center full-width location-title" variants={fadeUp}>{t('contactPage.locationTitle')}</motion.h2>
 
               {/* Alamat Sidoarjo */}
-              <div className="address-block">
+              <motion.div className="address-block" variants={fadeUp}>
                 <h3>{t('contactPage.sidoarjoOffice')}</h3>
                 <p>
                   Komp. Perg. & Industri Safe N" Lock,<br />
@@ -41,10 +66,10 @@ export const ContactPage = () => {
                   <Mail size={16} style={{ marginRight: '8px', color: '#1e40af' }} />
                   salescounter.sda@suryaintigas.com
                 </a>
-              </div>
+              </motion.div>
 
               {/* Alamat Balikpapan */}
-              <div className="address-block">
+              <motion.div className="address-block" variants={fadeUp}>
                 <h3>{t('contactPage.balikpapanOffice')}</h3>
                 <p>
                   Jl. AMD Projakal Kariangau Km. 5.5,<br />
@@ -60,14 +85,14 @@ export const ContactPage = () => {
                   <Mail size={16} style={{ marginRight: '8px', color: '#1e40af' }} />
                   salescounter.bpn@suryaintigas.com
                 </a>
-              </div>
+              </motion.div>
 
-              <img src="/office-optimized.jpg" alt={t('contactPage.sidoarjoOffice')} className="office-image full-width" />
+              <motion.img src="/office-optimized.jpg" alt={t('contactPage.sidoarjoOffice')} className="office-image full-width" variants={fadeUp} />
             </div>
-          </div>
+          </motion.div>
 
           {/* Kolom Kanan: Form Kontak */}
-          <div className="form-column">
+          <motion.div className="form-column" variants={fadeUp}>
             <h2 className="section-title text-center">{t('contactPage.sendMessage')}</h2>
             <p className="form-intro">{t('contactPage.formIntro')}</p>
 
@@ -80,10 +105,10 @@ export const ContactPage = () => {
 
               <button type="submit" className="submit-button">{t('contactPage.send')}</button>
             </form>
-          </div>
+          </motion.div>
 
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

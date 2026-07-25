@@ -3,9 +3,15 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useTranslation } from "react-i18next";
 import { getDistributionLocations } from "../../data/distribution";
+import { motion, type Variants } from "motion/react";
 
 const css = `
   .distribution-corporate {
+    --primary: #0F4C81;
+    --primary-dark: #0a3861;
+    --secondary: #00AEEF;
+    --bg: #F8FAFC;
+    --accent: #EAF4FF;
     --navy-dark: #0f172a;
     --navy: #1e293b;
     --blue-dark: #1e3a8a;
@@ -26,30 +32,54 @@ const css = `
     --ff-body: 'DM Sans', system-ui, sans-serif;
     
     font-family: var(--ff-body);
+    background: var(--bg);
+  }
+
+  .distribution-corporate :focus-visible {
+    outline: 3px solid var(--secondary);
+    outline-offset: 2px;
   }
 
   .distribution-hero {
     position: relative;
-    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
-    padding: 120px 6vw;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
+    padding: 140px 6vw;
+    text-align: center;
+  }
+
+  .distribution-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url('/images/office/wp.jpg');
+    background-size: cover;
+    background-position: center 65%;
+    z-index: 0;
   }
 
   .distribution-hero-content {
-    max-width: 1400px;
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
     margin: 0 auto;
-    text-align: center;
-    color: var(--white);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .distribution-hero-title {
     font-family: var(--ff-display);
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2.25rem, 5vw, 4rem);
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.15;
     letter-spacing: -0.02em;
     color: var(--white);
     margin: 0 0 24px;
+    text-align: center;
   }
 
   .distribution-hero-description {
@@ -120,10 +150,36 @@ const css = `
   }
 
   .location-card {
+    position: relative;
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 16px;
-    padding: 24px;
+    border-radius: 20px;
+    padding: 32px;
     border: 1px solid var(--slate-200);
+    overflow: hidden;
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+  }
+
+  .location-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .location-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(15, 76, 129, 0.12);
+    border-color: rgba(0, 174, 239, 0.4);
+  }
+
+  .location-card:hover::before {
+    transform: scaleX(1);
   }
 
   .location-card-title {
@@ -190,6 +246,17 @@ const css = `
   }
 `;
 
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
 // Fix untuk default marker icon di React-Leaflet agar tidak error (menggunakan CDN)
 const customIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -232,23 +299,36 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
 
       {/* Corporate Hero Section */}
       {showHero && (
-        <section className="distribution-hero">
+        <motion.section
+          className="distribution-hero"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+        >
+          <div className="distribution-hero-bg"></div>
           <div className="distribution-hero-content">
-            <h1 className="distribution-hero-title">
+            <motion.h1 className="distribution-hero-title" variants={fadeUp}>
               {t('distribution.page.title')} <span style={{ color: 'var(--white)' }}>{t('distribution.page.titleHighlight')}</span>
-            </h1>
-            <p className="distribution-hero-description">
+            </motion.h1>
+            <motion.p className="distribution-hero-description" variants={fadeUp}>
               {t('distribution.page.description')}
-            </p>
+            </motion.p>
           </div>
-        </section>
+        </motion.section>
       )}
 
       {/* Distribution Network Section */}
       <section className="distribution-network-section">
         <div className="distribution-network-container">
           {/* Penggantian iframe dengan React-Leaflet */}
-          <div className="map-container">
+          <motion.div
+            className="map-container"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={fadeUp}
+          >
             <MapContainer 
               center={[-2.5, 118.0]} // Default center (Tengah-tengah Indonesia)
               zoom={5} 
@@ -281,7 +361,7 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
                 </Marker>
               ))}
             </MapContainer>
-          </div>
+          </motion.div>
 
           {/* Locations Information (Kartu di bawah peta) */}
           <div className="locations-info">

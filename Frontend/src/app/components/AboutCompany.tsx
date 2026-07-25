@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { motion, type Variants } from "motion/react";
 
 /* ═══════════════════════════════════════════════════════════════
    ABOUT COMPANY.TSX — PT Surya Inti Gas Corporate
@@ -262,6 +263,17 @@ const css = `
   }
 `;
 
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
 export function AboutCompany() {
   const { t } = useTranslation();
   const { lang } = useParams<{ lang: string }>();
@@ -275,38 +287,45 @@ export function AboutCompany() {
         <div className="about-container">
 
           {/* Corporate Header */}
-          <div className="about-header">
-            {/* <div className="about-badge">
-              {t('homeAbout.badge')}
-            </div> */}
-            <h2 className="about-title">
+          <motion.div
+            className="about-header"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="about-title" variants={fadeUp}>
               {t('homeAbout.title')}
-            </h2>
-            <p className="about-subtitle">
+            </motion.h2>
+            <motion.p className="about-subtitle" variants={fadeUp}>
               {t('homeAbout.subtitle')}
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           {/* Corporate Grid Layout */}
-          <div className="about-grid">
-
+          <motion.div
+            className="about-grid"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
             {/* Corporate Image Section */}
-            <div className="about-image-section">
+            <motion.div className="about-image-section" variants={fadeUp}>
               <div className="about-main-image">
                 <img src="/office-optimized.jpg" alt="PT Surya Inti Gas" loading="lazy" width="634" height="476" />
               </div>
 
-              <div className="about-overlay-card">
+              <motion.div className="about-overlay-card" variants={fadeUp}>
                 <div className="about-overlay-stat">{t('homeAbout.overlayStat')}</div>
                 <div className="about-overlay-label">
                   {t('homeAbout.overlayLabel')}
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Corporate Content Section */}
-            <div className="about-content-section">
-
+            <motion.div className="about-content-section" variants={fadeUp}>
               <div>
                 <h3 className="about-content-title">{t('homeAbout.profileTitle')}</h3>
                 <p className="about-content-text">
@@ -317,10 +336,8 @@ export function AboutCompany() {
                   <ArrowRight size={18} />
                 </a>
               </div>
-
-            </div>
-
-          </div>
+            </motion.div>
+          </motion.div>
 
         </div>
       </section>

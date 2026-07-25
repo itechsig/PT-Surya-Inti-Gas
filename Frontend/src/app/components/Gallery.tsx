@@ -3,9 +3,50 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
+import { motion, type Variants } from 'motion/react';
 import { getGalleryItems, type GalleryItem } from '../../data/gallery';
 
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
 const galleryStyles = `
+  .products-corporate {
+    --primary: #0F4C81;
+    --primary-dark: #0a3861;
+    --secondary: #00AEEF;
+    --bg: #F8FAFC;
+    --accent: #EAF4FF;
+    --navy-dark: #0f172a;
+    --navy: #1e293b;
+    --blue-dark: #1e3a8a;
+    --blue: #1e40af;
+    --sky: #3b82f6;
+    --sky-light: #60a5fa;
+    --white: #ffffff;
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+    
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --ff-display: 'Barlow', system-ui, sans-serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+    
+    font-family: var(--ff-body);
+    background: var(--bg);
+  }
+
   .gallery-filters {
     display: flex;
     justify-content: space-between;
@@ -215,6 +256,7 @@ const galleryStyles = `
   }
 
   .uk-card-custom {
+    position: relative;
     border-radius: 8px;
     overflow: hidden;
   }
@@ -528,48 +570,80 @@ function Gallery() {
   return (
     <div className="products-corporate">
       <style>{galleryStyles}</style>
-      <section className="products-section" style={{
-        paddingTop: '0'
-      }}>
-        {/* Header Section */}
-        <div className="products-header" style={{
+      
+      {/* Header Section */}
+      <motion.section
+        className="products-header"
+        style={{
           position: 'relative',
-          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-          padding: '240px 6vw 120px 6vw',
-          marginBottom: '80px',
-          marginLeft: '-6vw',
-          marginRight: '-6vw',
-          marginTop: '-120px',
+          minHeight: '560px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          padding: '140px 6vw',
           textAlign: 'center',
-          overflow: 'hidden'
-        }}>
-          <div className="products-container">
-            <h1 className="products-title" style={{
-              fontFamily: 'Barlow, system-ui, sans-serif',
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              fontWeight: '800',
-              lineHeight: '1.1',
-              letterSpacing: '-0.02em',
-              color: '#ffffff',
-              margin: '0 0 24px'
-            }}>
-              {t('gallery.page.title')}
-            </h1>
-            <p className="products-subtitle" style={{
-              fontFamily: 'DM Sans, system-ui, sans-serif',
-              fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
-              lineHeight: '1.7',
-              color: 'rgba(255, 255, 255, 0.8)',
-              maxWidth: '700px',
-              margin: '0 auto'
-            }}>
-              {t('gallery.page.subtitle')}
-            </p>
-          </div>
-        </div>
+          marginBottom: '0'
+        }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-80px' }}
+        variants={staggerContainer}
+      >
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url(/images/office/wp.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 65%',
+          zIndex: 0
+        }} />
+        <motion.div className="products-container" style={{
+          position: 'relative',
+          zIndex: 1,
+          maxWidth: '900px',
+          margin: '0 auto',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }} variants={fadeUp}>
+          <motion.h1 className="products-title" style={{
+            fontFamily: 'Barlow, system-ui, sans-serif',
+            fontSize: 'clamp(2.25rem, 5vw, 4rem)',
+            fontWeight: '800',
+            lineHeight: '1.15',
+            letterSpacing: '-0.02em',
+            color: '#ffffff',
+            margin: '0 0 24px'
+          }} variants={fadeUp}>
+            {t('gallery.page.title')}
+          </motion.h1>
+          <motion.p className="products-subtitle" style={{
+            fontFamily: 'DM Sans, system-ui, sans-serif',
+            fontSize: 'clamp(1rem, 1.4vw, 1.125rem)',
+            lineHeight: '1.75',
+            color: 'rgba(255, 255, 255, 0.78)',
+            maxWidth: '640px',
+            margin: '0 auto'
+          }} variants={fadeUp}>
+            {t('gallery.page.subtitle')}
+          </motion.p>
+        </motion.div>
+      </motion.section>
 
+      <motion.section className="products-section" style={{
+        paddingTop: '0'
+      }}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: '-80px' }}
+      variants={staggerContainer}
+      >
         {/* Category Filters */}
-        <div className="products-container">
+        <motion.div className="products-container" style={{
+          padding: '100px 6vw'
+        }} variants={fadeUp}>
           <div className="gallery-filters">
             <div className="gallery-filter-left">
               {years.map((year) => (
@@ -611,7 +685,7 @@ function Gallery() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Gallery Grid */}
         <div style={{
@@ -631,7 +705,7 @@ function Gallery() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

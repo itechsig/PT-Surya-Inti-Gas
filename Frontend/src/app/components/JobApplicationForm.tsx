@@ -132,6 +132,7 @@ export function JobApplicationForm() {
       <div className="career-page">
         {/* Career Hero Section */}
         <div className="career-hero">
+          <div className="career-hero-bg"></div>
           <div className="section-container">
             <div className="section-header">
               <h2>{t('career.page.title')}</h2>
@@ -152,6 +153,7 @@ export function JobApplicationForm() {
       <div className="career-page">
         {/* Career Hero Section */}
         <div className="career-hero">
+          <div className="career-hero-bg"></div>
           <div className="section-container">
             <div className="section-header">
               <h2>{t('career.page.title')}</h2>
@@ -178,6 +180,7 @@ export function JobApplicationForm() {
       <div className="career-page">
         {/* Career Hero Section */}
         <div className="career-hero">
+          <div className="career-hero-bg"></div>
           <div className="section-container">
             <div className="section-header">
               <h2>{t('career.page.title')}</h2>
@@ -206,6 +209,7 @@ export function JobApplicationForm() {
     <div className="career-page">
       {/* Career Hero Section */}
       <div className="career-hero">
+        <div className="career-hero-bg"></div>
         <div className="section-container">
           <div className="section-header">
             <h2>{t('career.page.title')}</h2>

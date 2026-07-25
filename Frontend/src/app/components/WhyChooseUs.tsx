@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { motion, type Variants } from "motion/react";
 
 /* ═══════════════════════════════════════════════════════════════
    WHY CHOOSE US.TSX — PT Surya Inti Gas Corporate
@@ -125,6 +126,17 @@ const css = `
   }
 `;
 
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
 export function WhyChooseUs() {
   const { t } = useTranslation();
   const { lang } = useParams<{ lang: string }>();
@@ -138,19 +150,29 @@ export function WhyChooseUs() {
         <div className="why-container">
 
           {/* Corporate Content Section */}
-          <div className="why-content">
-            <h2>
+          <motion.div
+            className="why-content"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
+            <motion.h2 variants={fadeUp}>
               {t('whyChooseUs.title')}
-            </h2>
-            <p>
+            </motion.h2>
+            <motion.p variants={fadeUp}>
               {t('whyChooseUs.description')}
-            </p>
+            </motion.p>
 
-            <a href={`/${currentLang}/kontak`} className="why-content-cta">
+            <motion.a
+              href={`/${currentLang}/kontak`}
+              className="why-content-cta"
+              variants={fadeUp}
+            >
               {t('whyChooseUs.cta')}
               <ArrowRight size={16} />
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
 
         </div>
       </section>
