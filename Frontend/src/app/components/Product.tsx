@@ -1,6 +1,13 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { motion } from "motion/react";
+import { 
+  ChevronRight,
+  Wrench,
+  Cpu,
+  Droplets
+} from "lucide-react";
 import '../../styles/ProductsAndServices.css';
 import { getProductCategories, mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
 
@@ -10,50 +17,138 @@ import { getProductCategories, mainCategoryIds, type Product, type SubCategory, 
 ══════════════════════════════════════════════════════════════ */
 
 // Product Card Component
-function ProductCard({ product, onClick }: { product: Product; onClick: (id: string) => void }) {
+function ProductCard({ product, onClick, mainCategory }: { product: Product; onClick: (id: string) => void; mainCategory: MainCategory }) {
   const [imageError, setImageError] = useState(false);
   const { t } = useTranslation();
 
+  const getCategoryBadge = () => {
+    return t(`products.mainCategories.${mainCategory}`);
+  };
+
   return (
-    <div
+    <motion.div
       className="products-card"
       onClick={() => onClick(product.id)}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="products-card-image">
         {imageError ? (
-          <div style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: '#f1f5f9',
-            color: '#94a3b8',
-            fontSize: '14px'
-          }}>
+          <div className="products-card-fallback">
             {t('common.imageNotFound')}
           </div>
         ) : (
           <img
             src={product.image}
             alt={product.title}
-            loading="lazy"
-            width="400"
-            height="300"
             onError={() => setImageError(true)}
           />
         )}
+        <div className="products-card-overlay" />
       </div>
 
       <div className="products-card-content">
+        <div className="products-card-badge">
+          {getCategoryBadge()}
+        </div>
         <h3 className="products-card-title">
           {product.title}
         </h3>
         <p className="products-card-description">
           {product.description}
         </p>
+        <div className="products-card-arrow">
+          <ChevronRight size={20} />
+        </div>
       </div>
-    </div>
+    </motion.div>
+  );
+}
+
+
+// Category Card Component
+function CategoryCard({ 
+  label, 
+  isActive, 
+  onClick, 
+  icon: Icon,
+  description 
+}: { 
+  label: string; 
+  isActive: boolean; 
+  onClick: () => void;
+  icon: any;
+  description: string;
+}) {
+  return (
+    <motion.button
+      className={`category-card ${isActive ? 'active' : ''}`}
+      onClick={onClick}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="category-card-icon">
+        <Icon size={40} />
+      </div>
+      <div className="category-card-content">
+        <h3 className="category-card-title">{label}</h3>
+        <p className="category-card-description">{description}</p>
+      </div>
+      <div className="category-card-arrow">
+        <ChevronRight size={24} />
+      </div>
+      {isActive && <div className="category-card-glow" />}
+    </motion.button>
+  );
+}
+
+
+// Featured Banner Component
+function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: string) => string }) {
+  const bannerContent = {
+    gas: {
+      image: '/images/products/Oxygen-optimized.webp',
+      title: t('products.featured.gas.title'),
+      description: t('products.featured.gas.description')
+    },
+    package: {
+      image: '/images/products/Cryogenic_Dewar.webp',
+      title: t('products.featured.package.title'),
+      description: t('products.featured.package.description')
+    },
+    services: {
+      image: '/images/services/Installation.webp',
+      title: t('products.featured.services.title'),
+      description: t('products.featured.services.description')
+    }
+  };
+
+  const content = bannerContent[category];
+
+  return (
+    <motion.div
+      className="featured-banner"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.4 }}
+    >
+      <div className="featured-banner-image">
+        <img src={content.image} alt={content.title} />
+        <div className="featured-banner-overlay" />
+      </div>
+      <div className="featured-banner-content">
+        <h2 className="featured-banner-title">{content.title}</h2>
+        <p className="featured-banner-description">{content.description}</p>
+      </div>
+    </motion.div>
   );
 }
 
@@ -64,28 +159,43 @@ export function Product() {
   const currentLang = lang || 'id';
   const { t } = useTranslation();
   const productCategories = getProductCategories(t);
-  const mainCategories: { id: MainCategory; label: string }[] = mainCategoryIds.map((id) => ({
-    id,
-    label: t(`products.mainCategories.${id}`),
-  }));
+  const mainCategories: { id: MainCategory; label: string; icon: any; description: string }[] = [
+    {
+      id: 'gas',
+      label: t('products.mainCategories.gas'),
+      icon: Droplets,
+      description: t('products.featured.gas.shortDescription')
+    },
+    {
+      id: 'package',
+      label: t('products.mainCategories.package'),
+      icon: Cpu,
+      description: t('products.featured.package.shortDescription')
+    },
+    {
+      id: 'services',
+      label: t('products.mainCategories.services'),
+      icon: Wrench,
+      description: t('products.featured.services.shortDescription')
+    }
+  ];
   const [searchParams] = useSearchParams();
   const [mainCategory, setMainCategory] = useState<MainCategory>('gas');
   const [subCategory, setSubCategory] = useState<string>('industrial-medical');
 
-  // Handle URL parameters
+  // Handle URL parameters from mega menu
   useEffect(() => {
     const categoryParam = searchParams.get('category');
     const subcategoryParam = searchParams.get('subcategory');
-    
-    if (categoryParam && (categoryParam === 'gas' || categoryParam === 'package' || categoryParam === 'services')) {
-      setMainCategory(categoryParam);
-      // Only handle subcategory for gas category
-      if (categoryParam === 'gas') {
-        if (subcategoryParam) {
-          setSubCategory(subcategoryParam);
-        } else {
-          setSubCategory('industrial-medical');
-        }
+
+    if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
+      setMainCategory(categoryParam as MainCategory);
+      if (subcategoryParam && categoryParam === 'gas') {
+        setSubCategory(subcategoryParam);
+      } else if (categoryParam === 'gas') {
+        setSubCategory('industrial-medical');
+      } else {
+        setSubCategory('');
       }
     }
   }, [searchParams]);
@@ -93,10 +203,17 @@ export function Product() {
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;
     setMainCategory(category);
-    // Only set subcategory for gas category
+    // Set default subcategory for each main category
+    let newSubCategory: string;
     if (category === 'gas') {
-      setSubCategory('industrial-medical');
+      newSubCategory = 'industrial-medical';
+    } else if (category === 'package' || category === 'services') {
+      // For package and services, no subcategory needed
+      newSubCategory = '';
+    } else {
+      newSubCategory = 'industrial-medical';
     }
+    setSubCategory(newSubCategory);
   };
 
   const handleSubCategoryChange = (subCatId: string) => {
@@ -105,32 +222,27 @@ export function Product() {
   };
 
   const getSubCategories = () => {
-    // Only return subcategories for gas category
-    if (mainCategory === 'gas') {
-      const categoryData = productCategories[mainCategory] as Record<string, SubCategory>;
-      return Object.keys(categoryData).map(key => ({
-        id: key,
-        title: categoryData[key]?.title || ''
-      }));
+    // Package and services don't have subcategories
+    if (mainCategory === 'package' || mainCategory === 'services') {
+      return [];
     }
-    
-    // Return empty array for package and services (no subcategories)
-    return [];
+    const categories = productCategories[mainCategory] as Record<string, SubCategory>;
+    return Object.keys(categories).map(key => ({
+      id: key,
+      title: categories[key]?.title || ''
+    }));
   };
 
   const getCurrentProducts = () => {
-    const categoryData = productCategories[mainCategory];
-    
-    // Handle gas category which has subcategories as an object
-    if (mainCategory === 'gas') {
-      const categories = categoryData as Record<string, SubCategory>;
-      const subCat = categories[subCategory as keyof typeof categories];
-      return subCat?.products || [];
+    // For package and services, get products directly
+    if (mainCategory === 'package' || mainCategory === 'services') {
+      const category = productCategories[mainCategory] as SubCategory;
+      return category?.products || [];
     }
-    
-    // Handle package and services which are direct SubCategory objects
-    const directSubCategory = categoryData as SubCategory;
-    return directSubCategory?.products || [];
+    // For gas, get from subcategory
+    const categories = productCategories[mainCategory] as Record<string, SubCategory>;
+    const subCat = categories[subCategory];
+    return subCat?.products || [];
   };
 
   const handleCardClick = (productId: string) => {
@@ -139,23 +251,33 @@ export function Product() {
 
   return (
     <div className="products-corporate">
-      <section className="products-section" id="products" style={{
-        paddingTop: '0'
-      }}>
+      <section className="products-section" id="products">
 
         {/* Corporate Header */}
-        <div className="products-header" style={{
-          position: 'relative',
-          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-          padding: '240px 6vw 120px 6vw',
-          marginBottom: '80px',
-          marginLeft: '-6vw',
-          marginRight: '-6vw',
-          marginTop: '-120px',
-          textAlign: 'center',
-          overflow: 'hidden'
-        }}>
-          <div className="products-container">
+        <motion.div 
+          className="products-header"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          style={{
+            position: 'relative',
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+            padding: '100px 6vw 120px 6vw',
+            width: '100vw',
+            marginLeft: 'calc(-50vw + 50%)',
+            marginRight: 'calc(-50vw + 50%)',
+            marginTop: '-120px',
+            overflow: 'hidden'
+          }}
+        >
+          <div style={{
+            maxWidth: '1400px',
+            margin: '0 auto',
+            textAlign: 'center',
+            color: '#ffffff',
+            paddingTop: '30px'
+          }}>
             <div className="products-badge" style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -196,27 +318,51 @@ export function Product() {
               {t('products.pageHeader.subtitle')}
             </p>
           </div>
-        </div>
+        </motion.div>
 
         <div className="products-container">
-          {/* Main Category Tabs */}
-          <div className="products-tabs">
+
+          {/* Category Cards */}
+          <motion.div 
+            className="category-cards"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             {mainCategories.map((category) => (
-              <button
+              <CategoryCard
                 key={category.id}
-                className={`products-tab ${mainCategory === category.id ? 'active' : ''}`}
+                label={category.label}
+                isActive={mainCategory === category.id}
                 onClick={() => handleMainCategoryChange(category.id)}
-                aria-label={t('common.selectCategoryAria', { category: category.label })}
-                aria-pressed={mainCategory === category.id}
-              >
-                {category.label}
-              </button>
+                icon={category.icon}
+                description={category.description}
+              />
             ))}
-          </div>
+          </motion.div>
+
+          {/* Featured Banner */}
+          <motion.div
+            className="featured-banner-container"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <FeaturedBanner category={mainCategory} t={t} />
+          </motion.div>
 
           {/* Sub-Category Navigation - only for gas category */}
           {getSubCategories().length > 0 && (
-            <div className="products-subcategories">
+            <motion.div 
+              className="products-subcategories"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              style={{ marginTop: '50px' }}
+            >
               {getSubCategories().map((subCat) => (
                 <button
                   key={subCat.id}
@@ -225,22 +371,29 @@ export function Product() {
                   aria-label={t('common.selectSubcategoryAria', { subcategory: subCat.title })}
                   aria-pressed={subCategory === subCat.id}
                 >
-                  {subCat.title}
+                  <span>{subCat.title}</span>
                 </button>
               ))}
-            </div>
+            </motion.div>
           )}
 
-          {/* Corporate Products Grid */}
-          <div className="products-grid">
+          {/* Products Grid */}
+          <motion.div 
+            className="products-grid"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
             {getCurrentProducts().map((product: Product) => (
               <ProductCard
                 key={product.id}
                 product={product}
                 onClick={handleCardClick}
+                mainCategory={mainCategory}
               />
             ))}
-          </div>
+          </motion.div>
 
         </div>
       </section>

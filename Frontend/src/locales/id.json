@@ -133,8 +133,28 @@
     },
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Cair)",
-      "speciality-mixed": "Speciality & Mixed Gas"
+      "speciality-mixed": "Speciality & Mixed Gas",
+      "package": "Package",
+      "services": "Layanan"
     },
+    "featured": {
+      "gas": {
+        "title": "Solusi Gas Industri",
+        "description": "Oksigen, nitrogen, argon, helium dan gas specialty andal untuk industri di seluruh Indonesia.",
+        "shortDescription": "Solusi gas lengkap untuk aplikasi industri"
+      },
+      "package": {
+        "title": "Peralatan Kriogenik",
+        "description": "Tangki penyimpanan berkualitas tinggi, silinder, dan sistem penanganan gas lengkap untuk operasional Anda.",
+        "shortDescription": "Solusi penyimpanan dan penanganan premium"
+      },
+      "services": {
+        "title": "Layanan Engineering",
+        "description": "Instalasi profesional, pengiriman, dan layanan pengisian ulang dengan dukungan teknis ahli.",
+        "shortDescription": "Solusi layanan gas end-to-end"
+      }
+    },
+
     "items": {
       "acetylene": {
         "title": "Acetylene (C2H2)",
