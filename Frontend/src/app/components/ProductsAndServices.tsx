@@ -154,7 +154,8 @@ export function ProductsAndServices() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { t } = useTranslation();
-  const productCategories = getProductCategories(t);
+  const { lang } = useParams();
+  const { categories: productCategories } = useProductCatalog(lang || 'id');
   const mainCategories: { id: MainCategory; label: string; icon: any; description: string }[] = [
     {
       id: 'gas',
