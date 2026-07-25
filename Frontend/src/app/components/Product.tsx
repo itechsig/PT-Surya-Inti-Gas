@@ -159,7 +159,7 @@ export function Product() {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
   const { t } = useTranslation();
-  const productCategories = getProductCategories(t);
+  const { categories: productCategories } = useProductCatalog(currentLang);
   const mainCategories: { id: MainCategory; label: string; icon: any; description: string }[] = [
     {
       id: 'gas',
@@ -228,6 +228,7 @@ export function Product() {
       return [];
     }
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
+    if (!categories) return [];
     return Object.keys(categories).map(key => ({
       id: key,
       title: categories[key]?.title || ''
@@ -235,13 +236,14 @@ export function Product() {
   };
 
   const getCurrentProducts = () => {
-    // For package and services, get products directly
-    if (mainCategory === 'package' || mainCategory === 'services') {
-      const category = productCategories[mainCategory] as SubCategory;
-      return category?.products || [];
-    }
-    // For gas, get from subcategory
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
+    if (!categories) return [];
+    // For package and services, get products from the first subcategory
+    if (mainCategory === 'package' || mainCategory === 'services') {
+      const firstSubCategory = Object.values(categories)[0];
+      return firstSubCategory?.products || [];
+    }
+    // For gas, get from selected subcategory
     const subCat = categories[subCategory];
     return subCat?.products || [];
   };
