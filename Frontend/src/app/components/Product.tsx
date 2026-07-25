@@ -9,7 +9,8 @@ import {
   Droplets
 } from "lucide-react";
 import '../../styles/ProductsAndServices.css';
-import { getProductCategories, mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { useProductCatalog } from "../../hooks/useProductCatalog";
 
 /* ═══════════════════════════════════════════════════════════════
    PRODUCT.TSX — PT Surya Inti Gas Corporate
@@ -198,7 +199,7 @@ export function Product() {
         setSubCategory('');
       }
     }
-  }, [searchParams]);
+  }, [searchParams, productCategories]);
 
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;

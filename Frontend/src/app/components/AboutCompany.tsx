@@ -276,9 +276,9 @@ export function AboutCompany() {
 
           {/* Corporate Header */}
           <div className="about-header">
-            <div className="about-badge">
+            {/* <div className="about-badge">
               {t('homeAbout.badge')}
-            </div>
+            </div> */}
             <h2 className="about-title">
               {t('homeAbout.title')}
             </h2>

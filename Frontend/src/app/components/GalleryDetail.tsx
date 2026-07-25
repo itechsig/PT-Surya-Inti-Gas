@@ -361,24 +361,6 @@ function GalleryDetail() {
           overflow: 'hidden'
         }}>
           <div className="products-container">
-            <div className="products-badge" style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '8px 24px',
-              borderRadius: '50px',
-              background: 'rgba(96, 165, 250, 0.15)',
-              border: '1px solid rgba(96, 165, 250, 0.3)',
-              fontFamily: 'Barlow, system-ui, sans-serif',
-              fontSize: '11px',
-              fontWeight: '700',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: 'rgba(255, 255, 255, 0.9)',
-              marginBottom: '32px'
-            }}>
-              {t('gallery.page.badge')}
-            </div>
             <h1 className="products-title" style={{
               fontFamily: 'Barlow, system-ui, sans-serif',
               fontSize: 'clamp(2.5rem, 5vw, 4rem)',
@@ -438,24 +420,6 @@ function GalleryDetail() {
         overflow: 'hidden'
       }}>
         <div className="products-container">
-          <div className="products-badge" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px',
-            padding: '8px 24px',
-            borderRadius: '50px',
-            background: 'rgba(96, 165, 250, 0.15)',
-            border: '1px solid rgba(96, 165, 250, 0.3)',
-            fontFamily: 'Barlow, system-ui, sans-serif',
-            fontSize: '11px',
-            fontWeight: '700',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: 'rgba(255, 255, 255, 0.9)',
-            marginBottom: '32px'
-          }}>
-            Galeri
-          </div>
           <h1 className="products-title" style={{
             fontFamily: 'Barlow, system-ui, sans-serif',
             fontSize: 'clamp(2.5rem, 5vw, 4rem)',

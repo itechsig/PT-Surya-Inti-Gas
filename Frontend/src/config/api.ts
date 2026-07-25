@@ -14,6 +14,12 @@ export const API_CONFIG = {
 };
 
 export const API_ENDPOINTS = {
+  // Auth endpoints
+  AUTH_LOGIN: '/api/v1/auth/login',
+  AUTH_LOGOUT: '/api/v1/auth/logout',
+  AUTH_ME: '/api/v1/auth/me',
+  AUTH_REGISTER: '/api/v1/auth/register',
+
   // Chatbot endpoints (public)
   CHAT: '/api/v1/chat/stream',
   CHATBOT: '/api/v1/chatbot',
@@ -73,6 +79,16 @@ export const API_ENDPOINTS = {
   UNMANNED_SYSTEM_ACTIVITY: '/api/v1/admin/unmanned/system-activity',
   UNMANNED_OPERATIONAL_STATS: '/api/v1/admin/unmanned/operational-stats',
   UNMANNED_MAP_DATA: '/api/v1/admin/unmanned/map-data',
+
+  // Hero Slides endpoints
+  HERO_SLIDES: '/api/v1/hero-slides', // public (GET, ?lang=id|en|zh)
+  ADMIN_HERO_SLIDES: '/api/v1/admin/hero-slides', // admin CRUD; append /{id}, /{id}/toggle-active, /reorder
+
+  // Products endpoints
+  PRODUCTS_CATALOG: '/api/v1/products', // public (GET, ?lang=id|en|zh) - grouped by category
+  PRODUCT_DETAIL: '/api/v1/products', // public (GET); append /{slug}?lang=
+  ADMIN_PRODUCTS: '/api/v1/admin/products', // admin CRUD; append /{id}, /{id}/toggle-featured, /{id}/toggle-published, /reorder
+  ADMIN_PRODUCT_CATEGORIES: '/api/v1/admin/product-categories', // admin (read-only list for the category picker)
 
   // Other endpoints (public)
   TEAM: '/api/v1/team',

@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
@@ -9,7 +9,8 @@ import {
   Droplets
 } from "lucide-react";
 import '../../styles/ProductsAndServices.css';
-import { getProductCategories, mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { useProductCatalog } from "../../hooks/useProductCatalog";
 
 
 // Product Card Component
@@ -184,30 +185,17 @@ export function ProductsAndServices() {
 
     if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
       setMainCategory(categoryParam as MainCategory);
-      if (subcategoryParam && categoryParam === 'gas') {
-        setSubCategory(subcategoryParam);
-      } else if (categoryParam === 'gas') {
-        setSubCategory('industrial-medical');
-      } else {
-        setSubCategory('');
-      }
+      const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
+      const firstSubCategory = Object.keys(categories)[0] || '';
+      setSubCategory(subcategoryParam && categories[subcategoryParam] ? subcategoryParam : firstSubCategory);
     }
-  }, [searchParams]);
+  }, [searchParams, productCategories]);
 
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;
     setMainCategory(category);
-    // Set default subcategory for each main category
-    let newSubCategory: string;
-    if (category === 'gas') {
-      newSubCategory = 'industrial-medical';
-    } else if (category === 'package' || category === 'services') {
-      // For package and services, no subcategory needed
-      newSubCategory = '';
-    } else {
-      newSubCategory = 'industrial-medical';
-    }
-    setSubCategory(newSubCategory);
+    const categories = productCategories[category] as Record<string, SubCategory>;
+    setSubCategory(Object.keys(categories)[0] || '');
   };
 
   const handleSubCategoryChange = (subCatId: string) => {
@@ -216,10 +204,6 @@ export function ProductsAndServices() {
   };
 
   const getSubCategories = () => {
-    // Package and services don't have subcategories
-    if (mainCategory === 'package' || mainCategory === 'services') {
-      return [];
-    }
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     return Object.keys(categories).map(key => ({
       id: key,
@@ -228,19 +212,13 @@ export function ProductsAndServices() {
   };
 
   const getCurrentProducts = () => {
-    // For package and services, get products directly
-    if (mainCategory === 'package' || mainCategory === 'services') {
-      const category = productCategories[mainCategory] as SubCategory;
-      return category?.products || [];
-    }
-    // For gas, get from subcategory
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     const subCat = categories[subCategory];
     return subCat?.products || [];
   };
 
   const handleCardClick = (productId: string) => {
-    navigate(`/produk/detail?id=${productId}`);
+    navigate(`/${lang || 'id'}/produk/detail?id=${productId}`);
   };
 
   return (

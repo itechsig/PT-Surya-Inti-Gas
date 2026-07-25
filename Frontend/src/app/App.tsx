@@ -18,13 +18,18 @@ import { Career } from "./components/Career";
 import { ScrollToTopButton } from "./components/ScrollToTopButton";
 import { JobDetail } from "./components/JobDetail";
 import { JobApplicationForm } from "./components/JobApplicationForm";
-
 import { DistributionNetworkPage } from "./components/DistributionNetworkPage";
 import { DistributionNetworkSection } from "./components/DistributionNetworkSection";
 import Gallery from "./components/Gallery";
 import GalleryDetail from "./components/GalleryDetail";
 import { performanceMonitor } from "../utils/performanceMonitor";
-import { AppProvider, ProductProvider } from "../context";
+import { AppProvider, ProductProvider, AuthProvider } from "../context";
+import { AdminLayout } from "./admin/AdminLayout";
+import { LoginPage } from "./admin/LoginPage";
+import { DashboardHome } from "./admin/DashboardHome";
+import { ProtectedRoute } from "./admin/ProtectedRoute";
+import { HeroSlidesPage } from "./admin/heroSlides/HeroSlidesPage";
+import { ProductsPage } from "./admin/products/ProductsPage";
 import { createSkipLink } from "../utils/accessibility";
 import i18n from "../utils/i18n";
 
@@ -167,6 +172,7 @@ function App() {
   return (
     <AppProvider>
       <ProductProvider>
+        <AuthProvider>
         <BrowserRouter>
           <ScrollToTop />
           <Routes>
@@ -345,9 +351,23 @@ function App() {
                 </div>
               </>
             } />
+            <Route path="/admin/login" element={<LoginPage />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<DashboardHome />} />
+              <Route path="hero-slides" element={<HeroSlidesPage />} />
+              <Route path="products" element={<ProductsPage />} />
+            </Route>
             <Route path="*" element={<Navigate to="/id" replace />} />
           </Routes>
-    </BrowserRouter>
+        </BrowserRouter>
+        </AuthProvider>
     </ProductProvider>
     </AppProvider>
   );

@@ -347,13 +347,33 @@
       "badge": "About Us",
       "title": "Get to Know",
       "titleHighlight": "PT Surya Inti Gas",
-      "description": "Since 2003, we have been a trusted partner in industrial gas solutions for various sectors in Indonesia, committed to quality, innovation, and sustainability."
+      "description": "Since 2003, we have been a trusted partner in industrial gas solutions for various sectors in Indonesia, committed to quality, innovation, and sustainability.",
+      "breadcrumbHome": "Home"
+    },
+    "intro": {
+      "badge": "Company Snapshot",
+      "title": "Who We Are & What We Do",
+      "subtitle": "Get to know PT Surya Inti Gas through three fundamentals that shape the way we work.",
+      "whoWeAre": {
+        "title": "Who We Are",
+        "text": "PT Surya Inti Gas has been established since 2003 and is based in Sidoarjo, East Java. We are a growing industrial gas distributor serving various industrial sectors across Indonesia."
+      },
+      "whatWeDo": {
+        "title": "What We Do",
+        "text": "We provide industrial & liquid gas, mixed gas, specialty gas, medical gas, high-pressure cylinders, cryogenic equipment, dry ice, and their supporting equipment."
+      },
+      "whyChooseUs": {
+        "title": "Why Choose Us",
+        "text": "Backed by our own delivery fleet, an experienced team, and a strong safety commitment, we are a reliable partner to 150+ industrial customers in Indonesia."
+      }
     },
     "visionMission": {
+      "badge": "Vision & Mission",
       "title": "Our Purpose and Dedication",
       "subtitle": "The vision and mission that form the foundation of every step we take in serving Indonesian industry."
     },
     "timeline": {
+      "badge": "Our History",
       "title": "The Journey of PT Surya Inti Gas",
       "subtitle": "Key milestones on our journey to becoming a leader in Indonesia's gas industry.",
       "imageAlt": "Photo {{year}} - {{title}}"
@@ -377,6 +397,7 @@
       }
     },
     "values": {
+      "badge": "Company Values",
       "title": "The Values of PT Surya Inti Gas",
       "subtitle": "The principles that guide every step we take in serving customers and running our business.",
       "items": [
@@ -389,6 +410,52 @@
         { "title": "Innovation", "description": "Through innovation and continuous improvement, we keep raising our efficiency and service standards." },
         { "title": "Teamwork", "description": "Strengthened by solid teamwork to achieve growth and success together." }
       ]
+    },
+    "whyUs": {
+      "badge": "Our Strengths",
+      "title": "Why Choose PT Surya Inti Gas",
+      "subtitle": "Six key reasons industrial customers trust us with their gas needs.",
+      "items": [
+        { "title": "High Quality Products", "description": "Industrial, medical, specialty, and mixed gas that meet high quality standards." },
+        { "title": "Fast & On-Time Distribution", "description": "Our own delivery fleet ready to serve customer needs on time." },
+        { "title": "Competitive Pricing", "description": "Industrial gas solutions at competitive prices without compromising quality." },
+        { "title": "Experienced Team", "description": "Backed by strong and solid human resources since our founding in 2003." },
+        { "title": "High Safety Standards", "description": "Safety is our top priority in every operational process." },
+        { "title": "Excellent Customer Service", "description": "Customer satisfaction is our priority, with fast and responsive service." }
+      ]
+    },
+    "stats": {
+      "badge": "Our Achievements",
+      "title": "PT Surya Inti Gas in Numbers",
+      "items": [
+        { "value": "20", "suffix": "+", "label": "Years of Experience" },
+        { "value": "150", "suffix": "+", "label": "Industrial Customers" },
+        { "value": "2", "suffix": "", "label": "Operational Offices" },
+        { "value": "24/7", "suffix": "", "label": "Customer Support" }
+      ]
+    },
+    "gallery": {
+      "badge": "Gallery",
+      "title": "A Glimpse of Our Facilities & Products",
+      "subtitle": "Documentation of PT Surya Inti Gas offices, facilities, and products.",
+      "viewAll": "View Full Gallery",
+      "lightboxClose": "Close image preview",
+      "lightboxPrev": "Previous image",
+      "lightboxNext": "Next image",
+      "items": [
+        { "title": "Operational Office" },
+        { "title": "Company Facility" },
+        { "title": "Work Area" },
+        { "title": "Oxygen Cylinder" },
+        { "title": "Cryogenic Dewar" },
+        { "title": "ISO Tank" }
+      ]
+    },
+    "cta": {
+      "title": "Need Reliable Industrial Gas Solutions?",
+      "subtitle": "Our team is ready to help meet your industrial, medical, and specialty gas needs with excellent service.",
+      "primaryButton": "Contact Us",
+      "secondaryButton": "View Products"
     }
   },
   "about": {
