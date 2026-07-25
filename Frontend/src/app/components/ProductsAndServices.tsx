@@ -235,9 +235,6 @@ export function ProductsAndServices() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="products-badge">
-              {t('products.pageHeader.badge')}
-            </div>
             <h2 className="products-title">
               {t('products.pageHeader.title')}
             </h2>

@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useTranslation } from "react-i18next";
 import { getDistributionLocations } from "../../data/distribution";
+import { motion, type Variants } from "motion/react";
 
 const css = `
   .distribution-corporate {
@@ -155,6 +156,17 @@ const css = `
   }
 `;
 
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
 const customIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -189,7 +201,13 @@ export function DistributionNetworkSection() {
 
       <section className="distribution-network-section">
         <div className="distribution-network-container">
-          <div className="map-container">
+          <motion.div
+            className="map-container"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={fadeUp}
+          >
             <MapContainer 
               center={[-2.5, 118.0]}
               zoom={5} 
@@ -217,11 +235,17 @@ export function DistributionNetworkSection() {
               ))}
               <MapUpdater activeLocations={currentLocations} />
             </MapContainer>
-          </div>
+          </motion.div>
 
-          <div className="locations-info">
+          <motion.div
+            className="locations-info"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
             {currentLocations.map((location) => (
-              <div key={location.id} className="location-card">
+              <motion.div key={location.id} className="location-card" variants={fadeUp}>
                 <h3 className="location-card-title">{location.name}</h3>
                 <div className="location-card-region">{location.region}</div>
                 <div className="location-card-coordinates">
@@ -238,9 +262,9 @@ export function DistributionNetworkSection() {
                 >
                   {t('distribution.page.viewOnGoogleMaps')}
                 </a>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

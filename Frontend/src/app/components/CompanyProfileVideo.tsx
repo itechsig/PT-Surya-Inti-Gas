@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { motion, type Variants } from 'motion/react';
 
 /* ═══════════════════════════════════════════════════════════════
    COMPANY PROFILE VIDEO.TSX — PT Surya Inti Gas Corporate
@@ -281,6 +282,17 @@ const css = `
   }
 `;
 
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
 export function CompanyProfileVideo() {
   const { t } = useTranslation();
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -297,20 +309,29 @@ export function CompanyProfileVideo() {
         <div className="video-container">
           
           {/* Corporate Video Header */}
-          <div className="video-header">
-            {/* <div className="video-badge">
-              {t('companyProfileVideo.badge')}
-            </div> */}
-            <h2 className="video-title">
+          <motion.div
+            className="video-header"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="video-title" variants={fadeUp}>
               {t('companyProfileVideo.title')}
-            </h2>
-            <p className="video-subtitle">
+            </motion.h2>
+            <motion.p className="video-subtitle" variants={fadeUp}>
               {t('companyProfileVideo.subtitle')}
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           {/* Corporate Video Wrapper */}
-          <div className="video-wrapper">
+          <motion.div
+            className="video-wrapper"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={fadeUp}
+          >
             {!isVideoLoaded ? (
               <div 
                 className="video-thumbnail" 
@@ -352,7 +373,7 @@ export function CompanyProfileVideo() {
                 loading="lazy"
               />
             )}
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

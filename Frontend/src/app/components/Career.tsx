@@ -2,8 +2,20 @@ import { useState, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Eye, Send, Search, X } from 'lucide-react';
+import { motion, type Variants } from 'motion/react';
 import '../../styles/career.css';
 import { getJobs } from '../../data/jobs';
+
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
 
 export function Career() {
   const navigate = useNavigate();
@@ -80,15 +92,22 @@ export function Career() {
   return (
     <div className="career-page">
       {/* Career Hero Section */}
-      <div className="career-hero">
+      <motion.section
+        className="career-hero"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-80px' }}
+        variants={staggerContainer}
+      >
+        <div className="career-hero-bg"></div>
         <div className="section-container">
-          <div className="section-header">
+          <motion.div className="section-header" variants={fadeUp}>
             <h2>{t('career.page.title')}</h2>
             <p>{t('career.page.subtitle')}</p>
             <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.section>
 
       {/* Job Listings Section */}
       <div className="listings-section">
@@ -224,16 +243,22 @@ export function Career() {
             </div>
           </div>
 
-          <div className="jobs-grid">
+          <motion.div 
+            className="jobs-grid"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
             {filteredOpenings.length === 0 ? (
-              <div className="no-jobs-found">
+              <motion.div className="no-jobs-found" variants={fadeUp}>
                 <p>{t('career.page.noJobsFound')}</p>
-              </div>
+              </motion.div>
             ) : (
               filteredOpenings.map((job) => {
                 const deadlinePassed = isDeadlinePassed(job.deadline);
                 return (
-                  <div key={job.id} className={`job-card ${deadlinePassed ? 'closed' : ''}`}>
+                  <motion.div key={job.id} className={`job-card ${deadlinePassed ? 'closed' : ''}`} variants={fadeUp} whileHover={{ y: -8 }}>
                     <div className="job-header">
                       <div className="job-title">
                         <h3>{job.title}</h3>
@@ -285,11 +310,11 @@ export function Career() {
                         )}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
 

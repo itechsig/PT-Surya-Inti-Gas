@@ -151,10 +151,7 @@ const css = `
   }
 
   .au-hero-title span {
-    background: linear-gradient(90deg, var(--secondary), #7ee0ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--white);
   }
 
   .au-hero-description {

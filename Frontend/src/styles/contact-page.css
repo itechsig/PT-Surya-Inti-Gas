@@ -1,6 +1,30 @@
 /* ── Container & Grid Dasar ── */
 .clean-contact-page {
-  font-family: 'DM Sans', system-ui, sans-serif;
+  --primary: #0F4C81;
+  --primary-dark: #0a3861;
+  --secondary: #00AEEF;
+  --bg: #F8FAFC;
+  --accent: #EAF4FF;
+  --navy-dark: #0f172a;
+  --navy: #1e293b;
+  --blue-dark: #1e3a8a;
+  --blue: #1e40af;
+  --sky: #3b82f6;
+  --sky-light: #60a5fa;
+  --white: #ffffff;
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ff-display: 'Barlow', system-ui, sans-serif;
+  --ff-body: 'DM Sans', system-ui, sans-serif;
+  
+  font-family: var(--ff-body);
   background-color: #ffffff;
   padding: 0;
   color: #333;
@@ -12,23 +36,30 @@
   padding: 0 40px;
 }
 
-.contact-hero .clean-container {
-  padding: 0 40px;
-}
-
 .contact-content {
   padding: 80px 20px;
 }
 
 /* ── Contact Hero Section ── */
 .contact-hero {
+  position: relative;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 140px 6vw;
   text-align: center;
   margin-bottom: 0;
-  padding: 120px 0 80px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  color: white;
-  position: relative;
-  overflow: hidden;
+}
+
+.contact-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url('/images/office/wp.jpg');
+  background-size: cover;
+  background-position: center 65%;
+  z-index: 0;
 }
 
 .contact-hero::before {
@@ -40,16 +71,29 @@
   bottom: 0;
   background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
   pointer-events: none;
+  z-index: 1;
+}
+
+.contact-hero .clean-container {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 40px;
 }
 
 .contact-hero-title {
   font-family: 'Barlow', system-ui, sans-serif;
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2.25rem, 5vw, 4rem);
   font-weight: 800;
   color: white;
   margin: 0 0 24px;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.15;
   position: relative;
   z-index: 1;
 }
@@ -104,6 +148,39 @@
   margin-left: -100px;
 }
 
+.address-block {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid var(--slate-200);
+  overflow: hidden;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+.address-block::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease);
+}
+
+.address-block:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px rgba(15, 76, 129, 0.12);
+  border-color: rgba(0, 174, 239, 0.4);
+}
+
+.address-block:hover::before {
+  transform: scaleX(1);
+}
+
 .address-block h3 {
   font-family: 'Barlow', system-ui, sans-serif;
   font-size: 1.25rem;
@@ -147,6 +224,39 @@
 }
 
 /* ── Kolom Kanan: Form ── */
+.form-column {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 40px;
+  border: 1px solid var(--slate-200);
+  overflow: hidden;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+.form-column::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease);
+}
+
+.form-column:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px rgba(15, 76, 129, 0.12);
+  border-color: rgba(0, 174, 239, 0.4);
+}
+
+.form-column:hover::before {
+  transform: scaleX(1);
+}
+
 .form-intro {
   font-family: 'DM Sans', system-ui, sans-serif;
   font-size: 1rem;
@@ -243,6 +353,10 @@
   .clean-grid {
     gap: 40px;
   }
+
+  .contact-hero {
+    padding: 100px 6vw 80px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -262,6 +376,7 @@
 
   .contact-hero {
     padding: 80px 24px 60px;
+    min-height: auto;
   }
 
   .contact-content {
@@ -285,6 +400,7 @@
 
   .contact-hero {
     padding: 60px 16px 40px;
+    min-height: auto;
   }
 
   .contact-hero-title {

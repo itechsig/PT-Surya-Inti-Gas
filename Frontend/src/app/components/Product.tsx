@@ -254,76 +254,73 @@ export function Product() {
 
   return (
     <div className="products-corporate">
-      <section className="products-section" id="products">
-
-        {/* Corporate Header */}
-        <motion.div 
-          className="products-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          style={{
-            position: 'relative',
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-            padding: '100px 6vw 120px 6vw',
-            width: '100vw',
-            marginLeft: 'calc(-50vw + 50%)',
-            marginRight: 'calc(-50vw + 50%)',
-            marginTop: '-120px',
-            overflow: 'hidden'
-          }}
-        >
-          <div style={{
-            maxWidth: '1400px',
-            margin: '0 auto',
-            textAlign: 'center',
+      {/* Corporate Header */}
+      <motion.div 
+        className="products-header"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        style={{
+          position: 'relative',
+          minHeight: '560px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          padding: '140px 6vw',
+          textAlign: 'center',
+          marginBottom: '0'
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url(/images/office/wp.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 65%',
+          zIndex: 0
+        }} />
+        <div style={{
+          position: 'relative',
+          zIndex: 1,
+          maxWidth: '900px',
+          margin: '0 auto',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+          <h2 className="products-title" style={{
+            fontFamily: 'Barlow, system-ui, sans-serif',
+            fontSize: 'clamp(2.25rem, 5vw, 4rem)',
+            fontWeight: '800',
+            lineHeight: '1.15',
+            letterSpacing: '-0.02em',
             color: '#ffffff',
-            paddingTop: '30px'
+            margin: '0 0 24px'
           }}>
-            <div className="products-badge" style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '8px 24px',
-              borderRadius: '50px',
-              background: 'rgba(96, 165, 250, 0.15)',
-              border: '1px solid rgba(96, 165, 250, 0.3)',
-              fontFamily: 'Barlow, system-ui, sans-serif',
-              fontSize: '11px',
-              fontWeight: '700',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: 'rgba(255, 255, 255, 0.9)',
-              marginBottom: '32px'
-            }}>
-              {t('products.pageHeader.badge')}
-            </div>
-            <h2 className="products-title" style={{
-              fontFamily: 'Barlow, system-ui, sans-serif',
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              fontWeight: '800',
-              lineHeight: '1.1',
-              letterSpacing: '-0.02em',
-              color: '#ffffff',
-              margin: '0 0 24px'
-            }}>
-              {t('products.pageHeader.title')}
-            </h2>
-            <p className="products-subtitle" style={{
-              fontFamily: 'DM Sans, system-ui, sans-serif',
-              fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
-              lineHeight: '1.7',
-              color: 'rgba(255, 255, 255, 0.7)',
-              maxWidth: '800px',
-              margin: '0 auto'
-            }}>
-              {t('products.pageHeader.subtitle')}
-            </p>
-          </div>
-        </motion.div>
+            {t('products.pageHeader.title')}
+          </h2>
+          <p className="products-subtitle" style={{
+            fontFamily: 'DM Sans, system-ui, sans-serif',
+            fontSize: 'clamp(1rem, 1.4vw, 1.125rem)',
+            lineHeight: '1.75',
+            color: 'rgba(255, 255, 255, 0.78)',
+            maxWidth: '640px',
+            margin: '0 auto'
+          }}>
+            {t('products.pageHeader.subtitle')}
+          </p>
+        </div>
+      </motion.div>
 
-        <div className="products-container">
+      <section className="products-section" id="products" style={{
+        paddingTop: '0'
+      }}>
+        <div className="products-container" style={{
+          padding: '100px 6vw'
+        }}>
 
           {/* Category Cards */}
           <motion.div 
@@ -397,10 +394,8 @@ export function Product() {
               />
             ))}
           </motion.div>
-
         </div>
       </section>
-
     </div>
   );
 }
