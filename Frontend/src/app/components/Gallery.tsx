@@ -4,7 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
-import { getGalleryItems, type GalleryItem } from '../../data/gallery';
+import type { GalleryItem } from '../../data/gallery';
+import { useGallery } from '../../hooks/useGallery';
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -505,13 +506,13 @@ function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: st
 function Gallery() {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [selectedYear, setSelectedYear] = useState('all');
   const [selectedActivity, setSelectedActivity] = useState('all');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const galleryItems = useMemo(() => getGalleryItems(t), [t, i18n.language]);
+  const { items: galleryItems } = useGallery(currentLang);
 
   const years = useMemo(
     () => [

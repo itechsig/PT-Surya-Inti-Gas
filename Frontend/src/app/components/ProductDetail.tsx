@@ -78,9 +78,9 @@ export function ProductDetail() {
     );
   }
 
-  const { product, category, subCategory } = productData;
-  const categoryLabel = t(`products.mainCategories.${category}`);
-  const subCategoryLabel = (subCategory && category === 'gas') ? t(`products.categories.${subCategory}`) : null;
+  const { product, mainCategory, subCategoryTitle } = productData;
+  const categoryLabel = t(`products.mainCategories.${mainCategory}`);
+  const subCategoryLabel = subCategoryTitle || null;
 
   return (
     <div className="products-corporate">

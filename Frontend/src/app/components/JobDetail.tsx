@@ -1,24 +1,16 @@
-import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, ArrowLeft, Send, Calendar, Building, Briefcase } from 'lucide-react';
 import '../../styles/career.css';
-import { getJobs, type Job } from '../../data/jobs';
+import { useJobVacancies } from '../../hooks/useJobVacancies';
 
 export function JobDetail() {
   const navigate = useNavigate();
   const { id, lang } = useParams<{ id: string; lang: string }>();
   const currentLang = lang || 'id';
   const { t, i18n } = useTranslation();
-  const [job, setJob] = useState<Job | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const openings = getJobs(t);
-    const foundJob = openings.find(j => j.id === parseInt(id || '0'));
-    setJob(foundJob || null);
-    setLoading(false);
-  }, [id, t, i18n.language]);
+  const { jobs: openings, isLoading: loading } = useJobVacancies(currentLang);
+  const job = openings.find(j => j.id === parseInt(id || '0')) || null;
 
   const isDeadlinePassed = (deadline: string) => {
     return new Date(deadline) < new Date();
@@ -36,7 +28,7 @@ export function JobDetail() {
     }
   };
 
-  const totalJobs = getJobs(t).length;
+  const totalJobs = openings.length;
 
   if (loading) {
     return (

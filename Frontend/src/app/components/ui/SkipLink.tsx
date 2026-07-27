@@ -4,7 +4,7 @@
  * WCAG 2.1 Success Criterion 2.4.1 (Bypass Blocks)
  */
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 interface SkipLinkProps {
   targetId?: string;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { API_ENDPOINTS, getApiUrl } from "../config/api";
 import type { ProductCategories } from "../data/products";
 
-const EMPTY_CATALOG: ProductCategories = { gas: {}, equipment: {} };
+const EMPTY_CATALOG: ProductCategories = { gas: {}, equipment: {}, services: {} };
 
 /** Fetches the published product catalog, grouped by category, localized for the current language. */
 export function useProductCatalog(lang: string) {

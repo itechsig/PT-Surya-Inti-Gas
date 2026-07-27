@@ -14,12 +14,12 @@ export type SubCategory = {
   products: Product[];
 };
 
-export type MainCategory = "gas" | "package" | "services";
+export type MainCategory = "gas" | "equipment" | "services";
 
 export interface ProductCategories {
   gas: Record<string, SubCategory>;
-  package: Record<string, SubCategory>;
+  equipment: Record<string, SubCategory>;
   services: Record<string, SubCategory>;
 }
 
-export const mainCategoryIds: MainCategory[] = ["gas", "package", "services"];
+export const mainCategoryIds: MainCategory[] = ["gas", "equipment", "services"];

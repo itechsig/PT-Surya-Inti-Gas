@@ -18,7 +18,11 @@ export const API_ENDPOINTS = {
   AUTH_LOGIN: '/api/v1/auth/login',
   AUTH_LOGOUT: '/api/v1/auth/logout',
   AUTH_ME: '/api/v1/auth/me',
-  AUTH_REGISTER: '/api/v1/auth/register',
+  AUTH_PROFILE: '/api/v1/auth/profile',
+  AUTH_PASSWORD: '/api/v1/auth/password',
+
+  // User management endpoints (Super Admin only)
+  ADMIN_USERS: '/api/v1/admin/users', // append /{id} for update/delete
 
   // Chatbot endpoints (public)
   CHAT: '/api/v1/chat/stream',
@@ -89,6 +93,14 @@ export const API_ENDPOINTS = {
   PRODUCT_DETAIL: '/api/v1/products', // public (GET); append /{slug}?lang=
   ADMIN_PRODUCTS: '/api/v1/admin/products', // admin CRUD; append /{id}, /{id}/toggle-featured, /{id}/toggle-published, /reorder
   ADMIN_PRODUCT_CATEGORIES: '/api/v1/admin/product-categories', // admin (read-only list for the category picker)
+
+  // Gallery endpoints
+  GALLERY: '/api/v1/gallery', // public (GET, ?lang=id|en|zh)
+  ADMIN_GALLERY: '/api/v1/admin/gallery', // admin CRUD; append /{id}, /{id}/toggle-active, /reorder
+
+  // Job Vacancies endpoints
+  JOB_VACANCIES: '/api/v1/job-vacancies', // public (GET, ?lang=id|en|zh)
+  ADMIN_JOB_VACANCIES: '/api/v1/admin/job-vacancies', // admin CRUD; append /{id}, /{id}/toggle-active, /reorder
 
   // Other endpoints (public)
   TEAM: '/api/v1/team',

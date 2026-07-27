@@ -19,7 +19,7 @@ import type { AdminHeroSlide } from './types';
 
 export function HeroSlidesPage() {
   const { hasRole } = useAuth();
-  const canDelete = hasRole(['administrator', 'editor']);
+  const canDelete = hasRole(['super_admin', 'admin', 'editor']);
 
   const [slides, setSlides] = useState<AdminHeroSlide[]>([]);
   const [isLoading, setIsLoading] = useState(true);

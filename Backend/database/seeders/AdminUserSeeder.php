@@ -11,9 +11,10 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         $accounts = [
-            ['name' => 'Administrator', 'email' => 'admin@suryaintigas.com', 'role' => User::ROLE_ADMINISTRATOR],
+            ['name' => 'Super Admin', 'email' => 'itechsig0510@gmail.com', 'role' => User::ROLE_SUPER_ADMIN],
+            ['name' => 'Admin', 'email' => 'admin@suryaintigas.com', 'role' => User::ROLE_ADMIN],
             ['name' => 'Editor', 'email' => 'editor@suryaintigas.com', 'role' => User::ROLE_EDITOR],
-            ['name' => 'Content Manager', 'email' => 'content@suryaintigas.com', 'role' => User::ROLE_CONTENT_MANAGER],
+            ['name' => 'Fauzan', 'email' => 'fauzanafiflutfiansah04@gmail.com', 'role' => User::ROLE_HR],
         ];
 
         foreach ($accounts as $account) {

@@ -1,11 +1,19 @@
+export type MainCategory = 'gas' | 'equipment' | 'services';
+
 export interface AdminProductCategory {
   id: number;
-  main_category: 'gas' | 'equipment';
+  main_category: MainCategory;
   slug: string;
   name_id: string;
   name_en: string | null;
   name_zh: string | null;
 }
+
+export const MAIN_CATEGORY_LABELS: Record<MainCategory, string> = {
+  gas: 'Gas',
+  equipment: 'Equipment',
+  services: 'Services',
+};
 
 export interface ProductSpecification {
   label: string;
@@ -15,7 +23,7 @@ export interface ProductSpecification {
 export interface AdminProduct {
   id: number;
   product_category_id: number;
-  category: { id: number; main_category: 'gas' | 'equipment'; slug: string; name_id: string } | null;
+  category: { id: number; main_category: MainCategory; slug: string; name_id: string } | null;
   slug: string;
   name_id: string;
   name_en: string | null;

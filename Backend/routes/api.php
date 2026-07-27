@@ -24,6 +24,9 @@ use App\Http\Controllers\Api\AuditLogController;
 use App\Http\Controllers\Api\UnmannedAgentController;
 use App\Http\Controllers\Api\HeroSlideController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\GalleryController;
+use App\Http\Controllers\Api\JobVacancyController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,10 +44,10 @@ Route::prefix('v1')->group(function () {
     // PUBLIC ROUTES - Website Visitors (No Authentication Required)
     // Route::middleware(['api', 'request.response.log', 'check.blocked'])->group(function () {
         // Authentication Routes (Public - login only; account creation is admin-only)
-        // Route::middleware(['throttle:api-user', 'brute.force'])->group(function () {
+        Route::middleware(['throttle:10,1', 'brute.force'])->group(function () {
             Route::post('/auth/login', [AuthController::class, 'login']);
             Route::post('/auth/email/verification-notification', [AuthController::class, 'sendVerificationEmail']);
-        // });
+        });
 
         // Content Endpoints (Public)
         // Team Members API (Public)
@@ -65,6 +68,12 @@ Route::prefix('v1')->group(function () {
         // Products API (Public)
         Route::get('/products', [ProductController::class, 'index']);
         Route::get('/products/{slug}', [ProductController::class, 'show']);
+
+        // Gallery API (Public)
+        Route::get('/gallery', [GalleryController::class, 'index']);
+
+        // Job Vacancies API (Public)
+        Route::get('/job-vacancies', [JobVacancyController::class, 'index']);
 
         // Contact Form API (Public)
         Route::post('/contact', [ContactController::class, 'store']);
@@ -91,25 +100,30 @@ Route::prefix('v1')->group(function () {
     // });
 
     // ADMIN ROUTES - Admin Panel (Authentication Required)
-    Route::middleware(['auth:sanctum', 'audit.log'])->group(function () {
+    Route::middleware(['auth:sanctum', 'audit.log', 'password.change'])->group(function () {
         // Authentication Routes (Protected)
         Route::post('/auth/logout', [AuthController::class, 'logout']);
         Route::get('/auth/me', [AuthController::class, 'me']);
+        Route::put('/auth/profile', [AuthController::class, 'updateProfile']);
+        Route::middleware(['throttle:5,1'])->put('/auth/password', [AuthController::class, 'updatePassword']);
 
-        // User Management (Administrator Only)
-        Route::middleware(['role:administrator'])->group(function () {
-            Route::post('/auth/register', [AuthController::class, 'register']);
+        // User Management (Super Admin Only)
+        Route::middleware(['role:super_admin'])->group(function () {
+            Route::get('/admin/users', [UserController::class, 'index']);
+            Route::post('/admin/users', [UserController::class, 'store']);
+            Route::put('/admin/users/{user}', [UserController::class, 'update']);
+            Route::delete('/admin/users/{user}', [UserController::class, 'destroy']);
+            Route::patch('/admin/users/{user}/reset-password', [UserController::class, 'resetPassword']);
+            Route::patch('/admin/users/{user}/toggle-status', [UserController::class, 'toggleStatus']);
         });
 
         // Hero Slides API (Admin)
         Route::get('/admin/hero-slides', [HeroSlideController::class, 'adminIndex']);
         Route::get('/admin/hero-slides/{heroSlide}', [HeroSlideController::class, 'show']);
-        Route::middleware(['role:administrator,editor,content_manager'])->group(function () {
+        Route::middleware(['role:super_admin,admin,editor'])->group(function () {
             Route::post('/admin/hero-slides', [HeroSlideController::class, 'store']);
             Route::put('/admin/hero-slides/{heroSlide}', [HeroSlideController::class, 'update']); // frontend POSTs with _method=PUT (multipart/form-data can't send real PUT)
             Route::patch('/admin/hero-slides/{heroSlide}/toggle-active', [HeroSlideController::class, 'toggleActive']);
-        });
-        Route::middleware(['role:administrator,editor'])->group(function () {
             Route::delete('/admin/hero-slides/{heroSlide}', [HeroSlideController::class, 'destroy']);
             Route::post('/admin/hero-slides/reorder', [HeroSlideController::class, 'reorder']);
         });
@@ -118,15 +132,34 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/product-categories', [ProductController::class, 'categories']);
         Route::get('/admin/products', [ProductController::class, 'adminIndex']);
         Route::get('/admin/products/{product}', [ProductController::class, 'adminShow']);
-        Route::middleware(['role:administrator,editor,content_manager'])->group(function () {
+        Route::middleware(['role:super_admin,admin,editor'])->group(function () {
             Route::post('/admin/products', [ProductController::class, 'store']);
             Route::put('/admin/products/{product}', [ProductController::class, 'update']); // frontend POSTs with _method=PUT (multipart)
             Route::patch('/admin/products/{product}/toggle-featured', [ProductController::class, 'toggleFeatured']);
             Route::patch('/admin/products/{product}/toggle-published', [ProductController::class, 'togglePublished']);
-        });
-        Route::middleware(['role:administrator,editor'])->group(function () {
             Route::delete('/admin/products/{product}', [ProductController::class, 'destroy']);
             Route::post('/admin/products/reorder', [ProductController::class, 'reorder']);
+        });
+        // Gallery API (Admin)
+        Route::get('/admin/gallery', [GalleryController::class, 'adminIndex']);
+        Route::get('/admin/gallery/{galleryItem}', [GalleryController::class, 'show']);
+        Route::middleware(['role:super_admin,admin,editor'])->group(function () {
+            Route::post('/admin/gallery', [GalleryController::class, 'store']);
+            Route::put('/admin/gallery/{galleryItem}', [GalleryController::class, 'update']); // frontend POSTs with _method=PUT (multipart)
+            Route::patch('/admin/gallery/{galleryItem}/toggle-active', [GalleryController::class, 'toggleActive']);
+            Route::delete('/admin/gallery/{galleryItem}', [GalleryController::class, 'destroy']);
+            Route::post('/admin/gallery/reorder', [GalleryController::class, 'reorder']);
+        });
+
+        // Job Vacancies API (Admin) - Editor has no access to this module; HR manages it instead
+        Route::middleware(['role:super_admin,admin,hr'])->group(function () {
+            Route::get('/admin/job-vacancies', [JobVacancyController::class, 'adminIndex']);
+            Route::get('/admin/job-vacancies/{jobVacancy}', [JobVacancyController::class, 'show']);
+            Route::post('/admin/job-vacancies', [JobVacancyController::class, 'store']);
+            Route::put('/admin/job-vacancies/{jobVacancy}', [JobVacancyController::class, 'update']);
+            Route::patch('/admin/job-vacancies/{jobVacancy}/toggle-active', [JobVacancyController::class, 'toggleActive']);
+            Route::delete('/admin/job-vacancies/{jobVacancy}', [JobVacancyController::class, 'destroy']);
+            Route::post('/admin/job-vacancies/reorder', [JobVacancyController::class, 'reorder']);
         });
 
         // Admin Dashboard API
@@ -150,8 +183,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/admin/ai-recommendations/{id}/approve', [AIRecommendationController::class, 'approve']);
         Route::post('/admin/ai-recommendations/{id}/reject', [AIRecommendationController::class, 'reject']);
 
-        // Blocked Users API (Administrator Only - security sensitive)
-        Route::middleware(['role:administrator'])->group(function () {
+        // Blocked Users API (Super Admin Only - security sensitive)
+        Route::middleware(['role:super_admin'])->group(function () {
             Route::get('/admin/blocked-users', [BlockedUserController::class, 'index']);
             Route::get('/admin/blocked-users/statistics', [BlockedUserController::class, 'statistics']);
             Route::post('/admin/blocked-users', [BlockedUserController::class, 'store']);
@@ -160,12 +193,15 @@ Route::prefix('v1')->group(function () {
             Route::get('/admin/blocked-users/check', [BlockedUserController::class, 'checkBlocked']);
         });
 
-        // Career Applications API
-        Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
-        Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
-        Route::get('/admin/career-applications/{id}', [CareerApplicationController::class, 'show']);
-        Route::put('/admin/career-applications/{id}', [CareerApplicationController::class, 'update']);
-        Route::delete('/admin/career-applications/{id}', [CareerApplicationController::class, 'destroy']);
+        // Career Applications API - Editor has no access to this module
+        Route::middleware(['role:super_admin,admin,hr'])->group(function () {
+            Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
+            Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
+            Route::get('/admin/career-applications/{id}', [CareerApplicationController::class, 'show']);
+            Route::get('/admin/career-applications/{id}/cv', [CareerApplicationController::class, 'downloadCv']);
+            Route::put('/admin/career-applications/{id}', [CareerApplicationController::class, 'update']);
+            Route::delete('/admin/career-applications/{id}', [CareerApplicationController::class, 'destroy']);
+        });
 
         // Notifications API
         Route::get('/admin/notifications', [NotificationController::class, 'index']);
@@ -176,8 +212,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/admin/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
         Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
 
-        // Audit Logs API (Administrator Only)
-        Route::middleware(['role:administrator'])->group(function () {
+        // Audit Logs API (Super Admin Only)
+        Route::middleware(['role:super_admin'])->group(function () {
             Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
             Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
             Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
@@ -193,8 +229,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/unmanned/operational-stats', [UnmannedAgentController::class, 'operationalStats']);
         Route::get('/admin/unmanned/map-data', [UnmannedAgentController::class, 'mapData']);
 
-        // Chatbot Key Management (Administrator Only) - Security sensitive
-        Route::middleware(['role:administrator'])->group(function () {
+        // Chatbot Key Management (Super Admin Only) - Security sensitive
+        Route::middleware(['role:super_admin'])->group(function () {
             Route::post('/admin/chatbot/reload-kb', [ChatbotController::class, 'reloadKnowledgeBase']);
             Route::get('/admin/chatbot/rotation-status', [ChatbotController::class, 'apiKeyRotationStatus']);
         });
@@ -229,8 +265,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/chatbot/ab-testing/results/{id}', [ChatbotABTestingController::class, 'getResults']);
         Route::get('/admin/chatbot/ab-testing/analytics', [ChatbotABTestingController::class, 'analytics']);
 
-        // Chatbot Settings (Administrator Only)
-        Route::middleware(['role:administrator'])->group(function () {
+        // Chatbot Settings (Super Admin Only)
+        Route::middleware(['role:super_admin'])->group(function () {
             Route::get('/admin/chatbot/settings', [ChatbotSettingsController::class, 'index']);
             Route::put('/admin/chatbot/settings', [ChatbotSettingsController::class, 'update']);
             Route::post('/admin/chatbot/settings/reset', [ChatbotSettingsController::class, 'reset']);

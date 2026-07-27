@@ -9,109 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
     use HandlesApiErrors;
-    /**
-     * Register a new user and create API token
-     * 
-     * @OA\Post(
-     *     path="/api/v1/auth/register",
-     *     summary="Register a new user",
-     *     description="Create a new user account and generate API token",
-     *     tags={"Authentication"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name","email","password","password_confirmation"},
-     *             @OA\Property(property="name", type="string", maxLength=255, example="John Doe"),
-     *             @OA\Property(property="email", type="string", format="email", maxLength=255, example="john@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&]).{8,}", example="Test@12345"),
-     *             @OA\Property(property="password_confirmation", type="string", format="password", example="Test@12345")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="User registered successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="message", type="string", example="User registered successfully"),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="object",
-     *                 @OA\Property(
-     *                     property="user",
-     *                     type="object",
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="John Doe"),
-     *                     @OA\Property(property="email", type="string", example="john@example.com")
-     *                 ),
-     *                 @OA\Property(property="token", type="string", example="1|tokenstring")
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Validation error",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=false),
-     *             @OA\Property(property="message", type="string", example="Validation failed"),
-     *             @OA\Property(property="errors", type="object")
-     *         )
-     *     )
-     * )
-     */
-    public function register(Request $request): JsonResponse
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'role' => 'sometimes|in:administrator,editor,content_manager',
-                'password' => [
-                    'required',
-                    'string',
-                    'min:8',
-                    'confirmed',
-                    'regex:/[a-z]/',      // lowercase
-                    'regex:/[A-Z]/',      // uppercase
-                    'regex:/[0-9]/',      // number
-                    'regex:/[@$!%*#?&]/', // special char
-                ],
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Validation failed',
-                    'errors' => $validator->errors()
-                ], 422);
-            }
-
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'role' => $request->input('role', User::ROLE_CONTENT_MANAGER),
-                'password' => Hash::make($request->password),
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'User registered successfully',
-                'data' => [
-                    'user' => [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'role' => $user->role,
-                    ],
-                ]
-            ], 201);
-        } catch (\Exception $e) {
-            return $this->handleApiError($e, 'Registration failed', 'auth_registration_failed');
-        }
-    }
 
     /**
      * Login user and create API token
@@ -193,10 +95,19 @@ class AuthController extends Controller
                 ], 401);
             }
 
+            if (!$user->is_active) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Akun Anda telah dinonaktifkan. Hubungi Super Admin untuk informasi lebih lanjut.',
+                ], 403);
+            }
+
             // Revoke previous tokens
             $user->tokens()->delete();
 
             $token = $user->createToken('api-token')->plainTextToken;
+
+            $user->forceFill(['last_login_at' => now()])->save();
 
             return response()->json([
                 'success' => true,
@@ -207,6 +118,7 @@ class AuthController extends Controller
                         'name' => $user->name,
                         'email' => $user->email,
                         'role' => $user->role,
+                        'must_change_password' => $user->must_change_password,
                     ],
                     'token' => $token,
                 ]
@@ -306,12 +218,120 @@ class AuthController extends Controller
                         'name' => $request->user()->name,
                         'email' => $request->user()->email,
                         'role' => $request->user()->role,
+                        'must_change_password' => $request->user()->must_change_password,
                         'email_verified' => $request->user()->hasVerifiedEmail(),
                     ]
                 ]
             ]);
         } catch (\Exception $e) {
             return $this->handleApiError($e, 'Failed to get user info', 'auth_get_user_failed');
+        }
+    }
+
+    /**
+     * Update the authenticated user's name and email.
+     * Requires the current password to prevent account takeover if a session token is compromised.
+     */
+    public function updateProfile(Request $request): JsonResponse
+    {
+        try {
+            $user = $request->user();
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+                'current_password' => 'required|string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
+
+            if (!Hash::check($request->input('current_password'), $user->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kata sandi saat ini tidak sesuai',
+                ], 422);
+            }
+
+            $user->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profil berhasil diperbarui',
+                'data' => [
+                    'user' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'role' => $user->role,
+                    ],
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return $this->handleApiError($e, 'Gagal memperbarui profil', 'auth_update_profile_failed');
+        }
+    }
+
+    /**
+     * Update the authenticated user's password and revoke every other active session.
+     */
+    public function updatePassword(Request $request): JsonResponse
+    {
+        try {
+            $user = $request->user();
+
+            $validator = Validator::make($request->all(), [
+                'current_password' => 'required|string',
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'confirmed',
+                    'regex:/[a-z]/',
+                    'regex:/[A-Z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[@$!%*#?&]/',
+                ],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
+
+            if (!Hash::check($request->input('current_password'), $user->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kata sandi saat ini tidak sesuai',
+                ], 422);
+            }
+
+            $user->update([
+                'password' => Hash::make($request->input('password')),
+                'must_change_password' => false,
+            ]);
+
+            // Revoke every other token so a stolen session can't outlive a password change.
+            $currentTokenId = $user->currentAccessToken()?->id;
+            $user->tokens()->when($currentTokenId, fn ($query) => $query->where('id', '!=', $currentTokenId))->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Kata sandi berhasil diperbarui',
+            ]);
+        } catch (\Exception $e) {
+            return $this->handleApiError($e, 'Gagal memperbarui kata sandi', 'auth_update_password_failed');
         }
     }
 

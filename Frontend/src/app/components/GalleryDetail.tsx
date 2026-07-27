@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -9,7 +9,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { createPortal } from 'react-dom';
-import { getGalleryItems } from '../../data/gallery';
+import { useGallery } from '../../hooks/useGallery';
 
 // Styles
 const galleryDetailStyles = `
@@ -285,12 +285,12 @@ function GalleryDetail() {
   const { id, lang } = useParams<{ id: string; lang: string }>();
   const navigate = useNavigate();
   const currentLang = lang || 'id';
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const galleryItems = useMemo(() => getGalleryItems(t), [t, i18n.language]);
-  const currentItem = galleryItems.find(item => item.id === id);
+  const { items: galleryItems } = useGallery(currentLang);
+  const currentItem = galleryItems.find((item) => item.id === id);
 
   // Toggle body scroll when lightbox is open/closed
   useEffect(() => {

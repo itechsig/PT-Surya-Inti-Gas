@@ -1,24 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Send, Upload, CheckCircle } from 'lucide-react';
 import '../../styles/career.css';
-import { getJobs } from '../../data/jobs';
-
-interface Job {
-  id: number;
-  title: string;
-  division: string;
-  location: string;
-}
+import { useJobVacancies } from '../../hooks/useJobVacancies';
+import { API_ENDPOINTS } from '../../config/api';
+import { apiRequest, ApiError } from '../../utils/apiClient';
 
 export function JobApplicationForm() {
   const navigate = useNavigate();
   const { id, lang } = useParams<{ id: string; lang: string }>();
   const currentLang = lang || 'id';
   const { t } = useTranslation();
-  const [job, setJob] = useState<Job | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { jobs: openings, isLoading: loading } = useJobVacancies(currentLang);
+  const job = openings.find(j => j.id === parseInt(id || '0')) || null;
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -34,13 +29,6 @@ export function JobApplicationForm() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    const openings = getJobs(t);
-    const foundJob = openings.find(j => j.id === parseInt(id || '0'));
-    setJob(foundJob || null);
-    setLoading(false);
-  }, [id, t]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -107,25 +95,56 @@ export function JobApplicationForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
+
+    if (!validateForm() || !job) {
       return;
     }
 
     setSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setSubmitting(false);
+    const payload = new FormData();
+    payload.append('name', formData.fullName);
+    payload.append('email', formData.email);
+    payload.append('phone', formData.phone);
+    payload.append('position', job.title);
+    payload.append('address', formData.address);
+    payload.append('education', formData.education);
+    payload.append('experience', formData.experience);
+    payload.append('cover_letter', formData.coverLetter);
+    if (formData.resume) payload.append('resume', formData.resume);
+
+    try {
+      await apiRequest(API_ENDPOINTS.CAREER, {
+        method: 'POST',
+        body: payload,
+        auth: false,
+      });
       setSubmitted(true);
-    }, 2000);
+    } catch (error) {
+      if (error instanceof ApiError && error.errors) {
+        const mapped: Record<string, string> = {};
+        const fieldMap: Record<string, string> = {
+          name: 'fullName', email: 'email', phone: 'phone', address: 'address',
+          education: 'education', experience: 'experience', resume: 'resume',
+        };
+        Object.entries(error.errors).forEach(([key, messages]) => {
+          const field = fieldMap[key] ?? key;
+          mapped[field] = messages[0];
+        });
+        setErrors(mapped);
+      } else {
+        setErrors({ resume: t('career.validation.submitFailed') });
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleBack = () => {
     navigate(`/${currentLang}/karir/${id}`);
   };
 
-  const totalJobs = getJobs(t).length;
+  const totalJobs = openings.length;
 
   if (loading) {
     return (

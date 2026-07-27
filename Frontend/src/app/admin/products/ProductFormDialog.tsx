@@ -13,7 +13,7 @@ import { Button } from '../../components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { ApiError } from '../../../utils/apiClient';
 import { createProduct, updateProduct } from './api';
-import type { AdminProduct, AdminProductCategory, ProductFormValues } from './types';
+import { MAIN_CATEGORY_LABELS, type AdminProduct, type AdminProductCategory, type ProductFormValues } from './types';
 
 const EMPTY_FORM: ProductFormValues = {
   product_category_id: '', slug: '',
@@ -156,7 +156,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
                   <SelectContent>
                     {categories.map((cat) => (
                       <SelectItem key={cat.id} value={String(cat.id)}>
-                        {cat.main_category === 'gas' ? 'Gas' : 'Equipment'} — {cat.name_id}
+                        {MAIN_CATEGORY_LABELS[cat.main_category]} — {cat.name_id}
                       </SelectItem>
                     ))}
                   </SelectContent>
