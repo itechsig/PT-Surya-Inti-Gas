@@ -35,7 +35,9 @@ class ApprovalWorkflow extends Model
 
     public function aiRecommendation(): BelongsTo
     {
-        return $this->belongsTo(AIRecommendation::class);
+        // Explicit FK: Eloquent's default guess snake_cases "AIRecommendation" letter-by-letter
+        // to "a_i_recommendation_id", not the actual "ai_recommendation_id" column.
+        return $this->belongsTo(AIRecommendation::class, 'ai_recommendation_id');
     }
 
     public function requestedBy(): BelongsTo

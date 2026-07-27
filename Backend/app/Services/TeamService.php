@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\TeamMember;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class TeamService
@@ -14,13 +15,12 @@ class TeamService
     /**
      * Get all active team members with caching
      */
-    public function getActiveMembers(): array
+    public function getActiveMembers(): Collection
     {
         return Cache::remember(self::CACHE_KEY, self::CACHE_TTL, function () {
             return TeamMember::active()
                 ->ordered()
-                ->get()
-                ->toArray();
+                ->get();
         });
     }
 

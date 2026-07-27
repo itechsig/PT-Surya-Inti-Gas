@@ -47,7 +47,9 @@ class AIRecommendation extends Model
 
     public function approvalWorkflow()
     {
-        return $this->hasOne(ApprovalWorkflow::class);
+        // Explicit FK: Eloquent's default guess snake_cases "AIRecommendation" letter-by-letter
+        // to "a_i_recommendation_id", not the actual "ai_recommendation_id" column.
+        return $this->hasOne(ApprovalWorkflow::class, 'ai_recommendation_id');
     }
 
     public function scopePending($query)

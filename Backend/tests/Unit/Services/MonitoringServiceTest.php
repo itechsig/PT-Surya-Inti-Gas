@@ -409,8 +409,10 @@ class MonitoringServiceTest extends TestCase
     public function test_cache_health_returns_boolean(): void
     {
         $results = $this->monitoringService->runAllChecks();
-        $cacheValue = $results['checks']['cache']['value'];
 
-        $this->assertIsBool($cacheValue);
+        // 'value' is a 1/0 status flag (consistent with the numeric 'value' used by
+        // the cpu/memory/disk checks); the underlying boolean is in 'details.healthy'.
+        $this->assertIsBool($results['checks']['cache']['details']['healthy']);
+        $this->assertContains($results['checks']['cache']['value'], [0, 1]);
     }
 }

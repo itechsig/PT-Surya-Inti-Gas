@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '../test-utils';
+import { render, screen } from '@testing-library/react';
 import App from '../../app/App';
+
+// App.tsx already provides its own BrowserRouter/AppProvider/ProductProvider/AuthProvider,
+// so render it directly via plain RTL render instead of the custom test-utils wrapper,
+// which would nest a second <BrowserRouter> and crash with
+// "You cannot render a <Router> inside another <Router>".
 
 describe('App Integration Tests', () => {
   it('should render the main app', () => {

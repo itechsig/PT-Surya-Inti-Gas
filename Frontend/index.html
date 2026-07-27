@@ -76,7 +76,10 @@
             "streetAddress": "Balikpapan",
             "addressLocality": "Balikpapan",
             "addressRegion": "East Kalimantan",
-            """cPoint": {
+            "addressCountry": "ID"
+          }
+        ],
+        "contactPoint": {
           "@type": "ContactPoint",
           "telephone": "+62-31-1234567",
           "contactType": "sales",
@@ -135,14 +138,23 @@
             "addressLocality": "Balikpapan",
             "addressRegion": "East Kalimantan",
             "addressCountry": "ID"
+          }
         ],
-        "geo"p": "GeoCoordinates",
-          "lad gtude": "112.7206"
-        },rved": [
-            "@type": "GeoCircle", 
-              "@type": "GeoCoordinates", 4",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "-7.4034",
+          "longitude": "112.7206"
+        },
+        "areaServed": [
+          {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+              "@type": "GeoCoordinates",
+              "latitude": "-7.4034",
               "longitude": "112.7206"
+            },
             "geoRadius": "200000"
+          },
           "East Java",
           "Central Java",
           "DIY",
@@ -193,42 +205,45 @@
         "@context": "https://schema.org",
         "@type": "ItemList",
         "itemListElement": [
-          {m
+          {
+            "@type": "ListItem",
             "position": 1,
             "item": {
               "@type": "Product",
               "name": "Oxygen (O₂)",
               "description": "Industrial and medical oxygen gas with high purity for welding, medical applications, and industrial processes. 工业和医用氧气，纯度高。",
               "image": "https://suryaintigas.com/images/products/Oxygen-optimized.webp",
-              "keywords": ["oksige
+              "keywords": ["oksigen", "oxygen gas", "氧气", "medical oxygen", "industrial oxygen", "welding oxygen", "gas oksigen"],
+              "brand": {
                 "@type": "Brand",
                 "name": "PT Surya Inti Gas"
               },
+              "offers": {
                 "@type": "Offer",
                 "availability": "https://schema.org/InStock",
                 "priceCurrency": "IDR",
                 "price": "0",
-                "priceValidUntil": "2025-12-31",
+                "priceValidUntil": "2026-12-31",
                 "seller": {
                   "@type": "Organization",
-                  "name": urya Inti Gas"
+                  "name": "PT Surya Inti Gas"
                 },
                 "hasMerchantReturnPolicy": {
                   "@type": "MerchantReturnPolicy",
-                  "returnPlategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
                   "merchantReturnDays": 30,
                   "returnMethod": "https://schema.org/ReturnByMail",
-                  "returnFe"https://schema.org/ReturnShippingFees",
+                  "returnFees": "https://schema.org/ReturnShippingFees",
                   "returnShippingFeesAmount": {
-                    "@typeonetaryAmount",
+                    "@type": "MonetaryAmount",
                     "value": "0",
-                    "curre:"IDR"
+                    "currency": "IDR"
                   },
-                  "applicalntry": "ID"
+                  "applicableCountry": "ID"
                 },
-                "shippingDa": {
+                "shippingDetails": {
                   "@type": "OfferShippingDetails",
-                  "shippin": {
+                  "shippingRate": {
                     "@type": "MonetaryAmount",
                     "value": "0",
                     "currency": "IDR"
@@ -271,34 +286,37 @@
               "image": "https://suryaintigas.com/images/products/Nitrogen-optimized.webp",
               "keywords": ["nitrogen", "nitrogen gas", "氮气", "industrial nitrogen", "food grade nitrogen", "laboratory nitrogen", "gas nitrogen"],
               "brand": {
+                "@type": "Brand",
                 "name": "PT Surya Inti Gas"
               },
               "offers": {
                 "@type": "Offer",
+                "availability": "https://schema.org/InStock",
                 "priceCurrency": "IDR",
                 "price": "0",
-                "priceValidUntil": "2025-12-31",
-                 "@type": "Organization",
+                "priceValidUntil": "2026-12-31",
+                "seller": {
+                  "@type": "Organization",
                   "name": "PT Surya Inti Gas"
                 },
                 "hasMerchantReturnPolicy": {
                   "@type": "MerchantReturnPolicy",
                   "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
                   "merchantReturnDays": 30,
-                  "returnMt: "https://schema.org/ReturnByMail",
+                  "returnMethod": "https://schema.org/ReturnByMail",
                   "returnFees": "https://schema.org/ReturnShippingFees",
                   "returnShippingFeesAmount": {
                     "@type": "MonetaryAmount",
-                    "value:000",
+                    "value": "0",
                     "currency": "IDR"
                   },
-                  "applicaentry": "ID"
+                  "applicableCountry": "ID"
                 },
-                "shippingDl": {
+                "shippingDetails": {
                   "@type": "OfferShippingDetails",
-                  "shippinR: {
+                  "shippingRate": {
                     "@type": "MonetaryAmount",
-                    "value ,
+                    "value": "0",
                     "currency": "IDR"
                   },
                   "shippingDestination": {
@@ -340,39 +358,43 @@
               "keywords": ["argon", "argon gas", "氩气", "TIG welding argon", "welding gas", "shielding gas", "industrial argon"],
               "brand": {
                 "@type": "Brand",
-             e",
+                "name": "PT Surya Inti Gas"
+              },
               "offers": {
                 "@type": "Offer",
                 "availability": "https://schema.org/InStock",
-                "priceCurrency": 
-                "priceValidUntil": "2025-12-31",
+                "priceCurrency": "IDR",
+                "price": "0",
+                "priceValidUntil": "2026-12-31",
                 "seller": {
                   "@type": "Organization",
-                  "name": "PT Sur
-                "hasMerchatrnPolicy": {
+                  "name": "PT Surya Inti Gas"
+                },
+                "hasMerchantReturnPolicy": {
                   "@type": "MerchantReturnPolicy",
                   "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                  "merchantReturnDays": 30,
                   "returnMethod": "https://schema.org/ReturnByMail",
                   "returnFees": "https://schema.org/ReturnShippingFees",
-                  "returnSigFeesAmount": {
+                  "returnShippingFeesAmount": {
                     "@type": "MonetaryAmount",
                     "value": "50000",
                     "currency": "IDR"
                   },
-                  "applicauntry": "ID"
+                  "applicableCountry": "ID"
                 },
                 "shippingDetails": {
                   "@type": "OfferShippingDetails",
-                  "shippinR: {
+                  "shippingRate": {
                     "@type": "MonetaryAmount",
                     "value": "0",
-                    "curre:"IDR"
+                    "currency": "IDR"
                   },
-                  "shippinDnation": {
+                  "shippingDestination": {
                     "@type": "DefinedRegion",
-                    "addreotry": "ID"
+                    "addressCountry": "ID"
                   },
-                  "deliveri: {
+                  "deliveryTime": {
                     "@type": "ShippingDeliveryTime",
                     "handlingTime": {
                       "@type": "QuantitativeValue",
@@ -407,28 +429,33 @@
               "keywords": ["acetylene", "acetylene gas", "乙炔", "oxy-fuel welding", "cutting gas", "welding acetylene", "industrial acetylene"],
               "brand": {
                 "@type": "Brand",
-                "name": "PT Surya Inti 
+                "name": "PT Surya Inti Gas"
+              },
               "offers": {
                 "@type": "Offer",
                 "availability": "https://schema.org/InStock",
                 "priceCurrency": "IDR",
                 "price": "0",
-                "priceValidUntil": "202
+                "priceValidUntil": "2026-12-31",
+                "seller": {
                   "@type": "Organization",
                   "name": "PT Surya Inti Gas"
                 },
                 "hasMerchantReturnPolicy": {
-                  "@type":chantReturnPo niteReturnWindow",
+                  "@type": "MerchantReturnPolicy",
+                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
                   "merchantReturnDays": 30,
                   "returnMethod": "https://schema.org/ReturnByMail",
                   "returnFees": "https://schema.org/ReturnShippingFees",
-                  "returnShippingFeesAm
-                    "value0000",
+                  "returnShippingFeesAmount": {
+                    "@type": "MonetaryAmount",
+                    "value": "50000",
                     "currency": "IDR"
                   },
+                  "applicableCountry": "ID"
                 },
                 "shippingDetails": {
-                  "@type":"rShippingDetails",
+                  "@type": "OfferShippingDetails",
                   "shippingRate": {
                     "@type": "MonetaryAmount",
                     "value": "0",
@@ -440,11 +467,11 @@
                   },
                   "deliveryTime": {
                     "@type": "ShippingDeliveryTime",
-                    "handlne": {
+                    "handlingTime": {
                       "@type": "QuantitativeValue",
-                      "minu: 1,
+                      "minValue": 1,
                       "maxValue": 3,
-                      "unid: "DAY"
+                      "unitCode": "DAY"
                     },
                     "transitTime": {
                       "@type": "QuantitativeValue",
@@ -475,31 +502,37 @@
                 "@type": "Brand",
                 "name": "PT Surya Inti Gas"
               },
-             s"@type": "Offer",
+              "offers": {
+                "@type": "Offer",
                 "availability": "https://schema.org/InStock",
                 "priceCurrency": "IDR",
                 "price": "0",
-                "priceValidUntil": "2025-12-31",
+                "priceValidUntil": "2026-12-31",
                 "seller": {
-                  "@type": "Organiza
+                  "@type": "Organization",
+                  "name": "PT Surya Inti Gas"
                 },
                 "hasMerchantReturnPolicy": {
                   "@type": "MerchantReturnPolicy",
-                  "returnPiategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
                   "merchantReturnDays": 30,
                   "returnMethod": "https://schema.org/ReturnByMail",
+                  "returnFees": "https://schema.org/ReturnShippingFees",
                   "returnShippingFeesAmount": {
                     "@type": "MonetaryAmount",
                     "value": "50000",
                     "currency": "IDR"
                   },
-               ,
+                  "applicableCountry": "ID"
+                },
                 "shippingDetails": {
                   "@type": "OfferShippingDetails",
                   "shippingRate": {
-                    "value:,
+                    "@type": "MonetaryAmount",
+                    "value": "0",
                     "currency": "IDR"
                   },
+                  "shippingDestination": {
                     "@type": "DefinedRegion",
                     "addressCountry": "ID"
                   },
@@ -507,14 +540,14 @@
                     "@type": "ShippingDeliveryTime",
                     "handlingTime": {
                       "@type": "QuantitativeValue",
-                      "minu: 1,
+                      "minValue": 1,
                       "maxValue": 3,
                       "unitCode": "DAY"
                     },
-                    "transe": {
+                    "transitTime": {
                       "@type": "QuantitativeValue",
                       "minValue": 2,
-                      "maxa: 7,
+                      "maxValue": 7,
                       "unitCode": "DAY"
                     }
                   }
@@ -541,42 +574,49 @@
                 "name": "PT Surya Inti Gas"
               },
               "offers": {
+                "@type": "Offer",
                 "availability": "https://schema.org/InStock",
                 "priceCurrency": "IDR",
                 "price": "0",
-                "priceValidUntil": "2025-12-31",
+                "priceValidUntil": "2026-12-31",
                 "seller": {
                   "@type": "Organization",
                   "name": "PT Surya Inti Gas"
                 },
+                "hasMerchantReturnPolicy": {
                   "@type": "MerchantReturnPolicy",
                   "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                  "merchanrnDays": 30,
+                  "merchantReturnDays": 30,
                   "returnMethod": "https://schema.org/ReturnByMail",
                   "returnFees": "https://schema.org/ReturnShippingFees",
                   "returnShippingFeesAmount": {
-                    "@type": "Mone
+                    "@type": "MonetaryAmount",
+                    "value": "0",
                     "currency": "IDR"
                   },
                   "applicableCountry": "ID"
                 },
                 "shippingDetails": {
-                  "@type": "OfferS
+                  "@type": "OfferShippingDetails",
+                  "shippingRate": {
                     "@type": "MonetaryAmount",
                     "value": "0",
                     "currency": "IDR"
                   },
-                  "shippinination": {
+                  "shippingDestination": {
+                    "@type": "DefinedRegion",
                     "addressCountry": "ID"
                   },
                   "deliveryTime": {
-                    "@type": "Ship 
-                      "@ty"QuantitativeValue",
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                      "@type": "QuantitativeValue",
                       "minValue": 1,
-                      "maxValue": 
+                      "maxValue": 3,
+                      "unitCode": "DAY"
                     },
                     "transitTime": {
-                      "@ty"QuantitativeValue",
+                      "@type": "QuantitativeValue",
                       "minValue": 2,
                       "maxValue": 7,
                       "unitCode": "DAY"
@@ -585,7 +625,7 @@
                 }
               },
               "aggregateRating": {
-                "@type": "gateRating",
+                "@type": "AggregateRating",
                 "ratingValue": "4.3",
                 "reviewCount": "54"
               }
@@ -712,49 +752,43 @@
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://suryaintigas.com/"
+            "item": "https://suryaintigas.com/id"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Products",
-            "item": "https://suryaintigas.com/products"
+            "item": "https://suryaintigas.com/id/produk"
           },
           {
             "@type": "ListItem",
             "position": 3,
-            "name": "Industrial Gas",
-            "item": "https://suryaintigas.com/products/industrial-gas"
+            "name": "Distribution Network",
+            "item": "https://suryaintigas.com/id/jaringan-distribusi"
           },
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Medical Gas",
-            "item": "https://suryaintigas.com/products/medical-gas"
+            "name": "Gallery",
+            "item": "https://suryaintigas.com/id/galeri"
           },
           {
             "@type": "ListItem",
             "position": 5,
-            "name": "Specialty Gas",
-            "item": "https://suryaintigas.com/products/specialty-gas"
+            "name": "Careers",
+            "item": "https://suryaintigas.com/id/karir"
           },
           {
             "@type": "ListItem",
             "position": 6,
-            "name": "Services",
-            "item": "https://suryaintigas.com/services"
+            "name": "About Us",
+            "item": "https://suryaintigas.com/id/tentang-kami"
           },
           {
             "@type": "ListItem",
             "position": 7,
-            "name": "About Us",
-            "item": "https://suryaintigas.com/about"
-          },
-          {
-            "@type": "ListItem",
-            "position": 8,
             "name": "Contact",
-            "item": "https://suryaintigas.com/contact"
+            "item": "https://suryaintigas.com/id/kontak"
           }
         ]
       }

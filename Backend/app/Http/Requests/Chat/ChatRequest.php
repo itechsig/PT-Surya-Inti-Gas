@@ -23,7 +23,7 @@ class ChatRequest extends FormRequest
     {
         return [
             'message' => 'required|string|min:1|max:2000',
-            'history' => 'nullable|array',
+            'history' => 'nullable|array|max:20',
             'history.*.role' => 'required_with:history|string|in:user,assistant,model',
             'history.*.content' => 'required_with:history|string|max:2000',
             'user_id' => 'nullable|string|max:255',
@@ -42,6 +42,7 @@ class ChatRequest extends FormRequest
             'message.min' => 'Pesan minimal 1 karakter',
             'message.max' => 'Pesan maksimal 2000 karakter',
             'history.array' => 'History harus berupa array',
+            'history.max' => 'History maksimal 20 pesan',
             'history.*.role.required_with' => 'Role history wajib diisi jika history ada',
             'history.*.role.in' => 'Role history harus salah satu dari: user, assistant, model',
             'history.*.content.required_with' => 'Content history wajib diisi jika history ada',

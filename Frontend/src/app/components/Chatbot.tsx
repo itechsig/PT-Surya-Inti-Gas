@@ -458,16 +458,6 @@ export function Chatbot() {
       return knowledgeBase["apa saja bidang usaha pt surya inti gas"];
     }
 
-    // Product handling - must come before generic "perusahaan" check
-    if (lowerMessage.includes('produk') && (lowerMessage.includes('sebutkan') || lowerMessage.includes('apa saja') || lowerMessage.includes('daftar'))) {
-      return knowledgeBase["produk apa saja yang dijual pt surya inti gas"];
-    }
-
-    // Location/Address handling - must come before generic "perusahaan" check
-    if ((lowerMessage.includes('lokasi') || lowerMessage.includes('alamat')) && (lowerMessage.includes('dimana') || lowerMessage.includes('di mana') || lowerMessage.includes('perusahaan'))) {
-      return knowledgeBase["lokasi"];
-    }
-
     if (lowerMessage.includes('lokasi kantor pusat')) {
       return knowledgeBase["di mana lokasi kantor pusat pt surya inti gas"];
     }

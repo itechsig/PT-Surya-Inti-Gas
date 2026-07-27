@@ -236,42 +236,60 @@ Route::prefix('v1')->group(function () {
         });
 
         // Chatbot Analytics
-        Route::get('/admin/chatbot/analytics', [ChatbotAnalyticsController::class, 'index']);
-        Route::get('/admin/chatbot/analytics/summary', [ChatbotAnalyticsController::class, 'summary']);
-        Route::get('/admin/chatbot/analytics/popular-topics', [ChatbotAnalyticsController::class, 'popularTopics']);
-        Route::get('/admin/chatbot/analytics/sentiment', [ChatbotAnalyticsController::class, 'sentimentAnalysis']);
-        Route::get('/admin/chatbot/analytics/conversation-flow', [ChatbotAnalyticsController::class, 'conversationFlow']);
-        Route::get('/admin/chatbot/analytics/user-engagement', [ChatbotAnalyticsController::class, 'userEngagement']);
-        Route::get('/admin/chatbot/analytics/response-times', [ChatbotAnalyticsController::class, 'responseTimes']);
-        Route::get('/admin/chatbot/analytics/ab-testing', [ChatbotAnalyticsController::class, 'abTesting']);
-        Route::get('/admin/chatbot/analytics/export', [ChatbotAnalyticsController::class, 'exportAnalytics']);
+        // NOTE: previously routed to method names (index/summary/popularTopics/sentimentAnalysis/
+        // conversationFlow/userEngagement/responseTimes/abTesting/exportAnalytics) that do not exist
+        // on ChatbotAnalyticsController, causing a fatal "Call to undefined method" on every hit.
+        // Re-wired to the controller's actual methods; unimplemented sub-features were dropped
+        // rather than fabricated.
+        Route::get('/admin/chatbot/analytics', [ChatbotAnalyticsController::class, 'analytics']);
+        Route::get('/admin/chatbot/analytics/feedback', [ChatbotAnalyticsController::class, 'feedbackStats']);
+        Route::get('/admin/chatbot/analytics/pool-stats', [ChatbotAnalyticsController::class, 'poolStats']);
+        Route::get('/admin/chatbot/analytics/cache-stats', [ChatbotAnalyticsController::class, 'cacheStats']);
+        Route::get('/admin/chatbot/analytics/realtime', [ChatbotAnalyticsController::class, 'realTimeAnalytics']);
+        Route::post('/admin/chatbot/analytics/track', [ChatbotAnalyticsController::class, 'trackAnalytics']);
 
         // Chatbot Monitoring
-        Route::get('/admin/chatbot/monitoring/health', [ChatbotMonitoringController::class, 'health']);
-        Route::get('/admin/chatbot/monitoring/performance', [ChatbotMonitoringController::class, 'performance']);
-        Route::get('/admin/chatbot/monitoring/errors', [ChatbotMonitoringController::class, 'errors']);
-        Route::get('/admin/chatbot/monitoring/usage', [ChatbotMonitoringController::class, 'usage']);
-        Route::get('/admin/chatbot/monitoring/alerts', [ChatbotMonitoringController::class, 'alerts']);
-        Route::post('/admin/chatbot/monitoring/test-connection', [ChatbotMonitoringController::class, 'testConnection']);
+        // NOTE: previously routed to nonexistent methods (health/performance/errors/usage/alerts/
+        // testConnection); re-wired to ChatbotMonitoringController's real methods.
+        Route::post('/admin/chatbot/monitoring/run-checks', [ChatbotMonitoringController::class, 'runMonitoringChecks']);
+        Route::get('/admin/chatbot/monitoring/health', [ChatbotMonitoringController::class, 'getHealthStatus']);
+        Route::get('/admin/chatbot/monitoring/alerts', [ChatbotMonitoringController::class, 'getActiveAlerts']);
+        Route::get('/admin/chatbot/monitoring/alerts/history', [ChatbotMonitoringController::class, 'getAlertHistory']);
+        Route::get('/admin/chatbot/monitoring/metrics', [ChatbotMonitoringController::class, 'getMetricsHistory']);
+        Route::post('/admin/chatbot/monitoring/alerts/resolve', [ChatbotMonitoringController::class, 'resolveAlert']);
+        Route::post('/admin/chatbot/monitoring/alerts/clear', [ChatbotMonitoringController::class, 'clearAllAlerts']);
+        Route::get('/admin/chatbot/monitoring/alert-rules', [ChatbotMonitoringController::class, 'getAlertRules']);
+        Route::put('/admin/chatbot/monitoring/alert-rules', [ChatbotMonitoringController::class, 'updateAlertRules']);
 
         // Chatbot A/B Testing
-        Route::get('/admin/chatbot/ab-testing/campaigns', [ChatbotABTestingController::class, 'campaigns']);
-        Route::post('/admin/chatbot/ab-testing/campaigns', [ChatbotABTestingController::class, 'createCampaign']);
-        Route::get('/admin/chatbot/ab-testing/campaigns/{id}', [ChatbotABTestingController::class, 'getCampaign']);
-        Route::put('/admin/chatbot/ab-testing/campaigns/{id}', [ChatbotABTestingController::class, 'updateCampaign']);
-        Route::delete('/admin/chatbot/ab-testing/campaigns/{id}', [ChatbotABTestingController::class, 'deleteCampaign']);
-        Route::post('/admin/chatbot/ab-testing/campaigns/{id}/start', [ChatbotABTestingController::class, 'startCampaign']);
-        Route::post('/admin/chatbot/ab-testing/campaigns/{id}/stop', [ChatbotABTestingController::class, 'stopCampaign']);
-        Route::get('/admin/chatbot/ab-testing/results/{id}', [ChatbotABTestingController::class, 'getResults']);
-        Route::get('/admin/chatbot/ab-testing/analytics', [ChatbotABTestingController::class, 'analytics']);
+        // NOTE: previously routed to nonexistent methods (campaigns/createCampaign/getCampaign/
+        // updateCampaign/stopCampaign/getResults/analytics); re-wired to ChatbotABTestingController's
+        // real methods. No "update campaign" method exists on the service, so that route was dropped.
+        Route::get('/admin/chatbot/ab-testing/campaigns', [ChatbotABTestingController::class, 'getABTestCampaigns']);
+        Route::post('/admin/chatbot/ab-testing/campaigns', [ChatbotABTestingController::class, 'createABTestCampaign']);
+        Route::get('/admin/chatbot/ab-testing/campaigns/{id}', [ChatbotABTestingController::class, 'getABTestCampaign']);
+        Route::delete('/admin/chatbot/ab-testing/campaigns/{id}', [ChatbotABTestingController::class, 'deleteABTestCampaign']);
+        Route::get('/admin/chatbot/ab-testing/campaigns/{id}/stats', [ChatbotABTestingController::class, 'getABTestCampaignStats']);
+        Route::get('/admin/chatbot/ab-testing/campaigns/{id}/variants', [ChatbotABTestingController::class, 'getABTestCampaignVariants']);
+        Route::post('/admin/chatbot/ab-testing/campaigns/{id}/start', [ChatbotABTestingController::class, 'startABTestCampaign']);
+        Route::post('/admin/chatbot/ab-testing/campaigns/{id}/pause', [ChatbotABTestingController::class, 'pauseABTestCampaign']);
+        Route::post('/admin/chatbot/ab-testing/campaigns/{id}/complete', [ChatbotABTestingController::class, 'completeABTestCampaign']);
+        Route::post('/admin/chatbot/ab-testing/engagement', [ChatbotABTestingController::class, 'trackABTestEngagement']);
+        Route::post('/admin/chatbot/ab-testing/conversion', [ChatbotABTestingController::class, 'trackABTestConversion']);
 
-        // Chatbot Settings (Super Admin Only)
+        // Chatbot Language & Sentiment (Super Admin Only)
+        // NOTE: previously routed to nonexistent methods (index/update/reset/maintenanceMode/
+        // toggleMaintenance) — ChatbotSettingsController actually wraps TranslationService and
+        // SentimentAnalysisService, not a maintenance-mode toggle. Re-wired to its real methods
+        // under URL paths that reflect what the code does.
         Route::middleware(['role:super_admin'])->group(function () {
-            Route::get('/admin/chatbot/settings', [ChatbotSettingsController::class, 'index']);
-            Route::put('/admin/chatbot/settings', [ChatbotSettingsController::class, 'update']);
-            Route::post('/admin/chatbot/settings/reset', [ChatbotSettingsController::class, 'reset']);
-            Route::get('/admin/chatbot/settings/maintenance', [ChatbotSettingsController::class, 'maintenanceMode']);
-            Route::post('/admin/chatbot/settings/maintenance', [ChatbotSettingsController::class, 'toggleMaintenance']);
+            Route::post('/admin/chatbot/language', [ChatbotSettingsController::class, 'setLanguage']);
+            Route::get('/admin/chatbot/language/supported', [ChatbotSettingsController::class, 'getSupportedLanguages']);
+            Route::post('/admin/chatbot/translate', [ChatbotSettingsController::class, 'translate']);
+            Route::post('/admin/chatbot/sentiment/analyze', [ChatbotSettingsController::class, 'analyzeSentiment']);
+            Route::post('/admin/chatbot/sentiment/batch-analyze', [ChatbotSettingsController::class, 'batchAnalyzeSentiment']);
+            Route::get('/admin/chatbot/sentiment/statistics', [ChatbotSettingsController::class, 'getSentimentStatistics']);
+            Route::post('/admin/chatbot/sentiment/clear-cache', [ChatbotSettingsController::class, 'clearSentimentCache']);
         });
     });
 });

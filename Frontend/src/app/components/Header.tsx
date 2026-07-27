@@ -86,11 +86,7 @@ export const Header = () => {
 
   const { pathname, hash } = useLocation();
   const currentLang = lang || 'id';
-  const isHomePage = pathname === `/${currentLang}` || pathname === "/";
   const isLight = scrolled;
-
-  // Debug logging
-  console.log('Header debug:', { pathname, isHomePage, scrolled, isLight, currentLang });
 
   // Helper: cek apakah link ini aktif
   const isActive = (href: string) => {
@@ -141,7 +137,7 @@ export const Header = () => {
   };
 
   return (
-    <>
+    <header role="banner">
       {/* ── Corporate Navbar (Linde & Air Liquide inspired) ──────────────────────────────────────── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
@@ -472,6 +468,6 @@ export const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </header>
   );
 };

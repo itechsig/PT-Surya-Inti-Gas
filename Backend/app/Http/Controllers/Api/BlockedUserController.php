@@ -36,7 +36,7 @@ class BlockedUserController extends Controller
             }
 
             // Pagination
-            $perPage = $request->input('per_page', 20);
+            $perPage = min((int) $request->input('per_page', 20), 100);
             $blockedUsers = $query->latest()->paginate($perPage);
 
             return response()->json([
@@ -73,7 +73,7 @@ class BlockedUserController extends Controller
                 'blockable_value' => $validated['blockable_value'],
                 'reason' => $validated['reason'],
                 'block_type' => $validated['block_type'],
-                'blocked_by' => auth()->id() ?? 1, // Default to 1 for testing without auth
+                'blocked_by' => auth()->id(),
                 'is_active' => true,
                 'admin_notes' => $request->input('admin_notes'),
             ]);
