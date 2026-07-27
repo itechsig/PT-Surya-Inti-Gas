@@ -236,7 +236,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #1e40af;
+  color: #1e40af !important;
   text-decoration: none;
   font-family: 'DM Sans', system-ui, sans-serif;
   font-size: 0.95rem;
@@ -246,6 +246,14 @@
   border-radius: 10px;
   transition: all 0.3s ease;
   border: 1px solid transparent;
+}
+
+.contact-link:visited {
+  color: #1e40af !important;
+}
+
+.contact-link:active {
+  color: #1e40af !important;
 }
 
 .contact-link:hover {
