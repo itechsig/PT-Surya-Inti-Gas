@@ -38,22 +38,40 @@ export function Career() {
 
   const filteredOpenings = useMemo(() => {
     return openings.filter(job => {
-      const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      // Search filter
+      const matchesSearch = searchQuery === '' || 
+                           job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            job.description.toLowerCase().includes(searchQuery.toLowerCase());
       
-      const matchesDivision = (selectedDivision === '' && divisionSearch === '') || 
-                             job.division === selectedDivision || 
-                             job.division.toLowerCase().includes(divisionSearch.toLowerCase());
-      const matchesLocation = (selectedLocation === '' && locationSearch === '') || 
-                             job.location === selectedLocation || 
-                             job.location.toLowerCase().includes(locationSearch.toLowerCase());
-      const matchesLevel = (selectedLevel === '' && levelSearch === '') || 
-                         job.level === selectedLevel || 
-                         job.level.toLowerCase().includes(levelSearch.toLowerCase());
+      // Division filter
+      let matchesDivision = true;
+      if (selectedDivision !== '') {
+        matchesDivision = job.division === selectedDivision;
+      } else if (divisionSearch !== '') {
+        matchesDivision = job.division.toLowerCase().includes(divisionSearch.toLowerCase());
+      }
+      
+      // Location filter
+      let matchesLocation = true;
+      if (selectedLocation !== '') {
+        matchesLocation = job.location === selectedLocation;
+      } else if (locationSearch !== '') {
+        matchesLocation = job.location.toLowerCase().includes(locationSearch.toLowerCase());
+      }
+      
+      // Level filter
+      let matchesLevel = true;
+      if (selectedLevel !== '') {
+        matchesLevel = job.level === selectedLevel;
+      } else if (levelSearch !== '') {
+        matchesLevel = job.level.toLowerCase().includes(levelSearch.toLowerCase());
+      }
       
       return matchesSearch && matchesDivision && matchesLocation && matchesLevel;
     });
-  }, [searchQuery, selectedDivision, selectedLocation, selectedLevel, divisionSearch, locationSearch, levelSearch]);
+  }, [openings, searchQuery, selectedDivision, selectedLocation, selectedLevel, divisionSearch, locationSearch, levelSearch]);
+
+
 
   const totalJobs = filteredOpenings.length;
 
@@ -67,9 +85,28 @@ export function Career() {
     navigate(`/${currentLang}/karir/${jobId}/lamar`);
   };
 
-  const divisions = [...new Set(openings.map(job => job.division))];
-  const locations = [...new Set(openings.map(job => job.location))];
-  const levels = [...new Set(openings.map(job => job.level))];
+  const divisions = useMemo(() => [...new Set(openings.map(job => job.division))], [openings]);
+  const locations = useMemo(() => [...new Set(openings.map(job => job.location))], [openings]);
+  const levels = useMemo(() => [...new Set(openings.map(job => job.level))], [openings]);
+
+  const filteredDivisions = useMemo(() => 
+    divisionSearch === '' 
+      ? divisions 
+      : divisions.filter(division => 
+          division.toLowerCase().includes(divisionSearch.toLowerCase())
+        ), [divisions, divisionSearch]);
+  const filteredLocations = useMemo(() => 
+    locationSearch === '' 
+      ? locations 
+      : locations.filter(location => 
+          location.toLowerCase().includes(locationSearch.toLowerCase())
+        ), [locations, locationSearch]);
+  const filteredLevels = useMemo(() => 
+    levelSearch === '' 
+      ? levels 
+      : levels.filter(level => 
+          level.toLowerCase().includes(levelSearch.toLowerCase())
+        ), [levels, levelSearch]);
 
 
 
@@ -142,7 +179,7 @@ export function Career() {
                   className="filter-select"
                 >
                   <option value="">{t('career.page.allDivisions')}</option>
-                  {divisions.map(division => (
+                  {filteredDivisions.map(division => (
                     <option key={division} value={division}>{division}</option>
                   ))}
                 </select>
@@ -176,7 +213,7 @@ export function Career() {
                   className="filter-select"
                 >
                   <option value="">{t('career.page.allCities')}</option>
-                  {locations.map(location => (
+                  {filteredLocations.map(location => (
                     <option key={location} value={location}>{location}</option>
                   ))}
                 </select>
@@ -210,7 +247,7 @@ export function Career() {
                   className="filter-select"
                 >
                   <option value="">{t('career.page.allLevels')}</option>
-                  {levels.map(level => (
+                  {filteredLevels.map(level => (
                     <option key={level} value={level}>{level}</option>
                   ))}
                 </select>
@@ -246,8 +283,7 @@ export function Career() {
           <motion.div 
             className="jobs-grid"
             initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
+            animate="show"
             variants={staggerContainer}
           >
             {filteredOpenings.length === 0 ? (
