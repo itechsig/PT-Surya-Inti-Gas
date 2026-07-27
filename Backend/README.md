@@ -37,7 +37,7 @@ Optionally seed reference/admin data:
 ```bash
 php artisan db:seed
 ```
-
+ 
 ### Running everything together (server + queue worker + logs + Vite)
 
 ```bash
