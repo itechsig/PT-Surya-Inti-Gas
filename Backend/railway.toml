@@ -10,7 +10,6 @@ restartPolicyMaxRetries = 10
 [env]
 APP_ENV = "production"
 APP_DEBUG = "false"
-<<<<<<< HEAD
 APP_URL = "https://ptsuryaintigas-production.up.railway.app"
 DB_CONNECTION = "mysql"
 DB_HOST = "${{MySQL.MYSQLHOST}}"
@@ -18,15 +17,6 @@ DB_PORT = "${{MySQL.MYSQLPORT}}"
 DB_DATABASE = "${{MySQL.MYSQLDATABASE}}"
 DB_USERNAME = "${{MySQL.MYSQLUSER}}"
 DB_PASSWORD = "${{MySQL.MYSQLPASSWORD}}"
-=======
-APP_URL = "https://ptsuryaintigas-production.up.railway.app/"
-DB_CONNECTION = "pgsql"
-DB_HOST = "${{Postgres.PGHOST}}"
-DB_PORT = "${{Postgres.PGPORT}}"
-DB_DATABASE = "${{Postgres.POSTGRES_DB}}"
-DB_USERNAME = "${{Postgres.POSTGRES_USER}}"
-DB_PASSWORD = "${{Postgres.POSTGRES_PASSWORD}}"
->>>>>>> main
 SESSION_DRIVER = "file"
 CACHE_STORE = "file"
 QUEUE_CONNECTION = "sync"
