@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, ArrowLeft, Send, Calendar, Building, Briefcase } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import '../../styles/career.css';
 import { useJobVacancies } from '../../hooks/useJobVacancies';
 
@@ -80,8 +81,21 @@ export function JobDetail() {
 
   const deadlinePassed = isDeadlinePassed(job.deadline);
 
+  const canonicalUrl = `https://suryaintigas.com/${currentLang}/karir/${job.id}`;
+
   return (
-    <div className="career-page">
+    <>
+      <Helmet>
+        <title>{job.title} - PT Surya Inti Gas Career</title>
+        <meta name="description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}. ${job.description}`} />
+        <meta name="keywords" content={`${job.title}, ${job.division}, ${job.location}, career, job vacancy, PT Surya Inti Gas`} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={`${job.title} - PT Surya Inti Gas Career`} />
+        <meta property="og:description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}`} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <div className="career-page">
       {/* Career Hero Section */}
       <div className="career-hero">
         <div className="career-hero-bg"></div>
@@ -159,5 +173,6 @@ export function JobDetail() {
         </div>
       </div>
     </div>
+    </>
   );
 }
