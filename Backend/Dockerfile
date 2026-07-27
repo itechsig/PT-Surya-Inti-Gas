@@ -39,8 +39,29 @@ RUN composer config -g repo.packagist composer https://packagist.org && \
 # Make docker-entrypoint.sh executable if it exists
 RUN if [ -f docker-entrypoint.sh ]; then chmod +x docker-entrypoint.sh; fi
 
-# Use docker-entrypoint.sh if it exists, otherwise fallback to default
-ENTRYPOINT ["/bin/sh", "-c"]
-CMD if [ -f docker-entrypoint.sh ]; then ./docker-entrypoint.sh php artisan serve --host=0.0.0.0 --port=8000 --no-interactive; else php artisan serve --host=0.0.0.0 --port=8000 --no-interactive; fi
+# Setup environment
+RUN cp .env.example .env || true
+
+# Override database config with Railway MySQL variables if available
+RUN if [ -n "$MYSQLHOST" ]; then \
+    sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=mysql|" .env || true; \
+    sed -i "s|^DB_HOST=.*|DB_HOST=$MYSQLHOST|" .env || true; \
+    sed -i "s|^DB_PORT=.*|DB_PORT=${MYSQLPORT:-3306}|" .env || true; \
+    sed -i "s|^DB_DATABASE=.*|DB_DATABASE=$MYSQLDATABASE|" .env || true; \
+    sed -i "s|^DB_USERNAME=.*|DB_USERNAME=$MYSQLUSER|" .env || true; \
+    sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$MYSQLPASSWORD|" .env || true; \
+    fi
+
+# Generate app key if not set
+RUN php artisan key:generate --no-interaction --force || true
+
+# Run migrations
+RUN php artisan migrate --force || true
+
+# Clear and cache config
+RUN php artisan config:cache --no-interaction || true
+RUN php artisan route:cache --no-interaction || true
 
 EXPOSE 8000
+
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000", "--no-interactive"]
