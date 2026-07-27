@@ -1,5 +1,6 @@
 import '../../styles/contact-page.css';
 import { Phone, Mail, MapPin, Building2, TrendingUp, Network, Award } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { motion, type Variants } from 'motion/react';
 
 /* ── Motion variants ── */
@@ -14,6 +15,7 @@ const staggerContainer: Variants = {
 };
 
 export const ContactPage = () => {
+  const { t } = useTranslation();
   return (
     <div className="clean-contact-page">
 
@@ -27,8 +29,8 @@ export const ContactPage = () => {
       >
         <div className="contact-hero-bg"></div>
         <div className="clean-container">
-          <motion.h1 className="contact-hero-title" variants={fadeUp}>Hubungi Kami</motion.h1>
-          <motion.p className="contact-hero-subtitle" variants={fadeUp}>Kami siap membantu kebutuhan gas industri Anda dengan layanan profesional dan terpercaya</motion.p>
+          <motion.h1 className="contact-hero-title" variants={fadeUp}>{t('contactPage.title')}</motion.h1>
+          <motion.p className="contact-hero-subtitle" variants={fadeUp}>{t('contactPage.subtitle')}</motion.p>
         </div>
       </motion.section>
 
@@ -48,7 +50,7 @@ export const ContactPage = () => {
               </div>
               <div className="stat-content">
                 <div className="stat-number">20+</div>
-                <div className="stat-label">Tahun Pengalaman</div>
+                <div className="stat-label">{t('contactPage.stats.years')}</div>
               </div>
             </motion.div>
             <motion.div className="stat-card" variants={fadeUp}>
@@ -57,7 +59,7 @@ export const ContactPage = () => {
               </div>
               <div className="stat-content">
                 <div className="stat-number">2</div>
-                <div className="stat-label">Kantor Cabang</div>
+                <div className="stat-label">{t('contactPage.stats.branches')}</div>
               </div>
             </motion.div>
             <motion.div className="stat-card" variants={fadeUp}>
@@ -65,8 +67,8 @@ export const ContactPage = () => {
                 <Network size={32} />
               </div>
               <div className="stat-content">
-                <div className="stat-number">Nasional</div>
-                <div className="stat-label">Distribusi Luas</div>
+                <div className="stat-number">{t('contactPage.stats.distributionValue')}</div>
+                <div className="stat-label">{t('contactPage.stats.distribution')}</div>
               </div>
             </motion.div>
             <motion.div className="stat-card" variants={fadeUp}>
@@ -74,8 +76,8 @@ export const ContactPage = () => {
                 <Award size={32} />
               </div>
               <div className="stat-content">
-                <div className="stat-number">Terpercaya</div>
-                <div className="stat-label">Mitra Industri</div>
+                <div className="stat-number">{t('contactPage.stats.trustedValue')}</div>
+                <div className="stat-label">{t('contactPage.stats.trusted')}</div>
               </div>
             </motion.div>
           </motion.div>
@@ -95,19 +97,15 @@ export const ContactPage = () => {
             {/* Sidoarjo Office Card */}
             <motion.div className="premium-office-card" variants={fadeUp}>
               <div className="office-card-header">
-                <div className="office-badge">Head Office</div>
+                <div className="office-badge">{t('contactPage.sidoarjo.badge')}</div>
                 <div className="office-location-icon">
                   <MapPin size={24} />
                 </div>
               </div>
               <div className="office-card-body">
-                <h3 className="office-card-title">Sidoarjo</h3>
+                <h3 className="office-card-title">{t('contactPage.sidoarjo.title')}</h3>
                 <p className="office-card-address">
-                  Komp. Perg. & Industri Safe N" Lock,<br />
-                  Blok V1 - 3223, 3225, 3232, 3233<br />
-                  Jl. Lingkar Timur KM. 5.5<br />
-                  Rangkah Kidul, Sidoarjo<br />
-                  Jawa Timur 61232
+                  {t('contactPage.sidoarjo.address')}
                 </p>
                 <div className="office-card-contact">
                   <a href="https://wa.me/6281233906378" target="_blank" rel="noopener noreferrer" className="contact-link">
@@ -122,8 +120,11 @@ export const ContactPage = () => {
               </div>
               <div className="office-card-footer">
                 <div className="office-hours">
-                  <span className="hours-label">Jam Operasional:</span>
-                  <span className="hours-value">Senin - Jumat, 08:00 - 17:00</span>
+                  <span className="hours-label">{t('contactPage.hours.label')}:</span>
+                  <div className="hours-value">
+                    <div>{t('contactPage.hours.weekday')}: {t('contactPage.hours.weekdayTime')}</div>
+                    <div>{t('contactPage.hours.saturday')}: {t('contactPage.hours.saturdayTime')}</div>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -131,18 +132,15 @@ export const ContactPage = () => {
             {/* Balikpapan Office Card */}
             <motion.div className="premium-office-card" variants={fadeUp}>
               <div className="office-card-header">
-                <div className="office-badge secondary">Branch Office</div>
+                <div className="office-badge secondary">{t('contactPage.balikpapan.badge')}</div>
                 <div className="office-location-icon">
                   <MapPin size={24} />
                 </div>
               </div>
               <div className="office-card-body">
-                <h3 className="office-card-title">Balikpapan</h3>
+                <h3 className="office-card-title">{t('contactPage.balikpapan.title')}</h3>
                 <p className="office-card-address">
-                  Jl. AMD Projakal Kariangau Km. 5.5,<br />
-                  RT 046, Kelurahan Graha Indah,<br />
-                  Kecamatan Balikpapan Utara,<br />
-                  Kota Balikpapan, Kalimantan Timur
+                  {t('contactPage.balikpapan.address')}
                 </p>
                 <div className="office-card-contact">
                   <a href="tel:+625428531991" className="contact-link">
@@ -157,8 +155,11 @@ export const ContactPage = () => {
               </div>
               <div className="office-card-footer">
                 <div className="office-hours">
-                  <span className="hours-label">Jam Operasional:</span>
-                  <span className="hours-value">Senin - Jumat, 08:00 - 17:00</span>
+                  <span className="hours-label">{t('contactPage.hours.label')}:</span>
+                  <div className="hours-value">
+                    <div>{t('contactPage.hours.weekday')}: {t('contactPage.hours.weekdayTime')}</div>
+                    <div>{t('contactPage.hours.saturday')}: {t('contactPage.hours.saturdayTime')}</div>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -172,7 +173,7 @@ export const ContactPage = () => {
           viewport={{ once: true, margin: '-80px' }}
           variants={fadeUp}
         >
-          <img src="/office-optimized.jpg" alt="Kantor PT Surya Inti Gas" className="office-image" />
+          <img src="/office-optimized.jpg" alt={t('contactPage.imageAlt')} className="office-image" />
         </motion.div>
       </motion.section>
 
