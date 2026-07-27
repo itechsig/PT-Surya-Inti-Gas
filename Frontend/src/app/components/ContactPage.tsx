@@ -1,5 +1,6 @@
 import '../../styles/contact-page.css';
 import { Phone, Mail, MapPin, Building2, TrendingUp, Network, Award } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { motion, type Variants } from 'motion/react';
 
@@ -109,7 +110,7 @@ export const ContactPage = () => {
                 </p>
                 <div className="office-card-contact">
                   <a href="https://wa.me/6281233906378" target="_blank" rel="noopener noreferrer" className="contact-link">
-                    <Phone size={18} />
+                    <FaWhatsapp size={18} />
                     <span>+6281233906378</span>
                   </a>
                   <a href="#" className="contact-link" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.sda@suryaintigas.com'; }}>
