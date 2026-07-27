@@ -553,15 +553,11 @@ class MonitoringService
      */
     private function getCPUUsage(): float
     {
-        // On Windows, use systeminfo or other commands
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            // Simplified CPU usage for Windows - returns a simulated value
-            // In production, you'd use proper Windows performance counters
-            $load = sys_getloadavg();
-            return min(100, ($load[0] ?? 0) * 25); // Convert to percentage
+        // sys_getloadavg() is Unix-only and does not exist on Windows.
+        if (!function_exists('sys_getloadavg')) {
+            return 0.0;
         }
 
-        // On Unix-like systems
         $load = sys_getloadavg();
         $cpuCount = $this->getCPUCount();
         if ($cpuCount > 0) {

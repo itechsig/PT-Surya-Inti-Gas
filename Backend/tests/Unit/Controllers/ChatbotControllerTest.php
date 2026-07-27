@@ -7,11 +7,6 @@ use App\Http\Controllers\Api\ChatbotController;
 use App\Services\ChatbotService;
 use App\Services\FeedbackService;
 use App\Services\GeminiApiKeyRotationService;
-use App\Services\HttpClientPoolService;
-use App\Services\AdvancedCacheService;
-use App\Services\RealTimeAnalyticsService;
-use App\Services\TranslationService;
-use App\Services\SentimentAnalysisService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Config;
@@ -19,107 +14,34 @@ use Illuminate\Support\Facades\Config;
 class ChatbotControllerTest extends TestCase
 {
     private ChatbotController $controller;
-    
+
     /** @var ChatbotService&\PHPUnit\Framework\MockObject\MockObject */
     private $chatbotService;
-    
+
     /** @var FeedbackService&\PHPUnit\Framework\MockObject\MockObject */
     private $feedbackService;
-    
+
     /** @var GeminiApiKeyRotationService&\PHPUnit\Framework\MockObject\MockObject */
     private $apiKeyRotationService;
-    
-    /** @var HttpClientPoolService&\PHPUnit\Framework\MockObject\MockObject */
-    private $httpClientPool;
-    
-    /** @var AdvancedCacheService&\PHPUnit\Framework\MockObject\MockObject */
-    private $advancedCacheService;
-    
-    /** @var RealTimeAnalyticsService&\PHPUnit\Framework\MockObject\MockObject */
-    private $analyticsService;
-    
-    /** @var TranslationService&\PHPUnit\Framework\MockObject\MockObject */
-    private $translationService;
-    
-    /** @var SentimentAnalysisService&\PHPUnit\Framework\MockObject\MockObject */
-    private $sentimentAnalysisService;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->chatbotService = $this->createMock(ChatbotService::class);
         $this->feedbackService = $this->createMock(FeedbackService::class);
         $this->apiKeyRotationService = $this->createMock(GeminiApiKeyRotationService::class);
-        $this->httpClientPool = $this->createMock(HttpClientPoolService::class);
-        $this->advancedCacheService = $this->createMock(AdvancedCacheService::class);
-        $this->analyticsService = $this->createMock(RealTimeAnalyticsService::class);
-        $this->translationService = $this->createMock(TranslationService::class);
-        $this->sentimentAnalysisService = $this->createMock(SentimentAnalysisService::class);
-        
+
         $this->controller = new ChatbotController(
             $this->chatbotService,
             $this->feedbackService,
-            $this->apiKeyRotationService,
-            $this->httpClientPool,
-            $this->advancedCacheService,
-            $this->analyticsService,
-            $this->translationService,
-            $this->sentimentAnalysisService
+            $this->apiKeyRotationService
         );
     }
 
     public function test_controller_instantiation()
     {
         $this->assertInstanceOf(ChatbotController::class, $this->controller);
-    }
-
-    public function test_pool_stats_endpoint()
-    {
-        $this->httpClientPool->method('getStats')->willReturn([
-            'total_connections' => 3,
-            'active_connections' => 1,
-            'available_connections' => 2,
-            'max_connections' => 5,
-            'pool_utilization' => 20.0,
-        ]);
-
-        Config::set('services.gemini.pool_enabled', true);
-        Config::set('services.gemini.pool_size', 5);
-        Config::set('services.gemini.timeout', 30);
-
-        $response = $this->controller->poolStats();
-
-        $this->assertInstanceOf(JsonResponse::class, $response);
-        $data = json_decode($response->getContent(), true);
-        
-        $this->assertTrue($data['success']);
-        $this->assertArrayHasKey('pool_stats', $data['data']);
-        $this->assertArrayHasKey('pool_enabled', $data['data']);
-        $this->assertArrayHasKey('pool_size', $data['data']);
-        $this->assertEquals(3, $data['data']['pool_stats']['total_connections']);
-    }
-
-    public function test_pool_stats_without_pool_service()
-    {
-        $controllerWithoutPool = new ChatbotController(
-            $this->chatbotService,
-            $this->feedbackService,
-            $this->apiKeyRotationService,
-            null,
-            $this->advancedCacheService,
-            $this->analyticsService,
-            $this->translationService,
-            $this->sentimentAnalysisService
-        );
-
-        $response = $controllerWithoutPool->poolStats();
-
-        $this->assertInstanceOf(JsonResponse::class, $response);
-        $data = json_decode($response->getContent(), true);
-        
-        $this->assertFalse($data['success']);
-        $this->assertEquals(503, $response->getStatusCode());
     }
 
     public function test_api_key_rotation_status()

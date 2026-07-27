@@ -100,7 +100,7 @@ export function announceToScreenReader(message: string, priority: 'polite' | 'as
 let isUsingKeyboard = false;
 
 export function detectKeyboardUsage() {
-  const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = () => {
     isUsingKeyboard = true;
   };
   
