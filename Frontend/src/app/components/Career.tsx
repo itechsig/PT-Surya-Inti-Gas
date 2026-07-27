@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Eye, Send, Search, X } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import '../../styles/career.css';
 import { getJobs } from '../../data/jobs';
 
@@ -126,8 +127,21 @@ export function Career() {
     return new Date(dateString).toLocaleDateString(dateLocale, options);
   };
 
+  const canonicalUrl = `https://suryaintigas.com/${currentLang}/karir`;
+
   return (
-    <div className="career-page">
+    <>
+      <Helmet>
+        <title>Career Opportunities - PT Surya Inti Gas</title>
+        <meta name="description" content={`Join PT Surya Inti Gas team. ${totalJobs} job positions available in various divisions. Apply now for a rewarding career in industrial and medical gas industry.`} />
+        <meta name="keywords" content="career, job vacancy, job opportunities, PT Surya Inti Gas, industrial gas, medical gas, employment" />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content="Career Opportunities - PT Surya Inti Gas" />
+        <meta property="og:description" content={`Join PT Surya Inti Gas team. ${totalJobs} job positions available.`} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <div className="career-page">
       {/* Career Hero Section */}
       <motion.section
         className="career-hero"
@@ -355,5 +369,6 @@ export function Career() {
       </div>
 
     </div>
+    </>
   );
 }

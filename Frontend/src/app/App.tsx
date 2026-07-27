@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation, useParams, Navigate } from "react-router-dom";
+import { HelmetProvider } from 'react-helmet-async';
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { RunningText } from "./components/RunningText";
@@ -170,10 +171,11 @@ function App() {
   }, []);
 
   return (
-    <AppProvider>
-      <ProductProvider>
-        <AuthProvider>
-        <BrowserRouter>
+    <HelmetProvider>
+      <AppProvider>
+        <ProductProvider>
+          <AuthProvider>
+          <BrowserRouter>
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Navigate to="/id" replace />} />
@@ -368,8 +370,9 @@ function App() {
           </Routes>
         </BrowserRouter>
         </AuthProvider>
-    </ProductProvider>
+      </ProductProvider>
     </AppProvider>
+    </HelmetProvider>
   );
 }
 

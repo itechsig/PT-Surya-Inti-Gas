@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Send, Upload, CheckCircle } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import '../../styles/career.css';
 import { getJobs } from '../../data/jobs';
 
@@ -127,9 +128,16 @@ export function JobApplicationForm() {
 
   const totalJobs = getJobs(t).length;
 
+  const canonicalUrl = job ? `https://suryaintigas.com/${currentLang}/karir/${job.id}/lamar` : '';
+
   if (loading) {
     return (
-      <div className="career-page">
+      <>
+        <Helmet>
+          <title>Loading Application - PT Surya Inti Gas Career</title>
+          <link rel="canonical" href={`https://suryaintigas.com/${currentLang}/karir/${id}/lamar`} />
+        </Helmet>
+        <div className="career-page">
         {/* Career Hero Section */}
         <div className="career-hero">
           <div className="career-hero-bg"></div>
@@ -145,12 +153,18 @@ export function JobApplicationForm() {
           <div className="loading">{t('common.loading')}</div>
         </div>
       </div>
+      </>
     );
   }
 
   if (!job) {
     return (
-      <div className="career-page">
+      <>
+        <Helmet>
+          <title>Job Not Found - PT Surya Inti Gas Career</title>
+          <link rel="canonical" href={`https://suryaintigas.com/${currentLang}/karir/${id}/lamar`} />
+        </Helmet>
+        <div className="career-page">
         {/* Career Hero Section */}
         <div className="career-hero">
           <div className="career-hero-bg"></div>
@@ -172,12 +186,19 @@ export function JobApplicationForm() {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
   if (submitted) {
     return (
-      <div className="career-page">
+      <>
+        <Helmet>
+          <title>Application Submitted - PT Surya Inti Gas Career</title>
+          <meta name="description" content="Your job application has been successfully submitted to PT Surya Inti Gas." />
+          <link rel="canonical" href={canonicalUrl} />
+        </Helmet>
+        <div className="career-page">
         {/* Career Hero Section */}
         <div className="career-hero">
           <div className="career-hero-bg"></div>
@@ -202,11 +223,23 @@ export function JobApplicationForm() {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
   return (
-    <div className="career-page">
+    <>
+      <Helmet>
+        <title>Apply for {job.title} - PT Surya Inti Gas Career</title>
+        <meta name="description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}`} />
+        <meta name="keywords" content={`${job.title}, job application, ${job.division}, ${job.location}, PT Surya Inti Gas`} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={`Apply for ${job.title} - PT Surya Inti Gas Career`} />
+        <meta property="og:description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}`} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <div className="career-page">
       {/* Career Hero Section */}
       <div className="career-hero">
         <div className="career-hero-bg"></div>
@@ -369,5 +402,6 @@ export function JobApplicationForm() {
         </div>
       </div>
     </div>
+    </>
   );
 }
