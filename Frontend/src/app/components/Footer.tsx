@@ -467,21 +467,17 @@ export function Footer() {
           <div className="corporate-footer-column">
             <h5 className="corporate-footer-column-title">{t('footer.product.title')}</h5>
             <nav className="corporate-footer-links">
-              <Link to={`/${currentLang}/produk`} className="corporate-footer-link">
+              <Link to={`/${currentLang}/produk?category=gas`} className="corporate-footer-link">
                 <ChevronRight size={16} />
-                {t('footer.product.industrialGas')}
+                {t('products.mainCategories.gas')}
               </Link>
-              <Link to={`/${currentLang}/produk`} className="corporate-footer-link">
+              <Link to={`/${currentLang}/produk?category=package`} className="corporate-footer-link">
                 <ChevronRight size={16} />
-                {t('footer.product.medicalGas')}
+                {t('products.mainCategories.package')}
               </Link>
-              <Link to={`/${currentLang}/produk`} className="corporate-footer-link">
+              <Link to={`/${currentLang}/produk?category=services`} className="corporate-footer-link">
                 <ChevronRight size={16} />
-                {t('footer.product.specialGas')}
-              </Link>
-              <Link to={`/${currentLang}/produk`} className="corporate-footer-link">
-                <ChevronRight size={16} />
-                {t('footer.product.equipment')}
+                {t('products.mainCategories.services')}
               </Link>
             </nav>
           </div>

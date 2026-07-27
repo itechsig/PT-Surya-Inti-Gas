@@ -593,7 +593,7 @@ function Gallery() {
         <div style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url(/images/office/wp.jpg)',
+          backgroundImage: 'linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url(/images/products/20260618_135557.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center 65%',
           zIndex: 0
