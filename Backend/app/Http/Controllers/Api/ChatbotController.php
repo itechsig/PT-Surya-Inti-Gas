@@ -196,7 +196,6 @@ class ChatbotController extends Controller
         }
     }
 
-    // Admin endpoint placeholders (for now - need to add back full implementation or move to specialized controllers)
     public function feedbackStats(Request $request): JsonResponse
     {
         try {
@@ -217,36 +216,4 @@ class ChatbotController extends Controller
             return response()->json(['success' => false, 'message' => 'Failed to retrieve analytics'], 500);
         }
     }
-
-    public function poolStats(): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function cacheStats(): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function realTimeAnalytics(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function trackAnalytics(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function setLanguage(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getSupportedLanguages(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function translate(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function analyzeSentiment(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function batchAnalyzeSentiment(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getSentimentStatistics(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function clearSentimentCache(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function runMonitoringChecks(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getHealthStatus(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getActiveAlerts(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getAlertHistory(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getMetricsHistory(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function resolveAlert(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function clearAllAlerts(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getAlertRules(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function updateAlertRules(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function createABTestCampaign(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function startABTestCampaign(Request $request, int $campaignId): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function pauseABTestCampaign(Request $request, int $campaignId): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function completeABTestCampaign(Request $request, int $campaignId): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getABTestCampaigns(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getABTestCampaign(Request $request, int $campaignId): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getABTestCampaignStats(Request $request, int $campaignId): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function getABTestCampaignVariants(Request $request, int $campaignId): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function deleteABTestCampaign(Request $request, int $campaignId): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function trackABTestEngagement(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
-    public function trackABTestConversion(Request $request): JsonResponse { return response()->json(['success' => false, 'message' => 'Not implemented yet'], 501); }
 }

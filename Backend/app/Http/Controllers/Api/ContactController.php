@@ -122,7 +122,7 @@ class ContactController extends Controller
                     'nama' => $data['nama'],
                     'email' => $data['email']
                 ]
-            ]);
+            ], 201);
 
         } catch (\Exception $e) {
             Log::error('Contact form error', [

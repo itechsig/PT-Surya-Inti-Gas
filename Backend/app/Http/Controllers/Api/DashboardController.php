@@ -96,7 +96,7 @@ class DashboardController extends Controller
             }
 
             // Pagination
-            $perPage = $request->input('per_page', 10);
+            $perPage = min((int) $request->input('per_page', 10), 100);
             $contacts = $query->latest()->paginate($perPage);
 
             return response()->json([
@@ -162,7 +162,7 @@ class DashboardController extends Controller
             if ($request->input('status') === 'replied') {
                 $contact->update([
                     'replied_at' => now(),
-                    'replied_by' => null, // Can be updated when auth is properly implemented
+                    'replied_by' => $request->user()?->id,
                 ]);
             }
 

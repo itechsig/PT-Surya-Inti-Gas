@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\AIRecommendation;
 use App\Models\ApprovalWorkflow;
+use App\Models\BlockedUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -45,7 +46,7 @@ class AIRecommendationController extends Controller
             }
 
             // Pagination
-            $perPage = $request->input('per_page', 20);
+            $perPage = min((int) $request->input('per_page', 20), 100);
             $recommendations = $query->latest()->paginate($perPage);
 
             return response()->json([

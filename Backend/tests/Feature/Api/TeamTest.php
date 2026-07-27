@@ -67,9 +67,9 @@ class TeamTest extends TestCase
 
     public function test_team_members_are_ordered_by_display_order(): void
     {
-        $member1 = TeamMember::factory()->active()->create(['display_order' => 3]);
-        $member2 = TeamMember::factory()->active()->create(['display_order' => 1]);
-        $member3 = TeamMember::factory()->active()->create(['display_order' => 2]);
+        $member1 = TeamMember::factory()->active()->create(['order' => 3]);
+        $member2 = TeamMember::factory()->active()->create(['order' => 1]);
+        $member3 = TeamMember::factory()->active()->create(['order' => 2]);
 
         $response = $this->getJson('/api/v1/team');
 
@@ -97,7 +97,7 @@ class TeamTest extends TestCase
                         'role',
                         'image',
                         'bio',
-                        'display_order'
+                        'order'
                     ]
                 ],
                 'message'

@@ -47,7 +47,7 @@ class NotificationService
     {
         try {
             // Get admin users
-            $adminUsers = User::where('is_admin', true)->get();
+            $adminUsers = User::whereIn('role', [User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN])->get();
 
             foreach ($adminUsers as $admin) {
                 // Here you would implement actual email sending

@@ -15,14 +15,6 @@ export class CSRFProtection {
     return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
   }
 
-  private static async hashStringAsync(str: string): Promise<string> {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(str);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-
   private static hashString(str: string): string {
     // Simple hash function for synchronous use
     let hash = 0;

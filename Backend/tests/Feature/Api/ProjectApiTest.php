@@ -14,7 +14,7 @@ class ProjectApiTest extends TestCase
     {
         Project::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/projects');
+        $response = $this->getJson('/api/v1/projects');
 
         $response->assertStatus(200)
                  ->assertJsonStructure([
@@ -31,7 +31,7 @@ class ProjectApiTest extends TestCase
         Project::factory()->create(['is_active' => true]);
         Project::factory()->create(['is_active' => false]);
 
-        $response = $this->getJson('/api/projects');
+        $response = $this->getJson('/api/v1/projects');
 
         $response->assertStatus(200);
         $responseData = $response->json('data');
@@ -44,7 +44,7 @@ class ProjectApiTest extends TestCase
         Project::factory()->create(['category' => 'Industrial', 'is_active' => true]);
         Project::factory()->create(['category' => 'Commercial', 'is_active' => true]);
 
-        $response = $this->getJson('/api/projects?category=Industrial');
+        $response = $this->getJson('/api/v1/projects?category=Industrial');
 
         $response->assertStatus(200);
         $responseData = $response->json('data');
@@ -57,7 +57,7 @@ class ProjectApiTest extends TestCase
     {
         $project = Project::factory()->create(['is_active' => true]);
 
-        $response = $this->getJson("/api/projects/{$project->id}");
+        $response = $this->getJson("/api/v1/projects/{$project->id}");
 
         $response->assertStatus(200)
                  ->assertJson([
@@ -73,7 +73,7 @@ class ProjectApiTest extends TestCase
     {
         $project = Project::factory()->create(['is_active' => false]);
 
-        $response = $this->getJson("/api/projects/{$project->id}");
+        $response = $this->getJson("/api/v1/projects/{$project->id}");
 
         $response->assertStatus(404)
                  ->assertJson([
@@ -87,7 +87,7 @@ class ProjectApiTest extends TestCase
         Project::factory()->create(['category' => 'Industrial', 'is_active' => true]);
         Project::factory()->create(['category' => 'Commercial', 'is_active' => true]);
 
-        $response = $this->getJson('/api/projects');
+        $response = $this->getJson('/api/v1/projects');
 
         $response->assertStatus(200);
         $categories = $response->json('categories');

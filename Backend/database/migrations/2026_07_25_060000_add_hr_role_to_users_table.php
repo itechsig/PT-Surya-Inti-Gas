@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -18,6 +19,15 @@ return new class extends Migration
             // Drop the constraint instead of trying to redefine it: allowed values stay enforced by
             // application-level validation (see AuthController), which avoids a migration per new role.
             DB::statement('ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check');
+        } elseif ($driver === 'sqlite') {
+            // SQLite's enum() is a CHECK constraint baked into the column definition at creation time;
+            // ALTER TABLE can't redefine it directly. Rebuild the column as a plain string so, like
+            // pgsql, allowed values are enforced at the application level - otherwise the original
+            // CHECK (administrator/editor/content_manager) silently rejects every role added after
+            // this point (hr, admin, super_admin) on any SQLite-backed environment, including tests.
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('role')->default('content_manager')->change();
+            });
         }
     }
 
