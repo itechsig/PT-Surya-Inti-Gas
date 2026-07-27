@@ -587,7 +587,33 @@
       "subject": "主题",
       "message": "留言内容"
     },
-    "send": "发送"
+    "send": "发送",
+    "stats": {
+      "years": "年经验",
+      "branches": "分公司",
+      "distribution": "广泛分销",
+      "distributionValue": "全国",
+      "trusted": "行业合作伙伴",
+      "trustedValue": "值得信赖"
+    },
+    "sidoarjo": {
+      "badge": "总部",
+      "title": "泗水",
+      "address": "Safe N' Lock工业园区，V1区 - 3223, 3225, 3232, 3233，环城东路KM. 5.5，Rangkah Kidul，泗水，东爪哇61232"
+    },
+    "balikpapan": {
+      "badge": "分公司",
+      "title": "巴厘巴板",
+      "address": "Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Graha Indah村，巴厘巴板北区，巴厘巴板市，东加里曼丹"
+    },
+    "hours": {
+      "label": "营业时间",
+      "weekday": "周一至周五",
+      "weekdayTime": "08.00 - 16.00",
+      "saturday": "周六",
+      "saturdayTime": "08.00 - 14.00"
+    },
+    "imageAlt": "PT Surya Inti Gas办公室"
   },
   "companyProfileVideo": {
     "badge": "公司简介",

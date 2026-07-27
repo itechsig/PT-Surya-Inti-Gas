@@ -351,7 +351,9 @@ function GalleryDetail() {
         {/* Header Section */}
         <div className="products-header" style={{
           position: 'relative',
-          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+          backgroundImage: 'linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url(/images/products/20260618_135557.webp)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 65%',
           padding: '120px 6vw 120px 6vw',
           marginBottom: '80px',
           marginLeft: '-6vw',
@@ -412,7 +414,9 @@ function GalleryDetail() {
       {/* Header Section */}
       <div className="products-header" style={{
         position: 'relative',
-        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+        backgroundImage: 'linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url(/images/products/20260618_135557.webp)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 65%',
         padding: '120px 6vw 120px 6vw',
         marginBottom: '80px',
 
