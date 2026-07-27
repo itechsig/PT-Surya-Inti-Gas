@@ -289,7 +289,33 @@
       "subject": "Subject",
       "message": "Message"
     },
-    "send": "SEND"
+    "send": "SEND",
+    "stats": {
+      "years": "Years of Experience",
+      "branches": "Branch Offices",
+      "distribution": "Wide Distribution",
+      "distributionValue": "National",
+      "trusted": "Industry Partner",
+      "trustedValue": "Trusted"
+    },
+    "sidoarjo": {
+      "badge": "Head Office",
+      "title": "Sidoarjo",
+      "address": "Safe N' Lock Industrial & Estate Complex, Block V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, East Java 61232"
+    },
+    "balikpapan": {
+      "badge": "Branch Office",
+      "title": "Balikpapan",
+      "address": "Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Graha Indah Village, Balikpapan Utara District, Balikpapan City, East Kalimantan"
+    },
+    "hours": {
+      "label": "Operating Hours",
+      "weekday": "Monday - Friday",
+      "weekdayTime": "08.00 - 16.00",
+      "saturday": "Saturday",
+      "saturdayTime": "08.00 - 14.00"
+    },
+    "imageAlt": "PT Surya Inti Gas Office"
   },
   "companyProfileVideo": {
     "badge": "Company Profile",

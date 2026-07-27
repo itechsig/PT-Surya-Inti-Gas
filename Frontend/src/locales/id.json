@@ -276,7 +276,7 @@
   "contactPage": {
     "badge": "Kontak",
     "title": "Hubungi Kami",
-    "subtitle": "Kami siap membantu Anda dengan solusi gas industri terbaik",
+    "subtitle": "Kami siap membantu kebutuhan gas industri Anda dengan layanan profesional dan terpercaya",
     "locationTitle": "Lokasi Kami",
     "sidoarjoOffice": "Kantor Sidoarjo",
     "balikpapanOffice": "Kantor Balikpapan",
@@ -289,7 +289,33 @@
       "subject": "Subjek",
       "message": "Pesan"
     },
-    "send": "KIRIM"
+    "send": "KIRIM",
+    "stats": {
+      "years": "Tahun Pengalaman",
+      "branches": "Kantor Cabang",
+      "distribution": "Distribusi Luas",
+      "distributionValue": "Nasional",
+      "trusted": "Mitra Industri",
+      "trustedValue": "Terpercaya"
+    },
+    "sidoarjo": {
+      "badge": "Head Office",
+      "title": "Sidoarjo",
+      "address": "Komp. Perg. & Industri Safe N\" Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232"
+    },
+    "balikpapan": {
+      "badge": "Branch Office",
+      "title": "Balikpapan",
+      "address": "Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur"
+    },
+    "hours": {
+      "label": "Jam Operasional",
+      "weekday": "Senin - Jumat",
+      "weekdayTime": "08.00 - 16.00",
+      "saturday": "Sabtu",
+      "saturdayTime": "08.00 - 14.00"
+    },
+    "imageAlt": "Kantor PT Surya Inti Gas"
   },
   "companyProfileVideo": {
     "badge": "Company Profile",

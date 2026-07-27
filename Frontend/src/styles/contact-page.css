@@ -278,6 +278,9 @@
   font-size: 0.9rem;
   color: #475569;
   font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 /* ── Office Image Container ── */
