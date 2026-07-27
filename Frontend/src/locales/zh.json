@@ -128,6 +128,7 @@
     },
     "mainCategories": {
       "gas": "气体产品",
+      "equipment": "设备与配件",
       "package": "包装",
       "services": "服务"
     },
@@ -142,6 +143,11 @@
         "title": "工业气体解决方案",
         "description": "为印度尼西亚各地工业提供可靠的氧气、氮气、氩气、氦气和特种气体。",
         "shortDescription": "工业应用的完整气体解决方案"
+      },
+      "equipment": {
+        "title": "设备与配件",
+        "description": "高质量储罐、气瓶、调节器和完整的气体处理设备，满足您的运营需求。",
+        "shortDescription": "优质设备与配件"
       },
       "package": {
         "title": "低温设备",
@@ -417,7 +423,8 @@
       "experienceRequired": "请填写工作经验",
       "resumeRequired": "请上传简历",
       "resumeTypeInvalid": "仅允许上传PDF、DOC或DOCX文件",
-      "resumeSizeInvalid": "文件大小最大为5MB"
+      "resumeSizeInvalid": "文件大小最大为5MB",
+      "submitFailed": "提交申请失败，请重试。"
     },
     "aria": {
       "backToListings": "返回职位列表",

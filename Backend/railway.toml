@@ -1,4 +1,6 @@
 [build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [deploy]
 startCommand = "php artisan serve --host=0.0.0.0 --port=8000"
@@ -16,6 +18,6 @@ DB_DATABASE = "${{Postgres.POSTGRES_DB}}"
 DB_USERNAME = "${{Postgres.POSTGRES_USER}}"
 DB_PASSWORD = "${{Postgres.POSTGRES_PASSWORD}}"
 SESSION_DRIVER = "file"
-CACHE_DRIVER = "file"
+CACHE_STORE = "file"
 QUEUE_CONNECTION = "sync"
-CORS_ALLOWED_ORIGINS = "https://suryaintigas.com"
+CORS_ALLOWED_ORIGINS = "https://suryaintigas.com,https://pt-surya-inti-gas.vercel.app"

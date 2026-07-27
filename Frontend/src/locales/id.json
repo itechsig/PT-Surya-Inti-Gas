@@ -128,6 +128,7 @@
     },
     "mainCategories": {
       "gas": "Produk Gas",
+      "equipment": "Peralatan & Aksesori",
       "package": "Package",
       "services": "Layanan"
     },
@@ -142,6 +143,11 @@
         "title": "Solusi Gas Industri",
         "description": "Oksigen, nitrogen, argon, helium dan gas specialty andal untuk industri di seluruh Indonesia.",
         "shortDescription": "Solusi gas lengkap untuk aplikasi industri"
+      },
+      "equipment": {
+        "title": "Peralatan & Aksesori",
+        "description": "Tangki penyimpanan, silinder, regulator, dan peralatan penanganan gas lengkap berkualitas tinggi untuk operasional Anda.",
+        "shortDescription": "Peralatan dan aksesori premium"
       },
       "package": {
         "title": "Peralatan Kriogenik",
@@ -1156,7 +1162,8 @@
       "experienceRequired": "Pengalaman kerja harus diisi",
       "resumeRequired": "CV/Resume harus diunggah",
       "resumeTypeInvalid": "Hanya file PDF, DOC, atau DOCX yang diperbolehkan",
-      "resumeSizeInvalid": "Ukuran file maksimal 5MB"
+      "resumeSizeInvalid": "Ukuran file maksimal 5MB",
+      "submitFailed": "Gagal mengirim lamaran. Silakan coba lagi."
     },
     "aria": {
       "backToListings": "Kembali ke daftar lowongan",

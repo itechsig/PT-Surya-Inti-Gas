@@ -3,13 +3,14 @@ import { API_ENDPOINTS } from '../config/api';
 import { apiRequest, getAuthToken, setAuthToken, clearAuthToken, ApiError } from '../utils/apiClient';
 
 // ─── Types ────────────────────────────────────────────────────
-export type AdminRole = 'administrator' | 'editor' | 'content_manager';
+export type AdminRole = 'super_admin' | 'admin' | 'editor' | 'hr';
 
 export interface AdminUser {
   id: number;
   name: string;
   email: string;
   role: AdminRole;
+  must_change_password: boolean;
 }
 
 interface AuthContextType {
@@ -19,6 +20,8 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   hasRole: (role: AdminRole | AdminRole[]) => boolean;
+  updateProfile: (values: { name: string; email: string; currentPassword: string }) => Promise<void>;
+  updatePassword: (values: { currentPassword: string; password: string; passwordConfirmation: string }) => Promise<void>;
 }
 
 // ─── Context ──────────────────────────────────────────────────
@@ -77,6 +80,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
     [user]
   );
 
+  const updateProfile = useCallback(
+    async (values: { name: string; email: string; currentPassword: string }) => {
+      const res = await apiRequest<{ success: boolean; data: { user: AdminUser } }>(API_ENDPOINTS.AUTH_PROFILE, {
+        method: 'PUT',
+        body: { name: values.name, email: values.email, current_password: values.currentPassword },
+      });
+      setUser(res.data.user);
+    },
+    []
+  );
+
+  const updatePassword = useCallback(
+    async (values: { currentPassword: string; password: string; passwordConfirmation: string }) => {
+      await apiRequest(API_ENDPOINTS.AUTH_PASSWORD, {
+        method: 'PUT',
+        body: {
+          current_password: values.currentPassword,
+          password: values.password,
+          password_confirmation: values.passwordConfirmation,
+        },
+      });
+      // The backend clears must_change_password on a successful change; mirror that locally so any
+      // forced-password-change gate lifts immediately instead of waiting for the next /auth/me refresh.
+      setUser((prev) => (prev ? { ...prev, must_change_password: false } : prev));
+    },
+    []
+  );
+
   return (
     <AuthContext.Provider
       value={{
@@ -86,6 +117,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         login,
         logout,
         hasRole,
+        updateProfile,
+        updatePassword,
       }}
     >
       {children}

@@ -128,6 +128,7 @@
     },
     "mainCategories": {
       "gas": "Gas Products",
+      "equipment": "Equipment & Accessories",
       "package": "Package",
       "services": "Services"
     },
@@ -142,6 +143,11 @@
         "title": "Industrial Gas Solutions",
         "description": "Reliable oxygen, nitrogen, argon, helium and specialty gases for industries across Indonesia.",
         "shortDescription": "Complete gas solutions for industrial applications"
+      },
+      "equipment": {
+        "title": "Equipment & Accessories",
+        "description": "High-quality storage tanks, cylinders, regulators, and complete gas handling equipment for your operations.",
+        "shortDescription": "Premium equipment and accessories"
       },
       "package": {
         "title": "Cryogenic Equipment",
@@ -1149,7 +1155,8 @@
       "experienceRequired": "Work experience is required",
       "resumeRequired": "CV/Resume must be uploaded",
       "resumeTypeInvalid": "Only PDF, DOC, or DOCX files are allowed",
-      "resumeSizeInvalid": "Maximum file size is 5MB"
+      "resumeSizeInvalid": "Maximum file size is 5MB",
+      "submitFailed": "Failed to submit application. Please try again."
     },
     "aria": {
       "backToListings": "Back to job listings",

@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
             HeroSlideSeeder::class,
             ProductCategorySeeder::class,
             ProductSeeder::class,
+            ServicesCategorySeeder::class,
+            GalleryItemSeeder::class,
+            JobVacancySeeder::class,
         ]);
     }
 }

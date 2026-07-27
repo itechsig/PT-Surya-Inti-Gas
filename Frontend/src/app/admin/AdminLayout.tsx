@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { Outlet, useLocation, useNavigate, Link } from 'react-router-dom';
 import { ThemeProvider, useTheme } from 'next-themes';
-import { Flame, Moon, Sun, LogOut, User as UserIcon } from 'lucide-react';
+import { Moon, Sun, LogOut, User as UserIcon, UserCog } from 'lucide-react';
 import { useAuth } from '../../context';
 import { adminNavItems } from './navConfig';
+import { ROLE_LABELS } from './roleLabels';
+import { ProfileDialog } from './ProfileDialog';
+import { ForceChangePasswordPage } from './ForceChangePasswordPage';
 import {
   SidebarProvider,
   Sidebar,
@@ -27,12 +31,6 @@ import {
   DropdownMenuTrigger,
 } from '../components/ui/dropdown-menu';
 
-const ROLE_LABELS: Record<string, string> = {
-  administrator: 'Administrator',
-  editor: 'Editor',
-  content_manager: 'Content Manager',
-};
-
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   return (
@@ -52,6 +50,7 @@ function AdminShell() {
   const { user, logout, hasRole } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -60,13 +59,22 @@ function AdminShell() {
 
   const visibleNavItems = adminNavItems.filter((item) => !item.roles || hasRole(item.roles));
 
+  if (user?.must_change_password) {
+    return (
+      <>
+        <ForceChangePasswordPage />
+        <Toaster position="top-right" />
+      </>
+    );
+  }
+
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
         <SidebarHeader>
           <div className="flex items-center gap-2 px-2 py-1.5">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Flame className="h-4 w-4" />
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white ring-1 ring-border">
+              <img src="/logo.png" alt="PT Surya Inti Gas" className="h-full w-full object-contain p-0.5" />
             </div>
             <div className="flex flex-col overflow-hidden group-data-[collapsible=icon]:hidden">
               <span className="truncate text-sm font-semibold">Surya Inti Gas</span>
@@ -106,6 +114,10 @@ function AdminShell() {
             <DropdownMenuContent side="top" align="start" className="w-56">
               <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setProfileOpen(true)}>
+                <UserCog className="h-4 w-4" />
+                Edit Profil
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="h-4 w-4" />
                 Keluar
@@ -131,6 +143,7 @@ function AdminShell() {
         </main>
       </SidebarInset>
       <Toaster position="top-right" />
+      <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen} />
     </SidebarProvider>
   );
 }

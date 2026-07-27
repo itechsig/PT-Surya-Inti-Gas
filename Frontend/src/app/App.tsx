@@ -30,6 +30,11 @@ import { DashboardHome } from "./admin/DashboardHome";
 import { ProtectedRoute } from "./admin/ProtectedRoute";
 import { HeroSlidesPage } from "./admin/heroSlides/HeroSlidesPage";
 import { ProductsPage } from "./admin/products/ProductsPage";
+import { GalleryPage } from "./admin/gallery/GalleryPage";
+import { JobVacanciesPage } from "./admin/jobVacancies/JobVacanciesPage";
+import { CareerApplicationsPage } from "./admin/careerApplications/CareerApplicationsPage";
+import { UsersPage } from "./admin/users/UsersPage";
+import { AuditLogsPage } from "./admin/auditLogs/AuditLogsPage";
 import { createSkipLink } from "../utils/accessibility";
 import i18n from "../utils/i18n";
 
@@ -363,6 +368,39 @@ function App() {
               <Route index element={<DashboardHome />} />
               <Route path="hero-slides" element={<HeroSlidesPage />} />
               <Route path="products" element={<ProductsPage />} />
+              <Route path="gallery" element={<GalleryPage />} />
+              <Route
+                path="job-vacancies"
+                element={
+                  <ProtectedRoute roles={['super_admin', 'admin', 'hr']}>
+                    <JobVacanciesPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="career-applications"
+                element={
+                  <ProtectedRoute roles={['super_admin', 'admin', 'hr']}>
+                    <CareerApplicationsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="users"
+                element={
+                  <ProtectedRoute roles={['super_admin']}>
+                    <UsersPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="audit-logs"
+                element={
+                  <ProtectedRoute roles={['super_admin']}>
+                    <AuditLogsPage />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
             <Route path="*" element={<Navigate to="/id" replace />} />
           </Routes>

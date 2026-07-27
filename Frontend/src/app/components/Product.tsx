@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
-import { 
+import {
   ChevronRight,
   Wrench,
   Cpu,
@@ -119,10 +119,10 @@ function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: stri
       title: t('products.featured.gas.title'),
       description: t('products.featured.gas.description')
     },
-    package: {
+    equipment: {
       image: '/images/products/Cryogenic_Dewar.webp',
-      title: t('products.featured.package.title'),
-      description: t('products.featured.package.description')
+      title: t('products.featured.equipment.title'),
+      description: t('products.featured.equipment.description')
     },
     services: {
       image: '/images/services/Installation.webp',
@@ -168,10 +168,10 @@ export function Product() {
       description: t('products.featured.gas.shortDescription')
     },
     {
-      id: 'package',
-      label: t('products.mainCategories.package'),
+      id: 'equipment',
+      label: t('products.mainCategories.equipment'),
       icon: Cpu,
-      description: t('products.featured.package.shortDescription')
+      description: t('products.featured.equipment.shortDescription')
     },
     {
       id: 'services',
@@ -191,30 +191,17 @@ export function Product() {
 
     if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
       setMainCategory(categoryParam as MainCategory);
-      if (subcategoryParam && categoryParam === 'gas') {
-        setSubCategory(subcategoryParam);
-      } else if (categoryParam === 'gas') {
-        setSubCategory('industrial-medical');
-      } else {
-        setSubCategory('');
-      }
+      const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
+      const firstSubCategory = Object.keys(categories || {})[0] || '';
+      setSubCategory(subcategoryParam && categories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
     }
   }, [searchParams, productCategories]);
 
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;
     setMainCategory(category);
-    // Set default subcategory for each main category
-    let newSubCategory: string;
-    if (category === 'gas') {
-      newSubCategory = 'industrial-medical';
-    } else if (category === 'package' || category === 'services') {
-      // For package and services, no subcategory needed
-      newSubCategory = '';
-    } else {
-      newSubCategory = 'industrial-medical';
-    }
-    setSubCategory(newSubCategory);
+    const categories = productCategories[category] as Record<string, SubCategory>;
+    setSubCategory(Object.keys(categories || {})[0] || '');
   };
 
   const handleSubCategoryChange = (subCatId: string) => {
@@ -223,10 +210,6 @@ export function Product() {
   };
 
   const getSubCategories = () => {
-    // Package and services don't have subcategories
-    if (mainCategory === 'package' || mainCategory === 'services') {
-      return [];
-    }
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
     return Object.keys(categories).map(key => ({
@@ -238,12 +221,6 @@ export function Product() {
   const getCurrentProducts = () => {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
-    // For package and services, get products from the first subcategory
-    if (mainCategory === 'package' || mainCategory === 'services') {
-      const firstSubCategory = Object.values(categories)[0];
-      return firstSubCategory?.products || [];
-    }
-    // For gas, get from selected subcategory
     const subCat = categories[subCategory];
     return subCat?.products || [];
   };
@@ -354,7 +331,7 @@ export function Product() {
           </motion.div>
 
           {/* Sub-Category Navigation - only for gas category */}
-          {getSubCategories().length > 0 && (
+          {getSubCategories().length > 1 && (
             <motion.div 
               className="products-subcategories"
               initial={{ opacity: 0, y: 20 }}

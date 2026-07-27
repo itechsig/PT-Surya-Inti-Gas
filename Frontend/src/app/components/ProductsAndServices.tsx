@@ -2,7 +2,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
-import { 
+import {
   ChevronRight,
   Wrench,
   Cpu,
@@ -115,10 +115,10 @@ function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: stri
       title: t('products.featured.gas.title'),
       description: t('products.featured.gas.description')
     },
-    package: {
+    equipment: {
       image: '/images/products/Cryogenic_Dewar.webp',
-      title: t('products.featured.package.title'),
-      description: t('products.featured.package.description')
+      title: t('products.featured.equipment.title'),
+      description: t('products.featured.equipment.description')
     },
     services: {
       image: '/images/services/Installation.webp',
@@ -164,10 +164,10 @@ export function ProductsAndServices() {
       description: t('products.featured.gas.shortDescription')
     },
     {
-      id: 'package',
-      label: t('products.mainCategories.package'),
+      id: 'equipment',
+      label: t('products.mainCategories.equipment'),
       icon: Cpu,
-      description: t('products.featured.package.shortDescription')
+      description: t('products.featured.equipment.shortDescription')
     },
     {
       id: 'services',
@@ -275,7 +275,7 @@ export function ProductsAndServices() {
           </motion.div>
 
           {/* Sub-Category Navigation (Premium Pill Buttons) */}
-          {mainCategory === 'gas' && (
+          {getSubCategories().length > 1 && (
             <motion.div 
               className="products-subcategories"
               initial={{ opacity: 0, y: 20 }}

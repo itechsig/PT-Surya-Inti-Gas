@@ -11,16 +11,24 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-#[Fillable(['name', 'email', 'password', 'role', 'two_factor_secret', 'two_factor_enabled'])]
+#[Fillable(['name', 'email', 'password', 'role', 'is_active', 'must_change_password', 'last_login_at', 'two_factor_secret', 'two_factor_enabled'])]
 #[Hidden(['password', 'remember_token', 'two_factor_secret'])]
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
-    public const ROLE_ADMINISTRATOR = 'administrator';
+    public const ROLE_SUPER_ADMIN = 'super_admin';
+    public const ROLE_ADMIN = 'admin';
     public const ROLE_EDITOR = 'editor';
-    public const ROLE_CONTENT_MANAGER = 'content_manager';
+    public const ROLE_HR = 'hr';
+
+    public const ROLES = [
+        self::ROLE_SUPER_ADMIN,
+        self::ROLE_ADMIN,
+        self::ROLE_EDITOR,
+        self::ROLE_HR,
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -32,6 +40,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'must_change_password' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
     }
 
@@ -42,8 +53,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return in_array($this->role, $roles, true);
     }
 
-    public function isAdministrator(): bool
+    public function isSuperAdmin(): bool
     {
-        return $this->role === self::ROLE_ADMINISTRATOR;
+        return $this->role === self::ROLE_SUPER_ADMIN;
     }
 }

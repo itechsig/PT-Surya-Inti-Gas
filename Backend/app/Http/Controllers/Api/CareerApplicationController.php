@@ -7,6 +7,8 @@ use App\Models\CareerApplication;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CareerApplicationController extends Controller
 {
@@ -164,6 +166,38 @@ class CareerApplicationController extends Controller
                 'success' => false,
                 'message' => 'Failed to get statistics'
             ], 500);
+        }
+    }
+
+    /**
+     * Download the applicant's CV/resume.
+     */
+    public function downloadCv(string|int $id): StreamedResponse|JsonResponse
+    {
+        try {
+            $application = CareerApplication::findOrFail($id);
+
+            if (!$application->cv_path || !Storage::disk('local')->exists($application->cv_path)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'File CV tidak ditemukan',
+                ], 404);
+            }
+
+            $extension = pathinfo($application->cv_path, PATHINFO_EXTENSION);
+            $downloadName = 'CV_' . str_replace(' ', '_', $application->nama) . '.' . $extension;
+
+            return Storage::disk('local')->download($application->cv_path, $downloadName);
+        } catch (\Exception $e) {
+            Log::error('Career application CV download error', [
+                'error' => $e->getMessage(),
+                'id' => $id
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to download CV'
+            ], 404);
         }
     }
 

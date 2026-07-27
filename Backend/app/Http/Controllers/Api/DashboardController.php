@@ -60,7 +60,7 @@ class DashboardController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal mengambil data dashboard: ' . $e->getMessage()
+                'message' => 'Gagal mengambil data dashboard'
             ], 500);
         }
     }

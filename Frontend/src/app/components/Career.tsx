@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { MapPin, Eye, Send, Search, X } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
 import '../../styles/career.css';
-import { getJobs } from '../../data/jobs';
+import { useJobVacancies } from '../../hooks/useJobVacancies';
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -30,7 +30,7 @@ export function Career() {
   const [locationSearch, setLocationSearch] = useState('');
   const [levelSearch, setLevelSearch] = useState('');
 
-  const openings = useMemo(() => getJobs(t), [t, i18n.language]);
+  const { jobs: openings } = useJobVacancies(currentLang);
 
   const isDeadlinePassed = (deadline: string) => {
     return new Date(deadline) < new Date();
@@ -70,8 +70,6 @@ export function Career() {
       return matchesSearch && matchesDivision && matchesLocation && matchesLevel;
     });
   }, [openings, searchQuery, selectedDivision, selectedLocation, selectedLevel, divisionSearch, locationSearch, levelSearch]);
-
-
 
   const totalJobs = filteredOpenings.length;
 

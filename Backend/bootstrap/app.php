@@ -20,6 +20,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'api/chat/stream',
         ]);
 
+        // Laravel's default HandleCors ships with no config/cors.php in this app, so it falls back to the
+        // framework's own defaults (allowed_origins: ['*']) and runs after our CorsMiddleware in the response
+        // chain, silently overwriting its whitelisted Access-Control-Allow-Origin back to a wildcard. Remove
+        // it so our whitelist-based CorsMiddleware below is the only thing setting CORS headers.
+        $middleware->remove(\Illuminate\Http\Middleware\HandleCors::class);
+
         // Add CORS middleware for API routes
         $middleware->append(\App\Http\Middleware\CorsMiddleware::class);
 
@@ -35,6 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.blocked' => \App\Http\Middleware\CheckBlockedUsers::class,
             'cors' => \App\Http\Middleware\CorsMiddleware::class,
             'role' => \App\Http\Middleware\EnsureRole::class,
+            'password.change' => \App\Http\Middleware\RequirePasswordChangeMiddleware::class,
         ]);
 
         // Disable EnsureFrontendRequestsAreStateful to prevent infinite loop/memory exhaustion

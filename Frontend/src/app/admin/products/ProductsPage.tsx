@@ -16,11 +16,11 @@ import {
   deleteProduct, listProductCategories, listProducts, toggleProductFeatured, toggleProductPublished,
 } from './api';
 import { ProductFormDialog } from './ProductFormDialog';
-import type { AdminProduct, AdminProductCategory } from './types';
+import { MAIN_CATEGORY_LABELS, type AdminProduct, type AdminProductCategory } from './types';
 
 export function ProductsPage() {
   const { hasRole } = useAuth();
-  const canDelete = hasRole(['administrator', 'editor']);
+  const canDelete = hasRole(['super_admin', 'admin', 'editor']);
 
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [categories, setCategories] = useState<AdminProductCategory[]>([]);
@@ -124,7 +124,7 @@ export function ProductsPage() {
               <SelectItem value="all">Semua Kategori</SelectItem>
               {categories.map((cat) => (
                 <SelectItem key={cat.id} value={String(cat.id)}>
-                  {cat.main_category === 'gas' ? 'Gas' : 'Equipment'} — {cat.name_id}
+                  {MAIN_CATEGORY_LABELS[cat.main_category]} — {cat.name_id}
                 </SelectItem>
               ))}
             </SelectContent>
