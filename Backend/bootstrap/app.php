@@ -15,6 +15,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // This is an API-only app with no 'login' route. Laravel's ApplicationBuilder sets a
+        // default redirectGuestsTo(fn () => route('login')) unconditionally; for any request
+        // that doesn't send an explicit Accept: application/json header, an unauthenticated
+        // hit on a protected route would call route('login'), throw RouteNotFoundException,
+        // and surface as an uncaught 500 instead of a 401. Overriding it to null makes
+        // Authenticate::unauthenticated() always throw a plain AuthenticationException instead.
+        $middleware->redirectGuestsTo(fn () => null);
+
         $middleware->validateCsrfTokens(except: [
             'api/chatbot',
             'api/chat/stream',
@@ -60,5 +68,16 @@ return Application::configure(basePath: dirname(__DIR__))
                     'errors' => $e->errors(),
                 ], 422);
             }
+        });
+
+        // This is an API-only app with no 'login' route, so Laravel's default unauthenticated
+        // handling (which tries to redirect non-JSON-expecting requests to route('login')) throws
+        // RouteNotFoundException and surfaces as an uncaught 500 instead of a clean 401 whenever a
+        // client doesn't send an explicit Accept: application/json header.
+        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, \Illuminate\Http\Request $request) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthenticated',
+            ], 401);
         });
     })->create();

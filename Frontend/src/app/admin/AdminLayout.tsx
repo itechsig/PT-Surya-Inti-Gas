@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { Outlet, useLocation, useNavigate, Link } from 'react-router-dom';
 import { ThemeProvider, useTheme } from 'next-themes';
 import { Moon, Sun, LogOut, User as UserIcon, UserCog } from 'lucide-react';
@@ -139,7 +139,12 @@ function AdminShell() {
           <ThemeToggle />
         </header>
         <main className="flex-1 p-4 md:p-6">
-          <Outlet />
+          {/* Nested admin pages are code-split; keep the sidebar/header mounted
+              while a section's chunk loads instead of falling back to the
+              outer route Suspense (which would hide this whole shell). */}
+          <Suspense fallback={<div style={{ minHeight: '40vh' }} aria-hidden="true" />}>
+            <Outlet />
+          </Suspense>
         </main>
       </SidebarInset>
       <Toaster position="top-right" />
