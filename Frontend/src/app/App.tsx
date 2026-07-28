@@ -1,43 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation, useParams, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { RunningText } from "./components/RunningText";
 import { AboutCompany } from "./components/AboutCompany";
-import { AboutUsPage } from "./components/AboutUsPage";
 import { CompanyProfileVideo } from "./components/CompanyProfileVideo";
 import { ProductsAndServices } from "./components/ProductsAndServices";
 import { IndustriesServed } from "./components/IndustriesServed";
 import { WhyChooseUs } from "./components/WhyChooseUs";
-import { ContactPage } from "./components/ContactPage";
-import { Product } from "./components/Product";
-import { ProductDetail } from "./components/ProductDetail";
 import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
-import { Career } from "./components/Career";
 import { ScrollToTopButton } from "./components/ScrollToTopButton";
-import { JobDetail } from "./components/JobDetail";
-import { JobApplicationForm } from "./components/JobApplicationForm";
-import { DistributionNetworkPage } from "./components/DistributionNetworkPage";
-import { DistributionNetworkSection } from "./components/DistributionNetworkSection";
-import Gallery from "./components/Gallery";
-import GalleryDetail from "./components/GalleryDetail";
 import { performanceMonitor } from "../utils/performanceMonitor";
 import { AppProvider, ProductProvider, AuthProvider } from "../context";
-import { AdminLayout } from "./admin/AdminLayout";
-import { LoginPage } from "./admin/LoginPage";
-import { DashboardHome } from "./admin/DashboardHome";
 import { ProtectedRoute } from "./admin/ProtectedRoute";
-import { HeroSlidesPage } from "./admin/heroSlides/HeroSlidesPage";
-import { ProductsPage } from "./admin/products/ProductsPage";
-import { GalleryPage } from "./admin/gallery/GalleryPage";
-import { JobVacanciesPage } from "./admin/jobVacancies/JobVacanciesPage";
-import { CareerApplicationsPage } from "./admin/careerApplications/CareerApplicationsPage";
-import { UsersPage } from "./admin/users/UsersPage";
-import { AuditLogsPage } from "./admin/auditLogs/AuditLogsPage";
 import { createSkipLink } from "../utils/accessibility";
 import i18n from "../utils/i18n";
+
+// Route-level code splitting: these are only needed on their specific route (or, for
+// DistributionNetworkSection, pull in the ~460KB leaflet library) rather than on every
+// page view. Each becomes its own chunk fetched on demand instead of bloating the main bundle.
+const AboutUsPage = lazy(() => import("./components/AboutUsPage").then(m => ({ default: m.AboutUsPage })));
+const ContactPage = lazy(() => import("./components/ContactPage").then(m => ({ default: m.ContactPage })));
+const Product = lazy(() => import("./components/Product").then(m => ({ default: m.Product })));
+const ProductDetail = lazy(() => import("./components/ProductDetail").then(m => ({ default: m.ProductDetail })));
+const Career = lazy(() => import("./components/Career").then(m => ({ default: m.Career })));
+const JobDetail = lazy(() => import("./components/JobDetail").then(m => ({ default: m.JobDetail })));
+const JobApplicationForm = lazy(() => import("./components/JobApplicationForm").then(m => ({ default: m.JobApplicationForm })));
+const DistributionNetworkPage = lazy(() => import("./components/DistributionNetworkPage").then(m => ({ default: m.DistributionNetworkPage })));
+const DistributionNetworkSection = lazy(() => import("./components/DistributionNetworkSection").then(m => ({ default: m.DistributionNetworkSection })));
+const Gallery = lazy(() => import("./components/Gallery"));
+const GalleryDetail = lazy(() => import("./components/GalleryDetail"));
+
+// The entire admin dashboard: public visitors never need any of this, so it's split
+// into its own chunk(s) that only load when someone actually visits /admin.
+const AdminLayout = lazy(() => import("./admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
+const LoginPage = lazy(() => import("./admin/LoginPage").then(m => ({ default: m.LoginPage })));
+const DashboardHome = lazy(() => import("./admin/DashboardHome").then(m => ({ default: m.DashboardHome })));
+const HeroSlidesPage = lazy(() => import("./admin/heroSlides/HeroSlidesPage").then(m => ({ default: m.HeroSlidesPage })));
+const ProductsPage = lazy(() => import("./admin/products/ProductsPage").then(m => ({ default: m.ProductsPage })));
+const GalleryPage = lazy(() => import("./admin/gallery/GalleryPage").then(m => ({ default: m.GalleryPage })));
+const JobVacanciesPage = lazy(() => import("./admin/jobVacancies/JobVacanciesPage").then(m => ({ default: m.JobVacanciesPage })));
+const CareerApplicationsPage = lazy(() => import("./admin/careerApplications/CareerApplicationsPage").then(m => ({ default: m.CareerApplicationsPage })));
+const UsersPage = lazy(() => import("./admin/users/UsersPage").then(m => ({ default: m.UsersPage })));
+const AuditLogsPage = lazy(() => import("./admin/auditLogs/AuditLogsPage").then(m => ({ default: m.AuditLogsPage })));
+
+// Minimal, non-layout-shifting fallback while a route chunk loads.
+function RouteFallback() {
+  return <div style={{ minHeight: '60vh' }} aria-hidden="true" />;
+}
 
 // Page transition styles
 const pageTransitionStyles = `
@@ -157,7 +169,9 @@ function MainPage() {
           <ProductsAndServices />
           <IndustriesServed />
           <div style={{ height: '80px', background: '#f8fafc' }} />
-          <DistributionNetworkSection />
+          <Suspense fallback={<div style={{ minHeight: '400px' }} aria-hidden="true" />}>
+            <DistributionNetworkSection />
+          </Suspense>
           <WhyChooseUs />
         </PageTransition>
       </div>
@@ -182,6 +196,7 @@ function App() {
           <AuthProvider>
           <BrowserRouter>
           <ScrollToTop />
+          <Suspense fallback={<RouteFallback />}>
           <Routes>
             <Route path="/" element={<Navigate to="/id" replace />} />
             <Route path="/:lang" element={
@@ -205,7 +220,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <Product />
+                      <Suspense fallback={<RouteFallback />}>
+                        <Product />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -221,7 +238,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <ProductDetail />
+                      <Suspense fallback={<RouteFallback />}>
+                        <ProductDetail />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -237,7 +256,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <GalleryDetail />
+                      <Suspense fallback={<RouteFallback />}>
+                        <GalleryDetail />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -253,7 +274,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <Gallery />
+                      <Suspense fallback={<RouteFallback />}>
+                        <Gallery />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -269,7 +292,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <Career />
+                      <Suspense fallback={<RouteFallback />}>
+                        <Career />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -285,7 +310,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <JobDetail />
+                      <Suspense fallback={<RouteFallback />}>
+                        <JobDetail />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -301,7 +328,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <JobApplicationForm />
+                      <Suspense fallback={<RouteFallback />}>
+                        <JobApplicationForm />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -317,7 +346,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <ContactPage />
+                      <Suspense fallback={<RouteFallback />}>
+                        <ContactPage />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -333,7 +364,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <AboutUsPage />
+                      <Suspense fallback={<RouteFallback />}>
+                        <AboutUsPage />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -349,7 +382,9 @@ function App() {
                   <Header />
                   <main id="main-content" tabIndex={-1}>
                     <PageTransition variant="fast">
-                      <DistributionNetworkPage />
+                      <Suspense fallback={<RouteFallback />}>
+                        <DistributionNetworkPage />
+                      </Suspense>
                     </PageTransition>
                   </main>
                   <Footer />
@@ -406,6 +441,7 @@ function App() {
             </Route>
             <Route path="*" element={<Navigate to="/id" replace />} />
           </Routes>
+          </Suspense>
         </BrowserRouter>
         </AuthProvider>
       </ProductProvider>
