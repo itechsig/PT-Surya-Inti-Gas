@@ -34,35 +34,36 @@ class EnvironmentValidationProvider extends ServiceProvider
      */
     protected function validateEnvironmentVariables(): void
     {
-        $requiredVariables = [
-            'APP_KEY',
-            'DB_CONNECTION',
-            'DB_DATABASE',
-        ];
-
         $warnings = [];
 
-        foreach ($requiredVariables as $variable) {
-            if (empty(env($variable))) {
-                $warnings[] = "Environment variable {$variable} is not set";
-            }
+        // Check critical config values
+        if (empty(config('app.key'))) {
+            $warnings[] = "Environment variable APP_KEY is not set";
+        }
+
+        if (empty(config('database.default'))) {
+            $warnings[] = "Environment variable DB_CONNECTION is not set";
+        }
+
+        if (empty(config('database.connections.' . config('database.default') . '.database'))) {
+            $warnings[] = "Environment variable DB_DATABASE is not set";
         }
 
         // Check for production-specific security settings
         if (app()->environment('production')) {
-            if (env('APP_DEBUG') === true) {
+            if (config('app.debug') === true) {
                 $warnings[] = "APP_DEBUG is enabled in production environment";
             }
 
-            if (empty(env('APP_KEY')) || env('APP_KEY') === 'base64:...' || strlen(env('APP_KEY')) < 32) {
+            if (empty(config('app.key')) || config('app.key') === 'base64:...' || strlen(config('app.key')) < 32) {
                 $warnings[] = "APP_KEY is not properly set for production";
             }
 
-            if (env('SESSION_SECURE_COOKIES') !== true) {
+            if (config('session.secure_cookies') !== true) {
                 $warnings[] = "SESSION_SECURE_COOKIES should be enabled in production";
             }
 
-            if (empty(env('CORS_ALLOWED_ORIGINS'))) {
+            if (empty(config('cors.allowed_origins'))) {
                 $warnings[] = "CORS_ALLOWED_ORIGINS should be configured in production";
             }
         }
