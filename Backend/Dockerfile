@@ -1,4 +1,4 @@
-# Force cache invalidation - 2026-07-29-v5
+# Force cache invalidation - 2026-07-29-v6
 FROM php:8.4-cli
 
 WORKDIR /app
@@ -47,7 +47,10 @@ RUN php artisan key:generate --no-interaction --force || true
 RUN php artisan config:cache --no-interaction || true
 RUN php artisan route:cache --no-interaction || true
 
+# Make docker-entrypoint.sh executable
+RUN chmod +x docker-entrypoint.sh
+
 EXPOSE 8000
 
-# Runtime script to update .env with environment variables
-CMD ["sh", "-c", "if [ -n \"$DB_HOST\" ]; then sed -i \"s|^DB_HOST=.*|DB_HOST=$DB_HOST|\" .env; fi && if [ -n \"$DB_DATABASE\" ]; then sed -i \"s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|\" .env; fi && if [ -n \"$DB_USERNAME\" ]; then sed -i \"s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|\" .env; fi && if [ -n \"$DB_PASSWORD\" ]; then sed -i \"s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|\" .env; fi && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
