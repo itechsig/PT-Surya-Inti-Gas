@@ -19,6 +19,8 @@
 /public/storage
 /storage/*.key
 /storage/pail
+# But allow specific storage directories for deployment
+!/storage/app/public/
 /vendor
 _ide_helper.php
 Homestead.json
