@@ -46,4 +46,4 @@ RUN php artisan route:cache --no-interaction || true
 
 EXPOSE 8000
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+CMD ["sh", "-c", "env && cp .env.example .env && php artisan serve --host=0.0.0.0 --port=8080"]
