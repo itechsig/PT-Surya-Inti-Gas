@@ -1,4 +1,4 @@
-# Force cache invalidation - 2026-07-29-v6
+# Force cache invalidation - 2026-07-29-v7 - Simple version without docker-entrypoint.sh
 FROM php:8.4-cli
 
 WORKDIR /app
@@ -37,9 +37,6 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer config -g repo.packagist composer https://packagist.org && \
     composer install --no-interaction --optimize-autoloader
 
-# Copy .env.example to .env
-RUN cp .env.example .env || true
-
 # Generate app key
 RUN php artisan key:generate --no-interaction --force || true
 
@@ -47,10 +44,6 @@ RUN php artisan key:generate --no-interaction --force || true
 RUN php artisan config:cache --no-interaction || true
 RUN php artisan route:cache --no-interaction || true
 
-# Make docker-entrypoint.sh executable
-RUN chmod +x docker-entrypoint.sh
-
 EXPOSE 8000
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080"]
