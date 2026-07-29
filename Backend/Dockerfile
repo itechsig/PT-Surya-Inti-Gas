@@ -40,10 +40,6 @@ RUN composer config -g repo.packagist composer https://packagist.org && \
 # Generate app key
 RUN php artisan key:generate --no-interaction --force || true
 
-# Clear and cache config
-RUN php artisan config:cache --no-interaction || true
-RUN php artisan route:cache --no-interaction || true
-
 EXPOSE 8000
 
-CMD ["sh", "-c", "cp .env.example .env && sed -i \"s|^DB_HOST=.*|DB_HOST=$DB_HOST|\" .env && sed -i \"s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|\" .env && sed -i \"s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|\" .env && sed -i \"s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|\" .env && sed -i \"s|^DB_PORT=.*|DB_PORT=$DB_PORT|\" .env && rm -rf bootstrap/cache/*.php && php artisan config:clear && php artisan cache:clear && php artisan serve --host=0.0.0.0 --port=8080"]
+CMD ["sh", "-c", "cp .env.example .env && sed -i \"s|^DB_HOST=.*|DB_HOST=$DB_HOST|\" .env && sed -i \"s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|\" .env && sed -i \"s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|\" .env && sed -i \"s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|\" .env && sed -i \"s|^DB_PORT=.*|DB_PORT=$DB_PORT|\" .env && rm -rf bootstrap/cache/*.php && php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=8080"]
