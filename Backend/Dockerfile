@@ -46,4 +46,4 @@ RUN php artisan route:cache --no-interaction || true
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "cp .env.example .env && sed -i \"s|^DB_HOST=.*|DB_HOST=$DB_HOST|\" .env && sed -i \"s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|\" .env && sed -i \"s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|\" .env && sed -i \"s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|\" .env && sed -i \"s|^DB_PORT=.*|DB_PORT=$DB_PORT|\" .env && php artisan serve --host=0.0.0.0 --port=8080"]
+CMD ["sh", "-c", "cp .env.example .env && sed -i \"s|^DB_HOST=.*|DB_HOST=$DB_HOST|\" .env && sed -i \"s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|\" .env && sed -i \"s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|\" .env && sed -i \"s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|\" .env && sed -i \"s|^DB_PORT=.*|DB_PORT=$DB_PORT|\" .env && rm -rf bootstrap/cache/*.php && php artisan serve --host=0.0.0.0 --port=8080"]
