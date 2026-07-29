@@ -29,6 +29,12 @@ else
     echo "DB_HOST not set, skipping MySQL configuration"
 fi
 
+# Override database name if not set (fallback to surya_inti_gas)
+if [ -z "$DB_DATABASE" ]; then
+    echo "DB_DATABASE not set, using default: surya_inti_gas"
+    sed -i "s|^DB_DATABASE=.*|DB_DATABASE=surya_inti_gas|" .env
+fi
+
 # Enable secure cookies for production
 echo "Enabling secure cookies for production"
 sed -i "s|^SESSION_SECURE_COOKIE=.*|SESSION_SECURE_COOKIE=true|" .env
