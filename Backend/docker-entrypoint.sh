@@ -29,6 +29,10 @@ else
     echo "DB_HOST not set, skipping MySQL configuration"
 fi
 
+# Enable secure cookies for production
+echo "Enabling secure cookies for production"
+sed -i "s|^SESSION_SECURE_COOKIE=.*|SESSION_SECURE_COOKIE=true|" .env
+
 # Clear bootstrap cache to ensure Laravel reads new config
 echo "Clearing bootstrap cache"
 rm -rf bootstrap/cache/*.php

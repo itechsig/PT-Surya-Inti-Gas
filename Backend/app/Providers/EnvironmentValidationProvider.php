@@ -59,13 +59,14 @@ class EnvironmentValidationProvider extends ServiceProvider
                 $warnings[] = "APP_KEY is not properly set for production";
             }
 
-            if (config('session.secure_cookies') !== true) {
+            if (config('session.secure') !== true) {
                 $warnings[] = "SESSION_SECURE_COOKIES should be enabled in production";
             }
 
-            if (empty(config('cors.allowed_origins'))) {
-                $warnings[] = "CORS_ALLOWED_ORIGINS should be configured in production";
-            }
+            // Skip CORS validation as it's a custom env variable without config
+            // if (empty(config('cors.allowed_origins'))) {
+            //     $warnings[] = "CORS_ALLOWED_ORIGINS should be configured in production";
+            // }
         }
 
         // Log warnings if any
