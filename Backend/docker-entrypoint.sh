@@ -43,6 +43,10 @@ sed -i "s|^SESSION_SECURE_COOKIE=.*|SESSION_SECURE_COOKIE=true|" .env
 echo "Clearing bootstrap cache"
 rm -rf bootstrap/cache/*.php
 
+# Create storage link for public access to storage files
+echo "Creating storage link"
+php artisan storage:link
+
 # Only generate a new app key if one wasn't provided via a real environment
 # variable (set APP_KEY in the Railway dashboard so it persists across deploys).
 if [ -z "$APP_KEY" ]; then

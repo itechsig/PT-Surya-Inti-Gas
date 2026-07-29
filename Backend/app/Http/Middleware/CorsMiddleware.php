@@ -49,6 +49,9 @@ class CorsMiddleware
         }
         $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept');
+        
+        // Add CORS headers for images and static files
+        $response->headers->set('Access-Control-Expose-Headers', 'Content-Length, Content-Type');
 
         return $response;
     }
