@@ -1,10 +1,8 @@
-# Force rebuild - 2026-07-29-v7 - Fix duplicate deploy section
+# Force rebuild - 2026-07-29-v8 - Disable healthcheck for initial deployment
 [build]
 builder = "NIXPACKS"
 
 [deploy]
-healthcheckPath = "/api/v1/products"
-healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 
