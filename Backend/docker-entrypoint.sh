@@ -50,10 +50,12 @@ php artisan storage:link --force || true
 echo "Running migrations"
 php artisan migrate --force
 
-# Clear and cache config/routes
+# Clear and cache config/routes AFTER .env is updated
 echo "Caching config and routes"
-php artisan config:cache --no-interaction
-php artisan route:cache --no-interaction
+php artisan config:clear
+php artisan cache:clear
+php artisan config:cache
+php artisan route:cache
 
 echo "=== docker-entrypoint.sh completed ==="
 echo "Executing command: $@"

@@ -37,9 +37,6 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer config -g repo.packagist composer https://packagist.org && \
     composer install --no-interaction --optimize-autoloader
 
-# Generate app key
-RUN php artisan key:generate --no-interaction --force || true
-
 # Make docker-entrypoint.sh executable
 RUN chmod +x docker-entrypoint.sh
 
