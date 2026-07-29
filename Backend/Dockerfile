@@ -1,4 +1,4 @@
-# Force cache invalidation - 2026-07-29-v7 - Simple version without docker-entrypoint.sh
+# Force cache invalidation - 2026-07-29-v8 - Use docker-entrypoint.sh with Railway env vars
 FROM php:8.4-cli
 
 WORKDIR /app
@@ -40,6 +40,10 @@ RUN composer config -g repo.packagist composer https://packagist.org && \
 # Generate app key
 RUN php artisan key:generate --no-interaction --force || true
 
+# Make docker-entrypoint.sh executable
+RUN chmod +x docker-entrypoint.sh
+
 EXPOSE 8000
 
-CMD ["sh", "-c", "cp .env.example .env && sed -i \"s|^DB_HOST=.*|DB_HOST=$DB_HOST|\" .env && sed -i \"s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|\" .env && sed -i \"s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|\" .env && sed -i \"s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|\" .env && sed -i \"s|^DB_PORT=.*|DB_PORT=$DB_PORT|\" .env && rm -rf bootstrap/cache/*.php && php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=8080"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]

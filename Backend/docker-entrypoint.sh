@@ -29,6 +29,10 @@ else
     echo "DB_HOST not set, skipping MySQL configuration"
 fi
 
+# Clear bootstrap cache to ensure Laravel reads new config
+echo "Clearing bootstrap cache"
+rm -rf bootstrap/cache/*.php
+
 # Only generate a new app key if one wasn't provided via a real environment
 # variable (set APP_KEY in the Railway dashboard so it persists across deploys).
 if [ -z "$APP_KEY" ]; then
