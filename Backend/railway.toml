@@ -1,7 +1,6 @@
-# Force rebuild - 2026-07-29
+# Force rebuild - 2026-07-29-v4 - Switch to Railpack
 [build]
-builder = "DOCKERFILE"
-dockerfilePath = "Dockerfile"
+builder = "NIXPACKS"
 
 [deploy]
 startCommand = "php artisan serve --host=0.0.0.0 --port=8000"

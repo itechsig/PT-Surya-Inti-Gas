@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = ["php", "phpExtensions.composer", "phpExtensions.mbstring", "phpExtensions.xml", "phpExtensions.curl", "phpExtensions.zip", "phpExtensions.bcmath", "phpExtensions.pdo", "phpExtensions.pdo_mysql", "phpExtensions.exif", "phpExtensions.pcntl", "phpExtensions.gd", "phpExtensions.opcache"]
+
+[phases.build]
+cmds = [
+    "php composer.phar install --no-interaction --optimize-autoloader",
+    "php artisan key:generate --no-interaction --force",
+    "php artisan migrate --force",
+    "php artisan config:cache --no-interaction",
+    "php artisan route:cache --no-interaction"
+]
+
+[start]
+cmd = "php artisan serve --host=0.0.0.0 --port=8000 --no-interactive"
