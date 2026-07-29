@@ -128,7 +128,6 @@
     },
     "mainCategories": {
       "gas": "Produk Gas",
-      "equipment": "Peralatan & Aksesori",
       "package": "Package",
       "services": "Layanan"
     },
@@ -144,14 +143,9 @@
         "description": "Oksigen, nitrogen, argon, helium dan gas specialty andal untuk industri di seluruh Indonesia.",
         "shortDescription": "Solusi gas lengkap untuk aplikasi industri"
       },
-      "equipment": {
-        "title": "Peralatan & Aksesori",
-        "description": "Tangki penyimpanan, silinder, regulator, dan peralatan penanganan gas lengkap berkualitas tinggi untuk operasional Anda.",
-        "shortDescription": "Peralatan dan aksesori premium"
-      },
       "package": {
-        "title": "Peralatan Kriogenik",
-        "description": "Tangki penyimpanan berkualitas tinggi, silinder, dan sistem penanganan gas lengkap untuk operasional Anda.",
+        "title": "Package",
+        "description": "Cradle 2x2, 3x2, 3x3, 4x4, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Lorry Tank.",
         "shortDescription": "Solusi penyimpanan dan penanganan premium"
       },
       "services": {

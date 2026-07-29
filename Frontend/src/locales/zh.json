@@ -128,7 +128,6 @@
     },
     "mainCategories": {
       "gas": "气体产品",
-      "equipment": "设备与配件",
       "package": "包装",
       "services": "服务"
     },
@@ -144,14 +143,9 @@
         "description": "为印度尼西亚各地工业提供可靠的氧气、氮气、氩气、氦气和特种气体。",
         "shortDescription": "工业应用的完整气体解决方案"
       },
-      "equipment": {
-        "title": "设备与配件",
-        "description": "高质量储罐、气瓶、调节器和完整的气体处理设备，满足您的运营需求。",
-        "shortDescription": "优质设备与配件"
-      },
       "package": {
-        "title": "低温设备",
-        "description": "高质量储罐、气瓶和完整的气体处理系统，满足您的运营需求。",
+        "title": "包装",
+        "description": "Cradle 2x2, 3x2, 3x3, 4x4, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Lorry Tank.",
         "shortDescription": "优质储存和处理解决方案"
       },
       "services": {

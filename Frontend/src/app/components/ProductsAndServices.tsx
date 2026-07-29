@@ -115,10 +115,10 @@ function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: stri
       title: t('products.featured.gas.title'),
       description: t('products.featured.gas.description')
     },
-    equipment: {
+    package: {
       image: '/images/products/Cryogenic_Dewar.webp',
-      title: t('products.featured.equipment.title'),
-      description: t('products.featured.equipment.description')
+      title: t('products.featured.package.title'),
+      description: t('products.featured.package.description')
     },
     services: {
       image: '/images/services/Installation.webp',
@@ -164,10 +164,10 @@ export function ProductsAndServices() {
       description: t('products.featured.gas.shortDescription')
     },
     {
-      id: 'equipment',
-      label: t('products.mainCategories.equipment'),
+      id: 'package',
+      label: t('products.mainCategories.package'),
       icon: Cpu,
-      description: t('products.featured.equipment.shortDescription')
+      description: t('products.featured.package.shortDescription')
     },
     {
       id: 'services',
@@ -177,7 +177,7 @@ export function ProductsAndServices() {
     }
   ];
   const [mainCategory, setMainCategory] = useState<MainCategory>('gas');
-  const [subCategory, setSubCategory] = useState<string>('industrial-medical');
+  const [subCategory, setSubCategory] = useState<string>('package');
 
   // Handle URL parameters from mega menu
   useEffect(() => {
