@@ -214,6 +214,19 @@ export function ProductsAndServices() {
 
   const getCurrentProducts = () => {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
+    
+    // For package category, show all products from all package types (no sub-category filtering)
+    if (mainCategory === 'package') {
+      const allProducts: Product[] = [];
+      Object.values(categories).forEach((cat) => {
+        if (cat.products) {
+          allProducts.push(...cat.products);
+        }
+      });
+      return allProducts;
+    }
+    
+    // For gas and services, use sub-category filtering
     const subCat = categories[subCategory];
     return subCat?.products || [];
   };
