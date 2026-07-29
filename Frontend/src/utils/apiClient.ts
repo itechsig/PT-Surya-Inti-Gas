@@ -74,5 +74,12 @@ export async function apiRequest<T = unknown>(endpoint: string, options: Request
     );
   }
 
+  // A 2xx response without a JSON body is not a valid success response for this API
+  // (every endpoint here returns JSON) - treating it as `null` would silently report
+  // success to the caller for what is actually a broken/misconfigured server response.
+  if (!isJson) {
+    throw new ApiError(`Unexpected non-JSON response (status ${response.status})`, response.status);
+  }
+
   return payload as T;
 }
