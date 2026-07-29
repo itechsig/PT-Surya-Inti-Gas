@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('product_categories', function (Blueprint $table) {
-            $table->enum('main_category', ['gas', 'equipment'])->change();
+            $table->enum('main_category', ['gas', 'package', 'services'])->change();
         });
     }
 };

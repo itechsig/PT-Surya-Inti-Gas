@@ -1,4 +1,4 @@
-export type MainCategory = 'gas' | 'equipment' | 'services';
+export type MainCategory = 'gas' | 'package' | 'services';
 
 export interface AdminProductCategory {
   id: number;
@@ -11,7 +11,7 @@ export interface AdminProductCategory {
 
 export const MAIN_CATEGORY_LABELS: Record<MainCategory, string> = {
   gas: 'Gas',
-  equipment: 'Equipment',
+  package: 'Package',
   services: 'Services',
 };
 

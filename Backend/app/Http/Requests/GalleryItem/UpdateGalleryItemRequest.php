@@ -25,7 +25,7 @@ class UpdateGalleryItemRequest extends FormRequest
             'detailed_description_id' => 'nullable|string|max:3000',
             'detailed_description_en' => 'nullable|string|max:3000',
             'detailed_description_zh' => 'nullable|string|max:3000',
-            'category' => 'sometimes|required|string|in:products,equipment,facility,activities,projects',
+            'category' => 'sometimes|required|string|in:products,package,facility,activities,projects',
             'year' => 'sometimes|required|integer|min:2000|max:2100',
             'size' => 'nullable|string|in:small,medium,large,wide,tall',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',

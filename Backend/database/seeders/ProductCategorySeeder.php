@@ -20,12 +20,12 @@ class ProductCategorySeeder extends Seeder
         $categories = [
             ['main_category' => 'gas', 'slug' => 'industrial-medical', 'order' => 0],
             ['main_category' => 'gas', 'slug' => 'speciality-mixed', 'order' => 1],
-            ['main_category' => 'equipment', 'slug' => 'color-code', 'order' => 0],
-            ['main_category' => 'equipment', 'slug' => 'package', 'order' => 1],
-            ['main_category' => 'equipment', 'slug' => 'assist-gas', 'order' => 2],
-            ['main_category' => 'equipment', 'slug' => 'cryogenic-transport', 'order' => 3],
-            ['main_category' => 'equipment', 'slug' => 'regulator-valves', 'order' => 4],
-            ['main_category' => 'equipment', 'slug' => 'medical-gas-equipment', 'order' => 5],
+            ['main_category' => 'package', 'slug' => 'color-code', 'order' => 0],
+            ['main_category' => 'package', 'slug' => 'package', 'order' => 1],
+            ['main_category' => 'package', 'slug' => 'assist-gas', 'order' => 2],
+            ['main_category' => 'package', 'slug' => 'cryogenic-transport', 'order' => 3],
+            ['main_category' => 'package', 'slug' => 'regulator-valves', 'order' => 4],
+            ['main_category' => 'package', 'slug' => 'medical-gas-equipment', 'order' => 5],
         ];
 
         $locales = LocaleReader::load();

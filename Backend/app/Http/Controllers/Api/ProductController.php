@@ -31,7 +31,7 @@ class ProductController extends Controller
                 $q->where('is_published', true)->orderBy('display_order');
             }])->orderBy('display_order')->get();
 
-            $result = ['gas' => [], 'equipment' => [], 'services' => []];
+            $result = ['gas' => [], 'package' => [], 'services' => []];
             foreach ($categories as $category) {
                 $result[$category->main_category][$category->slug] = [
                     'title' => $category->{"name_$lang"} ?: $category->name_id,

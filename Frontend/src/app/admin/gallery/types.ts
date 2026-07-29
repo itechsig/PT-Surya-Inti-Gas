@@ -38,7 +38,7 @@ export interface GalleryItemFormValues {
 
 export const GALLERY_CATEGORIES = [
   { value: 'products', label: 'Produk' },
-  { value: 'equipment', label: 'Peralatan' },
+  { value: 'package', label: 'Package' },
   { value: 'facility', label: 'Fasilitas' },
   { value: 'activities', label: 'Kegiatan' },
   { value: 'projects', label: 'Proyek' },
