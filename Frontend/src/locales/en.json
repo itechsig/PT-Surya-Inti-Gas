@@ -135,7 +135,17 @@
       "industrial-medical": "Industrial & Medical (Gas & Liquid)",
       "speciality-mixed": "Speciality & Mixed Gas",
       "package": "Package",
-      "services": "Services"
+      "services": "Services",
+      "cradle-2x2": "Cradle 2x2",
+      "cradle-3x2": "Cradle 3x2",
+      "cradle-3x3": "Cradle 3x3",
+      "cradle-4x4": "Cradle 4x4",
+      "cylinder": "Cylinder",
+      "cryogenic-dewars": "Cryogenic Dewars",
+      "vessel-gas-liquid": "Vessel Gas Liquid",
+      "microbulk-tank": "Microbulk Tank",
+      "iso-tank": "ISO Tank",
+      "lorry-tank": "Lorry Tank"
     },
     "featured": {
       "gas": {
