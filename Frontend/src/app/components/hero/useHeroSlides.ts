@@ -9,6 +9,7 @@ interface HeroSlidesApiResponse {
 
 // Custom image mapping for hero slides (using numeric IDs from API)
 const HERO_IMAGE_MAPPING: Record<number, string> = {
+  1: '/images/products/Suasana_BPP.webp',     // Pemasok Gas Industri Terpercaya
   2: '/images/products/Oxygen_Fix.webp',      // Oksigen
   3: '/images/products/Nitrogen_Fix.webp',    // Nitrogen
   4: '/images/products/CO2_Fix.webp', // Karbondioksida
