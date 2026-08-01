@@ -20,6 +20,7 @@ export interface ProductCategories {
   gas: Record<string, SubCategory>;
   package: Record<string, SubCategory>;
   services: Record<string, SubCategory>;
+  equipment: Record<string, SubCategory>;
 }
 
 export const mainCategoryIds: MainCategory[] = ["gas", "package", "services"];

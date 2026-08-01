@@ -162,7 +162,18 @@ function MainPage() {
     <>
       <Hero />
       <RunningText />
-      <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900" style={{ backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)), url(/images/office/wp2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
+      <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900" style={{ position: 'relative' }}>
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)), url(/images/office/wp2.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          zIndex: -1
+        }} />
         <PageTransition variant="default">
           <AboutCompany />
           <CompanyProfileVideo />

@@ -449,7 +449,7 @@ function GalleryDetail() {
       </div>
 
       <div className="gallery-detail-container">
-        {/* <BackButton navigate={navigate} currentLang={currentLang} /> */}
+        <BackButton navigate={navigate} currentLang={currentLang} t={t} />
 
         <div className="gallery-detail-header">
           <h1 className="gallery-detail-title">{currentItem.title}</h1>

@@ -215,15 +215,35 @@ export function ProductsAndServices() {
   const getCurrentProducts = () => {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     
-    // For package category, show all products from all package types (no sub-category filtering)
+    // For package category, show specific products only
     if (mainCategory === 'package') {
+      const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
       const allProducts: Product[] = [];
-      Object.values(categories).forEach((cat) => {
-        if (cat.products) {
-          allProducts.push(...cat.products);
-        }
-      });
-      return allProducts;
+      
+      // Get products from package sub-category
+      const packageCategory = equipmentCategories?.['package'];
+      if (packageCategory?.products) {
+        allProducts.push(...packageCategory.products);
+      }
+      
+      // Get products from cryogenic-transport sub-category (for ISO Tank, Lorry Tank)
+      const cryogenicTransportCategory = equipmentCategories?.['cryogenic-transport'];
+      if (cryogenicTransportCategory?.products) {
+        allProducts.push(...cryogenicTransportCategory.products);
+      }
+      
+      // Filter to only show specific package items
+      const allowedPackageIds = [
+        'cradle-3x2',              // Cradle 3x2
+        'cradle-4x4',              // Cradle 4x4
+        'cryogenic-dewars',        // Cryogenic Dewars
+        'vessel-gas-liquid',       // Vessel Gas Liquid
+        'microbulk-tank',          // Microbulk Tank
+        'cryogenic-iso-tank',      // ISO Tank
+        'cryogenic-road-tank'      // Lorry Tank
+      ];
+      
+      return allProducts.filter(product => allowedPackageIds.includes(product.id));
     }
     
     // For gas and services, use sub-category filtering
@@ -287,8 +307,8 @@ export function ProductsAndServices() {
             <FeaturedBanner category={mainCategory} t={t} />
           </motion.div>
 
-          {/* Sub-Category Navigation (Premium Pill Buttons) */}
-          {getSubCategories().length > 1 && (
+          {/* Sub-Category Navigation (Premium Pill Buttons) - Hide for package category */}
+          {mainCategory !== 'package' && getSubCategories().length > 1 && (
             <motion.div 
               className="products-subcategories"
               initial={{ opacity: 0, y: 20 }}
