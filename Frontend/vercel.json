@@ -11,6 +11,11 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "destination": "/id",
+      "permanent": false
+    },
+    {
       "source": "/:path*",
       "has": [
         {

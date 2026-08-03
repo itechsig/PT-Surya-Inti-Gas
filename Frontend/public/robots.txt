@@ -25,6 +25,11 @@ Allow: /
 # Sitemap location
 Sitemap: https://suryaintigas.com/sitemap.xml
 
+# Important: Ensure homepage is prioritized
+Allow: /id
+Allow: /en
+Allow: /zh
+
 # Allow indexing of important static assets
 Allow: /images/
 Allow: /public/
