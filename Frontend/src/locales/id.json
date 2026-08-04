@@ -131,6 +131,11 @@
       "package": "Package",
       "services": "Layanan"
     },
+    "subCategories": {
+      "cradle": "Cradle",
+      "cryogenic": "Cryogenic",
+      "bulk": "Penyimpanan Bulk"
+    },
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Cair)",
       "speciality-mixed": "Speciality & Mixed Gas",

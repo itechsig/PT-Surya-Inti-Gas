@@ -131,6 +131,11 @@
       "package": "Package",
       "services": "Services"
     },
+    "subCategories": {
+      "cradle": "Cradle",
+      "cryogenic": "Cryogenic",
+      "bulk": "Bulk Storage"
+    },
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Liquid)",
       "speciality-mixed": "Speciality & Mixed Gas",
