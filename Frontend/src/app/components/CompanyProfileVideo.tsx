@@ -346,7 +346,7 @@ export function CompanyProfileVideo() {
                 }}
               >
                 <img
-                  src="https://img.youtube.com/vi/Hxg5_L_vj-w/maxresdefault.jpg"
+                  src="https://img.youtube.com/vi/wh_wAAk7x80/maxresdefault.jpg"
                   alt={t('companyProfileVideo.thumbnailAlt')}
                   width="634"
                   height="357"
@@ -365,7 +365,7 @@ export function CompanyProfileVideo() {
             ) : (
               <iframe
                 className="video-modal-video"
-                src="https://www.youtube.com/embed/Hxg5_L_vj-w?autoplay=1&rel=0"
+                src="https://www.youtube.com/embed/wh_wAAk7x80?autoplay=1&rel=0"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
