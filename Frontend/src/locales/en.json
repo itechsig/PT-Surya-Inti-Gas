@@ -132,9 +132,7 @@
       "services": "Services"
     },
     "subCategories": {
-      "cradle": "Cradle",
-      "cryogenic": "Cryogenic",
-      "bulk": "Bulk Storage"
+      "cradle": "Cradle"
     },
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Liquid)",

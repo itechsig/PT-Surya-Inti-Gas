@@ -132,9 +132,7 @@
       "services": "服务"
     },
     "subCategories": {
-      "cradle": "架",
-      "cryogenic": "低温",
-      "bulk": "散装储存"
+      "cradle": "架"
     },
     "categories": {
       "industrial-medical": "工业与医用（气态与液态）",

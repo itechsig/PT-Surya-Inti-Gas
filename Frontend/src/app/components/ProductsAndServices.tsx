@@ -177,7 +177,7 @@ export function ProductsAndServices() {
     }
   ];
   const [mainCategory, setMainCategory] = useState<MainCategory>('gas');
-  const [subCategory, setSubCategory] = useState<string>('cradle');
+  const [subCategory, setSubCategory] = useState<string>('');
 
   // Handle URL parameters from mega menu
   useEffect(() => {
@@ -198,7 +198,7 @@ export function ProductsAndServices() {
     
     // Set default sub-category based on main category
     if (category === 'package') {
-      setSubCategory('cradle');
+      setSubCategory(''); // Show all package products by default
     } else {
       const categories = productCategories[category] as Record<string, SubCategory>;
       setSubCategory(Object.keys(categories || {})[0] || '');
@@ -214,12 +214,10 @@ export function ProductsAndServices() {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
     
-    // For package category, create custom sub-categories
+    // For package category, only show cradle as sub-category
     if (mainCategory === 'package') {
       return [
-        { id: 'cradle', title: t('products.subCategories.cradle') },
-        { id: 'cryogenic', title: t('products.subCategories.cryogenic') },
-        { id: 'bulk', title: t('products.subCategories.bulk') }
+        { id: 'cradle', title: t('products.subCategories.cradle') }
       ];
     }
     
@@ -237,11 +235,10 @@ export function ProductsAndServices() {
     if (mainCategory === 'package') {
       const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
       
-      // If cradle sub-category is selected, show cradle variants
+      // If cradle sub-category is selected, show only cradle variants
       if (subCategory === 'cradle') {
         const packageCategory = equipmentCategories?.['package'];
         if (packageCategory?.products) {
-          // Filter to show only cradle variants
           const cradleVariants = [
             'cradle-2x2',              // Cradle 2x2
             'cradle-3x2',              // Cradle 3x2
@@ -249,33 +246,6 @@ export function ProductsAndServices() {
             'cradle-4x4'               // Cradle 4x4
           ];
           return packageCategory.products.filter(product => cradleVariants.includes(product.id));
-        }
-        return [];
-      }
-      
-      // If cryogenic sub-category is selected, show cryogenic products
-      if (subCategory === 'cryogenic') {
-        const packageCategory = equipmentCategories?.['package'];
-        if (packageCategory?.products) {
-          const cryogenicIds = [
-            'cryogenic-dewars',        // Cryogenic Dewars
-            'vessel-gas-liquid',       // Vessel Gas Liquid
-            'microbulk-tank'           // Microbulk Tank
-          ];
-          return packageCategory.products.filter(product => cryogenicIds.includes(product.id));
-        }
-        return [];
-      }
-      
-      // If bulk sub-category is selected, show bulk storage products
-      if (subCategory === 'bulk') {
-        const cryogenicTransportCategory = equipmentCategories?.['cryogenic-transport'];
-        if (cryogenicTransportCategory?.products) {
-          const bulkIds = [
-            'cryogenic-iso-tank',      // ISO Tank
-            'cryogenic-road-tank'      // Lorry Tank
-          ];
-          return cryogenicTransportCategory.products.filter(product => bulkIds.includes(product.id));
         }
         return [];
       }
