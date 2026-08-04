@@ -9,6 +9,7 @@ const PRODUCT_IMAGE_MAPPING: Record<string, string> = {
   'acetylene': '/images/products/Acetylene_fix.webp',
   'oxygen': '/images/products/Oxygen_Fix.webp',
   'nitrogen': '/images/products/Nitrogen_Fix.webp',
+  'carbon-dioxide': '/images/products/CO2_Fix.webp',
   'hydrogen': '/images/products/Hidrogen_Fix.webp',
   'helium': '/images/products/Helium_Fix.webp',
   'argon': '/images/products/Argon_Fix.webp',

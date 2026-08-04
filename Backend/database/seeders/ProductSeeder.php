@@ -26,6 +26,7 @@ class ProductSeeder extends Seeder
                 ['id' => 'oxygen', 'image' => 'Oxygen-optimized.webp'],
                 ['id' => 'nitrogen', 'image' => 'Nitrogen-optimized.webp'],
                 ['id' => 'argon', 'image' => 'Argon-optimized.webp'],
+                ['id' => 'carbon-dioxide', 'image' => 'CO2_Fix.webp'],
                 ['id' => 'hydrogen', 'image' => 'Hidrogen-optimized.webp'],
             ],
             'speciality-mixed' => [
