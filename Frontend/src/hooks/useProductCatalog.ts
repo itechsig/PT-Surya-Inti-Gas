@@ -70,7 +70,8 @@ function applyImageMapping(data: ProductCategories): ProductCategories {
     Object.values(mappedData.gas).forEach(subCategory => {
       if (subCategory.products) {
         subCategory.products.forEach(product => {
-          if (PRODUCT_IMAGE_MAPPING[product.id]) {
+          // Only use custom mapping if the API image is not valid or doesn't exist
+          if (PRODUCT_IMAGE_MAPPING[product.id] && !isValidImageUrl(product.image)) {
             product.image = PRODUCT_IMAGE_MAPPING[product.id];
           }
         });
@@ -83,7 +84,8 @@ function applyImageMapping(data: ProductCategories): ProductCategories {
     Object.values(mappedData.package).forEach(subCategory => {
       if (subCategory.products) {
         subCategory.products.forEach(product => {
-          if (PRODUCT_IMAGE_MAPPING[product.id]) {
+          // Only use custom mapping if the API image is not valid or doesn't exist
+          if (PRODUCT_IMAGE_MAPPING[product.id] && !isValidImageUrl(product.image)) {
             product.image = PRODUCT_IMAGE_MAPPING[product.id];
           }
         });
@@ -96,7 +98,8 @@ function applyImageMapping(data: ProductCategories): ProductCategories {
     Object.values(mappedData.equipment).forEach(subCategory => {
       if (subCategory.products) {
         subCategory.products.forEach(product => {
-          if (PRODUCT_IMAGE_MAPPING[product.id]) {
+          // Only use custom mapping if the API image is not valid or doesn't exist
+          if (PRODUCT_IMAGE_MAPPING[product.id] && !isValidImageUrl(product.image)) {
             product.image = PRODUCT_IMAGE_MAPPING[product.id];
           }
         });
@@ -105,4 +108,14 @@ function applyImageMapping(data: ProductCategories): ProductCategories {
   }
   
   return mappedData;
+}
+
+function isValidImageUrl(imageUrl: string): boolean {
+  // Check if the image URL is from the backend storage (valid)
+  // Backend URLs typically start with the backend domain or are relative paths
+  return !!imageUrl && (
+    imageUrl.startsWith('http') || 
+    imageUrl.startsWith('/storage/') ||
+    imageUrl.startsWith('https://ptsuryaintigas-production.up.railway.app/storage/')
+  );
 }
