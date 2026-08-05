@@ -40,15 +40,35 @@ class ProductSeeder extends Seeder
                 ['id' => 'color-code-medical', 'image' => 'Oxygen_Fix.webp'],
                 ['id' => 'color-code-industrial', 'image' => '20260618_134406.webp'],
             ],
-            'package' => [
-                ['id' => 'package-high-pressure', 'image' => '20260618_134436.webp'],
+            'cradle-2x2' => [
+                ['id' => 'cradle-2x2', 'image' => 'Craddle_3x2.webp'],
+            ],
+            'cradle-3x2' => [
                 ['id' => 'cradle-3x2', 'image' => 'Craddle_3x2.webp'],
+            ],
+            'cradle-3x3' => [
+                ['id' => 'cradle-3x3', 'image' => 'Craddle_4x4_fixed.webp'],
+            ],
+            'cradle-4x4' => [
                 ['id' => 'cradle-4x4', 'image' => 'Craddle_4x4_fixed.webp'],
+            ],
+            'cylinder' => [
+                ['id' => 'package-high-pressure', 'image' => '20260618_134436.webp'],
+            ],
+            'cryogenic-dewars' => [
                 ['id' => 'cryogenic-dewars', 'image' => 'Cryogenic_Dewar.webp'],
+            ],
+            'vessel-gas-liquid' => [
                 ['id' => 'vessel-gas-liquid', 'image' => 'VGL.webp'],
+            ],
+            'microbulk-tank' => [
                 ['id' => 'microbulk-tank', 'image' => 'Microbulk_.webp'],
-                ['id' => 'vertical-storage-tank', 'image' => 'Vertical_Tank.webp'],
-                ['id' => 'refilling', 'image' => 'Oxygen_Fix.webp'],
+            ],
+            'iso-tank' => [
+                ['id' => 'iso-tank', 'image' => 'ISO_Tank.webp'],
+            ],
+            'lorry-tank' => [
+                ['id' => 'lorry-tank', 'image' => 'Road_tank.webp'],
             ],
             'assist-gas' => [
                 ['id' => 'assist-gas-cradle-4x4', 'image' => 'Craddle_4x4_fixed.webp'],
