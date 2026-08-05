@@ -159,7 +159,7 @@ Project website PT SURYA INTI GAS adalah sistem informasi perusahaan yang terdir
 - **Dashboard Admin** - Create Dashboard admin, CRUD Slide
 - **Product Updates** - Update produk dan service
 - **Bug Fixes** - Perbaikan bug dan fixing
-- **Hero Effects** - Efek dan background hero di setiap page
+- **Hero Effects** - Efek dan background hero di setiap page   
 
 ### 27 Juli 2026
 - **UI & UX** - Peningkatan UI & UX
