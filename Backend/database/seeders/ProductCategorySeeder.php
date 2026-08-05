@@ -20,6 +20,7 @@ class ProductCategorySeeder extends Seeder
         $categories = [
             ['main_category' => 'gas', 'slug' => 'industrial-medical', 'order' => 0],
             ['main_category' => 'gas', 'slug' => 'speciality-mixed', 'order' => 1],
+            ['main_category' => 'gas', 'slug' => 'color-code', 'order' => 2],
             ['main_category' => 'package', 'slug' => 'cradle-2x2', 'order' => 0],
             ['main_category' => 'package', 'slug' => 'cradle-3x2', 'order' => 1],
             ['main_category' => 'package', 'slug' => 'cradle-3x3', 'order' => 2],

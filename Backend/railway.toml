@@ -1,4 +1,4 @@
-# Force rebuild - 2026-08-05-v15 - Fix cradle products in package category
+# Force rebuild - 2026-08-05-v16 - Sync with updated category structure
 [build]
 builder = "NIXPACKS"
 
