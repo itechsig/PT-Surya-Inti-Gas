@@ -68,7 +68,8 @@ class HeroSlideController extends Controller
     {
         try {
             $data = $request->validated();
-            $data['image'] = $request->file('image')->store('hero-slides', 'public');
+            $storageDisk = env('RAILWAY_ENVIRONMENT') ? 'railway_public' : 'public';
+            $data['image'] = $request->file('image')->store('hero-slides', $storageDisk);
             $data['display_order'] = $data['display_order'] ?? ((HeroSlide::max('display_order') ?? -1) + 1);
             $data['is_active'] = $request->boolean('is_active', true);
 
@@ -88,10 +89,11 @@ class HeroSlideController extends Controller
     {
         try {
             $data = $request->validated();
+            $storageDisk = env('RAILWAY_ENVIRONMENT') ? 'railway_public' : 'public';
 
             if ($request->hasFile('image')) {
-                Storage::disk('public')->delete($heroSlide->image);
-                $data['image'] = $request->file('image')->store('hero-slides', 'public');
+                Storage::disk($storageDisk)->delete($heroSlide->image);
+                $data['image'] = $request->file('image')->store('hero-slides', $storageDisk);
             }
 
             // 'nullable' rules populate validated() with null even when the field was never
@@ -118,7 +120,8 @@ class HeroSlideController extends Controller
     public function destroy(HeroSlide $heroSlide): JsonResponse
     {
         try {
-            Storage::disk('public')->delete($heroSlide->image);
+            $storageDisk = env('RAILWAY_ENVIRONMENT') ? 'railway_public' : 'public';
+            Storage::disk($storageDisk)->delete($heroSlide->image);
             $heroSlide->delete();
 
             return response()->json([
@@ -175,7 +178,7 @@ class HeroSlideController extends Controller
     {
         return [
             'id' => $slide->id,
-            'image' => Storage::disk('public')->url($slide->image),
+            'image' => $this->generateImageUrl($slide->image),
             'title' => $slide->{"title_$lang"} ?: $slide->title_id,
             'subtitle' => $slide->{"subtitle_$lang"} ?: $slide->subtitle_id,
             'description' => $slide->{"description_$lang"} ?: $slide->description_id,
@@ -197,7 +200,7 @@ class HeroSlideController extends Controller
             'description_id' => $slide->description_id,
             'description_en' => $slide->description_en,
             'description_zh' => $slide->description_zh,
-            'image' => Storage::disk('public')->url($slide->image),
+            'image' => $this->generateImageUrl($slide->image),
             'cta_path' => $slide->cta_path,
             'duration_ms' => $slide->duration_ms,
             'display_order' => $slide->display_order,
@@ -205,5 +208,17 @@ class HeroSlideController extends Controller
             'created_at' => $slide->created_at,
             'updated_at' => $slide->updated_at,
         ];
+    }
+
+    private function generateImageUrl(string $path): string
+    {
+        // If path is already a full URL, return it as-is
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Generate URL using the storage disk with proper APP_URL
+        $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
+        return "{$baseUrl}/storage/{$path}";
     }
 }
