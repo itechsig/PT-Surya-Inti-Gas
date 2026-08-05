@@ -9,7 +9,7 @@ export interface ProductDetailData {
   subCategoryTitle: string;
 }
 
-// Custom image mapping for specific products
+// Custom image mapping for specific products (fallback only)
 const PRODUCT_IMAGE_MAPPING: Record<string, string> = {
   'acetylene': '/images/products/Acetylene_fix.webp',
   'oxygen': '/images/products/Oxygen_Fix.webp',
@@ -25,6 +25,16 @@ const PRODUCT_IMAGE_MAPPING: Record<string, string> = {
   'cryogenic-road-tank': '/images/office/wp2.jpg',
   'cryogenic-iso-tank': '/images/office/wp.jpg'
 };
+
+// Function to check if image URL is valid
+function isValidImageUrl(url: string): boolean {
+  if (!url) return false;
+  // Check if it's a relative path starting with /images/ or /storage/
+  if (url.startsWith('/images/') || url.startsWith('/storage/')) return true;
+  // Check if it's a full HTTP URL
+  if (url.startsWith('http://') || url.startsWith('https://')) return true;
+  return false;
+}
 
 /** Fetches a single published product by its slug (the legacy "id" query param), localized. */
 export function useProductDetail(slug: string | null, lang: string) {
@@ -70,9 +80,20 @@ export function useProductDetail(slug: string | null, lang: string) {
 function applyImageMapping(data: ProductDetailData): ProductDetailData {
   const mappedData = JSON.parse(JSON.stringify(data)) as ProductDetailData;
   
-  // Apply custom image mapping if product ID matches
-  if (PRODUCT_IMAGE_MAPPING[mappedData.product.id]) {
+  // Only apply custom image mapping if the API returned an invalid or missing image
+  if (!isValidImageUrl(mappedData.product.image) && PRODUCT_IMAGE_MAPPING[mappedData.product.id]) {
     mappedData.product.image = PRODUCT_IMAGE_MAPPING[mappedData.product.id];
+  }
+  
+  // Also check gallery images
+  if (mappedData.product.gallery && Array.isArray(mappedData.product.gallery)) {
+    mappedData.product.gallery = mappedData.product.gallery.map((img: string) => {
+      if (!isValidImageUrl(img)) {
+        // Try to find a fallback based on product ID
+        return PRODUCT_IMAGE_MAPPING[mappedData.product.id] || img;
+      }
+      return img;
+    });
   }
   
   return mappedData;

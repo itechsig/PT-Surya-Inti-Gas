@@ -114,8 +114,9 @@ function isValidImageUrl(imageUrl: string): boolean {
   // Check if the image URL is from the backend storage (valid)
   // Backend URLs typically start with the backend domain or are relative paths
   return !!imageUrl && (
-    imageUrl.startsWith('http') || 
+    imageUrl.startsWith('http://') || 
+    imageUrl.startsWith('https://') ||
     imageUrl.startsWith('/storage/') ||
-    imageUrl.startsWith('https://ptsuryaintigas-production.up.railway.app/storage/')
+    imageUrl.startsWith('/images/')
   );
 }

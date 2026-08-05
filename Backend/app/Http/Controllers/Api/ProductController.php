@@ -255,21 +255,36 @@ class ProductController extends Controller
     {
         $description = $p->{"description_$lang"} ?: $p->description_id;
 
+        // Generate proper image URL that works across environments
+        $imageUrl = $this->generateImageUrl($p->image);
+
         $data = [
             'id' => $p->slug,
             'title' => $p->{"name_$lang"} ?: $p->name_id,
             'description' => $description,
             'fullDescription' => $p->{"full_description_$lang"} ?: $p->full_description_id ?: $description,
-            'image' => Storage::disk('public')->url($p->image),
+            'image' => $imageUrl,
         ];
 
         if ($full) {
-            $data['gallery'] = collect($p->gallery ?? [])->map(fn ($path) => Storage::disk('public')->url($path))->values();
+            $data['gallery'] = collect($p->gallery ?? [])->map(fn ($path) => $this->generateImageUrl($path))->values();
             $data['specifications'] = $p->specifications ?? [];
             $data['isFeatured'] = $p->is_featured;
         }
 
         return $data;
+    }
+
+    private function generateImageUrl(string $path): string
+    {
+        // If path is already a full URL, return it as-is
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Generate URL using the storage disk with proper APP_URL
+        $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
+        return "{$baseUrl}/storage/{$path}";
     }
 
     private function toAdminArray(Product $p): array
@@ -287,8 +302,8 @@ class ProductController extends Controller
             'name_id' => $p->name_id, 'name_en' => $p->name_en, 'name_zh' => $p->name_zh,
             'description_id' => $p->description_id, 'description_en' => $p->description_en, 'description_zh' => $p->description_zh,
             'full_description_id' => $p->full_description_id, 'full_description_en' => $p->full_description_en, 'full_description_zh' => $p->full_description_zh,
-            'image' => Storage::disk('public')->url($p->image),
-            'gallery' => collect($p->gallery ?? [])->map(fn ($path) => Storage::disk('public')->url($path))->values(),
+            'image' => $this->generateImageUrl($p->image),
+            'gallery' => collect($p->gallery ?? [])->map(fn ($path) => $this->generateImageUrl($path))->values(),
             'specifications' => $p->specifications ?? [],
             'is_featured' => $p->is_featured,
             'display_order' => $p->display_order,
