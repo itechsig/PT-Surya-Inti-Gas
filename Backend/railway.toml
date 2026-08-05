@@ -1,4 +1,4 @@
-# Force rebuild - 2026-08-05-v12 - Add gallery folder and image compatibility
+# Force rebuild - 2026-08-05-v13 - Force storage link and add verification
 [build]
 builder = "NIXPACKS"
 

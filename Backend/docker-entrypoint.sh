@@ -45,7 +45,15 @@ rm -rf bootstrap/cache/*.php
 
 # Create storage link for public access to storage files
 echo "Creating storage link"
-php artisan storage:link
+php artisan storage:link --force
+
+# Verify storage link was created successfully
+if [ -L "public/storage" ]; then
+    echo "Storage link created successfully"
+    ls -la public/storage
+else
+    echo "Warning: Storage link may not have been created correctly"
+fi
 
 # Ensure gallery folder exists for photo uploads
 echo "Ensuring gallery folder exists"
