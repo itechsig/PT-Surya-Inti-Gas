@@ -124,6 +124,11 @@ function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: stri
       image: '/images/services/Installation.webp',
       title: t('products.featured.services.title'),
       description: t('products.featured.services.description')
+    },
+    equipment: {
+      image: '/images/products/Craddle_4x4_fixed.webp',
+      title: 'Industrial Gas Equipment',
+      description: 'Complete range of gas handling equipment and tools'
     }
   };
 
@@ -186,7 +191,13 @@ export function ProductsAndServices() {
 
     if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
       setMainCategory(categoryParam as MainCategory);
-      const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
+      
+      // For package category, use equipment sub-categories
+      let categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
+      if (categoryParam === 'package') {
+        categories = productCategories['equipment'] as Record<string, SubCategory>;
+      }
+      
       const firstSubCategory = Object.keys(categories || {})[0] || '';
       setSubCategory(subcategoryParam && categories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
     }
@@ -197,7 +208,11 @@ export function ProductsAndServices() {
     setMainCategory(category);
     
     // Set default sub-category based on main category
-    const categories = productCategories[category] as Record<string, SubCategory>;
+    let categories = productCategories[category] as Record<string, SubCategory>;
+    // For package category, use equipment sub-categories
+    if (category === 'package') {
+      categories = productCategories['equipment'] as Record<string, SubCategory>;
+    }
     setSubCategory(Object.keys(categories || {})[0] || '');
   };
 
@@ -210,11 +225,14 @@ export function ProductsAndServices() {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
     
-    // For package category, show all sub-categories from backend
+    // For package category, use equipment sub-categories (temporary fix until backend structure is corrected)
     if (mainCategory === 'package') {
-      return Object.keys(categories).map(key => ({
+      const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
+      if (!equipmentCategories) return [];
+      
+      return Object.keys(equipmentCategories).map(key => ({
         id: key,
-        title: categories[key]?.title || ''
+        title: equipmentCategories[key]?.title || ''
       }));
     }
     
@@ -230,16 +248,20 @@ export function ProductsAndServices() {
     
     // For package category, show specific products only
     if (mainCategory === 'package') {
+      // Use equipment category data for package items (temporary fix until backend structure is corrected)
+      const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
+      if (!equipmentCategories) return [];
+      
       // If a specific sub-category is selected, show products from that sub-category
-      if (subCategory && categories[subCategory]) {
-        return categories[subCategory].products || [];
+      if (subCategory && equipmentCategories[subCategory]) {
+        return equipmentCategories[subCategory].products || [];
       }
       
-      // Default: show all package items from all sub-categories
+      // Default: show all package items from all equipment sub-categories
       const allProducts: Product[] = [];
       
-      // Get all products from package category
-      Object.values(categories).forEach(subCategory => {
+      // Get all products from equipment category
+      Object.values(equipmentCategories).forEach(subCategory => {
         if (subCategory?.products) {
           allProducts.push(...subCategory.products);
         }
