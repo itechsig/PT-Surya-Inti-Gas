@@ -1,4 +1,4 @@
-# Force rebuild - 2026-08-05-v13 - Force storage link and add verification
+# Force rebuild - 2026-08-05-v14 - Fix product categories and add placeholders
 [build]
 builder = "NIXPACKS"
 

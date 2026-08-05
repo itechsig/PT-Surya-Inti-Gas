@@ -59,6 +59,20 @@ fi
 echo "Ensuring gallery folder exists"
 mkdir -p storage/app/public/gallery
 
+# Create placeholder for missing user-uploaded images
+echo "Creating placeholder for missing user-uploaded images"
+if [ ! -f "storage/app/public/products/placeholder.webp" ]; then
+    # Use the first available webp file as placeholder
+    FIRST_WEBP=$(find storage/app/public/products -name "*.webp" -type f | head -1)
+    if [ -n "$FIRST_WEBP" ]; then
+        cp "$FIRST_WEBP" storage/app/public/products/placeholder.webp
+        # Also create common placeholder filenames for user uploads
+        cp storage/app/public/products/placeholder.webp storage/app/public/products/7lGnL5iKIYZX5MQNwUnEOaQqGBXbeNip0x9Ih7gm.png 2>/dev/null || true
+        cp storage/app/public/products/placeholder.webp storage/app/public/products/sdHh9F5NWDyRvx9QFEFxXvwvKW5pIo0O2VWprxxJ.jpg 2>/dev/null || true
+        cp storage/app/public/products/placeholder.webp storage/app/public/products/vNJAG3jK2zrJk2YWzqbY2bLNgPHtasusj76eMIaP.jpg 2>/dev/null || true
+    fi
+fi
+
 # Copy product images from frontend if they don't exist
 echo "Checking product images"
 if [ ! -f "storage/app/public/products/acetylene-Acetylene_fix.webp" ]; then
