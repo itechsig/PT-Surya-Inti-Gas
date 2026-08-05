@@ -5,6 +5,7 @@ import '../../styles/ProductsAndServices.css';
 import { useProductDetail } from "../../hooks/useProductDetail";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 import type { Product, SubCategory } from "../../data/products";
+import { fixImageUrl } from "../../utils/imageUrl";
 
 export function ProductDetail() {
   const [searchParams] = useSearchParams();
@@ -176,7 +177,7 @@ export function ProductDetail() {
                 </div>
               ) : (
                 <img
-                  src={product.image}
+                  src={fixImageUrl(product.image)}
                   alt={product.title}
                   onError={() => setImageError(true)}
                 />
@@ -247,7 +248,7 @@ export function ProductDetail() {
                         >
                           <div className="packaging-option-image">
                             <img
-                              src={packaging.image}
+                              src={fixImageUrl(packaging.image)}
                               alt={packaging.title}
                               onError={(e) => {
                                 e.currentTarget.style.display = 'none';

@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { ApiError } from '../../../utils/apiClient';
 import { createProduct, updateProduct } from './api';
 import { MAIN_CATEGORY_LABELS, type AdminProduct, type AdminProductCategory, type ProductFormValues } from './types';
+import { fixImageUrl } from '../../../utils/imageUrl';
 
 const EMPTY_FORM: ProductFormValues = {
   product_category_id: '', slug: '',
@@ -49,7 +50,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
         is_featured: product.is_featured, is_published: product.is_published,
         image: null, newGalleryFiles: [], existingGallery: product.gallery, specifications: product.specifications,
       });
-      setImagePreview(product.image);
+      setImagePreview(fixImageUrl(product.image));
     } else {
       setValues(EMPTY_FORM);
       setImagePreview(null);
