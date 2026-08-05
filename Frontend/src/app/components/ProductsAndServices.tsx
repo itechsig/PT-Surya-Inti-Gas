@@ -333,6 +333,7 @@ export function ProductsAndServices() {
       
       // Filter to only show specific package items by product ID
       const allowedPackageIds = [
+        'cradle',                 // Cradle (generic)
         'cradle-2x2',              // Cradle 2x2
         'cradle-3x2',              // Cradle 3x2
         'cradle-3x3',              // Cradle 3x3
