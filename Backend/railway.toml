@@ -1,4 +1,4 @@
-# Force rebuild - 2026-08-05-v14 - Fix product categories and add placeholders
+# Force rebuild - 2026-08-05-v15 - Fix cradle products in package category
 [build]
 builder = "NIXPACKS"
 
