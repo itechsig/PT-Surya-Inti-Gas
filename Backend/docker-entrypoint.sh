@@ -84,6 +84,21 @@ if [ ! -f "storage/app/public/products/acetylene-Acetylene_fix.webp" ]; then
     cp storage/app/public/products/Microbulk_Gas_Supply.webp storage/app/public/products/microbulk-gas-supply-Microbulk_Gas_Supply.webp 2>/dev/null || true
     cp storage/app/public/products/Craddle_4x4_fixed.webp storage/app/public/products/assist-gas-cradle-4x4-Assist_Gas_Supply.webp 2>/dev/null || true
     cp storage/app/public/products/Oxygen_Fix.webp storage/app/public/products/refilling-Oxygen_Fix.webp 2>/dev/null || true
+    
+    # Add backward compatibility for old database image names
+    cp storage/app/public/products/Acetylene_fix.webp storage/app/public/products/acetylene-Acetylene-optimized.webp 2>/dev/null || true
+    cp storage/app/public/products/Acetylene_fix.webp storage/app/public/products/color-code-acetylene-Acetylene-optimized.webp 2>/dev/null || true
+    cp storage/app/public/products/Oxygen_Fix.webp storage/app/public/products/oxygen-Oxygen-optimized.webp 2>/dev/null || true
+    cp storage/app/public/products/Oxygen_Fix.webp storage/app/public/products/color-code-medical-Medical_Gas_Cylinder.webp 2>/dev/null || true
+    cp storage/app/public/products/Nitrogen_Fix.webp storage/app/public/products/nitrogen-Nitrogen-optimized.webp 2>/dev/null || true
+    cp storage/app/public/products/Argon_Fix.webp storage/app/public/products/argon-Argon-optimized.webp 2>/dev/null || true
+    cp storage/app/public/products/Hidrogen_Fix.webp storage/app/public/products/hydrogen-Hidrogen-optimized.webp 2>/dev/null || true
+    cp storage/app/public/products/Helium_Fix.webp storage/app/public/products/helium-Helium-optimized.webp 2>/dev/null || true
+    cp storage/app/public/products/SF6_Fix.webp storage/app/public/products/sulfur-hexaflouride-Sulfur_Hexaflouride.webp 2>/dev/null || true
+    cp storage/app/public/products/Mixed_Gas_Fix.webp storage/app/public/products/mixed-gas-Mix_gas.webp 2>/dev/null || true
+    cp storage/app/public/products/Oxygen_Fix.webp storage/app/public/products/refilling-Refilling.webp 2>/dev/null || true
+    cp storage/app/public/products/color-code-special-Special_gas_.webp storage/app/public/products/Special_gas_.webp 2>/dev/null || true
+    cp storage/app/public/products/color-code-industrial-20260618_134406.webp storage/app/public/products/20260618_134406.webp 2>/dev/null || true
 fi
 
 # Only generate a new app key if one wasn't provided via a real environment
