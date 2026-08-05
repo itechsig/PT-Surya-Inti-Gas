@@ -196,10 +196,27 @@ export function ProductsAndServices() {
       let categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
       if (categoryParam === 'package') {
         categories = productCategories['equipment'] as Record<string, SubCategory>;
+        
+        // Only use allowed package sub-categories
+        const allowedPackageSubCategories = [
+          'cradle-2x2',
+          'cradle-3x2', 
+          'cradle-3x3',
+          'cradle-4x4',
+          'cylinder',
+          'cryogenic-dewars',
+          'vessel-gas-liquid',
+          'microbulk-tank',
+          'iso-tank',
+          'lorry-tank'
+        ];
+        
+        const firstAllowed = allowedPackageSubCategories.find(key => categories?.[key]) || '';
+        setSubCategory(subcategoryParam && allowedPackageSubCategories.includes(subcategoryParam) && categories?.[subcategoryParam] ? subcategoryParam : firstAllowed);
+      } else {
+        const firstSubCategory = Object.keys(categories || {})[0] || '';
+        setSubCategory(subcategoryParam && categories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
       }
-      
-      const firstSubCategory = Object.keys(categories || {})[0] || '';
-      setSubCategory(subcategoryParam && categories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
     }
   }, [searchParams, productCategories]);
 
@@ -212,8 +229,24 @@ export function ProductsAndServices() {
     // For package category, use equipment sub-categories
     if (category === 'package') {
       categories = productCategories['equipment'] as Record<string, SubCategory>;
+      // Set to first allowed package sub-category
+      const allowedPackageSubCategories = [
+        'cradle-2x2',
+        'cradle-3x2', 
+        'cradle-3x3',
+        'cradle-4x4',
+        'cylinder',
+        'cryogenic-dewars',
+        'vessel-gas-liquid',
+        'microbulk-tank',
+        'iso-tank',
+        'lorry-tank'
+      ];
+      const firstAllowed = allowedPackageSubCategories.find(key => categories?.[key]) || '';
+      setSubCategory(firstAllowed);
+    } else {
+      setSubCategory(Object.keys(categories || {})[0] || '');
     }
-    setSubCategory(Object.keys(categories || {})[0] || '');
   };
 
   const handleSubCategoryChange = (subCatId: string) => {
@@ -230,10 +263,26 @@ export function ProductsAndServices() {
       const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
       if (!equipmentCategories) return [];
       
-      return Object.keys(equipmentCategories).map(key => ({
-        id: key,
-        title: equipmentCategories[key]?.title || ''
-      }));
+      // Only show specific sub-categories for package
+      const allowedPackageSubCategories = [
+        'cradle-2x2',
+        'cradle-3x2', 
+        'cradle-3x3',
+        'cradle-4x4',
+        'cylinder',
+        'cryogenic-dewars',
+        'vessel-gas-liquid',
+        'microbulk-tank',
+        'iso-tank',
+        'lorry-tank'
+      ];
+      
+      return Object.keys(equipmentCategories)
+        .filter(key => allowedPackageSubCategories.includes(key))
+        .map(key => ({
+          id: key,
+          title: equipmentCategories[key]?.title || ''
+        }));
     }
     
     return Object.keys(categories).map(key => ({
@@ -252,18 +301,32 @@ export function ProductsAndServices() {
       const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
       if (!equipmentCategories) return [];
       
+      // Only show specific sub-categories for package
+      const allowedPackageSubCategories = [
+        'cradle-2x2',
+        'cradle-3x2', 
+        'cradle-3x3',
+        'cradle-4x4',
+        'cylinder',
+        'cryogenic-dewars',
+        'vessel-gas-liquid',
+        'microbulk-tank',
+        'iso-tank',
+        'lorry-tank'
+      ];
+      
       // If a specific sub-category is selected, show products from that sub-category
-      if (subCategory && equipmentCategories[subCategory]) {
+      if (subCategory && allowedPackageSubCategories.includes(subCategory) && equipmentCategories[subCategory]) {
         return equipmentCategories[subCategory].products || [];
       }
       
-      // Default: show all package items from all equipment sub-categories
+      // Default: show all package items from allowed sub-categories only
       const allProducts: Product[] = [];
       
-      // Get all products from equipment category
-      Object.values(equipmentCategories).forEach(subCategory => {
-        if (subCategory?.products) {
-          allProducts.push(...subCategory.products);
+      // Get all products from allowed equipment sub-categories
+      allowedPackageSubCategories.forEach(subCatKey => {
+        if (equipmentCategories[subCatKey]?.products) {
+          allProducts.push(...equipmentCategories[subCatKey].products);
         }
       });
       
