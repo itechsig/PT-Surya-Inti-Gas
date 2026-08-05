@@ -102,6 +102,15 @@ export const API_ENDPOINTS = {
   JOB_VACANCIES: '/api/v1/job-vacancies', // public (GET, ?lang=id|en|zh)
   ADMIN_JOB_VACANCIES: '/api/v1/admin/job-vacancies', // admin CRUD; append /{id}, /{id}/toggle-active, /reorder
 
+  // Portfolio endpoints
+  PORTFOLIOS: '/api/v1/portfolios', // public (GET, ?lang=id|en|zh&industry=&service=&status=&search=&page=)
+  PORTFOLIO_DETAIL: '/api/v1/portfolios', // public (GET); append /{slug}?lang=
+  INDUSTRIES: '/api/v1/industries', // public (read-only list for the filter UI)
+  SERVICE_TYPES: '/api/v1/service-types', // public (read-only list for the filter UI)
+  ADMIN_PORTFOLIOS: '/api/v1/admin/portfolios', // admin CRUD; append /{id}, /{id}/toggle-featured, /{id}/toggle-published, /reorder, /{id}/images
+  ADMIN_INDUSTRIES: '/api/v1/admin/industries', // admin (read-only list for the industry picker)
+  ADMIN_SERVICE_TYPES: '/api/v1/admin/service-types', // admin (read-only list for the service type picker)
+
   // Other endpoints (public)
   TEAM: '/api/v1/team',
   PROJECTS: '/api/v1/projects',

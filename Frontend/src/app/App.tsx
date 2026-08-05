@@ -32,6 +32,8 @@ const DistributionNetworkPage = lazy(() => import("./components/DistributionNetw
 const DistributionNetworkSection = lazy(() => import("./components/DistributionNetworkSection").then(m => ({ default: m.DistributionNetworkSection })));
 const Gallery = lazy(() => import("./components/Gallery"));
 const GalleryDetail = lazy(() => import("./components/GalleryDetail"));
+const Portfolio = lazy(() => import("./components/Portfolio"));
+const PortfolioDetail = lazy(() => import("./components/PortfolioDetail"));
 
 // The entire admin dashboard: public visitors never need any of this, so it's split
 // into its own chunk(s) that only load when someone actually visits /admin.
@@ -41,6 +43,7 @@ const DashboardHome = lazy(() => import("./admin/DashboardHome").then(m => ({ de
 const HeroSlidesPage = lazy(() => import("./admin/heroSlides/HeroSlidesPage").then(m => ({ default: m.HeroSlidesPage })));
 const ProductsPage = lazy(() => import("./admin/products/ProductsPage").then(m => ({ default: m.ProductsPage })));
 const GalleryPage = lazy(() => import("./admin/gallery/GalleryPage").then(m => ({ default: m.GalleryPage })));
+const PortfoliosPage = lazy(() => import("./admin/portfolios/PortfoliosPage").then(m => ({ default: m.PortfoliosPage })));
 const JobVacanciesPage = lazy(() => import("./admin/jobVacancies/JobVacanciesPage").then(m => ({ default: m.JobVacanciesPage })));
 const CareerApplicationsPage = lazy(() => import("./admin/careerApplications/CareerApplicationsPage").then(m => ({ default: m.CareerApplicationsPage })));
 const UsersPage = lazy(() => import("./admin/users/UsersPage").then(m => ({ default: m.UsersPage })));
@@ -296,6 +299,42 @@ function App() {
                 </div>
               </>
             } />
+            <Route path="/:lang/portofolio/:slug" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <Suspense fallback={<RouteFallback />}>
+                        <PortfolioDetail />
+                      </Suspense>
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
+            <Route path="/:lang/portofolio" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <Suspense fallback={<RouteFallback />}>
+                        <Portfolio />
+                      </Suspense>
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
             <Route path="/:lang/karir" element={
               <>
                 <LanguageRouteWrapper />
@@ -417,6 +456,7 @@ function App() {
               <Route path="hero-slides" element={<HeroSlidesPage />} />
               <Route path="products" element={<ProductsPage />} />
               <Route path="gallery" element={<GalleryPage />} />
+              <Route path="portfolios" element={<PortfoliosPage />} />
               <Route
                 path="job-vacancies"
                 element={

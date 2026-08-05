@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\JobVacancyController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\PortfolioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +75,12 @@ Route::prefix('v1')->group(function () {
 
         // Job Vacancies API (Public)
         Route::get('/job-vacancies', [JobVacancyController::class, 'index']);
+
+        // Portfolio API (Public)
+        Route::get('/industries', [PortfolioController::class, 'industries']);
+        Route::get('/service-types', [PortfolioController::class, 'serviceTypes']);
+        Route::get('/portfolios', [PortfolioController::class, 'index']);
+        Route::get('/portfolios/{slug}', [PortfolioController::class, 'show']);
 
         // Contact Form API (Public)
         Route::post('/contact', [ContactController::class, 'store']);
@@ -149,6 +156,23 @@ Route::prefix('v1')->group(function () {
             Route::patch('/admin/gallery/{galleryItem}/toggle-active', [GalleryController::class, 'toggleActive']);
             Route::delete('/admin/gallery/{galleryItem}', [GalleryController::class, 'destroy']);
             Route::post('/admin/gallery/reorder', [GalleryController::class, 'reorder']);
+        });
+
+        // Portfolio API (Admin)
+        Route::get('/admin/industries', [PortfolioController::class, 'industries']);
+        Route::get('/admin/service-types', [PortfolioController::class, 'serviceTypes']);
+        Route::get('/admin/portfolios', [PortfolioController::class, 'adminIndex']);
+        Route::get('/admin/portfolios/{portfolio}', [PortfolioController::class, 'adminShow']);
+        Route::middleware(['role:super_admin,admin,editor'])->group(function () {
+            Route::post('/admin/portfolios', [PortfolioController::class, 'store']);
+            Route::put('/admin/portfolios/{portfolio}', [PortfolioController::class, 'update']); // frontend POSTs with _method=PUT (multipart)
+            Route::patch('/admin/portfolios/{portfolio}/toggle-featured', [PortfolioController::class, 'toggleFeatured']);
+            Route::patch('/admin/portfolios/{portfolio}/toggle-published', [PortfolioController::class, 'togglePublished']);
+            Route::delete('/admin/portfolios/{portfolio}', [PortfolioController::class, 'destroy']);
+            Route::post('/admin/portfolios/reorder', [PortfolioController::class, 'reorder']);
+            Route::post('/admin/portfolios/{portfolio}/images', [PortfolioController::class, 'storeImages']);
+            Route::post('/admin/portfolios/{portfolio}/images/reorder', [PortfolioController::class, 'reorderImages']);
+            Route::delete('/admin/portfolios/{portfolio}/images/{image}', [PortfolioController::class, 'destroyImage']);
         });
 
         // Job Vacancies API (Admin) - Editor has no access to this module; HR manages it instead

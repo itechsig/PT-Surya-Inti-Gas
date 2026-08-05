@@ -123,8 +123,8 @@ export const ContactPage = () => {
                 <div className="office-hours">
                   <span className="hours-label">{t('contactPage.hours.label')}:</span>
                   <div className="hours-value">
-                    <div>{t('contactPage.hours.weekday')}: {t('contactPage.hours.weekdayTime')}</div>
-                    <div>{t('contactPage.hours.saturday')}: {t('contactPage.hours.saturdayTime')}</div>
+                    <div>{t('contactPage.hours.weekday')}: {t('contactPage.hours.weekdayTimesidoarjo')}</div>
+                    <div>{t('contactPage.hours.saturday')}: {t('contactPage.hours.saturdayTimesidoarjo')}</div>
                   </div>
                 </div>
               </div>
@@ -144,9 +144,9 @@ export const ContactPage = () => {
                   {t('contactPage.balikpapan.address')}
                 </p>
                 <div className="office-card-contact">
-                  <a href="tel:+625428531991" className="contact-link">
-                    <Phone size={18} />
-                    <span>+62 542 8531991</span>
+                  <a href="https://wa.me/6285157118879" target="_blank" rel="noopener noreferrer" className="contact-link">
+                    <FaWhatsapp size={18} />
+                    <span>+6285157118879</span>
                   </a>
                   <a href="#" className="contact-link" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.bpn@suryaintigas.com'; }}>
                     <Mail size={18} />
@@ -158,8 +158,8 @@ export const ContactPage = () => {
                 <div className="office-hours">
                   <span className="hours-label">{t('contactPage.hours.label')}:</span>
                   <div className="hours-value">
-                    <div>{t('contactPage.hours.weekday')}: {t('contactPage.hours.weekdayTime')}</div>
-                    <div>{t('contactPage.hours.saturday')}: {t('contactPage.hours.saturdayTime')}</div>
+                    <div>{t('contactPage.hours.weekday')}: {t('contactPage.hours.weekdayTimebalikpapan')}</div>
+                    <div>{t('contactPage.hours.saturday')}: {t('contactPage.hours.saturdayTimebalikpapan')}</div>
                   </div>
                 </div>
               </div>

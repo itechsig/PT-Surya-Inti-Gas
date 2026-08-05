@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             ServicesCategorySeeder::class,
             GalleryItemSeeder::class,
             JobVacancySeeder::class,
+            IndustrySeeder::class,
+            ServiceTypeSeeder::class,
         ]);
     }
 }

@@ -11,6 +11,7 @@
     "contact": "Kontak",
     "career": "Karir",
     "gallery": "Galeri",
+    "portfolio": "Portofolio",
     "comingSoon": "Segera hadir",
     "distributor": "Distributor Gas",
     "language": "Bahasa",
@@ -324,10 +325,13 @@
     "hours": {
       "label": "Jam Operasional",
       "weekday": "Senin - Jumat",
-      "weekdayTime": "08.00 - 16.00",
+      "weekdayTimesidoarjo": "08.00 - 16.00 WIB",
+      "weekdayTimebalikpapan": "08.00 - 17.00 WITA",
       "saturday": "Sabtu",
-      "saturdayTime": "08.00 - 14.00"
+      "saturdayTimesidoarjo": "08.00 - 14.00 WIB",
+      "saturdayTimebalikpapan": "08.00 - 15.00 WITA"
     },
+
     "imageAlt": "Kantor PT Surya Inti Gas"
   },
   "companyProfileVideo": {
@@ -1053,6 +1057,35 @@
       "regulator-1": { "alt": "Gas Regulator", "title": "Regulator Gas", "description": "Regulator untuk kontrol tekanan gas", "detailedDescription": "Regulator gas PT Surya Inti Gas dirancang untuk kontrol tekanan gas yang presisi dan aman. Regulator kami tersedia dalam berbagai kapasitas dan tipe sesuai kebutuhan aplikasi industri. Setiap unit dilengkapi dengan fitur keamanan seperti relief valve dan gauge tekanan untuk memastikan penggunaan gas yang aman dan efisien di lokasi pelanggan." }
     }
   },
+  "portfolio": {
+    "page": {
+      "title": "Portofolio",
+      "subtitle": "Menampilkan pengalaman kami dalam distribusi gas industri, layanan engineering, dan solusi terintegrasi di berbagai sektor industri.",
+      "searchPlaceholder": "Cari client, industri, lokasi, atau produk...",
+      "allIndustries": "Semua Industri",
+      "allServices": "Semua Layanan",
+      "viewDetail": "Lihat Detail",
+      "noResults": "Belum ada portofolio yang dipublikasikan."
+    },
+    "detail": {
+      "notFound": "Portofolio tidak ditemukan.",
+      "backToList": "Kembali ke Portofolio",
+      "industry": "Industri",
+      "service": "Jenis Layanan",
+      "productSolution": "Produk / Solusi",
+      "location": "Lokasi",
+      "completionDate": "Tanggal Selesai",
+      "summary": "Ringkasan Proyek",
+      "gallery": "Galeri"
+    },
+    "cta": {
+      "title": "Butuh Solusi Serupa?",
+      "subtitle": "Hubungi tim kami untuk mendiskusikan kebutuhan gas industri atau layanan engineering Anda.",
+      "needSimilarTitle": "Butuh Solusi Serupa?",
+      "needSimilarSubtitle": "Hubungi tim kami untuk mendiskusikan kebutuhan gas industri atau layanan engineering Anda.",
+      "contactButton": "Hubungi Kami"
+    }
+  },
   "career": {
     "title": "Karir",
     "subtitle": "Bergabung Bersama Kami",
@@ -1473,16 +1506,6 @@
       "twitter": "Twitter",
       "youtube": "YouTube"
     }
-  },
-  "portfolio": {
-    "showcase": "Showcase Proyek",
-    "title": "Portofolio Pekerjaan Kami",
-    "filterAll": "Semua",
-    "filterBuilding": "Gedung",
-    "filterInfrastructure": "Infrastruktur",
-    "filterRenovation": "Renovasi",
-    "year": "Tahun",
-    "viewAllProjects": "Lihat Semua Proyek"
   },
   "common": {
     "close": "Tutup",
