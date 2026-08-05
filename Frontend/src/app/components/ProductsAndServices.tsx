@@ -187,8 +187,8 @@ export function ProductsAndServices() {
     if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
       setMainCategory(categoryParam as MainCategory);
       const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
-      const firstSubCategory = Object.keys(categories)[0] || '';
-      setSubCategory(subcategoryParam && categories[subcategoryParam] ? subcategoryParam : firstSubCategory);
+      const firstSubCategory = Object.keys(categories || {})[0] || '';
+      setSubCategory(subcategoryParam && categories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
     }
   }, [searchParams, productCategories]);
 
@@ -197,12 +197,8 @@ export function ProductsAndServices() {
     setMainCategory(category);
     
     // Set default sub-category based on main category
-    if (category === 'package') {
-      setSubCategory(''); // Show all package products by default
-    } else {
-      const categories = productCategories[category] as Record<string, SubCategory>;
-      setSubCategory(Object.keys(categories || {})[0] || '');
-    }
+    const categories = productCategories[category] as Record<string, SubCategory>;
+    setSubCategory(Object.keys(categories || {})[0] || '');
   };
 
   const handleSubCategoryChange = (subCatId: string) => {
@@ -214,11 +210,12 @@ export function ProductsAndServices() {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
     
-    // For package category, only show cradle as sub-category
+    // For package category, show all sub-categories from backend
     if (mainCategory === 'package') {
-      return [
-        { id: 'cradle', title: t('products.subCategories.cradle') }
-      ];
+      return Object.keys(categories).map(key => ({
+        id: key,
+        title: categories[key]?.title || ''
+      }));
     }
     
     return Object.keys(categories).map(key => ({
@@ -233,37 +230,20 @@ export function ProductsAndServices() {
     
     // For package category, show specific products only
     if (mainCategory === 'package') {
-      const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
-      
-      // If cradle sub-category is selected, show only cradle variants
-      if (subCategory === 'cradle') {
-        const packageCategory = equipmentCategories?.['package'];
-        if (packageCategory?.products) {
-          const cradleVariants = [
-            'cradle-2x2',              // Cradle 2x2
-            'cradle-3x2',              // Cradle 3x2
-            'cradle-3x3',              // Cradle 3x3
-            'cradle-4x4'               // Cradle 4x4
-          ];
-          return packageCategory.products.filter(product => cradleVariants.includes(product.id));
-        }
-        return [];
+      // If a specific sub-category is selected, show products from that sub-category
+      if (subCategory && categories[subCategory]) {
+        return categories[subCategory].products || [];
       }
       
-      // Default: show all package items
+      // Default: show all package items from all sub-categories
       const allProducts: Product[] = [];
       
-      // Get products from package sub-category
-      const packageCategory = equipmentCategories?.['package'];
-      if (packageCategory?.products) {
-        allProducts.push(...packageCategory.products);
-      }
-      
-      // Get products from cryogenic-transport sub-category (for ISO Tank, Lorry Tank)
-      const cryogenicTransportCategory = equipmentCategories?.['cryogenic-transport'];
-      if (cryogenicTransportCategory?.products) {
-        allProducts.push(...cryogenicTransportCategory.products);
-      }
+      // Get all products from package category
+      Object.values(categories).forEach(subCategory => {
+        if (subCategory?.products) {
+          allProducts.push(...subCategory.products);
+        }
+      });
       
       // Filter to only show specific package items
       const allowedPackageIds = [
