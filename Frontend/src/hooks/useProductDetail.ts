@@ -23,17 +23,15 @@ const PRODUCT_IMAGE_MAPPING: Record<string, string> = {
   'microbulk-tank': '/images/products/Microbulk_.webp',
   'vessel-gas-liquid': '/images/products/VGL.webp',
   'cryogenic-road-tank': '/images/office/wp2.jpg',
-  'cryogenic-iso-tank': '/images/office/wp.jpg'
+  'cryogenic-iso-tank': '/images/office/wp.jpg',
+  'default': '/images/products/Oxygen_Fix.webp'
 };
 
 // Function to check if image URL is valid
 function isValidImageUrl(url: string): boolean {
   if (!url) return false;
-  // Check if it's a relative path starting with /images/ or /storage/
-  if (url.startsWith('/images/') || url.startsWith('/storage/')) return true;
-  // Check if it's a full HTTP URL
-  if (url.startsWith('http://') || url.startsWith('https://')) return true;
-  return false;
+  // For now, only trust local /images/ paths since Railway storage is failing
+  return url.startsWith('/images/');
 }
 
 /** Fetches a single published product by its slug (the legacy "id" query param), localized. */
@@ -80,19 +78,19 @@ export function useProductDetail(slug: string | null, lang: string) {
 function applyImageMapping(data: ProductDetailData): ProductDetailData {
   const mappedData = JSON.parse(JSON.stringify(data)) as ProductDetailData;
   
-  // Only apply custom image mapping if the API returned an invalid or missing image
-  if (!isValidImageUrl(mappedData.product.image) && PRODUCT_IMAGE_MAPPING[mappedData.product.id]) {
+  // Always apply custom image mapping since Railway storage is failing
+  if (PRODUCT_IMAGE_MAPPING[mappedData.product.id]) {
     mappedData.product.image = PRODUCT_IMAGE_MAPPING[mappedData.product.id];
+  } else {
+    // Use default fallback if no specific mapping exists
+    mappedData.product.image = PRODUCT_IMAGE_MAPPING['default'];
   }
   
   // Also check gallery images
   if (mappedData.product.gallery && Array.isArray(mappedData.product.gallery)) {
     mappedData.product.gallery = mappedData.product.gallery.map((img: string) => {
-      if (!isValidImageUrl(img)) {
-        // Try to find a fallback based on product ID
-        return PRODUCT_IMAGE_MAPPING[mappedData.product.id] || img;
-      }
-      return img;
+      // Use the same fallback for gallery images
+      return PRODUCT_IMAGE_MAPPING[mappedData.product.id] || PRODUCT_IMAGE_MAPPING['default'];
     });
   }
   
