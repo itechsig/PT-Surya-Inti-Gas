@@ -68,8 +68,7 @@ class HeroSlideController extends Controller
     {
         try {
             $data = $request->validated();
-            $storageDisk = env('RAILWAY_ENVIRONMENT') ? 'railway_public' : 'public';
-            $data['image'] = $request->file('image')->store('hero-slides', $storageDisk);
+            $data['image'] = $request->file('image')->store('hero-slides', 'public');
             $data['display_order'] = $data['display_order'] ?? ((HeroSlide::max('display_order') ?? -1) + 1);
             $data['is_active'] = $request->boolean('is_active', true);
 
@@ -89,11 +88,10 @@ class HeroSlideController extends Controller
     {
         try {
             $data = $request->validated();
-            $storageDisk = env('RAILWAY_ENVIRONMENT') ? 'railway_public' : 'public';
 
             if ($request->hasFile('image')) {
-                Storage::disk($storageDisk)->delete($heroSlide->image);
-                $data['image'] = $request->file('image')->store('hero-slides', $storageDisk);
+                Storage::disk('public')->delete($heroSlide->image);
+                $data['image'] = $request->file('image')->store('hero-slides', 'public');
             }
 
             // 'nullable' rules populate validated() with null even when the field was never
@@ -120,8 +118,7 @@ class HeroSlideController extends Controller
     public function destroy(HeroSlide $heroSlide): JsonResponse
     {
         try {
-            $storageDisk = env('RAILWAY_ENVIRONMENT') ? 'railway_public' : 'public';
-            Storage::disk($storageDisk)->delete($heroSlide->image);
+            Storage::disk('public')->delete($heroSlide->image);
             $heroSlide->delete();
 
             return response()->json([

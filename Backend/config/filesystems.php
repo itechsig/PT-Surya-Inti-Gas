@@ -47,15 +47,6 @@ return [
             'report' => false,
         ],
 
-        'railway_public' => [
-            'driver' => 'local',
-            'root' => env('RAILWAY_VOLUME_MOUNT_PATH', '/data/storage/app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
-            'visibility' => 'public',
-            'throw' => false,
-            'report' => false,
-        ],
-
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

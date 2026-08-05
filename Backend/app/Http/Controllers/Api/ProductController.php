@@ -96,9 +96,8 @@ class ProductController extends Controller
     {
         try {
             $data = $request->validated();
-            $storageDisk = env('RAILWAY_ENVIRONMENT') ? 'railway_public' : 'public';
-            $data['image'] = $request->file('image')->store('products', $storageDisk);
-            $data['gallery'] = $this->storeGalleryFiles($request, $storageDisk);
+            $data['image'] = $request->file('image')->store('products', 'public');
+            $data['gallery'] = $this->storeGalleryFiles($request);
             $data['specifications'] = $request->filled('specifications') ? json_decode($request->input('specifications'), true) : null;
             $data['display_order'] = $data['display_order'] ?? ((Product::max('display_order') ?? -1) + 1);
             $data['is_featured'] = $request->boolean('is_featured', false);
@@ -120,11 +119,10 @@ class ProductController extends Controller
     {
         try {
             $data = $request->validated();
-            $storageDisk = env('RAILWAY_ENVIRONMENT') ? 'railway_public' : 'public';
 
             if ($request->hasFile('image')) {
-                Storage::disk($storageDisk)->delete($product->image);
-                $data['image'] = $request->file('image')->store('products', $storageDisk);
+                Storage::disk('public')->delete($product->image);
+                $data['image'] = $request->file('image')->store('products', 'public');
             }
 
             $keptGallery = $request->filled('existing_gallery')
@@ -132,9 +130,9 @@ class ProductController extends Controller
                 : ($product->gallery ?? []);
             $removedGallery = array_diff($product->gallery ?? [], $keptGallery);
             foreach ($removedGallery as $path) {
-                Storage::disk($storageDisk)->delete($path);
+                Storage::disk('public')->delete($path);
             }
-            $newGalleryFiles = $this->storeGalleryFiles($request, $storageDisk);
+            $newGalleryFiles = $this->storeGalleryFiles($request);
             $data['gallery'] = array_values(array_merge($keptGallery, $newGalleryFiles));
 
             if (array_key_exists('specifications', $data)) {
@@ -171,10 +169,9 @@ class ProductController extends Controller
     public function destroy(Product $product): JsonResponse
     {
         try {
-            $storageDisk = env('RAILWAY_ENVIRONMENT') ? 'railway_public' : 'public';
-            Storage::disk($storageDisk)->delete($product->image);
+            Storage::disk('public')->delete($product->image);
             foreach ($product->gallery ?? [] as $path) {
-                Storage::disk($storageDisk)->delete($path);
+                Storage::disk('public')->delete($path);
             }
             $product->delete();
 

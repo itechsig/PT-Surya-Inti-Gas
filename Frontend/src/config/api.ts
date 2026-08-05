@@ -4,8 +4,8 @@ const getApiBaseUrl = (): string => {
   const envUrl = (import.meta as any).env?.VITE_API_URL;
   if (envUrl) return envUrl;
   
-  // Default to localhost for development
-  return 'http://localhost:8000';
+  // Default to Railway production URL
+  return 'https://ptsuryaintigas-production.up.railway.app';
 };
 
 export const API_CONFIG = {
