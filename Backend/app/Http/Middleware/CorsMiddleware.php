@@ -45,7 +45,7 @@ class CorsMiddleware
 
         $response = $next($request);
 
-        // Add CORS headers to all responses, only when the origin is recognized.
+        // Add CORS headers to all responses, including 404s
         if ($allowedOrigin !== null) {
             $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
