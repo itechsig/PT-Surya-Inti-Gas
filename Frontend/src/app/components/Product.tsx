@@ -336,6 +336,12 @@ export function Product() {
         }
       });
       
+      console.log('Available equipment sub-categories:', Object.keys(equipmentCategories));
+      console.log('All products from equipment:', allProducts.map(p => ({ id: p.id, title: p.title })));
+      
+      console.log('Available equipment sub-categories:', Object.keys(equipmentCategories));
+      console.log('All products from equipment:', allProducts.map(p => ({ id: p.id, title: p.title })));
+      
       // Filter to only show specific package items by product ID
       const allowedPackageIds = [
         'cradle-2x2',              // Cradle 2x2
