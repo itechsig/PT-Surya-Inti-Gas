@@ -19,7 +19,14 @@ const PRODUCT_IMAGE_MAPPING: Record<string, string> = {
   'microbulk-tank': '/images/products/Microbulk_.webp',
   'vessel-gas-liquid': '/images/products/VGL.webp',
   'cryogenic-road-tank': '/images/office/wp2.jpg',
-  'cryogenic-iso-tank': '/images/office/wp.jpg'
+  'cryogenic-iso-tank': '/images/office/wp.jpg',
+  'iso-tank': '/images/office/wp.jpg',
+  'lorry-tank': '/images/office/wp2.jpg',
+  'package-high-pressure': '/images/products/20260618_134436.webp',
+  'cradle-2x2': '/images/products/Craddle_3x2.webp',
+  'cradle-3x2': '/images/products/Craddle_3x2.webp',
+  'cradle-3x3': '/images/products/Craddle_4x4_fixed.webp',
+  'cradle-4x4': '/images/products/Craddle_4x4_fixed.webp'
 };
 
 /** Fetches the published product catalog, grouped by category, localized for the current language. */
@@ -61,6 +68,19 @@ function applyImageMapping(data: ProductCategories): ProductCategories {
   // Map images for gas category
   if (mappedData.gas) {
     Object.values(mappedData.gas).forEach(subCategory => {
+      if (subCategory.products) {
+        subCategory.products.forEach(product => {
+          if (PRODUCT_IMAGE_MAPPING[product.id]) {
+            product.image = PRODUCT_IMAGE_MAPPING[product.id];
+          }
+        });
+      }
+    });
+  }
+  
+  // Map images for package category
+  if (mappedData.package) {
+    Object.values(mappedData.package).forEach(subCategory => {
       if (subCategory.products) {
         subCategory.products.forEach(product => {
           if (PRODUCT_IMAGE_MAPPING[product.id]) {

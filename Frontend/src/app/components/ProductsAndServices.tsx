@@ -251,11 +251,12 @@ export function ProductsAndServices() {
         'cradle-3x2',              // Cradle 3x2
         'cradle-3x3',              // Cradle 3x3
         'cradle-4x4',              // Cradle 4x4
+        'package-high-pressure',  // Cylinder
         'cryogenic-dewars',        // Cryogenic Dewars
         'vessel-gas-liquid',       // Vessel Gas Liquid
         'microbulk-tank',          // Microbulk Tank
-        'cryogenic-iso-tank',      // ISO Tank
-        'cryogenic-road-tank'      // Lorry Tank
+        'iso-tank',                // ISO Tank
+        'lorry-tank'               // Lorry Tank
       ];
       
       return allProducts.filter(product => allowedPackageIds.includes(product.id));
