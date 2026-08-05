@@ -1,4 +1,4 @@
-import { Briefcase, GalleryHorizontal, Images, LayoutDashboard, Package, Users, UserCog, ScrollText, type LucideIcon } from 'lucide-react';
+import { Briefcase, FolderKanban, GalleryHorizontal, Images, LayoutDashboard, Package, Users, UserCog, ScrollText, type LucideIcon } from 'lucide-react';
 import { AdminRole } from '../../context';
 
 export interface AdminNavItem {
@@ -19,6 +19,7 @@ export const adminNavItems: AdminNavItem[] = [
   { label: 'Hero Slides', to: '/admin/hero-slides', icon: GalleryHorizontal, roles: CONTENT_ROLES },
   { label: 'Produk', to: '/admin/products', icon: Package, roles: CONTENT_ROLES },
   { label: 'Galeri', to: '/admin/gallery', icon: Images, roles: CONTENT_ROLES },
+  { label: 'Portofolio', to: '/admin/portfolios', icon: FolderKanban, roles: CONTENT_ROLES },
   { label: 'Lowongan Kerja', to: '/admin/job-vacancies', icon: Briefcase, roles: RECRUITMENT_ROLES },
   { label: 'Pelamar Kerja', to: '/admin/career-applications', icon: Users, roles: RECRUITMENT_ROLES },
   { label: 'Manajemen User', to: '/admin/users', icon: UserCog, roles: ['super_admin'] },

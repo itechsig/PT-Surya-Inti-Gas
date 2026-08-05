@@ -97,6 +97,24 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://suryaintigas.com/id/portofolio</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://suryaintigas.com/en/portofolio</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://suryaintigas.com/zh/portofolio</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://suryaintigas.com/id/kontak</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>monthly</changefreq>

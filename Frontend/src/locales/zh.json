@@ -11,6 +11,7 @@
     "contact": "联系我们",
     "career": "招聘",
     "gallery": "画廊",
+    "portfolio": "项目案例",
     "comingSoon": "即将推出",
     "distributor": "气体分销商",
     "language": "语言",
@@ -357,6 +358,35 @@
       "transport-1": { "alt": "气体运输", "title": "气体运输", "description": "工业气体运输车辆", "detailedDescription": "PT Surya Inti Gas的气体运输车辆专为安全运载各类气体而设计。每辆车均配备GPS系统、泄漏传感器，以及符合危险气体运输标准的隔舱。我们的驾驶员持有专业认证，并在每次配送中遵循严格的安全程序。" },
       "laboratory-2": { "alt": "化学实验室", "title": "化学实验室", "description": "用于气体研究的实验室", "detailedDescription": "PT Surya Inti Gas的化学实验室支持新型气体产品的研究与开发。该设施配备现代化分析设备，用于气体成分研究、新配方开发和气体应用测试。我们的研发团队持续努力提升产品质量，为客户的工业需求发掘创新的气体解决方案。" },
       "regulator-1": { "alt": "气体调节器", "title": "气体调节器", "description": "用于控制气体压力的调节器", "detailedDescription": "PT Surya Inti Gas的气体调节器专为精确安全的气体压力控制而设计。我们的调节器提供多种容量和类型，满足工业应用需求。每台设备均配备安全阀和压力表等安全功能，确保客户所在地安全高效地使用气体。" }
+    }
+  },
+  "portfolio": {
+    "page": {
+      "title": "项目案例",
+      "subtitle": "展示我们在工业气体分销、工程服务及跨行业整合解决方案方面的经验。",
+      "searchPlaceholder": "搜索客户、行业、地点或产品...",
+      "allIndustries": "所有行业",
+      "allServices": "所有服务",
+      "viewDetail": "查看详情",
+      "noResults": "暂无已发布的项目案例。"
+    },
+    "detail": {
+      "notFound": "未找到该项目案例。",
+      "backToList": "返回项目案例",
+      "industry": "行业",
+      "service": "服务类型",
+      "productSolution": "产品/解决方案",
+      "location": "地点",
+      "completionDate": "完成日期",
+      "summary": "项目概述",
+      "gallery": "图库"
+    },
+    "cta": {
+      "title": "需要类似的解决方案？",
+      "subtitle": "联系我们的团队，讨论您的工业气体或工程服务需求。",
+      "needSimilarTitle": "需要类似的解决方案？",
+      "needSimilarSubtitle": "联系我们的团队，讨论您的工业气体或工程服务需求。",
+      "contactButton": "联系我们"
     }
   },
   "career": {

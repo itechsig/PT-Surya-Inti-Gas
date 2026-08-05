@@ -11,6 +11,7 @@
     "contact": "Contact",
     "career": "Career",
     "gallery": "Gallery",
+    "portfolio": "Portfolio",
     "comingSoon": "Coming Soon",
     "distributor": "Gas Distributor",
     "language": "Language",
@@ -1046,6 +1047,35 @@
       "regulator-1": { "alt": "Gas Regulator", "title": "Gas Regulator", "description": "Regulator for gas pressure control", "detailedDescription": "PT Surya Inti Gas's gas regulator is designed for precise and safe gas pressure control. Our regulators are available in various capacities and types to suit industrial application needs. Each unit is equipped with safety features such as a relief valve and pressure gauge to ensure safe and efficient gas use at customer locations." }
     }
   },
+  "portfolio": {
+    "page": {
+      "title": "Portfolio",
+      "subtitle": "Showcasing our experience in delivering industrial gas distribution, engineering services, and integrated solutions across various industries.",
+      "searchPlaceholder": "Search client, industry, location, or product...",
+      "allIndustries": "All Industries",
+      "allServices": "All Services",
+      "viewDetail": "View Details",
+      "noResults": "No portfolio has been published yet."
+    },
+    "detail": {
+      "notFound": "Portfolio not found.",
+      "backToList": "Back to Portfolio",
+      "industry": "Industry",
+      "service": "Service",
+      "productSolution": "Product / Solution",
+      "location": "Location",
+      "completionDate": "Completion Date",
+      "summary": "Project Summary",
+      "gallery": "Gallery"
+    },
+    "cta": {
+      "title": "Need Similar Solution?",
+      "subtitle": "Contact our team to discuss your industrial gas or engineering requirements.",
+      "needSimilarTitle": "Need Similar Solution?",
+      "needSimilarSubtitle": "Contact our team to discuss your industrial gas or engineering requirements.",
+      "contactButton": "Contact Us"
+    }
+  },
   "career": {
     "title": "Career",
     "subtitle": "Join Our Team",
@@ -1466,16 +1496,6 @@
       "twitter": "Twitter",
       "youtube": "YouTube"
     }
-  },
-  "portfolio": {
-    "showcase": "Project Showcase",
-    "title": "Our Work Portfolio",
-    "filterAll": "All",
-    "filterBuilding": "Building",
-    "filterInfrastructure": "Infrastructure",
-    "filterRenovation": "Renovation",
-    "year": "Year",
-    "viewAllProjects": "View All Projects"
   },
   "common": {
     "close": "Close",
