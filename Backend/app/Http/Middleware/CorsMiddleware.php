@@ -35,6 +35,9 @@ class CorsMiddleware
             if ($allowedOrigin !== null) {
                 $preflight->header('Access-Control-Allow-Origin', $allowedOrigin)
                     ->header('Access-Control-Allow-Credentials', 'true');
+            } else {
+                // For development/debugging, allow all origins for OPTIONS requests
+                $preflight->header('Access-Control-Allow-Origin', '*');
             }
 
             return $preflight;
@@ -46,10 +49,13 @@ class CorsMiddleware
         if ($allowedOrigin !== null) {
             $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        } else {
+            // For development/debugging, allow all origins for non-OPTIONS requests
+            $response->headers->set('Access-Control-Allow-Origin', '*');
         }
         $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept');
-        
+
         // Add CORS headers for images and static files
         $response->headers->set('Access-Control-Expose-Headers', 'Content-Length, Content-Type');
 

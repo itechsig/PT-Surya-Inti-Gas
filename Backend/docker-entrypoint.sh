@@ -47,6 +47,10 @@ rm -rf bootstrap/cache/*.php
 echo "Creating storage link"
 php artisan storage:link
 
+# Ensure gallery folder exists for photo uploads
+echo "Ensuring gallery folder exists"
+mkdir -p storage/app/public/gallery
+
 # Only generate a new app key if one wasn't provided via a real environment
 # variable (set APP_KEY in the Railway dashboard so it persists across deploys).
 if [ -z "$APP_KEY" ]; then
