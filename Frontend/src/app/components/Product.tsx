@@ -346,8 +346,8 @@ export function Product() {
         'cryogenic-dewars',        // Cryogenic Dewars
         'vessel-gas-liquid',       // Vessel Gas Liquid
         'microbulk-tank',          // Microbulk Tank
-        'iso-tank',                // ISO Tank
-        'lorry-tank'               // Lorry Tank
+        'cryogenic-iso-tank',      // Cryogenic ISO Tank
+        'cryogenic-road-tank'      // Cryogenic Road Tank
       ];
       
       return allProducts.filter(product => allowedPackageIds.includes(product.id));
