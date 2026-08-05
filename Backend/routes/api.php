@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\JobVacancyController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PortfolioController;
+use App\Http\Controllers\Api\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/service-types', [PortfolioController::class, 'serviceTypes']);
         Route::get('/portfolios', [PortfolioController::class, 'index']);
         Route::get('/portfolios/{slug}', [PortfolioController::class, 'show']);
+
+        // Image serving API (to work around Railway storage link issues)
+        Route::get('/image/{path}', [ImageController::class, 'serve'])->where('path', '.*');
 
         // Contact Form API (Public)
         Route::post('/contact', [ContactController::class, 'store']);

@@ -309,6 +309,7 @@ class PortfolioController extends Controller
     }
 
     /**
+     * Use API endpoint to serve images (works around Railway storage link issues)
      * Storage::disk('public')->url() returns an absolute URL built from APP_URL (e.g.
      * http://localhost:8000/storage/...), unlike a bare '/storage/' . $path concatenation
      * which only resolves correctly when the frontend happens to share the backend's origin.
@@ -316,7 +317,13 @@ class PortfolioController extends Controller
      */
     private function imageUrl(string $path): string
     {
-        return str_starts_with($path, 'http') ? $path : Storage::disk('public')->url($path);
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Use API endpoint to serve images (works around Railway storage link issues)
+        $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
+        return "{$baseUrl}/api/v1/image/" . urlencode($path);
     }
 
     private function attachGalleryFiles(Portfolio $portfolio, array $files): void

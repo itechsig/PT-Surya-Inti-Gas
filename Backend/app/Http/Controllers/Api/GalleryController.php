@@ -178,7 +178,13 @@ class GalleryController extends Controller
 
     private function resolveImageUrl(string $image): string
     {
-        return str_starts_with($image, 'http') ? $image : Storage::disk('public')->url($image);
+        if (str_starts_with($image, 'http://') || str_starts_with($image, 'https://')) {
+            return $image;
+        }
+
+        // Use API endpoint to serve images (works around Railway storage link issues)
+        $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
+        return "{$baseUrl}/api/v1/image/" . urlencode($image);
     }
 
     private function toPublicArray(GalleryItem $item, string $lang): array

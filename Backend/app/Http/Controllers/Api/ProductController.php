@@ -282,9 +282,9 @@ class ProductController extends Controller
             return $path;
         }
 
-        // Generate URL using the storage disk with proper APP_URL
+        // Use API endpoint to serve images (works around Railway storage link issues)
         $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
-        return "{$baseUrl}/storage/{$path}";
+        return "{$baseUrl}/api/v1/image/" . urlencode($path);
     }
 
     private function toAdminArray(Product $p): array
