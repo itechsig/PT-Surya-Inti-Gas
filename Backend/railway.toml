@@ -1,4 +1,4 @@
-# Force rebuild - 2026-08-05-v19 - Add image serving API to work around Railway storage issues
+# Force rebuild - 2026-08-05-v20 - Force Railway redeploy with image serving API
 [build]
 builder = "NIXPACKS"
 
