@@ -197,28 +197,35 @@ export function Product() {
     if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
       setMainCategory(categoryParam as MainCategory);
       
-      // For package category, use equipment sub-categories
-      let categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
+      // For package category, try to use package sub-categories first
       if (categoryParam === 'package') {
-        categories = productCategories['equipment'] as Record<string, SubCategory>;
+        const packageCategories = productCategories['package'] as Record<string, SubCategory>;
+        const packageCategoriesArray = Object.keys(packageCategories || {});
         
-        // Only use allowed package sub-categories
-        const allowedPackageSubCategories = [
-          'cradle-2x2',
-          'cradle-3x2', 
-          'cradle-3x3',
-          'cradle-4x4',
-          'cylinder',
-          'cryogenic-dewars',
-          'vessel-gas-liquid',
-          'microbulk-tank',
-          'iso-tank',
-          'lorry-tank'
-        ];
-        
-        const firstAllowed = allowedPackageSubCategories.find(key => categories?.[key]) || '';
-        setSubCategory(subcategoryParam && allowedPackageSubCategories.includes(subcategoryParam) && categories?.[subcategoryParam] ? subcategoryParam : firstAllowed);
+        if (packageCategoriesArray.length > 0) {
+          const firstSubCategory = packageCategoriesArray[0] || '';
+          setSubCategory(subcategoryParam && packageCategories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
+        } else {
+          // Fallback: Use equipment sub-categories
+          const categories = productCategories['equipment'] as Record<string, SubCategory>;
+          const allowedPackageSubCategories = [
+            'cradle-2x2',
+            'cradle-3x2', 
+            'cradle-3x3',
+            'cradle-4x4',
+            'cylinder',
+            'cryogenic-dewars',
+            'vessel-gas-liquid',
+            'microbulk-tank',
+            'iso-tank',
+            'lorry-tank'
+          ];
+          
+          const firstAllowed = allowedPackageSubCategories.find(key => categories?.[key]) || '';
+          setSubCategory(subcategoryParam && allowedPackageSubCategories.includes(subcategoryParam) && categories?.[subcategoryParam] ? subcategoryParam : firstAllowed);
+        }
       } else {
+        const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
         const firstSubCategory = Object.keys(categories || {})[0] || '';
         setSubCategory(subcategoryParam && categories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
       }
@@ -231,24 +238,32 @@ export function Product() {
     
     // Set default sub-category based on main category
     let categories = productCategories[category] as Record<string, SubCategory>;
-    // For package category, use equipment sub-categories
+    
+    // For package category, try to use package sub-categories first
     if (category === 'package') {
-      categories = productCategories['equipment'] as Record<string, SubCategory>;
-      // Set to first allowed package sub-category
-      const allowedPackageSubCategories = [
-        'cradle-2x2',
-        'cradle-3x2', 
-        'cradle-3x3',
-        'cradle-4x4',
-        'cylinder',
-        'cryogenic-dewars',
-        'vessel-gas-liquid',
-        'microbulk-tank',
-        'iso-tank',
-        'lorry-tank'
-      ];
-      const firstAllowed = allowedPackageSubCategories.find(key => categories?.[key]) || '';
-      setSubCategory(firstAllowed);
+      const packageCategories = productCategories['package'] as Record<string, SubCategory>;
+      const packageCategoriesArray = Object.keys(packageCategories || {});
+      
+      if (packageCategoriesArray.length > 0) {
+        setSubCategory(packageCategoriesArray[0] || '');
+      } else {
+        // Fallback: Use equipment sub-categories
+        categories = productCategories['equipment'] as Record<string, SubCategory>;
+        const allowedPackageSubCategories = [
+          'cradle-2x2',
+          'cradle-3x2', 
+          'cradle-3x3',
+          'cradle-4x4',
+          'cylinder',
+          'cryogenic-dewars',
+          'vessel-gas-liquid',
+          'microbulk-tank',
+          'iso-tank',
+          'lorry-tank'
+        ];
+        const firstAllowed = allowedPackageSubCategories.find(key => categories?.[key]) || '';
+        setSubCategory(firstAllowed);
+      }
     } else {
       setSubCategory(Object.keys(categories || {})[0] || '');
     }
@@ -263,8 +278,20 @@ export function Product() {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
     
-    // For package category, use equipment sub-categories (temporary fix until backend structure is corrected)
+    // For package category, try to use package sub-categories first
     if (mainCategory === 'package') {
+      const packageCategories = productCategories['package'] as Record<string, SubCategory>;
+      const packageCategoriesArray = Object.keys(packageCategories || {});
+      
+      // If package category has data, use it
+      if (packageCategoriesArray.length > 0) {
+        return Object.keys(packageCategories).map(key => ({
+          id: key,
+          title: packageCategories[key]?.title || ''
+        }));
+      }
+      
+      // Fallback: Use equipment sub-categories (temporary fix until backend structure is corrected)
       const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
       if (!equipmentCategories) return [];
       
@@ -282,12 +309,23 @@ export function Product() {
         'lorry-tank'
       ];
       
-      return Object.keys(equipmentCategories)
+      // Filter and return only allowed sub-categories
+      const filteredSubCategories = Object.keys(equipmentCategories)
         .filter(key => allowedPackageSubCategories.includes(key))
         .map(key => ({
           id: key,
           title: equipmentCategories[key]?.title || ''
         }));
+      
+      // If no allowed sub-categories found, return all equipment sub-categories as fallback
+      if (filteredSubCategories.length === 0) {
+        return Object.keys(equipmentCategories).map(key => ({
+          id: key,
+          title: equipmentCategories[key]?.title || ''
+        }));
+      }
+      
+      return filteredSubCategories;
     }
     
     return Object.keys(categories).map(key => ({
@@ -302,7 +340,43 @@ export function Product() {
     
     // For package category, show specific products only
     if (mainCategory === 'package') {
-      // Use equipment category data for package items (temporary fix until backend structure is corrected)
+      // First try to use package category data directly
+      const packageCategories = productCategories['package'] as Record<string, SubCategory>;
+      const packageCategoriesArray = Object.keys(packageCategories || {});
+      
+      // If package category has data, use it
+      if (packageCategoriesArray.length > 0) {
+        // If a specific sub-category is selected, show products from that sub-category
+        if (subCategory && packageCategories[subCategory]) {
+          return packageCategories[subCategory].products || [];
+        }
+        
+        // Default: show all package items
+        const allProducts: Product[] = [];
+        Object.values(packageCategories).forEach(subCategory => {
+          if (subCategory?.products) {
+            allProducts.push(...subCategory.products);
+          }
+        });
+        
+        // Filter to only show specific package items
+        const allowedPackageIds = [
+          'cradle-2x2',              // Cradle 2x2
+          'cradle-3x2',              // Cradle 3x2
+          'cradle-3x3',              // Cradle 3x3
+          'cradle-4x4',              // Cradle 4x4
+          'package-high-pressure',  // Cylinder
+          'cryogenic-dewars',        // Cryogenic Dewars
+          'vessel-gas-liquid',       // Vessel Gas Liquid
+          'microbulk-tank',          // Microbulk Tank
+          'iso-tank',                // ISO Tank
+          'lorry-tank'               // Lorry Tank
+        ];
+        
+        return allProducts.filter(product => allowedPackageIds.includes(product.id));
+      }
+      
+      // Fallback: Use equipment category data for package items (temporary fix until backend structure is corrected)
       const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
       if (!equipmentCategories) return [];
       
@@ -334,6 +408,15 @@ export function Product() {
           allProducts.push(...equipmentCategories[subCatKey].products);
         }
       });
+      
+      // If no products found from allowed sub-categories, show all equipment products as fallback
+      if (allProducts.length === 0) {
+        Object.values(equipmentCategories).forEach(subCategory => {
+          if (subCategory?.products) {
+            allProducts.push(...subCategory.products);
+          }
+        });
+      }
       
       // Filter to only show specific package items
       const allowedPackageIds = [
