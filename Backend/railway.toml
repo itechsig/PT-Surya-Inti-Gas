@@ -1,6 +1,10 @@
-# Force rebuild - 2026-07-29-v11 - Update .env at runtime in Dockerfile
+# Force rebuild - 2026-08-06-v12 - Use Dockerfile builder so docker-entrypoint.sh actually
+# runs (it clears/recaches config AFTER Railway injects env vars at container start; Nixpacks
+# does not run this script, so config gets cached at build time before APP_URL etc. exist,
+# permanently baking in the env('APP_URL', 'http://localhost') fallback).
 [build]
-builder = "NIXPACKS"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [deploy]
 restartPolicyType = "ON_FAILURE"

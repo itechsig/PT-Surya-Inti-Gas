@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { useHeroSlides } from "./useHeroSlides";
 import { DEFAULT_SLIDE_DURATION_MS } from "./types";
+import { getImageUrl } from "../../../utils/imageUrl";
 import { SlideContent } from "./SlideContent";
 import { SliderControls } from "./SliderControls";
 
@@ -208,7 +209,7 @@ export function Slider() {
 
       {/* Preload the next background image invisibly */}
       <img
-        src={heroSlides[preloadedNext].image}
+        src={getImageUrl(heroSlides[preloadedNext].image)}
         alt=""
         aria-hidden="true"
         className="absolute h-px w-px opacity-0"
@@ -225,12 +226,13 @@ export function Slider() {
         <AnimatePresence mode="sync">
           <motion.img
             key={slide.id}
-            src={slide.image}
+            src={getImageUrl(slide.image)}
             alt=""
             aria-hidden="true"
             loading={activeIndex === 0 ? "eager" : "lazy"}
             fetchPriority={activeIndex === 0 ? "high" : "auto"}
             className="absolute inset-0 h-full w-full object-cover"
+            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
             initial={{ opacity: 0, scale: 1 }}
             animate={{ opacity: 1, scale: 1.08 }}
             exit={{ opacity: 0 }}

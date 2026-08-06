@@ -1,11 +1,30 @@
 // API Configuration
+//
+// Base URL always comes from VITE_API_URL (set per-environment: Vercel project settings for
+// production, Frontend/.env for local dev). It must never be hardcoded here, so this file can
+// point at any backend without a code change. The two fallbacks below only guard against a
+// misconfigured environment and must stay in sync with the real deployments:
+//   - dev fallback:  local Laravel `php artisan serve` default
+//   - prod fallback: current Railway backend
+const PROD_FALLBACK_API_URL = 'https://ptsuryaintigas-production.up.railway.app';
+const DEV_FALLBACK_API_URL = 'http://localhost:8000';
+
 const getApiBaseUrl = (): string => {
-  // Try to get from Vite environment variable
   const envUrl = (import.meta as any).env?.VITE_API_URL;
   if (envUrl) return envUrl;
-  
-  // Default to localhost for development
-  return 'http://localhost:8000';
+
+  if (import.meta.env.PROD) {
+    // A production build must never talk to localhost. If VITE_API_URL wasn't set at
+    // build time (e.g. missing in Vercel project settings), fall back to the known
+    // production backend instead of leaking a dev-only URL into the deployed bundle.
+    console.error(
+      '[api] VITE_API_URL is not set for this production build. ' +
+      'Set it in the Vercel project environment variables. Falling back to the default production API URL.'
+    );
+    return PROD_FALLBACK_API_URL;
+  }
+
+  return DEV_FALLBACK_API_URL;
 };
 
 export const API_CONFIG = {

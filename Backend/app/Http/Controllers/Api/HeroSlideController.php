@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\HeroSlide\StoreHeroSlideRequest;
 use App\Http\Requests\HeroSlide\UpdateHeroSlideRequest;
 use App\Models\HeroSlide;
+use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -174,7 +175,7 @@ class HeroSlideController extends Controller
     {
         return [
             'id' => $slide->id,
-            'image' => '/storage/' . $slide->image,
+            'image' => ImageUrl::resolve($slide->image),
             'title' => $slide->{"title_$lang"} ?: $slide->title_id,
             'subtitle' => $slide->{"subtitle_$lang"} ?: $slide->subtitle_id,
             'description' => $slide->{"description_$lang"} ?: $slide->description_id,
@@ -196,7 +197,7 @@ class HeroSlideController extends Controller
             'description_id' => $slide->description_id,
             'description_en' => $slide->description_en,
             'description_zh' => $slide->description_zh,
-            'image' => '/storage/' . $slide->image,
+            'image' => ImageUrl::resolve($slide->image),
             'cta_path' => $slide->cta_path,
             'duration_ms' => $slide->duration_ms,
             'display_order' => $slide->display_order,

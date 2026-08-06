@@ -9,6 +9,7 @@ use App\Models\Industry;
 use App\Models\Portfolio;
 use App\Models\PortfolioImage;
 use App\Models\ServiceType;
+use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -308,17 +309,6 @@ class PortfolioController extends Controller
         return $lang === 'zh' ? "{$date->year}年{$month}" : "{$month} {$date->year}";
     }
 
-    /**
-     * Storage::disk('public')->url() returns an absolute URL built from APP_URL (e.g.
-     * http://localhost:8000/storage/...), unlike a bare '/storage/' . $path concatenation
-     * which only resolves correctly when the frontend happens to share the backend's origin.
-     * Since the frontend is a separate SPA on its own origin, image URLs must be absolute.
-     */
-    private function imageUrl(string $path): string
-    {
-        return str_starts_with($path, 'http') ? $path : Storage::disk('public')->url($path);
-    }
-
     private function attachGalleryFiles(Portfolio $portfolio, array $files): void
     {
         $nextOrder = ($portfolio->images()->max('display_order') ?? -1) + 1;
@@ -336,7 +326,7 @@ class PortfolioController extends Controller
     {
         return [
             'id' => $image->id,
-            'image' => $this->imageUrl($image->image),
+            'image' => ImageUrl::resolve($image->image),
             'caption' => $image->caption,
             'display_order' => $image->display_order,
         ];
@@ -358,14 +348,14 @@ class PortfolioController extends Controller
             'productSolution' => $p->{"product_solution_$lang"} ?: $p->product_solution_id,
             'location' => $p->{"location_$lang"} ?: $p->location_id,
             'completionDate' => $this->formatMonthYear($p->completion_date, $lang),
-            'thumbnail' => $this->imageUrl($p->thumbnail),
+            'thumbnail' => ImageUrl::resolve($p->thumbnail),
             'isFeatured' => $p->is_featured,
         ];
 
         if ($full) {
             $data['summary'] = $p->{"summary_$lang"} ?: $p->summary_id;
             $data['gallery'] = $p->relationLoaded('images')
-                ? $p->images->map(fn (PortfolioImage $i) => ['image' => $this->imageUrl($i->image), 'caption' => $i->caption])->values()
+                ? $p->images->map(fn (PortfolioImage $i) => ['image' => ImageUrl::resolve($i->image), 'caption' => $i->caption])->values()
                 : [];
         }
 
@@ -386,7 +376,7 @@ class PortfolioController extends Controller
             'completion_date' => $p->completion_date->format('Y-m-d'),
             'product_solution_id' => $p->product_solution_id, 'product_solution_en' => $p->product_solution_en, 'product_solution_zh' => $p->product_solution_zh,
             'summary_id' => $p->summary_id, 'summary_en' => $p->summary_en, 'summary_zh' => $p->summary_zh,
-            'thumbnail' => $this->imageUrl($p->thumbnail),
+            'thumbnail' => ImageUrl::resolve($p->thumbnail),
             'gallery' => $p->relationLoaded('images')
                 ? $p->images->map(fn (PortfolioImage $i) => $this->toImageArray($i))->values()
                 : [],
