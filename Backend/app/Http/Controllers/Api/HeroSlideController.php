@@ -10,6 +10,7 @@ use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 class HeroSlideController extends Controller
 {
@@ -205,5 +206,17 @@ class HeroSlideController extends Controller
             'created_at' => $slide->created_at,
             'updated_at' => $slide->updated_at,
         ];
+    }
+
+    private function generateImageUrl(string $path): string
+    {
+        // If path is already a full URL, return it as-is
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Use API endpoint to serve images (works around Railway storage link issues)
+        $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
+        return "{$baseUrl}/api/v1/image/" . urlencode($path);
     }
 }

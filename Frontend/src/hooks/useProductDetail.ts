@@ -9,7 +9,7 @@ export interface ProductDetailData {
   subCategoryTitle: string;
 }
 
-// Custom image mapping for specific products
+// Custom image mapping for specific products (fallback only)
 const PRODUCT_IMAGE_MAPPING: Record<string, string> = {
   'acetylene': '/images/products/Acetylene_fix.webp',
   'oxygen': '/images/products/Oxygen_Fix.webp',
@@ -23,8 +23,16 @@ const PRODUCT_IMAGE_MAPPING: Record<string, string> = {
   'microbulk-tank': '/images/products/Microbulk_.webp',
   'vessel-gas-liquid': '/images/products/VGL.webp',
   'cryogenic-road-tank': '/images/office/wp2.jpg',
-  'cryogenic-iso-tank': '/images/office/wp.jpg'
+  'cryogenic-iso-tank': '/images/office/wp.jpg',
+  'default': '/images/products/Oxygen_Fix.webp'
 };
+
+// Function to check if image URL is valid
+function isValidImageUrl(url: string): boolean {
+  if (!url) return false;
+  // For now, only trust local /images/ paths since Railway storage is failing
+  return url.startsWith('/images/');
+}
 
 /** Fetches a single published product by its slug (the legacy "id" query param), localized. */
 export function useProductDetail(slug: string | null, lang: string) {
@@ -70,9 +78,20 @@ export function useProductDetail(slug: string | null, lang: string) {
 function applyImageMapping(data: ProductDetailData): ProductDetailData {
   const mappedData = JSON.parse(JSON.stringify(data)) as ProductDetailData;
   
-  // Apply custom image mapping if product ID matches
+  // Always apply custom image mapping since Railway storage is failing
   if (PRODUCT_IMAGE_MAPPING[mappedData.product.id]) {
     mappedData.product.image = PRODUCT_IMAGE_MAPPING[mappedData.product.id];
+  } else {
+    // Use default fallback if no specific mapping exists
+    mappedData.product.image = PRODUCT_IMAGE_MAPPING['default'];
+  }
+  
+  // Also check gallery images
+  if (mappedData.product.gallery && Array.isArray(mappedData.product.gallery)) {
+    mappedData.product.gallery = mappedData.product.gallery.map((img: string) => {
+      // Use the same fallback for gallery images
+      return PRODUCT_IMAGE_MAPPING[mappedData.product.id] || PRODUCT_IMAGE_MAPPING['default'];
+    });
   }
   
   return mappedData;

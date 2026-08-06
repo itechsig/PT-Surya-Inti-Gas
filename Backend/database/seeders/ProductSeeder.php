@@ -22,34 +22,56 @@ class ProductSeeder extends Seeder
 
         $structure = [
             'industrial-medical' => [
-                ['id' => 'acetylene', 'image' => 'Acetylene-optimized.webp'],
-                ['id' => 'oxygen', 'image' => 'Oxygen-optimized.webp'],
-                ['id' => 'nitrogen', 'image' => 'Nitrogen-optimized.webp'],
-                ['id' => 'argon', 'image' => 'Argon-optimized.webp'],
-                ['id' => 'hydrogen', 'image' => 'Hidrogen-optimized.webp'],
+                ['id' => 'acetylene', 'image' => 'Acetylene_fix.webp'],
+                ['id' => 'oxygen', 'image' => 'Oxygen_Fix.webp'],
+                ['id' => 'nitrogen', 'image' => 'Nitrogen_Fix.webp'],
+                ['id' => 'argon', 'image' => 'Argon_Fix.webp'],
+                ['id' => 'carbon-dioxide', 'image' => 'CO2_Fix.webp'],
+                ['id' => 'hydrogen', 'image' => 'Hidrogen_Fix.webp'],
             ],
             'speciality-mixed' => [
-                ['id' => 'helium', 'image' => 'Helium-optimized.webp'],
-                ['id' => 'sulfur-hexaflouride', 'image' => 'Sulfur_Hexaflouride.webp'],
-                ['id' => 'mixed-gas', 'image' => 'Mix_gas.webp'],
+                ['id' => 'helium', 'image' => 'Helium_Fix.webp'],
+                ['id' => 'sulfur-hexaflouride', 'image' => 'SF6_Fix.webp'],
+                ['id' => 'mixed-gas', 'image' => 'Mixed_Gas_Fix.webp'],
             ],
             'color-code' => [
-                ['id' => 'color-code-acetylene', 'image' => 'Acetylene-optimized.webp'],
+                ['id' => 'color-code-acetylene', 'image' => 'Acetylene_fix.webp'],
                 ['id' => 'color-code-special', 'image' => 'Special_gas_.webp'],
-                ['id' => 'color-code-medical', 'image' => 'Medical_Gas_Cylinder.webp'],
+                ['id' => 'color-code-medical', 'image' => 'Oxygen_Fix.webp'],
                 ['id' => 'color-code-industrial', 'image' => '20260618_134406.webp'],
             ],
-            'package' => [
-                ['id' => 'package-high-pressure', 'image' => '20260618_134436.webp'],
+            'cradle-2x2' => [
+                ['id' => 'cradle-2x2', 'image' => 'Craddle_3x2.webp'],
+            ],
+            'cradle-3x2' => [
                 ['id' => 'cradle-3x2', 'image' => 'Craddle_3x2.webp'],
+            ],
+            'cradle-3x3' => [
+                ['id' => 'cradle-3x3', 'image' => 'Craddle_4x4_fixed.webp'],
+            ],
+            'cradle-4x4' => [
                 ['id' => 'cradle-4x4', 'image' => 'Craddle_4x4_fixed.webp'],
+            ],
+            'cylinder' => [
+                ['id' => 'package-high-pressure', 'image' => '20260618_134436.webp'],
+            ],
+            'cryogenic-dewars' => [
                 ['id' => 'cryogenic-dewars', 'image' => 'Cryogenic_Dewar.webp'],
+            ],
+            'vessel-gas-liquid' => [
                 ['id' => 'vessel-gas-liquid', 'image' => 'VGL.webp'],
+            ],
+            'microbulk-tank' => [
                 ['id' => 'microbulk-tank', 'image' => 'Microbulk_.webp'],
-                ['id' => 'vertical-storage-tank', 'image' => 'Vertical_Tank.webp'],
+            ],
+            'iso-tank' => [
+                ['id' => 'iso-tank', 'image' => 'ISO_Tank.webp'],
+            ],
+            'lorry-tank' => [
+                ['id' => 'lorry-tank', 'image' => 'Road_tank.webp'],
             ],
             'assist-gas' => [
-                ['id' => 'assist-gas-cradle-4x4', 'image' => 'Assist_Gas_Supply.webp'],
+                ['id' => 'assist-gas-cradle-4x4', 'image' => 'Craddle_4x4_fixed.webp'],
                 ['id' => 'microbulk-gas-supply', 'image' => 'Microbulk_Gas_Supply.webp'],
                 ['id' => 'storage-tank-gas-supply', 'image' => 'Storage_Tank_Gas.webp'],
             ],

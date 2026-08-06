@@ -90,7 +90,7 @@
 .career-hero-bg {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url('/images/products/20260618_135557.webp');
+  background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 33, 63, 0.88) 55%, rgba(15, 23, 42, 0.97) 100%), url('/images/office/wp.jpg');
   background-size: cover;
   background-position: center 65%;
   z-index: 0;

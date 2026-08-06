@@ -240,14 +240,14 @@ class ProductController extends Controller
         return $pos !== false ? substr($url, $pos + strlen($marker)) : $url;
     }
 
-    private function storeGalleryFiles(Request $request): array
+    private function storeGalleryFiles(Request $request, string $disk = 'public'): array
     {
         if (!$request->hasFile('gallery')) {
             return [];
         }
 
         return collect($request->file('gallery'))
-            ->map(fn ($file) => $file->store('products/gallery', 'public'))
+            ->map(fn ($file) => $file->store('products/gallery', $disk))
             ->values()
             ->all();
     }
@@ -255,6 +255,9 @@ class ProductController extends Controller
     private function toPublicProduct(Product $p, string $lang, bool $full = false): array
     {
         $description = $p->{"description_$lang"} ?: $p->description_id;
+
+        // Generate proper image URL that works across environments
+        $imageUrl = $this->generateImageUrl($p->image);
 
         $data = [
             'id' => $p->slug,
@@ -271,6 +274,18 @@ class ProductController extends Controller
         }
 
         return $data;
+    }
+
+    private function generateImageUrl(string $path): string
+    {
+        // If path is already a full URL, return it as-is
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Use API endpoint to serve images (works around Railway storage link issues)
+        $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
+        return "{$baseUrl}/api/v1/image/" . urlencode($path);
     }
 
     private function toAdminArray(Product $p): array

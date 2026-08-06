@@ -20,6 +20,11 @@ class CorsMiddleware
         $originsArray = array_map('trim', explode(',', $allowedOrigins));
         $requestOrigin = $request->header('Origin');
 
+        // For image requests, always allow CORS
+        $isImageRequest = str_contains($request->path(), 'storage') || 
+                           str_contains($request->path(), 'products') ||
+                           $request->is('storage/*');
+
         // Only reflect the origin back when it's actually on the allow-list. Falling back
         // to the first configured origin for unrecognized origins would advertise an
         // Access-Control-Allow-Origin that doesn't match the real request origin.
@@ -32,9 +37,14 @@ class CorsMiddleware
                 ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
                 ->header('Access-Control-Max-Age', '86400');
 
-            if ($allowedOrigin !== null) {
-                $preflight->header('Access-Control-Allow-Origin', $allowedOrigin)
-                    ->header('Access-Control-Allow-Credentials', 'true');
+            if ($allowedOrigin !== null || $isImageRequest) {
+                $preflight->header('Access-Control-Allow-Origin', $allowedOrigin ?: '*');
+                if ($allowedOrigin) {
+                    $preflight->header('Access-Control-Allow-Credentials', 'true');
+                }
+            } else {
+                // For development/debugging, allow all origins for OPTIONS requests
+                $preflight->header('Access-Control-Allow-Origin', '*');
             }
 
             return $preflight;
@@ -42,16 +52,26 @@ class CorsMiddleware
 
         $response = $next($request);
 
-        // Add CORS headers to all responses, only when the origin is recognized.
-        if ($allowedOrigin !== null) {
-            $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        // Add CORS headers to all responses, including 404s
+        if ($allowedOrigin !== null || $isImageRequest) {
+            $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin ?: '*');
+            if ($allowedOrigin) {
+                $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            }
+        } else {
+            // For development/debugging, allow all origins for non-OPTIONS requests
+            $response->headers->set('Access-Control-Allow-Origin', '*');
         }
         $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept');
-        
+
         // Add CORS headers for images and static files
         $response->headers->set('Access-Control-Expose-Headers', 'Content-Length, Content-Type');
+        
+        // Add cache control headers for images
+        if ($isImageRequest) {
+            $response->headers->set('Cache-Control', 'public, max-age=31536000');
+        }
 
         return $response;
     }
