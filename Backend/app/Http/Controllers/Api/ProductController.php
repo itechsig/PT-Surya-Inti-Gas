@@ -7,6 +7,7 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -263,11 +264,11 @@ class ProductController extends Controller
             'title' => $p->{"name_$lang"} ?: $p->name_id,
             'description' => $description,
             'fullDescription' => $p->{"full_description_$lang"} ?: $p->full_description_id ?: $description,
-            'image' => $imageUrl,
+            'image' => ImageUrl::resolve($p->image),
         ];
 
         if ($full) {
-            $data['gallery'] = collect($p->gallery ?? [])->map(fn ($path) => $this->generateImageUrl($path))->values();
+            $data['gallery'] = collect($p->gallery ?? [])->map(fn ($path) => ImageUrl::resolve($path))->values();
             $data['specifications'] = $p->specifications ?? [];
             $data['isFeatured'] = $p->is_featured;
         }
@@ -302,8 +303,8 @@ class ProductController extends Controller
             'name_id' => $p->name_id, 'name_en' => $p->name_en, 'name_zh' => $p->name_zh,
             'description_id' => $p->description_id, 'description_en' => $p->description_en, 'description_zh' => $p->description_zh,
             'full_description_id' => $p->full_description_id, 'full_description_en' => $p->full_description_en, 'full_description_zh' => $p->full_description_zh,
-            'image' => $this->generateImageUrl($p->image),
-            'gallery' => collect($p->gallery ?? [])->map(fn ($path) => $this->generateImageUrl($path))->values(),
+            'image' => ImageUrl::resolve($p->image),
+            'gallery' => collect($p->gallery ?? [])->map(fn ($path) => ImageUrl::resolve($path))->values(),
             'specifications' => $p->specifications ?? [],
             'is_featured' => $p->is_featured,
             'display_order' => $p->display_order,

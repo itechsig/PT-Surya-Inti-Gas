@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GalleryItem\StoreGalleryItemRequest;
 use App\Http\Requests\GalleryItem\UpdateGalleryItemRequest;
 use App\Models\GalleryItem;
+use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -176,21 +177,10 @@ class GalleryController extends Controller
         }
     }
 
-    private function resolveImageUrl(string $image): string
-    {
-        if (str_starts_with($image, 'http://') || str_starts_with($image, 'https://')) {
-            return $image;
-        }
-
-        // Use API endpoint to serve images (works around Railway storage link issues)
-        $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
-        return "{$baseUrl}/api/v1/image/" . urlencode($image);
-    }
-
     private function toPublicArray(GalleryItem $item, string $lang): array
     {
         $title = $item->{"title_$lang"} ?: $item->title_id;
-        $imageUrl = $this->resolveImageUrl($item->image);
+        $imageUrl = ImageUrl::resolve($item->image);
 
         return [
             'id' => (string) $item->id,
@@ -222,7 +212,7 @@ class GalleryController extends Controller
             'category' => $item->category,
             'year' => $item->year,
             'size' => $item->size,
-            'image' => $this->resolveImageUrl($item->image),
+            'image' => ImageUrl::resolve($item->image),
             'display_order' => $item->display_order,
             'is_active' => $item->is_active,
             'created_at' => $item->created_at,
