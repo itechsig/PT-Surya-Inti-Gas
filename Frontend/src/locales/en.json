@@ -50,7 +50,7 @@
       "company": {
         "subtitle": "Trusted Industrial Gas Supplier",
         "title": "PT Surya Inti Gas",
-        "description": "Providing high-quality industrial gases for manufacturing, healthcare, food processing, welding, laboratories, and many other industries with reliable distribution and excellent service."
+        "description": "Providing high-quality industrial gases for manufacturing, healthcare, food processing, welding, laboratories, and many other industries with trusted and reliable service."
       },
       "oxygen": {
         "subtitle": "High Purity Oxygen",
@@ -58,14 +58,14 @@
         "description": "Supports hospitals, laboratories, metal fabrication, welding, and industrial manufacturing processes with high purity and consistent quality."
       },
       "nitrogen": {
-        "subtitle": "Reliable Nitrogen Supply",
+        "subtitle": "Precision Gas Supply",
         "title": "Nitrogen (N₂)",
         "description": "Ideal for food preservation, electronics, laboratories, pharmaceuticals, and industrial production requiring stable nitrogen gas."
       },
       "co2": {
         "subtitle": "Food Grade & Industrial",
         "title": "Carbon Dioxide (CO₂)",
-        "description": "Suitable for beverage industries, food processing, fire suppression systems, welding, and industrial applications."
+        "description": "Ideal for beverage industries, food processing, fire suppression systems, welding, and industrial applications."
       },
       "hidrogen": {
         "subtitle": "Clean Fuel Gas",
@@ -163,7 +163,7 @@
         "shortDescription": "Premium storage and handling solutions"
       },
       "services": {
-        "title": "Engineering Services",
+        "title": "Services",
         "description": "Professional installation, delivery, and refilling services with expert technical support.",
         "shortDescription": "End-to-end gas service solutions"
       }
@@ -980,7 +980,7 @@
         "description": "PT Surya Inti Gas's head office is located in Sidoarjo, East Java."
       },
       "pabrik-balikpapan": {
-        "name": "Filling Station",
+        "name": "Gas Filling Station",
         "region": "East Kalimantan",
         "shortDescription": "Industrial gas production plant and filling station.",
         "description": "PT Surya Inti Gas's plant and filling station is located in Balikpapan, East Kalimantan."

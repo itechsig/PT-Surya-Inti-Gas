@@ -52,11 +52,11 @@ const knowledgeBase = {
   
   "apa saja bidang usaha pt surya inti gas": "Bidang usaha PT Surya Inti Gas meliputi penyediaan gas industri dan medis untuk berbagai sektor: Manufaktur (pengelasan, pemotongan logam, metalurgi), Kesehatan (rumah sakit, klinik, terapi pernapasan), Energi (minyak dan gas, pembangkit listrik), Infrastruktur (konstruksi, proyek engineering), Makanan dan Minuman (pengawetan, pendinginan), dan Elektronik (semikonduktor, sirkuit).",
 
-  "cabang": "Ya, PT Surya Inti Gas memiliki cabang di Balikpapan, Kalimantan Timur. Kantor pusat kami berada di Sidoarjo, Jawa Timur, dan kami memiliki pabrik serta stasiun pengisian di Balikpapan.",
+  "cabang": "Ya, PT Surya Inti Gas memiliki cabang di Balikpapan, Kalimantan Timur. Kantor pusat kami berada di Sidoarjo, Jawa Timur, dan kami memiliki pabrik serta stasiun pengisian gas di Balikpapan.",
   
-  "apakah pt surya inti gas memiliki cabang": "Ya, PT Surya Inti Gas memiliki cabang di Balikpapan, Kalimantan Timur. Kantor pusat kami berada di Sidoarjo, Jawa Timur, dan kami memiliki pabrik serta stasiun pengisian di Balikpapan.",
+  "apakah pt surya inti gas memiliki cabang": "Ya, PT Surya Inti Gas memiliki cabang di Balikpapan, Kalimantan Timur. Kantor pusat kami berada di Sidoarjo, Jawa Timur, dan kami memiliki pabrik serta stasiun pengisian gas di Balikpapan.",
 
-  "lokasi": "Kami memiliki dua lokasi utama: 1) Kantor Pusat di Komplek Pergudangan dan Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232. 2) Pabrik dan Stasiun Pengisian di Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur.",
+  "lokasi": "Kami memiliki dua lokasi utama: 1) Kantor Pusat di Komplek Pergudangan dan Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232. 2) Pabrik dan Stasiun Pengisian Gas di Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur.",
   
   "di mana lokasi kantor pusat pt surya inti gas": "Kantor Pusat PT Surya Inti Gas berlokasi di Komplek Pergudangan dan Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232.",
 

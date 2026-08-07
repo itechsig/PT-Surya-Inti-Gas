@@ -429,9 +429,9 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Stasiun Pengisian Column */}
+          {/* Stasiun Pengisian Gas Column */}
           <div className="corporate-footer-column">
-            <div className="corporate-footer-contact-title">Stasiun Pengisian</div>
+            <div className="corporate-footer-contact-title">{t('distribution.locations.pabrik-balikpapan.name')}</div>
             <div className="corporate-footer-contact">
               <a href="tel:+625428531991" className="corporate-footer-contact-item">
                 <Phone />

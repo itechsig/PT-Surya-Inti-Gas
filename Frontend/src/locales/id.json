@@ -50,7 +50,7 @@
       "company": {
         "subtitle": "Pemasok Gas Industri Terpercaya",
         "title": "PT Surya Inti Gas",
-        "description": "Menyediakan gas industri berkualitas tinggi untuk manufaktur, kesehatan, pengolahan makanan, pengelasan, laboratorium, dan berbagai industri lainnya dengan distribusi yang andal serta layanan yang unggul."
+        "description": "Menyediakan gas industri berkualitas tinggi untuk manufaktur, kesehatan, pengolahan makanan, pengelasan, laboratorium, dan berbagai industri lainnya dengan layanan yang terpercaya dan dapat diandalkan."
       },
       "oxygen": {
         "subtitle": "Oksigen Kemurnian Tinggi",
@@ -58,14 +58,14 @@
         "description": "Mendukung rumah sakit, laboratorium, fabrikasi logam, pengelasan, dan proses manufaktur industri dengan kemurnian tinggi serta kualitas yang konsisten."
       },
       "nitrogen": {
-        "subtitle": "Pasokan Nitrogen yang Andal",
+        "subtitle": "Pasokan Gas Presisi",
         "title": "Nitrogen (N₂)",
         "description": "Ideal untuk pengawetan makanan, elektronik, laboratorium, farmasi, dan produksi industri yang membutuhkan gas nitrogen yang stabil."
       },
       "co2": {
         "subtitle": "Food Grade & Industri",
         "title": "Karbon Dioksida (CO₂)",
-        "description": "Cocok untuk industri minuman, pengolahan makanan, sistem pemadam kebakaran, pengelasan, dan berbagai aplikasi industri."
+        "description": "Ideal untuk industri minuman, pengolahan makanan, sistem pemadam kebakaran, pengelasan, dan berbagai aplikasi industri."
       },
       "hidrogen": {
         "subtitle": "Gas Bahan Bakar Bersih",
@@ -163,7 +163,7 @@
         "shortDescription": "Solusi penyimpanan dan penanganan premium"
       },
       "services": {
-        "title": "Layanan Engineering",
+        "title": "Layanan",
         "description": "Instalasi profesional, pengiriman, dan layanan pengisian ulang dengan dukungan teknis ahli.",
         "shortDescription": "Solusi layanan gas end-to-end"
       }
@@ -990,7 +990,7 @@
         "description": "Kantor pusat PT Surya Inti Gas berlokasi di Sidoarjo, Jawa Timur."
       },
       "pabrik-balikpapan": {
-        "name": "Stasiun Pengisian",
+        "name": "Stasiun Pengisian Gas",
         "region": "Kalimantan Timur",
         "shortDescription": "Pabrik produksi dan stasiun pengisian gas industri.",
         "description": "Pabrik dan stasiun pengisian PT Surya Inti Gas berlokasi di Balikpapan, Kalimantan Timur."

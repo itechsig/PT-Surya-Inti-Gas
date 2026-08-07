@@ -263,16 +263,16 @@ export function IndustriesServed() {
     {
       id: 'manufaktur',
       title: t('industriesServed.industries.manufaktur'),
-      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
-      imageSrcSet: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80 800w',
+      image: 'https://images.unsplash.com/photo-1565514020146-0869b8965896?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1565514020146-0869b8965896?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1565514020146-0869b8965896?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
       height: 533
     },
     {
       id: 'kesehatan',
       title: t('industriesServed.industries.kesehatan'),
-      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
-      imageSrcSet: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80 800w',
+      image: 'https://images.unsplash.com/photo-1766299892683-d50398e31823?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1766299892683-d50398e31823?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1766299892683-d50398e31823?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
       height: 533
     },
@@ -287,8 +287,8 @@ export function IndustriesServed() {
     {
       id: 'minyak-gas',
       title: t('industriesServed.industries.minyak-gas'),
-      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
-      imageSrcSet: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80 800w',
+      image: 'https://images.unsplash.com/photo-1771575519808-53cdb4c36fa5?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1771575519808-53cdb4c36fa5?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1771575519808-53cdb4c36fa5?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
       height: 533
     },
@@ -303,8 +303,8 @@ export function IndustriesServed() {
     {
       id: 'konstruksi',
       title: t('industriesServed.industries.konstruksi'),
-      image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
-      imageSrcSet: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80 800w',
+      image: 'https://images.unsplash.com/photo-1689961476750-43475ea1cc1b?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1689961476750-43475ea1cc1b?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1689961476750-43475ea1cc1b?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
       height: 533
     }

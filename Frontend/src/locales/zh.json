@@ -50,7 +50,7 @@
       "company": {
         "subtitle": "值得信赖的工业气体供应商",
         "title": "PT Surya Inti Gas",
-        "description": "为制造业、医疗保健、食品加工、焊接、实验室及众多其他行业提供高质量工业气体，并保证可靠的配送与优质的服务。"
+        "description": "为制造业、医疗保健、食品加工、焊接、实验室及众多其他行业提供高质量工业气体，并保证值得信赖和可靠的服务。"
       },
       "oxygen": {
         "subtitle": "高纯度氧气",
@@ -58,14 +58,14 @@
         "description": "以高纯度和稳定的品质支持医院、实验室、金属加工、焊接及工业制造流程。"
       },
       "nitrogen": {
-        "subtitle": "可靠的氮气供应",
+        "subtitle": "精密气体供应",
         "title": "氮气 (N₂)",
         "description": "适用于食品保鲜、电子、实验室、制药以及需要稳定氮气的工业生产。"
       },
       "co2": {
         "subtitle": "食品级与工业级",
         "title": "二氧化碳 (CO₂)",
-        "description": "适用于饮料行业、食品加工、消防系统、焊接及工业应用。"
+        "description": "理想用于饮料行业、食品加工、消防系统、焊接及工业应用。"
       },
       "hidrogen": {
         "subtitle": "清洁燃料气体",
@@ -153,7 +153,7 @@
         "shortDescription": "优质储存和处理解决方案"
       },
       "services": {
-        "title": "工程服务",
+        "title": "服务",
         "description": "专业安装、交付和再充装服务，提供专业技术支持。",
         "shortDescription": "端到端气体服务解决方案"
       }
@@ -293,7 +293,7 @@
         "description": "PT Surya Inti Gas总部位于东爪哇泗水。"
       },
       "pabrik-balikpapan": {
-        "name": "灌装站",
+        "name": "气体灌装站",
         "region": "东加里曼丹",
         "shortDescription": "工业气体生产工厂及灌装站。",
         "description": "PT Surya Inti Gas的工厂及灌装站位于东加里曼丹巴厘巴板。"
