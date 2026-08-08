@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\HeroSlide\StoreHeroSlideRequest;
 use App\Http\Requests\HeroSlide\UpdateHeroSlideRequest;
 use App\Models\HeroSlide;
+use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -175,7 +176,7 @@ class HeroSlideController extends Controller
     {
         return [
             'id' => $slide->id,
-            'image' => $this->generateImageUrl($slide->image),
+            'image' => ImageUrl::resolve($slide->image),
             'title' => $slide->{"title_$lang"} ?: $slide->title_id,
             'subtitle' => $slide->{"subtitle_$lang"} ?: $slide->subtitle_id,
             'description' => $slide->{"description_$lang"} ?: $slide->description_id,
@@ -197,7 +198,7 @@ class HeroSlideController extends Controller
             'description_id' => $slide->description_id,
             'description_en' => $slide->description_en,
             'description_zh' => $slide->description_zh,
-            'image' => $this->generateImageUrl($slide->image),
+            'image' => ImageUrl::resolve($slide->image),
             'cta_path' => $slide->cta_path,
             'duration_ms' => $slide->duration_ms,
             'display_order' => $slide->display_order,
@@ -207,15 +208,4 @@ class HeroSlideController extends Controller
         ];
     }
 
-    private function generateImageUrl(string $path): string
-    {
-        // If path is already a full URL, return it as-is
-        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            return $path;
-        }
-
-        // Use API endpoint to serve images (works around Railway storage link issues)
-        $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
-        return "{$baseUrl}/api/v1/image/" . urlencode($path);
-    }
 }

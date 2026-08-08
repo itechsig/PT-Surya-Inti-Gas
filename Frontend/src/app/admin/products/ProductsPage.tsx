@@ -17,7 +17,7 @@ import {
 } from './api';
 import { ProductFormDialog } from './ProductFormDialog';
 import { MAIN_CATEGORY_LABELS, type AdminProduct, type AdminProductCategory } from './types';
-import { fixImageUrl } from '../../../utils/imageUrl';
+import { getImageUrl } from '../../../utils/imageUrl';
 
 export function ProductsPage() {
   const { hasRole } = useAuth();
@@ -152,7 +152,7 @@ export function ProductsPage() {
                 {filteredProducts.map((product) => (
                   <TableRow key={product.id}>
                     <TableCell>
-                      <img src={fixImageUrl(product.image)} alt={product.name_id} className="h-12 w-12 rounded object-cover" />
+                      <img src={getImageUrl(product.image)} alt={product.name_id} className="h-12 w-12 rounded object-cover" />
                     </TableCell>
                     <TableCell>
                       <div className="font-medium">{product.name_id}</div>

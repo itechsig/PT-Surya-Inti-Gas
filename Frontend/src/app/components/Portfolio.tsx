@@ -16,6 +16,7 @@ import { usePortfolioCatalog } from '../../hooks/usePortfolioCatalog';
 import { useIndustries } from '../../hooks/useIndustries';
 import { useServiceTypes } from '../../hooks/useServiceTypes';
 import type { PortfolioSummary } from '../../data/portfolio';
+import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
 
 export function PortfolioCard({ item, currentLang }: { item: PortfolioSummary; currentLang: string }) {
   const navigate = useNavigate();
@@ -24,7 +25,12 @@ export function PortfolioCard({ item, currentLang }: { item: PortfolioSummary; c
   return (
     <div className="portfolio-card" onClick={() => navigate(`/${currentLang}/portofolio/${item.id}`)}>
       <div className="portfolio-card-image">
-        <img src={item.thumbnail} alt={item.title} loading="lazy" />
+        <img
+          src={getImageUrl(item.thumbnail)}
+          alt={item.title}
+          loading="lazy"
+          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
+        />
       </div>
       <div className="portfolio-card-content">
         <h3 className="portfolio-card-title">{item.title}</h3>
@@ -116,7 +122,7 @@ export function Portfolio() {
       <PageHero
         title={t('portfolio.page.title')}
         subtitle={t('portfolio.page.subtitle')}
-        backgroundImage="/images/products/20260618_135557.webp"
+        backgroundImage="/images/office/wp.jpg"
         breadcrumbs={[
           // { label: t('header.home'), href: `/${currentLang}` },
           // { label: t('portfolio.page.title') },
@@ -215,7 +221,7 @@ export function Portfolio() {
           </div>
         )}
       </div>
-
+        
       <div className="portfolio-cta">
         <h2 className="portfolio-cta-title">{t('portfolio.cta.title')}</h2>
         <p className="portfolio-cta-subtitle">{t('portfolio.cta.subtitle')}</p>

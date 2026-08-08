@@ -9,6 +9,7 @@ import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
 import { Skeleton } from './ui/skeleton';
 import { usePortfolioDetail } from '../../hooks/usePortfolioDetail';
+import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
 
 export function PortfolioDetail() {
   const { lang, slug } = useParams<{ lang: string; slug: string }>();
@@ -60,7 +61,7 @@ export function PortfolioDetail() {
         <meta name="description" content={portfolio.summary} />
         <meta property="og:title" content={portfolio.title} />
         <meta property="og:description" content={portfolio.summary} />
-        <meta property="og:image" content={portfolio.thumbnail} />
+        <meta property="og:image" content={getImageUrl(portfolio.thumbnail)} />
         <meta property="og:type" content="article" />
         <link rel="canonical" href={`https://suryaintigas.com/${currentLang}/portofolio/${portfolio.id}`} />
       </Helmet>
@@ -81,7 +82,11 @@ export function PortfolioDetail() {
         </button>
 
         <div className="portfolio-detail-hero-image">
-          <img src={portfolio.thumbnail} alt={portfolio.title} />
+          <img
+            src={getImageUrl(portfolio.thumbnail)}
+            alt={portfolio.title}
+            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
+          />
         </div>
 
         <div className="portfolio-detail-facts">
@@ -112,7 +117,12 @@ export function PortfolioDetail() {
             <div className="portfolio-gallery-grid">
               {portfolio.gallery.map((img, i) => (
                 <div key={i} className="portfolio-gallery-thumb" onClick={() => setLightboxIndex(i)}>
-                  <img src={img.image} alt={img.caption || portfolio.title} loading="lazy" />
+                  <img
+                    src={getImageUrl(img.image)}
+                    alt={img.caption || portfolio.title}
+                    loading="lazy"
+                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
+                  />
                 </div>
               ))}
             </div>
@@ -120,7 +130,7 @@ export function PortfolioDetail() {
               open={lightboxIndex !== null}
               index={lightboxIndex ?? 0}
               close={() => setLightboxIndex(null)}
-              slides={portfolio.gallery.map((img) => ({ src: img.image, alt: img.caption ?? portfolio.title }))}
+              slides={portfolio.gallery.map((img) => ({ src: getImageUrl(img.image), alt: img.caption ?? portfolio.title }))}
             />
           </>
         )}

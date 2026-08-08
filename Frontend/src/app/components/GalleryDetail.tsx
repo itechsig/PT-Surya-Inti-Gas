@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { useGallery } from '../../hooks/useGallery';
+import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
 
 // Styles
 const galleryDetailStyles = `
@@ -468,9 +469,10 @@ function GalleryDetail() {
         <div className="gallery-detail-content">
           <div className="gallery-detail-image-container">
             <img
-              src={currentItem.fullSize}
+              src={getImageUrl(currentItem.fullSize)}
               alt={currentItem.alt}
               className="gallery-detail-image"
+              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
             />
           </div>
 
@@ -491,7 +493,11 @@ function GalleryDetail() {
                   className="related-gallery-item"
                   onClick={() => navigate(`/${currentLang}/galeri/${item.id}`)}
                 >
-                  <img src={item.thumbnail} alt={item.alt} />
+                  <img
+                    src={getImageUrl(item.thumbnail)}
+                    alt={item.alt}
+                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
+                  />
                   <div className="related-gallery-item-title">{item.title}</div>
                 </div>
               ))}
@@ -520,9 +526,10 @@ function GalleryDetail() {
             </button>
 
             <img
-              src={galleryItems[currentImageIndex].fullSize}
+              src={getImageUrl(galleryItems[currentImageIndex].fullSize)}
               alt={galleryItems[currentImageIndex].alt}
               className="lightbox-image"
+              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
             />
 
             <button

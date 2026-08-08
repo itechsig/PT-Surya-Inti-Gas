@@ -11,7 +11,7 @@ import {
 import '../../styles/ProductsAndServices.css';
 import { mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
-import { fixImageUrl } from "../../utils/imageUrl";
+import { getImageUrl } from "../../utils/imageUrl";
 
 /* ═══════════════════════════════════════════════════════════════
    PRODUCT.TSX — PT Surya Inti Gas Corporate
@@ -44,7 +44,7 @@ function ProductCard({ product, onClick, mainCategory }: { product: Product; onC
           </div>
         ) : (
           <img
-            src={fixImageUrl(product.image)}
+            src={getImageUrl(product.image)}
             alt={product.title}
             onError={() => setImageError(true)}
           />

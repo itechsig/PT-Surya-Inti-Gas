@@ -6,6 +6,7 @@ import { ChevronDown } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
 import type { GalleryItem } from '../../data/gallery';
 import { useGallery } from '../../hooks/useGallery';
+import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -484,13 +485,14 @@ function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: st
       >
         <div className="ui-gallery-thumbnail uk-display-block uk-card-media-top tz-image-cover" style={{ height: '100%' }}>
           <img
-            src={item.thumbnail}
+            src={getImageUrl(item.thumbnail)}
             alt={item.alt}
             loading="lazy"
             width="400"
             height="250"
             className={`gallery-image ${isHovered ? 'dimmed' : ''}`}
             style={{ height: '100%' }}
+            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
           />
           <div className={`gallery-hover-overlay ${isHovered ? 'visible' : ''}`}>
             <h3 className="gallery-hover-title">
