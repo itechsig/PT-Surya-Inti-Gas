@@ -122,7 +122,7 @@ export function Portfolio() {
       <PageHero
         title={t('portfolio.page.title')}
         subtitle={t('portfolio.page.subtitle')}
-        backgroundImage="/images/products/20260618_135557.webp"
+        backgroundImage="/images/office/wp.jpg"
         breadcrumbs={[
           // { label: t('header.home'), href: `/${currentLang}` },
           // { label: t('portfolio.page.title') },
