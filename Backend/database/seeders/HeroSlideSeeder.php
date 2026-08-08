@@ -30,7 +30,7 @@ class HeroSlideSeeder extends Seeder
                 'description_zh' => '为制造业、医疗保健、食品加工、焊接、实验室及众多其他行业提供高质量工业气体，并保证可靠的配送与优质的服务。',
             ],
             [
-                'source_image' => 'Oxygen-optimized.webp',
+                'source_image' => 'Oxygen_Fix.webp',
                 'cta_path' => 'produk/detail?id=oxygen',
                 'title_id' => 'Oksigen (O₂)', 'title_en' => 'Oxygen (O₂)', 'title_zh' => '氧气 (O₂)',
                 'subtitle_id' => 'Oksigen Kemurnian Tinggi', 'subtitle_en' => 'High Purity Oxygen', 'subtitle_zh' => '高纯度氧气',
@@ -39,7 +39,7 @@ class HeroSlideSeeder extends Seeder
                 'description_zh' => '以高纯度和稳定的品质支持医院、实验室、金属加工、焊接及工业制造流程。',
             ],
             [
-                'source_image' => 'Nitrogen-optimized.webp',
+                'source_image' => 'Nitrogen_Fix.webp',
                 'cta_path' => 'produk/detail?id=nitrogen',
                 'title_id' => 'Nitrogen (N₂)', 'title_en' => 'Nitrogen (N₂)', 'title_zh' => '氮气 (N₂)',
                 'subtitle_id' => 'Pasokan Nitrogen yang Andal', 'subtitle_en' => 'Reliable Nitrogen Supply', 'subtitle_zh' => '可靠的氮气供应',
@@ -57,7 +57,7 @@ class HeroSlideSeeder extends Seeder
                 'description_zh' => '适用于饮料行业、食品加工、消防系统、焊接及工业应用。',
             ],
             [
-                'source_image' => 'Argon-optimized.webp',
+                'source_image' => 'Argon_Fix.webp',
                 'cta_path' => 'produk/detail?id=argon',
                 'title_id' => 'Argon & Gas Khusus', 'title_en' => 'Argon & Specialty Gas', 'title_zh' => '氩气与特种气体',
                 'subtitle_id' => 'Solusi Gas Presisi', 'subtitle_en' => 'Precision Gas Solution', 'subtitle_zh' => '精密气体解决方案',

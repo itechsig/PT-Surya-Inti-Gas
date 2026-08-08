@@ -1,46 +1,37 @@
+import { API_CONFIG } from '../config/api';
+
 /**
- * Utility function to fix image URLs that might be using localhost or incorrect paths
- * This is a temporary workaround until Railway deployment is complete
+ * The backend always returns image fields as absolute URLs already routed through
+ * `/api/v1/image/{path}` (ImageController reads the file straight off the `public` disk -
+ * see PortfolioController::imageUrl / ProductController::generateImageUrl / etc.). That
+ * endpoint exists specifically because Railway's `/storage` symlink is unreliable, so this
+ * helper must never rewrite a URL back onto `/storage/...` - it only re-anchors URLs that
+ * were baked with a stale/localhost APP_URL onto the current API host.
  */
 export function fixImageUrl(url: string | null | undefined): string {
-  if (!url) return '/placeholder-image.png';
-  
-  // If it's already a proper HTTPS URL and not using localhost, return as-is
+  if (!url) return '';
+
+  // Already a correctly-hosted absolute URL - nothing to do.
   if (url.startsWith('https://') && !url.includes('localhost')) return url;
-  
-  // Replace localhost URLs with Railway production URL using storage link
-  if (url.startsWith('http://localhost/api/v1/image/')) {
-    const path = url.replace('http://localhost/api/v1/image/', '');
-    // Use storage link instead of API endpoint since API not deployed yet
-    return `https://ptsuryaintigas-production.up.railway.app/storage/${path}`;
+
+  // Baked with a dev/stale APP_URL (e.g. http://localhost:8000/api/v1/image/...) - keep the
+  // path, just point it at the real API host.
+  if (url.startsWith('http://localhost') || url.startsWith('http://127.0.0.1')) {
+    const path = url.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/, '');
+    return `${API_CONFIG.BASE_URL}${path}`;
   }
-  
-  // Replace localhost URLs with Railway production URL
-  if (url.startsWith('http://localhost')) {
-    return url.replace('http://localhost', 'https://ptsuryaintigas-production.up.railway.app');
-  }
-  
-  // Replace HTTP URLs with HTTPS
-  if (url.startsWith('http://') && !url.includes('localhost')) {
-    return url.replace('http://', 'https://');
-  }
-  
-  // If it's a relative path starting with /storage/, try storage link
-  if (url.startsWith('/storage/')) {
-    return `https://ptsuryaintigas-production.up.railway.app${url}`;
-  }
-  
-  // If it's a relative path starting with /images/, try to make it work with storage
-  if (url.startsWith('/images/')) {
-    const path = url.replace('/images/', '');
-    return `https://ptsuryaintigas-production.up.railway.app/storage/${path}`;
-  }
-  
-  // If it's a relative path without leading slash, try storage
-  if (!url.startsWith('http') && !url.startsWith('/')) {
-    return `https://ptsuryaintigas-production.up.railway.app/storage/${url}`;
-  }
-  
-  // Return as-is if we can't determine the pattern
-  return url;
+
+  // Any other absolute URL (http upgraded to https, or an external/CDN URL) - trust it.
+  if (url.startsWith('http://')) return url.replace('http://', 'https://');
+  if (url.startsWith('https://')) return url;
+
+  // A root-relative path that isn't a storage path is a local static asset served from
+  // Frontend/public (e.g. "/images/products/Oxygen_Fix.webp") - leave it as-is.
+  if (url.startsWith('/') && !url.startsWith('/storage/')) return url;
+
+  // Legacy/relative storage path (e.g. "products/foo.webp" or "/storage/products/foo.webp") -
+  // route it through the same API image endpoint the backend itself uses, not the unreliable
+  // storage symlink.
+  const relativePath = url.replace(/^\/?storage\//, '');
+  return `${API_CONFIG.BASE_URL}/api/v1/image/${encodeURIComponent(relativePath)}`;
 }

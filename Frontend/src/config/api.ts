@@ -30,14 +30,13 @@ export const API_ENDPOINTS = {
   FEEDBACK: '/api/v1/chatbot/feedback',
 
   // Admin endpoints (require authentication)
-  FEEDBACK_STATS: '/api/v1/admin/chatbot/feedback/stats',
+  FEEDBACK_STATS: '/api/v1/admin/chatbot/analytics/feedback',
   ANALYTICS: '/api/v1/admin/chatbot/analytics',
 
   // Dashboard endpoints (admin)
   DASHBOARD_OVERVIEW: '/api/v1/admin/dashboard/overview',
   DASHBOARD_CONTACTS: '/api/v1/admin/dashboard/contacts',
   DASHBOARD_CONTACT_DETAILS: '/api/v1/admin/dashboard/contacts',
-  DASHBOARD_ANALYTICS: '/api/v1/admin/dashboard/analytics',
 
   // AI Agent endpoints (admin)
   AI_AGENT_STATUS: '/api/v1/admin/ai-agent/status',
@@ -117,7 +116,6 @@ export const API_ENDPOINTS = {
   CERTIFICATIONS: '/api/v1/certifications',
   CONTACT: '/api/v1/contact',
   CAREER: '/api/v1/career',
-  HEALTH: '/api/v1/health',
 };
 
 export const getApiUrl = (endpoint: string): string => {

@@ -20,15 +20,15 @@ class GalleryItemSeeder extends Seeder
         }
 
         $structure = [
-            ['id' => 'oxygen', 'image' => '/images/products/Oxygen-optimized.webp', 'category' => 'products', 'year' => 2007, 'size' => 'medium'],
-            ['id' => 'nitrogen', 'image' => '/images/products/Nitrogen-optimized.webp', 'category' => 'products', 'year' => 2008, 'size' => 'small'],
-            ['id' => 'mix-gas', 'image' => '/images/products/Mix_gas.webp', 'category' => 'products', 'year' => 2009, 'size' => 'small'],
+            ['id' => 'oxygen', 'image' => '/images/products/Oxygen_Fix.webp', 'category' => 'products', 'year' => 2007, 'size' => 'medium'],
+            ['id' => 'nitrogen', 'image' => '/images/products/Nitrogen_Fix.webp', 'category' => 'products', 'year' => 2008, 'size' => 'small'],
+            ['id' => 'mix-gas', 'image' => '/images/products/Mixed_Gas_Fix.webp', 'category' => 'products', 'year' => 2009, 'size' => 'small'],
             ['id' => 'vertical-tank', 'image' => '/images/products/Vertical_Tank.webp', 'category' => 'package', 'year' => 2010, 'size' => 'tall'],
-            ['id' => 'acetylene', 'image' => '/images/products/Acetylene-optimized.webp', 'category' => 'products', 'year' => 2011, 'size' => 'medium'],
+            ['id' => 'acetylene', 'image' => '/images/products/Acetylene_fix.webp', 'category' => 'products', 'year' => 2011, 'size' => 'medium'],
             ['id' => 'iso-tank', 'image' => '/images/products/ISO_Tank.webp', 'category' => 'package', 'year' => 2012, 'size' => 'wide'],
             ['id' => 'liquid-filling', 'image' => '/images/products/Liquid_Filling.webp', 'category' => 'facility', 'year' => 2013, 'size' => 'large'],
             ['id' => 'microbulk', 'image' => '/images/products/Microbulk.webp', 'category' => 'package', 'year' => 2014, 'size' => 'small'],
-            ['id' => 'medical-gas', 'image' => '/images/products/Medical_Gas_Cylinder.webp', 'category' => 'products', 'year' => 2015, 'size' => 'medium'],
+            ['id' => 'medical-gas', 'image' => '/images/products/Oxygen_Fix.webp', 'category' => 'products', 'year' => 2015, 'size' => 'medium'],
             ['id' => 'office-view-2', 'image' => '/images/office/office_view2.webp', 'category' => 'facility', 'year' => 2016, 'size' => 'wide'],
             ['id' => 'office-view-3', 'image' => '/images/office/office_view3.webp', 'category' => 'facility', 'year' => 2017, 'size' => 'tall'],
             ['id' => 'gas-cylinder-1', 'image' => 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop', 'category' => 'facility', 'year' => 2018, 'size' => 'large'],
