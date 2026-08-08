@@ -145,8 +145,8 @@
 /* ── Corporate Products Grid ── */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
   margin-bottom: 80px;
   contain: layout;
 }
@@ -187,9 +187,15 @@
 
 .products-card-image {
   position: relative;
-  height: 180px;
+  height: 300px;
   overflow: hidden;
   background: var(--slate-100);
+}
+
+@media (max-width: 768px) {
+  .products-card-image {
+    height: 200px;
+  }
 }
 
 .products-card-image img {
@@ -308,12 +314,14 @@
 @media (max-width: 1200px) {
   .products-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
   }
 }
 
 @media (max-width: 900px) {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
   }
 
   .products-subcategories {
@@ -368,7 +376,7 @@
 
   .products-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 24px;
   }
 
   .products-card-image {
