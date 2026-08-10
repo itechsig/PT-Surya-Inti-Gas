@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { Instagram, Mail, Phone, MapPin, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import { motion, type Variants } from "motion/react";
 
 // TikTok icon component (SVG)
 const TikTok = ({ size = 18, className = "" }: { size?: number; className?: string }) => (
@@ -371,6 +372,17 @@ const css = `
   }
 `;
 
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
 /* ═══════════════════════════════════════════════════════════════
    CORPORATE FOOTER COMPONENT
 ══════════════════════════════════════════════════════════════ */
@@ -385,10 +397,16 @@ export function Footer() {
 
       {/* Corporate Footer Main */}
       <div className="corporate-footer-main">
-        <div className="corporate-footer-grid">
+        <motion.div
+          className="corporate-footer-grid"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={staggerContainer}
+        >
 
           {/* Company Info */}
-          <div className="corporate-footer-company">
+          <motion.div className="corporate-footer-company" variants={fadeUp}>
             <a href={`/${currentLang}`} className="corporate-footer-logo">
               <img src="/logo.png" alt="PT Surya Inti Gas Logo" width="200" height="56" />
               <div className="corporate-footer-logo-text">
@@ -427,10 +445,10 @@ export function Footer() {
                 <TikTok />
               </a>
             </div>
-          </div>
+          </motion.div>
 
           {/* Stasiun Pengisian Gas Column */}
-          <div className="corporate-footer-column">
+          <motion.div className="corporate-footer-column" variants={fadeUp}>
             <div className="corporate-footer-contact-title">{t('distribution.locations.pabrik-balikpapan.name')}</div>
             <div className="corporate-footer-contact">
               <a href="tel:+625428531991" className="corporate-footer-contact-item">
@@ -446,10 +464,10 @@ export function Footer() {
                 Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* About Column */}
-          <div className="corporate-footer-column">
+          <motion.div className="corporate-footer-column" variants={fadeUp}>
             <h5 className="corporate-footer-column-title">{t('footer.about.title')}</h5>
             <nav className="corporate-footer-links">
               <Link to={`/${currentLang}/tentang-kami`} className="corporate-footer-link">
@@ -461,10 +479,10 @@ export function Footer() {
                 {t('footer.about.distribution')}
               </Link>
             </nav>
-          </div>
+          </motion.div>
 
           {/* Products Column */}
-          <div className="corporate-footer-column">
+          <motion.div className="corporate-footer-column" variants={fadeUp}>
             <h5 className="corporate-footer-column-title">{t('footer.product.title')}</h5>
             <nav className="corporate-footer-links">
               <Link to={`/${currentLang}/produk?category=gas`} className="corporate-footer-link">
@@ -480,10 +498,10 @@ export function Footer() {
                 {t('products.mainCategories.services')}
               </Link>
             </nav>
-          </div>
+          </motion.div>
 
           {/* CTA & Other Links */}
-          <div className="corporate-footer-column">
+          <motion.div className="corporate-footer-column" variants={fadeUp}>
             <h5 className="corporate-footer-column-title">{t('footer.quickLinks')}</h5>
             <nav className="corporate-footer-links">
               <Link to={`/${currentLang}/galeri`} className="corporate-footer-link">
@@ -499,14 +517,20 @@ export function Footer() {
                 {t('footer.quickLinkItems.career')}
               </Link>
             </nav>
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
       </div>
 
       {/* Corporate Footer Bottom */}
       <div className="corporate-footer-bottom">
-        <div className="corporate-footer-bottom-content">
+        <motion.div
+          className="corporate-footer-bottom-content"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+        >
           <p className="corporate-footer-copyright">
             © 2026 PT Surya Inti Gas. {t('footer.rights')}
           </p>
@@ -518,7 +542,7 @@ export function Footer() {
             <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.accessibility')}</Link>
             <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.sitemap')}</Link>
           </div>
-        </div>
+        </motion.div>
       </div>
 
     </footer>

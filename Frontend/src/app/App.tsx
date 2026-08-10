@@ -12,6 +12,8 @@ import { WhyChooseUs } from "./components/WhyChooseUs";
 import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
 import { ScrollToTopButton } from "./components/ScrollToTopButton";
+import { RouteProgressBar } from "./components/RouteProgressBar";
+import { setRouteLoading } from "../utils/routeProgress";
 import { performanceMonitor } from "../utils/performanceMonitor";
 import { AppProvider, ProductProvider, AuthProvider } from "../context";
 import { ProtectedRoute } from "./admin/ProtectedRoute";
@@ -49,8 +51,15 @@ const CareerApplicationsPage = lazy(() => import("./admin/careerApplications/Car
 const UsersPage = lazy(() => import("./admin/users/UsersPage").then(m => ({ default: m.UsersPage })));
 const AuditLogsPage = lazy(() => import("./admin/auditLogs/AuditLogsPage").then(m => ({ default: m.AuditLogsPage })));
 
-// Minimal, non-layout-shifting fallback while a route chunk loads.
+// Minimal, non-layout-shifting fallback while a route chunk loads. Signals
+// the global RouteProgressBar for the duration it's mounted (i.e. while
+// the lazy chunk + its data are still loading).
 function RouteFallback() {
+  useEffect(() => {
+    setRouteLoading(true);
+    return () => setRouteLoading(false);
+  }, []);
+
   return <div style={{ minHeight: '60vh' }} aria-hidden="true" />;
 }
 
@@ -205,6 +214,7 @@ function App() {
 
   return (
     <HelmetProvider>
+      <RouteProgressBar />
       <AppProvider>
         <ProductProvider>
           <AuthProvider>
