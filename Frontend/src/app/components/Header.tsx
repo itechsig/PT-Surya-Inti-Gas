@@ -18,6 +18,7 @@ type NavItem = {
 };
 
 const NAV_LINKS: NavItem[] = [
+  { nameKey: "header.home", href: "/", isRoute: true },
   { nameKey: "header.about", href: "/tentang-kami", isRoute: true },
   { nameKey: "header.distribution", href: "/jaringan-distribusi", isRoute: true },
   {
@@ -111,9 +112,11 @@ export const Header = () => {
     }
     
     // Add language prefix to navigation if not already present
-    const langHref = href.startsWith('/') && !href.startsWith(`/${currentLang}`) 
-      ? `/${currentLang}${href}` 
-      : href;
+    const langHref = href === '/'
+      ? `/${currentLang}`
+      : href.startsWith('/') && !href.startsWith(`/${currentLang}`)
+        ? `/${currentLang}${href}`
+        : href;
     
     if (href.startsWith('#')) {
       // Hash navigation
