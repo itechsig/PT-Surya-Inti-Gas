@@ -59,6 +59,10 @@ class ProductController extends Controller
                 return response()->json(['success' => false, 'message' => 'Product not found'], 404);
             }
 
+            if (!$product->category) {
+                return response()->json(['success' => false, 'message' => 'Product category not found'], 404);
+            }
+
             return response()->json([
                 'success' => true,
                 'data' => [
@@ -255,9 +259,6 @@ class ProductController extends Controller
     private function toPublicProduct(Product $p, string $lang, bool $full = false): array
     {
         $description = $p->{"description_$lang"} ?: $p->description_id;
-
-        // Generate proper image URL that works across environments
-        $imageUrl = $this->generateImageUrl($p->image);
 
         $data = [
             'id' => $p->slug,

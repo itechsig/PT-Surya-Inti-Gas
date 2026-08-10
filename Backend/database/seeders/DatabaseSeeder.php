@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CertificationSeeder::class,
             HeroSlideSeeder::class,
             ProductCategorySeeder::class,
+            EquipmentCategorySeeder::class,
             ProductSeeder::class,
             ServicesCategorySeeder::class,
             GalleryItemSeeder::class,
