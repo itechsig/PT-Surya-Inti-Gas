@@ -26,9 +26,9 @@ class EquipmentCategorySeeder extends Seeder
             [
                 'main_category' => 'equipment',
                 'slug' => 'cryogenic-transport',
-                'name_id' => 'Transport Kriogenik',
-                'name_en' => 'Cryogenic Transport',
-                'name_zh' => '低温运输',
+                'name_id' => 'Transport Rigged Kriogenik',
+                'name_en' => 'Cryogenic Rigged Tank',
+                'name_zh' => '低温 Rigged 罐运输',
                 'display_order' => 1,
             ],
             [

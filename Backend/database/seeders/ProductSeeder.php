@@ -79,6 +79,7 @@ class ProductSeeder extends Seeder
                 ['id' => 'liquid-filling-transfer', 'image' => 'Liquid_Filling.webp'],
                 ['id' => 'cryogenic-iso-tank', 'image' => 'ISO_Tank.webp'],
                 ['id' => 'cryogenic-road-tank', 'image' => 'Road_tank.webp'],
+                ['id' => 'cryogenic-rigged-tank', 'image' => 'Road_tank.webp'],
             ],
             'regulator-valves' => [
                 ['id' => 'cryogenic-gas-valve', 'image' => 'Cryogenic&Valve.webp'],

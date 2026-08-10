@@ -270,6 +270,11 @@
         "description": "Cryogenic rigged tank for distribution",
         "fullDescription": "A cryogenic rigged tank is a specialized vehicle for distributing liquid gas by road. This tank is designed with efficient thermal insulation to maintain cryogenic temperatures during transit. Suitable for distributing liquid gas between industrial facilities and consumption sites. PT Surya Inti Gas provides liquid gas distribution services with a rigged tank fleet that meets safety standards."
       },
+      "cryogenic-road-tank": {
+        "title": "Cryogenic Rigged Tank",
+        "description": "Cryogenic rigged tank for distribution",
+        "fullDescription": "A cryogenic rigged tank is a specialized vehicle for distributing liquid gas by road. This tank is designed with efficient thermal insulation to maintain cryogenic temperatures during transit. Suitable for distributing liquid gas between industrial facilities and consumption sites. PT Surya Inti Gas provides liquid gas distribution services with a rigged tank fleet that meets safety standards."
+      },
       "installation": {
         "title": "Installation",
         "description": "Industrial gas system installation service",

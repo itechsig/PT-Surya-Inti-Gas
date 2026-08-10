@@ -260,6 +260,11 @@
         "description": "用于配送的低温 Rigged 罐",
         "fullDescription": "低温 Rigged 罐是通过公路配送液态气体的专用车辆。该罐车采用高效热绝缘设计，在运输过程中维持低温。适用于工业设施与消费地点之间的液态气体配送。PT Surya Inti Gas提供符合安全标准的 Rigged 罐车队液态气体配送服务。"
       },
+      "cryogenic-road-tank": {
+        "title": "低温 Rigged 罐",
+        "description": "用于配送的低温 Rigged 罐",
+        "fullDescription": "低温 Rigged 罐是通过公路配送液态气体的专用车辆。该罐车采用高效热绝缘设计，在运输过程中维持低温。适用于工业设施与消费地点之间的液态气体配送。PT Surya Inti Gas提供符合安全标准的 Rigged 罐车队液态气体配送服务。"
+      },
       "installation": {
         "title": "安装",
         "description": "工业气体系统安装服务",

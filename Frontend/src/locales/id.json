@@ -270,6 +270,11 @@
         "description": "Tangki rigged kriogenik untuk distribusi",
         "fullDescription": "Tangki rigged kriogenik adalah kendaraan khusus untuk distribusi gas cair melalui jalan raya. Tangki ini dirancang dengan isolasi termal yang efisien untuk mempertahankan suhu kriogenik selama perjalanan. Cocok untuk distribusi gas cair antar fasilitas industri dan lokasi konsumsi. PT Surya Inti Gas menyediakan layanan distribusi gas cair dengan armada rigged tank yang memenuhi standar keamanan."
       },
+      "cryogenic-road-tank": {
+        "title": "Cryogenic Rigged Tank",
+        "description": "Tangki rigged kriogenik untuk distribusi",
+        "fullDescription": "Tangki rigged kriogenik adalah kendaraan khusus untuk distribusi gas cair melalui jalan raya. Tangki ini dirancang dengan isolasi termal yang efisien untuk mempertahankan suhu kriogenik selama perjalanan. Cocok untuk distribusi gas cair antar fasilitas industri dan lokasi konsumsi. PT Surya Inti Gas menyediakan layanan distribusi gas cair dengan armada rigged tank yang memenuhi standar keamanan."
+      },
       "installation": {
         "title": "Instalasi",
         "description": "Layanan instalasi sistem gas industri",
