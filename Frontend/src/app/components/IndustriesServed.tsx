@@ -263,8 +263,8 @@ export function IndustriesServed() {
     {
       id: 'manufaktur',
       title: t('industriesServed.industries.manufaktur'),
-      image: 'https://images.unsplash.com/photo-1565514020146-0869b8965896?auto=format&fit=crop&w=800&q=80',
-      imageSrcSet: 'https://images.unsplash.com/photo-1565514020146-0869b8965896?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1565514020146-0869b8965896?auto=format&fit=crop&w=800&q=80 800w',
+      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
       height: 533
     },
@@ -279,8 +279,8 @@ export function IndustriesServed() {
     {
       id: 'makanan-minuman',
       title: t('industriesServed.industries.makanan-minuman'),
-      image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80',
-      imageSrcSet: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80 800w',
+      image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+      imageSrcSet: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80 800w',
       width: 800,
       height: 533
     },
