@@ -162,11 +162,6 @@ const fadeUp: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
 };
 
-const staggerContainer: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-};
-
 const customIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -237,34 +232,29 @@ export function DistributionNetworkSection() {
             </MapContainer>
           </motion.div>
 
-          <motion.div
-            className="locations-info"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={staggerContainer}
-          >
-            {currentLocations.map((location) => (
-              <motion.div key={location.id} className="location-card" variants={fadeUp}>
-                <h3 className="location-card-title">{location.name}</h3>
-                <div className="location-card-region">{location.region}</div>
-                <div className="location-card-coordinates">
-                  Lat: {location.lat}, Lng: {location.lng}
+          <div className="locations-info">
+            {currentLocations.map((location) => {
+              return (
+                <div key={location.id} className="location-card">
+                  <h3 className="location-card-title">{location.name}</h3>
+                  <p className="location-card-region">
+                    {location.region}
+                  </p>
+                  <p className="location-card-description">
+                    {location.description}
+                  </p>
+                  <a
+                    href={location.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="location-card-link"
+                  >
+                    {t('distribution.page.viewOnGoogleMaps')}
+                  </a>
                 </div>
-                <p className="location-card-description">
-                  {location.shortDescription}
-                </p>
-                <a
-                  href={`https://www.google.com/maps?q=${location.lat},${location.lng}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="location-card-link"
-                >
-                  {t('distribution.page.viewOnGoogleMaps')}
-                </a>
-              </motion.div>
-            ))}
-          </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
     </div>

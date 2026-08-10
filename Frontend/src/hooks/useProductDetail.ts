@@ -27,41 +27,47 @@ const PRODUCT_IMAGE_MAPPING: Record<string, string> = {
   'default': '/images/products/Oxygen_Fix.webp'
 };
 
-// Function to check if image URL is valid
-function isValidImageUrl(url: string): boolean {
-  if (!url) return false;
-  // For now, only trust local /images/ paths since Railway storage is failing
-  return url.startsWith('/images/');
-}
-
 /** Fetches a single published product by its slug (the legacy "id" query param), localized. */
 export function useProductDetail(slug: string | null, lang: string) {
   const [data, setData] = useState<ProductDetailData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!slug) {
       setData(null);
       setIsLoading(false);
+      setError(null);
       return;
     }
 
     let cancelled = false;
     setIsLoading(true);
+    setError(null);
 
     fetch(`${getApiUrl(API_ENDPOINTS.PRODUCT_DETAIL)}/${encodeURIComponent(slug)}?lang=${lang}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Server error: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((payload: { success: boolean; data: ProductDetailData }) => {
         if (!cancelled && payload.success) {
           // Apply custom image mapping
           const mappedData = applyImageMapping(payload.data);
           setData(mappedData);
         } else if (!cancelled) {
+          setError('Product not found');
           setData(null);
         }
       })
-      .catch(() => {
-        if (!cancelled) setData(null);
+      .catch((err) => {
+        if (!cancelled) {
+          console.error('Failed to fetch product detail:', err);
+          setError('Failed to load product details. Please try again later.');
+          setData(null);
+        }
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false);
@@ -72,7 +78,7 @@ export function useProductDetail(slug: string | null, lang: string) {
     };
   }, [slug, lang]);
 
-  return { data, isLoading };
+  return { data, isLoading, error };
 }
 
 function applyImageMapping(data: ProductDetailData): ProductDetailData {
@@ -88,7 +94,7 @@ function applyImageMapping(data: ProductDetailData): ProductDetailData {
   
   // Also check gallery images
   if (mappedData.product.gallery && Array.isArray(mappedData.product.gallery)) {
-    mappedData.product.gallery = mappedData.product.gallery.map((img: string) => {
+    mappedData.product.gallery = mappedData.product.gallery.map(() => {
       // Use the same fallback for gallery images
       return PRODUCT_IMAGE_MAPPING[mappedData.product.id] || PRODUCT_IMAGE_MAPPING['default'];
     });
