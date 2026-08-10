@@ -252,7 +252,6 @@ Project website PT SURYA INTI GAS adalah sistem informasi perusahaan yang terdir
 ### Development Duration: 90 hari
 ### Active Development Period: 5 Mei 2026 - 3 Agustus 2026
 
----
 
 ## Statistics
 - **Total Pull Requests:** 100+
