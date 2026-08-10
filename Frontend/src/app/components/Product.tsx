@@ -430,12 +430,8 @@ export function Product() {
         </div>
       </motion.div>
 
-      <section className="products-section" id="products" style={{
-        paddingTop: '0'
-      }}>
-        <div className="products-container" style={{
-          padding: '100px 6vw'
-        }}>
+      <section className="products-section" id="products">
+        <div className="products-container">
 
           {/* Category Cards */}
           <motion.div 
