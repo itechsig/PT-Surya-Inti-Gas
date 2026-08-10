@@ -18,8 +18,10 @@ class UpdatePortfolioRequest extends FormRequest
         $portfolioId = $this->route('portfolio')?->id;
 
         return [
-            'industry_id' => 'sometimes|required|integer|exists:industries,id',
-            'service_type_id' => 'sometimes|required|integer|exists:service_types,id',
+            'industry_id' => 'required_without:industry_name|nullable|integer|exists:industries,id',
+            'industry_name' => 'required_without:industry_id|nullable|string|max:255',
+            'service_type_id' => 'required_without:service_type_name|nullable|integer|exists:service_types,id',
+            'service_type_name' => 'required_without:service_type_id|nullable|string|max:255',
             'slug' => 'sometimes|required|string|max:255|alpha_dash|unique:portfolios,slug,' . $portfolioId,
 
             'title_id' => 'sometimes|required|string|max:255',

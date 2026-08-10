@@ -9,9 +9,10 @@ dockerfilePath = "Dockerfile"
 [deploy]
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
-
-[start]
-command = "php artisan storage:link --force && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+# No startCommand override here: storage:link, migrate, and starting the server (bound to the
+# Railway-assigned $PORT) are all handled by docker-entrypoint.sh, which is this image's
+# ENTRYPOINT. (A previous "[start] command = ..." block here was never a recognized Railway
+# config key, so it silently had no effect - see Dockerfile/docker-entrypoint.sh for the fix.)
 
 [env]
 APP_ENV = "production"

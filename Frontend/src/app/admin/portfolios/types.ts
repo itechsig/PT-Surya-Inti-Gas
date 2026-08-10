@@ -52,7 +52,9 @@ export interface AdminPortfolio {
 
 export interface PortfolioFormValues {
   industry_id: string;
+  industry_name: string; // set (industry_id cleared) when the combobox is used to create a new industry
   service_type_id: string;
+  service_type_name: string; // set (service_type_id cleared) when creating a new service type
   slug: string;
   title_id: string;
   title_en: string;

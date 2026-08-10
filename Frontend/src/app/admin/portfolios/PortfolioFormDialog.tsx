@@ -9,18 +9,18 @@ import { Textarea } from '../../components/ui/textarea';
 import { Label } from '../../components/ui/label';
 import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { ApiError } from '../../../utils/apiClient';
 import { createPortfolio, deletePortfolioImage, reorderPortfolioImages, updatePortfolio, uploadPortfolioImages } from './api';
 import { ThumbnailCropDialog } from './ThumbnailCropDialog';
 import { PortfolioGalleryManager, type GalleryManagerItem } from './PortfolioGalleryManager';
+import { EntityCombobox } from './EntityCombobox';
 import {
   type AdminIndustry, type AdminPortfolio, type AdminPortfolioImage, type AdminServiceType,
   type PortfolioFormValues,
 } from './types';
 
 const EMPTY_FORM: PortfolioFormValues = {
-  industry_id: '', service_type_id: '', slug: '',
+  industry_id: '', industry_name: '', service_type_id: '', service_type_name: '', slug: '',
   title_id: '', title_en: '', title_zh: '',
   location_id: '', location_en: '', location_zh: '',
   completionMonth: '',
@@ -60,7 +60,9 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
     if (!open) return;
     if (portfolio) {
       setValues({
-        industry_id: String(portfolio.industry_id), service_type_id: String(portfolio.service_type_id), slug: portfolio.slug,
+        industry_id: String(portfolio.industry_id), industry_name: '',
+        service_type_id: String(portfolio.service_type_id), service_type_name: '',
+        slug: portfolio.slug,
         title_id: portfolio.title_id, title_en: portfolio.title_en ?? '', title_zh: portfolio.title_zh ?? '',
         location_id: portfolio.location_id, location_en: portfolio.location_en ?? '', location_zh: portfolio.location_zh ?? '',
         completionMonth: portfolio.completion_date.slice(0, 7),
@@ -208,40 +210,26 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
             <div className="grid grid-cols-3 gap-3">
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="industry">Industry</Label>
-                <Select
-                  value={values.industry_id}
-                  onValueChange={(value) => setValues((prev) => ({ ...prev, industry_id: value }))}
-                >
-                  <SelectTrigger id="industry">
-                    <SelectValue placeholder="Pilih industri" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {industries.map((ind) => (
-                      <SelectItem key={ind.id} value={String(ind.id)}>
-                        {ind.name_id}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <EntityCombobox
+                  options={industries.map((ind) => ({ id: ind.id, name: ind.name_id }))}
+                  selectedId={values.industry_id}
+                  newName={values.industry_name}
+                  placeholder="Pilih atau ketik industri"
+                  onSelectExisting={(id) => setValues((prev) => ({ ...prev, industry_id: id, industry_name: '' }))}
+                  onCreateNew={(name) => setValues((prev) => ({ ...prev, industry_id: '', industry_name: name }))}
+                />
                 {fieldError('industry_id') && <p className="text-xs text-destructive">{fieldError('industry_id')}</p>}
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="service_type">Service Type</Label>
-                <Select
-                  value={values.service_type_id}
-                  onValueChange={(value) => setValues((prev) => ({ ...prev, service_type_id: value }))}
-                >
-                  <SelectTrigger id="service_type">
-                    <SelectValue placeholder="Pilih layanan" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {serviceTypes.map((s) => (
-                      <SelectItem key={s.id} value={String(s.id)}>
-                        {s.name_id}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <EntityCombobox
+                  options={serviceTypes.map((s) => ({ id: s.id, name: s.name_id }))}
+                  selectedId={values.service_type_id}
+                  newName={values.service_type_name}
+                  placeholder="Pilih atau ketik layanan"
+                  onSelectExisting={(id) => setValues((prev) => ({ ...prev, service_type_id: id, service_type_name: '' }))}
+                  onCreateNew={(name) => setValues((prev) => ({ ...prev, service_type_id: '', service_type_name: name }))}
+                />
                 {fieldError('service_type_id') && <p className="text-xs text-destructive">{fieldError('service_type_id')}</p>}
               </div>
               <div className="flex flex-col gap-1.5">
