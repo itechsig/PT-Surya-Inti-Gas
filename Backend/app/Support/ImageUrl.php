@@ -26,19 +26,31 @@ class ImageUrl
         }
 
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            $marker = '/storage/';
-            $pos = strpos($path, $marker);
-
-            if ($pos === false) {
-                // No "/storage/" segment means this is either already one of our own
-                // /api/v1/image/... URLs, or a genuinely external URL (e.g. a CDN
-                // link) - not a stored file path we need to re-resolve. Leave it alone.
+            // Check if this is a localhost URL that needs to be re-resolved
+            if (str_contains($path, 'localhost') || str_contains($path, '127.0.0.1')) {
+                $apiMarker = '/api/v1/image/';
+                $storageMarker = '/storage/';
+                
+                $pos = strpos($path, $apiMarker);
+                if ($pos !== false) {
+                    // Extract the path after /api/v1/image/
+                    $path = substr($path, $pos + strlen($apiMarker));
+                    $path = urldecode($path); // Decode URL-encoded path
+                } else {
+                    $pos = strpos($path, $storageMarker);
+                    if ($pos !== false) {
+                        // A legacy absolute URL built on the old /storage/ symlink route - recover
+                        // the relative path so it can be re-resolved through the API endpoint below.
+                        $path = substr($path, $pos + strlen($storageMarker));
+                    } else {
+                        // Not our URL pattern, return as-is
+                        return $path;
+                    }
+                }
+            } else {
+                // Non-localhost URL - keep it as-is (might be CDN or external)
                 return $path;
             }
-
-            // A legacy absolute URL built on the old /storage/ symlink route - recover
-            // the relative path so it can be re-resolved through the API endpoint below.
-            $path = substr($path, $pos + strlen($marker));
         }
 
         $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');

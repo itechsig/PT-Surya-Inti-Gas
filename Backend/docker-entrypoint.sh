@@ -29,6 +29,15 @@ else
     echo "DB_HOST not set, skipping MySQL configuration"
 fi
 
+# Override APP_URL with Railway URL if available
+if [ -n "$RAILWAY_PUBLIC_DOMAIN" ]; then
+    echo "Updating APP_URL with Railway domain: $RAILWAY_PUBLIC_DOMAIN"
+    sed -i "s|^APP_URL=.*|APP_URL=https://$RAILWAY_PUBLIC_DOMAIN|" .env
+    echo "APP_URL updated"
+else
+    echo "RAILWAY_PUBLIC_DOMAIN not set, keeping existing APP_URL"
+fi
+
 # Override database name if not set (fallback to surya_inti_gas)
 if [ -z "$DB_DATABASE" ]; then
     echo "DB_DATABASE not set, using default: surya_inti_gas"
