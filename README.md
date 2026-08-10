@@ -156,6 +156,23 @@ Browser ──(fetch, JSON)──────────► Backend  (Laravel A
   **absolute URLs** (`http://<backend-host>/storage/...`), so the frontend can `<img src=...>` them
   directly regardless of which origin it's running on.
 
+## Deployment
+
+Production runs on two separate hosts talking cross-origin, mirroring the local dev split:
+
+- **Backend** — [Railway](https://railway.app), building from `Backend/Dockerfile` (see `Backend/railway.toml`).
+  Live at `https://ptsuryaintigas-production.up.railway.app`. The image's `docker-entrypoint.sh` (its
+  `ENTRYPOINT`) runs `storage:link` + `migrate` and then starts `php artisan serve` bound to Railway's
+  dynamically-assigned `$PORT`. This has to happen in a real shell script because env vars only expand
+  there — the Dockerfile's exec-form `CMD` and `railway.toml`'s old `[start]` block (not a real Railway
+  config key) both silently failed to do this, which is why the backend was unreachable until that was fixed.
+- **Frontend** — [Vercel](https://vercel.com), building via `Frontend/vercel.json` (`npm run build` → `dist/`).
+  The canonical domain is `https://suryaintigas.com`; the `pt-surya-inti-gas.vercel.app` preview domain
+  permanently redirects to it.
+- `Backend/railway.toml`'s `[env]` block (`CORS_ALLOWED_ORIGINS`, `SANCTUM_STATEFUL_DOMAINS`) must list every
+  origin the frontend is actually served from — the same exact-match CORS rule described above applies in
+  production, so a missing origin here breaks admin login/API calls in prod the same way it does locally.
+
 ## Environment validation
 
 ```bash
