@@ -14,7 +14,7 @@ export function ProductDetail() {
   const currentLang = lang || 'id';
   const { t } = useTranslation();
   const productSlug = searchParams.get('id');
-  const { data: productData, isLoading } = useProductDetail(productSlug, currentLang);
+  const { data: productData, isLoading, error } = useProductDetail(productSlug, currentLang);
   const { categories: productCategories } = useProductCatalog(currentLang);
   const [imageError, setImageError] = useState(false);
   const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
@@ -82,6 +82,24 @@ export function ProductDetail() {
           <div className="products-container">
             <div className="products-header">
               <h2 className="products-title">{t('common.loading')}</h2>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="products-corporate">
+        <section className="products-section" id="products">
+          <div className="products-container">
+            <div className="products-header">
+              <h2 className="products-title">{t('common.error')}</h2>
+              <p className="products-subtitle">{error}</p>
+              <button onClick={handleBack} className="products-tab" style={{ marginTop: '20px' }} aria-label={t('productDetail.backAria')}>
+                {t('productDetail.backToList')}
+              </button>
             </div>
           </div>
         </section>
