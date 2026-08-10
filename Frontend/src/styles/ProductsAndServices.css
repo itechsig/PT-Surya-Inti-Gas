@@ -420,8 +420,6 @@
   object-fit: cover;
   display: block;
   transition: transform 0.6s var(--ease);
-  padding: 20px;
-  background: var(--slate-100);
 }
 
 .products-card:hover .products-card-image img {
