@@ -314,7 +314,7 @@ export function ProductsAndServices() {
           'vessel-gas-liquid',       // Vessel Gas Liquid
           'microbulk-tank',          // Microbulk Tank
           'iso-tank',                // ISO Tank
-          'lorry-tank'               // Lorry Tank
+          'lorry-tank'               // Cryogenic Rigged Tank
         ];
         
         return allProducts.filter(product => allowedPackageIds.includes(product.id));
@@ -344,7 +344,7 @@ export function ProductsAndServices() {
         'vessel-gas-liquid',       // Vessel Gas Liquid
         'microbulk-tank',          // Microbulk Tank
         'cryogenic-iso-tank',      // Cryogenic ISO Tank
-        'cryogenic-road-tank'      // Cryogenic Road Tank
+        'cryogenic-road-tank'      // Cryogenic Rigged Tank
       ];
       
       return allProducts.filter(product => allowedPackageIds.includes(product.id));

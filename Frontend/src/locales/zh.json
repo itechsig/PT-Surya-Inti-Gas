@@ -149,7 +149,7 @@
       },
       "package": {
         "title": "包装",
-        "description": "Cradle 2x2, 3x2, 3x3, 4x4, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Lorry Tank.",
+        "description": "Cradle 2x2, 3x2, 3x3, 4x4, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Cryogenic Rigged Tank.",
         "shortDescription": "优质储存和处理解决方案"
       },
       "services": {
@@ -256,9 +256,9 @@
         "fullDescription": "低温ISO罐是用于在极低温度下运输液态气体的国际标准集装箱。该罐体符合多式联运（公路、海运、空运）的ISO标准，并配备先进的真空绝热系统。适用于跨国或长途的液态气体配送。PT Surya Inti Gas提供具有国际认证和监控系统的低温ISO罐。"
       },
       "lorry-tank": {
-        "title": "罐车",
-        "description": "用于配送的低温罐车",
-        "fullDescription": "低温罐车是通过公路配送液态气体的专用车辆。该罐车采用高效热绝缘设计，在运输过程中维持低温。适用于工业设施与消费地点之间的液态气体配送。PT Surya Inti Gas提供符合安全标准的罐车车队液态气体配送服务。"
+        "title": "低温 Rigged 罐",
+        "description": "用于配送的低温 Rigged 罐",
+        "fullDescription": "低温 Rigged 罐是通过公路配送液态气体的专用车辆。该罐车采用高效热绝缘设计，在运输过程中维持低温。适用于工业设施与消费地点之间的液态气体配送。PT Surya Inti Gas提供符合安全标准的 Rigged 罐车队液态气体配送服务。"
       },
       "installation": {
         "title": "安装",
