@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Globe, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 const languages = [
   { code: 'id', name: 'Indonesia', flag: 'ID' },
@@ -50,30 +51,38 @@ export const LanguageSwitcher = ({ isLight = true }: { isLight?: boolean }) => {
         <ChevronDown size={16} className={`${isOpen ? 'rotate-180' : ''} transition-transform`} />
       </button>
 
-      {isOpen && (
-        <>
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setIsOpen(false)}
-          />
-          <div className="absolute right-0 top-full mt-2 w-40 bg-white rounded-lg shadow-lg border border-slate-200 z-20 overflow-hidden">
-            {languages.map((lang) => (
-              <button
-                key={lang.code}
-                onClick={() => changeLanguage(lang.code)}
-                className={`w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors ${
-                  i18n.language === lang.code
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-slate-700 hover:bg-slate-50"
-                }`}
-              >
-                <span>{lang.flag}</span>
-                <span>{lang.name}</span>
-              </button>
-            ))}
-          </div>
-        </>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-10"
+              onClick={() => setIsOpen(false)}
+            />
+            <motion.div
+              className="absolute right-0 top-full mt-2 w-40 bg-white rounded-lg shadow-lg border border-slate-200 z-20 overflow-hidden origin-top-right"
+              initial={{ opacity: 0, scale: 0.95, y: -6 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -6 }}
+              transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+            >
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => changeLanguage(lang.code)}
+                  className={`w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors ${
+                    i18n.language === lang.code
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <span>{lang.flag}</span>
+                  <span>{lang.name}</span>
+                </button>
+              ))}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useSearchParams, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { motion } from "motion/react";
 import '../../styles/ProductsAndServices.css';
 import { useProductDetail } from "../../hooks/useProductDetail";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
@@ -14,7 +15,7 @@ export function ProductDetail() {
   const currentLang = lang || 'id';
   const { t } = useTranslation();
   const productSlug = searchParams.get('id');
-  const { data: productData, isLoading, error } = useProductDetail(productSlug, currentLang);
+  const { data: productData, isLoading } = useProductDetail(productSlug, currentLang);
   const { categories: productCategories } = useProductCatalog(currentLang);
   const [imageError, setImageError] = useState(false);
   const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
@@ -89,24 +90,6 @@ export function ProductDetail() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="products-corporate">
-        <section className="products-section" id="products">
-          <div className="products-container">
-            <div className="products-header">
-              <h2 className="products-title">{t('common.error')}</h2>
-              <p className="products-subtitle">{error}</p>
-              <button onClick={handleBack} className="products-tab" style={{ marginTop: '20px' }} aria-label={t('productDetail.backAria')}>
-                {t('productDetail.backToList')}
-              </button>
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
   if (!productData) {
     return (
       <div className="products-corporate">
@@ -135,7 +118,12 @@ export function ProductDetail() {
       }}>
 
         {/* Corporate Header */}
-        <div className="products-header" style={{
+        <motion.div
+          className="products-header"
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          style={{
           position: 'relative',
           background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
           padding: '240px 6vw 120px 6vw',
@@ -169,7 +157,7 @@ export function ProductDetail() {
               {subCategoryLabel ? `${categoryLabel} / ${subCategoryLabel}` : categoryLabel}
             </p>
           </div>
-        </div>
+        </motion.div>
 
         <div className="products-container">
           {/* Back Button */}
@@ -178,7 +166,12 @@ export function ProductDetail() {
           </button>
 
           {/* Product Detail */}
-          <div className="products-detail">
+          <motion.div
+            className="products-detail"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
+          >
             <div className="products-detail-image">
               {imageError ? (
                 <div style={{
@@ -290,7 +283,7 @@ export function ProductDetail() {
                 </>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
 
       </section>

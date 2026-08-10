@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, ArrowLeft, Send, Calendar, Building, Briefcase } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { motion } from 'motion/react';
 import '../../styles/career.css';
 import { useJobVacancies } from '../../hooks/useJobVacancies';
 
@@ -115,7 +116,12 @@ export function JobDetail() {
             {t('career.page.backToListings')}
           </button>
 
-          <div className="job-detail-header">
+          <motion.div
+            className="job-detail-header"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          >
             <h1>{job.title}</h1>
             <div className="job-detail-meta">
               <span className="meta-item">
@@ -140,9 +146,14 @@ export function JobDetail() {
               <span className="job-badge type">{job.type}</span>
               <span className="job-badge level">{job.level}</span>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="job-detail-content">
+          <motion.div
+            className="job-detail-content"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.12, ease: [0.4, 0, 0.2, 1] }}
+          >
             <div className="job-description-section">
               <h2>{t('career.page.jobDescription')}</h2>
               <p>{job.fullDescription}</p>
@@ -169,7 +180,7 @@ export function JobDetail() {
                 </button>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

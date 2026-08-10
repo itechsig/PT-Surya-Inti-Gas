@@ -5,11 +5,22 @@ import { Helmet } from 'react-helmet-async';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import { ArrowLeft, Building2, Calendar, FolderOpen, MapPin, Wrench } from 'lucide-react';
+import { motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
 import { Skeleton } from './ui/skeleton';
 import { usePortfolioDetail } from '../../hooks/usePortfolioDetail';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } },
+};
 
 export function PortfolioDetail() {
   const { lang, slug } = useParams<{ lang: string; slug: string }>();
@@ -81,25 +92,35 @@ export function PortfolioDetail() {
           <ArrowLeft size={14} /> {t('portfolio.detail.backToList')}
         </button>
 
-        <div className="portfolio-detail-hero-image">
+        <motion.div
+          className="portfolio-detail-hero-image"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+        >
           <img
             src={getImageUrl(portfolio.thumbnail)}
             alt={portfolio.title}
             onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
           />
-        </div>
+        </motion.div>
 
-        <div className="portfolio-detail-facts">
+        <motion.div
+          className="portfolio-detail-facts"
+          initial="hidden"
+          animate="show"
+          variants={staggerContainer}
+        >
           {facts.map((fact) => (
-            <div key={fact.label} className="portfolio-detail-fact">
+            <motion.div key={fact.label} className="portfolio-detail-fact" variants={fadeUp}>
               <fact.icon size={18} />
               <div className="portfolio-detail-fact-text">
                 <span className="portfolio-detail-fact-label">{fact.label}</span>
                 <span className="portfolio-detail-fact-value">{fact.value}</span>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <div className="portfolio-detail-product">
           <div className="portfolio-detail-product-label">{t('portfolio.detail.productSolution')}</div>
@@ -114,18 +135,24 @@ export function PortfolioDetail() {
         {portfolio.gallery.length > 0 && (
           <>
             <h2 className="portfolio-section-title">{t('portfolio.detail.gallery')}</h2>
-            <div className="portfolio-gallery-grid">
+            <motion.div
+              className="portfolio-gallery-grid"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: '-40px' }}
+              variants={staggerContainer}
+            >
               {portfolio.gallery.map((img, i) => (
-                <div key={i} className="portfolio-gallery-thumb" onClick={() => setLightboxIndex(i)}>
+                <motion.div key={i} className="portfolio-gallery-thumb" onClick={() => setLightboxIndex(i)} variants={fadeUp} whileHover={{ scale: 1.03 }}>
                   <img
                     src={getImageUrl(img.image)}
                     alt={img.caption || portfolio.title}
                     loading="lazy"
                     onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
                   />
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
             <Lightbox
               open={lightboxIndex !== null}
               index={lightboxIndex ?? 0}

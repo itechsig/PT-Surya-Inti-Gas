@@ -3,6 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { Search, MapPin, Calendar, ArrowRight, FolderOpen } from 'lucide-react';
+import { motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
 import { Badge } from './ui/badge';
@@ -18,12 +19,28 @@ import { useServiceTypes } from '../../hooks/useServiceTypes';
 import type { PortfolioSummary } from '../../data/portfolio';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
 
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
 export function PortfolioCard({ item, currentLang }: { item: PortfolioSummary; currentLang: string }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
-    <div className="portfolio-card" onClick={() => navigate(`/${currentLang}/portofolio/${item.id}`)}>
+    <motion.div
+      className="portfolio-card"
+      onClick={() => navigate(`/${currentLang}/portofolio/${item.id}`)}
+      variants={fadeUp}
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="portfolio-card-image">
         <img
           src={getImageUrl(item.thumbnail)}
@@ -47,7 +64,7 @@ export function PortfolioCard({ item, currentLang }: { item: PortfolioSummary; c
           {t('portfolio.page.viewDetail')} <ArrowRight size={14} />
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -180,11 +197,16 @@ export function Portfolio() {
             <p>{t('portfolio.page.noResults')}</p>
           </div>
         ) : (
-          <div className="portfolio-grid">
+          <motion.div
+            className="portfolio-grid"
+            initial="hidden"
+            animate="show"
+            variants={staggerContainer}
+          >
             {portfolios.map((item) => (
               <PortfolioCard key={item.id} item={item} currentLang={currentLang} />
             ))}
-          </div>
+          </motion.div>
         )}
 
         {pagination.lastPage > 1 && (

@@ -9,6 +9,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { createPortal } from 'react-dom';
+import { motion, type Variants } from 'motion/react';
 import { useGallery } from '../../hooks/useGallery';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
 
@@ -267,6 +268,16 @@ const galleryDetailStyles = `
   }
 `;
 
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
 // Back Button Component
 const BackButton = ({ navigate, currentLang, t }: { navigate: (path: string) => void; currentLang: string; t: (key: string) => string }) => {
   return (
@@ -452,9 +463,14 @@ function GalleryDetail() {
       <div className="gallery-detail-container">
         <BackButton navigate={navigate} currentLang={currentLang} t={t} />
 
-        <div className="gallery-detail-header">
+        <motion.div
+          className="gallery-detail-header"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+        >
           <h1 className="gallery-detail-title">{currentItem.title}</h1>
-          
+
           <div className="gallery-detail-meta">
             <div className="gallery-detail-meta-item">
               <Calendar size={16} />
@@ -464,9 +480,14 @@ function GalleryDetail() {
               <span>{t(`gallery.categories.${currentItem.category}`)}</span>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="gallery-detail-content">
+        <motion.div
+          className="gallery-detail-content"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
+        >
           <div className="gallery-detail-image-container">
             <img
               src={getImageUrl(currentItem.fullSize)}
@@ -481,17 +502,24 @@ function GalleryDetail() {
               {currentItem.detailedDescription || currentItem.description}
             </p>
           </div>
-        </div>
+        </motion.div>
 
         {relatedItems.length > 0 && (
           <div className="related-gallery">
             <h2 className="related-gallery-title">{t('gallery.page.relatedPhotos')}</h2>
-            <div className="related-gallery-grid">
+            <motion.div
+              className="related-gallery-grid"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: '-40px' }}
+              variants={staggerContainer}
+            >
               {relatedItems.map((item) => (
-                <div
+                <motion.div
                   key={item.id}
                   className="related-gallery-item"
                   onClick={() => navigate(`/${currentLang}/galeri/${item.id}`)}
+                  variants={fadeUp}
                 >
                   <img
                     src={getImageUrl(item.thumbnail)}
@@ -499,9 +527,9 @@ function GalleryDetail() {
                     onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
                   />
                   <div className="related-gallery-item-title">{item.title}</div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         )}
       </div>
