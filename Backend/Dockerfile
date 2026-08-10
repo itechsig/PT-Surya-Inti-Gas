@@ -42,5 +42,8 @@ RUN chmod +x docker-entrypoint.sh
 
 EXPOSE 8000
 
+# No CMD here on purpose: Railway assigns a different $PORT per deployment, and a JSON-array
+# CMD like ["php", "artisan", "serve", "--port=8080"] can't expand that env var (Docker doesn't
+# run exec-form CMD through a shell). docker-entrypoint.sh reads $PORT itself and execs the
+# server with the right port - see the bottom of that script.
 ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]

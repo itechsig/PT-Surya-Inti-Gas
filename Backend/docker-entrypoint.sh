@@ -148,7 +148,11 @@ php artisan config:cache
 php artisan route:cache
 
 echo "=== docker-entrypoint.sh completed ==="
-echo "Executing command: $@"
 
-# Execute the main command
-exec "$@"
+# Railway assigns a different $PORT per deployment and routes traffic to it; the server must
+# bind to that exact port or the app is unreachable even though the container is healthy.
+# Built here (not as the Dockerfile's CMD) because a JSON-array CMD is exec-form and never
+# passes through a shell, so "$PORT" in it would be sent to PHP as a literal, unexpanded string.
+PORT="${PORT:-8000}"
+echo "Starting server on port $PORT"
+exec php artisan serve --host=0.0.0.0 --port="$PORT"
