@@ -16,8 +16,10 @@ class StorePortfolioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'industry_id' => 'required|integer|exists:industries,id',
-            'service_type_id' => 'required|integer|exists:service_types,id',
+            'industry_id' => 'required_without:industry_name|nullable|integer|exists:industries,id',
+            'industry_name' => 'required_without:industry_id|nullable|string|max:255',
+            'service_type_id' => 'required_without:service_type_name|nullable|integer|exists:service_types,id',
+            'service_type_name' => 'required_without:service_type_id|nullable|string|max:255',
             'slug' => 'required|string|max:255|alpha_dash|unique:portfolios,slug',
 
             'title_id' => 'required|string|max:255',

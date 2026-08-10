@@ -106,7 +106,7 @@ class PortfolioController extends Controller
     public function store(StorePortfolioRequest $request): JsonResponse
     {
         try {
-            $data = $request->validated();
+            $data = $this->resolveTaxonomyIds($request->validated());
             $data['thumbnail'] = $request->file('thumbnail')->store('portfolios', 'public');
             $data['display_order'] = $data['display_order'] ?? ((Portfolio::max('display_order') ?? -1) + 1);
             $data['is_featured'] = $request->boolean('is_featured', false);
@@ -131,7 +131,7 @@ class PortfolioController extends Controller
     public function update(UpdatePortfolioRequest $request, Portfolio $portfolio): JsonResponse
     {
         try {
-            $data = $request->validated();
+            $data = $this->resolveTaxonomyIds($request->validated());
 
             if ($request->hasFile('thumbnail')) {
                 Storage::disk('public')->delete($portfolio->thumbnail);
@@ -289,6 +289,48 @@ class PortfolioController extends Controller
         ]);
 
         return response()->json(['success' => true, 'data' => $serviceTypes]);
+    }
+
+    /**
+     * The admin form's industry/service-type fields are a combobox: pick an existing option
+     * (sends *_id) or type a new one (sends *_name). Turns a *_name into a real row - reusing
+     * one that already matches case-insensitively rather than creating a duplicate - and
+     * leaves *_id data untouched. Strips both *_name keys so they never reach Portfolio::create/update.
+     */
+    private function resolveTaxonomyIds(array $data): array
+    {
+        if (!empty($data['industry_name'])) {
+            $data['industry_id'] = $this->findOrCreateTaxonomy(Industry::class, $data['industry_name']);
+        }
+        unset($data['industry_name']);
+
+        if (!empty($data['service_type_name'])) {
+            $data['service_type_id'] = $this->findOrCreateTaxonomy(ServiceType::class, $data['service_type_name']);
+        }
+        unset($data['service_type_name']);
+
+        return $data;
+    }
+
+    /** @param class-string<Industry|ServiceType> $model */
+    private function findOrCreateTaxonomy(string $model, string $name): int
+    {
+        $existing = $model::whereRaw('LOWER(name_id) = ?', [mb_strtolower($name)])->first();
+        if ($existing) {
+            return $existing->id;
+        }
+
+        $slug = \Illuminate\Support\Str::slug($name);
+        $uniqueSlug = $slug;
+        for ($suffix = 2; $model::where('slug', $uniqueSlug)->exists(); $suffix++) {
+            $uniqueSlug = "{$slug}-{$suffix}";
+        }
+
+        return $model::create([
+            'slug' => $uniqueSlug,
+            'name_id' => $name,
+            'display_order' => ($model::max('display_order') ?? -1) + 1,
+        ])->id;
     }
 
     private function resolveLang(Request $request): string

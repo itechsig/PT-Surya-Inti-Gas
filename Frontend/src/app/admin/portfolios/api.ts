@@ -20,7 +20,7 @@ function toFormData(values: Partial<PortfolioFormValues>): FormData {
   const formData = new FormData();
 
   const scalarKeys: (keyof PortfolioFormValues)[] = [
-    'industry_id', 'service_type_id', 'slug',
+    'industry_id', 'industry_name', 'service_type_id', 'service_type_name', 'slug',
     'title_id', 'title_en', 'title_zh',
     'location_id', 'location_en', 'location_zh',
     'product_solution_id', 'product_solution_en', 'product_solution_zh',
