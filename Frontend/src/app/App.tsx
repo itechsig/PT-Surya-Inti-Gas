@@ -5,7 +5,7 @@ import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { RunningText } from "./components/RunningText";
 import { AboutCompany } from "./components/AboutCompany";
-import { CompanyProfileVideo } from "./components/CompanyProfileVideo";
+// import { CompanyProfileVideo } from "./components/CompanyProfileVideo";
 import { ProductsAndServices } from "./components/ProductsAndServices";
 import { IndustriesServed } from "./components/IndustriesServed";
 import { WhyChooseUs } from "./components/WhyChooseUs";
@@ -188,7 +188,7 @@ function MainPage() {
         }} />
         <PageTransition variant="default">
           <AboutCompany />
-          <CompanyProfileVideo />
+          {/* <CompanyProfileVideo /> */}
           <ProductsAndServices />
           <IndustriesServed />
           <div style={{ height: '80px', background: '#f8fafc' }} />
