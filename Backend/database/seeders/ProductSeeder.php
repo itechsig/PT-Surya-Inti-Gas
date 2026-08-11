@@ -16,10 +16,6 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        if (Product::count() > 0) {
-            return;
-        }
-
         $structure = [
             'industrial-medical' => [
                 ['id' => 'acetylene', 'image' => 'Acetylene_fix.webp'],
@@ -92,12 +88,26 @@ class ProductSeeder extends Seeder
             ],
         ];
 
+        // Only skip if all products exist (based on slugs)
+        $requiredSlugs = [];
+        foreach ($structure as $categorySlug => $items) {
+            foreach ($items as $item) {
+                $requiredSlugs[] = $item['id'];
+            }
+        }
+        
+        $existingCount = Product::whereIn('slug', $requiredSlugs)->count();
+        if ($existingCount === count($requiredSlugs)) {
+            return;
+        }
+
         $locales = LocaleReader::load();
         $imagesDir = LocaleReader::imagesDir();
 
         foreach ($structure as $categorySlug => $items) {
             $category = ProductCategory::where('slug', $categorySlug)->first();
             if (!$category) {
+                // Log or skip if category doesn't exist
                 continue;
             }
 
@@ -111,23 +121,25 @@ class ProductSeeder extends Seeder
 
                 $texts = $locales['id']['products']['items'][$item['id']] ?? [];
 
-                Product::create([
-                    'product_category_id' => $category->id,
-                    'slug' => $item['id'],
-                    'name_id' => $texts['title'] ?? $item['id'],
-                    'name_en' => $locales['en']['products']['items'][$item['id']]['title'] ?? null,
-                    'name_zh' => $locales['zh']['products']['items'][$item['id']]['title'] ?? null,
-                    'description_id' => $texts['description'] ?? '',
-                    'description_en' => $locales['en']['products']['items'][$item['id']]['description'] ?? null,
-                    'description_zh' => $locales['zh']['products']['items'][$item['id']]['description'] ?? null,
-                    'full_description_id' => $texts['fullDescription'] ?? null,
-                    'full_description_en' => $locales['en']['products']['items'][$item['id']]['fullDescription'] ?? null,
-                    'full_description_zh' => $locales['zh']['products']['items'][$item['id']]['fullDescription'] ?? null,
-                    'image' => $storedPath,
-                    'display_order' => $index,
-                    'is_featured' => false,
-                    'is_published' => true,
-                ]);
+                Product::updateOrCreate(
+                    ['slug' => $item['id']],
+                    [
+                        'product_category_id' => $category->id,
+                        'name_id' => $texts['title'] ?? $item['id'],
+                        'name_en' => $locales['en']['products']['items'][$item['id']]['title'] ?? null,
+                        'name_zh' => $locales['zh']['products']['items'][$item['id']]['title'] ?? null,
+                        'description_id' => $texts['description'] ?? '',
+                        'description_en' => $locales['en']['products']['items'][$item['id']]['description'] ?? null,
+                        'description_zh' => $locales['zh']['products']['items'][$item['id']]['description'] ?? null,
+                        'full_description_id' => $texts['fullDescription'] ?? null,
+                        'full_description_en' => $locales['en']['products']['items'][$item['id']]['fullDescription'] ?? null,
+                        'full_description_zh' => $locales['zh']['products']['items'][$item['id']]['fullDescription'] ?? null,
+                        'image' => $storedPath,
+                        'display_order' => $index,
+                        'is_featured' => false,
+                        'is_published' => true,
+                    ]
+                );
             }
         }
     }

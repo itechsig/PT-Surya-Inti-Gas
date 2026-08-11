@@ -199,8 +199,7 @@ export function ProductsAndServices() {
         const packageCategoriesArray = Object.keys(packageCategories || {});
         
         if (packageCategoriesArray.length > 0) {
-          const firstSubCategory = packageCategoriesArray[0] || '';
-          setSubCategory(subcategoryParam && packageCategories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
+          setSubCategory(subcategoryParam && packageCategories?.[subcategoryParam] ? subcategoryParam : '');
         } else {
           // Fallback: Use equipment sub-categories
           const categories = productCategories['equipment'] as Record<string, SubCategory>;
@@ -228,7 +227,7 @@ export function ProductsAndServices() {
       const packageCategoriesArray = Object.keys(packageCategories || {});
       
       if (packageCategoriesArray.length > 0) {
-        setSubCategory(packageCategoriesArray[0] || '');
+        setSubCategory(''); // Show all package items by default
       } else {
         // Fallback: Use equipment sub-categories
         categories = productCategories['equipment'] as Record<string, SubCategory>;
@@ -248,7 +247,7 @@ export function ProductsAndServices() {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
     
-    // For package category, try to use package sub-categories first
+    // For package category, show all sub-categories for filtering
     if (mainCategory === 'package') {
       const packageCategories = productCategories['package'] as Record<string, SubCategory>;
       const packageCategoriesArray = Object.keys(packageCategories || {});
@@ -282,9 +281,8 @@ export function ProductsAndServices() {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
     
-    // For package category, show specific products only
+    // For package category, show all products from all sub-categories
     if (mainCategory === 'package') {
-      // First try to use package category data directly
       const packageCategories = productCategories['package'] as Record<string, SubCategory>;
       const packageCategoriesArray = Object.keys(packageCategories || {});
       
@@ -295,7 +293,7 @@ export function ProductsAndServices() {
           return packageCategories[subCategory].products || [];
         }
         
-        // Default: show all package items
+        // Default: show all package items from all sub-categories
         const allProducts: Product[] = [];
         Object.values(packageCategories).forEach(subCategory => {
           if (subCategory?.products) {
@@ -303,21 +301,7 @@ export function ProductsAndServices() {
           }
         });
         
-        // Filter to only show specific package items
-        const allowedPackageIds = [
-          'cradle-2x2',              // Cradle 2x2
-          'cradle-3x2',              // Cradle 3x2
-          'cradle-3x3',              // Cradle 3x3
-          'cradle-4x4',              // Cradle 4x4
-          'package-high-pressure',  // Cylinder
-          'cryogenic-dewars',        // Cryogenic Dewars
-          'vessel-gas-liquid',       // Vessel Gas Liquid
-          'microbulk-tank',          // Microbulk Tank
-          'iso-tank',                // ISO Tank
-          'lorry-tank'               // Cryogenic Rigged Tank
-        ];
-        
-        return allProducts.filter(product => allowedPackageIds.includes(product.id));
+        return allProducts;
       }
       
       // Fallback: Use equipment category data for package items (temporary fix until backend structure is corrected)
@@ -332,22 +316,7 @@ export function ProductsAndServices() {
         }
       });
       
-      // Filter to only show specific package items by product ID
-      const allowedPackageIds = [
-        'cradle',                 // Cradle (generic)
-        'cradle-2x2',              // Cradle 2x2
-        'cradle-3x2',              // Cradle 3x2
-        'cradle-3x3',              // Cradle 3x3
-        'cradle-4x4',              // Cradle 4x4
-        'package-high-pressure',  // Cylinder
-        'cryogenic-dewars',        // Cryogenic Dewars
-        'vessel-gas-liquid',       // Vessel Gas Liquid
-        'microbulk-tank',          // Microbulk Tank
-        'cryogenic-iso-tank',      // Cryogenic ISO Tank
-        'cryogenic-road-tank'      // Cryogenic Rigged Tank
-      ];
-      
-      return allProducts.filter(product => allowedPackageIds.includes(product.id));
+      return allProducts;
     }
     
     // For gas and services, use sub-category filtering
@@ -411,8 +380,8 @@ export function ProductsAndServices() {
             <FeaturedBanner category={mainCategory} t={t} />
           </motion.div>
 
-          {/* Sub-Category Navigation (Premium Pill Buttons) - Hide for package category */}
-          {mainCategory !== 'package' && getSubCategories().length > 1 && (
+          {/* Sub-Category Navigation (Premium Pill Buttons) */}
+          {getSubCategories().length > 1 && (
             <motion.div 
               className="products-subcategories"
               initial={{ opacity: 0, y: 20 }}
