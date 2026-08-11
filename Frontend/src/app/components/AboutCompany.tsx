@@ -107,7 +107,7 @@ const css = `
   /* ── Corporate Grid Layout ── */
   .about-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.15fr 1fr;
     gap: 80px;
     align-items: center;
   }
@@ -122,11 +122,13 @@ const css = `
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 25px 80px rgba(30, 64, 175, 0.15);
+    min-height: 560px;
   }
 
   .about-main-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
     transition: transform 0.6s var(--ease);
   }
@@ -266,6 +268,10 @@ const css = `
     .about-content-section {
       order: 2;
     }
+
+    .about-main-image {
+      min-height: 420px;
+    }
   }
 
   @media (max-width: 768px) {
@@ -275,6 +281,10 @@ const css = `
 
     .about-header {
       margin-bottom: 48px;
+    }
+
+    .about-main-image {
+      min-height: 320px;
     }
 
     .about-overlay-card {
