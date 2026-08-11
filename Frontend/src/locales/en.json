@@ -373,10 +373,10 @@
     "overlayStat": "20+",
     "overlayLabel": "Years of Experience in Indonesia's Gas Industry",
     "profileTitle": "Company Profile",
-    "profileText": "PT Surya Inti Gas is a leading industrial gas company dedicated to providing high-quality gas solutions for various industrial sectors in Indonesia. With experience since 2003, we have built a reputation as a trusted partner in the manufacturing, healthcare, energy, and infrastructure industries.",
+    "profileText": "PT Surya Inti Gas is a provider of industrial and medical gas solutions, dedicated to delivering quality products and services for a wide range of industrial needs across Indonesia. With experience since 2003, we provide gases with purity levels tailored to specific requirements, safe packaging, reliable supply, on-time delivery, and responsive, professional service. Supported by competitive pricing and flexible solutions, we are ready to be your trusted partner in meeting your gas requirements and supporting smooth industrial operations.",
     "cta": "Learn More"
   },
-  "chatbot": {
+  "chatbot": {  
     "title": "Virtual Assistant",
     "greeting": "Hello! Welcome to PT Surya Inti Gas. How can I help you?",
     "errorFallback": "Sorry, an error occurred.",
