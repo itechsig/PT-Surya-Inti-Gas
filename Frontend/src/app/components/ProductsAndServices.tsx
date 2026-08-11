@@ -193,19 +193,9 @@ export function ProductsAndServices() {
     if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
       setMainCategory(categoryParam as MainCategory);
       
-      // For package category, try to use package sub-categories first
+      // For package category, no subcategories needed
       if (categoryParam === 'package') {
-        const packageCategories = productCategories['package'] as Record<string, SubCategory>;
-        const packageCategoriesArray = Object.keys(packageCategories || {});
-        
-        if (packageCategoriesArray.length > 0) {
-          setSubCategory(subcategoryParam && packageCategories?.[subcategoryParam] ? subcategoryParam : '');
-        } else {
-          // Fallback: Use equipment sub-categories
-          const categories = productCategories['equipment'] as Record<string, SubCategory>;
-          const firstSubCategory = Object.keys(categories || {})[0] || '';
-          setSubCategory(subcategoryParam && categories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
-        }
+        setSubCategory('');
       } else {
         const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
         const firstSubCategory = Object.keys(categories || {})[0] || '';
@@ -221,18 +211,9 @@ export function ProductsAndServices() {
     // Set default sub-category based on main category
     let categories = productCategories[category] as Record<string, SubCategory>;
     
-    // For package category, try to use package sub-categories first
+    // For package category, no subcategories needed
     if (category === 'package') {
-      const packageCategories = productCategories['package'] as Record<string, SubCategory>;
-      const packageCategoriesArray = Object.keys(packageCategories || {});
-      
-      if (packageCategoriesArray.length > 0) {
-        setSubCategory(''); // Show all package items by default
-      } else {
-        // Fallback: Use equipment sub-categories
-        categories = productCategories['equipment'] as Record<string, SubCategory>;
-        setSubCategory(Object.keys(categories || {})[0] || '');
-      }
+      setSubCategory('');
     } else {
       setSubCategory(Object.keys(categories || {})[0] || '');
     }
@@ -247,28 +228,9 @@ export function ProductsAndServices() {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
     
-    // For package category, show all sub-categories for filtering
+    // Package category has no subcategories - return empty
     if (mainCategory === 'package') {
-      const packageCategories = productCategories['package'] as Record<string, SubCategory>;
-      const packageCategoriesArray = Object.keys(packageCategories || {});
-      
-      // If package category has data, use it
-      if (packageCategoriesArray.length > 0) {
-        return Object.keys(packageCategories).map(key => ({
-          id: key,
-          title: packageCategories[key]?.title || ''
-        }));
-      }
-      
-      // Fallback: Use equipment sub-categories (temporary fix until backend structure is corrected)
-      const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
-      if (!equipmentCategories) return [];
-      
-      // Return all equipment sub-categories for now
-      return Object.keys(equipmentCategories).map(key => ({
-        id: key,
-        title: equipmentCategories[key]?.title || ''
-      }));
+      return [];
     }
     
     return Object.keys(categories).map(key => ({
@@ -281,19 +243,14 @@ export function ProductsAndServices() {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
     
-    // For package category, show all products from all sub-categories
+    // For package category, show all products directly (no subcategories)
     if (mainCategory === 'package') {
       const packageCategories = productCategories['package'] as Record<string, SubCategory>;
       const packageCategoriesArray = Object.keys(packageCategories || {});
       
-      // If package category has data, use it
+      // If package category has data, show all products
       if (packageCategoriesArray.length > 0) {
-        // If a specific sub-category is selected, show products from that sub-category
-        if (subCategory && packageCategories[subCategory]) {
-          return packageCategories[subCategory].products || [];
-        }
-        
-        // Default: show all package items from all sub-categories
+        // Show all products from the package category
         const allProducts: Product[] = [];
         Object.values(packageCategories).forEach(subCategory => {
           if (subCategory?.products) {
@@ -304,19 +261,7 @@ export function ProductsAndServices() {
         return allProducts;
       }
       
-      // Fallback: Use equipment category data for package items (temporary fix until backend structure is corrected)
-      const equipmentCategories = productCategories['equipment'] as Record<string, SubCategory>;
-      if (!equipmentCategories) return [];
-      
-      // Get all products from all equipment sub-categories
-      const allProducts: Product[] = [];
-      Object.values(equipmentCategories).forEach(subCategory => {
-        if (subCategory?.products) {
-          allProducts.push(...subCategory.products);
-        }
-      });
-      
-      return allProducts;
+      return [];
     }
     
     // For gas and services, use sub-category filtering

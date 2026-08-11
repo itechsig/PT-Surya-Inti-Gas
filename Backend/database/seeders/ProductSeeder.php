@@ -24,67 +24,26 @@ class ProductSeeder extends Seeder
                 ['id' => 'argon', 'image' => 'Argon_Fix.webp'],
                 ['id' => 'carbon-dioxide', 'image' => 'CO2_Fix.webp'],
                 ['id' => 'hydrogen', 'image' => 'Hidrogen_Fix.webp'],
+                ['id' => 'carbon-monoxide', 'image' => 'CO2_Fix.webp'],
+                ['id' => 'propane', 'image' => 'Oxygen_Fix.webp'], // Using Oxygen image as fallback
+                ['id' => 'butane', 'image' => 'Oxygen_Fix.webp'], // Using Oxygen image as fallback
             ],
             'speciality-mixed' => [
                 ['id' => 'helium', 'image' => 'Helium_Fix.webp'],
                 ['id' => 'sulfur-hexaflouride', 'image' => 'SF6_Fix.webp'],
                 ['id' => 'mixed-gas', 'image' => 'Mixed_Gas_Fix.webp'],
             ],
-            'color-code' => [
-                ['id' => 'color-code-acetylene', 'image' => 'Acetylene_fix.webp'],
-                ['id' => 'color-code-special', 'image' => 'Special_gas_.webp'],
-                ['id' => 'color-code-medical', 'image' => 'Oxygen_Fix.webp'],
-                ['id' => 'color-code-industrial', 'image' => '20260618_134406.webp'],
-            ],
-            'cradle-2x2' => [
+            'package' => [
                 ['id' => 'cradle-2x2', 'image' => 'Craddle_3x2.webp'],
-            ],
-            'cradle-3x2' => [
                 ['id' => 'cradle-3x2', 'image' => 'Craddle_3x2.webp'],
-            ],
-            'cradle-3x3' => [
                 ['id' => 'cradle-3x3', 'image' => 'Craddle_4x4_fixed.webp'],
-            ],
-            'cradle-4x4' => [
                 ['id' => 'cradle-4x4', 'image' => 'Craddle_4x4_fixed.webp'],
-            ],
-            'cylinder' => [
                 ['id' => 'package-high-pressure', 'image' => '20260618_134436.webp'],
-            ],
-            'cryogenic-dewars' => [
                 ['id' => 'cryogenic-dewars', 'image' => 'Cryogenic_Dewar.webp'],
-            ],
-            'vessel-gas-liquid' => [
                 ['id' => 'vessel-gas-liquid', 'image' => 'VGL.webp'],
-            ],
-            'microbulk-tank' => [
                 ['id' => 'microbulk-tank', 'image' => 'Microbulk_.webp'],
-            ],
-            'iso-tank' => [
                 ['id' => 'iso-tank', 'image' => 'ISO_Tank.webp'],
-            ],
-            'lorry-tank' => [
                 ['id' => 'lorry-tank', 'image' => 'Road_tank.webp'],
-            ],
-            'assist-gas' => [
-                ['id' => 'assist-gas-cradle-4x4', 'image' => 'Craddle_4x4_fixed.webp'],
-                ['id' => 'microbulk-gas-supply', 'image' => 'Microbulk_Gas_Supply.webp'],
-                ['id' => 'storage-tank-gas-supply', 'image' => 'Storage_Tank_Gas.webp'],
-            ],
-            'cryogenic-transport' => [
-                ['id' => 'liquid-filling-transfer', 'image' => 'Liquid_Filling.webp'],
-                ['id' => 'cryogenic-iso-tank', 'image' => 'ISO_Tank.webp'],
-                ['id' => 'cryogenic-road-tank', 'image' => 'Road_tank.webp'],
-                ['id' => 'cryogenic-rigged-tank', 'image' => 'Road_tank.webp'],
-            ],
-            'regulator-valves' => [
-                ['id' => 'cryogenic-gas-valve', 'image' => 'Cryogenic&Valve.webp'],
-                ['id' => 'gas-regulator-laser', 'image' => 'Gas_Regulator_For_Cutting.webp'],
-                ['id' => 'high-pressure-regulator', 'image' => 'High_Pressure_Regulator.webp'],
-                ['id' => 'high-pressure-gas-valve', 'image' => 'High_Pressure_Gas_Valve.webp'],
-            ],
-            'medical-gas-equipment' => [
-                ['id' => 'gdms-systems', 'image' => 'GDMS.webp'],
             ],
         ];
 
@@ -95,6 +54,13 @@ class ProductSeeder extends Seeder
                 $requiredSlugs[] = $item['id'];
             }
         }
+        
+        // Add service products to required slugs
+        $requiredSlugs[] = 'installation';
+        $requiredSlugs[] = 'delivery';
+        $requiredSlugs[] = 'refilling';
+        $requiredSlugs[] = 'testing';
+        $requiredSlugs[] = 'maintenance';
         
         $existingCount = Product::whereIn('slug', $requiredSlugs)->count();
         if ($existingCount === count($requiredSlugs)) {
@@ -120,6 +86,53 @@ class ProductSeeder extends Seeder
                 }
 
                 $texts = $locales['id']['products']['items'][$item['id']] ?? [];
+                
+                // For gas items, use specific naming for carbon-monoxide, propane, and butane
+                if ($categorySlug === 'industrial-medical') {
+                    $gasNames = [
+                        'carbon-monoxide' => [
+                            'title' => 'Karbon Monoksida (CO)',
+                            'description' => 'Gas karbon monoksida untuk aplikasi industri dan medis',
+                            'fullDescription' => 'Karbon Monoksida (CO) adalah gas yang digunakan dalam berbagai aplikasi industri dan medis. Dalam industri, CO digunakan dalam proses kimia, metalurgi, dan sebagai bahan baku untuk pembuatan berbagai produk kimia. Dalam medis, CO digunakan dalam terapi oksigen hiperbarik dan dalam beberapa prosedur medis spesifik. PT Surya Inti Gas menyediakan karbon monoksida dengan tingkat kemurnian yang sesuai untuk aplikasi industri dan medis.'
+                        ],
+                        'propane' => [
+                            'title' => 'Propana (C3H8)',
+                            'description' => 'Gas propana untuk aplikasi industri dan rumah tangga',
+                            'fullDescription' => 'Propana (C3H8) adalah gas hidrokarbon yang banyak digunakan sebagai bahan bakar untuk aplikasi industri dan rumah tangga. Dalam industri, propana digunakan untuk pemotongan logam, pengelasan, dan sebagai bahan bakar untuk forklift dan kendaraan industri. Dalam rumah tangga, propana digunakan untuk memasak, pemanas, dan sebagai bahan bakar kendaraan. PT Surya Inti Gas menyediakan propana dengan kualitas tinggi untuk berbagai aplikasi.'
+                        ],
+                        'butane' => [
+                            'title' => 'Butana (C4H10)',
+                            'description' => 'Gas butana untuk aplikasi industri dan rumah tangga',
+                            'fullDescription' => 'Butana (C4H10) adalah gas hidrokarbon yang banyak digunakan sebagai bahan bakar untuk aplikasi industri dan rumah tangga. Dalam industri, butana digunakan untuk proses kimia, sebagai bahan bakar untuk torch, dan dalam manufaktur. Dalam rumah tangga, butana digunakan untuk memasak, pemanas, dan sebagai bahan bakar. PT Surya Inti Gas menyediakan butana dengan kualitas tinggi untuk berbagai aplikasi.'
+                        ],
+                    ];
+                    
+                    if (isset($gasNames[$item['id']])) {
+                        $texts['title'] = $gasNames[$item['id']]['title'];
+                        $texts['description'] = $gasNames[$item['id']]['description'];
+                        $texts['fullDescription'] = $gasNames[$item['id']]['fullDescription'];
+                    }
+                }
+                
+                // For package items, use specific naming
+                if ($categorySlug === 'package') {
+                    $packageNames = [
+                        'cradle-2x2' => 'Cradle (2x2)',
+                        'cradle-3x2' => 'Cradle (3x2)',
+                        'cradle-3x3' => 'Cradle (3x3)',
+                        'cradle-4x4' => 'Cradle (4x4)',
+                        'package-high-pressure' => 'Cylinder',
+                        'cryogenic-dewars' => 'Cryogenic Dewars',
+                        'vessel-gas-liquid' => 'Vessel Gas Liquid',
+                        'microbulk-tank' => 'Microbulk Tank',
+                        'iso-tank' => 'ISO Tank',
+                        'lorry-tank' => 'Rigged Tank',
+                    ];
+                    
+                    if (isset($packageNames[$item['id']])) {
+                        $texts['title'] = $packageNames[$item['id']];
+                    }
+                }
 
                 Product::updateOrCreate(
                     ['slug' => $item['id']],
