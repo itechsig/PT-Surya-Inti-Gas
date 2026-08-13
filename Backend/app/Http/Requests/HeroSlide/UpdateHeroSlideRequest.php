@@ -16,13 +16,13 @@ class UpdateHeroSlideRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title_id' => 'sometimes|required|string|max:255',
+            'title_id' => 'nullable|string|max:255',
             'title_en' => 'nullable|string|max:255',
             'title_zh' => 'nullable|string|max:255',
-            'subtitle_id' => 'sometimes|required|string|max:255',
+            'subtitle_id' => 'nullable|string|max:255',
             'subtitle_en' => 'nullable|string|max:255',
             'subtitle_zh' => 'nullable|string|max:255',
-            'description_id' => 'sometimes|required|string|max:2000',
+            'description_id' => 'nullable|string|max:2000',
             'description_en' => 'nullable|string|max:2000',
             'description_zh' => 'nullable|string|max:2000',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',

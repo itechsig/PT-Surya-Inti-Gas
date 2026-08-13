@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             JobVacancySeeder::class,
             IndustrySeeder::class,
             ServiceTypeSeeder::class,
+            PortfolioSeeder::class,
         ]);
     }
 }

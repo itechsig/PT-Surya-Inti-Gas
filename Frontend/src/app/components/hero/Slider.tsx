@@ -99,13 +99,12 @@ export function Slider() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
+  const [preloadedNext, setPreloadedNext] = useState(1);
 
   const sectionRef = useRef<HTMLElement>(null);
   const touchStartX = useRef<number | null>(null);
   const inViewRef = useRef(true);
   const rafRef = useRef<number | null>(null);
-  const remainingMsRef = useRef(DEFAULT_SLIDE_DURATION_MS);
-  const resumeAtRef = useRef(0);
 
   const goTo = useCallback(
     (index: number) => {
@@ -117,25 +116,19 @@ export function Slider() {
   const goNext = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo]);
   const goPrev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo]);
 
-  /* Reset the remaining time whenever the active slide actually changes.
-     Must run before the autoplay effect below (hook order = run order). */
+  /* Autoplay */
   useEffect(() => {
-    remainingMsRef.current = heroSlides[activeIndex]?.durationMs ?? DEFAULT_SLIDE_DURATION_MS;
-  }, [activeIndex, heroSlides]);
+    if (isPaused || total === 0) return;
+    const duration = heroSlides[activeIndex]?.durationMs ?? DEFAULT_SLIDE_DURATION_MS;
+    const timer = setTimeout(() => goTo(activeIndex + 1), duration);
+    return () => clearTimeout(timer);
+  }, [activeIndex, isPaused, goTo, total, heroSlides]);
 
-  /* Autoplay — tracks remaining time across pause/resume so the timer stays
-     in sync with the progress bar's CSS animation instead of restarting
-     from the full duration every time the pointer leaves the slider. */
+  /* Preload the upcoming background image so the crossfade never pops */
   useEffect(() => {
     if (total === 0) return;
-    if (isPaused) {
-      remainingMsRef.current = Math.max(0, remainingMsRef.current - (Date.now() - resumeAtRef.current));
-      return;
-    }
-    resumeAtRef.current = Date.now();
-    const timer = setTimeout(() => goTo(activeIndex + 1), remainingMsRef.current);
-    return () => clearTimeout(timer);
-  }, [activeIndex, isPaused, goTo, total]);
+    setPreloadedNext((activeIndex + 1) % total);
+  }, [activeIndex, total]);
 
   /* Only respond to arrow keys while the hero is actually in view */
   useEffect(() => {
@@ -200,8 +193,6 @@ export function Slider() {
     return <section className="h-[100svh] min-h-[560px] w-full bg-[#0F4C81]" aria-busy="true" />;
   }
 
-  const preloadedNext = heroSlides[(activeIndex + 1) % total];
-
   return (
     <section
       ref={sectionRef}
@@ -218,7 +209,7 @@ export function Slider() {
 
       {/* Preload the next background image invisibly */}
       <img
-        src={getImageUrl(preloadedNext.image)}
+        src={getImageUrl(heroSlides[preloadedNext].image)}
         alt=""
         aria-hidden="true"
         className="absolute h-px w-px opacity-0"
@@ -308,14 +299,12 @@ export function Slider() {
           Industrial Gas Solution
         </div> */}
 
-        <AnimatePresence mode="wait">
-          <SlideContent key={slide.id} slide={slide} />
-        </AnimatePresence>
+        <SlideContent />
       </div>
 
       {/* Live region for screen readers */}
       <p className="sr-only" role="status" aria-live="polite">
-        {t('hero.liveRegion', { current: activeIndex + 1, total, title: slide.title })}
+        {t('hero.liveRegion', { current: activeIndex + 1, total, title: 'PT Surya Inti Gas' })}
       </p>
 
       <SliderControls

@@ -32,8 +32,13 @@ class ProductController extends Controller
                 $q->where('is_published', true)->orderBy('display_order');
             }])->orderBy('display_order')->get();
 
-            $result = ['gas' => [], 'package' => [], 'services' => []];
+            $result = ['gas' => [], 'package' => [], 'services' => [], 'equipment' => []];
             foreach ($categories as $category) {
+                // Ensure the main category key exists
+                if (!isset($result[$category->main_category])) {
+                    $result[$category->main_category] = [];
+                }
+                
                 $result[$category->main_category][$category->slug] = [
                     'title' => $category->{"name_$lang"} ?: $category->name_id,
                     'products' => $category->products->map(fn (Product $p) => $this->toPublicProduct($p, $lang))->values(),

@@ -98,7 +98,7 @@ export function HeroSlidesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Hero Slides</h1>
-          <p className="text-muted-foreground">Kelola slide gambar &amp; teks di halaman utama website.</p>
+          <p className="text-muted-foreground">Kelola slide gambar di halaman utama website. Teks konten sudah diset secara statis.</p>
         </div>
         <Button onClick={openCreate}>
           <Plus className="h-4 w-4" />
@@ -122,7 +122,7 @@ export function HeroSlidesPage() {
                 <TableRow>
                   <TableHead className="w-20">Urutan</TableHead>
                   <TableHead className="w-24">Gambar</TableHead>
-                  <TableHead>Judul</TableHead>
+                  <TableHead>Durasi (ms)</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Aksi</TableHead>
                 </TableRow>
@@ -141,11 +141,10 @@ export function HeroSlidesPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <img src={slide.image} alt={slide.title_id} className="h-12 w-20 rounded object-cover" />
+                      <img src={slide.image} alt="Slide" className="h-12 w-20 rounded object-cover" />
                     </TableCell>
                     <TableCell>
-                      <div className="font-medium">{slide.title_id}</div>
-                      <div className="text-xs text-muted-foreground">{slide.subtitle_id}</div>
+                      <div className="font-medium">{slide.duration_ms} ms</div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
@@ -180,7 +179,7 @@ export function HeroSlidesPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Hapus slide ini?</AlertDialogTitle>
             <AlertDialogDescription>
-              "{deletingSlide?.title_id}" akan dihapus permanen dan tidak akan tampil lagi di website.
+              Slide ini akan dihapus permanen dan tidak akan tampil lagi di website.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

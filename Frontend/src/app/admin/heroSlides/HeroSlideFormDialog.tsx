@@ -8,9 +8,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from '../../components/ui/dialog';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../components/ui/tabs';
 import { Input } from '../../components/ui/input';
-import { Textarea } from '../../components/ui/textarea';
 import { Label } from '../../components/ui/label';
 import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
@@ -54,12 +52,6 @@ export function HeroSlideFormDialog({ open, onOpenChange, slide, onSaved }: Hero
     }
     setErrors({});
   }, [open, slide]);
-
-  const field = (key: keyof HeroSlideFormValues) => ({
-    value: values[key] as string,
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setValues((prev) => ({ ...prev, [key]: e.target.value })),
-  });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
@@ -107,8 +99,7 @@ export function HeroSlideFormDialog({ open, onOpenChange, slide, onSaved }: Hero
           <DialogHeader>
             <DialogTitle>{slide ? 'Edit Hero Slide' : 'Tambah Hero Slide'}</DialogTitle>
             <DialogDescription>
-              Isi konten untuk setiap bahasa. Bahasa Indonesia wajib diisi; Inggris &amp; Mandarin opsional
-              (akan otomatis memakai teks Indonesia jika kosong).
+              Upload gambar untuk hero slide. Teks konten sudah diset secara statis dan tidak dapat diubah.
             </DialogDescription>
           </DialogHeader>
 
@@ -122,49 +113,16 @@ export function HeroSlideFormDialog({ open, onOpenChange, slide, onSaved }: Hero
               {fieldError('image') && <p className="text-xs text-destructive">{fieldError('image')}</p>}
             </div>
 
-            <Tabs defaultValue="id">
-              <TabsList>
-                <TabsTrigger value="id">Indonesia</TabsTrigger>
-                <TabsTrigger value="en">English</TabsTrigger>
-                <TabsTrigger value="zh">中文</TabsTrigger>
-              </TabsList>
-              {(['id', 'en', 'zh'] as const).map((lang) => (
-                <TabsContent key={lang} value={lang} className="flex flex-col gap-3">
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor={`title_${lang}`}>Judul</Label>
-                    <Input id={`title_${lang}`} {...field(`title_${lang}` as keyof HeroSlideFormValues)} />
-                    {fieldError(`title_${lang}`) && <p className="text-xs text-destructive">{fieldError(`title_${lang}`)}</p>}
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor={`subtitle_${lang}`}>Subjudul</Label>
-                    <Input id={`subtitle_${lang}`} {...field(`subtitle_${lang}` as keyof HeroSlideFormValues)} />
-                    {fieldError(`subtitle_${lang}`) && <p className="text-xs text-destructive">{fieldError(`subtitle_${lang}`)}</p>}
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor={`description_${lang}`}>Deskripsi</Label>
-                    <Textarea id={`description_${lang}`} rows={3} {...field(`description_${lang}` as keyof HeroSlideFormValues)} />
-                    {fieldError(`description_${lang}`) && <p className="text-xs text-destructive">{fieldError(`description_${lang}`)}</p>}
-                  </div>
-                </TabsContent>
-              ))}
-            </Tabs>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="cta_path">Link Tombol CTA</Label>
-                <Input id="cta_path" placeholder="produk atau produk/detail?id=oxygen" {...field('cta_path')} />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="duration_ms">Durasi Tampil (ms)</Label>
-                <Input
-                  id="duration_ms"
-                  type="number"
-                  min={1000}
-                  step={500}
-                  value={values.duration_ms}
-                  onChange={(e) => setValues((prev) => ({ ...prev, duration_ms: Number(e.target.value) }))}
-                />
-              </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="duration_ms">Durasi Tampil (ms)</Label>
+              <Input
+                id="duration_ms"
+                type="number"
+                min={1000}
+                step={500}
+                value={values.duration_ms}
+                onChange={(e) => setValues((prev) => ({ ...prev, duration_ms: Number(e.target.value) }))}
+              />
             </div>
 
             <div className="flex items-center gap-2">

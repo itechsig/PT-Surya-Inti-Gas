@@ -1,5 +1,5 @@
 import '../../styles/contact-page.css';
-import { Phone, Mail, MapPin, Building2, TrendingUp, Network, Award } from 'lucide-react';
+import { Mail, MapPin, Building2, TrendingUp, Network, Award } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { motion, type Variants } from 'motion/react';

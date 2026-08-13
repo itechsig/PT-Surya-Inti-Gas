@@ -14,7 +14,7 @@ export type SubCategory = {
   products: Product[];
 };
 
-export type MainCategory = "gas" | "package" | "services";
+export type MainCategory = "gas" | "package" | "services" | "equipment";
 
 export interface ProductCategories {
   gas: Record<string, SubCategory>;

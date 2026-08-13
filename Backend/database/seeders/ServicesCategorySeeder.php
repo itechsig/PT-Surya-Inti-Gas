@@ -69,35 +69,72 @@ class ServicesCategorySeeder extends Seeder
                 'full_description_en' => 'Gas refilling service includes refill of industrial and medical gas cylinders, as well as filling of bulk liquid tanks and cryogenic vessels. Our refilling facilities are equipped with modern equipment and quality control systems to ensure gas purity and safety. We provide on-site refilling and exchange systems for operational efficiency. PT Surya Inti Gas guarantees consistent gas quality for every refill.',
                 'full_description_zh' => '气体充装服务包括工业和医用气瓶的充装，以及散装液态罐和低温容器的充装。我们的充装设施配备现代设备和质量控制系统，确保气体纯度和安全。我们提供现场充装和交换系统，提高运营效率。PT Surya Inti Gas保证每次充装的气体质量一致。',
             ],
+            [
+                'id' => 'testing',
+                'image' => 'Testing.webp',
+                'name_id' => 'Testing dan Kalibrasi',
+                'name_en' => 'Testing and Calibration',
+                'name_zh' => '测试和校准',
+                'description_id' => 'Layanan testing dan kalibrasi peralatan gas',
+                'description_en' => 'Gas equipment testing and calibration service',
+                'description_zh' => '气体设备测试和校准服务',
+                'full_description_id' => 'Layanan testing dan kalibrasi peralatan gas mencakup pemeriksaan regulator, valve, dan sistem pengukur gas untuk memastikan akurasi dan keamanan operasional. Kami menyediakan layanan kalibrasi sesuai standar internasional dan sertifikasi yang diperlukan. PT Surya Inti Gas menjamin keandalan peralatan gas Anda dengan layanan testing berkala.',
+                'full_description_en' => 'Gas equipment testing and calibration service includes inspection of regulators, valves, and gas measurement systems to ensure operational accuracy and safety. We provide calibration services according to international standards and required certifications. PT Surya Inti Gas guarantees the reliability of your gas equipment with regular testing services.',
+                'full_description_zh' => '气体设备测试和校准服务包括检查调节器、阀门和气体测量系统，以确保操作准确性和安全性。我们提供符合国际标准和所需认证的校准服务。PT Surya Inti Gas通过定期测试服务保证气体设备的可靠性。',
+            ],
+            [
+                'id' => 'maintenance',
+                'image' => 'Maintenance.webp',
+                'name_id' => 'Maintenance',
+                'name_en' => 'Maintenance',
+                'name_zh' => '维护',
+                'description_id' => 'Layanan maintenance sistem gas',
+                'description_en' => 'Gas system maintenance service',
+                'description_zh' => '气体系统维护服务',
+                'full_description_id' => 'Layanan maintenance sistem gas mencakup perawatan berkala sistem distribusi gas, pipeline, dan peralatan terkait untuk mencegah kerusakan dan memastikan operasi yang optimal. Tim teknisi kami melakukan inspeksi menyeluruh dan perbaikan yang diperlukan. PT Surya Inti Gas menyediakan program maintenance preventif untuk meminimalkan downtime.',
+                'full_description_en' => 'Gas system maintenance service includes regular care of gas distribution systems, pipelines, and related equipment to prevent damage and ensure optimal operation. Our technicians perform thorough inspections and necessary repairs. PT Surya Inti Gas provides preventive maintenance programs to minimize downtime.',
+                'full_description_zh' => '气体系统维护服务包括对气体分配系统、管道和相关设备的定期护理，以防止损坏并确保最佳运行。我们的技术人员进行全面检查和必要的维修。PT Surya Inti Gas提供预防性维护计划以尽量减少停机时间。',
+            ],
         ];
 
         $imagesDir = base_path('../Frontend/public/images/services');
+
+        // Create a simple fallback image for new services
+        $fallbackImage = 'Installation.webp';
 
         foreach ($items as $index => $item) {
             $sourcePath = $imagesDir . '/' . $item['image'];
             $storedPath = 'products/' . $item['id'] . '-' . $item['image'];
 
+            // Use fallback image if the specific image doesn't exist
+            if (!file_exists($sourcePath)) {
+                $sourcePath = $imagesDir . '/' . $fallbackImage;
+                $storedPath = 'products/' . $item['id'] . '-' . $fallbackImage;
+            }
+
             if (file_exists($sourcePath)) {
                 Storage::disk('public')->put($storedPath, file_get_contents($sourcePath));
             }
 
-            Product::create([
-                'product_category_id' => $category->id,
-                'slug' => $item['id'],
-                'name_id' => $item['name_id'],
-                'name_en' => $item['name_en'],
-                'name_zh' => $item['name_zh'],
-                'description_id' => $item['description_id'],
-                'description_en' => $item['description_en'],
-                'description_zh' => $item['description_zh'],
-                'full_description_id' => $item['full_description_id'],
-                'full_description_en' => $item['full_description_en'],
-                'full_description_zh' => $item['full_description_zh'],
-                'image' => $storedPath,
-                'display_order' => $index,
-                'is_featured' => false,
-                'is_published' => true,
-            ]);
+            Product::updateOrCreate(
+                ['slug' => $item['id']],
+                [
+                    'product_category_id' => $category->id,
+                    'name_id' => $item['name_id'],
+                    'name_en' => $item['name_en'],
+                    'name_zh' => $item['name_zh'],
+                    'description_id' => $item['description_id'],
+                    'description_en' => $item['description_en'],
+                    'description_zh' => $item['description_zh'],
+                    'full_description_id' => $item['full_description_id'],
+                    'full_description_en' => $item['full_description_en'],
+                    'full_description_zh' => $item['full_description_zh'],
+                    'image' => $storedPath,
+                    'display_order' => $index,
+                    'is_featured' => false,
+                    'is_published' => true,
+                ]
+            );
         }
     }
 }
