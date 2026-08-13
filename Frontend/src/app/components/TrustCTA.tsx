@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { motion, type PanInfo, type Variants } from "motion/react";
 import { ArrowRight, ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
-// import { getImageUrl } from "../../utils/imageUrl";
+import { getImageUrl } from "../../utils/imageUrl";
 
 /* ═══════════════════════════════════════════════════════════════
    TRUST CTA.TSX — PT Surya Inti Gas Corporate
@@ -457,16 +457,16 @@ const staggerContainer: Variants = {
 };
 
 /** Photo per testimonial, keyed by name (names are unchanged across id/en/zh locales). */
-// const AVATAR_BY_NAME: Record<string, string> = {
-//   Fauzan: "/images/testimoni/profil1.jpe",
-//   Misse: "/images/testimoni/profil2.jpe",
-//   Esty: "/images/testimoni/profil2.jpe",
-//   Ayu: "/images/testimoni/profil2.jpe",
-//   Rendy: "/images/testimoni/profil1.jpe",
-//   Zafi: "/images/testimoni/profil1.jpe",
-//   Tasya: "/images/testimoni/profil2.jpe",
-//   Hengky: "/images/testimoni/profil1.jpe",
-// };
+ const AVATAR_BY_NAME: Record<string, string> = {
+   Fauzan: "/images/testimoni/profil1.jpe",
+   Misse: "/images/testimoni/profil2.jpe",
+   Esty: "/images/testimoni/profil2.jpe",
+   Ayu: "/images/testimoni/profil2.jpe",
+   Rendy: "/images/testimoni/profil1.jpe",
+   Zafi: "/images/testimoni/profil1.jpe",
+   Tasya: "/images/testimoni/profil2.jpe",
+   Hengky: "/images/testimoni/profil1.jpe",
+};
 
 /** Turns "dr. Siti Rahmawati" into "SR" for the avatar badge. */
 function getInitials(name: string) {
@@ -613,13 +613,13 @@ export function TrustCTA() {
                     onClick={!isActive ? () => goTo(index) : undefined}
                     aria-hidden={Math.abs(offset) > 2}
                   >
-                    {/* <div className="trust-avatar" aria-hidden="true">
+                    <div className="trust-avatar" aria-hidden="true">
                       {AVATAR_BY_NAME[item.name] ? (
                         <img src={getImageUrl(AVATAR_BY_NAME[item.name])} alt="" loading="lazy" />
                       ) : (
                         getInitials(item.name)
                       )}
-                    </div> */}
+                    </div>
                     <div className="trust-stars" role="img" aria-label={`${item.rating} / 5`}>
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star key={i} size={13} className={i < item.rating ? "filled" : ""} />
