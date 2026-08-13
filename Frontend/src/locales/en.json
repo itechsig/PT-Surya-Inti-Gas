@@ -361,6 +361,68 @@
       "konstruksi": "Construction"
     }
   },
+  "testimonials": {
+    "title": "Stories of Those Who Grow With Us",
+    "subtitle": "Testimonials and experiences from the people who grow, develop, learn, and contribute with us.",
+    "items": [
+      {
+        "quote": "I make sure the systems this company relies on keep running smoothly, so our service to customers is never disrupted by technical issues.",
+        "name": "Fauzan",
+        "role": "IT Engineer",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "I make sure every cylinder that goes out has passed inspection to standard, so the gas that reaches our customers is safe to use.",
+        "name": "Misse",
+        "role": "Cylinder Admin",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "I make sure operational needs are always available on time, so production and delivery to our customers are never held up.",
+        "name": "Esty",
+        "role": "Purchasing",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "I make sure cylinder stock is recorded accurately and neatly, so there are no mistakes when shipments go out to customers.",
+        "name": "Ayu",
+        "role": "Warehouse Admin",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "I make sure every delivery reaches the customer safely and exactly on the schedule we promised.",
+        "name": "Rendy",
+        "role": "Distribution",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "I make sure the company's data and systems stay secure, so service to our customers runs without interruption.",
+        "name": "Zafi",
+        "role": "IT Engineer",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "Even as an intern, I try to do every task carefully, because I believe even the small things affect our customers' trust.",
+        "name": "Tasya",
+        "role": "Intern",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "I make sure every delivery trip is on time and the gas arrives safely in our customers' hands.",
+        "name": "Hengky",
+        "role": "Driver",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      }
+    ]
+  },
   "whyChooseUs": {
     "title": "We're Ready to Serve Your Gas Needs",
     "description": "We're ready to meet your wants and needs for gas products. We're ready to discuss with you, so that your gas product wants and needs can be well supported by us (stock, product types, delivery schedules, maintenance, etc.).",
