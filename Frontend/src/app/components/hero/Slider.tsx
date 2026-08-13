@@ -99,12 +99,13 @@ export function Slider() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
-  const [preloadedNext, setPreloadedNext] = useState(1);
 
   const sectionRef = useRef<HTMLElement>(null);
   const touchStartX = useRef<number | null>(null);
   const inViewRef = useRef(true);
   const rafRef = useRef<number | null>(null);
+  const remainingMsRef = useRef(DEFAULT_SLIDE_DURATION_MS);
+  const resumeAtRef = useRef(0);
 
   const goTo = useCallback(
     (index: number) => {
@@ -116,19 +117,25 @@ export function Slider() {
   const goNext = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo]);
   const goPrev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo]);
 
-  /* Autoplay */
+  /* Reset the remaining time whenever the active slide actually changes.
+     Must run before the autoplay effect below (hook order = run order). */
   useEffect(() => {
-    if (isPaused || total === 0) return;
-    const duration = heroSlides[activeIndex]?.durationMs ?? DEFAULT_SLIDE_DURATION_MS;
-    const timer = setTimeout(() => goTo(activeIndex + 1), duration);
-    return () => clearTimeout(timer);
-  }, [activeIndex, isPaused, goTo, total, heroSlides]);
+    remainingMsRef.current = heroSlides[activeIndex]?.durationMs ?? DEFAULT_SLIDE_DURATION_MS;
+  }, [activeIndex, heroSlides]);
 
-  /* Preload the upcoming background image so the crossfade never pops */
+  /* Autoplay — tracks remaining time across pause/resume so the timer stays
+     in sync with the progress bar's CSS animation instead of restarting
+     from the full duration every time the pointer leaves the slider. */
   useEffect(() => {
     if (total === 0) return;
-    setPreloadedNext((activeIndex + 1) % total);
-  }, [activeIndex, total]);
+    if (isPaused) {
+      remainingMsRef.current = Math.max(0, remainingMsRef.current - (Date.now() - resumeAtRef.current));
+      return;
+    }
+    resumeAtRef.current = Date.now();
+    const timer = setTimeout(() => goTo(activeIndex + 1), remainingMsRef.current);
+    return () => clearTimeout(timer);
+  }, [activeIndex, isPaused, goTo, total]);
 
   /* Only respond to arrow keys while the hero is actually in view */
   useEffect(() => {
@@ -193,6 +200,8 @@ export function Slider() {
     return <section className="h-[100svh] min-h-[560px] w-full bg-[#0F4C81]" aria-busy="true" />;
   }
 
+  const preloadedNext = heroSlides[(activeIndex + 1) % total];
+
   return (
     <section
       ref={sectionRef}
@@ -209,7 +218,7 @@ export function Slider() {
 
       {/* Preload the next background image invisibly */}
       <img
-        src={getImageUrl(heroSlides[preloadedNext].image)}
+        src={getImageUrl(preloadedNext.image)}
         alt=""
         aria-hidden="true"
         className="absolute h-px w-px opacity-0"
