@@ -672,6 +672,68 @@
       "konstruksi": "建筑业"
     }
   },
+  "testimonials": {
+    "title": "与我们共同成长的故事",
+    "subtitle": "来自与我们共同成长、进步、学习并贡献力量的员工的真实故事与经历。",
+    "items": [
+      {
+        "quote": "我确保公司所依赖的系统始终顺畅运行，让我们对客户的服务不会因技术问题而中断。",
+        "name": "Fauzan",
+        "role": "IT工程师",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "我确保每一支出库的气瓶都经过标准检查，让送到客户手中的气体安全可靠。",
+        "name": "Misse",
+        "role": "气瓶行政",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "我确保各项运营所需物资都能准时到位，让生产与配送流程不会因此延误。",
+        "name": "Esty",
+        "role": "采购",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "我确保气瓶库存记录准确无误，避免在配送给客户时出现差错。",
+        "name": "Ayu",
+        "role": "仓库行政",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "我确保每一次配送都安全送达，并且完全按照承诺的时间表进行。",
+        "name": "Rendy",
+        "role": "配送",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "我确保公司的数据与系统始终安全，让客户服务流程不受影响。",
+        "name": "Zafi",
+        "role": "IT工程师",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "即使还是实习生，我也努力认真完成每一项任务，因为我相信再小的细节都会影响客户的信任。",
+        "name": "Tasya",
+        "role": "实习生",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "我确保每一趟配送行程准时，让气体安全送到客户手中。",
+        "name": "Hengky",
+        "role": "司机",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      }
+    ]
+  },
   "whyChooseUs": {
     "title": "我们随时为您提供气体需求服务",
     "description": "我们随时准备满足您对气体产品的需求和期望。我们乐于与您沟通，确保您在气体产品方面的需求（库存、产品种类和型号、配送时间表、维护等）都能得到我们的良好支持。",

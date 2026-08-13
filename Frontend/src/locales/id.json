@@ -369,6 +369,68 @@
     "description": "Kami siap memenuhi keinginan dan kebutuhan Anda akan produk gas. Kami siap berdiskusi dengan Anda, agar keinginan dan kebutuhan Anda akan produk gas bisa kami support dengan baik (stok, jenis dan type produk, jadwal pengiriman, maintenance, dll).",
     "cta": "Mulai Diskusi Sekarang"
   },
+  "testimonials": {
+    "title": "Cerita Mereka Yang Tumbuh Bersama Kami",
+    "subtitle": "Testimoni dan pengalaman dari orang-orang yang tumbuh, berkembang, belajar, dan berkontribusi bersama Kami.",
+    "items": [
+      {
+        "quote": "Saya memastikan sistem yang digunakan perusahaan selalu berjalan lancar, supaya pelayanan ke pelanggan tidak pernah terganggu oleh kendala teknis.",
+        "name": "Fauzan",
+        "role": "IT Engineer",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "Saya memastikan setiap tabung yang keluar sudah melalui pengecekan sesuai standar, supaya gas yang sampai ke pelanggan aman digunakan.",
+        "name": "Misse",
+        "role": "Admin Tabung",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "Saya memastikan kebutuhan operasional selalu tersedia tepat waktu, supaya proses produksi dan pengiriman ke pelanggan tidak pernah terhambat.",
+        "name": "Esty",
+        "role": "Purchasing",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "Saya memastikan stok tabung tercatat rapi dan akurat, supaya tidak ada kesalahan saat pengiriman ke pelanggan.",
+        "name": "Ayu",
+        "role": "Admin Gudang",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "Saya memastikan setiap pengiriman sampai ke pelanggan dengan aman dan sesuai jadwal yang sudah dijanjikan.",
+        "name": "Rendy",
+        "role": "Distribusi",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "Saya memastikan data dan sistem perusahaan selalu aman, supaya proses pelayanan ke pelanggan berjalan tanpa hambatan.",
+        "name": "Zafi",
+        "role": "IT Engineer",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "Meski masih magang, saya berusaha mengerjakan setiap tugas dengan teliti, karena saya percaya hal kecil pun berpengaruh pada kepercayaan pelanggan.",
+        "name": "Tasya",
+        "role": "Magang",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "Saya memastikan setiap perjalanan pengiriman tepat waktu dan gas sampai dengan selamat ke tangan pelanggan.",
+        "name": "Hengky",
+        "role": "Supir",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      }
+    ]
+  },
   "homeAbout": {
     "badge": "Tentang Perusahaan",
     "title": "Mitra Terpercaya Dalam Solusi Gas Industri",
