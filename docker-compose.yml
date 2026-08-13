@@ -22,7 +22,7 @@ services:
       DB_CONNECTION: mysql
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_DATABASE: SIG
+      DB_DATABASE: surya_inti_gas
       DB_USERNAME: root
       DB_PASSWORD: sig1234
     depends_on:
@@ -33,7 +33,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: sig1234
-      MYSQL_DATABASE: SIG
+      MYSQL_DATABASE: surya_inti_gas
     ports:
       - "3306:3306"
     volumes:

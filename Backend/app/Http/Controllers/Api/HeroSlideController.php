@@ -73,6 +73,18 @@ class HeroSlideController extends Controller
             $data['display_order'] = $data['display_order'] ?? ((HeroSlide::max('display_order') ?? -1) + 1);
             $data['is_active'] = $request->boolean('is_active', true);
 
+            // Set static text content
+            $data['title_id'] = 'PT Surya Inti Gas';
+            $data['title_en'] = 'PT Surya Inti Gas';
+            $data['title_zh'] = 'PT Surya Inti Gas';
+            $data['subtitle_id'] = 'Pemasok Gas Industri Terpercaya';
+            $data['subtitle_en'] = 'Trusted Industrial Gas Supplier';
+            $data['subtitle_zh'] = '可靠的工业气体供应商';
+            $data['description_id'] = 'Menyediakan gas industri berkualitas tinggi untuk manufaktur, kesehatan, pengolahan makanan, pengelasan, laboratorium, dan berbagai industri lainnya dengan distribusi yang andal serta layanan yang unggul.';
+            $data['description_en'] = 'Providing high-quality industrial gas for manufacturing, healthcare, food processing, welding, laboratories, and various other industries with reliable distribution and excellent service.';
+            $data['description_zh'] = '为制造业、医疗保健、食品加工、焊接、实验室及其他各种行业提供高质量工业气体，具有可靠的分销和优质服务。';
+            $data['cta_path'] = 'produk';
+
             $slide = HeroSlide::create($data);
 
             return response()->json([
@@ -94,6 +106,12 @@ class HeroSlideController extends Controller
                 Storage::disk('public')->delete($heroSlide->image);
                 $data['image'] = $request->file('image')->store('hero-slides', 'public');
             }
+
+            // Keep text content static - don't allow updating it
+            unset($data['title_id'], $data['title_en'], $data['title_zh']);
+            unset($data['subtitle_id'], $data['subtitle_en'], $data['subtitle_zh']);
+            unset($data['description_id'], $data['description_en'], $data['description_zh']);
+            unset($data['cta_path']);
 
             // 'nullable' rules populate validated() with null even when the field was never
             // sent; only touch is_active when the request actually included it, so a partial

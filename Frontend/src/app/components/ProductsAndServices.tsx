@@ -185,6 +185,17 @@ export function ProductsAndServices() {
   const [mainCategory, setMainCategory] = useState<MainCategory>('gas');
   const [subCategory, setSubCategory] = useState<string>('');
 
+  // Initialize default sub-category when data is loaded
+  useEffect(() => {
+    if (mainCategory !== 'package' && !subCategory) {
+      const categories = productCategories[mainCategory] as Record<string, SubCategory>;
+      const firstSubCategory = Object.keys(categories || {})[0] || '';
+      if (firstSubCategory) {
+        setSubCategory(firstSubCategory);
+      }
+    }
+  }, [productCategories, mainCategory, subCategory]);
+
   // Handle URL parameters from mega menu
   useEffect(() => {
     const categoryParam = searchParams.get('category');
@@ -265,7 +276,9 @@ export function ProductsAndServices() {
     }
     
     // For gas and services, use sub-category filtering
-    const subCat = categories[subCategory];
+    // If no subcategory selected, use the first available one
+    const effectiveSubCategory = subCategory || Object.keys(categories || {})[0] || '';
+    const subCat = categories[effectiveSubCategory];
     return subCat?.products || [];
   };
 
@@ -326,7 +339,7 @@ export function ProductsAndServices() {
           </motion.div>
 
           {/* Sub-Category Navigation (Premium Pill Buttons) */}
-          {getSubCategories().length > 1 && (
+          {getSubCategories().length >= 1 && (
             <motion.div 
               className="products-subcategories"
               initial={{ opacity: 0, y: 20 }}

@@ -299,14 +299,12 @@ export function Slider() {
           Industrial Gas Solution
         </div> */}
 
-        <AnimatePresence mode="wait">
-          <SlideContent key={slide.id} slide={slide} />
-        </AnimatePresence>
+        <SlideContent />
       </div>
 
       {/* Live region for screen readers */}
       <p className="sr-only" role="status" aria-live="polite">
-        {t('hero.liveRegion', { current: activeIndex + 1, total, title: slide.title })}
+        {t('hero.liveRegion', { current: activeIndex + 1, total, title: 'PT Surya Inti Gas' })}
       </p>
 
       <SliderControls

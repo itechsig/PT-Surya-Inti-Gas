@@ -2,11 +2,6 @@ import { motion, type Variants } from "framer-motion";
 import { ArrowRight, PhoneCall } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { HeroSlide } from "./types";
-
-interface SlideContentProps {
-  slide: HeroSlide;
-}
 
 const container: Variants = {
   hidden: {},
@@ -24,45 +19,51 @@ const item: Variants = {
   },
 };
 
-export function SlideContent({ slide }: SlideContentProps) {
+export function SlideContent() {
   const navigate = useNavigate();
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || "id";
   const { t } = useTranslation();
+
+  // Static content as requested
+  const staticContent = {
+    subtitle: "Pemasok Gas Industri Terpercaya",
+    title: "PT Surya Inti Gas",
+    description: "Menyediakan gas industri berkualitas tinggi untuk manufaktur, kesehatan, pengolahan makanan, pengelasan, laboratorium, dan berbagai industri lainnya dengan distribusi yang andal serta layanan yang unggul."
+  };
 
   return (
     <motion.div
       variants={container}
       initial="hidden"
       animate="visible"
-      exit="hidden"
       className="mx-auto flex max-w-2xl flex-col items-center"
     >
       <motion.span
         variants={item}
         className="mb-4 inline-block text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#00AEEF]"
       >
-        {slide.subtitle}
+        {staticContent.subtitle}
       </motion.span>
 
       <motion.h1
         variants={item}
         className="mb-5 font-[Barlow,system-ui,sans-serif] text-4xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-5xl md:text-6xl lg:text-7xl"
       >
-        {slide.title}
+        {staticContent.title}
       </motion.h1>
 
       <motion.p
         variants={item}
         className="mx-auto mb-8 max-w-xl text-base font-light leading-relaxed text-white/85 sm:text-lg"
       >
-        {slide.description}
+        {staticContent.description}
       </motion.p>
 
       <motion.div variants={item} className="flex flex-wrap items-center justify-center gap-4">
         <button
           type="button"
-          onClick={() => navigate(`/${currentLang}/${slide.ctaPath || "produk"}`)}
+          onClick={() => navigate(`/${currentLang}/produk`)}
           className="hero-cta-primary"
         >
           {t('hero.viewProducts')}
