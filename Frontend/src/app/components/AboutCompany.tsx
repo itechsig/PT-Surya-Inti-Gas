@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Award } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { motion, type Variants } from "motion/react";
@@ -107,7 +107,7 @@ const css = `
   /* ── Corporate Grid Layout ── */
   .about-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.15fr 1fr;
     gap: 80px;
     align-items: center;
   }
@@ -122,11 +122,13 @@ const css = `
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 25px 80px rgba(30, 64, 175, 0.15);
+    min-height: 560px;
   }
 
   .about-main-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
     transition: transform 0.6s var(--ease);
   }
@@ -137,30 +139,61 @@ const css = `
 
   .about-overlay-card {
     position: absolute;
-    bottom: -40px;
-    right: -40px;
-    background: rgba(255, 255, 255, 0.98);
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-    max-width: 280px;
+    padding: 14px 20px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    max-width: calc(100% - 40px);
     z-index: 10;
+    transition: transform 0.35s var(--ease), background 0.35s var(--ease);
+  }
+
+  .about-overlay-card:hover {
+    transform: translateY(-3px);
+    background: rgba(15, 23, 42, 0.68);
+  }
+
+  .about-overlay-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--sky) 0%, var(--sky-light) 100%);
+    color: var(--white);
+  }
+
+  .about-overlay-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
   .about-overlay-stat {
     font-family: var(--ff-display);
-    font-size: 3rem;
+    font-size: 1.5rem;
     font-weight: 800;
-    color: var(--blue);
-    line-height: 1;
-    margin-bottom: 8px;
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
   }
 
   .about-overlay-label {
     font-family: var(--ff-body);
-    font-size: 0.875rem;
-    color: var(--slate-600);
-    line-height: 1.4;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.3;
+    max-width: 170px;
   }
 
   /* ── Corporate Content Section ── */
@@ -236,10 +269,8 @@ const css = `
       order: 2;
     }
 
-    .about-overlay-card {
-      right: 20px;
-      bottom: -30px;
-      max-width: 240px;
+    .about-main-image {
+      min-height: 420px;
     }
   }
 
@@ -252,13 +283,29 @@ const css = `
       margin-bottom: 48px;
     }
 
+    .about-main-image {
+      min-height: 320px;
+    }
+
     .about-overlay-card {
-      position: relative;
-      bottom: auto;
-      right: auto;
-      margin-top: -30px;
-      margin-left: auto;
-      margin-right: auto;
+      left: 14px;
+      bottom: 14px;
+      padding: 10px 16px;
+      gap: 10px;
+    }
+
+    .about-overlay-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .about-overlay-stat {
+      font-size: 1.25rem;
+    }
+
+    .about-overlay-label {
+      font-size: 0.7rem;
+      max-width: 140px;
     }
   }
 `;
@@ -317,9 +364,14 @@ export function AboutCompany() {
               </div>
 
               <motion.div className="about-overlay-card" variants={fadeUp}>
-                <div className="about-overlay-stat">{t('homeAbout.overlayStat')}</div>
-                <div className="about-overlay-label">
-                  {t('homeAbout.overlayLabel')}
+                <div className="about-overlay-icon">
+                  <Award size={18} />
+                </div>
+                <div className="about-overlay-text">
+                  <div className="about-overlay-stat">{t('homeAbout.overlayStat')}</div>
+                  <div className="about-overlay-label">
+                    {t('homeAbout.overlayLabel')}
+                  </div>
                 </div>
               </motion.div>
             </motion.div>
