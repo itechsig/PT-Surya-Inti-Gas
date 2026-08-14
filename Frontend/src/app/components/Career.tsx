@@ -6,6 +6,7 @@ import { motion, type Variants } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import '../../styles/career.css';
 import { useJobVacancies } from '../../hooks/useJobVacancies';
+import { TrustCTA } from './TrustCTA';
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -151,12 +152,15 @@ export function Career() {
         <div className="career-hero-bg"></div>
         <div className="section-container">
           <motion.div className="section-header" variants={fadeUp}>
+            <span className="career-hero-badge">{t('career.page.badge')}</span>
             <h2>{t('career.page.title')}</h2>
             <p>{t('career.page.subtitle')}</p>
             <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
           </motion.div>
         </div>
       </motion.section>
+
+
 
       {/* Job Listings Section */}
       <div className="listings-section">
@@ -365,6 +369,9 @@ export function Career() {
           </motion.div>
         </div>
       </div>
+
+      {/* Employee Stories */}
+      <TrustCTA showCta={false} />
 
     </div>
     </>

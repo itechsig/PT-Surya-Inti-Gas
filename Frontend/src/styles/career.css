@@ -125,6 +125,26 @@
   margin-bottom: 0;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.career-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 22px;
+  border-radius: 50px;
+  background: rgba(0, 174, 239, 0.15);
+  border: 1px solid rgba(0, 174, 239, 0.4);
+  font-family: var(--ff-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 24px;
 }
 
 .career-hero .section-header h2 {
@@ -1178,7 +1198,6 @@
   .career-hero .section-container {
     padding: 0 20px;
   }
-}
 
   .filter-group {
     min-width: auto;
@@ -1247,3 +1266,4 @@
     width: 100%;
     justify-content: center;
   }
+}

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { motion, type PanInfo, type Variants } from "motion/react";
 import { ArrowRight, ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
+import { getImageUrl } from "../../utils/imageUrl";
 
 /* ═══════════════════════════════════════════════════════════════
    TRUST CTA.TSX — PT Surya Inti Gas Corporate
@@ -156,6 +157,13 @@ const css = `
     box-shadow: 0 6px 16px rgba(30, 64, 175, 0.28);
     margin-bottom: 12px;
     pointer-events: none;
+    overflow: hidden;
+  }
+
+  .trust-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .trust-stars {
@@ -448,6 +456,18 @@ const staggerContainer: Variants = {
   show: { transition: { staggerChildren: 0.12 } },
 };
 
+/** Photo per testimonial, keyed by name (names are unchanged across id/en/zh locales). */
+ const AVATAR_BY_NAME: Record<string, string> = {
+   Fauzan: "/images/testimoni/profil1.jpe",
+   Misse: "/images/testimoni/profil2.jpe",
+   Esty: "/images/testimoni/profil2.jpe",
+   Ayu: "/images/testimoni/profil2.jpe",
+   Rendy: "/images/testimoni/profil1.jpe",
+   Zafi: "/images/testimoni/profil1.jpe",
+   Tasya: "/images/testimoni/profil2.jpe",
+   Hengky: "/images/testimoni/profil1.jpe",
+};
+
 /** Turns "dr. Siti Rahmawati" into "SR" for the avatar badge. */
 function getInitials(name: string) {
   const cleaned = name.replace(/^(bpk\.|ibu|dr\.|mr\.|mrs\.|ms\.)\s*/i, "");
@@ -482,7 +502,12 @@ function getDrumTransform(offset: number, radius: number) {
   return { x, z, rotateY: -angle, scale, opacity, zIndex };
 }
 
-export function TrustCTA() {
+interface TrustCTAProps {
+  /** Hide the closing "Hubungi Kami" call-to-action block (e.g. on pages that already have their own CTA). */
+  showCta?: boolean;
+}
+
+export function TrustCTA({ showCta = true }: TrustCTAProps = {}) {
   const { t } = useTranslation();
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || "id";
@@ -594,7 +619,11 @@ export function TrustCTA() {
                     aria-hidden={Math.abs(offset) > 2}
                   >
                     <div className="trust-avatar" aria-hidden="true">
-                      {getInitials(item.name)}
+                      {AVATAR_BY_NAME[item.name] ? (
+                        <img src={getImageUrl(AVATAR_BY_NAME[item.name])} alt="" loading="lazy" />
+                      ) : (
+                        getInitials(item.name)
+                      )}
                     </div>
                     <div className="trust-stars" role="img" aria-label={`${item.rating} / 5`}>
                       {Array.from({ length: 5 }).map((_, i) => (
@@ -649,22 +678,24 @@ export function TrustCTA() {
           </motion.div>
 
           {/* Closing CTA */}
-          <motion.div
-            className="trust-cta-block"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={staggerContainer}
-          >
-            <motion.a
-              href={`/${currentLang}/kontak`}
-              className="trust-cta-button"
-              variants={fadeUp}
+          {showCta && (
+            <motion.div
+              className="trust-cta-block"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
             >
-              {t("whyChooseUs.cta")}
-              <ArrowRight size={16} />
-            </motion.a>
-          </motion.div>
+              <motion.a
+                href={`/${currentLang}/kontak`}
+                className="trust-cta-button"
+                variants={fadeUp}
+              >
+                {t("whyChooseUs.cta")}
+                <ArrowRight size={16} />
+              </motion.a>
+            </motion.div>
+          )}
 
         </div>
       </section>
