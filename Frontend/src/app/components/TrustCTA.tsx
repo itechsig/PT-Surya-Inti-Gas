@@ -502,7 +502,12 @@ function getDrumTransform(offset: number, radius: number) {
   return { x, z, rotateY: -angle, scale, opacity, zIndex };
 }
 
-export function TrustCTA() {
+interface TrustCTAProps {
+  /** Hide the closing "Hubungi Kami" call-to-action block (e.g. on pages that already have their own CTA). */
+  showCta?: boolean;
+}
+
+export function TrustCTA({ showCta = true }: TrustCTAProps = {}) {
   const { t } = useTranslation();
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || "id";
@@ -673,22 +678,24 @@ export function TrustCTA() {
           </motion.div>
 
           {/* Closing CTA */}
-          <motion.div
-            className="trust-cta-block"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={staggerContainer}
-          >
-            <motion.a
-              href={`/${currentLang}/kontak`}
-              className="trust-cta-button"
-              variants={fadeUp}
+          {showCta && (
+            <motion.div
+              className="trust-cta-block"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
             >
-              {t("whyChooseUs.cta")}
-              <ArrowRight size={16} />
-            </motion.a>
-          </motion.div>
+              <motion.a
+                href={`/${currentLang}/kontak`}
+                className="trust-cta-button"
+                variants={fadeUp}
+              >
+                {t("whyChooseUs.cta")}
+                <ArrowRight size={16} />
+              </motion.a>
+            </motion.div>
+          )}
 
         </div>
       </section>
