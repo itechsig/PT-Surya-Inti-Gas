@@ -458,14 +458,14 @@ const staggerContainer: Variants = {
 
 /** Photo per testimonial, keyed by name (names are unchanged across id/en/zh locales). */
  const AVATAR_BY_NAME: Record<string, string> = {
-   Fauzan: "/images/testimoni/profil1.jpe",
-   Misse: "/images/testimoni/profil2.jpe",
-   Esty: "/images/testimoni/profil2.jpe",
-   Ayu: "/images/testimoni/profil2.jpe",
-   Rendy: "/images/testimoni/profil1.jpe",
-   Zafi: "/images/testimoni/profil1.jpe",
-   Tasya: "/images/testimoni/profil2.jpe",
-   Hengky: "/images/testimoni/profil1.jpe",
+   Fauzan: "/images/testimoni/profil1.webp",
+   Misse: "/images/testimoni/profil2.webp",
+   Esty: "/images/testimoni/profil2.webp",
+   Ayu: "/images/testimoni/profil2.webp",
+   Rendy: "/images/testimoni/profil1.webp",
+   Zafi: "/images/testimoni/profil1.webp",
+   Tasya: "/images/testimoni/profil2.webp",
+   Hengky: "/images/testimoni/profil1.webp",
 };
 
 /** Turns "dr. Siti Rahmawati" into "SR" for the avatar badge. */
