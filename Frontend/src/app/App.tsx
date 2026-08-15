@@ -8,7 +8,6 @@ import { AboutCompany } from "./components/AboutCompany";
 // import { CompanyProfileVideo } from "./components/CompanyProfileVideo";
 import { ProductsAndServices } from "./components/ProductsAndServices";
 import { IndustriesServed } from "./components/IndustriesServed";
-import { TrustCTA } from "./components/TrustCTA";
 import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
 import { ScrollToTopButton } from "./components/ScrollToTopButton";
@@ -195,7 +194,6 @@ function MainPage() {
           <Suspense fallback={<div style={{ minHeight: '400px' }} aria-hidden="true" />}>
             <DistributionNetworkSection />
           </Suspense>
-          <TrustCTA />
         </PageTransition>
       </div>
     </>
