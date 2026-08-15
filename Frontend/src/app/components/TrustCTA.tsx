@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
 import { motion, type PanInfo, type Variants } from "motion/react";
-import { ArrowRight, ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 import { getImageUrl } from "../../utils/imageUrl";
 
 /* ═══════════════════════════════════════════════════════════════
    TRUST CTA.TSX — PT Surya Inti Gas Corporate
    Social-proof stack: rotating "drum" testimonials → verified
-   achievement stats → a single decisive call to action. Everything
-   builds toward the button at the bottom.
+   achievement stats.
 ══════════════════════════════════════════════════════════════ */
 
 const AUTOPLAY_MS = 5000;
@@ -323,61 +321,6 @@ const css = `
     background: rgba(255, 255, 255, 0.14);
   }
 
-  /* ── CTA Block ── */
-  .trust-cta-block {
-    text-align: center;
-    max-width: 720px;
-    margin: 56px auto 0;
-  }
-
-  .trust-cta-block h3 {
-    font-family: var(--ff-display);
-    font-size: clamp(1.5rem, 3vw, 2.125rem);
-    font-weight: 700;
-    color: var(--white);
-    margin: 0 0 18px;
-    letter-spacing: -0.01em;
-    line-height: 1.25;
-  }
-
-  .trust-cta-block p {
-    font-family: var(--ff-body);
-    font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
-    line-height: 1.75;
-    color: rgba(255, 255, 255, 0.68);
-    margin: 0 0 32px;
-  }
-
-  .trust-cta-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 17px 40px;
-    background: linear-gradient(135deg, var(--blue) 0%, var(--sky) 100%);
-    color: var(--white) !important;
-    border-radius: 50px;
-    font-family: var(--ff-display);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s var(--ease);
-    text-decoration: none;
-    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4);
-  }
-
-  .trust-cta-button svg {
-    color: var(--white) !important;
-  }
-
-  .trust-cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 18px 44px rgba(59, 130, 246, 0.55);
-    background: linear-gradient(135deg, var(--sky) 0%, var(--sky-light) 100%);
-  }
-
   /* ── Responsive Design ── */
   @media (max-width: 900px) {
     .trust-stage {
@@ -437,10 +380,6 @@ const css = `
 
     .trust-stat-divider {
       display: none;
-    }
-
-    .trust-cta-block {
-      margin-top: 44px;
     }
   }
 `;
@@ -502,15 +441,8 @@ function getDrumTransform(offset: number, radius: number) {
   return { x, z, rotateY: -angle, scale, opacity, zIndex };
 }
 
-interface TrustCTAProps {
-  /** Hide the closing "Hubungi Kami" call-to-action block (e.g. on pages that already have their own CTA). */
-  showCta?: boolean;
-}
-
-export function TrustCTA({ showCta = true }: TrustCTAProps = {}) {
+export function TrustCTA() {
   const { t } = useTranslation();
-  const { lang } = useParams<{ lang: string }>();
-  const currentLang = lang || "id";
 
   const items = t("testimonials.items", { returnObjects: true }) as TestimonialItem[];
   const total = items.length;
@@ -676,26 +608,6 @@ export function TrustCTA({ showCta = true }: TrustCTAProps = {}) {
               </button>
             </div>
           </motion.div>
-
-          {/* Closing CTA */}
-          {showCta && (
-            <motion.div
-              className="trust-cta-block"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-80px" }}
-              variants={staggerContainer}
-            >
-              <motion.a
-                href={`/${currentLang}/kontak`}
-                className="trust-cta-button"
-                variants={fadeUp}
-              >
-                {t("whyChooseUs.cta")}
-                <ArrowRight size={16} />
-              </motion.a>
-            </motion.div>
-          )}
 
         </div>
       </section>
