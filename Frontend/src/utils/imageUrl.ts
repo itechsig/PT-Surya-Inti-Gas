@@ -53,7 +53,7 @@ export const getImageUrl = (path?: string | null, bustCache: boolean = false): s
   const relativePath = cleanPath.replace(/^\/?storage\//, '');
   let url = `${API_CONFIG.BASE_URL}/api/v1/image/${encodeURIComponent(relativePath)}`;
   
-  // Always add cache-busting in development
+  // Only add cache-busting in development or when explicitly requested
   if (bustCache || !import.meta.env.PROD) {
     url += `?t=${Date.now()}`;
   }

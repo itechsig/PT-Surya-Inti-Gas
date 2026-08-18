@@ -28,17 +28,19 @@ class ImageController extends Controller
         if (Storage::disk('public')->exists($path)) {
             $file = Storage::disk('public')->get($path);
             $mimeType = Storage::disk('public')->mimeType($path);
-            $lastModified = Storage::disk('public')->lastModified($path);
             
-            return response($file, 200)
+            $response = response($file, 200)
                 ->header('Content-Type', $mimeType)
                 ->header('Access-Control-Allow-Origin', '*')
                 ->header('Access-Control-Allow-Methods', 'GET, OPTIONS')
-                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-                ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
-                ->header('Pragma', 'no-cache')
-                ->header('Expires', '0')
-                ->header('Last-Modified', gmdate('D, d M Y H:i:s T', $lastModified));
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            
+            // Add cache-busting headers
+            $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+            $response->headers->set('Pragma', 'no-cache');
+            $response->headers->set('Expires', '0');
+            
+            return $response;
         }
         
         abort(404, 'Image not found');

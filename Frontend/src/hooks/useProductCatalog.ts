@@ -13,7 +13,9 @@ export function useProductCatalog(lang: string) {
     let cancelled = false;
     setIsLoading(true);
 
-    fetch(`${getApiUrl(API_ENDPOINTS.PRODUCTS_CATALOG)}?lang=${lang}&t=${Date.now()}`)
+    // Only add cache-busting in development
+    const timestamp = !import.meta.env.PROD ? `&t=${Date.now()}` : '';
+    fetch(`${getApiUrl(API_ENDPOINTS.PRODUCTS_CATALOG)}?lang=${lang}${timestamp}`)
       .then((res) => res.json())
       .then((payload: { success: boolean; data: ProductCategories }) => {
         if (!cancelled && payload.success) {
