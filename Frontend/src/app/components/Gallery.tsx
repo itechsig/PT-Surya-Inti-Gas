@@ -61,43 +61,15 @@ const galleryStyles = `
 
   .gallery-filters {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 40px;
     gap: 20px;
   }
 
-  .gallery-filter-left {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
   .gallery-filter-right {
     display: flex;
     align-items: center;
-  }
-
-  .gallery-filter-btn {
-    padding: 10px 24px;
-    background: #f1f5f9;
-    border: 2px solid #e2e8f0;
-    border-radius: 50px;
-    font-family: 'Barlow, system-ui, sans-serif';
-    font-size: 14px;
-    font-weight: 600;
-    color: #475569;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .gallery-filter-btn:hover,
-  .gallery-filter-btn.active {
-    background: #1e40af;
-    border-color: #1e40af;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
   }
 
   .gallery-filter-dropdown-wrapper {
@@ -454,13 +426,8 @@ const galleryStyles = `
     }
 
     .gallery-filters {
-      flex-direction: column;
-      align-items: flex-start;
+      justify-content: flex-end;
       gap: 16px;
-    }
-
-    .gallery-filter-left {
-      width: 100%;
     }
 
     .gallery-filter-right {
@@ -470,11 +437,6 @@ const galleryStyles = `
     .gallery-filter-dropdown {
       width: 100%;
       min-width: auto;
-    }
-
-    .gallery-filter-btn {
-      padding: 8px 16px;
-      font-size: 12px;
     }
 
     .ui-title {
@@ -552,23 +514,11 @@ function Gallery() {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
   const { t } = useTranslation();
-  const [selectedYear, setSelectedYear] = useState('all');
   const [selectedActivity, setSelectedActivity] = useState('all');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const { items: galleryItems } = useGallery(currentLang);
-
-  const years = useMemo(
-    () => [
-      { id: 'all', name: t('gallery.page.allYears') },
-      ...Array.from({ length: 2026 - 2022 + 1 }, (_, i) => ({
-        id: (2022 + i).toString(),
-        name: (2022 + i).toString(),
-      })),
-    ],
-    [t]
-  );
 
   const activityCategories = useMemo(
     () => [
@@ -583,14 +533,8 @@ function Gallery() {
   );
 
   const filteredItems = galleryItems.filter(item => {
-    const yearMatch = selectedYear === 'all' || item.year.toString() === selectedYear;
-    const activityMatch = selectedActivity === 'all' || item.category === selectedActivity;
-    return yearMatch && activityMatch;
+    return selectedActivity === 'all' || item.category === selectedActivity;
   });
-
-  const handleYearChange = (yearId: string) => {
-    setSelectedYear(yearId);
-  };
 
   const handleActivityChange = (activityId: string) => {
     setSelectedActivity(activityId);
@@ -730,7 +674,7 @@ function Gallery() {
             <div className="ui-gallery-inner">
               <div className="">
                 <motion.div
-                  key={`${selectedYear}|${selectedActivity}`}
+                  key={selectedActivity}
                   className="ui-gallery-items"
                   initial="hidden"
                   whileInView="show"
