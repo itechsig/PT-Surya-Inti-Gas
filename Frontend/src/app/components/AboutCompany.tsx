@@ -171,6 +171,11 @@ const css = `
     border-radius: 10px;
     background: linear-gradient(135deg, var(--sky) 0%, var(--sky-light) 100%);
     color: var(--white);
+    transition: transform 0.35s var(--ease);
+  }
+
+  .about-overlay-card:hover .about-overlay-icon {
+    transform: scale(1.08) rotate(-4deg);
   }
 
   .about-overlay-text {
@@ -224,6 +229,8 @@ const css = `
 
   /* ── Corporate CTA Section ── */
   .about-cta {
+    position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -242,9 +249,29 @@ const css = `
     box-shadow: 0 8px 25px rgba(30, 64, 175, 0.4);
     text-decoration: none;
   }
-  
+
+  .about-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .about-cta:hover::before {
+    left: 100%;
+  }
+
   .about-cta svg {
     color: var(--white) !important;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .about-cta:hover svg {
+    transform: translateX(3px);
   }
 
   .about-cta:hover {

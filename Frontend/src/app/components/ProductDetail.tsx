@@ -1,12 +1,23 @@
 import { useSearchParams, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { motion } from "motion/react";
+import { AnimatePresence, motion, type Variants } from "motion/react";
 import '../../styles/ProductsAndServices.css';
 import { useProductDetail } from "../../hooks/useProductDetail";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 import type { Product, SubCategory } from "../../data/products";
 import { getImageUrl } from "../../utils/imageUrl";
+
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+};
 
 export function ProductDetail() {
   const [searchParams] = useSearchParams();
@@ -187,75 +198,96 @@ export function ProductDetail() {
                   {t('common.imageNotFound')}
                 </div>
               ) : (
-                <img
-                  src={getImageUrl(product.image)}
-                  alt={product.title}
-                  onError={() => setImageError(true)}
-                />
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={product.image}
+                    src={getImageUrl(product.image)}
+                    alt={product.title}
+                    onError={() => setImageError(true)}
+                    initial={{ opacity: 0, scale: 1.02 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                  />
+                </AnimatePresence>
               )}
             </div>
 
-            <div className="products-detail-content">
-              <p className="products-detail-description">
+            <motion.div
+              className="products-detail-content"
+              initial="hidden"
+              animate="show"
+              variants={staggerContainer}
+            >
+              <motion.p className="products-detail-description" variants={fadeUp}>
                 {product.fullDescription || product.description}
-              </p>
+              </motion.p>
 
               {/* Product Information and Applications Only for Gas Products */}
               {productData?.mainCategory === 'gas' && (
                 <>
-                  <div className="products-detail-info">
+                  <motion.div className="products-detail-info" variants={fadeUp}>
                     <h3>{t('productDetail.info.title')}</h3>
-                    <div className="product-specifications">
-                      <div className="spec-item">
+                    <motion.div className="product-specifications" variants={staggerContainer}>
+                      <motion.div className="spec-item" variants={fadeUp}>
                         <span className="spec-label">{t('productDetail.info.productId')}</span>
                         <span className="spec-value">{product.id}</span>
-                      </div>
-                      <div className="spec-item">
+                      </motion.div>
+                      <motion.div className="spec-item" variants={fadeUp}>
                         <span className="spec-label">{t('productDetail.info.category')}</span>
                         <span className="spec-value">{categoryLabel}</span>
-                      </div>
+                      </motion.div>
                       {subCategoryLabel && (
-                        <div className="spec-item">
+                        <motion.div className="spec-item" variants={fadeUp}>
                           <span className="spec-label">{t('productDetail.info.subCategory')}</span>
                           <span className="spec-value">{subCategoryLabel}</span>
-                        </div>
+                        </motion.div>
                       )}
-                      <div className="spec-item">
+                      <motion.div className="spec-item" variants={fadeUp}>
                         <span className="spec-label">{t('productDetail.info.availability')}</span>
                         <span className="spec-value available">{t('productDetail.info.available')}</span>
-                      </div>
-                      <div className="spec-item">
+                      </motion.div>
+                      <motion.div className="spec-item" variants={fadeUp}>
                         <span className="spec-label">{t('productDetail.info.quality')}</span>
                         <span className="spec-value">{t('productDetail.info.qualityValue')}</span>
-                      </div>
-                      <div className="spec-item">
+                      </motion.div>
+                      <motion.div className="spec-item" variants={fadeUp}>
                         <span className="spec-label">{t('productDetail.info.shipping')}</span>
                         <span className="spec-value">{t('productDetail.info.shippingValue')}</span>
-                      </div>
-                    </div>
+                      </motion.div>
+                    </motion.div>
 
                     <div className="product-applications">
                       <h4>{t('productDetail.applications.title')}</h4>
-                      <ul>
+                      <motion.ul variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-40px" }}>
                         {(t('productDetail.applications.items', { returnObjects: true }) as string[]).map((item, i) => (
-                          <li key={i}>{item}</li>
+                          <motion.li key={i} variants={fadeUp}>{item}</motion.li>
                         ))}
-                      </ul>
+                      </motion.ul>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Packaging Selection for Gas Products */}
-                  <div className="product-packaging">
+                  <motion.div className="product-packaging" variants={fadeUp}>
                     <h4>{t('productDetail.packaging.title')}</h4>
                     <p>{t('productDetail.packaging.description')}</p>
-                    <div className="packaging-options">
+                    <motion.div
+                      className="packaging-options"
+                      variants={staggerContainer}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, margin: "-40px" }}
+                    >
                       {getPackagingOptions().map((packaging: Product) => (
-                        <button
+                        <motion.button
                           key={packaging.id}
                           className={`packaging-option ${selectedPackaging === packaging.id ? 'selected' : ''}`}
                           onClick={() => setSelectedPackaging(selectedPackaging === packaging.id ? null : packaging.id)}
                           aria-label={t('productDetail.packaging.selectAria', { packaging: packaging.title })}
                           aria-pressed={selectedPackaging === packaging.id}
+                          variants={fadeUp}
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.97 }}
                         >
                           <div className="packaging-option-image">
                             <img
@@ -267,22 +299,22 @@ export function ProductDetail() {
                             />
                           </div>
                           <span className="packaging-option-title">{packaging.title}</span>
-                        </button>
+                        </motion.button>
                       ))}
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
 
                   {/* WhatsApp Contact Button Only for Gas Products */}
-                  <div className="product-contact">
+                  <motion.div className="product-contact" variants={fadeUp}>
                     <h4>{t('productDetail.contact.title')}</h4>
                     <p>{t('productDetail.contact.description')}</p>
                     <button className="contact-button" onClick={() => handleContactSales(product.title)}>
                       {t('productDetail.contact.button')}
                     </button>
-                  </div>
+                  </motion.div>
                 </>
               )}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
 

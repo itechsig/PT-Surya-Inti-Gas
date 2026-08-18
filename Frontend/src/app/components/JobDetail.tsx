@@ -2,9 +2,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, ArrowLeft, Send, Calendar, Building, Briefcase } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { motion } from 'motion/react';
+import { motion, type Variants } from 'motion/react';
 import '../../styles/career.css';
 import { useJobVacancies } from '../../hooks/useJobVacancies';
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+};
 
 export function JobDetail() {
   const navigate = useNavigate();
@@ -111,19 +121,26 @@ export function JobDetail() {
 
       <div className="job-detail-section">
         <div className="section-container">
-          <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label={t('career.aria.backToListings')}>
+          <motion.button
+            onClick={() => navigate(`/${currentLang}/karir`)}
+            className="back-button"
+            aria-label={t('career.aria.backToListings')}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+          >
             <ArrowLeft size={16} />
             {t('career.page.backToListings')}
-          </button>
+          </motion.button>
 
           <motion.div
             className="job-detail-header"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            initial="hidden"
+            animate="show"
+            variants={staggerContainer}
           >
-            <h1>{job.title}</h1>
-            <div className="job-detail-meta">
+            <motion.h1 variants={fadeUp}>{job.title}</motion.h1>
+            <motion.div className="job-detail-meta" variants={fadeUp}>
               <span className="meta-item">
                 <Building size={16} />
                 {job.division}
@@ -140,35 +157,42 @@ export function JobDetail() {
                 <Calendar size={16} />
                 {formatDate(job.deadline)}
               </span>
-            </div>
-            <div className="job-badges">
+            </motion.div>
+            <motion.div className="job-badges" variants={fadeUp}>
               <span className="job-badge division">{job.division}</span>
               <span className="job-badge type">{job.type}</span>
               <span className="job-badge level">{job.level}</span>
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
             className="job-detail-content"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.12, ease: [0.4, 0, 0.2, 1] }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
           >
-            <div className="job-description-section">
+            <motion.div className="job-description-section" variants={fadeUp}>
               <h2>{t('career.page.jobDescription')}</h2>
               <p>{job.fullDescription}</p>
-            </div>
+            </motion.div>
 
-            <div className="job-requirements-section">
+            <motion.div className="job-requirements-section" variants={fadeUp}>
               <h2>{t('career.page.requirements')}</h2>
-              <ul className="requirements-list">
+              <motion.ul
+                className="requirements-list"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-60px' }}
+                variants={staggerContainer}
+              >
                 {job.requirements.map((req, index) => (
-                  <li key={index}>{req}</li>
+                  <motion.li key={index} variants={fadeUp}>{req}</motion.li>
                 ))}
-              </ul>
-            </div>
+              </motion.ul>
+            </motion.div>
 
-            <div className="job-detail-actions">
+            <motion.div className="job-detail-actions" variants={fadeUp}>
               {deadlinePassed ? (
                 <button className="apply-button disabled" disabled aria-label={t('career.aria.applicationClosed')}>
                   {t('career.page.applicationClosed')}
@@ -179,7 +203,7 @@ export function JobDetail() {
                   {t('career.page.applyNow')}
                 </button>
               )}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { motion } from "motion/react";
+import { AnimatePresence, motion, type Variants } from "motion/react";
 import {
   ChevronRight,
   Wrench,
@@ -18,6 +18,22 @@ import { getImageUrl } from "../../utils/imageUrl";
    Corporate Design inspired by Linde, Samator, Yingde
 ══════════════════════════════════════════════════════════════ */
 
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
+const gridStagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07 } },
+};
+
 // Product Card Component
 function ProductCard({ product, onClick, mainCategory }: { product: Product; onClick: (id: string) => void; mainCategory: MainCategory }) {
   const [imageError, setImageError] = useState(false);
@@ -31,11 +47,9 @@ function ProductCard({ product, onClick, mainCategory }: { product: Product; onC
     <motion.div
       className="products-card"
       onClick={() => onClick(product.id)}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      variants={fadeUp}
       whileHover={{ y: -8 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       <div className="products-card-image">
         {imageError ? (
@@ -72,15 +86,15 @@ function ProductCard({ product, onClick, mainCategory }: { product: Product; onC
 
 
 // Category Card Component
-function CategoryCard({ 
-  label, 
-  isActive, 
-  onClick, 
+function CategoryCard({
+  label,
+  isActive,
+  onClick,
   icon: Icon,
-  description 
-}: { 
-  label: string; 
-  isActive: boolean; 
+  description
+}: {
+  label: string;
+  isActive: boolean;
   onClick: () => void;
   icon: any;
   description: string;
@@ -89,12 +103,10 @@ function CategoryCard({
     <motion.button
       className={`category-card ${isActive ? 'active' : ''}`}
       onClick={onClick}
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
+      variants={fadeUp}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       <div className="category-card-icon">
         <Icon size={40} />
@@ -197,7 +209,7 @@ export function Product() {
 
     if (categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)) {
       setMainCategory(categoryParam as MainCategory);
-      
+
       // For package category, no subcategories needed
       if (categoryParam === 'package') {
         setSubCategory('');
@@ -212,10 +224,10 @@ export function Product() {
   const handleMainCategoryChange = (category: MainCategory) => {
     if (category === mainCategory) return;
     setMainCategory(category);
-    
+
     // Set default sub-category based on main category
     let categories = productCategories[category] as Record<string, SubCategory>;
-    
+
     // For package category, no subcategories needed
     if (category === 'package') {
       setSubCategory('');
@@ -232,12 +244,12 @@ export function Product() {
   const getSubCategories = () => {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
-    
+
     // Package category has no subcategories - return empty
     if (mainCategory === 'package') {
       return [];
     }
-    
+
     return Object.keys(categories).map(key => ({
       id: key,
       title: categories[key]?.title || ''
@@ -247,12 +259,12 @@ export function Product() {
   const getCurrentProducts = () => {
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
-    
+
     // For package category, show all products directly (no subcategories)
     if (mainCategory === 'package') {
       const packageCategories = productCategories['package'] as Record<string, SubCategory>;
       const packageCategoriesArray = Object.keys(packageCategories || {});
-      
+
       // If package category has data, show all products
       if (packageCategoriesArray.length > 0) {
         // Show all products from the package category
@@ -262,13 +274,13 @@ export function Product() {
             allProducts.push(...subCategory.products);
           }
         });
-        
+
         return allProducts;
       }
-      
+
       return [];
     }
-    
+
     // For gas and services, use sub-category filtering
     const subCat = categories[subCategory];
     return subCat?.products || [];
@@ -281,12 +293,12 @@ export function Product() {
   return (
     <div className="products-corporate">
       {/* Corporate Header */}
-      <motion.div 
+      <motion.div
         className="products-header"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={staggerContainer}
         style={{
           position: 'relative',
           minHeight: '560px',
@@ -317,7 +329,7 @@ export function Product() {
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-          <h2 className="products-title" style={{
+          <motion.h2 className="products-title" variants={fadeUp} style={{
             fontFamily: 'Barlow, system-ui, sans-serif',
             fontSize: 'clamp(2.25rem, 5vw, 4rem)',
             fontWeight: '800',
@@ -327,8 +339,8 @@ export function Product() {
             margin: '0 0 24px'
           }}>
             {t('products.pageHeader.title')}
-          </h2>
-          <p className="products-subtitle" style={{
+          </motion.h2>
+          <motion.p className="products-subtitle" variants={fadeUp} style={{
             fontFamily: 'DM Sans, system-ui, sans-serif',
             fontSize: 'clamp(1rem, 1.4vw, 1.125rem)',
             lineHeight: '1.75',
@@ -337,7 +349,7 @@ export function Product() {
             margin: '0 auto'
           }}>
             {t('products.pageHeader.subtitle')}
-          </p>
+          </motion.p>
         </div>
       </motion.div>
 
@@ -345,12 +357,12 @@ export function Product() {
         <div className="products-container">
 
           {/* Category Cards */}
-          <motion.div 
+          <motion.div
             className="category-cards"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
           >
             {mainCategories.map((category) => (
               <CategoryCard
@@ -372,50 +384,62 @@ export function Product() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <FeaturedBanner category={mainCategory} t={t} />
+            <AnimatePresence mode="wait">
+              <FeaturedBanner key={mainCategory} category={mainCategory} t={t} />
+            </AnimatePresence>
           </motion.div>
 
           {/* Sub-Category Navigation */}
-          {getSubCategories().length > 1 && (
-            <motion.div 
-              className="products-subcategories"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              style={{ marginTop: '50px' }}
-            >
-              {getSubCategories().map((subCat) => (
-                <button
-                  key={subCat.id}
-                  className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
-                  onClick={() => handleSubCategoryChange(subCat.id)}
-                  aria-label={t('common.selectSubcategoryAria', { subcategory: subCat.title })}
-                  aria-pressed={subCategory === subCat.id}
-                >
-                  <span>{subCat.title}</span>
-                </button>
-              ))}
-            </motion.div>
-          )}
+          <AnimatePresence mode="wait">
+            {getSubCategories().length > 1 && (
+              <motion.div
+                key={mainCategory}
+                className="products-subcategories"
+                initial="hidden"
+                animate="show"
+                exit={{ opacity: 0, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } }}
+                variants={staggerContainer}
+                style={{ marginTop: '50px' }}
+              >
+                {getSubCategories().map((subCat) => (
+                  <motion.button
+                    key={subCat.id}
+                    className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
+                    onClick={() => handleSubCategoryChange(subCat.id)}
+                    aria-label={t('common.selectSubcategoryAria', { subcategory: subCat.title })}
+                    aria-pressed={subCategory === subCat.id}
+                    variants={fadeUp}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                  >
+                    <span>{subCat.title}</span>
+                  </motion.button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Products Grid */}
-          <motion.div 
-            className="products-grid"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            {getCurrentProducts().map((product: Product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onClick={handleCardClick}
-                mainCategory={mainCategory}
-              />
-            ))}
-          </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${mainCategory}-${subCategory}`}
+              className="products-grid"
+              initial="hidden"
+              animate="show"
+              exit={{ opacity: 0, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } }}
+              variants={gridStagger}
+            >
+              {getCurrentProducts().map((product: Product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onClick={handleCardClick}
+                  mainCategory={mainCategory}
+                />
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
     </div>

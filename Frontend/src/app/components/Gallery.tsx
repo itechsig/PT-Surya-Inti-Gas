@@ -19,6 +19,16 @@ const staggerContainer: Variants = {
   show: { transition: { staggerChildren: 0.12 } },
 };
 
+const gridStaggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05 } },
+};
+
+const cardReveal: Variants = {
+  hidden: { opacity: 0, y: 24, scale: 0.96 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: [0.4, 0, 0.2, 1] } },
+};
+
 const galleryStyles = `
   .products-corporate {
     --primary: #0F4C81;
@@ -261,6 +271,29 @@ const galleryStyles = `
     position: relative;
     border-radius: 8px;
     overflow: hidden;
+    transition: box-shadow 0.35s var(--ease);
+  }
+
+  .uk-card-custom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease);
+    z-index: 2;
+  }
+
+  .uk-card-custom:hover::before {
+    transform: scaleX(1);
+  }
+
+  .uk-card-custom:hover {
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.18);
   }
 
   .uk-border-rounded {
@@ -328,13 +361,23 @@ const galleryStyles = `
     margin: 0;
     text-align: center;
     padding: 20px;
+    transform: translateY(10px);
+    transition: transform 0.35s var(--ease);
+  }
+
+  .gallery-hover-overlay.visible .gallery-hover-title {
+    transform: translateY(0);
   }
 
   .gallery-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.5s var(--ease);
+  }
+
+  .uk-card-custom:hover .gallery-image {
+    transform: scale(1.05);
   }
 
   .gallery-image.dimmed {
@@ -471,12 +514,12 @@ function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: st
   };
 
   return (
-    <article 
-      data-tag="" 
+    <motion.article
+      data-tag=""
       className={`uk-first-column ${getSizeClass()}`}
-      style={{ transform: 'translate(0px, 0px)' }}
+      variants={cardReveal}
     >
-      <div 
+      <div
         className="uk-article uk-card uk-overflow-hidden uk-card-custom uk-border-rounded uk-transition-toggle"
         style={{ cursor: 'pointer', position: 'relative', height: '100%' }}
         onMouseEnter={() => setIsHovered(true)}
@@ -501,7 +544,7 @@ function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: st
           </div>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
@@ -699,11 +742,18 @@ function Gallery() {
           <div className="ui-gallery">
             <div className="ui-gallery-inner">
               <div className="">
-                <div className="ui-gallery-items">
+                <motion.div
+                  key={`${selectedYear}|${selectedActivity}`}
+                  className="ui-gallery-items"
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: '-40px' }}
+                  variants={gridStaggerContainer}
+                >
                   {filteredItems.map((item) => (
                     <GalleryCard key={item.id} item={item} currentLang={currentLang} />
                   ))}
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>

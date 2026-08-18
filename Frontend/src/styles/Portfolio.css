@@ -220,6 +220,7 @@
 }
 
 .portfolio-cta-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -231,11 +232,29 @@
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
-  transition: background-color 0.2s var(--ease);
+  overflow: hidden;
+  transition: background-color 0.3s var(--ease), transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.portfolio-cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .portfolio-cta-btn:hover {
   background: var(--sky-light);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(59, 130, 246, 0.35);
+}
+
+.portfolio-cta-btn:hover::before {
+  left: 100%;
 }
 
 /* ── Detail page ── */

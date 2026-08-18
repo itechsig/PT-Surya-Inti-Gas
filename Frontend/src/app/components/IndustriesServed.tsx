@@ -109,10 +109,28 @@ const css = `
     will-change: transform;
   }
 
+  .industry-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blue), var(--sky));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+    z-index: 1;
+  }
+
   .industry-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 20px 40px rgba(30, 64, 175, 0.12);
     border-color: var(--sky-light);
+  }
+
+  .industry-card:hover::before {
+    transform: scaleX(1);
   }
 
   .industry-card:active {
@@ -132,6 +150,11 @@ const css = `
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .industry-card:hover .industry-card-image img {
+    transform: scale(1.08);
   }
 
   .industry-card-image .skeleton {
@@ -319,13 +342,13 @@ export function IndustriesServed() {
 
   const scrollLeft = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -350, behavior: 'auto' });
+      carouselRef.current.scrollBy({ left: -350, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 350, behavior: 'auto' });
+      carouselRef.current.scrollBy({ left: 350, behavior: 'smooth' });
     }
   };
 
@@ -375,14 +398,14 @@ export function IndustriesServed() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: '-80px' }}
-            variants={fadeUp}
+            variants={staggerContainer}
           >
             <div
               ref={carouselRef}
               className="industries-carousel"
             >
               {industries.map((industry) => (
-                <div key={industry.id} className="industry-card">
+                <motion.div key={industry.id} className="industry-card" variants={fadeUp}>
                   <div className="industry-card-image">
                     <img
                       src={industry.image}
@@ -403,7 +426,7 @@ export function IndustriesServed() {
                       {industry.title}
                     </h3>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 

@@ -1,7 +1,7 @@
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { motion } from "motion/react";
+import { AnimatePresence, motion, type Variants } from "motion/react";
 import {
   ChevronRight,
   Wrench,
@@ -12,6 +12,22 @@ import '../../styles/ProductsAndServices.css';
 import { mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 import { getImageUrl } from "../../utils/imageUrl";
+
+/* ── Motion variants ── */
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
+const gridStagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07 } },
+};
 
 
 // Product Card Component
@@ -27,11 +43,9 @@ function ProductCard({ product, onClick, mainCategory }: { product: Product; onC
     <motion.div
       className="products-card"
       onClick={() => onClick(product.id)}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      variants={fadeUp}
       whileHover={{ y: -8 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       <div className="products-card-image">
         {imageError ? (
@@ -85,12 +99,10 @@ function CategoryCard({
     <motion.button
       className={`category-card ${isActive ? 'active' : ''}`}
       onClick={onClick}
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
+      variants={fadeUp}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       <div className="category-card-icon">
         <Icon size={40} />
@@ -292,28 +304,28 @@ export function ProductsAndServices() {
         <div className="products-container">
 
           {/* Corporate Header */}
-          <motion.div 
+          <motion.div
             className="products-header"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
           >
-            <h2 className="products-title">
+            <motion.h2 className="products-title" variants={fadeUp}>
               {t('products.pageHeader.title')}
-            </h2>
-            <p className="products-subtitle">
+            </motion.h2>
+            <motion.p className="products-subtitle" variants={fadeUp}>
               {t('products.homeSection.subtitle')}
-            </p>
+            </motion.p>
           </motion.div>
 
           {/* Premium Category Cards */}
-          <motion.div 
+          <motion.div
             className="category-cards"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
           >
             {mainCategories.map((category) => (
               <CategoryCard
@@ -335,55 +347,61 @@ export function ProductsAndServices() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <FeaturedBanner category={mainCategory} t={t} />
+            <AnimatePresence mode="wait">
+              <FeaturedBanner key={mainCategory} category={mainCategory} t={t} />
+            </AnimatePresence>
           </motion.div>
 
           {/* Sub-Category Navigation (Premium Pill Buttons) */}
-          {getSubCategories().length >= 1 && (
-            <motion.div 
-              className="products-subcategories"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              {getSubCategories().map((subCat, index) => (
-                <motion.button
-                  key={subCat.id}
-                  className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
-                  onClick={() => handleSubCategoryChange(subCat.id)}
-                  aria-label={t('common.selectSubcategoryAria', { subcategory: subCat.title })}
-                  aria-pressed={subCategory === subCat.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.2, delay: 0.4 + index * 0.1 }}
-                >
-                  <span>{subCat.title}</span>
-                </motion.button>
-              ))}
-            </motion.div>
-          )}
+          <AnimatePresence mode="wait">
+            {getSubCategories().length >= 1 && (
+              <motion.div
+                key={mainCategory}
+                className="products-subcategories"
+                initial="hidden"
+                animate="show"
+                exit={{ opacity: 0, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } }}
+                variants={staggerContainer}
+              >
+                {getSubCategories().map((subCat) => (
+                  <motion.button
+                    key={subCat.id}
+                    className={`products-subcategory ${subCategory === subCat.id ? 'active' : ''}`}
+                    onClick={() => handleSubCategoryChange(subCat.id)}
+                    aria-label={t('common.selectSubcategoryAria', { subcategory: subCat.title })}
+                    aria-pressed={subCategory === subCat.id}
+                    variants={fadeUp}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                  >
+                    <span>{subCat.title}</span>
+                  </motion.button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Premium Products Grid */}
-          <motion.div 
-            className="products-grid"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            {getCurrentProducts().map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onClick={handleCardClick}
-                mainCategory={mainCategory}
-              />
-            ))}
-          </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${mainCategory}-${subCategory}`}
+              className="products-grid"
+              initial="hidden"
+              animate="show"
+              exit={{ opacity: 0, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } }}
+              variants={gridStagger}
+            >
+              {getCurrentProducts().map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onClick={handleCardClick}
+                  mainCategory={mainCategory}
+                />
+              ))}
+            </motion.div>
+          </AnimatePresence>
 
         </div>
       </section>
