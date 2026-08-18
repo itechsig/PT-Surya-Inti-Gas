@@ -691,19 +691,6 @@ function Gallery() {
           padding: '100px 6vw'
         }} variants={fadeUp}>
           <div className="gallery-filters">
-            <div className="gallery-filter-left">
-              {years.map((year) => (
-                <button
-                  key={year.id}
-                  className={`gallery-filter-btn ${selectedYear === year.id ? 'active' : ''}`}
-                  onClick={() => handleYearChange(year.id)}
-                  aria-label={t('gallery.page.filterByYearAria', { year: year.name })}
-                  aria-pressed={selectedYear === year.id}
-                >
-                  {year.name}
-                </button>
-              ))}
-            </div>
             <div className="gallery-filter-right">
               <span className="gallery-filter-label">{t('gallery.page.activityLabel')}</span>
               <div className="gallery-filter-custom-dropdown" ref={dropdownRef}>
