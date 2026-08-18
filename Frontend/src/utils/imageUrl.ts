@@ -6,8 +6,6 @@ import { API_CONFIG } from '../config/api';
  */
 export const IMAGE_PLACEHOLDER = '/images/placeholder.svg';
 
-const DEV_HOST_PATTERN = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i;
-
 /**
  * Resolves whatever the backend/API put in an image field into a URL the browser can load,
  * regardless of environment. The backend always returns image fields as absolute URLs already
@@ -27,21 +25,38 @@ const DEV_HOST_PATTERN = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i;
  *  - a bare relative storage path ("gallery/foo.webp")
  *                                             -> built into "{API base}/api/v1/image/foo.webp"
  */
-export const getImageUrl = (path?: string | null): string => {
+export const getImageUrl = (path?: string | null, bustCache: boolean = false): string => {
   if (!path) return IMAGE_PLACEHOLDER;
 
-  if (DEV_HOST_PATTERN.test(path)) {
-    return path.replace(DEV_HOST_PATTERN, API_CONFIG.BASE_URL);
+  // Handle URLs with escaped slashes (from JSON responses)
+  let cleanPath = path.replace(/\\\//g, '/');
+
+  // Check if path contains localhost or 127.0.0.1 and replace with current API base URL
+  if (cleanPath.includes('localhost') || cleanPath.includes('127.0.0.1')) {
+    // Extract the path part after the domain
+    const pathMatch = cleanPath.match(/https?:\/\/[^\/]+(.+)/);
+    if (pathMatch) {
+      return `${API_CONFIG.BASE_URL}${pathMatch[1]}`;
+    }
+    // Fallback: just replace the protocol and domain
+    return cleanPath.replace(/https?:\/\/[^\/]+/, API_CONFIG.BASE_URL);
   }
 
-  if (/^https?:\/\//i.test(path)) {
-    return path;
+  if (/^https?:\/\//i.test(cleanPath)) {
+    return cleanPath;
   }
 
-  if (path.startsWith('/') && !path.startsWith('/storage/')) {
-    return path;
+  if (cleanPath.startsWith('/') && !cleanPath.startsWith('/storage/')) {
+    return cleanPath;
   }
 
-  const relativePath = path.replace(/^\/?storage\//, '');
-  return `${API_CONFIG.BASE_URL}/api/v1/image/${encodeURIComponent(relativePath)}`;
+  const relativePath = cleanPath.replace(/^\/?storage\//, '');
+  let url = `${API_CONFIG.BASE_URL}/api/v1/image/${encodeURIComponent(relativePath)}`;
+  
+  // Always add cache-busting in development
+  if (bustCache || !import.meta.env.PROD) {
+    url += `?t=${Date.now()}`;
+  }
+  
+  return url;
 };
