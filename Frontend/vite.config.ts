@@ -39,7 +39,7 @@ export default defineConfig({
     },
     hmr: {
       clientPort: 3000,
-      host: '0.0.0.0'
+      host: 'localhost'
     }
   },
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.

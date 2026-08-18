@@ -1,6 +1,24 @@
 import React, { useState } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Instagram } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+
+// Custom TikTok Icon (since lucide-react doesn't have one)
+const TikTokIcon = ({ size = 18, className }: { size?: number; className?: string }) => (
+  <svg 
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24" 
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -300,6 +318,30 @@ export const Header = () => {
 
             {/* Corporate Right Actions */}
             <div className="flex items-center gap-3">
+              {/* Social Media Icons */}
+              <div className="hidden lg:flex items-center gap-2">
+                <a
+                  href="https://www.instagram.com/surya.inti.gas?igsh=MXM3czQyOWx5ZjNzYw=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-2 rounded-lg transition-colors ${isLight ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}`}
+                  aria-label="Instagram"
+                  style={{ color: isLight ? '#6b7280' : '#ffffff' }}
+                >
+                  <Instagram size={18} strokeWidth={2.5} />
+                </a>
+                <a
+                  href="https://www.tiktok.com/@surya.inti.gas?_r=1&_t=ZS-97WlfSPPexY"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-2 rounded-lg transition-colors ${isLight ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}`}
+                  aria-label="TikTok"
+                  style={{ color: isLight ? '#6b7280' : '#ffffff' }}
+                >
+                  <TikTokIcon size={18} />
+                </a>
+              </div>
+
               {/* Language Switcher */}
               <div className="hidden lg:block">
                 <LanguageSwitcher isLight={isLight} />
@@ -462,9 +504,29 @@ export const Header = () => {
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-slate-200">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mb-4">
                     <span className="text-sm font-semibold text-slate-700">{t('header.language')}</span>
                     <LanguageSwitcher isLight={true} />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href="https://www.instagram.com/surya.inti.gas?igsh=MXM3czQyOWx5ZjNzYw=="
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg text-blue-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                      aria-label="Instagram"
+                    >
+                      <Instagram size={20} strokeWidth={3} />
+                    </a>
+                    <a
+                      href="https://www.tiktok.com/@surya.inti.gas?_r=1&_t=ZS-97WlfSPPexY"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg text-blue-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                      aria-label="TikTok"
+                    >
+                      <TikTokIcon size={20} />
+                    </a>
                   </div>
                 </div>
               </div>

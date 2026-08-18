@@ -253,7 +253,6 @@ export function Slider() {
             alt=""
             aria-hidden="true"
             loading={activeIndex === 0 ? "eager" : "lazy"}
-            fetchPriority={activeIndex === 0 ? "high" : "auto"}
             className="absolute inset-0 h-full w-full object-cover"
             onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
             initial={{ opacity: 0, scale: 1 }}
@@ -335,8 +334,6 @@ export function Slider() {
         activeIndex={activeIndex}
         duration={slide.durationMs}
         isPaused={isPaused}
-        onPrev={goPrev}
-        onNext={goNext}
         onSelect={goTo}
       />
 

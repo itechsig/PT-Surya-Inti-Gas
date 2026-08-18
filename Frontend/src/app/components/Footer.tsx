@@ -421,14 +421,14 @@ export function Footer() {
 
             <div className="corporate-footer-contact">
               <div className="corporate-footer-contact-title">Kantor Pusat</div>
-              <a href="tel:+6281233906378" className="corporate-footer-contact-item">
+              <div className="corporate-footer-contact-item">
                 <Phone />
                 +6281233906378
-              </a>
-              <a href="#" className="corporate-footer-contact-item" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.sda@suryaintigas.com'; }}>
+              </div>
+              <div className="corporate-footer-contact-item">
                 <Mail />
                 salescounter.sda@suryaintigas.com
-              </a>
+              </div>
               <div className="corporate-footer-contact-item">
                 <MapPin />
                 Komp. Perg. & Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232
@@ -451,14 +451,14 @@ export function Footer() {
           <motion.div className="corporate-footer-column" variants={fadeUp}>
             <div className="corporate-footer-contact-title">{t('distribution.locations.pabrik-balikpapan.name')}</div>
             <div className="corporate-footer-contact">
-              <a href="tel:+625428531991" className="corporate-footer-contact-item">
+              <div className="corporate-footer-contact-item">
                 <Phone />
                 +625428531991
-              </a>
-              <a href="#" className="corporate-footer-contact-item" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.bpn@suryaintigas.com'; }}>
+              </div>
+              <div className="corporate-footer-contact-item">
                 <Mail />
                 salescounter.bpn@suryaintigas.com
-              </a>
+              </div>
               <div className="corporate-footer-contact-item">
                 <MapPin />
                 Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur

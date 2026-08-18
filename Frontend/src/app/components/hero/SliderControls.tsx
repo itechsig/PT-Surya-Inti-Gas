@@ -1,4 +1,3 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface SliderControlsProps {
@@ -6,8 +5,6 @@ interface SliderControlsProps {
   activeIndex: number;
   duration: number;
   isPaused: boolean;
-  onPrev: () => void;
-  onNext: () => void;
   onSelect: (index: number) => void;
 }
 
@@ -16,31 +13,11 @@ export function SliderControls({
   activeIndex,
   duration,
   isPaused,
-  onPrev,
-  onNext,
   onSelect,
 }: SliderControlsProps) {
   const { t } = useTranslation();
   return (
     <>
-      <button
-        type="button"
-        onClick={onPrev}
-        aria-label={t('hero.previousSlide')}
-        className="group absolute left-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-white/50 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-[#00AEEF] sm:left-6 sm:h-12 sm:w-12"
-      >
-        <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6" strokeWidth={2.5} />
-      </button>
-
-      <button
-        type="button"
-        onClick={onNext}
-        aria-label={t('hero.nextSlide')}
-        className="group absolute right-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-white/50 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-[#00AEEF] sm:right-6 sm:h-12 sm:w-12"
-      >
-        <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" strokeWidth={2.5} />
-      </button>
-
       <div
         className="flex items-center gap-2 sm:gap-3"
         role="tablist"
