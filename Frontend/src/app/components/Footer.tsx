@@ -453,7 +453,7 @@ export function Footer() {
             <div className="corporate-footer-contact">
               <a href="tel:+625428531991" className="corporate-footer-contact-item">
                 <Phone />
-                +62542 – 8531991, 8532382
+                +625428531991
               </a>
               <a href="#" className="corporate-footer-contact-item" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.bpn@suryaintigas.com'; }}>
                 <Mail />

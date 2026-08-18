@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { Link, useParams } from 'react-router-dom';
 import { motion, type Variants } from 'motion/react';
 import {
   ChevronRight,
@@ -23,6 +24,7 @@ import {
   Calendar,
   X,
   ChevronLeft,
+  ArrowRight,
 } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1097,6 +1099,7 @@ function Lightbox({
 /* ── Icon maps ── */
 const valueIcons = [ShieldCheck, Handshake, Award, ClipboardCheck, Heart, Gem, Lightbulb, Users];
 const whyUsIcons = [Award, Truck, Tag, Users, ShieldCheck, Headset];
+const statIcons = [Calendar, Users, Building2, Headset];
 
 const galleryImages = [
   '/images/office/wp.jpg',
@@ -1109,10 +1112,13 @@ const galleryImages = [
 
 export function AboutUsPage() {
   const { t } = useTranslation();
+  const { lang } = useParams<{ lang: string }>();
+  const currentLang = lang || 'id';
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const values = t('aboutUsPage.values.items', { returnObjects: true }) as { title: string; description: string }[];
   const whyUsItems = t('aboutUsPage.whyUs.items', { returnObjects: true }) as { title: string; description: string }[];
+  const stats = t('aboutUsPage.stats.items', { returnObjects: true }) as { value: string; suffix: string; label: string }[];
   const galleryLabels = t('aboutUsPage.gallery.items', { returnObjects: true }) as { title: string }[];
   const missionItems = t('about.mission.items', { returnObjects: true }) as string[];
   const timelineLabels = t('about.timeline.items', { returnObjects: true }) as { year: string; label: string }[];
@@ -1139,6 +1145,12 @@ export function AboutUsPage() {
         <div className="au-hero-content">
 
           <motion.div initial="hidden" animate="show" variants={staggerContainer}>
+            <motion.nav className="au-breadcrumb" variants={fadeUp}>
+              <Link to={`/${currentLang}`}>{t('aboutUsPage.hero.breadcrumbHome')}</Link>
+              <ChevronRight size={14} />
+              <span className="au-breadcrumb-current">{t('aboutUsPage.hero.badge')}</span>
+            </motion.nav>
+            <motion.span className="au-hero-badge" variants={fadeUp}>{t('aboutUsPage.hero.badge')}</motion.span>
             <motion.h1 className="au-hero-title" variants={fadeUp}>
               {t('aboutUsPage.hero.title')} <span>{t('aboutUsPage.hero.titleHighlight')}</span>
             </motion.h1>
@@ -1347,6 +1359,113 @@ export function AboutUsPage() {
         </div>
       </section>
 
+      {/* ── Stats ── */}
+      <section className="au-stats-section">
+        <div className="au-container">
+          <motion.div
+            className="au-header"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="au-title" variants={fadeUp}>{t('aboutUsPage.stats.title')}</motion.h2>
+          </motion.div>
+
+          <motion.div
+            className="au-stats-grid"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
+            {stats.map((stat, index) => {
+              const Icon = statIcons[index % statIcons.length];
+              return (
+                <motion.div key={index} className="au-stat-card" variants={fadeUp}>
+                  <div className="au-stat-icon"><Icon size={24} /></div>
+                  <span className="stat-number">{stat.value}{stat.suffix}</span>
+                  <span className="au-stat-label">{stat.label}</span>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Gallery ── */}
+      <section className="au-section">
+        <div className="au-container">
+          <motion.div
+            className="au-header"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="au-title" variants={fadeUp}>{t('aboutUsPage.gallery.title')}</motion.h2>
+            <motion.p className="au-subtitle" variants={fadeUp}>{t('aboutUsPage.gallery.subtitle')}</motion.p>
+          </motion.div>
+
+          <motion.div
+            className="au-gallery-grid"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
+            {galleryItems.map((image, index) => (
+              <motion.button
+                key={image.src}
+                type="button"
+                className="au-gallery-item"
+                variants={fadeUp}
+                whileHover={{ y: -4 }}
+                onClick={() => setLightboxIndex(index)}
+                aria-label={image.alt}
+              >
+                <img src={image.src} alt={image.alt} loading="lazy" />
+                <div className="au-gallery-overlay">
+                  <p className="au-gallery-title">{image.alt}</p>
+                  <span className="au-gallery-zoom"><Eye size={16} /></span>
+                </div>
+              </motion.button>
+            ))}
+          </motion.div>
+
+          <div className="au-gallery-cta-wrap">
+            <Link to={`/${currentLang}/galeri`} className="au-btn au-btn-outline">
+              {t('aboutUsPage.gallery.viewAll')}
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="au-cta-section">
+        <div className="au-cta-pattern" aria-hidden="true" />
+        <motion.div
+          className="au-cta-content"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+        >
+          <motion.h2 className="au-cta-title" variants={fadeUp}>{t('aboutUsPage.cta.title')}</motion.h2>
+          <motion.p className="au-cta-subtitle" variants={fadeUp}>{t('aboutUsPage.cta.subtitle')}</motion.p>
+          <motion.div className="au-cta-buttons" variants={fadeUp}>
+            <Link to={`/${currentLang}/kontak`} className="au-btn au-btn-primary">
+              {t('aboutUsPage.cta.primaryButton')}
+              <ArrowRight size={16} />
+            </Link>
+            <Link to={`/${currentLang}/produk`} className="au-btn au-btn-outline-light">
+              {t('aboutUsPage.cta.secondaryButton')}
+              <ArrowRight size={16} />
+            </Link>
+          </motion.div>
+        </motion.div>
+      </section>
 
       {lightboxIndex !== null && (
         <Lightbox

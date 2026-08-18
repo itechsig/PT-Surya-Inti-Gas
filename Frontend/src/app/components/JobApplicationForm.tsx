@@ -3,10 +3,27 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Send, Upload, CheckCircle } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { motion, AnimatePresence, type Variants } from 'motion/react';
 import '../../styles/career.css';
 import { useJobVacancies } from '../../hooks/useJobVacancies';
 import { API_ENDPOINTS } from '../../config/api';
 import { apiRequest, ApiError } from '../../utils/apiClient';
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
+const stepTransition: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } },
+  exit: { opacity: 0, y: -16, transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] } },
+};
 
 export function JobApplicationForm() {
   const navigate = useNavigate();
@@ -209,54 +226,27 @@ export function JobApplicationForm() {
     );
   }
 
-  if (submitted) {
-    return (
-      <>
-        <Helmet>
-          <title>Application Submitted - PT Surya Inti Gas Career</title>
-          <meta name="description" content="Your job application has been successfully submitted to PT Surya Inti Gas." />
-          <link rel="canonical" href={canonicalUrl} />
-        </Helmet>
-        <div className="career-page">
-        {/* Career Hero Section */}
-        <div className="career-hero">
-          <div className="career-hero-bg"></div>
-          <div className="section-container">
-            <div className="section-header">
-              <h2>{t('career.page.title')}</h2>
-              <p>{t('career.page.subtitle')}</p>
-              <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
-            </div>
-          </div>
-        </div>
-        <div className="application-success-section">
-          <div className="section-container">
-            <div className="success-message">
-              <CheckCircle size={64} className="success-icon" />
-              <h2>{t('career.page.applicationSuccessTitle')}</h2>
-              <p>{t('career.page.applicationSuccessMessage', { title: job.title })}</p>
-              <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label={t('career.aria.backToListings')}>
-                {t('career.page.backToListings')}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      </>
-    );
-  }
-
   return (
     <>
       <Helmet>
-        <title>Apply for {job.title} - PT Surya Inti Gas Career</title>
-        <meta name="description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}`} />
-        <meta name="keywords" content={`${job.title}, job application, ${job.division}, ${job.location}, PT Surya Inti Gas`} />
-        <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content={`Apply for ${job.title} - PT Surya Inti Gas Career`} />
-        <meta property="og:description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}`} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:type" content="website" />
+        {submitted ? (
+          <>
+            <title>Application Submitted - PT Surya Inti Gas Career</title>
+            <meta name="description" content="Your job application has been successfully submitted to PT Surya Inti Gas." />
+            <link rel="canonical" href={canonicalUrl} />
+          </>
+        ) : (
+          <>
+            <title>Apply for {job.title} - PT Surya Inti Gas Career</title>
+            <meta name="description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}`} />
+            <meta name="keywords" content={`${job.title}, job application, ${job.division}, ${job.location}, PT Surya Inti Gas`} />
+            <link rel="canonical" href={canonicalUrl} />
+            <meta property="og:title" content={`Apply for ${job.title} - PT Surya Inti Gas Career`} />
+            <meta property="og:description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}`} />
+            <meta property="og:url" content={canonicalUrl} />
+            <meta property="og:type" content="website" />
+          </>
+        )}
       </Helmet>
       <div className="career-page">
       {/* Career Hero Section */}
@@ -271,155 +261,186 @@ export function JobApplicationForm() {
         </div>
       </div>
 
-      <div className="application-form-section">
-        <div className="section-container">
-          <button onClick={handleBack} className="back-button" aria-label={t('career.aria.backToDetail')}>
-            <ArrowLeft size={16} />
-            {t('career.page.backToDetail')}
-          </button>
-
-          <div className="form-header">
-            <h1>{t('career.page.formTitle')}</h1>
-            <p>{t('career.page.position', { title: job.title })}</p>
-            <p>{job.division} - {job.location}</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="application-form">
-            <div className="form-grid">
-              <div className="form-group">
-                <label htmlFor="fullName">{t('career.form.fullName')}</label>
-                <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  className={errors.fullName ? 'error' : ''}
-                  placeholder={t('career.form.fullNamePlaceholder')}
-                />
-                {errors.fullName && <span className="error-message">{errors.fullName}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">{t('career.form.email')}</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className={errors.email ? 'error' : ''}
-                  placeholder={t('career.form.emailPlaceholder')}
-                />
-                {errors.email && <span className="error-message">{errors.email}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="phone">{t('career.form.phone')}</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className={errors.phone ? 'error' : ''}
-                  placeholder={t('career.form.phonePlaceholder')}
-                />
-                {errors.phone && <span className="error-message">{errors.phone}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="address">{t('career.form.address')}</label>
-                <input
-                  type="text"
-                  id="address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  className={errors.address ? 'error' : ''}
-                  placeholder={t('career.form.addressPlaceholder')}
-                />
-                {errors.address && <span className="error-message">{errors.address}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="education">{t('career.form.education')}</label>
-                <input
-                  type="text"
-                  id="education"
-                  name="education"
-                  value={formData.education}
-                  onChange={handleInputChange}
-                  className={errors.education ? 'error' : ''}
-                  placeholder={t('career.form.educationPlaceholder')}
-                />
-                {errors.education && <span className="error-message">{errors.education}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="experience">{t('career.form.experience')}</label>
-                <input
-                  type="text"
-                  id="experience"
-                  name="experience"
-                  value={formData.experience}
-                  onChange={handleInputChange}
-                  className={errors.experience ? 'error' : ''}
-                  placeholder={t('career.form.experiencePlaceholder')}
-                />
-                {errors.experience && <span className="error-message">{errors.experience}</span>}
-              </div>
-
-              <div className="form-group full-width">
-                <label htmlFor="coverLetter">{t('career.form.coverLetter')}</label>
-                <textarea
-                  id="coverLetter"
-                  name="coverLetter"
-                  value={formData.coverLetter}
-                  onChange={handleInputChange}
-                  rows={6}
-                  placeholder={t('career.form.coverLetterPlaceholder')}
-                />
-              </div>
-
-              <div className="form-group full-width">
-                <label htmlFor="resume">{t('career.form.resume')}</label>
-                <div className="file-upload">
-                  <input
-                    type="file"
-                    id="resume"
-                    name="resume"
-                    onChange={handleFileChange}
-                    accept=".pdf,.doc,.docx"
-                    className={errors.resume ? 'error' : ''}
-                  />
-                  <div className="file-upload-label">
-                    <Upload size={24} />
-                    <span>{formData.resume ? formData.resume.name : t('career.form.uploadCta')}</span>
-                  </div>
-                </div>
-                {errors.resume && <span className="error-message">{errors.resume}</span>}
+      <AnimatePresence mode="wait">
+        {submitted ? (
+          <motion.div
+            key="success"
+            className="application-success-section"
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            variants={stepTransition}
+          >
+            <div className="section-container">
+              <div className="success-message">
+                <CheckCircle size={64} className="success-icon" />
+                <h2>{t('career.page.applicationSuccessTitle')}</h2>
+                <p>{t('career.page.applicationSuccessMessage', { title: job.title })}</p>
+                <button onClick={() => navigate(`/${currentLang}/karir`)} className="back-button" aria-label={t('career.aria.backToListings')}>
+                  {t('career.page.backToListings')}
+                </button>
               </div>
             </div>
-
-            <div className="form-actions">
-              <button
-                type="submit"
-                className="submit-button"
-                disabled={submitting}
-                aria-label={t('career.aria.submitApplication')}
-              >
-                {submitting ? t('career.form.submitting') : (
-                  <>
-                    <Send size={18} />
-                    {t('career.form.submit')}
-                  </>
-                )}
+          </motion.div>
+        ) : (
+          <motion.div
+            key="form"
+            className="application-form-section"
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            variants={stepTransition}
+          >
+            <div className="section-container">
+              <button onClick={handleBack} className="back-button" aria-label={t('career.aria.backToDetail')}>
+                <ArrowLeft size={16} />
+                {t('career.page.backToDetail')}
               </button>
+
+              <motion.div className="form-header" initial="hidden" animate="show" variants={staggerContainer}>
+                <motion.h1 variants={fadeUp}>{t('career.page.formTitle')}</motion.h1>
+                <motion.p variants={fadeUp}>{t('career.page.position', { title: job.title })}</motion.p>
+                <motion.p variants={fadeUp}>{job.division} - {job.location}</motion.p>
+              </motion.div>
+
+              <form onSubmit={handleSubmit} className="application-form">
+                <motion.div className="form-grid" initial="hidden" animate="show" variants={staggerContainer}>
+                  <motion.div className="form-group" variants={fadeUp}>
+                    <label htmlFor="fullName">{t('career.form.fullName')}</label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      className={errors.fullName ? 'error' : ''}
+                      placeholder={t('career.form.fullNamePlaceholder')}
+                    />
+                    {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+                  </motion.div>
+
+                  <motion.div className="form-group" variants={fadeUp}>
+                    <label htmlFor="email">{t('career.form.email')}</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className={errors.email ? 'error' : ''}
+                      placeholder={t('career.form.emailPlaceholder')}
+                    />
+                    {errors.email && <span className="error-message">{errors.email}</span>}
+                  </motion.div>
+
+                  <motion.div className="form-group" variants={fadeUp}>
+                    <label htmlFor="phone">{t('career.form.phone')}</label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className={errors.phone ? 'error' : ''}
+                      placeholder={t('career.form.phonePlaceholder')}
+                    />
+                    {errors.phone && <span className="error-message">{errors.phone}</span>}
+                  </motion.div>
+
+                  <motion.div className="form-group" variants={fadeUp}>
+                    <label htmlFor="address">{t('career.form.address')}</label>
+                    <input
+                      type="text"
+                      id="address"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      className={errors.address ? 'error' : ''}
+                      placeholder={t('career.form.addressPlaceholder')}
+                    />
+                    {errors.address && <span className="error-message">{errors.address}</span>}
+                  </motion.div>
+
+                  <motion.div className="form-group" variants={fadeUp}>
+                    <label htmlFor="education">{t('career.form.education')}</label>
+                    <input
+                      type="text"
+                      id="education"
+                      name="education"
+                      value={formData.education}
+                      onChange={handleInputChange}
+                      className={errors.education ? 'error' : ''}
+                      placeholder={t('career.form.educationPlaceholder')}
+                    />
+                    {errors.education && <span className="error-message">{errors.education}</span>}
+                  </motion.div>
+
+                  <motion.div className="form-group" variants={fadeUp}>
+                    <label htmlFor="experience">{t('career.form.experience')}</label>
+                    <input
+                      type="text"
+                      id="experience"
+                      name="experience"
+                      value={formData.experience}
+                      onChange={handleInputChange}
+                      className={errors.experience ? 'error' : ''}
+                      placeholder={t('career.form.experiencePlaceholder')}
+                    />
+                    {errors.experience && <span className="error-message">{errors.experience}</span>}
+                  </motion.div>
+
+                  <motion.div className="form-group full-width" variants={fadeUp}>
+                    <label htmlFor="coverLetter">{t('career.form.coverLetter')}</label>
+                    <textarea
+                      id="coverLetter"
+                      name="coverLetter"
+                      value={formData.coverLetter}
+                      onChange={handleInputChange}
+                      rows={6}
+                      placeholder={t('career.form.coverLetterPlaceholder')}
+                    />
+                  </motion.div>
+
+                  <motion.div className="form-group full-width" variants={fadeUp}>
+                    <label htmlFor="resume">{t('career.form.resume')}</label>
+                    <div className="file-upload">
+                      <input
+                        type="file"
+                        id="resume"
+                        name="resume"
+                        onChange={handleFileChange}
+                        accept=".pdf,.doc,.docx"
+                        className={errors.resume ? 'error' : ''}
+                      />
+                      <div className="file-upload-label">
+                        <Upload size={24} />
+                        <span>{formData.resume ? formData.resume.name : t('career.form.uploadCta')}</span>
+                      </div>
+                    </div>
+                    {errors.resume && <span className="error-message">{errors.resume}</span>}
+                  </motion.div>
+                </motion.div>
+
+                <div className="form-actions">
+                  <button
+                    type="submit"
+                    className="submit-button"
+                    disabled={submitting}
+                    aria-label={t('career.aria.submitApplication')}
+                  >
+                    {submitting ? t('career.form.submitting') : (
+                      <>
+                        <Send size={18} />
+                        {t('career.form.submit')}
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
     </>
   );

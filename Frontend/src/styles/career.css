@@ -712,15 +712,34 @@
   border: 2px solid #E3F2FD;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s var(--ease);
   margin-bottom: 32px;
   width: fit-content;
+  position: relative;
+  overflow: hidden;
+}
+
+.back-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(41, 171, 226, 0.1), transparent);
+  transition: left 0.5s ease;
 }
 
 .back-button:hover {
   background: #EFF6FF;
   border-color: #29ABE2;
   color: #0C2D5E;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(12, 45, 94, 0.1);
+}
+
+.back-button:hover::before {
+  left: 100%;
 }
 
 .job-detail-header {
@@ -893,7 +912,7 @@
 .form-group textarea:focus {
   outline: none;
   border-color: #29ABE2;
-  box-shadow: 0 4px 12px rgba(41, 171, 226, 0.1);
+  box-shadow: 0 0 0 4px rgba(41, 171, 226, 0.12), 0 4px 12px rgba(41, 171, 226, 0.12);
 }
 
 .form-group input.error,
@@ -934,13 +953,25 @@
   border: 2px dashed #E3F2FD;
   border-radius: 8px;
   background: #FAFCFD;
-  transition: all 0.3s ease;
+  transition: all 0.3s var(--ease);
   cursor: pointer;
+}
+
+.file-upload-label svg {
+  transition: transform 0.3s var(--ease), color 0.3s var(--ease);
+  color: #94A3B8;
 }
 
 .file-upload:hover .file-upload-label {
   border-color: #29ABE2;
   background: #EFF6FF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(41, 171, 226, 0.12);
+}
+
+.file-upload:hover .file-upload-label svg {
+  transform: translateY(-2px);
+  color: #29ABE2;
 }
 
 .file-upload-label span {
@@ -970,13 +1001,32 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s var(--ease);
   letter-spacing: 0.02em;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(12, 45, 94, 0.2);
+}
+
+.submit-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .submit-button:hover:not(:disabled) {
   background: #1565C0;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(21, 101, 192, 0.3);
+}
+
+.submit-button:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .submit-button:disabled {

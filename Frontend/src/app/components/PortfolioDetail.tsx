@@ -122,15 +122,27 @@ export function PortfolioDetail() {
           ))}
         </motion.div>
 
-        <div className="portfolio-detail-product">
+        <motion.div
+          className="portfolio-detail-product"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-40px' }}
+          variants={fadeUp}
+        >
           <div className="portfolio-detail-product-label">{t('portfolio.detail.productSolution')}</div>
           <div className="portfolio-detail-product-value">{portfolio.productSolution}</div>
-        </div>
+        </motion.div>
 
-        <div className="portfolio-detail-summary">
+        <motion.div
+          className="portfolio-detail-summary"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-40px' }}
+          variants={fadeUp}
+        >
           <h2 className="portfolio-section-title">{t('portfolio.detail.summary')}</h2>
           <p>{portfolio.summary}</p>
-        </div>
+        </motion.div>
 
         {portfolio.gallery.length > 0 && (
           <>
@@ -157,19 +169,26 @@ export function PortfolioDetail() {
               open={lightboxIndex !== null}
               index={lightboxIndex ?? 0}
               close={() => setLightboxIndex(null)}
+              animation={{ fade: 350, swipe: 300 }}
               slides={portfolio.gallery.map((img) => ({ src: getImageUrl(img.image), alt: img.caption ?? portfolio.title }))}
             />
           </>
         )}
       </div>
 
-      <div className="portfolio-cta">
-        <h2 className="portfolio-cta-title">{t('portfolio.cta.needSimilarTitle')}</h2>
-        <p className="portfolio-cta-subtitle">{t('portfolio.cta.needSimilarSubtitle')}</p>
-        <a href={`/${currentLang}/kontak`} className="portfolio-cta-btn">
+      <motion.div
+        className="portfolio-cta"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-80px' }}
+        variants={staggerContainer}
+      >
+        <motion.h2 className="portfolio-cta-title" variants={fadeUp}>{t('portfolio.cta.needSimilarTitle')}</motion.h2>
+        <motion.p className="portfolio-cta-subtitle" variants={fadeUp}>{t('portfolio.cta.needSimilarSubtitle')}</motion.p>
+        <motion.a href={`/${currentLang}/kontak`} className="portfolio-cta-btn" variants={fadeUp}>
           {t('portfolio.cta.contactButton')}
-        </a>
-      </div>
+        </motion.a>
+      </motion.div>
     </div>
   );
 }

@@ -6,10 +6,11 @@ import {
   ArrowLeft,
   X,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ZoomIn
 } from 'lucide-react';
 import { createPortal } from 'react-dom';
-import { motion, type Variants } from 'motion/react';
+import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { useGallery } from '../../hooks/useGallery';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
 
@@ -102,12 +103,51 @@ const galleryDetailStyles = `
     border-radius: 12px;
     overflow: hidden;
     position: relative;
+    cursor: pointer;
   }
 
   .gallery-detail-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .gallery-detail-image-container:hover .gallery-detail-image {
+    transform: scale(1.05);
+  }
+
+  .gallery-detail-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.32);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  .gallery-detail-image-container:hover .gallery-detail-image-overlay {
+    opacity: 1;
+  }
+
+  .gallery-detail-image-zoom-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0C2D5E;
+    transform: scale(0.8);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .gallery-detail-image-container:hover .gallery-detail-image-zoom-icon {
+    transform: scale(1);
   }
 
   .gallery-detail-description {
@@ -215,20 +255,46 @@ const galleryDetailStyles = `
   }
 
   .related-gallery-item {
+    position: relative;
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    background: white;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .related-gallery-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
   }
 
   .related-gallery-item:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);
+  }
+
+  .related-gallery-item:hover::before {
+    transform: scaleX(1);
   }
 
   .related-gallery-item img {
     width: 100%;
     height: 200px;
     object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .related-gallery-item:hover img {
+    transform: scale(1.06);
   }
 
   .related-gallery-item-title {
@@ -488,13 +554,29 @@ function GalleryDetail() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
         >
-          <div className="gallery-detail-image-container">
+          <div
+            className="gallery-detail-image-container"
+            role="button"
+            tabIndex={0}
+            onClick={() => setIsLightboxOpen(true)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setIsLightboxOpen(true);
+              }
+            }}
+          >
             <img
               src={getImageUrl(currentItem.fullSize)}
               alt={currentItem.alt}
               className="gallery-detail-image"
               onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
             />
+            <div className="gallery-detail-image-overlay" aria-hidden="true">
+              <span className="gallery-detail-image-zoom-icon">
+                <ZoomIn size={22} />
+              </span>
+            </div>
           </div>
 
           <div className="gallery-detail-description">
@@ -534,41 +616,57 @@ function GalleryDetail() {
         )}
       </div>
 
-      {isLightboxOpen && createPortal(
-        <div className="lightbox-modal">
-          <div className="lightbox-content">
-            <button
-              className="lightbox-close"
-              onClick={() => setIsLightboxOpen(false)}
-              aria-label={t('gallery.aria.closeLightbox')}
+      {createPortal(
+        <AnimatePresence>
+          {isLightboxOpen && (
+            <motion.div
+              className="lightbox-modal"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
-              <X size={24} />
-            </button>
+              <motion.div
+                className="lightbox-content"
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.92 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <button
+                  className="lightbox-close"
+                  onClick={() => setIsLightboxOpen(false)}
+                  aria-label={t('gallery.aria.closeLightbox')}
+                >
+                  <X size={24} />
+                </button>
 
-            <button
-              className="lightbox-nav lightbox-nav-prev"
-              onClick={handlePrevious}
-              aria-label={t('gallery.aria.previousImage')}
-            >
-              <ChevronLeft size={24} />
-            </button>
+                <button
+                  className="lightbox-nav lightbox-nav-prev"
+                  onClick={handlePrevious}
+                  aria-label={t('gallery.aria.previousImage')}
+                >
+                  <ChevronLeft size={24} />
+                </button>
 
-            <img
-              src={getImageUrl(galleryItems[currentImageIndex].fullSize)}
-              alt={galleryItems[currentImageIndex].alt}
-              className="lightbox-image"
-              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
-            />
+                <img
+                  src={getImageUrl(galleryItems[currentImageIndex].fullSize)}
+                  alt={galleryItems[currentImageIndex].alt}
+                  className="lightbox-image"
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
+                />
 
-            <button
-              className="lightbox-nav lightbox-nav-next"
-              onClick={handleNext}
-              aria-label={t('gallery.aria.nextImage')}
-            >
-              <ChevronRight size={24} />
-            </button>
-          </div>
-        </div>,
+                <button
+                  className="lightbox-nav lightbox-nav-next"
+                  onClick={handleNext}
+                  aria-label={t('gallery.aria.nextImage')}
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
         document.body
       )}
     </div>

@@ -38,6 +38,29 @@ const css = `
     pointer-events: none;
   }
 
+  .hero-cta-primary,
+  .hero-cta-secondary {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-cta-primary::before,
+  .hero-cta-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .hero-cta-primary:hover::before,
+  .hero-cta-secondary:hover::before {
+    left: 100%;
+  }
+
   .hero-cta-primary {
     display: inline-flex;
     align-items: center;

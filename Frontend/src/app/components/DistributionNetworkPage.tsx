@@ -364,10 +364,16 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
           </motion.div>
 
           {/* Locations Information (Kartu di bawah peta) */}
-          <div className="locations-info">
+          <motion.div
+            className="locations-info"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={staggerContainer}
+          >
             {currentLocations.map((location) => {
               return (
-                <div key={location.id} className="location-card">
+                <motion.div key={location.id} className="location-card" variants={fadeUp}>
                   <h3 className="location-card-title">{location.name}</h3>
                   <p className="location-card-region">
                     {location.region}
@@ -383,10 +389,10 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
                   >
                     {t('distribution.page.viewOnGoogleMaps')}
                   </a>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 

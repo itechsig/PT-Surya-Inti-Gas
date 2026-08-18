@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { Search, MapPin, Calendar, ArrowRight, FolderOpen } from 'lucide-react';
-import { motion, type Variants } from 'motion/react';
+import { AnimatePresence, motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
 import { Badge } from './ui/badge';
@@ -187,27 +187,45 @@ export function Portfolio() {
           </div>
         </div>
 
-        {isLoading ? (
-          <div className="portfolio-grid">
-            {Array.from({ length: 6 }).map((_, i) => <PortfolioCardSkeleton key={i} />)}
-          </div>
-        ) : portfolios.length === 0 ? (
-          <div className="portfolio-empty-state">
-            <FolderOpen size={40} strokeWidth={1.5} />
-            <p>{t('portfolio.page.noResults')}</p>
-          </div>
-        ) : (
-          <motion.div
-            className="portfolio-grid"
-            initial="hidden"
-            animate="show"
-            variants={staggerContainer}
-          >
-            {portfolios.map((item) => (
-              <PortfolioCard key={item.id} item={item} currentLang={currentLang} />
-            ))}
-          </motion.div>
-        )}
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.div
+              key="skeleton"
+              className="portfolio-grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            >
+              {Array.from({ length: 6 }).map((_, i) => <PortfolioCardSkeleton key={i} />)}
+            </motion.div>
+          ) : portfolios.length === 0 ? (
+            <motion.div
+              key="empty"
+              className="portfolio-empty-state"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <FolderOpen size={40} strokeWidth={1.5} />
+              <p>{t('portfolio.page.noResults')}</p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={`grid-${industry}-${service}-${searchTerm}-${page}`}
+              className="portfolio-grid"
+              initial="hidden"
+              animate="show"
+              exit={{ opacity: 0, scale: 0.98, transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] } }}
+              variants={staggerContainer}
+            >
+              {portfolios.map((item) => (
+                <PortfolioCard key={item.id} item={item} currentLang={currentLang} />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {pagination.lastPage > 1 && (
           <div className="portfolio-pagination-wrap">
@@ -244,13 +262,19 @@ export function Portfolio() {
         )}
       </div>
         
-      <div className="portfolio-cta">
-        <h2 className="portfolio-cta-title">{t('portfolio.cta.title')}</h2>
-        <p className="portfolio-cta-subtitle">{t('portfolio.cta.subtitle')}</p>
-        <a href={`/${currentLang}/kontak`} className="portfolio-cta-btn">
+      <motion.div
+        className="portfolio-cta"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-80px' }}
+        variants={staggerContainer}
+      >
+        <motion.h2 className="portfolio-cta-title" variants={fadeUp}>{t('portfolio.cta.title')}</motion.h2>
+        <motion.p className="portfolio-cta-subtitle" variants={fadeUp}>{t('portfolio.cta.subtitle')}</motion.p>
+        <motion.a href={`/${currentLang}/kontak`} className="portfolio-cta-btn" variants={fadeUp}>
           {t('portfolio.cta.contactButton')}
-        </a>
-      </div>
+        </motion.a>
+      </motion.div>
     </div>
   );
 }
