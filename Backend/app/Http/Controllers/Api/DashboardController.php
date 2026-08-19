@@ -32,6 +32,14 @@ class DashboardController extends Controller
                 ->limit(5)
                 ->get(['id', 'nama', 'email', 'pesan', 'status', 'created_at']);
 
+            // All-time status breakdown, for the contacts distribution chart
+            $contactsByStatus = [
+                'pending' => Contact::pending()->count(),
+                'read' => Contact::read()->count(),
+                'replied' => Contact::replied()->count(),
+                'archived' => Contact::archived()->count(),
+            ];
+
             // Return simplified data without visitor tracking (can be added later when setup is ready)
             return response()->json([
                 'success' => true,
@@ -40,6 +48,7 @@ class DashboardController extends Controller
                         'total' => $totalContacts,
                         'pending' => $pendingContacts,
                         'new' => $newContacts,
+                        'by_status' => $contactsByStatus,
                     ],
                     'visitors' => [
                         'total' => 0,

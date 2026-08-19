@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\AuditLogController;
 use App\Http\Controllers\Api\UnmannedAgentController;
 use App\Http\Controllers\Api\HeroSlideController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ProductInteractionController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\JobVacancyController;
 use App\Http\Controllers\Api\UserController;
@@ -70,6 +71,7 @@ Route::prefix('v1')->group(function () {
         // Products API (Public)
         Route::get('/products', [ProductController::class, 'index']);
         Route::get('/products/{slug}', [ProductController::class, 'show']);
+        Route::post('/products/{slug}/track', [ProductInteractionController::class, 'track']);
 
         // Gallery API (Public)
         Route::get('/gallery', [GalleryController::class, 'index']);
@@ -225,6 +227,7 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['role:super_admin,admin,hr'])->group(function () {
             Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
             Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
+            Route::get('/admin/career-applications/timeline', [CareerApplicationController::class, 'timeline']);
             Route::get('/admin/career-applications/{id}', [CareerApplicationController::class, 'show']);
             Route::get('/admin/career-applications/{id}/cv', [CareerApplicationController::class, 'downloadCv']);
             Route::put('/admin/career-applications/{id}', [CareerApplicationController::class, 'update']);
@@ -245,6 +248,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
             Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
             Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
+            Route::get('/admin/audit-logs/timeline', [AuditLogController::class, 'timeline']);
         });
 
         // Unmanned Agent API

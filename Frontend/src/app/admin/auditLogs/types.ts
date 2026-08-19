@@ -21,6 +21,20 @@ export interface PaginatedResponse<T> {
   total: number;
 }
 
+export interface AuditLogStatistics {
+  total: number;
+  recent_24h: number;
+  recent_7d: number;
+  recent_30d: number;
+  by_action: { action_type: string; count: number }[];
+  by_entity: { entity_type: string; count: number }[];
+}
+
+export interface AuditLogTimelinePoint {
+  date: string; // "YYYY-MM-DD"
+  count: number;
+}
+
 export const ACTION_TYPE_LABELS: Record<string, string> = {
   create_user: 'Buat User',
   update_user: 'Perbarui User',

@@ -1,7 +1,7 @@
 import { API_ENDPOINTS } from '../../../config/api';
 import { apiRequest, getAuthToken } from '../../../utils/apiClient';
 import { getApiUrl } from '../../../config/api';
-import type { CareerApplication, CareerApplicationStatistics, PaginatedResponse } from './types';
+import type { CareerApplication, CareerApplicationStatistics, CareerApplicationTimelinePoint, PaginatedResponse } from './types';
 
 type ApiResponse<T> = { success: boolean; message?: string; data: T };
 
@@ -18,6 +18,10 @@ export function listCareerApplications(params: { status?: string; search?: strin
 
 export function getCareerApplicationStatistics() {
   return apiRequest<ApiResponse<CareerApplicationStatistics>>(API_ENDPOINTS.CAREER_APPLICATIONS_STATISTICS);
+}
+
+export function getCareerApplicationTimeline() {
+  return apiRequest<ApiResponse<CareerApplicationTimelinePoint[]>>(API_ENDPOINTS.CAREER_APPLICATIONS_TIMELINE);
 }
 
 export function getCareerApplication(id: number) {
