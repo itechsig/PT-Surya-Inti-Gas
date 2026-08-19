@@ -78,6 +78,7 @@ export const API_ENDPOINTS = {
   // Career Applications endpoints (admin)
   CAREER_APPLICATIONS: '/api/v1/admin/career-applications',
   CAREER_APPLICATIONS_STATISTICS: '/api/v1/admin/career-applications/statistics',
+  CAREER_APPLICATIONS_TIMELINE: '/api/v1/admin/career-applications/timeline',
 
   // Notifications endpoints (admin)
   NOTIFICATIONS: '/api/v1/admin/notifications',
@@ -91,6 +92,7 @@ export const API_ENDPOINTS = {
   AUDIT_LOGS: '/api/v1/admin/audit-logs',
   AUDIT_LOGS_RECENT: '/api/v1/admin/audit-logs/recent',
   AUDIT_LOGS_STATISTICS: '/api/v1/admin/audit-logs/statistics',
+  AUDIT_LOGS_TIMELINE: '/api/v1/admin/audit-logs/timeline',
 
   // Unmanned Agent endpoints (admin)
   UNMANNED_OVERVIEW: '/api/v1/admin/unmanned/overview',

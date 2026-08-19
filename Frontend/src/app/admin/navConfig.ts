@@ -10,9 +10,9 @@ export interface AdminNavItem {
 
 // Each CMS module (Products, Jobs, Gallery, ...) appends its entry here as it's built.
 // `roles` mirrors the backend's route middleware in routes/api.php — keep both in sync.
-const CONTENT_ROLES: AdminRole[] = ['super_admin', 'admin', 'editor'];
+export const CONTENT_ROLES: AdminRole[] = ['super_admin', 'admin', 'editor'];
 // Editor has no access to recruitment data; HR manages it alongside super_admin/admin.
-const RECRUITMENT_ROLES: AdminRole[] = ['super_admin', 'admin', 'hr'];
+export const RECRUITMENT_ROLES: AdminRole[] = ['super_admin', 'admin', 'hr'];
 
 export const adminNavItems: AdminNavItem[] = [
   { label: 'Dashboard', to: '/admin', icon: LayoutDashboard },

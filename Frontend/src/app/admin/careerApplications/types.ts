@@ -43,6 +43,11 @@ export interface CareerApplicationStatistics {
   by_position: { posisi: string; count: number }[];
 }
 
+export interface CareerApplicationTimelinePoint {
+  month: string; // "YYYY-MM"
+  count: number;
+}
+
 export const STATUS_LABELS: Record<ApplicationStatus, string> = {
   pending: 'Menunggu',
   reviewed: 'Ditinjau',

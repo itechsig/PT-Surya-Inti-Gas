@@ -170,6 +170,45 @@ class CareerApplicationController extends Controller
     }
 
     /**
+     * Get monthly application counts for the last 6 months, for a trend chart.
+     */
+    public function timeline(): JsonResponse
+    {
+        try {
+            $months = 6;
+            $start = now()->subMonths($months - 1)->startOfMonth();
+
+            $counts = CareerApplication::where('created_at', '>=', $start)
+                ->get(['created_at'])
+                ->groupBy(fn ($application) => $application->created_at->format('Y-m'))
+                ->map->count();
+
+            $timeline = collect(range(0, $months - 1))->map(function ($offset) use ($start, $counts) {
+                $key = $start->copy()->addMonths($offset)->format('Y-m');
+
+                return [
+                    'month' => $key,
+                    'count' => $counts->get($key, 0),
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'data' => $timeline,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Career application timeline error', [
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to get application timeline'
+            ], 500);
+        }
+    }
+
+    /**
      * Download the applicant's CV/resume.
      */
     public function downloadCv(string|int $id): StreamedResponse|JsonResponse

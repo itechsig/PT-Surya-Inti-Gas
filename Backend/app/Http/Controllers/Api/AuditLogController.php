@@ -134,6 +134,45 @@ class AuditLogController extends Controller
     }
 
     /**
+     * Get daily activity counts for the last 14 days, for a trend chart.
+     */
+    public function timeline(): JsonResponse
+    {
+        try {
+            $days = 14;
+            $start = now()->subDays($days - 1)->startOfDay();
+
+            $counts = AuditLog::where('created_at', '>=', $start)
+                ->get(['created_at'])
+                ->groupBy(fn ($log) => $log->created_at->format('Y-m-d'))
+                ->map->count();
+
+            $timeline = collect(range(0, $days - 1))->map(function ($offset) use ($start, $counts) {
+                $key = $start->copy()->addDays($offset)->format('Y-m-d');
+
+                return [
+                    'date' => $key,
+                    'count' => $counts->get($key, 0),
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'data' => $timeline,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Audit log timeline error', [
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to get activity timeline'
+            ], 500);
+        }
+    }
+
+    /**
      * Get recent activity
      */
     public function recent(): JsonResponse
