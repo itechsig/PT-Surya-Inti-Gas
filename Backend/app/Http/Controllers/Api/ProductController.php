@@ -9,15 +9,19 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    use HandlesApiErrors;
+    use HandlesApiErrors, LogsActivity;
 
     private const LANGUAGES = ['id', 'en', 'zh'];
+
+    /** Fields snapshotted for the activity log's before/after preview. */
+    private const AUDIT_FIELDS = ['product_category_id', 'slug', 'name_id', 'description_id', 'is_featured', 'is_published'];
 
     /**
      * Public: published products grouped by main category -> subcategory slug,
@@ -115,6 +119,15 @@ class ProductController extends Controller
 
             $product = Product::create($data);
 
+            $this->logActivity(
+                $request,
+                'create_product',
+                'product',
+                $product->id,
+                "Membuat produk baru \"{$product->name_id}\"",
+                new: $product->only(self::AUDIT_FIELDS)
+            );
+
             return response()->json([
                 'success' => true,
                 'message' => 'Product created successfully',
@@ -164,7 +177,19 @@ class ProductController extends Controller
                 unset($data['is_published']);
             }
 
+            $old = $product->only(self::AUDIT_FIELDS);
+
             $product->update($data);
+
+            $this->logActivity(
+                $request,
+                'update_product',
+                'product',
+                $product->id,
+                "Memperbarui produk \"{$product->name_id}\"",
+                old: $old,
+                new: $product->only(self::AUDIT_FIELDS)
+            );
 
             return response()->json([
                 'success' => true,
@@ -176,14 +201,20 @@ class ProductController extends Controller
         }
     }
 
-    public function destroy(Product $product): JsonResponse
+    public function destroy(Request $request, Product $product): JsonResponse
     {
         try {
+            $name = $product->name_id;
+            $old = $product->only(self::AUDIT_FIELDS);
+            $productId = $product->id;
+
             Storage::disk('public')->delete($product->image);
             foreach ($product->gallery ?? [] as $path) {
                 Storage::disk('public')->delete($path);
             }
             $product->delete();
+
+            $this->logActivity($request, 'delete_product', 'product', $productId, "Menghapus produk \"{$name}\"", old: $old);
 
             return response()->json(['success' => true, 'message' => 'Product deleted successfully']);
         } catch (\Exception $e) {

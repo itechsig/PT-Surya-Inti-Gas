@@ -25,17 +25,26 @@ class AuditLog extends Model
         'ip_address',
         'user_agent',
         'created_at',
+        'reverted_at',
+        'reverted_by',
     ];
 
     protected $casts = [
         'old_values' => 'array',
         'new_values' => 'array',
         'created_at' => 'datetime',
+        'reverted_at' => 'datetime',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /** Named to avoid colliding with the `reverted_by` column when the model is serialized. */
+    public function revertedByUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reverted_by');
     }
 
     public function scopeByAction($query, $action)

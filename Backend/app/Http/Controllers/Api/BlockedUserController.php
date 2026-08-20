@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlockedUser;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -11,6 +12,11 @@ use Illuminate\Support\Facades\DB;
 
 class BlockedUserController extends Controller
 {
+    use LogsActivity;
+
+    /** Fields snapshotted for the activity log's before/after preview. */
+    private const AUDIT_FIELDS = ['blockable_type', 'blockable_value', 'reason', 'block_type', 'is_active'];
+
     /**
      * Get all blocked users with filtering
      */
@@ -78,6 +84,15 @@ class BlockedUserController extends Controller
                 'admin_notes' => $request->input('admin_notes'),
             ]);
 
+            $this->logActivity(
+                $request,
+                'create_blocked_user',
+                'blocked_user',
+                $blockedUser->id,
+                "Memblokir {$blockedUser->blockable_type} \"{$blockedUser->blockable_value}\"",
+                new: $blockedUser->only(self::AUDIT_FIELDS)
+            );
+
             return response()->json([
                 'success' => true,
                 'message' => 'User blocked successfully',
@@ -108,6 +123,7 @@ class BlockedUserController extends Controller
     {
         try {
             $blockedUser = BlockedUser::findOrFail($id);
+            $old = $blockedUser->only(self::AUDIT_FIELDS);
 
             $blockedUser->update([
                 'is_active' => false,
@@ -115,6 +131,16 @@ class BlockedUserController extends Controller
                 'unblocked_by' => auth()->id(),
                 'admin_notes' => $request->input('admin_notes'),
             ]);
+
+            $this->logActivity(
+                $request,
+                'update_blocked_user',
+                'blocked_user',
+                $blockedUser->id,
+                "Membuka blokir \"{$blockedUser->blockable_value}\"",
+                old: $old,
+                new: $blockedUser->only(self::AUDIT_FIELDS)
+            );
 
             return response()->json([
                 'success' => true,
@@ -203,11 +229,17 @@ class BlockedUserController extends Controller
     /**
      * Delete a blocked user record
      */
-    public function destroy(string|int $id): JsonResponse
+    public function destroy(Request $request, string|int $id): JsonResponse
     {
         try {
             $blockedUser = BlockedUser::findOrFail($id);
+            $value = $blockedUser->blockable_value;
+            $old = $blockedUser->only(self::AUDIT_FIELDS);
+            $blockedUserId = $blockedUser->id;
+
             $blockedUser->delete();
+
+            $this->logActivity($request, 'delete_blocked_user', 'blocked_user', $blockedUserId, "Menghapus catatan blokir \"{$value}\"", old: $old);
 
             return response()->json([
                 'success' => true,

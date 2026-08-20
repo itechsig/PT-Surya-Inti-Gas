@@ -4,14 +4,21 @@ import type { AuditLogRecord, AuditLogStatistics, AuditLogTimelinePoint, Paginat
 
 type ApiResponse<T> = { success: boolean; message?: string; data: T };
 
-export function listAuditLogs(params: { action_type?: string; page?: number } = {}) {
+export function listAuditLogs(params: { action_type?: string; entity_type?: string; page?: number } = {}) {
   const query = new URLSearchParams();
   if (params.action_type && params.action_type !== 'all') query.set('action_type', params.action_type);
+  if (params.entity_type && params.entity_type !== 'all') query.set('entity_type', params.entity_type);
   if (params.page) query.set('page', String(params.page));
   const qs = query.toString();
   return apiRequest<ApiResponse<PaginatedResponse<AuditLogRecord>>>(
     `${API_ENDPOINTS.AUDIT_LOGS}${qs ? `?${qs}` : ''}`
   );
+}
+
+export function restoreAuditLog(id: number) {
+  return apiRequest<ApiResponse<AuditLogRecord>>(`${API_ENDPOINTS.AUDIT_LOGS}/${id}/restore`, {
+    method: 'POST',
+  });
 }
 
 export function getAuditLogStatistics() {

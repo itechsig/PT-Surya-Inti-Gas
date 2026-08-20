@@ -7,7 +7,8 @@ import { Button } from '../../components/ui/button';
 import { Skeleton } from '../../components/ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { listAuditLogs } from './api';
-import { ACTION_TYPE_LABELS, type AuditLogRecord } from './types';
+import { AuditLogDetailDialog } from './AuditLogDetailDialog';
+import { ACTION_TYPE_LABELS, ENTITY_TYPE_LABELS, isRestorable, type AuditLogRecord } from './types';
 
 const dateTimeFormatter = new Intl.DateTimeFormat('id-ID', {
   day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit',
@@ -29,12 +30,14 @@ export function AuditLogsPage() {
   const [lastPage, setLastPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [actionFilter, setActionFilter] = useState('all');
+  const [entityFilter, setEntityFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedLog, setSelectedLog] = useState<AuditLogRecord | null>(null);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await listAuditLogs({ action_type: actionFilter, page: currentPage });
+      const res = await listAuditLogs({ action_type: actionFilter, entity_type: entityFilter, page: currentPage });
       setLogs(res.data.data);
       setLastPage(res.data.last_page);
       setTotal(res.data.total);
@@ -43,7 +46,7 @@ export function AuditLogsPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [actionFilter, currentPage]);
+  }, [actionFilter, entityFilter, currentPage]);
 
   useEffect(() => {
     load();
@@ -51,13 +54,13 @@ export function AuditLogsPage() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [actionFilter]);
+  }, [actionFilter, entityFilter]);
 
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-2xl font-semibold">Log Aktivitas</h1>
-        <p className="text-muted-foreground">Riwayat tindakan manajemen user yang dilakukan oleh Super Admin.</p>
+        <p className="text-muted-foreground">Riwayat tindakan yang dilakukan oleh seluruh role di dashboard admin.</p>
       </div>
 
       <Card>
@@ -66,17 +69,30 @@ export function AuditLogsPage() {
             <CardTitle>Riwayat Tindakan</CardTitle>
             <CardDescription>{isLoading ? 'Memuat...' : `${total} catatan ditemukan`}</CardDescription>
           </div>
-          <Select value={actionFilter} onValueChange={setActionFilter}>
-            <SelectTrigger className="w-52">
-              <SelectValue placeholder="Semua Tindakan" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Semua Tindakan</SelectItem>
-              {Object.entries(ACTION_TYPE_LABELS).map(([value, label]) => (
-                <SelectItem key={value} value={value}>{label}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex gap-2">
+            <Select value={entityFilter} onValueChange={setEntityFilter}>
+              <SelectTrigger className="w-44">
+                <SelectValue placeholder="Semua Modul" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Semua Modul</SelectItem>
+                {Object.entries(ENTITY_TYPE_LABELS).map(([value, label]) => (
+                  <SelectItem key={value} value={value}>{label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={actionFilter} onValueChange={setActionFilter}>
+              <SelectTrigger className="w-52">
+                <SelectValue placeholder="Semua Tindakan" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Semua Tindakan</SelectItem>
+                {Object.entries(ACTION_TYPE_LABELS).map(([value, label]) => (
+                  <SelectItem key={value} value={value}>{label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -95,12 +111,16 @@ export function AuditLogsPage() {
                   <TableHead>Dilakukan Oleh</TableHead>
                   <TableHead>Target</TableHead>
                   <TableHead>Waktu</TableHead>
-                  <TableHead>Alamat IP</TableHead>
+                  <TableHead>Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {logs.map((log) => (
-                  <TableRow key={log.id}>
+                  <TableRow
+                    key={log.id}
+                    className="cursor-pointer"
+                    onClick={() => setSelectedLog(log)}
+                  >
                     <TableCell>
                       <Badge variant={actionBadgeVariant(log.action_type)}>{actionLabel(log.action_type)}</Badge>
                       <div className="mt-1 text-xs text-muted-foreground">{log.description}</div>
@@ -116,12 +136,20 @@ export function AuditLogsPage() {
                       )}
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">
-                      {log.entity_type === 'user' && log.entity_id ? `User #${log.entity_id}` : '—'}
+                      {log.entity_type ? `${ENTITY_TYPE_LABELS[log.entity_type] ?? log.entity_type}${log.entity_id ? ` #${log.entity_id}` : ''}` : '—'}
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">
                       {dateTimeFormatter.format(new Date(log.created_at))}
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">{log.ip_address ?? '—'}</TableCell>
+                    <TableCell className="text-sm">
+                      {log.reverted_at ? (
+                        <Badge variant="outline">Dipulihkan</Badge>
+                      ) : isRestorable(log) ? (
+                        <span className="text-xs text-muted-foreground">Dapat dipulihkan</span>
+                      ) : (
+                        '—'
+                      )}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -153,6 +181,13 @@ export function AuditLogsPage() {
           )}
         </CardContent>
       </Card>
+
+      <AuditLogDetailDialog
+        open={!!selectedLog}
+        onOpenChange={(open) => !open && setSelectedLog(null)}
+        log={selectedLog}
+        onRestored={load}
+      />
     </div>
   );
 }

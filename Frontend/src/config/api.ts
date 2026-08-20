@@ -98,7 +98,7 @@ export const API_ENDPOINTS = {
   NOTIFICATIONS_MARK_ALL_READ: '/api/v1/admin/notifications/mark-all-read',
 
   // Audit Logs endpoints (admin)
-  AUDIT_LOGS: '/api/v1/admin/audit-logs',
+  AUDIT_LOGS: '/api/v1/admin/audit-logs', // append /{id}/restore (Super Admin only)
   AUDIT_LOGS_RECENT: '/api/v1/admin/audit-logs/recent',
   AUDIT_LOGS_STATISTICS: '/api/v1/admin/audit-logs/statistics',
   AUDIT_LOGS_TIMELINE: '/api/v1/admin/audit-logs/timeline',
