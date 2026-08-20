@@ -57,6 +57,11 @@ export const API_ENDPOINTS = {
   DASHBOARD_CONTACTS: '/api/v1/admin/dashboard/contacts',
   DASHBOARD_CONTACT_DETAILS: '/api/v1/admin/dashboard/contacts',
 
+  // Visitor tracking (public POST from the site; GET timeline is admin)
+  VISITOR_TRACK: '/api/v1/visitor/track',
+  VISITOR_PAGEVIEW: '/api/v1/visitor/pageview',
+  VISITORS_TIMELINE: '/api/v1/admin/visitors/timeline',
+
   // AI Agent endpoints (admin)
   AI_AGENT_STATUS: '/api/v1/admin/ai-agent/status',
   AI_MONITORING: '/api/v1/admin/ai-agent/monitor',

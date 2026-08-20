@@ -12,6 +12,7 @@ import { Footer } from "./components/Footer";
 import { Chatbot } from "./components/Chatbot";
 import { ScrollToTopButton } from "./components/ScrollToTopButton";
 import { RouteProgressBar } from "./components/RouteProgressBar";
+import { VisitorTracker } from "./components/VisitorTracker";
 import { setRouteLoading } from "../utils/routeProgress";
 import { performanceMonitor } from "../utils/performanceMonitor";
 import { AppProvider, ProductProvider, AuthProvider } from "../context";
@@ -218,6 +219,7 @@ function App() {
           <AuthProvider>
           <BrowserRouter>
           <ScrollToTop />
+          <VisitorTracker />
           <Suspense fallback={<RouteFallback />}>
           <Routes>
             <Route path="/" element={<Navigate to="/id" replace />} />

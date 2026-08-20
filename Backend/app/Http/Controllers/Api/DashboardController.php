@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Models\WebsiteVisitor;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -40,7 +41,19 @@ class DashboardController extends Controller
                 'archived' => Contact::archived()->count(),
             ];
 
-            // Return simplified data without visitor tracking (can be added later when setup is ready)
+            // Visitor traffic for the same date range as the contact stats above
+            $visitorsInRange = WebsiteVisitor::whereBetween('first_visit', [$startDate, now()]);
+            $totalVisitors = (clone $visitorsInRange)->count();
+            $newVisitors = (clone $visitorsInRange)->where('is_returning_visitor', false)->count();
+            $pageViews = (int) (clone $visitorsInRange)->sum('page_views');
+            $avgTimeOnSite = (int) (clone $visitorsInRange)->avg('time_on_site');
+
+            $devices = WebsiteVisitor::whereBetween('first_visit', [$startDate, now()])
+                ->select('device_type')
+                ->selectRaw('COUNT(*) as count')
+                ->groupBy('device_type')
+                ->get();
+
             return response()->json([
                 'success' => true,
                 'data' => [
@@ -51,12 +64,12 @@ class DashboardController extends Controller
                         'by_status' => $contactsByStatus,
                     ],
                     'visitors' => [
-                        'total' => 0,
-                        'unique' => 0,
-                        'page_views' => 0,
-                        'avg_time_on_site' => 0,
+                        'total' => $totalVisitors,
+                        'unique' => $newVisitors,
+                        'page_views' => $pageViews,
+                        'avg_time_on_site' => $avgTimeOnSite,
                     ],
-                    'devices' => [],
+                    'devices' => $devices,
                     'recent_contacts' => $recentContacts,
                     'recent_visitors' => [],
                 ]

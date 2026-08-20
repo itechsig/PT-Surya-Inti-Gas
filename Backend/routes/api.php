@@ -198,6 +198,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/dashboard/contacts', [DashboardController::class, 'contacts']);
         Route::get('/admin/dashboard/contacts/{id}', [DashboardController::class, 'contactDetails']);
         Route::put('/admin/dashboard/contacts/{id}', [DashboardController::class, 'updateContact']);
+        Route::get('/admin/visitors/timeline', [VisitorTrackingController::class, 'timeline']);
 
         // AI Agent API
         Route::get('/admin/ai-agent/status', [AIAgentController::class, 'getStatus']);
