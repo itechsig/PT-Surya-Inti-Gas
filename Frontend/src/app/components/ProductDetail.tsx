@@ -7,6 +7,7 @@ import { useProductDetail } from "../../hooks/useProductDetail";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 import type { Product, SubCategory } from "../../data/products";
 import { getImageUrl } from "../../utils/imageUrl";
+import { trackProductInteraction } from "../../utils/productTracking";
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -76,7 +77,11 @@ export function ProductDetail() {
       const packagingLabel = t(`products.items.${selectedPackaging}.title`);
       message += `\n${t('productDetail.contact.selectedPackaging')}: ${packagingLabel}`;
     }
-    
+
+    if (productData?.product.id) {
+      trackProductInteraction(productData.product.id, 'whatsapp_click');
+    }
+
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -86,6 +91,12 @@ export function ProductDetail() {
       navigate(`/${currentLang}/produk`);
     }
   }, [productSlug, navigate, currentLang]);
+
+  useEffect(() => {
+    if (productData?.product.id) {
+      trackProductInteraction(productData.product.id, 'view');
+    }
+  }, [productData?.product.id]);
 
   if (isLoading) {
     return (
