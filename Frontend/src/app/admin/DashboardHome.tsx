@@ -597,13 +597,13 @@ export function DashboardHome() {
             ) : deviceData.length > 0 ? (
               <ChartContainer config={deviceConfig} className="aspect-auto h-[220px] w-full">
                 <PieChart margin={{ top: 8, bottom: 8 }}>
-                  <ChartTooltip content={<ChartTooltipContent nameKey="label" hideLabel />} />
+                  <ChartTooltip content={<ChartTooltipContent nameKey="device" hideLabel />} />
                   <Pie data={deviceData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
                     {deviceData.map((row) => (
                       <Cell key={row.device} fill={`var(--color-${row.device})`} />
                     ))}
                   </Pie>
-                  <ChartLegend content={<ChartLegendContent nameKey="label" />} />
+                  <ChartLegend content={<ChartLegendContent nameKey="device" />} />
                 </PieChart>
               </ChartContainer>
             ) : (
@@ -623,13 +623,13 @@ export function DashboardHome() {
             ) : contactStatusData.length > 0 ? (
               <ChartContainer config={contactStatusConfig} className="aspect-auto h-[220px] w-full">
                 <PieChart margin={{ top: 8, bottom: 8 }}>
-                  <ChartTooltip content={<ChartTooltipContent nameKey="label" hideLabel />} />
+                  <ChartTooltip content={<ChartTooltipContent nameKey="status" hideLabel />} />
                   <Pie data={contactStatusData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
                     {contactStatusData.map((row) => (
                       <Cell key={row.status} fill={`var(--color-${row.status})`} />
                     ))}
                   </Pie>
-                  <ChartLegend content={<ChartLegendContent nameKey="label" />} />
+                  <ChartLegend content={<ChartLegendContent nameKey="status" />} />
                 </PieChart>
               </ChartContainer>
             ) : (
