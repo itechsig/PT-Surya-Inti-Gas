@@ -21,13 +21,6 @@ class DashboardController extends Controller
             $dateRange = $request->input('date_range', 'today');
             $startDate = $this->getStartDate($dateRange);
 
-            // Get contact statistics (reliable data source)
-            $totalContacts = Contact::whereBetween('created_at', [$startDate, now()])->count();
-            $pendingContacts = Contact::where('status', 'pending')
-                ->whereBetween('created_at', [$startDate, now()])
-                ->count();
-            $newContacts = Contact::whereDate('created_at', '>=', $startDate)->count();
-
             // Get recent contacts
             $recentContacts = Contact::latest()
                 ->limit(5)
@@ -40,6 +33,13 @@ class DashboardController extends Controller
                 'replied' => Contact::replied()->count(),
                 'archived' => Contact::archived()->count(),
             ];
+
+            // "Total Kontak" is labeled all-time and "Kontak Menunggu" means currently outstanding —
+            // neither should be scoped to $dateRange, or a contact from yesterday that's still
+            // pending would silently disappear from the count once the day rolls over.
+            $totalContacts = Contact::count();
+            $pendingContacts = $contactsByStatus['pending'];
+            $newContacts = Contact::whereDate('created_at', '>=', $startDate)->count();
 
             // Visitor traffic for the same date range as the contact stats above
             $visitorsInRange = WebsiteVisitor::whereBetween('first_visit', [$startDate, now()]);

@@ -586,57 +586,57 @@ export function DashboardHome() {
       </Card>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {deviceData.length > 0 || isLoading ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>Perangkat Pengunjung</CardTitle>
-              <CardDescription>Sesi hari ini berdasarkan jenis perangkat.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-[220px] w-full" />
-              ) : (
-                <ChartContainer config={deviceConfig} className="aspect-auto h-[220px] w-full">
-                  <PieChart margin={{ top: 8, bottom: 8 }}>
-                    <ChartTooltip content={<ChartTooltipContent nameKey="label" hideLabel />} />
-                    <Pie data={deviceData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
-                      {deviceData.map((row) => (
-                        <Cell key={row.device} fill={`var(--color-${row.device})`} />
-                      ))}
-                    </Pie>
-                    <ChartLegend content={<ChartLegendContent nameKey="label" />} />
-                  </PieChart>
-                </ChartContainer>
-              )}
-            </CardContent>
-          </Card>
-        ) : null}
+        <Card>
+          <CardHeader>
+            <CardTitle>Perangkat Pengunjung</CardTitle>
+            <CardDescription>Sesi hari ini berdasarkan jenis perangkat.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <Skeleton className="h-[220px] w-full" />
+            ) : deviceData.length > 0 ? (
+              <ChartContainer config={deviceConfig} className="aspect-auto h-[220px] w-full">
+                <PieChart margin={{ top: 8, bottom: 8 }}>
+                  <ChartTooltip content={<ChartTooltipContent nameKey="label" hideLabel />} />
+                  <Pie data={deviceData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
+                    {deviceData.map((row) => (
+                      <Cell key={row.device} fill={`var(--color-${row.device})`} />
+                    ))}
+                  </Pie>
+                  <ChartLegend content={<ChartLegendContent nameKey="label" />} />
+                </PieChart>
+              </ChartContainer>
+            ) : (
+              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data perangkat.</p>
+            )}
+          </CardContent>
+        </Card>
 
-        {contactStatusData.length > 0 || isLoading ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>Distribusi Status Kontak</CardTitle>
-              <CardDescription>Seluruh pesan kontak, sepanjang waktu.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-[220px] w-full" />
-              ) : (
-                <ChartContainer config={contactStatusConfig} className="aspect-auto h-[220px] w-full">
-                  <PieChart margin={{ top: 8, bottom: 8 }}>
-                    <ChartTooltip content={<ChartTooltipContent nameKey="label" hideLabel />} />
-                    <Pie data={contactStatusData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
-                      {contactStatusData.map((row) => (
-                        <Cell key={row.status} fill={`var(--color-${row.status})`} />
-                      ))}
-                    </Pie>
-                    <ChartLegend content={<ChartLegendContent nameKey="label" />} />
-                  </PieChart>
-                </ChartContainer>
-              )}
-            </CardContent>
-          </Card>
-        ) : null}
+        <Card>
+          <CardHeader>
+            <CardTitle>Distribusi Status Kontak</CardTitle>
+            <CardDescription>Seluruh pesan kontak, sepanjang waktu.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <Skeleton className="h-[220px] w-full" />
+            ) : contactStatusData.length > 0 ? (
+              <ChartContainer config={contactStatusConfig} className="aspect-auto h-[220px] w-full">
+                <PieChart margin={{ top: 8, bottom: 8 }}>
+                  <ChartTooltip content={<ChartTooltipContent nameKey="label" hideLabel />} />
+                  <Pie data={contactStatusData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
+                    {contactStatusData.map((row) => (
+                      <Cell key={row.status} fill={`var(--color-${row.status})`} />
+                    ))}
+                  </Pie>
+                  <ChartLegend content={<ChartLegendContent nameKey="label" />} />
+                </PieChart>
+              </ChartContainer>
+            ) : (
+              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada pesan kontak.</p>
+            )}
+          </CardContent>
+        </Card>
         </div>
       </motion.div>
 
