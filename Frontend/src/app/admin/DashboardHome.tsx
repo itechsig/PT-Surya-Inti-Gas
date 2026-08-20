@@ -23,7 +23,7 @@ import { STATUS_LABELS, type CareerApplicationStatistics, type CareerApplication
 import { getAuditLogStatistics, getAuditLogTimeline } from './auditLogs/api';
 import { ACTION_TYPE_LABELS, type AuditLogStatistics, type AuditLogTimelinePoint } from './auditLogs/types';
 import { listGalleryItems } from './gallery/api';
-import { listProducts } from './products/api';
+import { listProducts, getProductInteractionStatistics } from './products/api';
 import { listPortfolios } from './portfolios/api';
 
 interface RecentContact {
@@ -49,6 +49,11 @@ interface ContentSummaryRow {
   module: string;
   total: number;
   aktif: number;
+}
+
+interface ProductRankingRow {
+  name: string;
+  count: number;
 }
 
 type ApiResponse<T> = { success: boolean; message?: string; data: T };
@@ -120,6 +125,14 @@ const contentSummaryConfig = {
   aktif: { label: 'Aktif/Terbit', color: 'var(--chart-2)' },
 } satisfies ChartConfig;
 
+const productViewsConfig = {
+  count: { label: 'Dilihat', color: 'var(--chart-1)' },
+} satisfies ChartConfig;
+
+const productOrdersConfig = {
+  count: { label: 'Dipesan (WA)', color: 'var(--chart-5)' },
+} satisfies ChartConfig;
+
 export function DashboardHome() {
   const { user, hasRole } = useAuth();
   const [overview, setOverview] = useState<DashboardOverview | null>(null);
@@ -128,6 +141,8 @@ export function DashboardHome() {
   const [auditStats, setAuditStats] = useState<AuditLogStatistics | null>(null);
   const [auditTimeline, setAuditTimeline] = useState<AuditLogTimelinePoint[]>([]);
   const [contentSummary, setContentSummary] = useState<ContentSummaryRow[]>([]);
+  const [productViews, setProductViews] = useState<ProductRankingRow[]>([]);
+  const [productOrders, setProductOrders] = useState<ProductRankingRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -152,6 +167,7 @@ export function DashboardHome() {
         galleryResult,
         productsResult,
         portfoliosResult,
+        productInteractionsResult,
       ] = await Promise.allSettled([
         apiRequest<ApiResponse<DashboardOverview>>(API_ENDPOINTS.DASHBOARD_OVERVIEW),
         canViewRecruitment ? getCareerApplicationStatistics() : skipped(),
@@ -161,6 +177,7 @@ export function DashboardHome() {
         canViewContent ? listGalleryItems() : skipped(),
         canViewContent ? listProducts() : skipped(),
         canViewContent ? listPortfolios() : skipped(),
+        canViewContent ? getProductInteractionStatistics() : skipped(),
       ]);
 
       if (cancelled) return;
@@ -186,6 +203,15 @@ export function DashboardHome() {
           { module: 'Produk', total: products.length, aktif: products.filter((p) => p.is_published).length },
           { module: 'Portofolio', total: portfolios.length, aktif: portfolios.filter((p) => p.is_published).length },
         ]);
+
+        const nameBySlug = new Map(products.map((p) => [p.slug, p.name_id]));
+        const resolveName = (slug: string) => nameBySlug.get(slug) ?? slug;
+
+        if (productInteractionsResult.status === 'fulfilled') {
+          const { views, whatsapp_clicks } = productInteractionsResult.value.data;
+          setProductViews(views.map((row) => ({ name: resolveName(row.product_slug), count: row.count })));
+          setProductOrders(whatsapp_clicks.map((row) => ({ name: resolveName(row.product_slug), count: row.count })));
+        }
       }
 
       setIsLoading(false);
@@ -518,6 +544,58 @@ export function DashboardHome() {
           </Card>
         )}
       </div>
+
+      {canViewContent && (
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Produk Paling Sering Dilihat</CardTitle>
+              <CardDescription>Top 8 produk berdasarkan jumlah kunjungan ke halaman detail.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <Skeleton className="h-[220px] w-full" />
+              ) : productViews.length ? (
+                <ChartContainer config={productViewsConfig} className="aspect-auto h-[220px] w-full">
+                  <BarChart data={productViews} layout="vertical" margin={{ left: 8, right: 16, top: 8, bottom: 0 }}>
+                    <CartesianGrid horizontal={false} />
+                    <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
+                    <YAxis dataKey="name" type="category" tickLine={false} axisLine={false} width={110} tick={{ fontSize: 12 }} />
+                    <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                    <Bar dataKey="count" fill="var(--color-count)" radius={4} />
+                  </BarChart>
+                </ChartContainer>
+              ) : (
+                <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data kunjungan produk.</p>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Produk Paling Sering Dipesan</CardTitle>
+              <CardDescription>Top 8 produk berdasarkan klik tombol pesan via WhatsApp.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <Skeleton className="h-[220px] w-full" />
+              ) : productOrders.length ? (
+                <ChartContainer config={productOrdersConfig} className="aspect-auto h-[220px] w-full">
+                  <BarChart data={productOrders} layout="vertical" margin={{ left: 8, right: 16, top: 8, bottom: 0 }}>
+                    <CartesianGrid horizontal={false} />
+                    <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
+                    <YAxis dataKey="name" type="category" tickLine={false} axisLine={false} width={110} tick={{ fontSize: 12 }} />
+                    <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                    <Bar dataKey="count" fill="var(--color-count)" radius={4} />
+                  </BarChart>
+                </ChartContainer>
+              ) : (
+                <p className="py-10 text-center text-sm text-muted-foreground">Belum ada klik pesan via WhatsApp.</p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

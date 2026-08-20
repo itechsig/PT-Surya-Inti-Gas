@@ -144,6 +144,7 @@ Route::prefix('v1')->group(function () {
         // Products API (Admin)
         Route::get('/admin/product-categories', [ProductController::class, 'categories']);
         Route::get('/admin/products', [ProductController::class, 'adminIndex']);
+        Route::get('/admin/products/interactions/statistics', [ProductInteractionController::class, 'statistics']);
         Route::get('/admin/products/{product}', [ProductController::class, 'adminShow']);
         Route::middleware(['role:super_admin,admin,editor'])->group(function () {
             Route::post('/admin/products', [ProductController::class, 'store']);

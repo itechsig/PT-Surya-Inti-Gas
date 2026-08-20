@@ -44,6 +44,16 @@ export interface AdminProduct {
   updated_at: string;
 }
 
+export interface ProductInteractionRow {
+  product_slug: string;
+  count: number;
+}
+
+export interface ProductInteractionStatistics {
+  views: ProductInteractionRow[];
+  whatsapp_clicks: ProductInteractionRow[];
+}
+
 export interface ProductFormValues {
   product_category_id: string;
   slug: string;

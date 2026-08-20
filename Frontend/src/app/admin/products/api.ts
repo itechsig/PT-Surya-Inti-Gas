@@ -1,6 +1,6 @@
 import { API_ENDPOINTS } from '../../../config/api';
 import { apiRequest } from '../../../utils/apiClient';
-import type { AdminProduct, AdminProductCategory, ProductFormValues } from './types';
+import type { AdminProduct, AdminProductCategory, ProductFormValues, ProductInteractionStatistics } from './types';
 
 type ApiResponse<T> = { success: boolean; message?: string; data: T };
 
@@ -10,6 +10,10 @@ export function listProducts() {
 
 export function listProductCategories() {
   return apiRequest<ApiResponse<AdminProductCategory[]>>(API_ENDPOINTS.ADMIN_PRODUCT_CATEGORIES);
+}
+
+export function getProductInteractionStatistics() {
+  return apiRequest<ApiResponse<ProductInteractionStatistics>>(API_ENDPOINTS.ADMIN_PRODUCT_INTERACTIONS_STATISTICS);
 }
 
 function toFormData(values: Partial<ProductFormValues>): FormData {

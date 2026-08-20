@@ -111,7 +111,9 @@ export const API_ENDPOINTS = {
   // Products endpoints
   PRODUCTS_CATALOG: '/api/v1/products', // public (GET, ?lang=id|en|zh) - grouped by category
   PRODUCT_DETAIL: '/api/v1/products', // public (GET); append /{slug}?lang=
+  PRODUCT_TRACK: '/api/v1/products', // public (POST); append /{slug}/track, body {type: 'view'|'whatsapp_click'}
   ADMIN_PRODUCTS: '/api/v1/admin/products', // admin CRUD; append /{id}, /{id}/toggle-featured, /{id}/toggle-published, /reorder
+  ADMIN_PRODUCT_INTERACTIONS_STATISTICS: '/api/v1/admin/products/interactions/statistics',
   ADMIN_PRODUCT_CATEGORIES: '/api/v1/admin/product-categories', // admin (read-only list for the category picker)
 
   // Gallery endpoints
