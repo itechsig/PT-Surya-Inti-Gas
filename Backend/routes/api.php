@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\ProductInteractionController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\JobVacancyController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\PortfolioController;
 use App\Http\Controllers\Api\ImageController;
 
@@ -120,8 +121,8 @@ Route::prefix('v1')->group(function () {
         Route::put('/auth/profile', [AuthController::class, 'updateProfile']);
         Route::middleware(['throttle:5,1'])->put('/auth/password', [AuthController::class, 'updatePassword']);
 
-        // User Management (Super Admin Only)
-        Route::middleware(['role:super_admin'])->group(function () {
+        // User Management
+        Route::middleware(['permission:users.manage'])->group(function () {
             Route::get('/admin/users', [UserController::class, 'index']);
             Route::post('/admin/users', [UserController::class, 'store']);
             Route::put('/admin/users/{user}', [UserController::class, 'update']);
@@ -130,10 +131,21 @@ Route::prefix('v1')->group(function () {
             Route::patch('/admin/users/{user}/toggle-status', [UserController::class, 'toggleStatus']);
         });
 
+        // Role & Permission Management (Super Admin only — the trust anchor the rest of the
+        // dynamic permission system hangs off of, so this stays a hardcoded role check rather
+        // than itself being permission-gated).
+        Route::middleware(['role:super_admin'])->group(function () {
+            Route::get('/admin/roles', [RoleController::class, 'index']);
+            Route::get('/admin/permissions', [RoleController::class, 'permissions']);
+            Route::post('/admin/roles', [RoleController::class, 'store']);
+            Route::put('/admin/roles/{role}', [RoleController::class, 'update']);
+            Route::delete('/admin/roles/{role}', [RoleController::class, 'destroy']);
+        });
+
         // Hero Slides API (Admin)
         Route::get('/admin/hero-slides', [HeroSlideController::class, 'adminIndex']);
         Route::get('/admin/hero-slides/{heroSlide}', [HeroSlideController::class, 'show']);
-        Route::middleware(['role:super_admin,admin,editor'])->group(function () {
+        Route::middleware(['permission:hero_slides.manage'])->group(function () {
             Route::post('/admin/hero-slides', [HeroSlideController::class, 'store']);
             Route::put('/admin/hero-slides/{heroSlide}', [HeroSlideController::class, 'update']); // frontend POSTs with _method=PUT (multipart/form-data can't send real PUT)
             Route::patch('/admin/hero-slides/{heroSlide}/toggle-active', [HeroSlideController::class, 'toggleActive']);
@@ -146,7 +158,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/products', [ProductController::class, 'adminIndex']);
         Route::get('/admin/products/interactions/statistics', [ProductInteractionController::class, 'statistics']);
         Route::get('/admin/products/{product}', [ProductController::class, 'adminShow']);
-        Route::middleware(['role:super_admin,admin,editor'])->group(function () {
+        Route::middleware(['permission:products.manage'])->group(function () {
             Route::post('/admin/products', [ProductController::class, 'store']);
             Route::put('/admin/products/{product}', [ProductController::class, 'update']); // frontend POSTs with _method=PUT (multipart)
             Route::patch('/admin/products/{product}/toggle-featured', [ProductController::class, 'toggleFeatured']);
@@ -157,7 +169,7 @@ Route::prefix('v1')->group(function () {
         // Gallery API (Admin)
         Route::get('/admin/gallery', [GalleryController::class, 'adminIndex']);
         Route::get('/admin/gallery/{galleryItem}', [GalleryController::class, 'show']);
-        Route::middleware(['role:super_admin,admin,editor'])->group(function () {
+        Route::middleware(['permission:gallery.manage'])->group(function () {
             Route::post('/admin/gallery', [GalleryController::class, 'store']);
             Route::put('/admin/gallery/{galleryItem}', [GalleryController::class, 'update']); // frontend POSTs with _method=PUT (multipart)
             Route::patch('/admin/gallery/{galleryItem}/toggle-active', [GalleryController::class, 'toggleActive']);
@@ -170,7 +182,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/service-types', [PortfolioController::class, 'serviceTypes']);
         Route::get('/admin/portfolios', [PortfolioController::class, 'adminIndex']);
         Route::get('/admin/portfolios/{portfolio}', [PortfolioController::class, 'adminShow']);
-        Route::middleware(['role:super_admin,admin,editor'])->group(function () {
+        Route::middleware(['permission:portfolios.manage'])->group(function () {
             Route::post('/admin/portfolios', [PortfolioController::class, 'store']);
             Route::put('/admin/portfolios/{portfolio}', [PortfolioController::class, 'update']); // frontend POSTs with _method=PUT (multipart)
             Route::patch('/admin/portfolios/{portfolio}/toggle-featured', [PortfolioController::class, 'toggleFeatured']);
@@ -183,7 +195,7 @@ Route::prefix('v1')->group(function () {
         });
 
         // Job Vacancies API (Admin) - Editor has no access to this module; HR manages it instead
-        Route::middleware(['role:super_admin,admin,hr'])->group(function () {
+        Route::middleware(['permission:job_vacancies.manage'])->group(function () {
             Route::get('/admin/job-vacancies', [JobVacancyController::class, 'adminIndex']);
             Route::get('/admin/job-vacancies/{jobVacancy}', [JobVacancyController::class, 'show']);
             Route::post('/admin/job-vacancies', [JobVacancyController::class, 'store']);
@@ -215,8 +227,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/admin/ai-recommendations/{id}/approve', [AIRecommendationController::class, 'approve']);
         Route::post('/admin/ai-recommendations/{id}/reject', [AIRecommendationController::class, 'reject']);
 
-        // Blocked Users API (Super Admin Only - security sensitive)
-        Route::middleware(['role:super_admin'])->group(function () {
+        // Blocked Users API (security sensitive)
+        Route::middleware(['permission:blocked_users.manage'])->group(function () {
             Route::get('/admin/blocked-users', [BlockedUserController::class, 'index']);
             Route::get('/admin/blocked-users/statistics', [BlockedUserController::class, 'statistics']);
             Route::post('/admin/blocked-users', [BlockedUserController::class, 'store']);
@@ -226,7 +238,7 @@ Route::prefix('v1')->group(function () {
         });
 
         // Career Applications API - Editor has no access to this module
-        Route::middleware(['role:super_admin,admin,hr'])->group(function () {
+        Route::middleware(['permission:career_applications.manage'])->group(function () {
             Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
             Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
             Route::get('/admin/career-applications/timeline', [CareerApplicationController::class, 'timeline']);
@@ -245,8 +257,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/admin/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
         Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
 
-        // Audit Logs API (Super Admin Only)
-        Route::middleware(['role:super_admin'])->group(function () {
+        // Audit Logs API
+        Route::middleware(['permission:audit_logs.view'])->group(function () {
             Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
             Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
             Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
@@ -263,8 +275,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/unmanned/operational-stats', [UnmannedAgentController::class, 'operationalStats']);
         Route::get('/admin/unmanned/map-data', [UnmannedAgentController::class, 'mapData']);
 
-        // Chatbot Key Management (Super Admin Only) - Security sensitive
-        Route::middleware(['role:super_admin'])->group(function () {
+        // Chatbot Key Management - Security sensitive
+        Route::middleware(['permission:chatbot_settings.manage'])->group(function () {
             Route::post('/admin/chatbot/reload-kb', [ChatbotController::class, 'reloadKnowledgeBase']);
             Route::get('/admin/chatbot/rotation-status', [ChatbotController::class, 'apiKeyRotationStatus']);
         });
@@ -311,12 +323,12 @@ Route::prefix('v1')->group(function () {
         Route::post('/admin/chatbot/ab-testing/engagement', [ChatbotABTestingController::class, 'trackABTestEngagement']);
         Route::post('/admin/chatbot/ab-testing/conversion', [ChatbotABTestingController::class, 'trackABTestConversion']);
 
-        // Chatbot Language & Sentiment (Super Admin Only)
+        // Chatbot Language & Sentiment
         // NOTE: previously routed to nonexistent methods (index/update/reset/maintenanceMode/
         // toggleMaintenance) — ChatbotSettingsController actually wraps TranslationService and
         // SentimentAnalysisService, not a maintenance-mode toggle. Re-wired to its real methods
         // under URL paths that reflect what the code does.
-        Route::middleware(['role:super_admin'])->group(function () {
+        Route::middleware(['permission:chatbot_settings.manage'])->group(function () {
             Route::post('/admin/chatbot/language', [ChatbotSettingsController::class, 'setLanguage']);
             Route::get('/admin/chatbot/language/supported', [ChatbotSettingsController::class, 'getSupportedLanguages']);
             Route::post('/admin/chatbot/translate', [ChatbotSettingsController::class, 'translate']);

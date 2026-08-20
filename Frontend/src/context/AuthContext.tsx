@@ -3,13 +3,17 @@ import { API_ENDPOINTS } from '../config/api';
 import { apiRequest, getAuthToken, setAuthToken, clearAuthToken, ApiError } from '../utils/apiClient';
 
 // ─── Types ────────────────────────────────────────────────────
-export type AdminRole = 'super_admin' | 'admin' | 'editor' | 'hr';
+// Roles are managed dynamically (see admin/roles) — `super_admin` is the one literal value the
+// app still special-cases (it's the trust anchor permissions hang off of; see User::hasPermission).
+export type AdminRole = string;
 
 export interface AdminUser {
   id: number;
   name: string;
   email: string;
   role: AdminRole;
+  role_label: string;
+  permissions: string[];
   must_change_password: boolean;
 }
 
@@ -20,6 +24,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   hasRole: (role: AdminRole | AdminRole[]) => boolean;
+  can: (permission: string) => boolean;
   updateProfile: (values: { name: string; email: string; currentPassword: string }) => Promise<void>;
   updatePassword: (values: { currentPassword: string; password: string; passwordConfirmation: string }) => Promise<void>;
 }
@@ -80,6 +85,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     [user]
   );
 
+  const can = useCallback(
+    (permission: string) => {
+      if (!user) return false;
+      if (user.role === 'super_admin') return true;
+      return user.permissions.includes(permission);
+    },
+    [user]
+  );
+
   const updateProfile = useCallback(
     async (values: { name: string; email: string; currentPassword: string }) => {
       const res = await apiRequest<{ success: boolean; data: { user: AdminUser } }>(API_ENDPOINTS.AUTH_PROFILE, {
@@ -117,6 +131,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         login,
         logout,
         hasRole,
+        can,
         updateProfile,
         updatePassword,
       }}

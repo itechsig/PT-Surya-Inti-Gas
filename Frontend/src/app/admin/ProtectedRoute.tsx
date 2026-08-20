@@ -5,10 +5,12 @@ import { useAuth, AdminRole } from '../../context';
 interface ProtectedRouteProps {
   children: ReactNode;
   roles?: AdminRole[];
+  /** Dynamic permission slug required to view this route — mirrors the backend's `permission:...` middleware. */
+  permission?: string;
 }
 
-export function ProtectedRoute({ children, roles }: ProtectedRouteProps) {
-  const { isAuthenticated, isLoading, hasRole } = useAuth();
+export function ProtectedRoute({ children, roles, permission }: ProtectedRouteProps) {
+  const { isAuthenticated, isLoading, hasRole, can } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
@@ -24,6 +26,10 @@ export function ProtectedRoute({ children, roles }: ProtectedRouteProps) {
   }
 
   if (roles && !hasRole(roles)) {
+    return <Navigate to="/admin" replace />;
+  }
+
+  if (permission && !can(permission)) {
     return <Navigate to="/admin" replace />;
   }
 

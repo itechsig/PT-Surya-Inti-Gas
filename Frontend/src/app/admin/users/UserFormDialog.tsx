@@ -16,16 +16,15 @@ import { Checkbox } from '../../components/ui/checkbox';
 import { ApiError } from '../../../utils/apiClient';
 import { createUser, updateUser } from './api';
 import type { AdminUserRecord } from './types';
-import { ROLE_LABELS } from '../roleLabels';
+import { listRoles } from '../roles/api';
+import type { AdminRoleRecord } from '../roles/types';
 import { PasswordInput } from '../PasswordInput';
 import type { AdminRole } from '../../../context';
-
-const ROLE_OPTIONS: AdminRole[] = ['super_admin', 'admin', 'editor', 'hr'];
 
 const EMPTY_FORM = {
   name: '',
   email: '',
-  role: 'editor' as AdminRole,
+  role: '' as AdminRole,
   isActive: true,
   password: '',
   passwordConfirmation: '',
@@ -43,6 +42,14 @@ export function UserFormDialog({ open, onOpenChange, user, onSaved }: UserFormDi
   const [values, setValues] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [isSaving, setIsSaving] = useState(false);
+  const [roles, setRoles] = useState<AdminRoleRecord[]>([]);
+
+  useEffect(() => {
+    if (!open) return;
+    listRoles()
+      .then((res) => setRoles(res.data))
+      .catch(() => setRoles([]));
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -61,6 +68,13 @@ export function UserFormDialog({ open, onOpenChange, user, onSaved }: UserFormDi
     }
     setErrors({});
   }, [open, user]);
+
+  // Once roles load for a brand-new user, default to Editor if it still exists, else the first role.
+  useEffect(() => {
+    if (!open || user || values.role || roles.length === 0) return;
+    const defaultRole = roles.find((r) => r.slug === 'editor') ?? roles[0];
+    setValues((prev) => ({ ...prev, role: defaultRole.slug }));
+  }, [open, user, roles, values.role]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -148,9 +162,9 @@ export function UserFormDialog({ open, onOpenChange, user, onSaved }: UserFormDi
                     <SelectValue placeholder="Pilih peran" />
                   </SelectTrigger>
                   <SelectContent>
-                    {ROLE_OPTIONS.map((role) => (
-                      <SelectItem key={role} value={role}>
-                        {ROLE_LABELS[role]}
+                    {roles.map((role) => (
+                      <SelectItem key={role.id} value={role.slug}>
+                        {role.name}
                       </SelectItem>
                     ))}
                   </SelectContent>

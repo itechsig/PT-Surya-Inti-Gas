@@ -49,6 +49,7 @@ const PortfoliosPage = lazy(() => import("./admin/portfolios/PortfoliosPage").th
 const JobVacanciesPage = lazy(() => import("./admin/jobVacancies/JobVacanciesPage").then(m => ({ default: m.JobVacanciesPage })));
 const CareerApplicationsPage = lazy(() => import("./admin/careerApplications/CareerApplicationsPage").then(m => ({ default: m.CareerApplicationsPage })));
 const UsersPage = lazy(() => import("./admin/users/UsersPage").then(m => ({ default: m.UsersPage })));
+const RolesPage = lazy(() => import("./admin/roles/RolesPage").then(m => ({ default: m.RolesPage })));
 const AuditLogsPage = lazy(() => import("./admin/auditLogs/AuditLogsPage").then(m => ({ default: m.AuditLogsPage })));
 
 // Minimal, non-layout-shifting fallback while a route chunk loads. Signals
@@ -470,7 +471,7 @@ function App() {
               <Route
                 path="job-vacancies"
                 element={
-                  <ProtectedRoute roles={['super_admin', 'admin', 'hr']}>
+                  <ProtectedRoute permission="job_vacancies.manage">
                     <JobVacanciesPage />
                   </ProtectedRoute>
                 }
@@ -478,7 +479,7 @@ function App() {
               <Route
                 path="career-applications"
                 element={
-                  <ProtectedRoute roles={['super_admin', 'admin', 'hr']}>
+                  <ProtectedRoute permission="career_applications.manage">
                     <CareerApplicationsPage />
                   </ProtectedRoute>
                 }
@@ -486,15 +487,23 @@ function App() {
               <Route
                 path="users"
                 element={
-                  <ProtectedRoute roles={['super_admin']}>
+                  <ProtectedRoute permission="users.manage">
                     <UsersPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="roles"
+                element={
+                  <ProtectedRoute roles={['super_admin']}>
+                    <RolesPage />
                   </ProtectedRoute>
                 }
               />
               <Route
                 path="audit-logs"
                 element={
-                  <ProtectedRoute roles={['super_admin']}>
+                  <ProtectedRoute permission="audit_logs.view">
                     <AuditLogsPage />
                   </ProtectedRoute>
                 }

@@ -17,8 +17,8 @@ import { CareerApplicationDetailDialog } from './CareerApplicationDetailDialog';
 import { STATUS_BADGE_VARIANT, STATUS_LABELS, type ApplicationStatus, type CareerApplication, type CareerApplicationStatistics } from './types';
 
 export function CareerApplicationsPage() {
-  const { hasRole } = useAuth();
-  const canDelete = hasRole(['super_admin', 'admin', 'hr']);
+  const { can } = useAuth();
+  const canDelete = can('career_applications.manage');
 
   const [applications, setApplications] = useState<CareerApplication[]>([]);
   const [stats, setStats] = useState<CareerApplicationStatistics | null>(null);

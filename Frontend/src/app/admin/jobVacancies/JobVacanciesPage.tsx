@@ -18,8 +18,8 @@ import { JobVacancyFormDialog } from './JobVacancyFormDialog';
 import type { AdminJobVacancy } from './types';
 
 export function JobVacanciesPage() {
-  const { hasRole } = useAuth();
-  const canDelete = hasRole(['super_admin', 'admin', 'hr']);
+  const { can } = useAuth();
+  const canDelete = can('job_vacancies.manage');
 
   const [jobs, setJobs] = useState<AdminJobVacancy[]>([]);
   const [isLoading, setIsLoading] = useState(true);

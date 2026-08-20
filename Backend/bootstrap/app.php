@@ -49,6 +49,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.blocked' => \App\Http\Middleware\CheckBlockedUsers::class,
             'cors' => \App\Http\Middleware\CorsMiddleware::class,
             'role' => \App\Http\Middleware\EnsureRole::class,
+            'permission' => \App\Http\Middleware\EnsurePermission::class,
             'password.change' => \App\Http\Middleware\RequirePasswordChangeMiddleware::class,
         ]);
 

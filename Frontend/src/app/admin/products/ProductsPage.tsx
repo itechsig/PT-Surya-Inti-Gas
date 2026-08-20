@@ -20,8 +20,8 @@ import { MAIN_CATEGORY_LABELS, type AdminProduct, type AdminProductCategory } fr
 import { getImageUrl } from '../../../utils/imageUrl';
 
 export function ProductsPage() {
-  const { hasRole } = useAuth();
-  const canDelete = hasRole(['super_admin', 'admin', 'editor']);
+  const { can } = useAuth();
+  const canDelete = can('products.manage');
 
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [categories, setCategories] = useState<AdminProductCategory[]>([]);

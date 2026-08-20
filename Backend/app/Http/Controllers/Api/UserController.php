@@ -97,7 +97,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'role' => ['required', Rule::in(User::ROLES)],
+                'role' => ['required', Rule::exists('roles', 'slug')],
                 'is_active' => 'sometimes|boolean',
                 'force_password_change' => 'sometimes|boolean',
                 'password' => [
@@ -164,7 +164,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-                'role' => ['required', Rule::in(User::ROLES)],
+                'role' => ['required', Rule::exists('roles', 'slug')],
                 'is_active' => 'sometimes|boolean',
             ]);
 

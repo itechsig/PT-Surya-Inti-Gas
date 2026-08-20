@@ -18,8 +18,8 @@ import { GalleryFormDialog } from './GalleryFormDialog';
 import { GALLERY_CATEGORIES, type AdminGalleryItem } from './types';
 
 export function GalleryPage() {
-  const { hasRole } = useAuth();
-  const canDelete = hasRole(['super_admin', 'admin', 'editor']);
+  const { can } = useAuth();
+  const canDelete = can('gallery.manage');
 
   const [items, setItems] = useState<AdminGalleryItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);

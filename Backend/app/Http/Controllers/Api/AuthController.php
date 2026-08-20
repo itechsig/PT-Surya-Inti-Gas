@@ -113,11 +113,7 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'Login successful',
                 'data' => [
-                    'user' => [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'role' => $user->role,
+                    'user' => $this->toUserPayload($user) + [
                         'must_change_password' => $user->must_change_password,
                     ],
                     'token' => $token,
@@ -213,11 +209,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => [
-                    'user' => [
-                        'id' => $request->user()->id,
-                        'name' => $request->user()->name,
-                        'email' => $request->user()->email,
-                        'role' => $request->user()->role,
+                    'user' => $this->toUserPayload($request->user()) + [
                         'must_change_password' => $request->user()->must_change_password,
                         'email_verified' => $request->user()->hasVerifiedEmail(),
                     ]
@@ -267,17 +259,27 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'Profil berhasil diperbarui',
                 'data' => [
-                    'user' => [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'role' => $user->role,
+                    'user' => $this->toUserPayload($user->fresh()) + [
+                        'must_change_password' => $user->must_change_password,
                     ],
                 ],
             ]);
         } catch (\Exception $e) {
             return $this->handleApiError($e, 'Gagal memperbarui profil', 'auth_update_profile_failed');
         }
+    }
+
+    /** Shared shape for the `user` object every auth endpoint returns, now that role permissions are dynamic. */
+    private function toUserPayload(User $user): array
+    {
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+            'role_label' => $user->roleRecord?->name ?? $user->role,
+            'permissions' => $user->permissionSlugs(),
+        ];
     }
 
     /**
