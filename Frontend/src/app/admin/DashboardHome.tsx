@@ -1,11 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, MailOpen, MessageSquareText, Users, ArrowRight, AlertCircle, Globe, UserPlus, Eye, Clock } from 'lucide-react';
+import { motion, type Variants } from 'motion/react';
+import {
+  Mail, MailOpen, MessageSquareText, Users, ArrowRight, AlertCircle,
+  Globe, UserPlus, Eye, Clock, Package, Briefcase, ScrollText,
+  type LucideIcon,
+} from 'lucide-react';
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, XAxis, YAxis } from 'recharts';
 import { useAuth } from '../../context';
 import { API_ENDPOINTS } from '../../config/api';
-import { apiRequest } from '../../utils/apiClient';
-import { adminNavItems, CONTENT_ROLES, RECRUITMENT_ROLES } from './navConfig';
+import { apiRequest, ApiError } from '../../utils/apiClient';
+import { adminNavItems } from './navConfig';
 import { ROLE_LABELS } from './roleLabels';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -119,6 +124,76 @@ function getTimeGreeting(hour: number): string {
   return 'Selamat malam';
 }
 
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
+function SectionHeader({
+  icon: Icon,
+  color,
+  title,
+  description,
+}: {
+  icon: LucideIcon;
+  color: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex items-start gap-3 border-l-4 py-0.5 pl-3" style={{ borderColor: color }}>
+      <Icon className="mt-0.5 h-5 w-5 shrink-0" style={{ color }} />
+      <div>
+        <h2 className="text-lg font-semibold">{title}</h2>
+        <p className="text-sm text-muted-foreground">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+function StatCard({
+  label,
+  value,
+  description,
+  icon: Icon,
+  color,
+  isLoading,
+}: {
+  label: string;
+  value: string | number | undefined;
+  description: string;
+  icon: LucideIcon;
+  color: string;
+  isLoading: boolean;
+}) {
+  return (
+    <Card className="transition-shadow duration-200 hover:shadow-md">
+      <CardContent className="flex items-start gap-4">
+        <div
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+          style={{ backgroundColor: `color-mix(in oklch, ${color} 16%, transparent)`, color }}
+        >
+          <Icon className="h-5 w-5" />
+        </div>
+        <div className="flex min-w-0 flex-col gap-1">
+          <p className="text-sm font-medium text-muted-foreground">{label}</p>
+          {isLoading ? (
+            <Skeleton className="h-7 w-16" />
+          ) : (
+            <p className="text-2xl font-bold leading-none">{value ?? '–'}</p>
+          )}
+          <p className="text-xs text-muted-foreground">{description}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 const visitorTimelineConfig = {
   count: { label: 'Kunjungan', color: 'var(--chart-1)' },
 } satisfies ChartConfig;
@@ -174,10 +249,16 @@ export function DashboardHome() {
   const [productOrders, setProductOrders] = useState<ProductRankingRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [recruitmentDenied, setRecruitmentDenied] = useState(false);
+  const [auditDenied, setAuditDenied] = useState(false);
 
-  const canViewRecruitment = hasRole(RECRUITMENT_ROLES);
-  const canViewAudit = hasRole(['super_admin']);
-  const canViewContent = hasRole(CONTENT_ROLES);
+  // Every dashboard section is shown to every admin role. Note this is a display-only choice —
+  // the Rekrutmen and Aktivitas Admin sections still call backend endpoints that are role-restricted
+  // (RECRUITMENT_ROLES / super_admin respectively), so a role outside those will see the section's
+  // cards but the data fetch will fail unless the corresponding routes/api.php middleware is widened too.
+  const canViewRecruitment = true;
+  const canViewAudit = true;
+  const canViewContent = true;
 
   useEffect(() => {
     let cancelled = false;
@@ -219,11 +300,17 @@ export function DashboardHome() {
         setError('Sebagian data dashboard gagal dimuat. Coba muat ulang halaman.');
       }
 
+      const isForbidden = (result: PromiseSettledResult<unknown>) =>
+        result.status === 'rejected' && result.reason instanceof ApiError && result.reason.status === 403;
+
       if (visitorTimelineResult.status === 'fulfilled') setVisitorTimeline(visitorTimelineResult.value.data);
       if (statsResult.status === 'fulfilled') setApplicationStats(statsResult.value.data);
       if (appTimelineResult.status === 'fulfilled') setApplicationTimeline(appTimelineResult.value.data);
+      setRecruitmentDenied(isForbidden(statsResult) || isForbidden(appTimelineResult));
+
       if (auditStatsResult.status === 'fulfilled') setAuditStats(auditStatsResult.value.data);
       if (auditTimelineResult.status === 'fulfilled') setAuditTimeline(auditTimelineResult.value.data);
+      setAuditDenied(isForbidden(auditStatsResult) || isForbidden(auditTimelineResult));
 
       if (canViewContent) {
         const gallery = galleryResult.status === 'fulfilled' ? galleryResult.value.data : [];
@@ -261,18 +348,21 @@ export function DashboardHome() {
       label: 'Kontak Baru',
       value: overview?.contacts.new,
       icon: Mail,
+      color: 'var(--chart-1)',
       description: 'Masuk hari ini',
     },
     {
       label: 'Kontak Menunggu',
       value: overview?.contacts.pending,
       icon: MailOpen,
+      color: 'var(--chart-4)',
       description: 'Belum ditindaklanjuti',
     },
     {
       label: 'Total Kontak',
       value: overview?.contacts.total,
       icon: MessageSquareText,
+      color: 'var(--chart-3)',
       description: 'Sepanjang waktu',
     },
     ...(canViewRecruitment
@@ -281,6 +371,7 @@ export function DashboardHome() {
             label: 'Pelamar Menunggu',
             value: applicationStats?.pending,
             icon: Users,
+            color: 'var(--chart-5)',
             description: 'Perlu ditinjau',
           },
         ]
@@ -335,37 +426,41 @@ export function DashboardHome() {
       label: 'Total Kunjungan',
       value: overview?.visitors.total,
       icon: Globe,
+      color: 'var(--chart-1)',
       description: 'Sesi pengunjung hari ini',
     },
     {
       label: 'Pengunjung Baru',
       value: overview?.visitors.unique,
       icon: UserPlus,
+      color: 'var(--chart-2)',
       description: 'Sesi baru hari ini',
     },
     {
       label: 'Page Views',
       value: overview?.visitors.page_views,
       icon: Eye,
+      color: 'var(--chart-3)',
       description: 'Total halaman dilihat',
     },
     {
       label: 'Rata-rata Durasi',
       value: overview?.visitors.avg_time_on_site != null ? `${overview.visitors.avg_time_on_site}s` : undefined,
       icon: Clock,
+      color: 'var(--chart-4)',
       description: 'Waktu per sesi',
     },
   ];
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
+    <motion.div className="flex flex-col gap-8" initial="hidden" animate="show" variants={staggerContainer}>
+      <motion.div variants={fadeUp}>
         <h1 className="text-2xl font-semibold">
           {getTimeGreeting(new Date().getHours())}, {user?.name}
           {user && <span className="font-normal text-muted-foreground"> ({ROLE_LABELS[user.role]})</span>}
         </h1>
         <p className="text-muted-foreground">Ringkasan aktivitas terbaru pada website PT Surya Inti Gas.</p>
-      </div>
+      </motion.div>
 
       {error && (
         <div className="flex items-center gap-2 rounded-md border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
@@ -374,26 +469,14 @@ export function DashboardHome() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.label}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{stat.label}</CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-8 w-16" />
-              ) : (
-                <div className="text-2xl font-bold">{stat.value ?? '–'}</div>
-              )}
-              <p className="text-xs text-muted-foreground">{stat.description}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((stat) => (
+            <StatCard key={stat.label} {...stat} isLoading={isLoading} />
+          ))}
+        </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>Pesan Kontak Terbaru</CardTitle>
@@ -453,31 +536,23 @@ export function DashboardHome() {
             ))}
           </CardContent>
         </Card>
-      </div>
-      {/* ── Trafik Kunjungan Website — prioritas utama untuk web company bisnis ── */}
-      <div>
-        <h2 className="text-lg font-semibold">Trafik Kunjungan Website</h2>
-        <p className="text-sm text-muted-foreground">Seberapa banyak dan bagaimana pengunjung mengakses situs.</p>
-      </div>
+        </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {trafficStats.map((stat) => (
-          <Card key={stat.label}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{stat.label}</CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-8 w-16" />
-              ) : (
-                <div className="text-2xl font-bold">{stat.value ?? '–'}</div>
-              )}
-              <p className="text-xs text-muted-foreground">{stat.description}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* ── Trafik Kunjungan Website — prioritas utama untuk web company bisnis ── */}
+      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+        <SectionHeader
+          icon={Globe}
+          color="var(--chart-3)"
+          title="Trafik Kunjungan Website"
+          description="Seberapa banyak dan bagaimana pengunjung mengakses situs."
+        />
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {trafficStats.map((stat) => (
+            <StatCard key={stat.label} {...stat} isLoading={isLoading} />
+          ))}
+        </div>
 
       <Card>
         <CardHeader>
@@ -562,15 +637,18 @@ export function DashboardHome() {
             </CardContent>
           </Card>
         ) : null}
-      </div>
+        </div>
+      </motion.div>
 
       {/* ── Bisnis: Produk & Konten ── */}
       {canViewContent && (
-        <>
-          <div>
-            <h2 className="text-lg font-semibold">Bisnis: Produk &amp; Konten</h2>
-            <p className="text-sm text-muted-foreground">Performa produk dan konten yang dikelola.</p>
-          </div>
+        <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+          <SectionHeader
+            icon={Package}
+            color="var(--chart-2)"
+            title="Bisnis: Produk & Konten"
+            description="Performa produk dan konten yang dikelola."
+          />
 
           <Card>
             <CardHeader>
@@ -647,16 +725,18 @@ export function DashboardHome() {
               </CardContent>
             </Card>
           </div>
-        </>
+        </motion.div>
       )}
 
       {/* ── Rekrutmen (Loker) ── */}
       {canViewRecruitment && (
-        <>
-          <div>
-            <h2 className="text-lg font-semibold">Rekrutmen</h2>
-            <p className="text-sm text-muted-foreground">Lamaran kerja yang masuk melalui halaman karir.</p>
-          </div>
+        <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+          <SectionHeader
+            icon={Briefcase}
+            color="var(--chart-4)"
+            title="Rekrutmen"
+            description="Lamaran kerja yang masuk melalui halaman karir."
+          />
 
           <Card>
             <CardHeader>
@@ -684,7 +764,9 @@ export function DashboardHome() {
                   </AreaChart>
                 </ChartContainer>
               ) : (
-                <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data lamaran.</p>
+                <p className="py-10 text-center text-sm text-muted-foreground">
+                  {recruitmentDenied ? 'Anda tidak memiliki akses untuk melihat data ini.' : 'Belum ada data lamaran.'}
+                </p>
               )}
             </CardContent>
           </Card>
@@ -708,18 +790,28 @@ export function DashboardHome() {
                   </BarChart>
                 </ChartContainer>
               ) : (
-                <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data lamaran.</p>
+                <p className="py-10 text-center text-sm text-muted-foreground">
+                  {recruitmentDenied ? 'Anda tidak memiliki akses untuk melihat data ini.' : 'Belum ada data lamaran.'}
+                </p>
               )}
             </CardContent>
           </Card>
-        </>
+        </motion.div>
       )}
 
       {/* ── Aktivitas Admin ── */}
       {canViewAudit && (
-        <Card>
+        <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+          <SectionHeader
+            icon={ScrollText}
+            color="var(--chart-1)"
+            title="Aktivitas Admin"
+            description="Riwayat aksi admin di panel ini."
+          />
+
+          <Card>
           <CardHeader>
-            <CardTitle>Aktivitas Admin</CardTitle>
+            <CardTitle>Tren Aktivitas</CardTitle>
             <CardDescription>Jumlah aksi admin per hari, 14 hari terakhir.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
@@ -754,11 +846,14 @@ export function DashboardHome() {
                 )}
               </>
             ) : (
-              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada aktivitas tercatat.</p>
+              <p className="py-10 text-center text-sm text-muted-foreground">
+                {auditDenied ? 'Anda tidak memiliki akses untuk melihat data ini.' : 'Belum ada aktivitas tercatat.'}
+              </p>
             )}
           </CardContent>
-        </Card>
+          </Card>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }
