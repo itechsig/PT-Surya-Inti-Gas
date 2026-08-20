@@ -18,14 +18,13 @@ import { ApiError } from '../../../utils/apiClient';
 import { deleteUser, listUsers, toggleUserStatus } from './api';
 import { UserFormDialog } from './UserFormDialog';
 import { ResetPasswordDialog } from './ResetPasswordDialog';
-import { ROLE_LABELS } from '../roleLabels';
+import { listRoles } from '../roles/api';
+import type { AdminRoleRecord } from '../roles/types';
 import type { AdminRole } from '../../../context';
 import type { AdminUserRecord } from './types';
 
 const dateFormatter = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
 const dateTimeFormatter = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-const ROLE_FILTER_OPTIONS: AdminRole[] = ['super_admin', 'admin', 'editor', 'hr'];
 
 function initials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -38,6 +37,7 @@ export function UsersPage() {
   const { user: currentUser } = useAuth();
 
   const [users, setUsers] = useState<AdminUserRecord[]>([]);
+  const [roles, setRoles] = useState<AdminRoleRecord[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [total, setTotal] = useState(0);
@@ -79,6 +79,14 @@ export function UsersPage() {
   useEffect(() => {
     load();
   }, [load]);
+
+  useEffect(() => {
+    listRoles()
+      .then((res) => setRoles(res.data))
+      .catch(() => setRoles([]));
+  }, []);
+
+  const roleLabel = (slug: string) => roles.find((r) => r.slug === slug)?.name ?? slug;
 
   // Any filter/search/sort change should reset back to page 1, not silently keep an out-of-range page.
   useEffect(() => {
@@ -138,7 +146,7 @@ export function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Manajemen User</h1>
-          <p className="text-muted-foreground">Kelola akun Super Admin, Admin, Editor, dan HR.</p>
+          <p className="text-muted-foreground">Kelola akun admin dan peran yang diberikan ke masing-masing.</p>
         </div>
         <Button onClick={openCreate}>
           <Plus className="h-4 w-4" />
@@ -173,8 +181,8 @@ export function UsersPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Semua Peran</SelectItem>
-                {ROLE_FILTER_OPTIONS.map((role) => (
-                  <SelectItem key={role} value={role}>{ROLE_LABELS[role]}</SelectItem>
+                {roles.map((role) => (
+                  <SelectItem key={role.id} value={role.slug}>{role.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -245,7 +253,7 @@ export function UsersPage() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="secondary">{ROLE_LABELS[user.role]}</Badge>
+                        <Badge variant="secondary">{roleLabel(user.role)}</Badge>
                       </TableCell>
                       <TableCell>
                         <Badge variant={user.is_active ? 'default' : 'outline'}>
@@ -346,7 +354,7 @@ export function UsersPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Hapus user ini?</AlertDialogTitle>
             <AlertDialogDescription>
-              "{deletingUser?.name}" ({deletingUser ? ROLE_LABELS[deletingUser.role] : ''}) akan dihapus permanen dan tidak akan bisa masuk lagi.
+              "{deletingUser?.name}" ({deletingUser ? roleLabel(deletingUser.role) : ''}) akan dihapus permanen dan tidak akan bisa masuk lagi.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

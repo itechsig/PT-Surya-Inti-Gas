@@ -1,27 +1,27 @@
-import { Briefcase, FolderKanban, GalleryHorizontal, Images, LayoutDashboard, Package, Users, UserCog, ScrollText, type LucideIcon } from 'lucide-react';
-import { AdminRole } from '../../context';
+import { Briefcase, FolderKanban, GalleryHorizontal, Images, LayoutDashboard, Package, Users, UserCog, ScrollText, ShieldCheck, type LucideIcon } from 'lucide-react';
 
 export interface AdminNavItem {
   label: string;
   to: string;
   icon: LucideIcon;
-  roles?: AdminRole[];
+  // Dynamic permission slug required to see this item — mirrors the backend's `permission:...`
+  // route middleware (see routes/api.php). Omit for items every authenticated admin can see.
+  permission?: string;
+  // A handful of endpoints (role/permission management itself) stay hardcoded to the literal
+  // super_admin role rather than going through the dynamic permission system, to avoid a
+  // privilege-escalation loop where a role could grant itself the power to grant roles.
+  superAdminOnly?: boolean;
 }
-
-// Each CMS module (Products, Jobs, Gallery, ...) appends its entry here as it's built.
-// `roles` mirrors the backend's route middleware in routes/api.php — keep both in sync.
-export const CONTENT_ROLES: AdminRole[] = ['super_admin', 'admin', 'editor'];
-// Editor has no access to recruitment data; HR manages it alongside super_admin/admin.
-export const RECRUITMENT_ROLES: AdminRole[] = ['super_admin', 'admin', 'hr'];
 
 export const adminNavItems: AdminNavItem[] = [
   { label: 'Dashboard', to: '/admin', icon: LayoutDashboard },
-  { label: 'Hero Slides', to: '/admin/hero-slides', icon: GalleryHorizontal, roles: CONTENT_ROLES },
-  { label: 'Produk', to: '/admin/products', icon: Package, roles: CONTENT_ROLES },
-  { label: 'Galeri', to: '/admin/gallery', icon: Images, roles: CONTENT_ROLES },
-  { label: 'Portofolio', to: '/admin/portfolios', icon: FolderKanban, roles: CONTENT_ROLES },
-  { label: 'Lowongan Kerja', to: '/admin/job-vacancies', icon: Briefcase, roles: RECRUITMENT_ROLES },
-  { label: 'Pelamar Kerja', to: '/admin/career-applications', icon: Users, roles: RECRUITMENT_ROLES },
-  { label: 'Manajemen User', to: '/admin/users', icon: UserCog, roles: ['super_admin'] },
-  { label: 'Log Aktivitas', to: '/admin/audit-logs', icon: ScrollText, roles: ['super_admin'] },
+  { label: 'Hero Slides', to: '/admin/hero-slides', icon: GalleryHorizontal, permission: 'hero_slides.manage' },
+  { label: 'Produk', to: '/admin/products', icon: Package, permission: 'products.manage' },
+  { label: 'Galeri', to: '/admin/gallery', icon: Images, permission: 'gallery.manage' },
+  { label: 'Portofolio', to: '/admin/portfolios', icon: FolderKanban, permission: 'portfolios.manage' },
+  { label: 'Lowongan Kerja', to: '/admin/job-vacancies', icon: Briefcase, permission: 'job_vacancies.manage' },
+  { label: 'Pelamar Kerja', to: '/admin/career-applications', icon: Users, permission: 'career_applications.manage' },
+  { label: 'Manajemen User', to: '/admin/users', icon: UserCog, permission: 'users.manage' },
+  { label: 'Manajemen Role', to: '/admin/roles', icon: ShieldCheck, superAdminOnly: true },
+  { label: 'Log Aktivitas', to: '/admin/audit-logs', icon: ScrollText, permission: 'audit_logs.view' },
 ];

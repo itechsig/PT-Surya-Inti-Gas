@@ -43,6 +43,10 @@ export const API_ENDPOINTS = {
   // User management endpoints (Super Admin only)
   ADMIN_USERS: '/api/v1/admin/users', // append /{id} for update/delete
 
+  // Role & permission management (Super Admin only)
+  ADMIN_ROLES: '/api/v1/admin/roles', // append /{id} for update/delete
+  ADMIN_PERMISSIONS: '/api/v1/admin/permissions',
+
   // Chatbot endpoints (public)
   CHAT: '/api/v1/chat/stream',
   CHATBOT: '/api/v1/chatbot',

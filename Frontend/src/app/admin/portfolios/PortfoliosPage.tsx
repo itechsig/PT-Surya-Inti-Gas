@@ -29,8 +29,8 @@ function formatCompletionDate(isoDate: string): string {
 }
 
 export function PortfoliosPage() {
-  const { hasRole } = useAuth();
-  const canDelete = hasRole(['super_admin', 'admin', 'editor']);
+  const { can } = useAuth();
+  const canDelete = can('portfolios.manage');
 
   const [portfolios, setPortfolios] = useState<AdminPortfolio[]>([]);
   const [industries, setIndustries] = useState<AdminIndustry[]>([]);

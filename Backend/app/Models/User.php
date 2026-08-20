@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -56,5 +57,33 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isSuperAdmin(): bool
     {
         return $this->role === self::ROLE_SUPER_ADMIN;
+    }
+
+    /** The Role record backing this user's `role` slug — the source of truth for its permissions. */
+    public function roleRecord(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'role', 'slug');
+    }
+
+    public function hasPermission(string $permissionSlug): bool
+    {
+        // Super admin is the trust anchor the permission system hangs off of — never gated by
+        // whatever happens to be assigned in the `permission_role` table, so it can't be locked
+        // out of its own admin panel by a misconfigured or emptied role.
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        return $this->roleRecord?->permissions->contains('slug', $permissionSlug) ?? false;
+    }
+
+    /** @return string[] */
+    public function permissionSlugs(): array
+    {
+        if ($this->isSuperAdmin()) {
+            return Permission::pluck('slug')->all();
+        }
+
+        return $this->roleRecord?->permissions->pluck('slug')->all() ?? [];
     }
 }

@@ -1145,12 +1145,7 @@ export function AboutUsPage() {
         <div className="au-hero-content">
 
           <motion.div initial="hidden" animate="show" variants={staggerContainer}>
-            <motion.nav className="au-breadcrumb" variants={fadeUp}>
-              <Link to={`/${currentLang}`}>{t('aboutUsPage.hero.breadcrumbHome')}</Link>
-              <ChevronRight size={14} />
-              <span className="au-breadcrumb-current">{t('aboutUsPage.hero.badge')}</span>
-            </motion.nav>
-            <motion.span className="au-hero-badge" variants={fadeUp}>{t('aboutUsPage.hero.badge')}</motion.span>
+
             <motion.h1 className="au-hero-title" variants={fadeUp}>
               {t('aboutUsPage.hero.title')} <span>{t('aboutUsPage.hero.titleHighlight')}</span>
             </motion.h1>

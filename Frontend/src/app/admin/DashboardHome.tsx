@@ -11,7 +11,6 @@ import { useAuth } from '../../context';
 import { API_ENDPOINTS } from '../../config/api';
 import { apiRequest, ApiError } from '../../utils/apiClient';
 import { adminNavItems } from './navConfig';
-import { ROLE_LABELS } from './roleLabels';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Skeleton } from '../components/ui/skeleton';
@@ -237,7 +236,7 @@ const productOrdersConfig = {
 } satisfies ChartConfig;
 
 export function DashboardHome() {
-  const { user, hasRole } = useAuth();
+  const { user, hasRole, can } = useAuth();
   const [overview, setOverview] = useState<DashboardOverview | null>(null);
   const [visitorTimeline, setVisitorTimeline] = useState<VisitorTimelinePoint[]>([]);
   const [applicationStats, setApplicationStats] = useState<CareerApplicationStatistics | null>(null);
@@ -378,9 +377,12 @@ export function DashboardHome() {
       : []),
   ];
 
-  const quickLinks = adminNavItems.filter(
-    (item) => item.to !== '/admin' && (!item.roles || hasRole(item.roles))
-  );
+  const quickLinks = adminNavItems.filter((item) => {
+    if (item.to === '/admin') return false;
+    if (item.superAdminOnly) return hasRole('super_admin');
+    if (item.permission) return can(item.permission);
+    return true;
+  });
 
   const applicationStatusData = useMemo(() => {
     if (!applicationStats) return [];
@@ -457,7 +459,7 @@ export function DashboardHome() {
       <motion.div variants={fadeUp}>
         <h1 className="text-2xl font-semibold">
           {getTimeGreeting(new Date().getHours())}, {user?.name}
-          {user && <span className="font-normal text-muted-foreground"> ({ROLE_LABELS[user.role]})</span>}
+          {user && <span className="font-normal text-muted-foreground"> ({user.role_label})</span>}
         </h1>
         <p className="text-muted-foreground">Ringkasan aktivitas terbaru pada website PT Surya Inti Gas.</p>
       </motion.div>

@@ -4,7 +4,6 @@ import { ThemeProvider, useTheme } from 'next-themes';
 import { Moon, Sun, LogOut, User as UserIcon, UserCog } from 'lucide-react';
 import { useAuth } from '../../context';
 import { adminNavItems } from './navConfig';
-import { ROLE_LABELS } from './roleLabels';
 import { ProfileDialog } from './ProfileDialog';
 import { ForceChangePasswordPage } from './ForceChangePasswordPage';
 import {
@@ -47,7 +46,7 @@ function ThemeToggle() {
 }
 
 function AdminShell() {
-  const { user, logout, hasRole } = useAuth();
+  const { user, logout, hasRole, can } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [profileOpen, setProfileOpen] = useState(false);
@@ -57,7 +56,11 @@ function AdminShell() {
     navigate('/admin/login', { replace: true });
   };
 
-  const visibleNavItems = adminNavItems.filter((item) => !item.roles || hasRole(item.roles));
+  const visibleNavItems = adminNavItems.filter((item) => {
+    if (item.superAdminOnly) return hasRole('super_admin');
+    if (item.permission) return can(item.permission);
+    return true;
+  });
 
   if (user?.must_change_password) {
     return (
@@ -106,7 +109,7 @@ function AdminShell() {
                 <div className="flex flex-col overflow-hidden text-left group-data-[collapsible=icon]:hidden">
                   <span className="truncate text-sm font-medium">{user?.name}</span>
                   <span className="truncate text-xs text-muted-foreground">
-                    {user ? ROLE_LABELS[user.role] : ''}
+                    {user?.role_label ?? ''}
                   </span>
                 </div>
               </SidebarMenuButton>
@@ -132,7 +135,7 @@ function AdminShell() {
             <SidebarTrigger />
             {user && (
               <Badge variant="secondary" className="hidden sm:inline-flex">
-                {ROLE_LABELS[user.role]}
+                {user.role_label}
               </Badge>
             )}
           </div>
