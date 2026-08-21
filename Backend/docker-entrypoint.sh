@@ -3,6 +3,20 @@ set -e
 
 echo "=== Starting docker-entrypoint.sh ==="
 
+# If a Railway Volume is mounted at storage/app/public, it starts EMPTY on first attach and
+# shadows the product/gallery/hero-slide/portfolio images that were baked into the image at
+# that same path. Reseed from the build-time snapshot (see Dockerfile) whenever that's missing.
+# "-n" (no-clobber) guarantees this NEVER overwrites a file that's already there - real
+# admin-uploaded images on an already-seeded volume are always left untouched. A marker file
+# avoids repeating the copy on every boot once the volume has been seeded.
+if [ -d /app/.storage-seed ] && [ ! -f storage/app/public/.seeded ]; then
+    echo "Fresh/empty persistent storage detected - seeding from build-time image snapshot"
+    mkdir -p storage/app/public
+    cp -rn /app/.storage-seed/. storage/app/public/ 2>/dev/null || true
+    touch storage/app/public/.seeded
+    echo "Seeding complete"
+fi
+
 if [ ! -f .env ]; then
     echo "Creating .env from .env.example"
     cp .env.example .env
