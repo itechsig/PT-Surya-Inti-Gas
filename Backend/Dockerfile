@@ -24,13 +24,6 @@ RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd cur
 # Copy application files
 COPY . .
 
-# Snapshot the git-committed storage/app/public content (product/gallery/hero-slide/portfolio
-# images) to a path outside the future Railway Volume mount point. A Volume mounted at
-# storage/app/public shadows whatever was baked into the image at that exact path, so without
-# this snapshot there would be no way to restore those files into a freshly-attached empty
-# volume - docker-entrypoint.sh reseeds from here on first boot after a volume is attached.
-RUN cp -r storage/app/public /app/.storage-seed
-
 # Set permissions for directories
 RUN mkdir -p bootstrap/cache \
     storage/framework/cache \
