@@ -12,6 +12,7 @@ use App\Traits\HandlesApiErrors;
 use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -110,7 +111,7 @@ class ProductController extends Controller
     {
         try {
             $data = $request->validated();
-            $data['image'] = $request->file('image')->store('products', 'public');
+            $data['image'] = $this->storeProductImage($request->file('image'), $data['slug']);
             $data['gallery'] = $this->storeGalleryFiles($request);
             $data['specifications'] = $request->filled('specifications') ? json_decode($request->input('specifications'), true) : null;
             $data['display_order'] = $data['display_order'] ?? ((Product::max('display_order') ?? -1) + 1);
@@ -144,8 +145,11 @@ class ProductController extends Controller
             $data = $request->validated();
 
             if ($request->hasFile('image')) {
-                Storage::disk('public')->delete($product->image);
-                $data['image'] = $request->file('image')->store('products', 'public');
+                $oldImage = $product->image;
+                $data['image'] = $this->storeProductImage($request->file('image'), $data['slug'] ?? $product->slug);
+                // Only remove the old file after the new one is safely stored, so a failed
+                // upload never leaves the product without any image at all.
+                Storage::disk('public')->delete($oldImage);
             }
 
             $keptGallery = $request->filled('existing_gallery')
@@ -271,6 +275,28 @@ class ProductController extends Controller
     private function resolveLang(Request $request): string
     {
         return in_array($request->input('lang'), self::LANGUAGES, true) ? $request->input('lang') : 'id';
+    }
+
+    /**
+     * Stores a product image under a readable, debuggable name - "{slug}-{original-filename}.{ext}"
+     * (e.g. "mixed-gas-Mix_gas.webp") - instead of Laravel's default random hashName(). Collision-safe:
+     * if that exact filename is already taken, appends "-2", "-3", ... rather than silently overwriting
+     * another product's file or falling back to a random hash.
+     */
+    private function storeProductImage(UploadedFile $file, string $slug, string $directory = 'products'): string
+    {
+        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeName = trim(preg_replace('/[^A-Za-z0-9_-]+/', '_', $originalName) ?? '', '_');
+        $safeName = $safeName !== '' ? $safeName : 'image';
+        $extension = strtolower($file->getClientOriginalExtension() ?: $file->extension() ?: 'jpg');
+
+        $base = "{$slug}-{$safeName}";
+        $filename = "{$base}.{$extension}";
+        for ($suffix = 2; Storage::disk('public')->exists("{$directory}/{$filename}"); $suffix++) {
+            $filename = "{$base}-{$suffix}.{$extension}";
+        }
+
+        return $file->storeAs($directory, $filename, 'public');
     }
 
     private function galleryUrlToPath(string $url): string
