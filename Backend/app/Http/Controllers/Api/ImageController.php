@@ -21,8 +21,7 @@ class ImageController extends Controller
                 ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
         }
         
-        // Decode the path (it was URL-encoded)
-        $path = urldecode($path);
+        // Don't decode - use path as-is since we're not encoding anymore
         
         // Try to find the file in public storage
         if (Storage::disk('public')->exists($path)) {

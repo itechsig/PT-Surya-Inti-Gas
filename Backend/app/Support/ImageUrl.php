@@ -42,8 +42,7 @@ class ImageUrl
         }
 
         $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
-        // Encode only spaces to %20, keep everything else as-is
-        $encodedPath = str_replace(' ', '%20', $path);
-        return "{$baseUrl}/api/v1/image/" . $encodedPath;
+        // Don't encode anything - just use the path as-is
+        return "{$baseUrl}/api/v1/image/" . $path;
     }
 }

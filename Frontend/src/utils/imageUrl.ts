@@ -28,19 +28,8 @@ export const IMAGE_PLACEHOLDER = '/images/placeholder.svg';
 export const getImageUrl = (path?: string | null, bustCache: boolean = false): string => {
   if (!path) return IMAGE_PLACEHOLDER;
 
-  // Decode if the path is already URL-encoded (handle double-encoding)
-  let cleanPath = path;
-  try {
-    // Check if path contains encoded characters
-    if (cleanPath.includes('%')) {
-      cleanPath = decodeURIComponent(cleanPath);
-    }
-  } catch (e) {
-    // If decoding fails, use original path
-  }
-
   // Handle URLs with escaped slashes (from JSON responses)
-  cleanPath = cleanPath.replace(/\\\//g, '/');
+  let cleanPath = path.replace(/\\\//g, '/');
 
   // Check if path contains localhost or 127.0.0.1 and replace with current API base URL
   if (cleanPath.includes('localhost') || cleanPath.includes('127.0.0.1')) {
@@ -62,10 +51,8 @@ export const getImageUrl = (path?: string | null, bustCache: boolean = false): s
   }
 
   const relativePath = cleanPath.replace(/^\/?storage\//, '');
-  // Don't encode at all - just use the path as-is since it should already be safe
-  // Only encode spaces if present
-  const encodedPath = relativePath.replace(/ /g, '%20');
-  let url = `${API_CONFIG.BASE_URL}/api/v1/image/${encodedPath}`;
+  // Don't encode anything - just use the path as-is
+  let url = `${API_CONFIG.BASE_URL}/api/v1/image/${relativePath}`;
   
   // Only add cache-busting in development or when explicitly requested
   if (bustCache || !import.meta.env.PROD) {
