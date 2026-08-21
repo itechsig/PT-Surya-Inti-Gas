@@ -1105,7 +1105,7 @@ const galleryImages = [
   '/images/office/wp.jpg',
   '/images/office/office_view2.webp',
   '/images/office/office_view3.webp',
-  '/images/products/Oxygen-optimized.webp',
+  '/images/products/Oxygen_Fix.webp',
   '/images/products/Cryogenic_Dewar.webp',
   '/images/products/ISO_Tank.webp',
 ];
