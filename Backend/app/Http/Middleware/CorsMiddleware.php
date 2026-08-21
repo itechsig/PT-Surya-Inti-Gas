@@ -23,7 +23,9 @@ class CorsMiddleware
         // For image requests, always allow CORS
         $isImageRequest = str_contains($request->path(), 'storage') || 
                            str_contains($request->path(), 'products') ||
-                           $request->is('storage/*');
+                           str_contains($request->path(), 'image') ||
+                           $request->is('storage/*') ||
+                           $request->is('api/v1/image/*');
 
         // Only reflect the origin back when it's actually on the allow-list. Falling back
         // to the first configured origin for unrecognized origins would advertise an
