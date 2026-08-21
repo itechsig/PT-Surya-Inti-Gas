@@ -37,35 +37,19 @@ export function ProductDetail() {
   };
 
   const getPackagingOptions = () => {
-    const equipmentCategories = productCategories.equipment as Record<string, SubCategory> | undefined;
+    const packageCategories = productCategories.package as Record<string, SubCategory> | undefined;
     const allProducts: Product[] = [];
     
-    // Get products from package sub-category
-    const packageCategory = equipmentCategories?.['package'];
-    if (packageCategory?.products) {
-      allProducts.push(...packageCategory.products);
+    // Get all products from the main Package category (same as Product.tsx)
+    if (packageCategories) {
+      Object.values(packageCategories).forEach(subCategory => {
+        if (subCategory?.products) {
+          allProducts.push(...subCategory.products);
+        }
+      });
     }
     
-    // Get products from cryogenic-transport sub-category (for ISO Tank, Lorry Tank)
-    const cryogenicTransportCategory = equipmentCategories?.['cryogenic-transport'];
-    if (cryogenicTransportCategory?.products) {
-      allProducts.push(...cryogenicTransportCategory.products);
-    }
-    
-    // Filter to only show specific package items
-    const allowedPackageIds = [
-      'cradle-2x2',              // Cradle 2x2
-      'cradle-3x2',              // Cradle 3x2
-      'cradle-3x3',              // Cradle 3x3
-      'cradle-4x4',              // Cradle 4x4
-      'cryogenic-dewars',        // Cryogenic Dewars
-      'vessel-gas-liquid',       // Vessel Gas Liquid
-      'microbulk-tank',          // Microbulk Tank
-      'cryogenic-iso-tank',      // ISO Tank
-      'cryogenic-road-tank'      // Lorry Tank
-    ];
-    
-    return allProducts.filter(product => allowedPackageIds.includes(product.id));
+    return allProducts;
   };
 
   const handleContactSales = (productTitle: string) => {
