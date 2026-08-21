@@ -42,6 +42,10 @@ class ImageUrl
         }
 
         $baseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
-        return "{$baseUrl}/api/v1/image/" . urlencode($path);
+        // Encode only spaces and special characters, but keep path separators (/) intact
+        $encodedPath = preg_replace('/[^a-zA-Z0-9\-._~\/]/', function($matches) {
+            return '%' . strtoupper(bin2hex($matches[0]));
+        }, $path);
+        return "{$baseUrl}/api/v1/image/" . $encodedPath;
     }
 }
