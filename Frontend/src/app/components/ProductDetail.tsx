@@ -1,7 +1,7 @@
 import { useSearchParams, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { AnimatePresence, motion, type Variants } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import '../../styles/ProductsAndServices.css';
 import { useProductDetail } from "../../hooks/useProductDetail";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
@@ -209,18 +209,12 @@ export function ProductDetail() {
                   {t('common.imageNotFound')}
                 </div>
               ) : (
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={product.image}
-                    src={getImageUrl(product.image)}
-                    alt={product.title}
-                    onError={() => setImageError(true)}
-                    initial={{ opacity: 0, scale: 1.02 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-                  />
-                </AnimatePresence>
+                <img
+                  src={getImageUrl(product.image)}
+                  alt={product.title}
+                  onError={() => setImageError(true)}
+                  style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
+                />
               )}
             </div>
 
