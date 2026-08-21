@@ -766,17 +766,19 @@
 
 .products-detail-image {
   position: relative;
-  height: 400px;
-  overflow: hidden;
+  height: auto;
+  min-height: 300px;
+  overflow: visible;
   background: var(--slate-100);
   border-radius: 16px;
 }
 
 .products-detail-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   display: block;
+  border-radius: 16px;
 }
 
 .products-detail-content {
