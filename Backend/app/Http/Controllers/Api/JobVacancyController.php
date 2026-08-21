@@ -7,14 +7,18 @@ use App\Http\Requests\JobVacancy\StoreJobVacancyRequest;
 use App\Http\Requests\JobVacancy\UpdateJobVacancyRequest;
 use App\Models\JobVacancy;
 use App\Traits\HandlesApiErrors;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class JobVacancyController extends Controller
 {
-    use HandlesApiErrors;
+    use HandlesApiErrors, LogsActivity;
 
     private const LANGUAGES = ['id', 'en', 'zh'];
+
+    /** Fields snapshotted for the activity log's before/after preview. */
+    private const AUDIT_FIELDS = ['title_id', 'division_id', 'location_id', 'type_id', 'level_id', 'is_active'];
 
     /**
      * Public: active job vacancies, ordered, localized for the requested language.
@@ -73,6 +77,15 @@ class JobVacancyController extends Controller
 
             $job = JobVacancy::create($data);
 
+            $this->logActivity(
+                $request,
+                'create_job_vacancy',
+                'job_vacancy',
+                $job->id,
+                "Membuat lowongan kerja baru \"{$job->title_id}\"",
+                new: $job->only(self::AUDIT_FIELDS)
+            );
+
             return response()->json([
                 'success' => true,
                 'message' => 'Job vacancy created successfully',
@@ -97,7 +110,19 @@ class JobVacancyController extends Controller
                 unset($data['is_active']);
             }
 
+            $old = $jobVacancy->only(self::AUDIT_FIELDS);
+
             $jobVacancy->update($data);
+
+            $this->logActivity(
+                $request,
+                'update_job_vacancy',
+                'job_vacancy',
+                $jobVacancy->id,
+                "Memperbarui lowongan kerja \"{$jobVacancy->title_id}\"",
+                old: $old,
+                new: $jobVacancy->only(self::AUDIT_FIELDS)
+            );
 
             return response()->json([
                 'success' => true,
@@ -109,10 +134,16 @@ class JobVacancyController extends Controller
         }
     }
 
-    public function destroy(JobVacancy $jobVacancy): JsonResponse
+    public function destroy(Request $request, JobVacancy $jobVacancy): JsonResponse
     {
         try {
+            $name = $jobVacancy->title_id;
+            $old = $jobVacancy->only(self::AUDIT_FIELDS);
+            $jobId = $jobVacancy->id;
+
             $jobVacancy->delete();
+
+            $this->logActivity($request, 'delete_job_vacancy', 'job_vacancy', $jobId, "Menghapus lowongan kerja \"{$name}\"", old: $old);
 
             return response()->json([
                 'success' => true,

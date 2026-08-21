@@ -8,13 +8,14 @@ use App\Http\Requests\HeroSlide\UpdateHeroSlideRequest;
 use App\Models\HeroSlide;
 use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
 class HeroSlideController extends Controller
 {
-    use HandlesApiErrors;
+    use HandlesApiErrors, LogsActivity;
 
     private const LANGUAGES = ['id', 'en', 'zh'];
 
@@ -87,6 +88,15 @@ class HeroSlideController extends Controller
 
             $slide = HeroSlide::create($data);
 
+            $this->logActivity(
+                $request,
+                'create_hero_slide',
+                'hero_slide',
+                $slide->id,
+                "Membuat hero slide baru",
+                new: ['image' => $slide->image, 'duration_ms' => $slide->duration_ms, 'is_active' => $slide->is_active]
+            );
+
             return response()->json([
                 'success' => true,
                 'message' => 'Hero slide created successfully',
@@ -122,7 +132,19 @@ class HeroSlideController extends Controller
                 unset($data['is_active']);
             }
 
+            $old = $heroSlide->only(['image', 'duration_ms', 'is_active']);
+
             $heroSlide->update($data);
+
+            $this->logActivity(
+                $request,
+                'update_hero_slide',
+                'hero_slide',
+                $heroSlide->id,
+                "Memperbarui hero slide",
+                old: $old,
+                new: $heroSlide->only(['image', 'duration_ms', 'is_active'])
+            );
 
             return response()->json([
                 'success' => true,
@@ -134,11 +156,16 @@ class HeroSlideController extends Controller
         }
     }
 
-    public function destroy(HeroSlide $heroSlide): JsonResponse
+    public function destroy(Request $request, HeroSlide $heroSlide): JsonResponse
     {
         try {
+            $old = $heroSlide->only(['image', 'duration_ms', 'is_active', 'display_order']);
+            $slideId = $heroSlide->id;
+
             Storage::disk('public')->delete($heroSlide->image);
             $heroSlide->delete();
+
+            $this->logActivity($request, 'delete_hero_slide', 'hero_slide', $slideId, "Menghapus hero slide", old: $old);
 
             return response()->json([
                 'success' => true,

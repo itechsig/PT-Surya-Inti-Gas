@@ -7,6 +7,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\HandlesApiErrors;
+use App\Traits\LogsActivity;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ use Illuminate\Support\Str;
 
 class RoleController extends Controller
 {
-    use HandlesApiErrors;
+    use HandlesApiErrors, LogsActivity;
 
     public function index(): JsonResponse
     {
@@ -66,10 +67,21 @@ class RoleController extends Controller
                 return $role;
             });
 
+            $role->load('permissions:id,slug,name,group');
+
+            $this->logActivity(
+                $request,
+                'create_role',
+                'role',
+                $role->id,
+                "Membuat role baru \"{$role->name}\"",
+                new: ['name' => $role->name, 'slug' => $role->slug, 'permissions' => $role->permissions->pluck('id')->all()]
+            );
+
             return response()->json([
                 'success' => true,
                 'message' => 'Role berhasil dibuat',
-                'data' => $role->load('permissions:id,slug,name,group'),
+                'data' => $role,
             ], 201);
         } catch (\Exception $e) {
             return $this->handleApiError($e, 'Failed to create role', 'roles_store_failed');
@@ -93,22 +105,37 @@ class RoleController extends Controller
                 return response()->json(['success' => false, 'message' => 'Validation failed', 'errors' => $validator->errors()], 422);
             }
 
+            $old = ['name' => $role->name, 'slug' => $role->slug, 'permissions' => $role->permissions->pluck('id')->all()];
+
             DB::transaction(function () use ($request, $role) {
                 $role->update(['name' => $request->input('name')]);
                 $role->permissions()->sync($request->input('permissions', []));
             });
 
+            $role = $role->fresh()->load('permissions:id,slug,name,group');
+            $new = ['name' => $role->name, 'slug' => $role->slug, 'permissions' => $role->permissions->pluck('id')->all()];
+
+            $this->logActivity(
+                $request,
+                'update_role',
+                'role',
+                $role->id,
+                "Memperbarui role \"{$role->name}\"",
+                old: $old,
+                new: $new
+            );
+
             return response()->json([
                 'success' => true,
                 'message' => 'Role berhasil diperbarui',
-                'data' => $role->fresh()->load('permissions:id,slug,name,group'),
+                'data' => $role,
             ]);
         } catch (\Exception $e) {
             return $this->handleApiError($e, 'Failed to update role', 'roles_update_failed');
         }
     }
 
-    public function destroy(Role $role): JsonResponse
+    public function destroy(Request $request, Role $role): JsonResponse
     {
         try {
             if ($role->is_system) {
@@ -123,7 +150,20 @@ class RoleController extends Controller
                 ], 422);
             }
 
+            $name = $role->name;
+            $old = ['name' => $role->name, 'slug' => $role->slug, 'permissions' => $role->permissions->pluck('id')->all()];
+            $roleId = $role->id;
+
             $role->delete();
+
+            $this->logActivity(
+                $request,
+                'delete_role',
+                'role',
+                $roleId,
+                "Menghapus role \"{$name}\"",
+                old: $old
+            );
 
             return response()->json(['success' => true, 'message' => 'Role berhasil dihapus']);
         } catch (\Exception $e) {

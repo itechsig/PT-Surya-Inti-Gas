@@ -8,15 +8,19 @@ use App\Http\Requests\GalleryItem\UpdateGalleryItemRequest;
 use App\Models\GalleryItem;
 use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
-    use HandlesApiErrors;
+    use HandlesApiErrors, LogsActivity;
 
     private const LANGUAGES = ['id', 'en', 'zh'];
+
+    /** Fields snapshotted for the activity log's before/after preview. */
+    private const AUDIT_FIELDS = ['title_id', 'description_id', 'category', 'year', 'is_active'];
 
     /**
      * Public: active gallery items, ordered, localized for the requested language.
@@ -76,6 +80,15 @@ class GalleryController extends Controller
 
             $item = GalleryItem::create($data);
 
+            $this->logActivity(
+                $request,
+                'create_gallery_item',
+                'gallery_item',
+                $item->id,
+                "Membuat item galeri baru \"{$item->title_id}\"",
+                new: $item->only(self::AUDIT_FIELDS)
+            );
+
             return response()->json([
                 'success' => true,
                 'message' => 'Gallery item created successfully',
@@ -107,7 +120,19 @@ class GalleryController extends Controller
                 unset($data['is_active']);
             }
 
+            $old = $galleryItem->only(self::AUDIT_FIELDS);
+
             $galleryItem->update($data);
+
+            $this->logActivity(
+                $request,
+                'update_gallery_item',
+                'gallery_item',
+                $galleryItem->id,
+                "Memperbarui item galeri \"{$galleryItem->title_id}\"",
+                old: $old,
+                new: $galleryItem->only(self::AUDIT_FIELDS)
+            );
 
             return response()->json([
                 'success' => true,
@@ -119,13 +144,19 @@ class GalleryController extends Controller
         }
     }
 
-    public function destroy(GalleryItem $galleryItem): JsonResponse
+    public function destroy(Request $request, GalleryItem $galleryItem): JsonResponse
     {
         try {
+            $name = $galleryItem->title_id;
+            $old = $galleryItem->only(self::AUDIT_FIELDS);
+            $itemId = $galleryItem->id;
+
             if (!str_starts_with($galleryItem->image, 'http')) {
                 Storage::disk('public')->delete($galleryItem->image);
             }
             $galleryItem->delete();
+
+            $this->logActivity($request, 'delete_gallery_item', 'gallery_item', $itemId, "Menghapus item galeri \"{$name}\"", old: $old);
 
             return response()->json([
                 'success' => true,

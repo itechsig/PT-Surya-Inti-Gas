@@ -264,6 +264,9 @@ Route::prefix('v1')->group(function () {
             Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
             Route::get('/admin/audit-logs/timeline', [AuditLogController::class, 'timeline']);
         });
+        // Restoring a logged change is a stronger power than merely viewing the log, so it stays
+        // hardcoded to super_admin regardless of who else may hold audit_logs.view.
+        Route::middleware(['role:super_admin'])->post('/admin/audit-logs/{auditLog}/restore', [AuditLogController::class, 'restore']);
 
         // Unmanned Agent API
         Route::get('/admin/unmanned/overview', [UnmannedAgentController::class, 'overview']);

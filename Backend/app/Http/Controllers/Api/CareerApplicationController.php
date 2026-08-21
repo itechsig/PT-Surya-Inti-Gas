@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\CareerApplication;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -12,6 +13,11 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CareerApplicationController extends Controller
 {
+    use LogsActivity;
+
+    /** Fields snapshotted for the activity log's before/after preview. */
+    private const AUDIT_FIELDS = ['status', 'notes'];
+
     /**
      * Get all career applications with filtering
      */
@@ -104,6 +110,7 @@ class CareerApplicationController extends Controller
     {
         try {
             $application = CareerApplication::findOrFail($id);
+            $old = $application->only(self::AUDIT_FIELDS);
 
             $application->update([
                 'status' => $request->input('status', $application->status),
@@ -111,6 +118,16 @@ class CareerApplicationController extends Controller
                 'reviewed_by' => auth()->id(),
                 'reviewed_at' => now(),
             ]);
+
+            $this->logActivity(
+                $request,
+                'update_career_application',
+                'career_application',
+                $application->id,
+                "Memperbarui status lamaran \"{$application->nama}\" menjadi {$application->status}",
+                old: $old,
+                new: $application->only(self::AUDIT_FIELDS)
+            );
 
             return response()->json([
                 'success' => true,
@@ -243,11 +260,17 @@ class CareerApplicationController extends Controller
     /**
      * Delete application (soft delete)
      */
-    public function destroy(string|int $id): JsonResponse
+    public function destroy(Request $request, string|int $id): JsonResponse
     {
         try {
             $application = CareerApplication::findOrFail($id);
+            $name = $application->nama;
+            $old = $application->only(self::AUDIT_FIELDS);
+            $applicationId = $application->id;
+
             $application->delete();
+
+            $this->logActivity($request, 'delete_career_application', 'career_application', $applicationId, "Menghapus lamaran \"{$name}\"", old: $old);
 
             return response()->json([
                 'success' => true,

@@ -11,15 +11,19 @@ use App\Models\PortfolioImage;
 use App\Models\ServiceType;
 use App\Support\ImageUrl;
 use App\Traits\HandlesApiErrors;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
 class PortfolioController extends Controller
 {
-    use HandlesApiErrors;
+    use HandlesApiErrors, LogsActivity;
 
     private const LANGUAGES = ['id', 'en', 'zh'];
+
+    /** Fields snapshotted for the activity log's before/after preview. */
+    private const AUDIT_FIELDS = ['title_id', 'industry_id', 'service_type_id', 'location_id', 'is_featured', 'is_published'];
 
     /**
      * Public: paginated, filterable, searchable portfolio listing.
@@ -118,6 +122,15 @@ class PortfolioController extends Controller
                 $this->attachGalleryFiles($portfolio, $request->file('gallery'));
             }
 
+            $this->logActivity(
+                $request,
+                'create_portfolio',
+                'portfolio',
+                $portfolio->id,
+                "Membuat portofolio baru \"{$portfolio->title_id}\"",
+                new: $portfolio->only(self::AUDIT_FIELDS)
+            );
+
             return response()->json([
                 'success' => true,
                 'message' => 'Portfolio created successfully',
@@ -152,7 +165,19 @@ class PortfolioController extends Controller
                 unset($data['is_published']);
             }
 
+            $old = $portfolio->only(self::AUDIT_FIELDS);
+
             $portfolio->update($data);
+
+            $this->logActivity(
+                $request,
+                'update_portfolio',
+                'portfolio',
+                $portfolio->id,
+                "Memperbarui portofolio \"{$portfolio->title_id}\"",
+                old: $old,
+                new: $portfolio->only(self::AUDIT_FIELDS)
+            );
 
             return response()->json([
                 'success' => true,
@@ -164,14 +189,20 @@ class PortfolioController extends Controller
         }
     }
 
-    public function destroy(Portfolio $portfolio): JsonResponse
+    public function destroy(Request $request, Portfolio $portfolio): JsonResponse
     {
         try {
+            $name = $portfolio->title_id;
+            $old = $portfolio->only(self::AUDIT_FIELDS);
+            $portfolioId = $portfolio->id;
+
             Storage::disk('public')->delete($portfolio->thumbnail);
             foreach ($portfolio->images as $image) {
                 Storage::disk('public')->delete($image->image);
             }
             $portfolio->delete();
+
+            $this->logActivity($request, 'delete_portfolio', 'portfolio', $portfolioId, "Menghapus portofolio \"{$name}\"", old: $old);
 
             return response()->json(['success' => true, 'message' => 'Portfolio deleted successfully']);
         } catch (\Exception $e) {
