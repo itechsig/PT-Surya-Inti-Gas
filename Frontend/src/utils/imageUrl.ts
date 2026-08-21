@@ -62,10 +62,9 @@ export const getImageUrl = (path?: string | null, bustCache: boolean = false): s
   }
 
   const relativePath = cleanPath.replace(/^\/?storage\//, '');
-  // Encode only problematic characters (spaces, etc.) but keep path separators (/) intact
-  const encodedPath = relativePath.replace(/[^a-zA-Z0-9\-._~\/]/g, (char) => {
-    return '%' + char.charCodeAt(0).toString(16).toUpperCase();
-  });
+  // Don't encode at all - just use the path as-is since it should already be safe
+  // Only encode spaces if present
+  const encodedPath = relativePath.replace(/ /g, '%20');
   let url = `${API_CONFIG.BASE_URL}/api/v1/image/${encodedPath}`;
   
   // Only add cache-busting in development or when explicitly requested
