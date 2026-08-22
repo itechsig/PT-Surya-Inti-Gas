@@ -508,6 +508,10 @@ export function Footer() {
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.gallery')}
               </Link>
+              <Link to={`/${currentLang}/portofolio`} className="corporate-footer-link">
+                <ChevronRight size={16} />
+                {t('footer.quickLinkItems.portfolio')}
+              </Link>
               <Link to={`/${currentLang}/kontak`} className="corporate-footer-link">
                 <ChevronRight size={16} />
                 {t('footer.quickLinkItems.contactUs')}

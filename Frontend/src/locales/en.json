@@ -1538,6 +1538,7 @@
     },
     "quickLinkItems": {
       "gallery": "Gallery",
+      "portfolio": "Portfolio",
       "contactUs": "Contact Us",
       "career": "Careers"
     },
