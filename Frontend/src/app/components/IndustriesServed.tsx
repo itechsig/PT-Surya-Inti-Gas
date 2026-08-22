@@ -307,10 +307,10 @@ export function IndustriesServed() {
     {
       id: 'makanan-minuman',
       title: t('industriesServed.industries.makanan-minuman'),
-      image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
-      imageSrcSet: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=400&q=80 400w, https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80 800w',
-      width: 800,
-      height: 533
+      image: 'https://images.unsplash.com/photo-1617448570699-14461c8f3def?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      imageSrcSet: 'https://images.unsplash.com/photo-1617448570699-14461c8f3def?q=80&w=314&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 314w, https://images.unsplash.com/photo-1617448570699-14461c8f3def?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 627w',
+      width: 627,
+      height: 418
     },
     {
       id: 'minyak-gas',
