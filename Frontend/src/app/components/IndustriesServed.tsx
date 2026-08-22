@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion, type Variants } from "motion/react";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -278,9 +279,13 @@ type Industry = {
 
 export function IndustriesServed() {
   const { t } = useTranslation();
+  const { lang } = useParams<{ lang: string }>();
+  const navigate = useNavigate();
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const currentLang = lang || 'id';
 
   const industries: Industry[] = [
     {
@@ -352,6 +357,10 @@ export function IndustriesServed() {
     }
   };
 
+  const handleIndustryClick = (industryId: string) => {
+    navigate(`/${currentLang}/portofolio?industry=${industryId}`);
+  };
+
   useEffect(() => {
     checkScrollButtons();
     let timeoutId: number;
@@ -405,7 +414,13 @@ export function IndustriesServed() {
               className="industries-carousel"
             >
               {industries.map((industry) => (
-                <motion.div key={industry.id} className="industry-card" variants={fadeUp}>
+                <motion.div 
+                  key={industry.id} 
+                  className="industry-card" 
+                  variants={fadeUp}
+                  onClick={() => handleIndustryClick(industry.id)}
+                  style={{ cursor: 'pointer' }}
+                >
                   <div className="industry-card-image">
                     <img
                       src={industry.image}
