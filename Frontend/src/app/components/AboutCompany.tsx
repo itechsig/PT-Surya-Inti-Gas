@@ -268,10 +268,20 @@ const css = `
   .about-cta svg {
     color: var(--white) !important;
     transition: transform 0.3s var(--ease);
+    animation: about-cta-arrow-shake 2.5s ease-in-out infinite;
   }
 
   .about-cta:hover svg {
+    animation-play-state: paused;
     transform: translateX(3px);
+  }
+
+  @keyframes about-cta-arrow-shake {
+    0%, 50%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-4px); }
+    20% { transform: translateX(4px); }
+    30% { transform: translateX(-4px); }
+    40% { transform: translateX(4px); }
   }
 
   .about-cta:hover {
@@ -412,7 +422,7 @@ export function AboutCompany() {
                 </p>
                 <a href={`/${currentLang}/tentang-kami`} className="about-cta">
                   {t('homeAbout.cta')}
-                  <ArrowRight size={18} />
+                  <ArrowRight size={22} strokeWidth={2.5} />
                 </a>
               </div>
             </motion.div>
