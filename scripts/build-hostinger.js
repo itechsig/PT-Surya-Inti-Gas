@@ -18,14 +18,18 @@ try {
   const distPath = path.join(__dirname, '../Frontend/dist');
   const publicPath = path.join(__dirname, '../Backend/public');
   
-  // Clear public folder
+  // Remove React-specific files/folders but preserve Laravel files
+  const reactFiles = ['assets', 'images', 'index.html'];
+  
   if (fs.existsSync(publicPath)) {
-    fs.readdirSync(publicPath).forEach(file => {
+    reactFiles.forEach(file => {
       const filePath = path.join(publicPath, file);
-      if (fs.lstatSync(filePath).isDirectory()) {
-        fs.rmSync(filePath, { recursive: true, force: true });
-      } else {
-        fs.unlinkSync(filePath);
+      if (fs.existsSync(filePath)) {
+        if (fs.lstatSync(filePath).isDirectory()) {
+          fs.rmSync(filePath, { recursive: true, force: true });
+        } else {
+          fs.unlinkSync(filePath);
+        }
       }
     });
   }

@@ -1,22 +1,63 @@
+# robots.txt for PT Surya Inti Gas
+
 User-agent: *
 Allow: /
 
-# Block common non-content paths
+# Disallow access to admin and sensitive areas
 Disallow: /admin/
-Disallow: /api/
-Disallow: /vendor/
-Disallow: /storage/
-Disallow: /bootstrap/
-Disallow: /config/
+Disallow: /private/
+Disallow: /*.env$
+Disallow: /*.config$
 
-# Allow specific assets
-Allow: /css/
-Allow: /js/
-Allow: /images/
-Allow: /fonts/
+# Allow specific bots for better indexing
+User-agent: Googlebot
+Allow: /
 
-# Crawl delay for friendly crawling
-Crawl-delay: 1
+User-agent: Bingbot
+Allow: /
 
-# Sitemap location (Frontend is hosted on Vercel)
+User-agent: BaiduSpider
+Allow: /
+
+# Crawl-delay for respectful crawling (optional)
+# Crawl-delay: 1
+
+# Sitemap location
 Sitemap: https://suryaintigas.com/sitemap.xml
+
+# Important: Ensure homepage is prioritized
+Allow: /id
+Allow: /en
+Allow: /zh
+
+# Allow indexing of important static assets
+Allow: /images/
+Allow: /public/
+Allow: /logo.png
+Allow: /hero-video.mp4
+Allow: /office-optimized.jpg
+
+# Allow common static assets
+Allow: *.css
+Allow: *.js
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.ico
+Allow: *.webp
+Allow: *.mp4
+Allow: *.woff
+Allow: *.woff2
+
+# Disallow tracking and analytics scripts from being indexed
+Disallow: /analytics/
+Disallow: /tracking/
+
+# Disallow development and testing directories
+Disallow: /dev/
+Disallow: /test/
+Disallow: /staging/
+Disallow: /temp/
+Disallow: /tmp/
