@@ -19,12 +19,13 @@ try {
   const publicPath = path.join(__dirname, '../Backend/public');
   
   // Remove React-specific files/folders but preserve Laravel files
-  const reactFiles = ['assets', 'images', 'index.html'];
+  const reactFiles = ['assets', 'images', 'index.html', 'robots.txt', 'sitemap.xml', 'google20ef713f750a3bec.html', 'logo.png'];
+  const laravelFiles = ['index.php', '.htaccess', 'web.config', 'storage'];
   
   if (fs.existsSync(publicPath)) {
     reactFiles.forEach(file => {
       const filePath = path.join(publicPath, file);
-      if (fs.existsSync(filePath)) {
+      if (fs.existsSync(filePath) && !laravelFiles.includes(file)) {
         if (fs.lstatSync(filePath).isDirectory()) {
           fs.rmSync(filePath, { recursive: true, force: true });
         } else {
@@ -34,7 +35,7 @@ try {
     });
   }
   
-  // Copy files recursively
+  // Copy files recursively, but skip Laravel files
   function copyRecursive(src, dest) {
     if (!fs.existsSync(dest)) {
       fs.mkdirSync(dest, { recursive: true });
@@ -43,6 +44,11 @@ try {
     const entries = fs.readdirSync(src, { withFileTypes: true });
     
     for (const entry of entries) {
+      // Skip Laravel system files
+      if (laravelFiles.includes(entry.name)) {
+        continue;
+      }
+      
       const srcPath = path.join(src, entry.name);
       const destPath = path.join(dest, entry.name);
       

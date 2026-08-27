@@ -5,8 +5,8 @@
 // point at any backend without a code change. The two fallbacks below only guard against a
 // misconfigured environment and must stay in sync with the real deployments:
 //   - dev fallback:  local Laravel `php artisan serve` default
-//   - prod fallback: current Hostinger backend
-const PROD_FALLBACK_API_URL = 'https://suryaintigas.com';
+//   - prod fallback: empty string for same-domain deployment (relative URLs)
+const PROD_FALLBACK_API_URL = '';
 const DEV_FALLBACK_API_URL = 'http://localhost:8000';
 
 const getApiBaseUrl = (): string => {
