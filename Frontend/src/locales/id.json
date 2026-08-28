@@ -122,7 +122,7 @@
     "pageHeader": {
       "badge": "Produk & Layanan",
       "title": "Solusi Kebutuhan Industri",
-      "subtitle": "Bisnis utama kami adalah memasok gas industri, termasuk Gas Udara (Oksigen, Nitrogen, dan Argon), Gas Medis, Gas Sintetis, Gas Bahan Bakar, dan sebagainya. Produk-produk Gas tersebut memiliki aplikasi yang sangat luas sehingga kami mampu melayani berbagai kebutuhan industri diantaranya medis, metalurgi, energi, infrastruktur dan barang konsumsi."
+      "subtitle": "Bisnis utama kami adalah menyediakan berbagai jenis gas industri, meliputi Gas Udara seperti Oksigen, Nitrogen, dan Argon, Gas Medis, Gas Sintetis, Gas Bahan Bakar, serta berbagai jenis gas lainnya. Produk-produk tersebut memiliki cakupan aplikasi yang luas, sehingga kami mampu memenuhi beragam kebutuhan di berbagai sektor industri, termasuk medis, metalurgi, energi, infrastruktur, dan barang konsumsi."
     },
     "homeSection": {
       "subtitle": "Beragam produk gas dan peralatan pendukung yang dirancang untuk memenuhi kebutuhan operasional Anda."
@@ -511,14 +511,14 @@
       "title": "Nilai-nilai PT Surya Inti Gas",
       "subtitle": "Prinsip yang memandu setiap langkah kami dalam melayani pelanggan dan menjalankan bisnis.",
       "items": [
-        { "title": "Keselamatan", "description": "Menjunjung tinggi keselamatan sebagai prioritas utama dalam setiap aktivitas operasional untuk memastikan lingkungan kerja yang aman bagi semua pihak." },
-        { "title": "Integritas", "description": "Menjalankan bisnis dengan kejujuran, transparansi, dan prinsip etika yang kuat dalam setiap pengambilan keputusan." },
-        { "title": "Profesionalisme", "description": "Menyajikan layanan dengan standar profesional tinggi, kompetensi, dan dedikasi dalam setiap aspek operasional." },
-        { "title": "Tanggung Jawab", "description": "Bertanggung jawab penuh atas setiap tindakan dan keputusan, serta berkomitmen terhadap keberlanjutan bisnis." },
-        { "title": "Fokus Pelanggan", "description": "Berfokus pada kebutuhan pelanggan dengan menghadirkan solusi yang tepat, cepat, dan terpercaya." },
-        { "title": "Kualitas", "description": "Berkomitmen memberikan produk dan layanan berkualitas tinggi secara konsisten untuk kepuasan pelanggan." },
-        { "title": "Inovasi", "description": "Melalui inovasi dan perbaikan berkelanjutan, kami terus meningkatkan efisiensi dan standar pelayanan." },
-        { "title": "Kerja Sama Tim", "description": "Diperkuat oleh kerja sama tim yang solid untuk mencapai pertumbuhan dan keberhasilan bersama." }
+        { "title": "Keselamatan", "description": "Mengutamakan keselamatan dalam setiap aktivitas untuk menciptakan lingkungan kerja yang aman." },
+        { "title": "Integritas", "description": "Menjalankan bisnis dengan jujur, transparan, dan beretika." },
+        { "title": "Profesionalisme", "description": "Memberikan layanan dengan kompetensi, standar tinggi, dan dedikasi." },
+        { "title": "Tanggung Jawab", "description": "Bertanggung jawab atas setiap tindakan dan keputusan serta menjaga keberlanjutan bisnis." },
+        { "title": "Fokus Pelanggan", "description": "Memahami kebutuhan pelanggan dan memberikan solusi yang tepat, cepat, dan terpercaya." },
+        { "title": "Kualitas", "description": "Menjaga kualitas produk dan layanan secara konsisten demi kepuasan pelanggan." },
+        { "title": "Inovasi", "description": "Terus melakukan inovasi dan perbaikan untuk meningkatkan efisiensi dan pelayanan." },
+        { "title": "Kerja Sama Tim", "description": "Membangun kerja sama yang solid untuk mencapai pertumbuhan dan keberhasilan bersama." }
       ]
     },
     "whyUs": {

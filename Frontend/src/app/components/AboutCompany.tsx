@@ -122,13 +122,12 @@ const css = `
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 25px 80px rgba(30, 64, 175, 0.15);
-    min-height: 560px;
   }
 
   .about-main-image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     display: block;
     transition: transform 0.6s var(--ease);
   }
