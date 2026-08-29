@@ -1,21 +1,11 @@
 .portfolio-corporate {
-  --navy-dark: #0f172a;
-  --navy: #1e293b;
-  --blue-dark: #1e3a8a;
-  --blue: #1e40af;
-  --sky: #3b82f6;
-  --sky-light: #60a5fa;
-  --slate-50: #f8fafc;
-  --slate-100: #f1f5f9;
-  --slate-200: #e2e8f0;
-  --slate-500: #64748b;
-  --slate-600: #475569;
-  --slate-700: #334155;
-  --slate-900: #0f172a;
+  --blue-dark: var(--brand-navy, #1e3a8a);
+  --blue: var(--brand-blue, #1e40af);
+  --sky: var(--brand-blue, #3b82f6);
+  --sky-light: #7fb5ee;
 
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --ff-display: 'Barlow', system-ui, sans-serif;
-  --ff-body: 'DM Sans', system-ui, sans-serif;
+  --ff-display: var(--font-display, 'Barlow', system-ui, sans-serif);
+  --ff-body: var(--font-sans, 'DM Sans', system-ui, sans-serif);
 
   font-family: var(--ff-body);
   background: var(--slate-50);

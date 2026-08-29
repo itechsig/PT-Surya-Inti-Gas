@@ -1,29 +1,18 @@
 /* ── Container & Grid Dasar ── */
 .clean-contact-page {
-  --primary: #0F4C81;
-  --primary-dark: #0a3861;
-  --secondary: #00AEEF;
+  --primary: var(--brand-navy, #0F4C81);
+  --primary-dark: var(--brand-navy-hover, #0a3861);
+  --secondary: var(--brand-sky, #00AEEF);
   --bg: #F8FAFC;
   --accent: #EAF4FF;
-  --navy-dark: #0f172a;
-  --navy: #1e293b;
-  --blue-dark: #1e3a8a;
-  --blue: #1e40af;
-  --sky: #3b82f6;
-  --sky-light: #60a5fa;
-  --white: #ffffff;
-  --slate-50: #f8fafc;
-  --slate-100: #f1f5f9;
-  --slate-200: #e2e8f0;
-  --slate-600: #475569;
-  --slate-700: #334155;
-  --slate-800: #1e293b;
-  --slate-900: #0f172a;
-  
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --ff-display: 'Barlow', system-ui, sans-serif;
-  --ff-body: 'DM Sans', system-ui, sans-serif;
-  
+  --blue-dark: var(--brand-navy, #1e3a8a);
+  --blue: var(--brand-blue, #1e40af);
+  --sky: var(--brand-blue, #3b82f6);
+  --sky-light: #7fb5ee;
+
+  --ff-display: var(--font-display, 'Barlow', system-ui, sans-serif);
+  --ff-body: var(--font-sans, 'DM Sans', system-ui, sans-serif);
+
   font-family: var(--ff-body);
   background-color: #ffffff;
   padding: 0;
@@ -86,7 +75,7 @@
 .stat-icon {
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, var(--brand-blue, #1e40af) 0%, var(--brand-sky, #3b82f6) 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -106,10 +95,10 @@
   font-family: 'Barlow', system-ui, sans-serif;
   font-size: 2.5rem;
   font-weight: 800;
-  color: #1e40af;
+  color: var(--brand-blue, #1e40af);
   line-height: 1;
   margin-bottom: 8px;
-  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, var(--brand-blue, #1e40af) 0%, var(--brand-sky, #3b82f6) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -153,7 +142,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%);
+  background: linear-gradient(90deg, var(--brand-blue, #1e40af) 0%, var(--brand-sky, #3b82f6) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -178,7 +167,7 @@
 }
 
 .office-badge {
-  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, var(--brand-blue, #1e40af) 0%, var(--brand-sky, #3b82f6) 100%);
   color: white;
   padding: 6px 16px;
   border-radius: 20px;
@@ -201,7 +190,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1e40af;
+  color: var(--brand-blue, #1e40af);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -236,7 +225,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #1e40af !important;
+  color: var(--brand-blue, #1e40af) !important;
   text-decoration: none;
   font-family: 'DM Sans', system-ui, sans-serif;
   font-size: 0.95rem;
@@ -249,11 +238,11 @@
 }
 
 .contact-link:visited {
-  color: #1e40af !important;
+  color: var(--brand-blue, #1e40af) !important;
 }
 
 .contact-link:active {
-  color: #1e40af !important;
+  color: var(--brand-blue, #1e40af) !important;
 }
 
 .contact-link:hover {

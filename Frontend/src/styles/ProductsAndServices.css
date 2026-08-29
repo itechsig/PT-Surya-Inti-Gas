@@ -1,27 +1,15 @@
 
 /* ── Premium Corporate Variables ── */
 .products-corporate {
-  --navy-dark: #0F172A;
-  --navy: #1E293B;
-  --blue-dark: #1E3A8A;
-  --blue: #1E40AF;
-  --blue-light: #3B82F6;
+  --blue-dark: var(--brand-navy, #1E3A8A);
+  --blue: var(--brand-blue, #1E40AF);
+  --blue-light: var(--brand-sky, #3B82F6);
   --orange: #F97316;
   --orange-light: #FB923C;
-  --white: #FFFFFF;
-  --slate-50: #F8FAFC;
-  --slate-100: #F1F5F9;
-  --slate-200: #E2E8F0;
-  --slate-300: #CBD5E1;
-  --slate-600: #475569;
-  --slate-700: #334155;
-  --slate-800: #1E293B;
-  --slate-900: #0F172A;
-  
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --ff-display: 'Inter', system-ui, -apple-system, sans-serif;
-  --ff-body: 'Inter', system-ui, -apple-system, sans-serif;
-  
+
+  --ff-display: var(--font-display, 'Barlow', system-ui, sans-serif);
+  --ff-body: var(--font-sans, 'DM Sans', system-ui, sans-serif);
+
   font-family: var(--ff-body);
   background: var(--white);
   color: var(--slate-900);

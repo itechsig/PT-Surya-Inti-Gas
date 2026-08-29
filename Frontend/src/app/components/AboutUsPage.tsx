@@ -35,24 +35,14 @@ import {
 const css = `
   /* ── Corporate Variables ── */
   .about-us-corporate {
-    --primary: #0F4C81;
-    --primary-dark: #0a3861;
-    --secondary: #00AEEF;
+    --primary: var(--brand-navy, #0F4C81);
+    --primary-dark: var(--brand-navy-hover, #0a3861);
+    --secondary: var(--brand-sky, #00AEEF);
     --bg: #F8FAFC;
     --accent: #EAF4FF;
-    --navy-dark: #0f172a;
-    --navy: #1e293b;
-    --white: #ffffff;
-    --slate-50: #f8fafc;
-    --slate-100: #f1f5f9;
-    --slate-200: #e2e8f0;
-    --slate-600: #475569;
-    --slate-700: #334155;
-    --slate-800: #1e293b;
 
-    --ease: cubic-bezier(0.4, 0, 0.2, 1);
-    --ff-display: 'Barlow', system-ui, sans-serif;
-    --ff-body: 'DM Sans', system-ui, sans-serif;
+    --ff-display: var(--font-display, 'Barlow', system-ui, sans-serif);
+    --ff-body: var(--font-sans, 'DM Sans', system-ui, sans-serif);
 
     font-family: var(--ff-body);
     background: var(--bg);

@@ -27,10 +27,10 @@ const css = `
   .trust-cta-corporate {
     --navy-dark: #0f172a;
     --navy: #1e293b;
-    --blue-dark: #1e3a8a;
-    --blue: #1e40af;
-    --sky: #3b82f6;
-    --sky-light: #60a5fa;
+    --blue-dark: var(--brand-navy, #1e3a8a);
+    --blue: var(--brand-blue, #1e40af);
+    --sky: var(--brand-blue, #3b82f6);
+    --sky-light: #7fb5ee;
     --gold: #f59e0b;
     --white: #ffffff;
     --slate-200: #e2e8f0;

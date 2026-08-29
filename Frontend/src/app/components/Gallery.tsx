@@ -31,17 +31,17 @@ const cardReveal: Variants = {
 
 const galleryStyles = `
   .products-corporate {
-    --primary: #0F4C81;
-    --primary-dark: #0a3861;
-    --secondary: #00AEEF;
+    --primary: var(--brand-navy, #0F4C81);
+    --primary-dark: var(--brand-navy-hover, #0a3861);
+    --secondary: var(--brand-sky, #00AEEF);
     --bg: #F8FAFC;
     --accent: #EAF4FF;
     --navy-dark: #0f172a;
     --navy: #1e293b;
-    --blue-dark: #1e3a8a;
-    --blue: #1e40af;
-    --sky: #3b82f6;
-    --sky-light: #60a5fa;
+    --blue-dark: var(--brand-navy, #1e3a8a);
+    --blue: var(--brand-blue, #1e40af);
+    --sky: var(--brand-blue, #3b82f6);
+    --sky-light: #7fb5ee;
     --white: #ffffff;
     --slate-50: #f8fafc;
     --slate-100: #f1f5f9;
