@@ -56,4 +56,6 @@ const Button = React.forwardRef<
 
 Button.displayName = "Button";
 
+export type ButtonVariant = NonNullable<VariantProps<typeof buttonVariants>["variant"]>;
+
 export { Button, buttonVariants };

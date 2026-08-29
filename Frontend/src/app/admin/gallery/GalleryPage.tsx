@@ -137,10 +137,10 @@ export function GalleryPage() {
                   <TableRow key={item.id}>
                     <TableCell>
                       <div className="flex items-center gap-1">
-                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === 0} onClick={() => move(index, -1)}>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === 0} onClick={() => move(index, -1)} aria-label={`Naikkan urutan ${item.title_id}`}>
                           <ArrowUp className="h-3.5 w-3.5" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === items.length - 1} onClick={() => move(index, 1)}>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === items.length - 1} onClick={() => move(index, 1)} aria-label={`Turunkan urutan ${item.title_id}`}>
                           <ArrowDown className="h-3.5 w-3.5" />
                         </Button>
                       </div>
@@ -158,18 +158,18 @@ export function GalleryPage() {
                     <TableCell>{item.year}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Switch checked={item.is_active} onCheckedChange={() => handleToggleActive(item)} />
+                        <Switch checked={item.is_active} onCheckedChange={() => handleToggleActive(item)} aria-label={`Aktifkan ${item.title_id}`} />
                         <Badge variant={item.is_active ? 'default' : 'secondary'}>
                           {item.is_active ? 'Aktif' : 'Nonaktif'}
                         </Badge>
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" onClick={() => openEdit(item)}>
+                      <Button variant="ghost" size="icon" onClick={() => openEdit(item)} aria-label={`Edit ${item.title_id}`}>
                         <Pencil className="h-4 w-4" />
                       </Button>
                       {canDelete && (
-                        <Button variant="ghost" size="icon" onClick={() => setDeletingItem(item)}>
+                        <Button variant="ghost" size="icon" onClick={() => setDeletingItem(item)} aria-label={`Hapus ${item.title_id}`}>
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
                       )}
@@ -194,7 +194,7 @@ export function GalleryPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Hapus</AlertDialogAction>
+            <AlertDialogAction variant="destructive" onClick={handleDelete}>Hapus</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

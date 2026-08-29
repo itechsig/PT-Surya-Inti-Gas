@@ -136,10 +136,10 @@ export function JobVacanciesPage() {
                   <TableRow key={job.id}>
                     <TableCell>
                       <div className="flex items-center gap-1">
-                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === 0} onClick={() => move(index, -1)}>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === 0} onClick={() => move(index, -1)} aria-label={`Naikkan urutan ${job.title_id}`}>
                           <ArrowUp className="h-3.5 w-3.5" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === jobs.length - 1} onClick={() => move(index, 1)}>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === jobs.length - 1} onClick={() => move(index, 1)} aria-label={`Turunkan urutan ${job.title_id}`}>
                           <ArrowDown className="h-3.5 w-3.5" />
                         </Button>
                       </div>
@@ -158,18 +158,18 @@ export function JobVacanciesPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Switch checked={job.is_active} onCheckedChange={() => handleToggleActive(job)} />
+                        <Switch checked={job.is_active} onCheckedChange={() => handleToggleActive(job)} aria-label={`Aktifkan lowongan ${job.title_id}`} />
                         <Badge variant={job.is_active ? 'default' : 'secondary'}>
                           {job.is_active ? 'Aktif' : 'Nonaktif'}
                         </Badge>
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" onClick={() => openEdit(job)}>
+                      <Button variant="ghost" size="icon" onClick={() => openEdit(job)} aria-label={`Edit ${job.title_id}`}>
                         <Pencil className="h-4 w-4" />
                       </Button>
                       {canDelete && (
-                        <Button variant="ghost" size="icon" onClick={() => setDeletingJob(job)}>
+                        <Button variant="ghost" size="icon" onClick={() => setDeletingJob(job)} aria-label={`Hapus ${job.title_id}`}>
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
                       )}
@@ -194,7 +194,7 @@ export function JobVacanciesPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Hapus</AlertDialogAction>
+            <AlertDialogAction variant="destructive" onClick={handleDelete}>Hapus</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

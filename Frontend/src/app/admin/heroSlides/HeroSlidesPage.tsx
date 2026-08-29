@@ -132,34 +132,34 @@ export function HeroSlidesPage() {
                   <TableRow key={slide.id}>
                     <TableCell>
                       <div className="flex items-center gap-1">
-                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === 0} onClick={() => move(index, -1)}>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === 0} onClick={() => move(index, -1)} aria-label={`Naikkan urutan slide ${index + 1}`}>
                           <ArrowUp className="h-3.5 w-3.5" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === slides.length - 1} onClick={() => move(index, 1)}>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === slides.length - 1} onClick={() => move(index, 1)} aria-label={`Turunkan urutan slide ${index + 1}`}>
                           <ArrowDown className="h-3.5 w-3.5" />
                         </Button>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <img src={slide.image} alt="Slide" className="h-12 w-20 rounded object-cover" />
+                      <img src={slide.image} alt={`Pratinjau slide ${index + 1}`} className="h-12 w-20 rounded object-cover" />
                     </TableCell>
                     <TableCell>
                       <div className="font-medium">{slide.duration_ms} ms</div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Switch checked={slide.is_active} onCheckedChange={() => handleToggleActive(slide)} />
+                        <Switch checked={slide.is_active} onCheckedChange={() => handleToggleActive(slide)} aria-label={`Aktifkan slide ${index + 1}`} />
                         <Badge variant={slide.is_active ? 'default' : 'secondary'}>
                           {slide.is_active ? 'Aktif' : 'Nonaktif'}
                         </Badge>
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" onClick={() => openEdit(slide)}>
+                      <Button variant="ghost" size="icon" onClick={() => openEdit(slide)} aria-label={`Edit slide ${index + 1}`}>
                         <Pencil className="h-4 w-4" />
                       </Button>
                       {canDelete && (
-                        <Button variant="ghost" size="icon" onClick={() => setDeletingSlide(slide)}>
+                        <Button variant="ghost" size="icon" onClick={() => setDeletingSlide(slide)} aria-label={`Hapus slide ${index + 1}`}>
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
                       )}
@@ -184,7 +184,7 @@ export function HeroSlidesPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Hapus</AlertDialogAction>
+            <AlertDialogAction variant="destructive" onClick={handleDelete}>Hapus</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

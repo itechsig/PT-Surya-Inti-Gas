@@ -241,7 +241,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
                 <div key={i} className="flex gap-2">
                   <Input placeholder="Label (misal: Kemurnian)" value={spec.label} onChange={(e) => updateSpecRow(i, 'label', e.target.value)} />
                   <Input placeholder="Nilai (misal: 99.5%)" value={spec.value} onChange={(e) => updateSpecRow(i, 'value', e.target.value)} />
-                  <Button type="button" variant="ghost" size="icon" onClick={() => removeSpecRow(i)}>
+                  <Button type="button" variant="ghost" size="icon" onClick={() => removeSpecRow(i)} aria-label={`Hapus baris spesifikasi ${i + 1}`}>
                     <X className="h-4 w-4" />
                   </Button>
                 </div>

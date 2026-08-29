@@ -31,13 +31,14 @@ import {
 } from '../components/ui/dropdown-menu';
 
 function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
   return (
     <Button
       variant="ghost"
       size="icon"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      aria-label="Toggle theme"
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      aria-label={isDark ? 'Beralih ke mode terang' : 'Beralih ke mode gelap'}
     >
       <Sun className="h-4 w-4 dark:hidden" />
       <Moon className="hidden h-4 w-4 dark:block" />
@@ -87,16 +88,22 @@ function AdminShell() {
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
-            {visibleNavItems.map((item) => (
-              <SidebarMenuItem key={item.to}>
-                <SidebarMenuButton asChild isActive={location.pathname === item.to} tooltip={item.label}>
-                  <Link to={item.to}>
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+            {visibleNavItems.map((item) => {
+              const active =
+                item.to === '/admin'
+                  ? location.pathname === '/admin'
+                  : location.pathname === item.to || location.pathname.startsWith(`${item.to}/`);
+              return (
+                <SidebarMenuItem key={item.to}>
+                  <SidebarMenuButton asChild isActive={active} tooltip={item.label}>
+                    <Link to={item.to} aria-current={active ? 'page' : undefined}>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>

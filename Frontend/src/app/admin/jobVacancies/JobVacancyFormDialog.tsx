@@ -178,7 +178,7 @@ export function JobVacancyFormDialog({ open, onOpenChange, job, onSaved }: JobVa
                     {values[requirementsKey(lang)].map((req, i) => (
                       <div key={i} className="flex gap-2">
                         <Input value={req} onChange={(e) => updateRequirement(lang, i, e.target.value)} placeholder="misal: Pendidikan minimal S1" />
-                        <Button type="button" variant="ghost" size="icon" onClick={() => removeRequirement(lang, i)}>
+                        <Button type="button" variant="ghost" size="icon" onClick={() => removeRequirement(lang, i)} aria-label={`Hapus persyaratan ${i + 1}`}>
                           <X className="h-4 w-4" />
                         </Button>
                       </div>

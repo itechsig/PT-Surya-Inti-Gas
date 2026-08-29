@@ -162,24 +162,38 @@ export function ProductsPage() {
                       <Badge variant="outline">{product.category?.name_id ?? '—'}</Badge>
                     </TableCell>
                     <TableCell>
-                      <Button variant="ghost" size="icon" onClick={() => handleToggleFeatured(product)}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleToggleFeatured(product)}
+                        aria-pressed={product.is_featured}
+                        aria-label={
+                          product.is_featured
+                            ? `Batalkan unggulan untuk ${product.name_id}`
+                            : `Jadikan ${product.name_id} produk unggulan`
+                        }
+                      >
                         <Star className={`h-4 w-4 ${product.is_featured ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'}`} />
                       </Button>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Switch checked={product.is_published} onCheckedChange={() => handleTogglePublished(product)} />
+                        <Switch
+                          checked={product.is_published}
+                          onCheckedChange={() => handleTogglePublished(product)}
+                          aria-label={`Terbitkan ${product.name_id}`}
+                        />
                         <Badge variant={product.is_published ? 'default' : 'secondary'}>
                           {product.is_published ? 'Terbit' : 'Draf'}
                         </Badge>
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" onClick={() => openEdit(product)}>
+                      <Button variant="ghost" size="icon" onClick={() => openEdit(product)} aria-label={`Edit ${product.name_id}`}>
                         <Pencil className="h-4 w-4" />
                       </Button>
                       {canDelete && (
-                        <Button variant="ghost" size="icon" onClick={() => setDeletingProduct(product)}>
+                        <Button variant="ghost" size="icon" onClick={() => setDeletingProduct(product)} aria-label={`Hapus ${product.name_id}`}>
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
                       )}
@@ -210,7 +224,7 @@ export function ProductsPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Hapus</AlertDialogAction>
+            <AlertDialogAction variant="destructive" onClick={handleDelete}>Hapus</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

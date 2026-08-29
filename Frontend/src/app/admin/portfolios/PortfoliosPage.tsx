@@ -179,24 +179,38 @@ export function PortfoliosPage() {
                     </TableCell>
                     <TableCell>{formatCompletionDate(portfolio.completion_date)}</TableCell>
                     <TableCell>
-                      <Button variant="ghost" size="icon" onClick={() => handleToggleFeatured(portfolio)}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleToggleFeatured(portfolio)}
+                        aria-pressed={portfolio.is_featured}
+                        aria-label={
+                          portfolio.is_featured
+                            ? `Batalkan unggulan untuk ${portfolio.title_id}`
+                            : `Jadikan ${portfolio.title_id} portofolio unggulan`
+                        }
+                      >
                         <Star className={`h-4 w-4 ${portfolio.is_featured ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'}`} />
                       </Button>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Switch checked={portfolio.is_published} onCheckedChange={() => handleTogglePublished(portfolio)} />
+                        <Switch
+                          checked={portfolio.is_published}
+                          onCheckedChange={() => handleTogglePublished(portfolio)}
+                          aria-label={`Terbitkan ${portfolio.title_id}`}
+                        />
                         <Badge variant={portfolio.is_published ? 'default' : 'secondary'}>
                           {portfolio.is_published ? 'Terbit' : 'Draf'}
                         </Badge>
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" onClick={() => openEdit(portfolio)}>
+                      <Button variant="ghost" size="icon" onClick={() => openEdit(portfolio)} aria-label={`Edit ${portfolio.title_id}`}>
                         <Pencil className="h-4 w-4" />
                       </Button>
                       {canDelete && (
-                        <Button variant="ghost" size="icon" onClick={() => setDeletingPortfolio(portfolio)}>
+                        <Button variant="ghost" size="icon" onClick={() => setDeletingPortfolio(portfolio)} aria-label={`Hapus ${portfolio.title_id}`}>
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
                       )}
@@ -228,7 +242,7 @@ export function PortfoliosPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Hapus</AlertDialogAction>
+            <AlertDialogAction variant="destructive" onClick={handleDelete}>Hapus</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

@@ -155,11 +155,11 @@ export function CareerApplicationsPage() {
                       <Badge variant={STATUS_BADGE_VARIANT[app.status]}>{STATUS_LABELS[app.status]}</Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" onClick={() => setViewingApplication(app)}>
+                      <Button variant="ghost" size="icon" onClick={() => setViewingApplication(app)} aria-label={`Lihat lamaran ${app.nama}`}>
                         <Eye className="h-4 w-4" />
                       </Button>
                       {canDelete && (
-                        <Button variant="ghost" size="icon" onClick={() => setDeletingApplication(app)}>
+                        <Button variant="ghost" size="icon" onClick={() => setDeletingApplication(app)} aria-label={`Hapus lamaran ${app.nama}`}>
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
                       )}
@@ -189,7 +189,7 @@ export function CareerApplicationsPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Hapus</AlertDialogAction>
+            <AlertDialogAction variant="destructive" onClick={handleDelete}>Hapus</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
