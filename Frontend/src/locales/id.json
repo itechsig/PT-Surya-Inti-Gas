@@ -1270,7 +1270,8 @@
       "resumeRequired": "CV/Resume harus diunggah",
       "resumeTypeInvalid": "Hanya file PDF, DOC, atau DOCX yang diperbolehkan",
       "resumeSizeInvalid": "Ukuran file maksimal 5MB",
-      "submitFailed": "Gagal mengirim lamaran. Silakan coba lagi."
+      "submitFailed": "Gagal mengirim lamaran. Silakan coba lagi.",
+      "summaryTitle": "Ada {{count}} isian yang perlu diperbaiki"
     },
     "aria": {
       "backToListings": "Kembali ke daftar lowongan",

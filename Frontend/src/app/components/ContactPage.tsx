@@ -110,11 +110,11 @@ export const ContactPage = () => {
                 </p>
                 <div className="office-card-contact">
                   <a href="https://wa.me/6281233906378" target="_blank" rel="noopener noreferrer" className="contact-link">
-                    <FaWhatsapp size={18} />
+                    <FaWhatsapp size={18} aria-hidden="true" />
                     <span>+6281233906378</span>
                   </a>
-                  <a href="#" className="contact-link" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.sda@suryaintigas.com'; }}>
-                    <Mail size={18} />
+                  <a href="mailto:salescounter.sda@suryaintigas.com" className="contact-link">
+                    <Mail size={18} aria-hidden="true" />
                     <span>salescounter.sda@suryaintigas.com</span>
                   </a>
                 </div>
@@ -145,11 +145,11 @@ export const ContactPage = () => {
                 </p>
                 <div className="office-card-contact">
                   <a href="https://wa.me/6285157118879" target="_blank" rel="noopener noreferrer" className="contact-link">
-                    <FaWhatsapp size={18} />
+                    <FaWhatsapp size={18} aria-hidden="true" />
                     <span>+6285157118879</span>
                   </a>
-                  <a href="#" className="contact-link" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:salescounter.bpn@suryaintigas.com'; }}>
-                    <Mail size={18} />
+                  <a href="mailto:salescounter.bpn@suryaintigas.com" className="contact-link">
+                    <Mail size={18} aria-hidden="true" />
                     <span>salescounter.bpn@suryaintigas.com</span>
                   </a>
                 </div>

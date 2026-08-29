@@ -1260,7 +1260,8 @@
       "resumeRequired": "CV/Resume must be uploaded",
       "resumeTypeInvalid": "Only PDF, DOC, or DOCX files are allowed",
       "resumeSizeInvalid": "Maximum file size is 5MB",
-      "submitFailed": "Failed to submit application. Please try again."
+      "submitFailed": "Failed to submit application. Please try again.",
+      "summaryTitle": "{{count}} field(s) need your attention"
     },
     "aria": {
       "backToListings": "Back to job listings",

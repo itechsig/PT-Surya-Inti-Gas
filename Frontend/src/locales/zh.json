@@ -456,7 +456,8 @@
       "resumeRequired": "请上传简历",
       "resumeTypeInvalid": "仅允许上传PDF、DOC或DOCX文件",
       "resumeSizeInvalid": "文件大小最大为5MB",
-      "submitFailed": "提交申请失败，请重试。"
+      "submitFailed": "提交申请失败，请重试。",
+      "summaryTitle": "有 {{count}} 项需要修改"
     },
     "aria": {
       "backToListings": "返回职位列表",

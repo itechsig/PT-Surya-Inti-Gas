@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Eye, Send, Search, X } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
@@ -20,7 +20,6 @@ const staggerContainer: Variants = {
 };
 
 export function Career() {
-  const navigate = useNavigate();
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
   const { t, i18n } = useTranslation();
@@ -74,16 +73,6 @@ export function Career() {
   }, [openings, searchQuery, selectedDivision, selectedLocation, selectedLevel, divisionSearch, locationSearch, levelSearch]);
 
   const totalJobs = filteredOpenings.length;
-
-  const handleViewDetail = (e: React.MouseEvent, jobId: number) => {
-    e.preventDefault();
-    navigate(`/${currentLang}/karir/${jobId}`);
-  };
-
-  const handleApply = (e: React.MouseEvent, jobId: number) => {
-    e.preventDefault();
-    navigate(`/${currentLang}/karir/${jobId}/lamar`);
-  };
 
   const divisions = useMemo(() => [...new Set(openings.map(job => job.division))], [openings]);
   const locations = useMemo(() => [...new Set(openings.map(job => job.location))], [openings]);
@@ -153,7 +142,7 @@ export function Career() {
         <div className="section-container">
           <motion.div className="section-header" variants={fadeUp}>
             <span className="career-hero-badge">{t('career.page.badge')}</span>
-            <h2>{t('career.page.title')}</h2>
+            <h1>{t('career.page.title')}</h1>
             <p>{t('career.page.subtitle')}</p>
             <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
           </motion.div>
@@ -169,17 +158,18 @@ export function Career() {
           {/* Search and Filters */}
           <div className="search-filters-container">
             <div className="search-bar">
-              <Search size={20} />
+              <Search size={20} aria-hidden="true" />
               <input
-                type="text"
+                type="search"
+                aria-label={t('career.page.searchPlaceholder')}
                 placeholder={t('career.page.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="clear-search">
-                  <X size={16} />
+                <button type="button" onClick={() => setSearchQuery('')} className="clear-search" aria-label={t('career.page.resetFilter')}>
+                  <X size={16} aria-hidden="true" />
                 </button>
               )}
             </div>
@@ -188,6 +178,7 @@ export function Career() {
               <div className="filter-group">
                 <select
                   value={selectedDivision}
+                  aria-label={t('career.page.allDivisions')}
                   onChange={(e) => {
                     setSelectedDivision(e.target.value);
                     setDivisionSearch('');
@@ -200,9 +191,10 @@ export function Career() {
                   ))}
                 </select>
                 <div className="filter-search">
-                  <Search size={16} />
+                  <Search size={16} aria-hidden="true" />
                   <input
-                    type="text"
+                    type="search"
+                    aria-label={t('career.page.searchDivision')}
                     placeholder={t('career.page.searchDivision')}
                     value={divisionSearch}
                     onChange={(e) => {
@@ -212,8 +204,8 @@ export function Career() {
                     className="filter-search-input"
                   />
                   {divisionSearch && (
-                    <button onClick={() => setDivisionSearch('')} className="clear-filter-search">
-                      <X size={14} />
+                    <button type="button" onClick={() => setDivisionSearch('')} className="clear-filter-search" aria-label={t('career.page.resetFilter')}>
+                      <X size={14} aria-hidden="true" />
                     </button>
                   )}
                 </div>
@@ -222,6 +214,7 @@ export function Career() {
               <div className="filter-group">
                 <select
                   value={selectedLocation}
+                  aria-label={t('career.page.allCities')}
                   onChange={(e) => {
                     setSelectedLocation(e.target.value);
                     setLocationSearch('');
@@ -234,9 +227,10 @@ export function Career() {
                   ))}
                 </select>
                 <div className="filter-search">
-                  <Search size={16} />
+                  <Search size={16} aria-hidden="true" />
                   <input
-                    type="text"
+                    type="search"
+                    aria-label={t('career.page.searchCity')}
                     placeholder={t('career.page.searchCity')}
                     value={locationSearch}
                     onChange={(e) => {
@@ -246,8 +240,8 @@ export function Career() {
                     className="filter-search-input"
                   />
                   {locationSearch && (
-                    <button onClick={() => setLocationSearch('')} className="clear-filter-search">
-                      <X size={14} />
+                    <button type="button" onClick={() => setLocationSearch('')} className="clear-filter-search" aria-label={t('career.page.resetFilter')}>
+                      <X size={14} aria-hidden="true" />
                     </button>
                   )}
                 </div>
@@ -256,6 +250,7 @@ export function Career() {
               <div className="filter-group">
                 <select
                   value={selectedLevel}
+                  aria-label={t('career.page.allLevels')}
                   onChange={(e) => {
                     setSelectedLevel(e.target.value);
                     setLevelSearch('');
@@ -268,9 +263,10 @@ export function Career() {
                   ))}
                 </select>
                 <div className="filter-search">
-                  <Search size={16} />
+                  <Search size={16} aria-hidden="true" />
                   <input
-                    type="text"
+                    type="search"
+                    aria-label={t('career.page.searchLevel')}
                     placeholder={t('career.page.searchLevel')}
                     value={levelSearch}
                     onChange={(e) => {
@@ -280,8 +276,8 @@ export function Career() {
                     className="filter-search-input"
                   />
                   {levelSearch && (
-                    <button onClick={() => setLevelSearch('')} className="clear-filter-search">
-                      <X size={14} />
+                    <button type="button" onClick={() => setLevelSearch('')} className="clear-filter-search" aria-label={t('career.page.resetFilter')}>
+                      <X size={14} aria-hidden="true" />
                     </button>
                   )}
                 </div>
@@ -337,9 +333,9 @@ export function Career() {
                         <Link
                           to={`/${currentLang}/karir/${job.id}`}
                           className="detail-button"
-                          onClick={(e) => handleViewDetail(e, job.id)}
+                          aria-label={`${t('career.page.viewDetail')} — ${job.title}`}
                         >
-                          <Eye size={16} />
+                          <Eye size={16} aria-hidden="true" />
                           {t('career.page.viewDetail')}
                         </Link>
                         {deadlinePassed ? (
@@ -347,16 +343,16 @@ export function Career() {
                             className="apply-button disabled"
                             disabled
                           >
-                            <Send size={16} />
+                            <Send size={16} aria-hidden="true" />
                             {t('career.page.closed')}
                           </button>
                         ) : (
                           <Link
                             to={`/${currentLang}/karir/${job.id}/lamar`}
                             className="apply-button"
-                            onClick={(e) => handleApply(e, job.id)}
+                            aria-label={`${t('career.page.apply')} — ${job.title}`}
                           >
-                            <Send size={16} />
+                            <Send size={16} aria-hidden="true" />
                             {t('career.page.apply')}
                           </Link>
                         )}

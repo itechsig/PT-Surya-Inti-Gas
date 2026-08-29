@@ -36,6 +36,7 @@
   margin-bottom: 64px;
 }
 
+.section-header h1,
 .section-header h2 {
   font-family: var(--ff-display);
   font-size: clamp(2.25rem, 5vw, 4rem);
@@ -136,6 +137,7 @@
   margin-bottom: 24px;
 }
 
+.career-hero .section-header h1,
 .career-hero .section-header h2 {
   color: #ffffff;
   line-height: 1.15;
@@ -735,7 +737,8 @@
   margin-bottom: 48px;
 }
 
-.job-detail-header h1 {
+.job-detail-header h1,
+  .job-detail-header h2 {
   font-family: 'Barlow', system-ui, sans-serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
@@ -838,7 +841,8 @@
   margin-bottom: 40px;
 }
 
-.form-header h1 {
+.form-header h1,
+.form-header h2 {
   font-family: 'Barlow', system-ui, sans-serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
@@ -859,6 +863,45 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
+
+/* Focusable error summary shown after a failed submit */
+.form-error-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px;
+  border: 1px solid rgba(212, 24, 61, 0.3);
+  background: rgba(212, 24, 61, 0.06);
+  border-radius: 8px;
+  color: #b3123a;
+  outline: none;
+}
+
+.form-error-summary:focus-visible {
+  outline: 2px solid var(--brand-blue, #1565c0);
+  outline-offset: 2px;
+}
+
+.form-error-summary-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ff-display, 'Barlow', sans-serif);
+  font-weight: 700;
+}
+
+.form-error-summary ul {
+  margin: 0;
+  padding-left: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-error-summary a {
+  color: inherit;
+  text-underline-offset: 2px;
 }
 
 .form-grid {
@@ -1195,7 +1238,8 @@
     padding: 0 20px;
   }
 
-  .job-detail-header h1 {
+  .job-detail-header h1,
+  .job-detail-header h2 {
     font-size: 2rem;
   }
 
@@ -1279,11 +1323,13 @@
     gap: 8px;
   }
 
-  .job-detail-header h1 {
+  .job-detail-header h1,
+  .job-detail-header h2 {
     font-size: 1.75rem;
   }
 
-  .form-header h1 {
+  .form-header h1,
+.form-header h2 {
     font-size: 1.75rem;
   }
 

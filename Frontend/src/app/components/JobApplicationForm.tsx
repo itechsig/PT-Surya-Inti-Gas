@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Send, Upload, CheckCircle } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Send, Upload, CheckCircle } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence, type Variants } from 'motion/react';
 import '../../styles/career.css';
@@ -47,6 +47,27 @@ export function JobApplicationForm() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
+
+  // Order matters: the summary lists errors top-to-bottom like the form.
+  const FIELD_LABELS: { name: string; label: string }[] = [
+    { name: 'fullName', label: t('career.form.fullName') },
+    { name: 'email', label: t('career.form.email') },
+    { name: 'phone', label: t('career.form.phone') },
+    { name: 'address', label: t('career.form.address') },
+    { name: 'education', label: t('career.form.education') },
+    { name: 'experience', label: t('career.form.experience') },
+    { name: 'resume', label: t('career.form.resume') },
+  ];
+
+  const ariaProps = (name: string) =>
+    errors[name]
+      ? { 'aria-invalid': true as const, 'aria-describedby': `${name}-error` }
+      : {};
+
+  const focusErrorSummary = () => {
+    requestAnimationFrame(() => errorSummaryRef.current?.focus());
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -115,6 +136,7 @@ export function JobApplicationForm() {
     e.preventDefault();
 
     if (!validateForm() || !job) {
+      focusErrorSummary();
       return;
     }
 
@@ -150,8 +172,10 @@ export function JobApplicationForm() {
           mapped[field] = messages[0];
         });
         setErrors(mapped);
+        focusErrorSummary();
       } else {
         setErrors({ resume: t('career.validation.submitFailed') });
+        focusErrorSummary();
       }
     } finally {
       setSubmitting(false);
@@ -179,7 +203,7 @@ export function JobApplicationForm() {
           <div className="career-hero-bg"></div>
           <div className="section-container">
             <div className="section-header">
-              <h2>{t('career.page.title')}</h2>
+              <h1>{t('career.page.title')}</h1>
               <p>{t('career.page.subtitle')}</p>
               <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
             </div>
@@ -206,7 +230,7 @@ export function JobApplicationForm() {
           <div className="career-hero-bg"></div>
           <div className="section-container">
             <div className="section-header">
-              <h2>{t('career.page.title')}</h2>
+              <h1>{t('career.page.title')}</h1>
               <p>{t('career.page.subtitle')}</p>
               <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
             </div>
@@ -254,7 +278,7 @@ export function JobApplicationForm() {
         <div className="career-hero-bg"></div>
         <div className="section-container">
           <div className="section-header">
-            <h2>{t('career.page.title')}</h2>
+            <h1>{t('career.page.title')}</h1>
             <p>{t('career.page.subtitle')}</p>
             <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
           </div>
@@ -298,12 +322,34 @@ export function JobApplicationForm() {
               </button>
 
               <motion.div className="form-header" initial="hidden" animate="show" variants={staggerContainer}>
-                <motion.h1 variants={fadeUp}>{t('career.page.formTitle')}</motion.h1>
+                <motion.h2 variants={fadeUp}>{t('career.page.formTitle')}</motion.h2>
                 <motion.p variants={fadeUp}>{t('career.page.position', { title: job.title })}</motion.p>
                 <motion.p variants={fadeUp}>{job.division} - {job.location}</motion.p>
               </motion.div>
 
-              <form onSubmit={handleSubmit} className="application-form">
+              <form onSubmit={handleSubmit} className="application-form" noValidate>
+                {Object.values(errors).some(Boolean) && (
+                  <div
+                    ref={errorSummaryRef}
+                    tabIndex={-1}
+                    role="alert"
+                    className="form-error-summary"
+                  >
+                    <span className="form-error-summary-title">
+                      <AlertCircle size={18} aria-hidden="true" />
+                      {t('career.validation.summaryTitle', {
+                        count: Object.values(errors).filter(Boolean).length,
+                      })}
+                    </span>
+                    <ul>
+                      {FIELD_LABELS.filter((f) => errors[f.name]).map((f) => (
+                        <li key={f.name}>
+                          <a href={`#${f.name}`}>{f.label}: {errors[f.name]}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 <motion.div className="form-grid" initial="hidden" animate="show" variants={staggerContainer}>
                   <motion.div className="form-group" variants={fadeUp}>
                     <label htmlFor="fullName">{t('career.form.fullName')}</label>
@@ -311,12 +357,15 @@ export function JobApplicationForm() {
                       type="text"
                       id="fullName"
                       name="fullName"
+                      autoComplete="name"
+                      required
                       value={formData.fullName}
                       onChange={handleInputChange}
                       className={errors.fullName ? 'error' : ''}
                       placeholder={t('career.form.fullNamePlaceholder')}
+                      {...ariaProps('fullName')}
                     />
-                    {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+                    {errors.fullName && <span id="fullName-error" className="error-message">{errors.fullName}</span>}
                   </motion.div>
 
                   <motion.div className="form-group" variants={fadeUp}>
@@ -325,12 +374,15 @@ export function JobApplicationForm() {
                       type="email"
                       id="email"
                       name="email"
+                      autoComplete="email"
+                      required
                       value={formData.email}
                       onChange={handleInputChange}
                       className={errors.email ? 'error' : ''}
                       placeholder={t('career.form.emailPlaceholder')}
+                      {...ariaProps('email')}
                     />
-                    {errors.email && <span className="error-message">{errors.email}</span>}
+                    {errors.email && <span id="email-error" className="error-message">{errors.email}</span>}
                   </motion.div>
 
                   <motion.div className="form-group" variants={fadeUp}>
@@ -339,12 +391,15 @@ export function JobApplicationForm() {
                       type="tel"
                       id="phone"
                       name="phone"
+                      autoComplete="tel"
+                      required
                       value={formData.phone}
                       onChange={handleInputChange}
                       className={errors.phone ? 'error' : ''}
                       placeholder={t('career.form.phonePlaceholder')}
+                      {...ariaProps('phone')}
                     />
-                    {errors.phone && <span className="error-message">{errors.phone}</span>}
+                    {errors.phone && <span id="phone-error" className="error-message">{errors.phone}</span>}
                   </motion.div>
 
                   <motion.div className="form-group" variants={fadeUp}>
@@ -353,12 +408,15 @@ export function JobApplicationForm() {
                       type="text"
                       id="address"
                       name="address"
+                      autoComplete="street-address"
+                      required
                       value={formData.address}
                       onChange={handleInputChange}
                       className={errors.address ? 'error' : ''}
                       placeholder={t('career.form.addressPlaceholder')}
+                      {...ariaProps('address')}
                     />
-                    {errors.address && <span className="error-message">{errors.address}</span>}
+                    {errors.address && <span id="address-error" className="error-message">{errors.address}</span>}
                   </motion.div>
 
                   <motion.div className="form-group" variants={fadeUp}>
@@ -367,12 +425,14 @@ export function JobApplicationForm() {
                       type="text"
                       id="education"
                       name="education"
+                      required
                       value={formData.education}
                       onChange={handleInputChange}
                       className={errors.education ? 'error' : ''}
                       placeholder={t('career.form.educationPlaceholder')}
+                      {...ariaProps('education')}
                     />
-                    {errors.education && <span className="error-message">{errors.education}</span>}
+                    {errors.education && <span id="education-error" className="error-message">{errors.education}</span>}
                   </motion.div>
 
                   <motion.div className="form-group" variants={fadeUp}>
@@ -381,12 +441,14 @@ export function JobApplicationForm() {
                       type="text"
                       id="experience"
                       name="experience"
+                      required
                       value={formData.experience}
                       onChange={handleInputChange}
                       className={errors.experience ? 'error' : ''}
                       placeholder={t('career.form.experiencePlaceholder')}
+                      {...ariaProps('experience')}
                     />
-                    {errors.experience && <span className="error-message">{errors.experience}</span>}
+                    {errors.experience && <span id="experience-error" className="error-message">{errors.experience}</span>}
                   </motion.div>
 
                   <motion.div className="form-group full-width" variants={fadeUp}>
@@ -411,13 +473,14 @@ export function JobApplicationForm() {
                         onChange={handleFileChange}
                         accept=".pdf,.doc,.docx"
                         className={errors.resume ? 'error' : ''}
+                        {...ariaProps('resume')}
                       />
                       <div className="file-upload-label">
-                        <Upload size={24} />
+                        <Upload size={24} aria-hidden="true" />
                         <span>{formData.resume ? formData.resume.name : t('career.form.uploadCta')}</span>
                       </div>
                     </div>
-                    {errors.resume && <span className="error-message">{errors.resume}</span>}
+                    {errors.resume && <span id="resume-error" className="error-message">{errors.resume}</span>}
                   </motion.div>
                 </motion.div>
 

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, ArrowLeft, Send, Calendar, Building, Briefcase } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
@@ -34,12 +34,6 @@ export function JobDetail() {
     return new Date(dateString).toLocaleDateString(dateLocale, options);
   };
 
-  const handleApply = () => {
-    if (job) {
-      navigate(`/${currentLang}/karir/${job.id}/lamar`);
-    }
-  };
-
   const totalJobs = openings.length;
 
   if (loading) {
@@ -50,7 +44,7 @@ export function JobDetail() {
           <div className="career-hero-bg"></div>
           <div className="section-container">
             <div className="section-header">
-              <h2>{t('career.page.title')}</h2>
+              <h1>{t('career.page.title')}</h1>
               <p>{t('career.page.subtitle')}</p>
               <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
             </div>
@@ -71,7 +65,7 @@ export function JobDetail() {
           <div className="career-hero-bg"></div>
           <div className="section-container">
             <div className="section-header">
-              <h2>{t('career.page.title')}</h2>
+              <h1>{t('career.page.title')}</h1>
               <p>{t('career.page.subtitle')}</p>
               <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
             </div>
@@ -112,7 +106,7 @@ export function JobDetail() {
         <div className="career-hero-bg"></div>
         <div className="section-container">
           <div className="section-header">
-            <h2>{t('career.page.title')}</h2>
+            <h1>{t('career.page.title')}</h1>
             <p>{t('career.page.subtitle')}</p>
             <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>
           </div>
@@ -139,7 +133,7 @@ export function JobDetail() {
             animate="show"
             variants={staggerContainer}
           >
-            <motion.h1 variants={fadeUp}>{job.title}</motion.h1>
+            <motion.h2 variants={fadeUp}>{job.title}</motion.h2>
             <motion.div className="job-detail-meta" variants={fadeUp}>
               <span className="meta-item">
                 <Building size={16} />
@@ -198,10 +192,10 @@ export function JobDetail() {
                   {t('career.page.applicationClosed')}
                 </button>
               ) : (
-                <button onClick={handleApply} className="apply-button" aria-label={t('career.aria.applyForJob')}>
-                  <Send size={18} />
+                <Link to={`/${currentLang}/karir/${job.id}/lamar`} className="apply-button" aria-label={`${t('career.aria.applyForJob')} — ${job.title}`}>
+                  <Send size={18} aria-hidden="true" />
                   {t('career.page.applyNow')}
-                </button>
+                </Link>
               )}
             </motion.div>
           </motion.div>
