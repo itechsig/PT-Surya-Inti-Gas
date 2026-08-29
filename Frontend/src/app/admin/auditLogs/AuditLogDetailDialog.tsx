@@ -114,9 +114,9 @@ export function AuditLogDetailDialog({ open, onOpenChange, log, onRestored }: Au
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b bg-muted/50 text-left text-xs uppercase text-muted-foreground">
-                        <th className="p-2">Field</th>
-                        <th className="p-2">Sebelum</th>
-                        <th className="p-2">Sesudah</th>
+                        <th scope="col" className="p-2">Field</th>
+                        <th scope="col" className="p-2">Sebelum</th>
+                        <th scope="col" className="p-2">Sesudah</th>
                       </tr>
                     </thead>
                     <tbody>
