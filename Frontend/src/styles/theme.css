@@ -2,20 +2,40 @@
 
 :root {
   --font-size: 16px;
+
+  /* ───────────────────────────────────────────────────────────
+     Brand palette — single source of truth.
+     navy  = primary surfaces / headings / primary buttons
+     blue  = primary interactive / CTA (white text passes AA, 5.6:1)
+     sky   = bright accent, DARK backgrounds only (fails AA on white)
+     light = tint background
+     ─────────────────────────────────────────────────────────── */
+  --brand-navy: #0C2D5E;
+  --brand-navy-hover: #0a2650;
+  --brand-blue: #1565C0;
+  --brand-blue-hover: #0f4c9a;
+  --brand-sky: #00AEEF;
+  --brand-light: #EFF6FF;
+  --brand-muted: #64748B;
+
+  /* Typography tokens */
+  --font-display: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #030213;
-  --primary-foreground: oklch(1 0 0);
+  --primary: var(--brand-navy);
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.95 0.0058 264.53);
-  --secondary-foreground: #030213;
+  --secondary-foreground: var(--brand-navy);
   --muted: #ececf0;
-  --muted-foreground: #717182;
+  --muted-foreground: #5c5c6b;
   --accent: #e9ebef;
-  --accent-foreground: #030213;
+  --accent-foreground: var(--brand-navy);
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
   --border: rgba(0, 0, 0, 0.1);
@@ -24,7 +44,7 @@
   --switch-background: #cbced4;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: oklch(0.708 0 0);
+  --ring: var(--brand-blue);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -33,19 +53,12 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
+  --sidebar-primary: var(--brand-navy);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-
-  /* Custom brand colors - simplified palette */
-  --brand-navy: #0C2D5E;
-  --brand-blue: #1565C0;
-  --brand-accent: #3b82f6;
-  --brand-light: #EFF6FF;
-  --brand-muted: #64748B;
+  --sidebar-ring: var(--brand-blue);
 
   /* Spacing system */
   --spacing-section: 96px;
@@ -54,6 +67,13 @@
 }
 
 .dark {
+  --brand-navy: #4c86d6;
+  --brand-navy-hover: #6b9fe0;
+  --brand-blue: #5aa2ec;
+  --brand-blue-hover: #7db6f0;
+  --brand-sky: #38c6f5;
+  --brand-light: #16233a;
+
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
@@ -65,14 +85,14 @@
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(0.72 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
+  --ring: oklch(0.646 0.13 250);
   --font-weight-medium: 500;
   --font-weight-normal: 400;
   --chart-1: oklch(0.488 0.243 264.376);
@@ -113,10 +133,16 @@
   --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
   --color-brand-navy: var(--brand-navy);
+  --color-brand-navy-hover: var(--brand-navy-hover);
   --color-brand-blue: var(--brand-blue);
-  --color-brand-accent: var(--brand-accent);
+  --color-brand-blue-hover: var(--brand-blue-hover);
+  --color-brand-sky: var(--brand-sky);
+  /* Back-compat alias: --brand-accent was the old name for the CTA blue */
+  --color-brand-accent: var(--brand-blue);
   --color-brand-light: var(--brand-light);
   --color-brand-muted: var(--brand-muted);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -143,6 +169,9 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   /**
@@ -154,28 +183,34 @@
     font-size: var(--font-size);
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
   h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    font-size: var(--text-3xl);
+    letter-spacing: -0.02em;
   }
 
   h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    font-size: var(--text-2xl);
+    letter-spacing: -0.01em;
   }
 
   h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    font-size: var(--text-xl);
   }
 
   h4 {
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
     font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   label {

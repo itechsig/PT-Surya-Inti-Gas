@@ -46,6 +46,8 @@
     "nextSlide": "下一张幻灯片",
     "slideIndicators": "幻灯片指示器",
     "goToSlide": "跳转到第{{number}}张幻灯片",
+    "pause": "暂停幻灯片",
+    "play": "播放幻灯片",
     "slides": {
       "company": {
         "subtitle": "值得信赖的工业气体供应商",

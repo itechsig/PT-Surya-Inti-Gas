@@ -1,6 +1,7 @@
 import { useEffect, useState, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation, useParams, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
+import { MotionConfig } from "motion/react";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { RunningText } from "./components/RunningText";
@@ -163,6 +164,10 @@ function ScrollToTop() {
       tryScroll();
     } else {
       window.scrollTo({ top: 0, behavior: "instant" });
+      // Move keyboard/screen-reader focus to the main landmark so users are
+      // told the page changed and Tab starts from the top of the new content.
+      const main = document.getElementById("main-content");
+      if (main) main.focus({ preventScroll: true });
     }
   }, [pathname, hash]);
 
@@ -178,10 +183,7 @@ function MainPage() {
       <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900" style={{ position: 'relative' }}>
         <div style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
+          inset: 0,
           backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)), url(/images/office/wp2.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -214,6 +216,7 @@ function App() {
 
   return (
     <HelmetProvider>
+      <MotionConfig reducedMotion="user">
       <RouteProgressBar />
       <AppProvider>
         <ProductProvider>
@@ -516,6 +519,7 @@ function App() {
         </AuthProvider>
       </ProductProvider>
     </AppProvider>
+      </MotionConfig>
     </HelmetProvider>
   );
 }

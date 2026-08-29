@@ -46,6 +46,8 @@
     "nextSlide": "Slide berikutnya",
     "slideIndicators": "Indikator slide",
     "goToSlide": "Ke slide {{number}}",
+    "pause": "Jeda tayangan slide",
+    "play": "Putar tayangan slide",
     "slides": {
       "company": {
         "subtitle": "Pemasok Gas Industri Terpercaya",

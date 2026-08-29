@@ -46,6 +46,8 @@
     "nextSlide": "Next slide",
     "slideIndicators": "Slide indicators",
     "goToSlide": "Go to slide {{number}}",
+    "pause": "Pause slideshow",
+    "play": "Play slideshow",
     "slides": {
       "company": {
         "subtitle": "Trusted Industrial Gas Supplier",

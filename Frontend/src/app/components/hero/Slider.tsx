@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
@@ -67,7 +67,7 @@ const css = `
     gap: 10px;
     padding: 14px 30px;
     border-radius: 999px;
-    background: #0F4C81;
+    background: var(--brand-blue, #1565C0);
     color: #ffffff;
     font-weight: 700;
     font-size: 15px;
@@ -76,9 +76,13 @@ const css = `
     transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s cubic-bezier(0.4,0,0.2,1), background 0.35s;
   }
   .hero-cta-primary:hover {
-    background: #00AEEF;
+    background: var(--brand-sky, #00AEEF);
+    color: #0C2D5E;
     transform: translateY(-3px);
     box-shadow: 0 12px 36px rgba(0, 174, 239, 0.5);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-cta-primary:hover, .hero-cta-secondary:hover { transform: none; }
   }
 
   .hero-cta-secondary {
@@ -118,11 +122,17 @@ export function Slider() {
   const { t } = useTranslation();
   const { lang } = useParams<{ lang: string }>();
   const { slides: heroSlides, isLoading } = useHeroSlides(lang || "id");
+  const prefersReduced = useReducedMotion();
   const total = heroSlides.length;
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
   const [preloadedNext, setPreloadedNext] = useState(1);
+
+  // Autoplay is suspended while the pointer is over the hero, when the visitor
+  // explicitly pauses, or when they prefer reduced motion.
+  const isPaused = hoverPaused || userPaused || !!prefersReduced;
 
   const sectionRef = useRef<HTMLElement>(null);
   const touchStartX = useRef<number | null>(null);
@@ -181,6 +191,7 @@ export function Slider() {
   }, [goNext, goPrev]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (prefersReduced) return;
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
     const { clientX, clientY, currentTarget } = e;
     rafRef.current = requestAnimationFrame(() => {
@@ -192,7 +203,7 @@ export function Slider() {
   };
 
   const handleMouseLeave = () => {
-    setIsPaused(false);
+    setHoverPaused(false);
     setParallax({ x: 0, y: 0 });
   };
 
@@ -220,7 +231,7 @@ export function Slider() {
     <section
       ref={sectionRef}
       className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-[#0F4C81]"
-      onMouseEnter={() => setIsPaused(true)}
+      onMouseEnter={() => setHoverPaused(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
@@ -256,15 +267,19 @@ export function Slider() {
             className="absolute inset-0 h-full w-full object-cover"
             onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
             initial={{ opacity: 0, scale: 1 }}
-            animate={{ opacity: 1, scale: 1.08 }}
+            animate={{ opacity: 1, scale: prefersReduced ? 1 : 1.08 }}
             exit={{ opacity: 0 }}
-            transition={{
-              opacity: { duration: 1.1, ease: "easeOut" },
-              scale: {
-                duration: (slide.durationMs + 1200) / 1000,
-                ease: "linear",
-              },
-            }}
+            transition={
+              prefersReduced
+                ? { opacity: { duration: 0.3, ease: "easeOut" } }
+                : {
+                    opacity: { duration: 1.1, ease: "easeOut" },
+                    scale: {
+                      duration: (slide.durationMs + 1200) / 1000,
+                      ease: "linear",
+                    },
+                  }
+            }
           />
         </AnimatePresence>
       </div>
@@ -334,6 +349,8 @@ export function Slider() {
         activeIndex={activeIndex}
         duration={slide.durationMs}
         isPaused={isPaused}
+        userPaused={userPaused}
+        onTogglePause={() => setUserPaused((v) => !v)}
         onSelect={goTo}
       />
 

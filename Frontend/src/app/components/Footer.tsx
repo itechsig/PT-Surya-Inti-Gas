@@ -25,12 +25,12 @@ const TikTok = ({ size = 18, className = "" }: { size?: number; className?: stri
 const css = `
   /* ── Corporate Footer Variables ── */
   .corporate-footer {
-    --navy-dark: #0f172a;
-    --navy: #1e293b;
-    --blue-dark: #1e3a8a;
-    --blue: #1e40af;
-    --sky: #3b82f6;
-    --sky-light: #60a5fa;
+    --navy-dark: #0b1f3f;
+    --navy: #12294c;
+    --blue-dark: var(--brand-navy, #0C2D5E);
+    --blue: var(--brand-blue, #1565C0);
+    --sky: var(--brand-blue, #1565C0);
+    --sky-light: #8ec3f5;
     --white: #ffffff;
     --slate-50: #f8fafc;
     --slate-100: #f1f5f9;

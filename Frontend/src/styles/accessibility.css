@@ -13,18 +13,12 @@
   border-width: 0;
 }
 
-/* Focus visible for keyboard navigation */
-.focus-visible:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
 /* Skip to content link styling */
 .skip-link {
   position: absolute;
   top: -40px;
   left: 0;
-  background: #3b82f6;
+  background: var(--brand-blue, #1565c0);
   color: white;
   padding: 8px 16px;
   z-index: 100;
@@ -54,15 +48,6 @@
   }
 }
 
-/* Focus indicators for better accessibility */
-button:focus-visible,
-a:focus-visible,
-[tabindex]:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
-}
-
 /* Ensure text can be resized without breaking layout (WCAG 1.4.4) */
 html {
   font-size: 100%;
@@ -70,29 +55,21 @@ html {
   text-size-adjust: 100%;
 }
 
-/* Remove default focus outline but add custom one */
-button:focus,
-a:focus,
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
+/* Single, consistent keyboard-focus indicator.
+   Only shows for keyboard users (:focus-visible), never on mouse click. */
+:focus-visible {
+  outline: 2px solid var(--brand-blue, #1565c0);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 button:focus-visible,
 a:focus-visible,
+[tabindex]:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Link focus styling */
-a:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-  border-radius: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-blue, #1565c0) 28%, transparent);
 }
 
 /* Ensure sufficient color contrast for visited links */
@@ -100,26 +77,22 @@ a:visited {
   color: inherit;
 }
 
-/* Improve readability of long content */
-p,
-li,
-span {
-  max-width: 80ch;
+/* Improve readability of long-form paragraphs. Scoped to <p> only —
+   applying max-width to every <li>/<span> breaks flex/grid layouts. */
+p {
+  max-width: 75ch;
 }
 
-/* Better spacing for touch targets (WCAG 2.5.5) */
+/* Better spacing for touch targets (WCAG 2.5.5). Scoped to real controls —
+   NOT bare <a>, which are usually inline text links inside paragraphs. */
 button,
-a,
 [role="button"] {
   min-height: 44px;
-  min-width: 44px;
 }
 
 @media (min-width: 768px) {
   button,
-  a,
   [role="button"] {
     min-height: auto;
-    min-width: auto;
   }
 }

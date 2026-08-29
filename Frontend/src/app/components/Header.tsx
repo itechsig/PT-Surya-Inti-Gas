@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown, Instagram } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -20,7 +20,7 @@ const TikTokIcon = ({ size = 18, className }: { size?: number; className?: strin
   </svg>
 );
 
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import { useScrolledPast } from "../../hooks/useScrollProgress";
@@ -83,7 +83,7 @@ const desktopLinkStyle = (isLight: boolean) => ({
   fontFamily: "'Barlow', system-ui, sans-serif",
   fontWeight: 600,
   letterSpacing: "0.02em",
-  color: isLight ? '#6b7280' : '#ffffff',
+  color: isLight ? '#0C2D5E' : '#ffffff',
 } as React.CSSProperties);
 
 const mobileLinkStyle = {
@@ -96,7 +96,6 @@ const mobileLinkStyle = {
 // ─── Corporate Main Component ───────────────────────────────────────────
 export const Header = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { lang } = useParams<{ lang: string }>();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -106,55 +105,49 @@ export const Header = () => {
 
   const { pathname, hash } = useLocation();
   const currentLang = lang || 'id';
-  const isLight = scrolled;
+  // Home is the only route with a full-bleed dark hero behind a transparent nav.
+  // Every other route sits on a light page, so the nav must be solid there or
+  // the white nav text is invisible before the user scrolls.
+  const isHome = /^\/(en|id|zh)\/?$/.test(pathname) || pathname === '/';
+  const isLight = scrolled || !isHome;
+
+  const megaMenuRef = useRef<HTMLDivElement | null>(null);
+
+  // Prefix an internal href with the active language segment.
+  const toHref = (href: string) => {
+    if (!href.startsWith('/')) return href;
+    if (href === '/') return `/${currentLang}`;
+    return href.startsWith(`/${currentLang}/`) ? href : `/${currentLang}${href}`;
+  };
+
+  // Close the mega menu on Escape and on outside click / focus.
+  useEffect(() => {
+    if (!activeMegaMenu) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveMegaMenu(null);
+    };
+    const onPointer = (e: PointerEvent) => {
+      if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) {
+        setActiveMegaMenu(null);
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onPointer);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onPointer);
+    };
+  }, [activeMegaMenu]);
 
   // Helper: cek apakah link ini aktif
   const isActive = (href: string) => {
     const [hrefPath, hrefHash] = href.split("#");
     if (hrefHash) return pathname === hrefPath && hash === `#${hrefHash}`;
-    if (hrefPath === "/") return pathname === "/" && hash === "";
-    return pathname.startsWith(hrefPath) && hrefPath !== "/";
-  };
-
-  const handleMegaMenuEnter = (nameKey: string) => {
-    setActiveMegaMenu(nameKey);
+    if (hrefPath === "/") return isHome;
+    return pathname.startsWith(toHref(hrefPath));
   };
 
   const handleMegaMenuLeave = () => {
-    setActiveMegaMenu(null);
-  };
-
-  const handleNavigation = (href: string, e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-    }
-    
-    // Add language prefix to navigation if not already present
-    const langHref = href === '/'
-      ? `/${currentLang}`
-      : href.startsWith('/') && !href.startsWith(`/${currentLang}`)
-        ? `/${currentLang}${href}`
-        : href;
-    
-    if (href.startsWith('#')) {
-      // Hash navigation
-      if (window.location.pathname === `/${currentLang}`) {
-        const target = document.getElementById(href.substring(1));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      } else {
-        navigate(`/${currentLang}`);
-        setTimeout(() => {
-          const target = document.getElementById(href.substring(1));
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 100);
-      }
-    } else {
-      navigate(langHref);
-    }
     setActiveMegaMenu(null);
   };
 
@@ -172,7 +165,7 @@ export const Header = () => {
           <div className="flex justify-between items-center px-6 lg:px-12">
 
             {/* Corporate Logo */}
-            <a href={`/${currentLang}`} className="flex items-center gap-4 shrink-0 -ml-2 lg:-ml-4">
+            <Link to={`/${currentLang}`} aria-label="PT Surya Inti Gas — Beranda" className="flex items-center gap-4 shrink-0 -ml-2 lg:-ml-4">
               <div className="relative">
                 <img
                   src="/logo.png"
@@ -190,7 +183,7 @@ export const Header = () => {
                     fontWeight: 800,
                     fontSize: "16px",
                     letterSpacing: "0.12em",
-                    color: isLight ? '#6b7280' : '#ffffff',
+                    color: isLight ? '#0C2D5E' : '#ffffff',
                   }}
                 >
                   SURYA INTI GAS
@@ -199,7 +192,7 @@ export const Header = () => {
                 <div
                   className="w-16 h-0.5 my-1"
                   style={{
-                    background: isLight ? "linear-gradient(90deg, #6b7280 0%, #9ca3af 100%)" : "linear-gradient(90deg, #ffffff 0%, #d1d5db 100%)",
+                    background: isLight ? "linear-gradient(90deg, #1565C0 0%, #00AEEF 100%)" : "linear-gradient(90deg, #ffffff 0%, #d1d5db 100%)",
                   }}
                 />
 
@@ -210,13 +203,13 @@ export const Header = () => {
                     fontSize: "10px",
                     letterSpacing: "0.24em",
                     textTransform: "uppercase" as const,
-                    color: isLight ? '#6b7280' : "#ffffff",
+                    color: isLight ? '#475569' : "#ffffff",
                   }}
                 >
                   {t('header.corporate')}
                 </div>
               </div>
-            </a>
+            </Link>
 
             {/* Corporate Desktop Nav with Mega Menu */}
             <div className="hidden lg:flex items-center gap-1 ml-auto pr-8">
@@ -236,29 +229,39 @@ export const Header = () => {
 
                 // Mega Menu
                 if (link.hasMegaMenu) {
+                  const menuId = `megamenu-${link.nameKey.replace(/\W/g, '-')}`;
+                  const open = activeMegaMenu === link.nameKey;
                   return (
                     <div
                       key={link.nameKey}
                       className="relative"
+                      ref={megaMenuRef}
                     >
-                      <div
+                      <button
+                        type="button"
+                        aria-expanded={open}
+                        aria-haspopup="true"
+                        aria-controls={menuId}
                         className={`${desktopLinkClass(isLight)} ${active ? (isLight ? 'text-gray-900' : 'text-white') : ''}`}
-                        style={{ ...desktopLinkStyle(isLight), cursor: 'pointer' }}
-                        onClick={() => activeMegaMenu === link.nameKey ? handleMegaMenuLeave() : handleMegaMenuEnter(link.nameKey)}
+                        style={{ ...desktopLinkStyle(isLight), cursor: 'pointer', background: 'transparent', border: 'none' }}
+                        onClick={() => setActiveMegaMenu(open ? null : link.nameKey)}
                       >
                         {t(link.nameKey)}
-                        <ChevronDown size={16} className={`ml-1 transition-transform duration-200 ${activeMegaMenu === link.nameKey ? 'rotate-180' : ''}`} />
-                      </div>
+                        <ChevronDown size={16} aria-hidden="true" className={`ml-1 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+                      </button>
 
                       {/* Corporate Mega Menu */}
                       <AnimatePresence>
-                        {activeMegaMenu === link.nameKey && (
+                        {open && (
                           <motion.div
+                            id={menuId}
+                            role="region"
+                            aria-label={t(link.nameKey)}
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[800px] bg-white rounded-xl shadow-2xl border border-slate-100 z-50 overflow-hidden"
+                            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[800px] max-w-[calc(100vw-2rem)] bg-white rounded-xl shadow-2xl border border-slate-100 z-50 overflow-hidden"
                           >
                             <div className="p-8 grid grid-cols-2 gap-8">
                               {link.megaMenuSections?.map((section, sectionIdx) => (
@@ -270,14 +273,11 @@ export const Header = () => {
                                     {section.items.map((item, itemIdx) => (
                                       <Link
                                         key={itemIdx}
-                                        to={item.href}
-                                        className="block group"
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          handleNavigation(item.href, e);
-                                        }}
+                                        to={toHref(item.href)}
+                                        className="block group rounded-md p-2 -m-2 hover:bg-slate-50 transition-colors"
+                                        onClick={() => setActiveMegaMenu(null)}
                                       >
-                                        <div className="text-sm font-semibold text-slate-800 group-hover:text-gray-600 transition-colors mb-1" style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}>
+                                        <div className="text-sm font-semibold text-slate-800 group-hover:text-brand-blue transition-colors mb-1" style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}>
                                           {t(item.nameKey)}
                                         </div>
                                         {item.descriptionKey && (
@@ -302,13 +302,11 @@ export const Header = () => {
                 return (
                   <Link
                     key={link.nameKey}
-                    to={link.href}
+                    to={toHref(link.href)}
+                    aria-current={active ? 'page' : undefined}
                     className={`${desktopLinkClass(isLight)} ${active ? (isLight ? 'text-gray-900' : 'text-white') : ''}`}
                     style={{ ...desktopLinkStyle(isLight) }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavigation(link.href, e);
-                    }}
+                    onClick={() => setActiveMegaMenu(null)}
                   >
                     {t(link.nameKey)}
                   </Link>
@@ -388,7 +386,7 @@ export const Header = () => {
             <div className="relative h-full overflow-y-auto">
               <div className="w-full px-4 py-4 sm:px-6 sm:py-6">
                 <div className="flex justify-between items-center mb-6 sm:mb-8">
-                  <a href={`/${currentLang}`} className="flex items-center gap-3">
+                  <Link to={`/${currentLang}`} onClick={() => setIsOpen(false)} className="flex items-center gap-3">
                     <img
                       src="/logo.png"
                       alt="Logo PT Surya Inti Gas"
@@ -402,7 +400,7 @@ export const Header = () => {
                         style={{
                           fontFamily: "'Barlow', system-ui, sans-serif",
                           fontWeight: 800,
-                          fontSize: "12px sm:14px",
+                          fontSize: "14px",
                           letterSpacing: "0.12em",
                         }}
                       >
@@ -412,7 +410,7 @@ export const Header = () => {
                         {t('header.corporate')}
                       </div>
                     </div>
-                  </a>
+                  </Link>
                   <button
                     className="p-3 sm:p-2 rounded-full hover:bg-slate-100 transition-colors"
                     onClick={() => setIsOpen(false)}
@@ -461,12 +459,11 @@ export const Header = () => {
                                     {section.items.map((item, itemIdx) => (
                                       <Link
                                         key={itemIdx}
-                                        to={item.href}
+                                        to={toHref(item.href)}
                                         className="block text-sm text-slate-700 hover:text-blue-600 py-2 transition-colors"
                                         style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          handleNavigation(item.href, e);
+                                        onClick={() => {
+                                          setActiveMobileMegaMenu(null);
                                           setIsOpen(false);
                                         }}
                                       >
@@ -488,14 +485,11 @@ export const Header = () => {
                     return (
                       <Link
                         key={link.nameKey}
-                        to={link.href}
+                        to={toHref(link.href)}
+                        aria-current={active ? 'page' : undefined}
                         className={mobileLinkClass(active)}
                         style={{ ...mobileLinkStyle }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleNavigation(link.href, e);
-                          setIsOpen(false);
-                        }}
+                        onClick={() => setIsOpen(false)}
                       >
                         {t(link.nameKey)}
                       </Link>

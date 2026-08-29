@@ -41,7 +41,7 @@ export function SlideContent() {
     >
       <motion.span
         variants={item}
-        className="mb-4 inline-block text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#00AEEF]"
+        className="mb-4 inline-block text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-brand-sky"
       >
         {staticContent.subtitle}
       </motion.span>
