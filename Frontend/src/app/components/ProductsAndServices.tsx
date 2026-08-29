@@ -1,7 +1,9 @@
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion, type Variants } from "motion/react";
+
+const MotionLink = motion.create(Link);
 import {
   ChevronRight,
   Wrench,
@@ -31,7 +33,7 @@ const gridStagger: Variants = {
 
 
 // Product Card Component
-function ProductCard({ product, onClick, mainCategory }: { product: Product; onClick: (id: string) => void; mainCategory: MainCategory }) {
+function ProductCard({ product, href, mainCategory }: { product: Product; href: string; mainCategory: MainCategory }) {
   const [imageError, setImageError] = useState(false);
   const { t } = useTranslation();
 
@@ -40,11 +42,12 @@ function ProductCard({ product, onClick, mainCategory }: { product: Product; onC
   };
 
   return (
-    <motion.div
+    <MotionLink
+      to={href}
       className="products-card"
-      onClick={() => onClick(product.id)}
+      aria-label={product.title}
       variants={fadeUp}
-      whileHover={{ y: -8 }}
+      whileHover={{ y: -6 }}
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       <div className="products-card-image">
@@ -73,10 +76,10 @@ function ProductCard({ product, onClick, mainCategory }: { product: Product; onC
           {product.description}
         </p>
         <div className="products-card-arrow">
-          <ChevronRight size={20} />
+          <ChevronRight size={20} aria-hidden="true" />
         </div>
       </div>
-    </motion.div>
+    </MotionLink>
   );
 }
 
@@ -169,7 +172,6 @@ function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: stri
 
 
 export function ProductsAndServices() {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { t } = useTranslation();
   const { lang } = useParams();
@@ -294,9 +296,8 @@ export function ProductsAndServices() {
     return subCat?.products || [];
   };
 
-  const handleCardClick = (productId: string) => {
-    navigate(`/${lang || 'id'}/produk/detail?id=${productId}`);
-  };
+  const productHref = (productId: string) =>
+    `/${lang || 'id'}/produk/detail?id=${productId}`;
 
   return (
     <div className="products-corporate">
@@ -396,7 +397,7 @@ export function ProductsAndServices() {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  onClick={handleCardClick}
+                  href={productHref(product.id)}
                   mainCategory={mainCategory}
                 />
               ))}

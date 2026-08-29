@@ -1,8 +1,10 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { motion, type Variants } from "motion/react";
+
+const MotionLink = motion.create(Link);
 
 /* ═══════════════════════════════════════════════════════════════
    INDUSTRIES SERVED.TSX — PT Surya Inti Gas Corporate
@@ -99,6 +101,7 @@ const css = `
   }
 
   .industry-card {
+    display: block;
     flex: 0 0 calc(33.333% - 16px);
     background: var(--white);
     border-radius: 20px;
@@ -107,7 +110,9 @@ const css = `
     transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
     scroll-snap-align: start;
     position: relative;
-    will-change: transform;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
   }
 
   .industry-card::before {
@@ -280,7 +285,6 @@ type Industry = {
 export function IndustriesServed() {
   const { t } = useTranslation();
   const { lang } = useParams<{ lang: string }>();
-  const navigate = useNavigate();
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -357,10 +361,6 @@ export function IndustriesServed() {
     }
   };
 
-  const handleIndustryClick = (industryId: string) => {
-    navigate(`/${currentLang}/portofolio?industry=${industryId}`);
-  };
-
   useEffect(() => {
     checkScrollButtons();
     let timeoutId: number;
@@ -414,12 +414,15 @@ export function IndustriesServed() {
               className="industries-carousel"
             >
               {industries.map((industry) => (
-                <motion.div 
-                  key={industry.id} 
-                  className="industry-card" 
+                <MotionLink
+                  key={industry.id}
+                  to={`/${currentLang}/portofolio?industry=${industry.id}`}
+                  className="industry-card"
                   variants={fadeUp}
-                  onClick={() => handleIndustryClick(industry.id)}
-                  style={{ cursor: 'pointer' }}
+                  aria-label={t('industriesServed.viewProjectsAria', {
+                    industry: industry.title,
+                    defaultValue: `Lihat proyek ${industry.title}`,
+                  })}
                 >
                   <div className="industry-card-image">
                     <img
@@ -441,7 +444,7 @@ export function IndustriesServed() {
                       {industry.title}
                     </h3>
                   </div>
-                </motion.div>
+                </MotionLink>
               ))}
             </div>
 

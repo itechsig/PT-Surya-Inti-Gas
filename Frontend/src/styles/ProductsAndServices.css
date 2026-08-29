@@ -390,14 +390,17 @@
 }
 
 .products-card {
+  display: block;
   background: var(--white);
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid var(--slate-200);
   cursor: pointer;
-  transition: all 0.4s var(--ease);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+  color: inherit;
 }
 
 .products-card::before {

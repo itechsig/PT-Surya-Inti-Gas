@@ -8,19 +8,13 @@ export const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Show once the user has scrolled roughly one viewport down — the point
+    // where jumping back to the top actually saves them effort.
     const toggleVisibility = () => {
-      // Show button only when scrolled to the bottom of the page (within 100px)
-      const scrollPosition = window.scrollY + window.innerHeight;
-      const pageHeight = document.documentElement.scrollHeight;
-      const threshold = 100; // pixels from bottom
-      
-      if (scrollPosition >= pageHeight - threshold) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.scrollY > window.innerHeight * 0.9);
     };
 
+    toggleVisibility();
     window.addEventListener('scroll', toggleVisibility, { passive: true });
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
@@ -41,10 +35,10 @@ export const ScrollToTopButton = () => {
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ duration: 0.3 }}
           onClick={scrollToTop}
-          className="fixed bottom-7 left-6 z-50 bg-blue-600 text-white p-4 rounded-full shadow-lg shadow-blue-600/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-600/40 hover:-translate-y-1"
+          className="fixed bottom-7 left-6 z-50 rounded-full bg-brand-navy p-4 text-white shadow-lg shadow-brand-navy/30 transition-shadow duration-300 hover:bg-brand-navy-hover hover:shadow-xl"
           aria-label={t('common.scrollToTop')}
         >
-          <ArrowUp className="w-6 h-6" />
+          <ArrowUp className="w-6 h-6" aria-hidden="true" />
         </motion.button>
       )}
     </AnimatePresence>

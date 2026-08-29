@@ -1,6 +1,6 @@
 import { ArrowRight, Award } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { motion, type Variants } from "motion/react";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -220,10 +220,11 @@ const css = `
 
   .about-content-text {
     font-family: var(--ff-body);
-    font-size: 1.5rem;
-    line-height: 1.7;
+    font-size: 1.125rem;
+    line-height: 1.75;
     color: var(--slate-600);
     margin: 0 0 32px;
+    max-width: 60ch;
   }
 
   /* ── Corporate CTA Section ── */
@@ -267,20 +268,10 @@ const css = `
   .about-cta svg {
     color: var(--white) !important;
     transition: transform 0.3s var(--ease);
-    animation: about-cta-arrow-shake 2.5s ease-in-out infinite;
   }
 
   .about-cta:hover svg {
-    animation-play-state: paused;
-    transform: translateX(3px);
-  }
-
-  @keyframes about-cta-arrow-shake {
-    0%, 50%, 100% { transform: translateX(0); }
-    10% { transform: translateX(-4px); }
-    20% { transform: translateX(4px); }
-    30% { transform: translateX(-4px); }
-    40% { transform: translateX(4px); }
+    transform: translateX(4px);
   }
 
   .about-cta:hover {
@@ -419,10 +410,10 @@ export function AboutCompany() {
                 <p className="about-content-text">
                   {t('homeAbout.profileText')}
                 </p>
-                <a href={`/${currentLang}/tentang-kami`} className="about-cta">
+                <Link to={`/${currentLang}/tentang-kami`} className="about-cta">
                   {t('homeAbout.cta')}
-                  <ArrowRight size={22} strokeWidth={2.5} />
-                </a>
+                  <ArrowRight size={22} strokeWidth={2.5} aria-hidden="true" />
+                </Link>
               </div>
             </motion.div>
           </motion.div>

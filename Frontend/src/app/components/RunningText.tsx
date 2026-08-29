@@ -5,7 +5,7 @@ const css = `
     position: relative;
     width: 100%;
     overflow: hidden;
-    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, var(--brand-navy, #1e40af) 0%, var(--brand-blue, #3b82f6) 100%);
     padding: 16px 0;
   }
 
@@ -19,6 +19,12 @@ const css = `
     display: flex;
     animation: scroll 30s linear infinite;
     white-space: nowrap;
+  }
+
+  /* Pause the ticker when the pointer or keyboard focus is on it. */
+  .running-text-container:hover .running-text-content,
+  .running-text-container:focus-within .running-text-content {
+    animation-play-state: paused;
   }
 
   .running-text-item {
@@ -52,6 +58,15 @@ const css = `
     }
   }
 
+  /* Reduced motion: hold the ticker still at its start instead of
+     freezing it mid-scroll (which would clip half the messages). */
+  @media (prefers-reduced-motion: reduce) {
+    .running-text-content {
+      animation: none;
+      transform: translateX(0);
+    }
+  }
+
   @media (max-width: 768px) {
     .running-text-item {
       font-size: 1rem;
@@ -73,15 +88,15 @@ export function RunningText() {
     <div className="running-text-container">
       <style>{css}</style>
       <div className="running-text-wrapper">
-        <div className="running-text-content">
+        <div className="running-text-content" data-marquee>
           {textItems.map((item, index) => (
             <div key={index} className="running-text-item">
               {item}
             </div>
           ))}
-          {/* Duplicate for seamless loop */}
+          {/* Duplicate for seamless loop — hidden from assistive tech */}
           {textItems.map((item, index) => (
-            <div key={`duplicate-${index}`} className="running-text-item">
+            <div key={`duplicate-${index}`} className="running-text-item" aria-hidden="true">
               {item}
             </div>
           ))}

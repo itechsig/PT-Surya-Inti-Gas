@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { motion, type PanInfo, type Variants } from "motion/react";
-import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
+import { motion, useReducedMotion, type PanInfo, type Variants } from "motion/react";
+import { ChevronLeft, ChevronRight, Pause, Play, Quote, Star } from "lucide-react";
 import { getImageUrl } from "../../utils/imageUrl";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -255,24 +255,27 @@ const css = `
   }
 
   .trust-dot {
-    width: 8px;
-    height: 8px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.25);
+    background-clip: content-box;
     border: none;
-    padding: 0;
+    padding: 9px;
     cursor: pointer;
-    transition: all 0.3s var(--ease);
+    transition: background 0.3s var(--ease), width 0.3s var(--ease);
   }
 
   .trust-dot:hover {
     background: var(--sky-light);
+    background-clip: content-box;
   }
 
   .trust-dot.active {
-    width: 24px;
-    border-radius: 5px;
+    width: 42px;
+    border-radius: 13px;
     background: var(--sky-light);
+    background-clip: content-box;
   }
 
   /* ── Stats Strip ── */
@@ -446,10 +449,14 @@ export function TrustCTA() {
 
   const items = t("testimonials.items", { returnObjects: true }) as TestimonialItem[];
   const total = items.length;
+  const prefersReduced = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
   const [radius, setRadius] = useState(230);
   const stageRef = useRef<HTMLDivElement>(null);
+
+  const isPaused = hoverPaused || userPaused || !!prefersReduced;
 
   useEffect(() => {
     const node = stageRef.current;
@@ -481,7 +488,7 @@ export function TrustCTA() {
   }, [isPaused, total]);
 
   const handleDragEnd = (_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    setIsPaused(false);
+    setHoverPaused(false);
     if (info.offset.x < -SWIPE_THRESHOLD) goNext();
     else if (info.offset.x > SWIPE_THRESHOLD) goPrev();
   };
@@ -495,8 +502,8 @@ export function TrustCTA() {
       <section
         className="trust-cta-section"
         id="testimonials"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
+        onMouseEnter={() => setHoverPaused(true)}
+        onMouseLeave={() => setHoverPaused(false)}
       >
         <div className="trust-cta-container">
 
@@ -545,7 +552,7 @@ export function TrustCTA() {
                     drag={isActive ? "x" : false}
                     dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.5}
-                    onDragStart={() => setIsPaused(true)}
+                    onDragStart={() => setHoverPaused(true)}
                     onDragEnd={isActive ? handleDragEnd : undefined}
                     onClick={!isActive ? () => goTo(index) : undefined}
                     aria-hidden={Math.abs(offset) > 2}
@@ -575,22 +582,37 @@ export function TrustCTA() {
 
             {/* Controls */}
             <div className="trust-controls">
+              {total > 1 && (
+                <button
+                  type="button"
+                  className="trust-nav-btn"
+                  onClick={() => setUserPaused((v) => !v)}
+                  aria-pressed={userPaused}
+                  aria-label={
+                    userPaused
+                      ? t("hero.play", "Play testimonials")
+                      : t("hero.pause", "Pause testimonials")
+                  }
+                >
+                  {userPaused ? <Play size={16} className="translate-x-px" /> : <Pause size={16} />}
+                </button>
+              )}
+
               <button
                 type="button"
                 className="trust-nav-btn"
                 onClick={goPrev}
                 aria-label={t("hero.previousSlide")}
               >
-                <ChevronLeft size={18} />
+                <ChevronLeft size={18} aria-hidden="true" />
               </button>
 
-              <div className="trust-dots" role="tablist" aria-label={t("testimonials.title")}>
+              <div className="trust-dots" role="group" aria-label={t("testimonials.title")}>
                 {items.map((_, index) => (
                   <button
                     key={index}
                     type="button"
-                    role="tab"
-                    aria-selected={index === activeIndex}
+                    aria-current={index === activeIndex ? "true" : undefined}
                     aria-label={t("hero.goToSlide", { number: index + 1 })}
                     className={`trust-dot ${index === activeIndex ? "active" : ""}`}
                     onClick={() => goTo(index)}
@@ -604,7 +626,7 @@ export function TrustCTA() {
                 onClick={goNext}
                 aria-label={t("hero.nextSlide")}
               >
-                <ChevronRight size={18} />
+                <ChevronRight size={18} aria-hidden="true" />
               </button>
             </div>
           </motion.div>
