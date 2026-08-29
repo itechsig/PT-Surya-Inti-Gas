@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -1036,27 +1036,50 @@ function Lightbox({
   onNavigate: (index: number) => void;
   labels: { close: string; prev: string; next: string };
 }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const node = dialogRef.current;
+
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
       if (e.key === 'ArrowRight') onNavigate((index + 1) % images.length);
       if (e.key === 'ArrowLeft') onNavigate((index - 1 + images.length) % images.length);
+      if (e.key === 'Tab' && node) {
+        // Keep focus inside the lightbox.
+        const focusables = node.querySelectorAll<HTMLElement>('button, [href], [tabindex]:not([tabindex="-1"])');
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
+
     document.addEventListener('keydown', handleKey);
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    node?.querySelector<HTMLElement>('.au-lightbox-close')?.focus();
+
     return () => {
       document.removeEventListener('keydown', handleKey);
       document.body.style.overflow = originalOverflow;
+      previouslyFocused?.focus?.();
     };
   }, [index, images.length, onClose, onNavigate]);
 
   const current = images[index];
 
   return createPortal(
-    <div className="au-lightbox" role="dialog" aria-modal="true" aria-label={current.alt} onClick={onClose}>
+    <div ref={dialogRef} className="au-lightbox" role="dialog" aria-modal="true" aria-label={current.alt} onClick={onClose}>
       <button type="button" className="au-lightbox-close" onClick={onClose} aria-label={labels.close}>
-        <X size={22} />
+        <X size={22} aria-hidden="true" />
       </button>
       <button
         type="button"
@@ -1067,7 +1090,7 @@ function Lightbox({
         }}
         aria-label={labels.prev}
       >
-        <ChevronLeft size={26} />
+        <ChevronLeft size={26} aria-hidden="true" />
       </button>
       <img src={current.src} alt={current.alt} className="au-lightbox-image" onClick={(e) => e.stopPropagation()} />
       <button
@@ -1079,7 +1102,7 @@ function Lightbox({
         }}
         aria-label={labels.next}
       >
-        <ChevronRight size={26} />
+        <ChevronRight size={26} aria-hidden="true" />
       </button>
     </div>,
     document.body

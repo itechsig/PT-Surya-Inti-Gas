@@ -88,7 +88,7 @@ export function ProductDetail() {
         <section className="products-section" id="products">
           <div className="products-container">
             <div className="products-header">
-              <h2 className="products-title">{t('common.loading')}</h2>
+              <h1 className="products-title">{t('common.loading')}</h1>
             </div>
           </div>
         </section>
@@ -102,7 +102,7 @@ export function ProductDetail() {
         <section className="products-section" id="products">
           <div className="products-container">
             <div className="products-header">
-              <h2 className="products-title">{t('productDetail.notFoundTitle')}</h2>
+              <h1 className="products-title">{t('productDetail.notFoundTitle')}</h1>
               <button onClick={handleBack} className="products-tab" aria-label={t('productDetail.backAria')}>
                 {t('productDetail.backToList')}
               </button>
@@ -141,7 +141,7 @@ export function ProductDetail() {
           overflow: 'hidden'
         }}>
           <div className="products-container">
-            <h2 className="products-title" style={{
+            <h1 className="products-title" style={{
               fontFamily: 'Barlow, system-ui, sans-serif',
               fontSize: 'clamp(2.5rem, 5vw, 4rem)',
               fontWeight: '800',
@@ -151,7 +151,7 @@ export function ProductDetail() {
               margin: '0 0 24px'
             }}>
               {product.title}
-            </h2>
+            </h1>
             <p className="products-subtitle" style={{
               fontFamily: 'DM Sans, system-ui, sans-serif',
               fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
@@ -216,7 +216,7 @@ export function ProductDetail() {
               {productData?.mainCategory === 'gas' && (
                 <>
                   <motion.div className="products-detail-info" variants={fadeUp}>
-                    <h3>{t('productDetail.info.title')}</h3>
+                    <h2>{t('productDetail.info.title')}</h2>
                     <motion.div className="product-specifications" variants={staggerContainer}>
                       <motion.div className="spec-item" variants={fadeUp}>
                         <span className="spec-label">{t('productDetail.info.productId')}</span>
@@ -247,7 +247,7 @@ export function ProductDetail() {
                     </motion.div>
 
                     <div className="product-applications">
-                      <h4>{t('productDetail.applications.title')}</h4>
+                      <h3>{t('productDetail.applications.title')}</h3>
                       <motion.ul variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-40px" }}>
                         {(t('productDetail.applications.items', { returnObjects: true }) as string[]).map((item, i) => (
                           <motion.li key={i} variants={fadeUp}>{item}</motion.li>
@@ -258,7 +258,7 @@ export function ProductDetail() {
 
                   {/* Packaging Selection for Gas Products */}
                   <motion.div className="product-packaging" variants={fadeUp}>
-                    <h4>{t('productDetail.packaging.title')}</h4>
+                    <h3>{t('productDetail.packaging.title')}</h3>
                     <p>{t('productDetail.packaging.description')}</p>
                     <motion.div
                       className="packaging-options"
@@ -295,7 +295,7 @@ export function ProductDetail() {
 
                   {/* WhatsApp Contact Button Only for Gas Products */}
                   <motion.div className="product-contact" variants={fadeUp}>
-                    <h4>{t('productDetail.contact.title')}</h4>
+                    <h3>{t('productDetail.contact.title')}</h3>
                     <p>{t('productDetail.contact.description')}</p>
                     <button className="contact-button" onClick={() => handleContactSales(product.title)}>
                       {t('productDetail.contact.button')}

@@ -836,12 +836,14 @@
   border: 1px solid var(--slate-200);
 }
 
+.products-detail-info h2,
 .products-detail-info h3 {
   font-family: var(--ff-display);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--navy-dark);
   margin: 0 0 16px;
+  letter-spacing: normal;
 }
 
 .products-detail-info p {
@@ -906,7 +908,7 @@
 }
 
 .product-applications h4,
-.product-contact h4 {
+.product-contact h3 {
   font-family: var(--ff-display);
   font-size: 1.1rem;
   font-weight: 700;
@@ -1166,7 +1168,7 @@
   border: 1px solid var(--slate-200);
 }
 
-.product-packaging h4 {
+.product-packaging h3 {
   font-family: var(--ff-display);
   font-size: 1.1rem;
   font-weight: 700;

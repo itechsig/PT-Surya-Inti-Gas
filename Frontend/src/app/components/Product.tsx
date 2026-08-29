@@ -329,7 +329,7 @@ export function Product() {
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-          <motion.h2 className="products-title" variants={fadeUp} style={{
+          <motion.h1 className="products-title" variants={fadeUp} style={{
             fontFamily: 'Barlow, system-ui, sans-serif',
             fontSize: 'clamp(2.25rem, 5vw, 4rem)',
             fontWeight: '800',
@@ -339,7 +339,7 @@ export function Product() {
             margin: '0 0 24px'
           }}>
             {t('products.pageHeader.title')}
-          </motion.h2>
+          </motion.h1>
           <motion.p className="products-subtitle" variants={fadeUp} style={{
             fontFamily: 'DM Sans, system-ui, sans-serif',
             fontSize: 'clamp(1rem, 1.4vw, 1.125rem)',
