@@ -933,22 +933,44 @@ export function Chatbot() {
     }
   };
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
+
+  // Move focus into the panel on open, back to the trigger on close, and
+  // let Escape close the panel.
+  useEffect(() => {
+    if (isOpen) {
+      wasOpen.current = true;
+      inputRef.current?.focus();
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setIsOpen(false);
+      };
+      document.addEventListener("keydown", onKey);
+      return () => document.removeEventListener("keydown", onKey);
+    }
+    if (wasOpen.current) triggerRef.current?.focus();
+  }, [isOpen]);
+
   return (
     <>
       {/* Chat Button */}
       <motion.button
+        ref={triggerRef}
+        type="button"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.94 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-7 right-6 z-50 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+        className="fixed bottom-7 right-6 z-50 rounded-full bg-brand-navy p-4 text-white shadow-lg transition-colors hover:bg-brand-navy-hover"
         aria-label={isOpen ? t("chatbot.closeChat") : t("chatbot.openChat")}
+        aria-expanded={isOpen}
       >
         {isOpen ? (
-          <X size={24} />
+          <X size={24} aria-hidden="true" />
         ) : (
-          <MessageCircle size={24} />
+          <MessageCircle size={24} aria-hidden="true" />
         )}
       </motion.button>
 
@@ -972,13 +994,15 @@ export function Chatbot() {
               y: 20,
             }}
             transition={{ duration: 0.2 }}
+            role="dialog"
+            aria-label={t("chatbot.title")}
             className="fixed bottom-[7rem] right-6 z-50 w-96 max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4">
+            <div className="bg-gradient-to-r from-brand-navy to-brand-blue text-white p-4">
               <div className="flex items-center gap-3">
                 <div className="bg-white/20 p-2 rounded-full">
-                  <Bot size={24} />
+                  <Bot size={24} aria-hidden="true" />
                 </div>
 
                 <div>
@@ -994,7 +1018,12 @@ export function Chatbot() {
             </div>
 
             {/* Messages */}
-            <div className="h-96 overflow-y-auto p-4 space-y-4 bg-gray-50">
+            <div
+              className="h-96 overflow-y-auto p-4 space-y-4 bg-gray-50"
+              role="log"
+              aria-live="polite"
+              aria-atomic="false"
+            >
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
@@ -1011,6 +1040,7 @@ export function Chatbot() {
                       <Bot
                         size={16}
                         className="text-blue-600"
+                        aria-hidden="true"
                       />
                     </div>
                   )}
@@ -1069,6 +1099,7 @@ export function Chatbot() {
                       <User
                         size={16}
                         className="text-gray-600"
+                        aria-hidden="true"
                       />
                     </div>
                   )}
@@ -1120,6 +1151,7 @@ export function Chatbot() {
             <div className="p-4 bg-white border-t">
               <div className="flex gap-2">
                 <input
+                  ref={inputRef}
                   type="text"
                   value={inputValue}
                   onChange={(e) =>
@@ -1127,19 +1159,21 @@ export function Chatbot() {
                   }
                   onKeyDown={handleKeyDown}
                   placeholder={t("chatbot.inputPlaceholder")}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label={t("chatbot.inputPlaceholder")}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent"
                   disabled={isLoading}
                 />
 
                 <button
+                  type="button"
                   onClick={handleSendMessage}
                   disabled={
                     isLoading || !inputValue.trim()
                   }
-                  className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                  className="rounded-full bg-brand-navy p-2 text-white transition-colors hover:bg-brand-navy-hover disabled:bg-gray-300 disabled:cursor-not-allowed"
                   aria-label={t("chatbot.sendMessage")}
                 >
-                  <Send size={20} />
+                  <Send size={20} aria-hidden="true" />
                 </button>
               </div>
 

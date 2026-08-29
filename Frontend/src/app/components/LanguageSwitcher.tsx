@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Globe, ChevronDown } from "lucide-react";
@@ -17,6 +17,15 @@ export const LanguageSwitcher = ({ isLight = true }: { isLight?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const currentLang = languages.find(lang => lang.code === i18n.language) || languages[0];
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [isOpen]);
 
   const changeLanguage = (langCode: string) => {
     const currentPath = location.pathname;
@@ -37,18 +46,21 @@ export const LanguageSwitcher = ({ isLight = true }: { isLight?: boolean }) => {
   return (
     <div className="relative">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        aria-label={`Bahasa: ${currentLang.name}`}
         className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
           isLight
             ? "!text-slate-600 hover:!text-blue-700 hover:bg-blue-50"
             : "!text-white/85 hover:!text-white hover:bg-white/10"
         }`}
-        aria-label="Change language"
       >
-        <Globe size={18} />
+        <Globe size={18} aria-hidden="true" />
         <span className="font-semibold">{currentLang.flag}</span>
         <span className="hidden md:inline">{currentLang.name}</span>
-        <ChevronDown size={16} className={`${isOpen ? 'rotate-180' : ''} transition-transform`} />
+        <ChevronDown size={16} aria-hidden="true" className={`${isOpen ? 'rotate-180' : ''} transition-transform`} />
       </button>
 
       <AnimatePresence>
@@ -57,8 +69,11 @@ export const LanguageSwitcher = ({ isLight = true }: { isLight?: boolean }) => {
             <div
               className="fixed inset-0 z-10"
               onClick={() => setIsOpen(false)}
+              aria-hidden="true"
             />
             <motion.div
+              role="menu"
+              aria-label="Pilih bahasa"
               className="absolute right-0 top-full mt-2 w-40 bg-white rounded-lg shadow-lg border border-slate-200 z-20 overflow-hidden origin-top-right"
               initial={{ opacity: 0, scale: 0.95, y: -6 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -68,6 +83,9 @@ export const LanguageSwitcher = ({ isLight = true }: { isLight?: boolean }) => {
               {languages.map((lang) => (
                 <button
                   key={lang.code}
+                  type="button"
+                  role="menuitem"
+                  aria-current={i18n.language === lang.code ? 'true' : undefined}
                   onClick={() => changeLanguage(lang.code)}
                   className={`w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors ${
                     i18n.language === lang.code
@@ -75,7 +93,7 @@ export const LanguageSwitcher = ({ isLight = true }: { isLight?: boolean }) => {
                       : "text-slate-700 hover:bg-slate-50"
                   }`}
                 >
-                  <span>{lang.flag}</span>
+                  <span aria-hidden="true">{lang.flag}</span>
                   <span>{lang.name}</span>
                 </button>
               ))}
