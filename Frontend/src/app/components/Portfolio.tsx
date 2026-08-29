@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { Search, MapPin, Calendar, ArrowRight, FolderOpen } from 'lucide-react';
@@ -7,7 +7,6 @@ import { AnimatePresence, motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
 import { Badge } from './ui/badge';
-import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Skeleton } from './ui/skeleton';
 import {
@@ -29,14 +28,16 @@ const staggerContainer: Variants = {
   show: { transition: { staggerChildren: 0.08 } },
 };
 
+const MotionLink = motion.create(Link);
+
 export function PortfolioCard({ item, currentLang }: { item: PortfolioSummary; currentLang: string }) {
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
-    <motion.div
+    <MotionLink
+      to={`/${currentLang}/portofolio/${item.id}`}
       className="portfolio-card"
-      onClick={() => navigate(`/${currentLang}/portofolio/${item.id}`)}
+      aria-label={item.title}
       variants={fadeUp}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.3 }}
@@ -60,11 +61,11 @@ export function PortfolioCard({ item, currentLang }: { item: PortfolioSummary; c
           <span className="portfolio-card-meta-item"><MapPin size={13} /> {item.location}</span>
           <span className="portfolio-card-meta-item"><Calendar size={13} /> {item.completionDate}</span>
         </div>
-        <Button variant="outline" className="portfolio-card-btn">
+        <span className="portfolio-card-btn" aria-hidden="true">
           {t('portfolio.page.viewDetail')} <ArrowRight size={14} />
-        </Button>
+        </span>
       </div>
-    </motion.div>
+    </MotionLink>
   );
 }
 
@@ -271,9 +272,9 @@ export function Portfolio() {
       >
         <motion.h2 className="portfolio-cta-title" variants={fadeUp}>{t('portfolio.cta.title')}</motion.h2>
         <motion.p className="portfolio-cta-subtitle" variants={fadeUp}>{t('portfolio.cta.subtitle')}</motion.p>
-        <motion.a href={`/${currentLang}/kontak`} className="portfolio-cta-btn" variants={fadeUp}>
+        <MotionLink to={`/${currentLang}/kontak`} className="portfolio-cta-btn" variants={fadeUp}>
           {t('portfolio.cta.contactButton')}
-        </motion.a>
+        </MotionLink>
       </motion.div>
     </div>
   );

@@ -407,13 +407,13 @@ export function Footer() {
 
           {/* Company Info */}
           <motion.div className="corporate-footer-company" variants={fadeUp}>
-            <a href={`/${currentLang}`} className="corporate-footer-logo">
-              <img src="/logo.png" alt="PT Surya Inti Gas Logo" width="200" height="56" />
+            <Link to={`/${currentLang}`} className="corporate-footer-logo" aria-label="PT Surya Inti Gas — Beranda">
+              <img src="/logo.png" alt="" width="200" height="56" />
               <div className="corporate-footer-logo-text">
                 <span className="name">SURYA INTI GAS</span>
                 <span className="tagline">{t('footer.tagline')}</span>
               </div>
-            </a>
+            </Link>
 
             <p className="corporate-footer-description">
               {t('footer.description')}

@@ -1,7 +1,9 @@
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight, PhoneCall } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
+const MotionLink = motion.create(Link);
 
 const container: Variants = {
   hidden: {},
@@ -20,7 +22,6 @@ const item: Variants = {
 };
 
 export function SlideContent() {
-  const navigate = useNavigate();
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || "id";
   const { t } = useTranslation();
@@ -61,23 +62,21 @@ export function SlideContent() {
       </motion.p>
 
       <motion.div variants={item} className="flex flex-wrap items-center justify-center gap-4">
-        <button
-          type="button"
-          onClick={() => navigate(`/${currentLang}/produk`)}
+        <MotionLink
+          to={`/${currentLang}/produk`}
           className="hero-cta-primary group"
         >
           {t('hero.viewProducts')}
-          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-        </button>
+          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+        </MotionLink>
 
-        <button
-          type="button"
-          onClick={() => navigate(`/${currentLang}/kontak`)}
+        <MotionLink
+          to={`/${currentLang}/kontak`}
           className="hero-cta-secondary"
         >
-          <PhoneCall className="h-4 w-4" />
+          <PhoneCall className="h-4 w-4" aria-hidden="true" />
           {t('hero.contactUs')}
-        </button>
+        </MotionLink>
       </motion.div>
     </motion.div>
   );

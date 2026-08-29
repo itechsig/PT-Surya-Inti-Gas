@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   Calendar,
@@ -255,11 +255,14 @@ const galleryDetailStyles = `
   }
 
   .related-gallery-item {
+    display: block;
     position: relative;
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
     background: white;
+    text-decoration: none;
+    color: inherit;
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -333,6 +336,8 @@ const galleryDetailStyles = `
     }
   }
 `;
+
+const MotionLink = motion.create(Link);
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -597,10 +602,10 @@ function GalleryDetail() {
               variants={staggerContainer}
             >
               {relatedItems.map((item) => (
-                <motion.div
+                <MotionLink
                   key={item.id}
+                  to={`/${currentLang}/galeri/${item.id}`}
                   className="related-gallery-item"
-                  onClick={() => navigate(`/${currentLang}/galeri/${item.id}`)}
                   variants={fadeUp}
                 >
                   <img
@@ -609,7 +614,7 @@ function GalleryDetail() {
                     onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
                   />
                   <div className="related-gallery-item-title">{item.title}</div>
-                </motion.div>
+                </MotionLink>
               ))}
             </motion.div>
           </div>

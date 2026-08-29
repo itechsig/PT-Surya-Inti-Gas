@@ -42,6 +42,8 @@ const css = `
   .hero-cta-secondary {
     position: relative;
     overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
   }
 
   .hero-cta-primary::before,

@@ -1,6 +1,6 @@
 import '../../styles/ProductsAndServices.css';
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
@@ -243,6 +243,8 @@ const galleryStyles = `
     position: relative;
     border-radius: 8px;
     overflow: hidden;
+    text-decoration: none;
+    color: inherit;
     transition: box-shadow 0.35s var(--ease);
   }
 
@@ -456,13 +458,6 @@ const galleryStyles = `
 
 function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: string }) {
   const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate();
-
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    navigate(`/${currentLang}/galeri/${item.id}`);
-  };
 
   const getSizeClass = () => {
     switch (item.size) {
@@ -481,12 +476,13 @@ function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: st
       className={`uk-first-column ${getSizeClass()}`}
       variants={cardReveal}
     >
-      <div
+      <Link
+        to={`/${currentLang}/galeri/${item.id}`}
+        aria-label={item.title}
         className="uk-article uk-card uk-overflow-hidden uk-card-custom uk-border-rounded uk-transition-toggle"
-        style={{ cursor: 'pointer', position: 'relative', height: '100%' }}
+        style={{ cursor: 'pointer', position: 'relative', height: '100%', display: 'block' }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={handleClick}
       >
         <div className="ui-gallery-thumbnail uk-display-block uk-card-media-top tz-image-cover" style={{ height: '100%' }}>
           <img
@@ -505,7 +501,7 @@ function GalleryCard({ item, currentLang }: { item: GalleryItem; currentLang: st
             </h3>
           </div>
         </div>
-      </div>
+      </Link>
     </motion.article>
   );
 }

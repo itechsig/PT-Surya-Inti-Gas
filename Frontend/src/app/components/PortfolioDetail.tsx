@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import Lightbox from 'yet-another-react-lightbox';
@@ -11,6 +11,8 @@ import { PageHero } from './PageHero';
 import { Skeleton } from './ui/skeleton';
 import { usePortfolioDetail } from '../../hooks/usePortfolioDetail';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
+
+const MotionLink = motion.create(Link);
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -185,9 +187,9 @@ export function PortfolioDetail() {
       >
         <motion.h2 className="portfolio-cta-title" variants={fadeUp}>{t('portfolio.cta.needSimilarTitle')}</motion.h2>
         <motion.p className="portfolio-cta-subtitle" variants={fadeUp}>{t('portfolio.cta.needSimilarSubtitle')}</motion.p>
-        <motion.a href={`/${currentLang}/kontak`} className="portfolio-cta-btn" variants={fadeUp}>
+        <MotionLink to={`/${currentLang}/kontak`} className="portfolio-cta-btn" variants={fadeUp}>
           {t('portfolio.cta.contactButton')}
-        </motion.a>
+        </MotionLink>
       </motion.div>
     </div>
   );
