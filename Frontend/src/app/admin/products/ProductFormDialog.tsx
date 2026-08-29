@@ -12,6 +12,7 @@ import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { ApiError } from '../../../utils/apiClient';
+import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
 import { createProduct, updateProduct } from './api';
 import { MAIN_CATEGORY_LABELS, type AdminProduct, type AdminProductCategory, type ProductFormValues } from './types';
 import { getImageUrl } from '../../../utils/imageUrl';
@@ -62,9 +63,8 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
     value: values[key] as string,
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setValues((prev) => ({ ...prev, [key]: e.target.value })),
+    ...fieldErrorProps(errors, key as string),
   });
-
-  const fieldError = (key: string) => errors[key]?.[0];
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
@@ -144,6 +144,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
           </DialogHeader>
 
           <div className="flex flex-col gap-4 py-4">
+            <FormErrorSummary errors={errors} />
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="category">Kategori</Label>
@@ -151,7 +152,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
                   value={values.product_category_id}
                   onValueChange={(value) => setValues((prev) => ({ ...prev, product_category_id: value }))}
                 >
-                  <SelectTrigger id="category">
+                  <SelectTrigger id="category" {...fieldErrorProps(errors, 'product_category_id')}>
                     <SelectValue placeholder="Pilih kategori" />
                   </SelectTrigger>
                   <SelectContent>
@@ -162,20 +163,20 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
                     ))}
                   </SelectContent>
                 </Select>
-                {fieldError('product_category_id') && <p className="text-xs text-destructive">{fieldError('product_category_id')}</p>}
+                <FieldError errors={errors} name="product_category_id" />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="slug">Slug (untuk URL, huruf/angka/tanda hubung)</Label>
                 <Input id="slug" placeholder="misal: oxygen" {...field('slug')} />
-                {fieldError('slug') && <p className="text-xs text-destructive">{fieldError('slug')}</p>}
+                <FieldError errors={errors} name="slug" />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="product-image">Gambar Utama</Label>
               {imagePreview && <img src={imagePreview} alt="Preview" className="h-32 w-48 rounded-md object-cover" />}
-              <Input id="product-image" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleImageChange} />
-              {fieldError('image') && <p className="text-xs text-destructive">{fieldError('image')}</p>}
+              <Input id="product-image" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleImageChange} {...fieldErrorProps(errors, 'image')} />
+              <FieldError errors={errors} name="image" />
             </div>
 
             <Tabs defaultValue="id">
@@ -189,12 +190,12 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`name_${lang}`}>Nama Produk</Label>
                     <Input id={`name_${lang}`} {...field(`name_${lang}` as keyof ProductFormValues)} />
-                    {fieldError(`name_${lang}`) && <p className="text-xs text-destructive">{fieldError(`name_${lang}`)}</p>}
+                    <FieldError errors={errors} name={`name_${lang}`} />
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`description_${lang}`}>Deskripsi Singkat</Label>
                     <Textarea id={`description_${lang}`} rows={2} {...field(`description_${lang}` as keyof ProductFormValues)} />
-                    {fieldError(`description_${lang}`) && <p className="text-xs text-destructive">{fieldError(`description_${lang}`)}</p>}
+                    <FieldError errors={errors} name={`description_${lang}`} />
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`full_description_${lang}`}>Deskripsi Lengkap</Label>

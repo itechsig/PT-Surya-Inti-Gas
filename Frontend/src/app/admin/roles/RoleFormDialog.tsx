@@ -13,6 +13,7 @@ import { Label } from '../../components/ui/label';
 import { Button } from '../../components/ui/button';
 import { Checkbox } from '../../components/ui/checkbox';
 import { ApiError } from '../../../utils/apiClient';
+import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
 import { createRole, listPermissions, updateRole } from './api';
 import type { AdminRoleRecord, Permission } from './types';
 
@@ -87,8 +88,6 @@ export function RoleFormDialog({ open, onOpenChange, role, onSaved }: RoleFormDi
     }
   };
 
-  const fieldError = (key: string) => errors[key]?.[0];
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg">
@@ -103,6 +102,7 @@ export function RoleFormDialog({ open, onOpenChange, role, onSaved }: RoleFormDi
           </DialogHeader>
 
           <div className="flex flex-col gap-4 py-4">
+            <FormErrorSummary errors={errors} />
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="role-name">Nama Role</Label>
               <Input
@@ -112,8 +112,9 @@ export function RoleFormDialog({ open, onOpenChange, role, onSaved }: RoleFormDi
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="mis. Marketing"
+                {...fieldErrorProps(errors, 'name')}
               />
-              {fieldError('name') && <p className="text-xs text-destructive">{fieldError('name')}</p>}
+              <FieldError errors={errors} name="name" />
             </div>
 
             <div className="flex flex-col gap-3">
@@ -138,7 +139,7 @@ export function RoleFormDialog({ open, onOpenChange, role, onSaved }: RoleFormDi
                   </div>
                 ))
               )}
-              {fieldError('permissions') && <p className="text-xs text-destructive">{fieldError('permissions')}</p>}
+              <FieldError errors={errors} name="permissions" />
             </div>
           </div>
 

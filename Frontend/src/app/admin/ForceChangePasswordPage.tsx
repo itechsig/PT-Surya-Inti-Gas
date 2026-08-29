@@ -8,6 +8,7 @@ import { Button } from '../components/ui/button';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { PasswordInput } from './PasswordInput';
+import { FormErrorSummary, FieldError } from './formErrors';
 
 /** Full-screen gate shown instead of the dashboard while user.must_change_password is true. */
 export function ForceChangePasswordPage() {
@@ -41,8 +42,6 @@ export function ForceChangePasswordPage() {
     }
   };
 
-  const fieldError = (key: string) => errors[key]?.[0];
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
       <Card className="w-full max-w-sm">
@@ -57,6 +56,7 @@ export function ForceChangePasswordPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <FormErrorSummary errors={errors} />
             <div className="flex flex-col gap-2">
               <Label htmlFor="force-current-password">Kata Sandi Saat Ini</Label>
               <PasswordInput
@@ -65,8 +65,9 @@ export function ForceChangePasswordPage() {
                 required
                 value={currentPassword}
                 onChange={setCurrentPassword}
+                invalid={!!errors.current_password?.length}
               />
-              {fieldError('current_password') && <p className="text-xs text-destructive">{fieldError('current_password')}</p>}
+              <FieldError errors={errors} name="current_password" />
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="force-new-password">Kata Sandi Baru</Label>
@@ -76,11 +77,12 @@ export function ForceChangePasswordPage() {
                 required
                 value={newPassword}
                 onChange={setNewPassword}
+                invalid={!!errors.password?.length}
               />
               <p className="text-xs text-muted-foreground">
                 Minimal 8 karakter, kombinasi huruf besar, huruf kecil, angka, dan simbol.
               </p>
-              {fieldError('password') && <p className="text-xs text-destructive">{fieldError('password')}</p>}
+              <FieldError errors={errors} name="password" />
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="force-new-password-confirmation">Konfirmasi Kata Sandi Baru</Label>

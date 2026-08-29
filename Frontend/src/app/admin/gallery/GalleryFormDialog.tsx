@@ -16,6 +16,7 @@ import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { ApiError } from '../../../utils/apiClient';
+import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
 import { createGalleryItem, updateGalleryItem } from './api';
 import { GALLERY_CATEGORIES, GALLERY_SIZES, type AdminGalleryItem, type GalleryItemFormValues } from './types';
 
@@ -62,6 +63,7 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
     value: values[key] as string,
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setValues((prev) => ({ ...prev, [key]: e.target.value })),
+    ...fieldErrorProps(errors, key as string),
   });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,8 +103,6 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
     }
   };
 
-  const fieldError = (key: string) => errors[key]?.[0];
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
@@ -116,13 +116,14 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
           </DialogHeader>
 
           <div className="flex flex-col gap-4 py-4">
+            <FormErrorSummary errors={errors} />
             <div className="flex flex-col gap-2">
               <Label htmlFor="gallery-image">Gambar</Label>
               {imagePreview && (
                 <img src={imagePreview} alt="Preview" className="h-32 w-full rounded-md object-cover" />
               )}
-              <Input id="gallery-image" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleImageChange} />
-              {fieldError('image') && <p className="text-xs text-destructive">{fieldError('image')}</p>}
+              <Input id="gallery-image" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleImageChange} {...fieldErrorProps(errors, 'image')} />
+              <FieldError errors={errors} name="image" />
             </div>
 
             <Tabs defaultValue="id">
@@ -136,17 +137,17 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`title_${lang}`}>Judul</Label>
                     <Input id={`title_${lang}`} {...field(`title_${lang}` as keyof GalleryItemFormValues)} />
-                    {fieldError(`title_${lang}`) && <p className="text-xs text-destructive">{fieldError(`title_${lang}`)}</p>}
+                    <FieldError errors={errors} name={`title_${lang}`} />
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`description_${lang}`}>Deskripsi Singkat</Label>
                     <Textarea id={`description_${lang}`} rows={2} {...field(`description_${lang}` as keyof GalleryItemFormValues)} />
-                    {fieldError(`description_${lang}`) && <p className="text-xs text-destructive">{fieldError(`description_${lang}`)}</p>}
+                    <FieldError errors={errors} name={`description_${lang}`} />
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`detailed_description_${lang}`}>Deskripsi Lengkap</Label>
                     <Textarea id={`detailed_description_${lang}`} rows={4} {...field(`detailed_description_${lang}` as keyof GalleryItemFormValues)} />
-                    {fieldError(`detailed_description_${lang}`) && <p className="text-xs text-destructive">{fieldError(`detailed_description_${lang}`)}</p>}
+                    <FieldError errors={errors} name={`detailed_description_${lang}`} />
                   </div>
                 </TabsContent>
               ))}
@@ -156,7 +157,7 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="category">Kategori</Label>
                 <Select value={values.category} onValueChange={(value) => setValues((prev) => ({ ...prev, category: value }))}>
-                  <SelectTrigger id="category">
+                  <SelectTrigger id="category" {...fieldErrorProps(errors, 'category')}>
                     <SelectValue placeholder="Pilih kategori" />
                   </SelectTrigger>
                   <SelectContent>
@@ -165,7 +166,7 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
                     ))}
                   </SelectContent>
                 </Select>
-                {fieldError('category') && <p className="text-xs text-destructive">{fieldError('category')}</p>}
+                <FieldError errors={errors} name="category" />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="year">Tahun</Label>
@@ -176,8 +177,9 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
                   max={2100}
                   value={values.year}
                   onChange={(e) => setValues((prev) => ({ ...prev, year: Number(e.target.value) }))}
+                  {...fieldErrorProps(errors, 'year')}
                 />
-                {fieldError('year') && <p className="text-xs text-destructive">{fieldError('year')}</p>}
+                <FieldError errors={errors} name="year" />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="size">Ukuran Grid</Label>

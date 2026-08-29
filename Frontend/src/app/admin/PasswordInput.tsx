@@ -8,9 +8,18 @@ interface PasswordInputProps {
   onChange: (value: string) => void;
   autoComplete: string;
   required?: boolean;
+  /** Marks the field invalid (red border + announced to screen readers). */
+  invalid?: boolean;
 }
 
-export function PasswordInput({ id, value, onChange, autoComplete, required }: PasswordInputProps) {
+export function PasswordInput({
+  id,
+  value,
+  onChange,
+  autoComplete,
+  required,
+  invalid,
+}: PasswordInputProps) {
   const [visible, setVisible] = useState(false);
   return (
     <div className="relative">
@@ -23,6 +32,7 @@ export function PasswordInput({ id, value, onChange, autoComplete, required }: P
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="pr-10"
+        aria-invalid={invalid || undefined}
       />
       <button
         type="button"
@@ -31,7 +41,7 @@ export function PasswordInput({ id, value, onChange, autoComplete, required }: P
         aria-label={visible ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
         tabIndex={-1}
       >
-        {visible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+        {visible ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
       </button>
     </div>
   );

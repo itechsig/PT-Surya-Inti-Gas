@@ -14,6 +14,7 @@ import { Button } from '../../components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { Checkbox } from '../../components/ui/checkbox';
 import { ApiError } from '../../../utils/apiClient';
+import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
 import { createUser, updateUser } from './api';
 import type { AdminUserRecord } from './types';
 import { listRoles } from '../roles/api';
@@ -113,8 +114,6 @@ export function UserFormDialog({ open, onOpenChange, user, onSaved }: UserFormDi
     }
   };
 
-  const fieldError = (key: string) => errors[key]?.[0];
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
@@ -129,6 +128,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSaved }: UserFormDi
           </DialogHeader>
 
           <div className="flex flex-col gap-3 py-4">
+            <FormErrorSummary errors={errors} />
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="user-name">Nama Lengkap</Label>
               <Input
@@ -137,8 +137,9 @@ export function UserFormDialog({ open, onOpenChange, user, onSaved }: UserFormDi
                 required
                 value={values.name}
                 onChange={(e) => setValues((prev) => ({ ...prev, name: e.target.value }))}
+                {...fieldErrorProps(errors, 'name')}
               />
-              {fieldError('name') && <p className="text-xs text-destructive">{fieldError('name')}</p>}
+              <FieldError errors={errors} name="name" />
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -150,15 +151,16 @@ export function UserFormDialog({ open, onOpenChange, user, onSaved }: UserFormDi
                 required
                 value={values.email}
                 onChange={(e) => setValues((prev) => ({ ...prev, email: e.target.value }))}
+                {...fieldErrorProps(errors, 'email')}
               />
-              {fieldError('email') && <p className="text-xs text-destructive">{fieldError('email')}</p>}
+              <FieldError errors={errors} name="email" />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="user-role">Peran</Label>
                 <Select value={values.role} onValueChange={(value) => setValues((prev) => ({ ...prev, role: value as AdminRole }))}>
-                  <SelectTrigger id="user-role">
+                  <SelectTrigger id="user-role" {...fieldErrorProps(errors, 'role')}>
                     <SelectValue placeholder="Pilih peran" />
                   </SelectTrigger>
                   <SelectContent>
@@ -169,7 +171,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSaved }: UserFormDi
                     ))}
                   </SelectContent>
                 </Select>
-                {fieldError('role') && <p className="text-xs text-destructive">{fieldError('role')}</p>}
+                <FieldError errors={errors} name="role" />
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -203,7 +205,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSaved }: UserFormDi
                   <p className="text-xs text-muted-foreground">
                     Minimal 8 karakter, kombinasi huruf besar, huruf kecil, angka, dan simbol.
                   </p>
-                  {fieldError('password') && <p className="text-xs text-destructive">{fieldError('password')}</p>}
+                  <FieldError errors={errors} name="password" />
                 </div>
 
                 <div className="flex flex-col gap-1.5">

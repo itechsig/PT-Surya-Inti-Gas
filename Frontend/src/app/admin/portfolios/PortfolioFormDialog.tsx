@@ -10,6 +10,7 @@ import { Label } from '../../components/ui/label';
 import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
 import { ApiError } from '../../../utils/apiClient';
+import { FormErrorSummary, fieldErrorProps } from '../formErrors';
 import { createPortfolio, deletePortfolioImage, reorderPortfolioImages, updatePortfolio, uploadPortfolioImages } from './api';
 import { ThumbnailCropDialog } from './ThumbnailCropDialog';
 import { PortfolioGalleryManager, type GalleryManagerItem } from './PortfolioGalleryManager';
@@ -87,6 +88,7 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
     value: values[key] as string,
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setValues((prev) => ({ ...prev, [key]: e.target.value })),
+    ...fieldErrorProps(errors, key as string),
   });
 
   const fieldError = (key: string) => errors[key]?.[0];
@@ -207,6 +209,7 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
           </DialogHeader>
 
           <div className="flex flex-col gap-4 py-4">
+            <FormErrorSummary errors={errors} />
             <div className="grid grid-cols-3 gap-3">
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="industry">Industry</Label>
@@ -247,6 +250,7 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
                 className="w-48"
                 value={values.completionMonth}
                 onChange={(e) => setValues((prev) => ({ ...prev, completionMonth: e.target.value }))}
+                {...fieldErrorProps(errors, 'completion_date')}
               />
               {fieldError('completion_date') && <p className="text-xs text-destructive">{fieldError('completion_date')}</p>}
             </div>
@@ -254,7 +258,7 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
             <div className="flex flex-col gap-2">
               <Label htmlFor="portfolio-thumbnail">Thumbnail (rasio 4:3)</Label>
               {thumbnailPreview && <img src={thumbnailPreview} alt="Preview" className="h-32 w-full rounded-md object-cover" />}
-              <Input id="portfolio-thumbnail" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleThumbnailSelect} />
+              <Input id="portfolio-thumbnail" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleThumbnailSelect} {...fieldErrorProps(errors, 'thumbnail')} />
               {fieldError('thumbnail') && <p className="text-xs text-destructive">{fieldError('thumbnail')}</p>}
             </div>
 

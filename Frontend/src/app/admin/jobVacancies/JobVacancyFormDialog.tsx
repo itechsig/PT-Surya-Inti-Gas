@@ -12,6 +12,7 @@ import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { ApiError } from '../../../utils/apiClient';
+import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
 import { createJobVacancy, updateJobVacancy } from './api';
 import { JOB_LEVELS, type AdminJobVacancy, type JobVacancyFormValues } from './types';
 
@@ -63,9 +64,8 @@ export function JobVacancyFormDialog({ open, onOpenChange, job, onSaved }: JobVa
     value: values[key] as string,
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setValues((prev) => ({ ...prev, [key]: e.target.value })),
+    ...fieldErrorProps(errors, key as string),
   });
-
-  const fieldError = (key: string) => errors[key]?.[0];
 
   const requirementsKey = (lang: 'id' | 'en' | 'zh') => `requirements_${lang}` as const;
 
@@ -129,6 +129,7 @@ export function JobVacancyFormDialog({ open, onOpenChange, job, onSaved }: JobVa
           </DialogHeader>
 
           <div className="flex flex-col gap-4 py-4">
+            <FormErrorSummary errors={errors} />
             <Tabs defaultValue="id">
               <TabsList>
                 <TabsTrigger value="id">Indonesia</TabsTrigger>
@@ -140,18 +141,18 @@ export function JobVacancyFormDialog({ open, onOpenChange, job, onSaved }: JobVa
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`title_${lang}`}>Posisi</Label>
                     <Input id={`title_${lang}`} {...field(`title_${lang}` as keyof JobVacancyFormValues)} />
-                    {fieldError(`title_${lang}`) && <p className="text-xs text-destructive">{fieldError(`title_${lang}`)}</p>}
+                    <FieldError errors={errors} name={`title_${lang}`} />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor={`division_${lang}`}>Divisi</Label>
                       <Input id={`division_${lang}`} {...field(`division_${lang}` as keyof JobVacancyFormValues)} />
-                      {fieldError(`division_${lang}`) && <p className="text-xs text-destructive">{fieldError(`division_${lang}`)}</p>}
+                      <FieldError errors={errors} name={`division_${lang}`} />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor={`location_${lang}`}>Lokasi</Label>
                       <Input id={`location_${lang}`} {...field(`location_${lang}` as keyof JobVacancyFormValues)} />
-                      {fieldError(`location_${lang}`) && <p className="text-xs text-destructive">{fieldError(`location_${lang}`)}</p>}
+                      <FieldError errors={errors} name={`location_${lang}`} />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -167,7 +168,7 @@ export function JobVacancyFormDialog({ open, onOpenChange, job, onSaved }: JobVa
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`description_${lang}`}>Deskripsi Singkat</Label>
                     <Textarea id={`description_${lang}`} rows={2} {...field(`description_${lang}` as keyof JobVacancyFormValues)} />
-                    {fieldError(`description_${lang}`) && <p className="text-xs text-destructive">{fieldError(`description_${lang}`)}</p>}
+                    <FieldError errors={errors} name={`description_${lang}`} />
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`full_description_${lang}`}>Deskripsi Lengkap</Label>
@@ -213,8 +214,9 @@ export function JobVacancyFormDialog({ open, onOpenChange, job, onSaved }: JobVa
                   type="date"
                   value={values.deadline}
                   onChange={(e) => setValues((prev) => ({ ...prev, deadline: e.target.value }))}
+                  {...fieldErrorProps(errors, 'deadline')}
                 />
-                {fieldError('deadline') && <p className="text-xs text-destructive">{fieldError('deadline')}</p>}
+                <FieldError errors={errors} name="deadline" />
               </div>
             </div>
 

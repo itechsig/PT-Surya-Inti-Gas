@@ -13,6 +13,7 @@ import { Label } from '../../components/ui/label';
 import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
 import { ApiError } from '../../../utils/apiClient';
+import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
 import { createHeroSlide, updateHeroSlide } from './api';
 import type { AdminHeroSlide, HeroSlideFormValues } from './types';
 
@@ -90,8 +91,6 @@ export function HeroSlideFormDialog({ open, onOpenChange, slide, onSaved }: Hero
     }
   };
 
-  const fieldError = (key: string) => errors[key]?.[0];
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
@@ -104,13 +103,14 @@ export function HeroSlideFormDialog({ open, onOpenChange, slide, onSaved }: Hero
           </DialogHeader>
 
           <div className="flex flex-col gap-4 py-4">
+            <FormErrorSummary errors={errors} />
             <div className="flex flex-col gap-2">
               <Label htmlFor="hero-image">Gambar Latar</Label>
               {imagePreview && (
                 <img src={imagePreview} alt="Preview" className="h-32 w-full rounded-md object-cover" />
               )}
-              <Input id="hero-image" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleImageChange} />
-              {fieldError('image') && <p className="text-xs text-destructive">{fieldError('image')}</p>}
+              <Input id="hero-image" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleImageChange} {...fieldErrorProps(errors, 'image')} />
+              <FieldError errors={errors} name="image" />
             </div>
 
             <div className="flex flex-col gap-1.5">

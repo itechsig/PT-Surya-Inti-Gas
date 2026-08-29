@@ -12,6 +12,7 @@ import { Label } from '../../components/ui/label';
 import { Button } from '../../components/ui/button';
 import { Checkbox } from '../../components/ui/checkbox';
 import { PasswordInput } from '../PasswordInput';
+import { FormErrorSummary, FieldError } from '../formErrors';
 import { ApiError } from '../../../utils/apiClient';
 import { resetUserPassword } from './api';
 import type { AdminUserRecord } from './types';
@@ -60,8 +61,6 @@ export function ResetPasswordDialog({ open, onOpenChange, user }: ResetPasswordD
     }
   };
 
-  const fieldError = (key: string) => errors[key]?.[0];
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
@@ -74,6 +73,7 @@ export function ResetPasswordDialog({ open, onOpenChange, user }: ResetPasswordD
           </DialogHeader>
 
           <div className="flex flex-col gap-3 py-4">
+            <FormErrorSummary errors={errors} />
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="reset-password">Kata Sandi Baru</Label>
               <PasswordInput
@@ -82,11 +82,12 @@ export function ResetPasswordDialog({ open, onOpenChange, user }: ResetPasswordD
                 required
                 value={password}
                 onChange={setPassword}
+                invalid={!!errors.password?.length}
               />
               <p className="text-xs text-muted-foreground">
                 Minimal 8 karakter, kombinasi huruf besar, huruf kecil, angka, dan simbol.
               </p>
-              {fieldError('password') && <p className="text-xs text-destructive">{fieldError('password')}</p>}
+              <FieldError errors={errors} name="password" />
             </div>
 
             <div className="flex flex-col gap-1.5">

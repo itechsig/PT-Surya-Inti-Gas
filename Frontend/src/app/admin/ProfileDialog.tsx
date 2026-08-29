@@ -14,6 +14,7 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Button } from '../components/ui/button';
 import { PasswordInput } from './PasswordInput';
+import { FormErrorSummary, FieldError, fieldErrorProps } from './formErrors';
 
 interface ProfileDialogProps {
   open: boolean;
@@ -89,9 +90,6 @@ export function ProfileDialog({ open, onOpenChange }: ProfileDialogProps) {
     }
   };
 
-  const profileFieldError = (key: string) => profileErrors[key]?.[0];
-  const passwordFieldError = (key: string) => passwordErrors[key]?.[0];
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
@@ -108,10 +106,11 @@ export function ProfileDialog({ open, onOpenChange }: ProfileDialogProps) {
 
           <TabsContent value="profile">
             <form onSubmit={handleProfileSubmit} className="flex flex-col gap-3 pt-2">
+              <FormErrorSummary errors={profileErrors} />
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="profile-name">Nama</Label>
-                <Input id="profile-name" maxLength={255} required value={name} onChange={(e) => setName(e.target.value)} />
-                {profileFieldError('name') && <p className="text-xs text-destructive">{profileFieldError('name')}</p>}
+                <Input id="profile-name" maxLength={255} required value={name} onChange={(e) => setName(e.target.value)} {...fieldErrorProps(profileErrors, 'name')} />
+                <FieldError errors={profileErrors} name="name" />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="profile-email">Email</Label>
@@ -122,8 +121,9 @@ export function ProfileDialog({ open, onOpenChange }: ProfileDialogProps) {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  {...fieldErrorProps(profileErrors, 'email')}
                 />
-                {profileFieldError('email') && <p className="text-xs text-destructive">{profileFieldError('email')}</p>}
+                <FieldError errors={profileErrors} name="email" />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="profile-current-password">Kata Sandi Saat Ini</Label>
@@ -133,11 +133,10 @@ export function ProfileDialog({ open, onOpenChange }: ProfileDialogProps) {
                   required
                   value={profileCurrentPassword}
                   onChange={setProfileCurrentPassword}
+                  invalid={!!profileErrors.current_password?.length}
                 />
                 <p className="text-xs text-muted-foreground">Diperlukan untuk mengonfirmasi perubahan.</p>
-                {profileFieldError('current_password') && (
-                  <p className="text-xs text-destructive">{profileFieldError('current_password')}</p>
-                )}
+                <FieldError errors={profileErrors} name="current_password" />
               </div>
               <Button type="submit" disabled={isSavingProfile} className="mt-2">
                 {isSavingProfile ? 'Menyimpan...' : 'Simpan Perubahan'}
@@ -147,6 +146,7 @@ export function ProfileDialog({ open, onOpenChange }: ProfileDialogProps) {
 
           <TabsContent value="password">
             <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-3 pt-2">
+              <FormErrorSummary errors={passwordErrors} />
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="current-password">Kata Sandi Saat Ini</Label>
                 <PasswordInput
@@ -155,10 +155,9 @@ export function ProfileDialog({ open, onOpenChange }: ProfileDialogProps) {
                   required
                   value={currentPassword}
                   onChange={setCurrentPassword}
+                  invalid={!!passwordErrors.current_password?.length}
                 />
-                {passwordFieldError('current_password') && (
-                  <p className="text-xs text-destructive">{passwordFieldError('current_password')}</p>
-                )}
+                <FieldError errors={passwordErrors} name="current_password" />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="new-password">Kata Sandi Baru</Label>
@@ -168,11 +167,12 @@ export function ProfileDialog({ open, onOpenChange }: ProfileDialogProps) {
                   required
                   value={newPassword}
                   onChange={setNewPassword}
+                  invalid={!!passwordErrors.password?.length}
                 />
                 <p className="text-xs text-muted-foreground">
                   Minimal 8 karakter, kombinasi huruf besar, huruf kecil, angka, dan simbol.
                 </p>
-                {passwordFieldError('password') && <p className="text-xs text-destructive">{passwordFieldError('password')}</p>}
+                <FieldError errors={passwordErrors} name="password" />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="new-password-confirmation">Konfirmasi Kata Sandi Baru</Label>
