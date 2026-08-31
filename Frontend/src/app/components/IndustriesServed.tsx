@@ -451,20 +451,22 @@ export function IndustriesServed() {
             {/* Navigation Buttons */}
             <div className="carousel-nav">
               <button
+                type="button"
                 className="carousel-nav-button"
                 onClick={scrollLeft}
                 disabled={!canScrollLeft}
-                aria-label={t('hero.previousSlide')}
+                aria-label={t('industriesServed.scrollLeft', { defaultValue: 'Gulir ke kiri' })}
               >
-                <ChevronLeft size={24} />
+                <ChevronLeft size={24} aria-hidden="true" />
               </button>
               <button
+                type="button"
                 className="carousel-nav-button"
                 onClick={scrollRight}
                 disabled={!canScrollRight}
-                aria-label={t('hero.nextSlide')}
+                aria-label={t('industriesServed.scrollRight', { defaultValue: 'Gulir ke kanan' })}
               >
-                <ChevronRight size={24} />
+                <ChevronRight size={24} aria-hidden="true" />
               </button>
             </div>
           </motion.div>

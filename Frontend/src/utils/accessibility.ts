@@ -177,11 +177,15 @@ function hexToRgb(hex: string): [number, number, number] | null {
 /**
  * Create skip to main content link
  */
-export function createSkipLink(targetId: string = 'main-content'): HTMLElement {
+export function createSkipLink(
+  targetId: string = 'main-content',
+  label: string = 'Skip to main content'
+): HTMLElement {
   const skipLink = document.createElement('a');
   skipLink.href = `#${targetId}`;
-  skipLink.textContent = 'Skip to main content';
-  skipLink.className = 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:shadow-lg';
-  
+  skipLink.textContent = label;
+  skipLink.className =
+    'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:px-4 focus:py-2 focus:font-medium focus:bg-[var(--brand-navy,#0C2D5E)] focus:text-white focus:shadow-xl focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-white';
+
   return skipLink;
 }

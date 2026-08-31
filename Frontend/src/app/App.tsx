@@ -210,8 +210,9 @@ function App() {
     performanceMonitor.init();
 
     // Add skip link for accessibility
-    const skipLink = createSkipLink('main-content');
+    const skipLink = createSkipLink('main-content', i18n.t('common.skipToContent'));
     document.body.insertBefore(skipLink, document.body.firstChild);
+    return () => skipLink.remove();
   }, []);
 
   return (
