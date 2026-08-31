@@ -27,6 +27,7 @@ export function ProductDetail() {
   const currentLang = lang || 'id';
   const { t } = useTranslation();
   const productSlug = searchParams.get('id');
+  const selectedSize = searchParams.get('size');
   const { data: productData, isLoading } = useProductDetail(productSlug, currentLang);
   const { categories: productCategories } = useProductCatalog(currentLang);
   const [imageError, setImageError] = useState(false);
@@ -60,6 +61,11 @@ export function ProductDetail() {
     if (selectedPackaging && productData?.mainCategory === 'gas') {
       const packagingLabel = t(`products.items.${selectedPackaging}.title`);
       message += `\n${t('productDetail.contact.selectedPackaging')}: ${packagingLabel}`;
+    }
+
+    // Add the cradle size the visitor picked from the size picker.
+    if (selectedSize) {
+      message += `\n${t('productDetail.selectedSize')}: ${selectedSize}`;
     }
 
     if (productData?.product.id) {
@@ -161,6 +167,7 @@ export function ProductDetail() {
               margin: '0 auto'
             }}>
               {subCategoryLabel ? `${categoryLabel} / ${subCategoryLabel}` : categoryLabel}
+              {selectedSize ? ` · ${selectedSize}` : ''}
             </p>
           </div>
         </motion.div>
@@ -211,6 +218,24 @@ export function ProductDetail() {
               <motion.p className="products-detail-description" variants={fadeUp}>
                 {product.fullDescription || product.description}
               </motion.p>
+
+              {/* Size chosen from the Cradle size picker */}
+              {selectedSize && (
+                <motion.div className="products-detail-size" variants={fadeUp}>
+                  <span className="products-detail-size-label">{t('productDetail.selectedSize')}</span>
+                  <span className="products-detail-size-value">{selectedSize}</span>
+                </motion.div>
+              )}
+
+              {selectedSize && (
+                <motion.div className="product-contact" variants={fadeUp}>
+                  <h3>{t('productDetail.contact.title')}</h3>
+                  <p>{t('productDetail.contact.description')}</p>
+                  <button className="contact-button" onClick={() => handleContactSales(product.title)}>
+                    {t('productDetail.contact.button')}
+                  </button>
+                </motion.div>
+              )}
 
               {/* Product Information and Applications Only for Gas Products */}
               {productData?.mainCategory === 'gas' && (

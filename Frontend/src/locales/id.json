@@ -85,6 +85,7 @@
     "notFoundTitle": "Produk tidak ditemukan",
     "backToList": "Kembali ke Daftar Produk",
     "backAria": "Kembali ke daftar produk",
+    "selectedSize": "Ukuran dipilih",
     "info": {
       "title": "Informasi Produk",
       "productId": "ID Produk:",
@@ -132,20 +133,23 @@
     "mainCategories": {
       "gas": "Produk Gas",
       "package": "Package",
-      "services": "Layanan"
+      "services": "Layanan",
+      "equipment": "Peralatan"
     },
     "subCategories": {
-      "cradle": "Cradle"
+      "cradle": "Cradle",
+      "relatedEquipment": "Related Equipment"
+    },
+    "cradleGroup": {
+      "description": "Rangka penyimpanan tabung gas industri yang aman dan hemat ruang.",
+      "dialogTitle": "Pilih Ukuran Cradle",
+      "dialogDescription": "Pilih ukuran cradle yang Anda butuhkan:"
     },
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Cair)",
       "speciality-mixed": "Speciality & Mixed Gas",
       "package": "Package",
       "services": "Layanan",
-      "cradle-2x2": "Cradle 2x2",
-      "cradle-3x2": "Cradle 3x2",
-      "cradle-3x3": "Cradle 3x3",
-      "cradle-4x4": "Cradle 4x4",
       "cylinder": "Cylinder",
       "cryogenic-dewars": "Cryogenic Dewars",
       "vessel-gas-liquid": "Vessel Gas Liquid",
@@ -161,12 +165,12 @@
       },
       "package": {
         "title": "Package",
-        "description": "Cradle 2x2, 3x2, 3x3, 4x4, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Cryogenic Rigged Tank.",
+        "description": "Package Cradle, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Cryogenic Rigged Tank.",
         "shortDescription": "Solusi penyimpanan dan penanganan premium"
       },
       "services": {
         "title": "Layanan",
-        "description": "Instalasi profesional, pengiriman, dan layanan pengisian ulang dengan dukungan teknis ahli.",
+        "description": "Pengiriman, Pengisian, Maintenance, Purging, Leak Test.",
         "shortDescription": "Solusi layanan gas end-to-end"
       }
     },
@@ -357,6 +361,9 @@
     "badge": "Industri yang Dilayani",
     "title": "Solusi Untuk Berbagai Sektor Industri",
     "subtitle": "Mendukung kebutuhan berbagai bidang usaha melalui solusi gas yang tepat, aman, dan efisien.",
+    "scrollLeft": "Gulir ke kiri",
+    "scrollRight": "Gulir ke kanan",
+    "viewProjectsAria": "Lihat proyek {{industry}}",
     "industries": {
       "manufaktur": "Manufaktur",
       "kesehatan": "Kesehatan",
@@ -601,7 +608,7 @@
       "items": [
         {
           "year": "2003",
-          "label": "Pendirian",
+          "label": "Awal Berdiri",
           "text": "CV. Surya Inti Gas mulai dirintis dan didirikan sebagai perusahaan yang bergerak di bidang penyediaan gas industri. Pada awal operasionalnya, kantor perusahaan berlokasi di Jl. KH. Mukmin, Sidoarjo, Jawa Timur."
         },
         {
@@ -616,7 +623,7 @@
         },
         {
           "year": "2017",
-          "label": "PT&Cabang",
+          "label": "PT & Cabang",
           "text": "Menandai fase pertumbuhan yang lebih besar, perusahaan resmi bertransformasi menjadi PT. Surya Inti Gas. Pada tahun yang sama, perusahaan juga membuka cabang pertamanya di Kota Balikpapan, Kalimantan Timur, sebagai langkah awal dalam memperluas jangkauan layanan ke berbagai wilayah di Indonesia."
         }
       ]
@@ -1577,6 +1584,7 @@
     }
   },
   "common": {
+    "skipToContent": "Langsung ke konten utama",
     "close": "Tutup",
     "readMore": "Baca Selengkapnya",
     "learnMore": "Pelajari Lebih Lanjut",
@@ -1595,6 +1603,7 @@
     "imageNotFound": "Gambar tidak ditemukan",
     "selectCategoryAria": "Pilih kategori {{category}}",
     "selectSubcategoryAria": "Pilih subkategori {{subcategory}}",
+    "selectSizeAria": "Pilih ukuran {{size}}",
     "backToTop": "Kembali ke atas",
     "scrollToTop": "Gulir ke atas"
   }

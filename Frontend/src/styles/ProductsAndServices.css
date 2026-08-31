@@ -161,12 +161,6 @@
   bottom: 0;
   background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
   pointer-events: none;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
 }
 
 .category-card-icon {
@@ -358,21 +352,10 @@
 .products-subcategory.active {
   border-color: var(--blue-dark);
   color: var(--white);
-  transform-origin: center;
-  animation: products-subcategory-wobble 2.5s ease-in-out infinite;
 }
 
 .products-subcategory.active::before {
   opacity: 1;
-}
-
-@keyframes products-subcategory-wobble {
-  0%, 50%, 100% { transform: rotate(0deg); }
-  8% { transform: rotate(-6deg); }
-  16% { transform: rotate(5deg); }
-  24% { transform: rotate(-4deg); }
-  32% { transform: rotate(3deg); }
-  40% { transform: rotate(-1.5deg); }
 }
 
 .products-subcategory span {
@@ -401,6 +384,17 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   text-decoration: none;
   color: inherit;
+}
+
+/* The Cradle group card renders as a <button> that opens the size picker. */
+button.products-card {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .products-card::before {
@@ -1267,4 +1261,133 @@
   .product-packaging {
     padding: 16px;
   }
+}
+
+/* ── Cradle Size Picker Dialog ── */
+.cradle-size-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.cradle-size-dialog {
+  position: relative;
+  width: min(440px, 100%);
+  background: var(--white, #ffffff);
+  border-radius: 20px;
+  padding: 36px 32px 32px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+  text-align: center;
+}
+
+.cradle-size-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: var(--slate-100, #f1f5f9);
+  color: var(--slate-600, #475569);
+  cursor: pointer;
+  transition: background 0.2s var(--ease, ease), color 0.2s var(--ease, ease);
+}
+
+.cradle-size-close:hover {
+  background: var(--slate-200, #e2e8f0);
+  color: var(--slate-900, #0f172a);
+}
+
+.cradle-size-heading {
+  margin: 0 0 8px;
+  font-family: var(--ff-display, 'Barlow', system-ui, sans-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--navy-dark, #0f172a);
+}
+
+.cradle-size-subheading {
+  margin: 0 0 24px;
+  font-family: var(--ff-body, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.95rem;
+  color: var(--slate-600, #475569);
+}
+
+.cradle-size-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.cradle-size-option {
+  padding: 16px 12px;
+  border: 2px solid var(--slate-200, #e2e8f0);
+  border-radius: 14px;
+  background: var(--white, #ffffff);
+  font-family: var(--ff-display, 'Barlow', system-ui, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--slate-700, #334155);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease, ease), color 0.2s var(--ease, ease),
+    background 0.2s var(--ease, ease), transform 0.2s var(--ease, ease);
+}
+
+.cradle-size-option:hover {
+  border-color: var(--blue, #1e40af);
+  color: var(--blue, #1e40af);
+  transform: translateY(-2px);
+}
+
+.cradle-size-option:focus-visible {
+  outline: 3px solid var(--blue-light, #3b82f6);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .cradle-size-dialog {
+    padding: 32px 20px 24px;
+  }
+
+  .cradle-size-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Selected Cradle size on the detail page ── */
+.products-detail-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 24px;
+  padding: 10px 18px;
+  border: 1px solid var(--slate-200, #e2e8f0);
+  border-radius: 12px;
+  background: var(--slate-50, #f8fafc);
+}
+
+.products-detail-size-label {
+  font-family: var(--ff-body, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.85rem;
+  color: var(--slate-600, #475569);
+}
+
+.products-detail-size-value {
+  font-family: var(--ff-display, 'Barlow', system-ui, sans-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--blue, #1e40af);
+  letter-spacing: 0.02em;
 }

@@ -2,3 +2,15 @@
 @import './theme.css';
 @import './brand.css';
 @import './accessibility.css';
+
+/* Base layout reset (previously an inline <style> in index.html — moved here to
+   avoid Vite's intermittent html-inline-proxy build failure). */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  height: 100%;
+}

@@ -1,4 +1,4 @@
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion, type Variants } from "motion/react";
@@ -11,9 +11,12 @@ import {
   Droplets
 } from "lucide-react";
 import '../../styles/ProductsAndServices.css';
-import { mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { mainCategoryIds, type Product, type ProductVariant, type SubCategory, type MainCategory } from "../../data/products";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 import { getImageUrl } from "../../utils/imageUrl";
+import { collapseCradleVariants } from "../../utils/cradleVariants";
+import { CradleSizeDialog } from "./CradleSizeDialog";
+import { getRelatedEquipmentProducts, isRelatedEquipmentSlug, RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -33,7 +36,7 @@ const gridStagger: Variants = {
 
 
 // Product Card Component
-function ProductCard({ product, href, mainCategory }: { product: Product; href: string; mainCategory: MainCategory }) {
+function ProductCard({ product, href, mainCategory, onVariantClick }: { product: Product; href: string; mainCategory: MainCategory; onVariantClick: (product: Product) => void }) {
   const [imageError, setImageError] = useState(false);
   const { t } = useTranslation();
 
@@ -41,15 +44,17 @@ function ProductCard({ product, href, mainCategory }: { product: Product; href: 
     return t(`products.mainCategories.${mainCategory}`);
   };
 
-  return (
-    <MotionLink
-      to={href}
-      className="products-card"
-      aria-label={product.title}
-      variants={fadeUp}
-      whileHover={{ y: -6 }}
-      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-    >
+  const isVariantGroup = !!product.variants?.length;
+  const sharedProps = {
+    className: "products-card",
+    "aria-label": product.title,
+    variants: fadeUp,
+    whileHover: { y: -6 },
+    transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] },
+  };
+
+  const inner = (
+    <>
       <div className="products-card-image">
         {imageError ? (
           <div className="products-card-fallback">
@@ -79,6 +84,20 @@ function ProductCard({ product, href, mainCategory }: { product: Product; href: 
           <ChevronRight size={20} aria-hidden="true" />
         </div>
       </div>
+    </>
+  );
+
+  if (isVariantGroup) {
+    return (
+      <motion.button type="button" onClick={() => onVariantClick(product)} {...sharedProps}>
+        {inner}
+      </motion.button>
+    );
+  }
+
+  return (
+    <MotionLink to={href} {...sharedProps}>
+      {inner}
     </MotionLink>
   );
 }
@@ -198,6 +217,8 @@ export function ProductsAndServices() {
   ];
   const [mainCategory, setMainCategory] = useState<MainCategory>('gas');
   const [subCategory, setSubCategory] = useState<string>('');
+  const [cradleVariants, setCradleVariants] = useState<ProductVariant[] | null>(null);
+  const navigate = useNavigate();
 
   // Initialize default sub-category when data is loaded
   useEffect(() => {
@@ -224,7 +245,15 @@ export function ProductsAndServices() {
       } else {
         const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
         const firstSubCategory = Object.keys(categories || {})[0] || '';
-        setSubCategory(subcategoryParam && categories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
+        const isRelatedEquipment =
+          categoryParam === 'gas' &&
+          subcategoryParam === RELATED_EQUIPMENT_ID &&
+          getRelatedEquipmentProducts(productCategories).length > 0;
+        setSubCategory(
+          isRelatedEquipment || (subcategoryParam && categories?.[subcategoryParam])
+            ? (subcategoryParam as string)
+            : firstSubCategory
+        );
       }
     }
   }, [searchParams, productCategories]);
@@ -258,10 +287,20 @@ export function ProductsAndServices() {
       return [];
     }
     
-    return Object.keys(categories).map(key => ({
-      id: key,
-      title: categories[key]?.title || ''
-    }));
+    const subs = Object.keys(categories)
+      // "Related Equipment" categories are folded into a single virtual pill below.
+      .filter(key => !(mainCategory === 'gas' && isRelatedEquipmentSlug(key)))
+      .map(key => ({
+        id: key,
+        title: categories[key]?.title || ''
+      }));
+
+    // Gas tab exposes CMS "equipment" products as a virtual "Related Equipment" sub-category.
+    if (mainCategory === 'gas' && getRelatedEquipmentProducts(productCategories).length > 0) {
+      subs.push({ id: RELATED_EQUIPMENT_ID, title: t('products.subCategories.relatedEquipment') });
+    }
+
+    return subs;
   };
 
   const getCurrentProducts = () => {
@@ -283,12 +322,18 @@ export function ProductsAndServices() {
           }
         });
         
-        return allProducts;
+        // Collapse the Cradle size variants into a single card (sizes shown on click).
+        return collapseCradleVariants(allProducts, t);
       }
-      
+
       return [];
     }
     
+    // Virtual "Related Equipment" sub-category in the gas tab.
+    if (mainCategory === 'gas' && subCategory === RELATED_EQUIPMENT_ID) {
+      return getRelatedEquipmentProducts(productCategories);
+    }
+
     // For gas and services, use sub-category filtering
     // If no subcategory selected, use the first available one
     const effectiveSubCategory = subCategory || Object.keys(categories || {})[0] || '';
@@ -398,7 +443,8 @@ export function ProductsAndServices() {
                   key={product.id}
                   product={product}
                   href={productHref(product.id)}
-                  mainCategory={mainCategory}
+                  mainCategory={subCategory === RELATED_EQUIPMENT_ID ? 'equipment' : mainCategory}
+                  onVariantClick={(p) => setCradleVariants(p.variants ?? null)}
                 />
               ))}
             </motion.div>
@@ -407,6 +453,17 @@ export function ProductsAndServices() {
         </div>
       </section>
 
+      {cradleVariants && (
+        <CradleSizeDialog
+          variants={cradleVariants}
+          onSelect={(variant) => {
+            setCradleVariants(null);
+            const base = productHref(variant.id);
+            navigate(variant.size ? `${base}&size=${encodeURIComponent(variant.size)}` : base);
+          }}
+          onClose={() => setCradleVariants(null)}
+        />
+      )}
     </div>
   );
 }

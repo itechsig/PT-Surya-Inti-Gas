@@ -85,6 +85,7 @@
     "notFoundTitle": "未找到产品",
     "backToList": "返回产品列表",
     "backAria": "返回产品列表",
+    "selectedSize": "已选尺寸",
     "info": {
       "title": "产品信息",
       "productId": "产品编号：",
@@ -132,10 +133,17 @@
     "mainCategories": {
       "gas": "气体产品",
       "package": "包装",
-      "services": "服务"
+      "services": "服务",
+      "equipment": "设备"
     },
     "subCategories": {
-      "cradle": "架"
+      "cradle": "架",
+      "relatedEquipment": "相关设备"
+    },
+    "cradleGroup": {
+      "description": "安全且节省空间的工业气瓶存放架。",
+      "dialogTitle": "选择气瓶架尺寸",
+      "dialogDescription": "请选择您需要的气瓶架尺寸："
     },
     "categories": {
       "industrial-medical": "工业与医用（气态与液态）",
@@ -151,7 +159,7 @@
       },
       "package": {
         "title": "包装",
-        "description": "Cradle 2x2, 3x2, 3x3, 4x4, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Cryogenic Rigged Tank.",
+        "description": "Package Cradle, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Cryogenic Rigged Tank.",
         "shortDescription": "优质储存和处理解决方案"
       },
       "services": {
@@ -664,6 +672,9 @@
     "badge": "服务行业",
     "title": "面向各行业的解决方案",
     "subtitle": "通过精准、安全、高效的气体解决方案，支持各类企业的需求。",
+    "scrollLeft": "向左滚动",
+    "scrollRight": "向右滚动",
+    "viewProjectsAria": "查看 {{industry}} 项目",
     "industries": {
       "manufaktur": "制造业",
       "kesehatan": "医疗保健",
@@ -1252,6 +1263,7 @@
     }
   },
   "common": {
+    "skipToContent": "跳转到主要内容",
     "close": "关闭",
     "readMore": "阅读更多",
     "learnMore": "了解更多",
@@ -1270,6 +1282,7 @@
     "imageNotFound": "未找到图片",
     "selectCategoryAria": "选择{{category}}类别",
     "selectSubcategoryAria": "选择{{subcategory}}子类别",
+    "selectSizeAria": "选择{{size}}尺寸",
     "backToTop": "返回顶部",
     "scrollToTop": "滚动到顶部"
   }

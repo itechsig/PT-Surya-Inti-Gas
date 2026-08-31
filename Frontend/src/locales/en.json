@@ -85,6 +85,7 @@
     "notFoundTitle": "Product not found",
     "backToList": "Back to Product List",
     "backAria": "Back to product list",
+    "selectedSize": "Selected size",
     "info": {
       "title": "Product Information",
       "productId": "Product ID:",
@@ -132,20 +133,23 @@
     "mainCategories": {
       "gas": "Gas Products",
       "package": "Package",
-      "services": "Services"
+      "services": "Services",
+      "equipment": "Equipment"
     },
     "subCategories": {
-      "cradle": "Cradle"
+      "cradle": "Cradle",
+      "relatedEquipment": "Related Equipment"
+    },
+    "cradleGroup": {
+      "description": "A safe, space-efficient rack for storing industrial gas cylinders.",
+      "dialogTitle": "Choose Cradle Size",
+      "dialogDescription": "Select the cradle size you need:"
     },
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Liquid)",
       "speciality-mixed": "Speciality & Mixed Gas",
       "package": "Package",
       "services": "Services",
-      "cradle-2x2": "Cradle 2x2",
-      "cradle-3x2": "Cradle 3x2",
-      "cradle-3x3": "Cradle 3x3",
-      "cradle-4x4": "Cradle 4x4",
       "cylinder": "Cylinder",
       "cryogenic-dewars": "Cryogenic Dewars",
       "vessel-gas-liquid": "Vessel Gas Liquid",
@@ -161,7 +165,7 @@
       },
       "package": {
         "title": "Package",
-        "description": "Cradle 2x2, 3x2, 3x3, 4x4, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Cryogenic Rigged Tank.",
+        "description": "Package Cradle, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Cryogenic Rigged Tank.",
         "shortDescription": "Premium storage and handling solutions"
       },
       "services": {
@@ -354,6 +358,9 @@
     "badge": "Industries Served",
     "title": "Solutions for Various Industry Sectors",
     "subtitle": "Supporting the needs of various business sectors through precise, safe, and efficient gas solutions.",
+    "scrollLeft": "Scroll left",
+    "scrollRight": "Scroll right",
+    "viewProjectsAria": "View {{industry}} projects",
     "industries": {
       "manufaktur": "Manufacturing",
       "kesehatan": "Healthcare",
@@ -1567,6 +1574,7 @@
     }
   },
   "common": {
+    "skipToContent": "Skip to main content",
     "close": "Close",
     "readMore": "Read More",
     "learnMore": "Learn More",
@@ -1585,6 +1593,7 @@
     "imageNotFound": "Image not found",
     "selectCategoryAria": "Select {{category}} category",
     "selectSubcategoryAria": "Select {{subcategory}} subcategory",
+    "selectSizeAria": "Select {{size}} size",
     "backToTop": "Back to top",
     "scrollToTop": "Scroll to top"
   }

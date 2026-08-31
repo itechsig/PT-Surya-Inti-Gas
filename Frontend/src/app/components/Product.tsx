@@ -9,9 +9,12 @@ import {
   Droplets
 } from "lucide-react";
 import '../../styles/ProductsAndServices.css';
-import { mainCategoryIds, type Product, type SubCategory, type MainCategory } from "../../data/products";
+import { mainCategoryIds, type Product, type ProductVariant, type SubCategory, type MainCategory } from "../../data/products";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 import { getImageUrl } from "../../utils/imageUrl";
+import { collapseCradleVariants } from "../../utils/cradleVariants";
+import { CradleSizeDialog } from "./CradleSizeDialog";
+import { getRelatedEquipmentProducts, isRelatedEquipmentSlug, RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 
 /* ═══════════════════════════════════════════════════════════════
    PRODUCT.TSX — PT Surya Inti Gas Corporate
@@ -35,7 +38,7 @@ const gridStagger: Variants = {
 };
 
 // Product Card Component
-function ProductCard({ product, onClick, mainCategory }: { product: Product; onClick: (id: string) => void; mainCategory: MainCategory }) {
+function ProductCard({ product, onClick, mainCategory }: { product: Product; onClick: (product: Product) => void; mainCategory: MainCategory }) {
   const [imageError, setImageError] = useState(false);
   const { t } = useTranslation();
 
@@ -46,7 +49,7 @@ function ProductCard({ product, onClick, mainCategory }: { product: Product; onC
   return (
     <motion.div
       className="products-card"
-      onClick={() => onClick(product.id)}
+      onClick={() => onClick(product)}
       variants={fadeUp}
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
@@ -201,6 +204,7 @@ export function Product() {
   const [searchParams] = useSearchParams();
   const [mainCategory, setMainCategory] = useState<MainCategory>('gas');
   const [subCategory, setSubCategory] = useState<string>('');
+  const [cradleVariants, setCradleVariants] = useState<ProductVariant[] | null>(null);
 
   // Handle URL parameters from mega menu
   useEffect(() => {
@@ -216,7 +220,15 @@ export function Product() {
       } else {
         const categories = productCategories[categoryParam as MainCategory] as Record<string, SubCategory>;
         const firstSubCategory = Object.keys(categories || {})[0] || '';
-        setSubCategory(subcategoryParam && categories?.[subcategoryParam] ? subcategoryParam : firstSubCategory);
+        const isRelatedEquipment =
+          categoryParam === 'gas' &&
+          subcategoryParam === RELATED_EQUIPMENT_ID &&
+          getRelatedEquipmentProducts(productCategories).length > 0;
+        setSubCategory(
+          isRelatedEquipment || (subcategoryParam && categories?.[subcategoryParam])
+            ? (subcategoryParam as string)
+            : firstSubCategory
+        );
       }
     }
   }, [searchParams, productCategories]);
@@ -250,10 +262,20 @@ export function Product() {
       return [];
     }
 
-    return Object.keys(categories).map(key => ({
-      id: key,
-      title: categories[key]?.title || ''
-    }));
+    const subs = Object.keys(categories)
+      // "Related Equipment" categories are folded into a single virtual pill below.
+      .filter(key => !(mainCategory === 'gas' && isRelatedEquipmentSlug(key)))
+      .map(key => ({
+        id: key,
+        title: categories[key]?.title || ''
+      }));
+
+    // Gas tab exposes CMS "equipment" products as a virtual "Related Equipment" sub-category.
+    if (mainCategory === 'gas' && getRelatedEquipmentProducts(productCategories).length > 0) {
+      subs.push({ id: RELATED_EQUIPMENT_ID, title: t('products.subCategories.relatedEquipment') });
+    }
+
+    return subs;
   };
 
   const getCurrentProducts = () => {
@@ -275,10 +297,16 @@ export function Product() {
           }
         });
 
-        return allProducts;
+        // Collapse the Cradle size variants into a single card (sizes shown on click).
+        return collapseCradleVariants(allProducts, t);
       }
 
       return [];
+    }
+
+    // Virtual "Related Equipment" sub-category in the gas tab.
+    if (mainCategory === 'gas' && subCategory === RELATED_EQUIPMENT_ID) {
+      return getRelatedEquipmentProducts(productCategories);
     }
 
     // For gas and services, use sub-category filtering
@@ -286,8 +314,12 @@ export function Product() {
     return subCat?.products || [];
   };
 
-  const handleCardClick = (productId: string) => {
-    navigate(`/${currentLang}/produk/detail?id=${productId}`);
+  const handleCardClick = (product: Product) => {
+    if (product.variants?.length) {
+      setCradleVariants(product.variants);
+      return;
+    }
+    navigate(`/${currentLang}/produk/detail?id=${product.id}`);
   };
 
   return (
@@ -435,13 +467,25 @@ export function Product() {
                   key={product.id}
                   product={product}
                   onClick={handleCardClick}
-                  mainCategory={mainCategory}
+                  mainCategory={subCategory === RELATED_EQUIPMENT_ID ? 'equipment' : mainCategory}
                 />
               ))}
             </motion.div>
           </AnimatePresence>
         </div>
       </section>
+
+      {cradleVariants && (
+        <CradleSizeDialog
+          variants={cradleVariants}
+          onSelect={(variant) => {
+            setCradleVariants(null);
+            const base = `/${currentLang}/produk/detail?id=${variant.id}`;
+            navigate(variant.size ? `${base}&size=${encodeURIComponent(variant.size)}` : base);
+          }}
+          onClose={() => setCradleVariants(null)}
+        />
+      )}
     </div>
   );
 }
