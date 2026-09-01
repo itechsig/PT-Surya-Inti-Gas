@@ -3,6 +3,8 @@ import { Mail, MapPin, Building2, TrendingUp, Network, Award } from 'lucide-reac
 import { FaWhatsapp } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { motion, type Variants } from 'motion/react';
+import { OFFICES } from '../../data/contact';
+import { Seo } from './Seo';
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -19,6 +21,7 @@ export const ContactPage = () => {
   const { t } = useTranslation();
   return (
     <div className="clean-contact-page">
+      <Seo title={t('seo.contact.title')} description={t('seo.contact.description')} segment="kontak" />
 
       {/* Hero Section */}
       <motion.section
@@ -109,13 +112,13 @@ export const ContactPage = () => {
                   {t('contactPage.sidoarjo.address')}
                 </p>
                 <div className="office-card-contact">
-                  <a href="https://wa.me/6281233906378" target="_blank" rel="noopener noreferrer" className="contact-link">
+                  <a href={OFFICES.sidoarjo.whatsappUrl} target="_blank" rel="noopener noreferrer" className="contact-link">
                     <FaWhatsapp size={18} aria-hidden="true" />
-                    <span>+6281233906378</span>
+                    <span>{OFFICES.sidoarjo.phoneDisplay}</span>
                   </a>
-                  <a href="mailto:salescounter.sda@suryaintigas.com" className="contact-link">
+                  <a href={`mailto:${OFFICES.sidoarjo.email}`} className="contact-link">
                     <Mail size={18} aria-hidden="true" />
-                    <span>salescounter.sda@suryaintigas.com</span>
+                    <span>{OFFICES.sidoarjo.email}</span>
                   </a>
                 </div>
               </div>
@@ -144,13 +147,13 @@ export const ContactPage = () => {
                   {t('contactPage.balikpapan.address')}
                 </p>
                 <div className="office-card-contact">
-                  <a href="https://wa.me/6285157118879" target="_blank" rel="noopener noreferrer" className="contact-link">
+                  <a href={OFFICES.balikpapan.whatsappUrl} target="_blank" rel="noopener noreferrer" className="contact-link">
                     <FaWhatsapp size={18} aria-hidden="true" />
-                    <span>+6285157118879</span>
+                    <span>{OFFICES.balikpapan.phoneDisplay}</span>
                   </a>
-                  <a href="mailto:salescounter.bpn@suryaintigas.com" className="contact-link">
+                  <a href={`mailto:${OFFICES.balikpapan.email}`} className="contact-link">
                     <Mail size={18} aria-hidden="true" />
-                    <span>salescounter.bpn@suryaintigas.com</span>
+                    <span>{OFFICES.balikpapan.email}</span>
                   </a>
                 </div>
               </div>

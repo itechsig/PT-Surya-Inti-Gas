@@ -5,14 +5,14 @@
 
 /* ── Page Base ── */
 .career-page {
-  --primary: var(--brand-navy, #0F4C81);
+  --primary: var(--brand-navy, #0C2D5E);
   --primary-dark: var(--brand-navy-hover, #0a3861);
   --secondary: var(--brand-sky, #00AEEF);
   --bg: #F8FAFC;
   --accent: #EAF4FF;
-  --blue-dark: var(--brand-navy, #1e3a8a);
-  --blue: var(--brand-blue, #1e40af);
-  --sky: var(--brand-blue, #3b82f6);
+  --blue-dark: var(--brand-navy, #0C2D5E);
+  --blue: var(--brand-blue, #1565C0);
+  --sky: var(--brand-blue, #1565C0);
   --sky-light: #7fb5ee;
 
   --ff-display: var(--font-display, 'Barlow', system-ui, sans-serif);
@@ -879,7 +879,7 @@
 }
 
 .form-error-summary:focus-visible {
-  outline: 2px solid var(--brand-blue, #1565c0);
+  outline: 2px solid var(--brand-blue, #1565C0);
   outline-offset: 2px;
 }
 

@@ -24,6 +24,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import { useScrolledPast } from "../../hooks/useScrollProgress";
+import { SOCIAL } from "../../data/contact";
 
 // ─── Corporate Nav Config (Air Liquide & Linde inspired) ───────────────────────────────────────────────
 type NavItem = { 
@@ -72,6 +73,14 @@ const desktopLinkClass = (isLight: boolean) => {
   return `flex items-center gap-2 px-4 py-3 text-sm transition-all duration-200 font-semibold relative group ${isLight ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}`;
 };
 
+// Non-colour affordance for the current page: a solid underline bar. Colour
+// alone (gray-800 vs gray-900) is invisible, so screen readers get aria-current
+// and sighted users get this.
+const activeMarkClass = (isLight: boolean) =>
+  `after:content-[''] after:absolute after:left-3 after:right-3 after:bottom-1 after:h-[2px] after:rounded-full ${
+    isLight ? 'after:bg-[var(--brand-blue)] text-gray-900' : 'after:bg-white text-white'
+  }`;
+
 const mobileLinkClass = (isActive: boolean) =>
   `block px-4 py-4 text-sm transition-all duration-200 no-underline visited:text-inherit hover:text-inherit border-b border-blue-100 ${
     isActive
@@ -105,13 +114,61 @@ export const Header = () => {
 
   const { pathname, hash } = useLocation();
   const currentLang = lang || 'id';
-  // Home is the only route with a full-bleed dark hero behind a transparent nav.
-  // Every other route sits on a light page, so the nav must be solid there or
-  // the white nav text is invisible before the user scrolls.
+  // Every route opens with a full-bleed dark hero band behind the nav (the home
+  // slider, or the dark gradient PageHero on interior pages), so the nav is
+  // transparent at the top everywhere and turns solid once the user scrolls
+  // past it — one consistent behaviour across the whole site.
   const isHome = /^\/(en|id|zh)\/?$/.test(pathname) || pathname === '/';
-  const isLight = scrolled || !isHome;
+  const isLight = scrolled;
 
   const megaMenuRef = useRef<HTMLDivElement | null>(null);
+  const mobilePanelRef = useRef<HTMLDivElement | null>(null);
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  // Mobile menu: lock the page behind it, close on Escape, keep Tab inside the
+  // panel, and hand focus back to the trigger when it closes.
+  useEffect(() => {
+    if (!isOpen) return;
+    const { body } = document;
+    const prevOverflow = body.style.overflow;
+    body.style.overflow = 'hidden';
+
+    const panel = mobilePanelRef.current;
+    const focusables = () =>
+      Array.from(
+        panel?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      ).filter((el) => el.offsetParent !== null);
+
+    focusables()[0]?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const items = focusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      body.style.overflow = prevOverflow;
+      menuButtonRef.current?.focus();
+    };
+  }, [isOpen]);
 
   // Prefix an internal href with the active language segment.
   const toHref = (href: string) => {
@@ -120,11 +177,20 @@ export const Header = () => {
     return href.startsWith(`/${currentLang}/`) ? href : `/${currentLang}${href}`;
   };
 
-  // Close the mega menu on Escape and on outside click / focus.
+  // Close the mega menu on Escape and on outside click / focus. On Escape,
+  // focus returns to the trigger button so keyboard users aren't dropped.
   useEffect(() => {
     if (!activeMegaMenu) return;
+    const trigger = document.activeElement as HTMLElement | null;
+    // Move focus to the first link inside the panel once it renders.
+    const raf = requestAnimationFrame(() => {
+      megaMenuRef.current?.querySelector<HTMLElement>('a[href]')?.focus();
+    });
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setActiveMegaMenu(null);
+      if (e.key === 'Escape') {
+        setActiveMegaMenu(null);
+        trigger?.focus();
+      }
     };
     const onPointer = (e: PointerEvent) => {
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) {
@@ -134,10 +200,18 @@ export const Header = () => {
     document.addEventListener('keydown', onKey);
     document.addEventListener('pointerdown', onPointer);
     return () => {
+      cancelAnimationFrame(raf);
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('pointerdown', onPointer);
     };
   }, [activeMegaMenu]);
+
+  // Any navigation dismisses both menus.
+  useEffect(() => {
+    setActiveMegaMenu(null);
+    setActiveMobileMegaMenu(null);
+    setIsOpen(false);
+  }, [pathname]);
 
   // Helper: cek apakah link ini aktif
   const isActive = (href: string) => {
@@ -157,20 +231,20 @@ export const Header = () => {
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           isLight
-            ? "bg-white/98 backdrop-blur-xl shadow-lg shadow-gray-200/50 border-b border-gray-200 py-4"
-            : "bg-transparent backdrop-blur-none shadow-none border-none py-5"
+            ? "bg-white/98 backdrop-blur-xl shadow-lg shadow-gray-200/50 border-b border-gray-200 py-2.5 lg:py-4"
+            : "bg-transparent backdrop-blur-none shadow-none border-none py-3 lg:py-5"
         }`}
       >
         <div className="w-full">
           <div className="flex justify-between items-center px-6 lg:px-12">
 
             {/* Corporate Logo */}
-            <Link to={`/${currentLang}`} aria-label="PT Surya Inti Gas — Beranda" className="flex items-center gap-4 shrink-0 -ml-2 lg:-ml-4">
+            <Link to={`/${currentLang}`} aria-label="PT Surya Inti Gas — Beranda" className="flex items-center gap-3 lg:gap-4 shrink-0 lg:-ml-4">
               <div className="relative">
                 <img
                   src="/logo.png"
                   alt="Logo PT Surya Inti Gas"
-                  className="h-14 w-auto object-contain transition-all duration-300"
+                  className="h-10 lg:h-14 w-auto object-contain transition-all duration-300"
                   width="200"
                   height="56"
                 />
@@ -242,7 +316,7 @@ export const Header = () => {
                         aria-expanded={open}
                         aria-haspopup="true"
                         aria-controls={menuId}
-                        className={`${desktopLinkClass(isLight)} ${active ? (isLight ? 'text-gray-900' : 'text-white') : ''}`}
+                        className={`${desktopLinkClass(isLight)} ${active ? activeMarkClass(isLight) : ''}`}
                         style={{ ...desktopLinkStyle(isLight), cursor: 'pointer', background: 'transparent', border: 'none' }}
                         onClick={() => setActiveMegaMenu(open ? null : link.nameKey)}
                       >
@@ -304,7 +378,7 @@ export const Header = () => {
                     key={link.nameKey}
                     to={toHref(link.href)}
                     aria-current={active ? 'page' : undefined}
-                    className={`${desktopLinkClass(isLight)} ${active ? (isLight ? 'text-gray-900' : 'text-white') : ''}`}
+                    className={`${desktopLinkClass(isLight)} ${active ? activeMarkClass(isLight) : ''}`}
                     style={{ ...desktopLinkStyle(isLight) }}
                     onClick={() => setActiveMegaMenu(null)}
                   >
@@ -319,7 +393,7 @@ export const Header = () => {
               {/* Social Media Icons */}
               <div className="hidden lg:flex items-center gap-2">
                 <a
-                  href="https://www.instagram.com/surya.inti.gas?igsh=MXM3czQyOWx5ZjNzYw=="
+                  href={SOCIAL.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`p-2 rounded-lg transition-colors ${isLight ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}`}
@@ -329,7 +403,7 @@ export const Header = () => {
                   <Instagram size={18} strokeWidth={2.5} />
                 </a>
                 <a
-                  href="https://www.tiktok.com/@surya.inti.gas?_r=1&_t=ZS-97WlfSPPexY"
+                  href={SOCIAL.tiktok}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`p-2 rounded-lg transition-colors ${isLight ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}`}
@@ -347,9 +421,12 @@ export const Header = () => {
 
               {/* Mobile Menu Button */}
               <button
+                ref={menuButtonRef}
                 className={`lg:hidden p-2 rounded-lg transition-colors ${isLight ? 'text-gray-800 hover:bg-gray-100' : 'text-white hover:bg-white/10'}`}
                 onClick={() => setIsOpen(!isOpen)}
-                aria-label="Toggle menu"
+                aria-label={isOpen ? t('header.closeMenu', 'Tutup menu') : t('header.openMenu', 'Buka menu')}
+                aria-expanded={isOpen}
+                aria-haspopup="dialog"
               >
                 {isOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
@@ -376,10 +453,14 @@ export const Header = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ duration: 0.3 }}
+            ref={mobilePanelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={t('header.menu', 'Menu navigasi')}
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             className="fixed inset-0 z-50 lg:hidden"
           >
             <div className="absolute inset-0 bg-white/98 backdrop-blur-xl" />
@@ -504,7 +585,7 @@ export const Header = () => {
                   </div>
                   <div className="flex items-center gap-3">
                     <a
-                      href="https://www.instagram.com/surya.inti.gas?igsh=MXM3czQyOWx5ZjNzYw=="
+                      href={SOCIAL.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-2 rounded-lg text-blue-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
@@ -513,7 +594,7 @@ export const Header = () => {
                       <Instagram size={20} strokeWidth={3} />
                     </a>
                     <a
-                      href="https://www.tiktok.com/@surya.inti.gas?_r=1&_t=ZS-97WlfSPPexY"
+                      href={SOCIAL.tiktok}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-2 rounded-lg text-blue-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"

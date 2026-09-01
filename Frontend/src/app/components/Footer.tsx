@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { Instagram, Mail, Phone, MapPin, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { motion, type Variants } from "motion/react";
+import { OFFICES, SOCIAL } from "../../data/contact";
 
 // TikTok icon component (SVG)
 const TikTok = ({ size = 18, className = "" }: { size?: number; className?: string }) => (
@@ -52,7 +53,7 @@ const css = `
   /* ── Corporate Footer Main ── */
   .corporate-footer-main {
     padding: 80px 0 60px;
-    max-width: 1400px;
+    max-width: var(--container-max, 1400px);
     margin: 0 auto;
     padding-left: 24px;
     padding-right: 24px;
@@ -81,7 +82,7 @@ const css = `
   .corporate-footer-logo img {
     height: 48px;
     width: auto;
-    object-contain;
+    object-fit: contain;
   }
 
   .corporate-footer-logo-text {
@@ -300,7 +301,7 @@ const css = `
   }
 
   .corporate-footer-bottom-content {
-    max-width: 1400px;
+    max-width: var(--container-max, 1400px);
     margin: 0 auto;
     padding: 0 24px;
     display: flex;
@@ -420,28 +421,28 @@ export function Footer() {
             </p>
 
             <div className="corporate-footer-contact">
-              <div className="corporate-footer-contact-title">Kantor Pusat</div>
-              <div className="corporate-footer-contact-item">
+              <div className="corporate-footer-contact-title">{OFFICES.sidoarjo.role}</div>
+              <a className="corporate-footer-contact-item" href={`tel:+${OFFICES.sidoarjo.phoneE164}`}>
                 <Phone />
-                +6281233906378
-              </div>
-              <div className="corporate-footer-contact-item">
+                {OFFICES.sidoarjo.phoneDisplay}
+              </a>
+              <a className="corporate-footer-contact-item" href={`mailto:${OFFICES.sidoarjo.email}`}>
                 <Mail />
-                salescounter.sda@suryaintigas.com
-              </div>
+                {OFFICES.sidoarjo.email}
+              </a>
               <div className="corporate-footer-contact-item">
                 <MapPin />
-                Komp. Perg. & Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232
+                {OFFICES.sidoarjo.address}
               </div>
             </div>
 
 
 
             <div className="corporate-footer-social">
-              <a href="https://www.instagram.com/surya.inti.gas?igsh=MXM3czQyOWx5ZjNzYw==" className="corporate-footer-social-link" aria-label={t('footer.social.instagram')} target="_blank" rel="noopener noreferrer">
+              <a href={SOCIAL.instagram} className="corporate-footer-social-link" aria-label={t('footer.social.instagram')} target="_blank" rel="noopener noreferrer">
                 <Instagram />
               </a>
-              <a href="https://www.tiktok.com/@surya.inti.gas?_r=1&_t=ZS-97WlfSPPexY" className="corporate-footer-social-link" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+              <a href={SOCIAL.tiktok} className="corporate-footer-social-link" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
                 <TikTok />
               </a>
             </div>
@@ -451,17 +452,17 @@ export function Footer() {
           <motion.div className="corporate-footer-column" variants={fadeUp}>
             <div className="corporate-footer-contact-title">{t('distribution.locations.pabrik-balikpapan.name')}</div>
             <div className="corporate-footer-contact">
-              <div className="corporate-footer-contact-item">
+              <a className="corporate-footer-contact-item" href={`tel:+${OFFICES.balikpapan.phoneE164}`}>
                 <Phone />
-                +625428531991
-              </div>
-              <div className="corporate-footer-contact-item">
+                {OFFICES.balikpapan.phoneDisplay}
+              </a>
+              <a className="corporate-footer-contact-item" href={`mailto:${OFFICES.balikpapan.email}`}>
                 <Mail />
-                salescounter.bpn@suryaintigas.com
-              </div>
+                {OFFICES.balikpapan.email}
+              </a>
               <div className="corporate-footer-contact-item">
                 <MapPin />
-                Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur
+                {OFFICES.balikpapan.address}
               </div>
             </div>
           </motion.div>
@@ -536,15 +537,12 @@ export function Footer() {
           transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
         >
           <p className="corporate-footer-copyright">
-            © 2026 PT Surya Inti Gas. {t('footer.rights')}
+            © {new Date().getFullYear()} PT Surya Inti Gas. {t('footer.rights')}
           </p>
 
           <div className="corporate-footer-legal-links">
-            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.privacyPolicy')}</Link>
-            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.termsOfService')}</Link>
-            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.cookiePolicy')}</Link>
-            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.accessibility')}</Link>
-            <Link to="#" className="corporate-footer-legal-link">{t('footer.legal.sitemap')}</Link>
+            <Link to={`/${currentLang}/kebijakan-privasi`} className="corporate-footer-legal-link">{t('footer.legal.privacyPolicy')}</Link>
+            <Link to={`/${currentLang}/ketentuan-layanan`} className="corporate-footer-legal-link">{t('footer.legal.termsOfService')}</Link>
           </div>
         </motion.div>
       </div>

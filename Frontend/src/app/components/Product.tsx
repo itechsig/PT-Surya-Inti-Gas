@@ -9,6 +9,7 @@ import {
   Droplets
 } from "lucide-react";
 import '../../styles/ProductsAndServices.css';
+import { Seo } from "./Seo";
 import { mainCategoryIds, type Product, type ProductVariant, type SubCategory, type MainCategory } from "../../data/products";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 import { getImageUrl } from "../../utils/imageUrl";
@@ -63,6 +64,8 @@ function ProductCard({ product, onClick, mainCategory }: { product: Product; onC
           <img
             src={getImageUrl(product.image)}
             alt={product.title}
+            loading="lazy"
+            decoding="async"
             onError={() => setImageError(true)}
           />
         )}
@@ -163,7 +166,7 @@ function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: stri
       transition={{ duration: 0.4 }}
     >
       <div className="featured-banner-image">
-        <img src={content.image} alt={content.title} />
+        <img src={content.image} alt={content.title} loading="lazy" decoding="async" />
         <div className="featured-banner-overlay" />
       </div>
       <div className="featured-banner-content">
@@ -324,6 +327,7 @@ export function Product() {
 
   return (
     <div className="products-corporate">
+      <Seo title={t('seo.products.title')} description={t('seo.products.description')} segment="produk" />
       {/* Corporate Header */}
       <motion.div
         className="products-header"

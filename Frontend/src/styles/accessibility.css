@@ -18,7 +18,7 @@
   position: absolute;
   top: -40px;
   left: 0;
-  background: var(--brand-blue, #1565c0);
+  background: var(--brand-blue, #1565C0);
   color: white;
   padding: 8px 16px;
   z-index: 100;
@@ -58,7 +58,7 @@ html {
 /* Single, consistent keyboard-focus indicator.
    Only shows for keyboard users (:focus-visible), never on mouse click. */
 :focus-visible {
-  outline: 2px solid var(--brand-blue, #1565c0);
+  outline: 2px solid var(--brand-blue, #1565C0);
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -69,7 +69,7 @@ a:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-blue, #1565c0) 28%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-blue, #1565C0) 28%, transparent);
 }
 
 /* Ensure sufficient color contrast for visited links */
@@ -77,22 +77,32 @@ a:visited {
   color: inherit;
 }
 
-/* Improve readability of long-form paragraphs. Scoped to <p> only —
-   applying max-width to every <li>/<span> breaks flex/grid layouts. */
-p {
+/* Improve readability of long-form paragraphs. A blanket `p { max-width }`
+   also clamps paragraphs inside cards, flex and grid layouts and quietly
+   breaks them, so this only targets unclassed prose paragraphs (component
+   paragraphs always carry a className) and uses :where() for zero specificity
+   so any component style overrides it trivially. Prose regions can also opt in
+   explicitly via [data-prose]. */
+:where(p:not([class])) {
+  max-width: 75ch;
+}
+[data-prose] :where(p) {
   max-width: 75ch;
 }
 
-/* Better spacing for touch targets (WCAG 2.5.5). Scoped to real controls —
-   NOT bare <a>, which are usually inline text links inside paragraphs. */
+/* Touch-target floor (WCAG 2.5.5 / 2.5.8). On touch-first viewports every
+   control gets a comfortable 44px minimum. On pointer devices we drop to the
+   WCAG 2.2 minimum of 24px so dense admin toolbars (ghost icon buttons) stay
+   compact without ever falling below the AA target-size floor. Real sizing is
+   still owned by each component; this is only a safety net. */
 button,
 [role="button"] {
   min-height: 44px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (pointer: fine) {
   button,
   [role="button"] {
-    min-height: auto;
+    min-height: 24px;
   }
 }

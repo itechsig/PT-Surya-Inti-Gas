@@ -45,6 +45,8 @@ export default defineConfig({
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv', '**/*.mp4', '**/*.webp'],
   build: {
+    // Modern baseline: skip legacy transpile/polyfills for browsers we don't support.
+    target: 'es2020',
     // Performance optimizations
     minify: 'terser',
     terserOptions: {
@@ -63,6 +65,9 @@ export default defineConfig({
             '@radix-ui/react-dropdown-menu',
             '@radix-ui/react-select',
           ],
+          // Animation library: its own chunk so a change to app code doesn't
+          // bust it (and vice-versa) for repeat visitors.
+          'motion-vendor': ['motion', 'motion/react'],
           'utils-vendor': ['clsx', 'tailwind-merge', 'class-variance-authority'],
         },
       },

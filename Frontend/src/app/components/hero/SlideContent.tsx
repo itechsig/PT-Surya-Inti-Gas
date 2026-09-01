@@ -1,4 +1,4 @@
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { ArrowRight, PhoneCall } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -47,8 +47,14 @@ export function SlideContent() {
         {staticContent.subtitle}
       </motion.span>
 
+      {/* The hero <h1> is the LCP element. It renders at its final state
+          immediately (initial={false}) instead of fading in from opacity:0,
+          so Lighthouse counts it as painted the moment React mounts rather
+          than after the entrance animation. The rest of the block still
+          staggers in. */}
       <motion.h1
-        variants={item}
+        initial={false}
+        animate={{ opacity: 1, y: 0 }}
         className="mb-5 font-[Barlow,system-ui,sans-serif] text-4xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-5xl md:text-6xl lg:text-7xl"
       >
         {staticContent.title}

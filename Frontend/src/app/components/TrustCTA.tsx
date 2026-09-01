@@ -27,9 +27,9 @@ const css = `
   .trust-cta-corporate {
     --navy-dark: #0f172a;
     --navy: #1e293b;
-    --blue-dark: var(--brand-navy, #1e3a8a);
-    --blue: var(--brand-blue, #1e40af);
-    --sky: var(--brand-blue, #3b82f6);
+    --blue-dark: var(--brand-navy, #0C2D5E);
+    --blue: var(--brand-blue, #1565C0);
+    --sky: var(--brand-blue, #1565C0);
     --sky-light: #7fb5ee;
     --gold: #f59e0b;
     --white: #ffffff;

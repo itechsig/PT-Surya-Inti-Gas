@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
@@ -11,8 +11,8 @@ import { SliderControls } from "./SliderControls";
 
 const css = `
   @keyframes hero-progress {
-    from { width: 0%; }
-    to   { width: 100%; }
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
   }
 
   @keyframes hero-particle-float {
@@ -225,14 +225,10 @@ export function Slider() {
 
   const slide = heroSlides[activeIndex];
 
-  if (isLoading || total === 0 || !slide) {
-    return <section className="h-[100svh] min-h-[560px] w-full bg-[#0F4C81]" aria-busy="true" />;
-  }
-
   return (
     <section
       ref={sectionRef}
-      className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-[#0F4C81]"
+      className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-[var(--brand-navy)]"
       onMouseEnter={() => setHoverPaused(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -240,51 +236,58 @@ export function Slider() {
       onTouchEnd={handleTouchEnd}
       aria-roledescription="carousel"
       aria-label={t('hero.ariaLabel')}
+      aria-busy={isLoading || undefined}
     >
       <style>{css}</style>
 
       {/* Preload the next background image invisibly */}
-      <img
-        src={getImageUrl(heroSlides[preloadedNext].image)}
-        alt=""
-        aria-hidden="true"
-        className="absolute h-px w-px opacity-0"
-        loading="eager"
-      />
+      {heroSlides[preloadedNext] && (
+        <img
+          src={getImageUrl(heroSlides[preloadedNext].image)}
+          alt=""
+          aria-hidden="true"
+          className="absolute h-px w-px opacity-0"
+          loading="lazy"
+        />
+      )}
 
-      {/* Background layer: mouse parallax (translate) wraps Ken Burns (scale/opacity) */}
-      <div
-        className="absolute inset-0 transition-transform duration-300 ease-out"
-        style={{
-          transform: `translate3d(${parallax.x * -24}px, ${parallax.y * -24}px, 0) scale(1.06)`,
-        }}
-      >
-        <AnimatePresence mode="sync">
-          <motion.img
-            key={slide.id}
-            src={getImageUrl(slide.image)}
-            alt=""
-            aria-hidden="true"
-            loading={activeIndex === 0 ? "eager" : "lazy"}
-            className="absolute inset-0 h-full w-full object-cover"
-            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
-            initial={{ opacity: 0, scale: 1 }}
-            animate={{ opacity: 1, scale: prefersReduced ? 1 : 1.08 }}
-            exit={{ opacity: 0 }}
-            transition={
-              prefersReduced
-                ? { opacity: { duration: 0.3, ease: "easeOut" } }
-                : {
-                    opacity: { duration: 1.1, ease: "easeOut" },
-                    scale: {
-                      duration: (slide.durationMs + 1200) / 1000,
-                      ease: "linear",
-                    },
-                  }
-            }
-          />
-        </AnimatePresence>
-      </div>
+      {/* Background layer: mouse parallax (translate) wraps Ken Burns (scale/opacity).
+          Only mounts once slides have loaded; the hero copy renders immediately below
+          on the solid navy background so the LCP <h1> never waits on the API. */}
+      {slide && (
+        <div
+          className="absolute inset-0 transition-transform duration-300 ease-out"
+          style={{
+            transform: `translate3d(${parallax.x * -24}px, ${parallax.y * -24}px, 0) scale(1.06)`,
+          }}
+        >
+          <AnimatePresence mode="sync">
+            <motion.img
+              key={slide.id}
+              src={getImageUrl(slide.image)}
+              alt=""
+              aria-hidden="true"
+              loading={activeIndex === 0 ? "eager" : "lazy"}
+              className="absolute inset-0 h-full w-full object-cover"
+              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
+              initial={{ opacity: 0, scale: 1 }}
+              animate={{ opacity: 1, scale: prefersReduced ? 1 : 1.08 }}
+              exit={{ opacity: 0 }}
+              transition={
+                prefersReduced
+                  ? { opacity: { duration: 0.3, ease: "easeOut" } }
+                  : {
+                      opacity: { duration: 1.1, ease: "easeOut" },
+                      scale: {
+                        duration: (slide.durationMs + 1200) / 1000,
+                        ease: "linear",
+                      },
+                    }
+              }
+            />
+          </AnimatePresence>
+        </div>
+      )}
 
       {/* Dark overlay for legibility */}
       <div
@@ -342,19 +345,23 @@ export function Slider() {
       </div>
 
       {/* Live region for screen readers */}
-      <p className="sr-only" role="status" aria-live="polite">
-        {t('hero.liveRegion', { current: activeIndex + 1, total, title: 'PT Surya Inti Gas' })}
-      </p>
+      {slide && (
+        <p className="sr-only" role="status" aria-live="polite">
+          {t('hero.liveRegion', { current: activeIndex + 1, total, title: 'PT Surya Inti Gas' })}
+        </p>
+      )}
 
-      <SliderControls
-        total={total}
-        activeIndex={activeIndex}
-        duration={slide.durationMs}
-        isPaused={isPaused}
-        userPaused={userPaused}
-        onTogglePause={() => setUserPaused((v) => !v)}
-        onSelect={goTo}
-      />
+      {slide && (
+        <SliderControls
+          total={total}
+          activeIndex={activeIndex}
+          duration={slide.durationMs}
+          isPaused={isPaused}
+          userPaused={userPaused}
+          onTogglePause={() => setUserPaused((v) => !v)}
+          onSelect={goTo}
+        />
+      )}
 
       {/* Bottom bar: slide counter + progress */}
       {/* <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-3 px-6 pb-5 sm:px-10 md:px-16 lg:px-24">

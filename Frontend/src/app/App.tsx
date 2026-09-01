@@ -1,6 +1,8 @@
-import { useEffect, useState, lazy, Suspense } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation, useParams, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
+import { useTranslation } from "react-i18next";
+import { Seo } from "./components/Seo";
 import { MotionConfig } from "motion/react";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
@@ -19,6 +21,7 @@ import { performanceMonitor } from "../utils/performanceMonitor";
 import { AppProvider, ProductProvider, AuthProvider } from "../context";
 import { ProtectedRoute } from "./admin/ProtectedRoute";
 import { createSkipLink } from "../utils/accessibility";
+import { useLazyLoad } from "../hooks/useLazyLoad";
 import i18n from "../utils/i18n";
 
 // Route-level code splitting: these are only needed on their specific route (or, for
@@ -37,6 +40,8 @@ const Gallery = lazy(() => import("./components/Gallery"));
 const GalleryDetail = lazy(() => import("./components/GalleryDetail"));
 const Portfolio = lazy(() => import("./components/Portfolio"));
 const PortfolioDetail = lazy(() => import("./components/PortfolioDetail"));
+const PrivacyPolicyPage = lazy(() => import("./components/LegalPage").then(m => ({ default: m.PrivacyPolicyPage })));
+const TermsOfServicePage = lazy(() => import("./components/LegalPage").then(m => ({ default: m.TermsOfServicePage })));
 
 // The entire admin dashboard: public visitors never need any of this, so it's split
 // into its own chunk(s) that only load when someone actually visits /admin.
@@ -62,70 +67,30 @@ function RouteFallback() {
     return () => setRouteLoading(false);
   }, []);
 
-  return <div style={{ minHeight: '60vh' }} aria-hidden="true" />;
-}
-
-// Page transition styles
-const pageTransitionStyles = `
-  @keyframes pageFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes pageSlideIn {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  .page-transition {
-    animation: pageFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
-
-  .page-transition-fast {
-    animation: pageFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
-
-  .page-transition-slide {
-    animation: pageSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
-`;
-
-// Inject page transition styles
-if (typeof document !== 'undefined') {
-  const styleSheet = document.createElement('style');
-  styleSheet.textContent = pageTransitionStyles;
-  document.head.appendChild(styleSheet);
+  // Lightweight, non-layout-shifting placeholder: a hero-height band plus a few
+  // content bars so a route swap reads as "loading" instead of a blank flash.
+  return (
+    <div style={{ minHeight: '60vh', padding: '0 0 64px' }} aria-hidden="true">
+      <div className="route-skeleton-hero" />
+      <div className="route-skeleton-body">
+        <span className="route-skeleton-bar" style={{ width: '55%', height: 28 }} />
+        <span className="route-skeleton-bar" style={{ width: '80%' }} />
+        <span className="route-skeleton-bar" style={{ width: '72%' }} />
+        <span className="route-skeleton-bar" style={{ width: '40%' }} />
+      </div>
+    </div>
+  );
 }
 
 // ─── Page Transition Component ───────────────────────────────
+// Keyframes live in styles/index.css. The `both` fill-mode holds the
+// pre-animation state, so no inline opacity gate is needed.
 function PageTransition({ children, variant = 'default' }: { children: React.ReactNode; variant?: 'default' | 'fast' | 'slide' }) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const className = variant === 'fast' ? 'page-transition-fast' : 
-                    variant === 'slide' ? 'page-transition-slide' : 
+  const className = variant === 'fast' ? 'page-transition-fast' :
+                    variant === 'slide' ? 'page-transition-slide' :
                     'page-transition';
 
-  return (
-    <div className={className} style={{ opacity: isVisible ? 1 : 0 }}>
-      {children}
-    </div>
-  );
+  return <div className={className}>{children}</div>;
 }
 
 // ─── Language Route Component ───────────────────────────────
@@ -174,10 +139,29 @@ function ScrollToTop() {
   return null;
 }
 
+// Defers a below-the-fold section until the viewer scrolls near it, so its
+// lazy chunk + assets stay off the initial page load. Used for the distribution
+// map (~150KB chunk + Leaflet + OpenStreetMap tiles) which sits well below the
+// fold on the homepage.
+function DeferredSection({ minHeight = 400, children }: { minHeight?: number; children: React.ReactNode }) {
+  const [ref, visible] = useLazyLoad(0, '300px');
+  return (
+    <div ref={ref as React.RefObject<HTMLDivElement>} style={{ minHeight }}>
+      {visible && (
+        <Suspense fallback={<div style={{ minHeight }} aria-hidden="true" />}>
+          {children}
+        </Suspense>
+      )}
+    </div>
+  );
+}
+
 // ─── Halaman Utama ────────────────────────────────────────────
 function MainPage() {
+  const { t } = useTranslation();
   return (
     <>
+      <Seo title={t('seo.home.title')} description={t('seo.home.description')} segment="" />
       <Hero />
       <RunningText />
       <div className="min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900" style={{ position: 'relative' }}>
@@ -195,9 +179,9 @@ function MainPage() {
           <ProductsAndServices />
           <IndustriesServed />
           <div style={{ height: '80px', background: '#f8fafc' }} />
-          <Suspense fallback={<div style={{ minHeight: '400px' }} aria-hidden="true" />}>
+          <DeferredSection minHeight={400}>
             <DistributionNetworkSection />
-          </Suspense>
+          </DeferredSection>
         </PageTransition>
       </div>
     </>
@@ -458,6 +442,29 @@ function App() {
                 </div>
               </>
             } />
+            {[
+              { path: 'kebijakan-privasi', el: <PrivacyPolicyPage /> },
+              { path: 'ketentuan-layanan', el: <TermsOfServicePage /> },
+            ].map(({ path, el }) => (
+              <Route key={path} path={`/:lang/${path}`} element={
+                <>
+                  <LanguageRouteWrapper />
+                  <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                    <Header />
+                    <main id="main-content" tabIndex={-1}>
+                      <PageTransition variant="fast">
+                        <Suspense fallback={<RouteFallback />}>
+                          {el}
+                        </Suspense>
+                      </PageTransition>
+                    </main>
+                    <Footer />
+                    <Chatbot />
+                    <ScrollToTopButton />
+                  </div>
+                </>
+              } />
+            ))}
             <Route path="/admin/login" element={<LoginPage />} />
             <Route
               path="/admin"

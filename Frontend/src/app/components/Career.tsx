@@ -141,7 +141,6 @@ export function Career() {
         <div className="career-hero-bg"></div>
         <div className="section-container">
           <motion.div className="section-header" variants={fadeUp}>
-            <span className="career-hero-badge">{t('career.page.badge')}</span>
             <h1>{t('career.page.title')}</h1>
             <p>{t('career.page.subtitle')}</p>
             <p className="jobs-counter">{t('career.page.jobsAvailable', { count: totalJobs })}</p>

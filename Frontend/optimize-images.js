@@ -52,6 +52,39 @@ const imagesToOptimize = [
   }
 ];
 
+// Oversized source images that are referenced by their original filename all over
+// the app (CSS background-image, hero slide mapping, <img src>). We can't rename
+// them without hunting down every reference, so these are resized/re-encoded
+// IN PLACE. `withoutEnlargement` leaves anything already small untouched, so this
+// pass is safe to re-run. Widths are ~2x the largest on-screen display size.
+const inPlaceResize = [
+  { file: 'public/images/products/Suasana_BPP.webp', width: 2048, webp: 72 }, // hero slide 1, full-bleed
+  { file: 'public/images/products/Craddle_4x4_fixed.webp', width: 1100, webp: 72 }, // featured banner
+  { file: 'public/gambar about.jpg', width: 1400, jpeg: 80 }, // AboutCompany section bg
+  { file: 'public/office-optimized.jpg', width: 1280, jpeg: 80 }, // AboutCompany <img>
+  { file: 'public/images/office/wp.jpg', width: 1400, jpeg: 76 }, // interior page bg
+  { file: 'public/images/office/wp2.jpg', width: 1400, jpeg: 74 }, // homepage fixed bg
+];
+
+async function resizeInPlace() {
+  console.log('Resizing oversized source images in place...\n');
+  for (const job of inPlaceResize) {
+    const full = path.join(__dirname, job.file);
+    if (!fs.existsSync(full)) { console.log(`⚠️  Not found: ${job.file}`); continue; }
+    // Read into a buffer first: on Windows sharp keeps the source handle open,
+    // which blocks writing back to the same path.
+    const src = fs.readFileSync(full);
+    const before = src.length;
+    let t = sharp(src).rotate().resize(job.width, null, { withoutEnlargement: true, fit: 'inside' });
+    if (job.webp) t = t.webp({ quality: job.webp });
+    if (job.jpeg) t = t.jpeg({ quality: job.jpeg, progressive: true, mozjpeg: true });
+    const out = await t.toBuffer();
+    fs.writeFileSync(full, out);
+    console.log(`✅ ${job.file}  ${(before / 1024).toFixed(0)} KB → ${(out.length / 1024).toFixed(0)} KB`);
+  }
+  console.log('');
+}
+
 async function optimizeImages() {
   console.log('Starting image optimization...');
   
@@ -107,4 +140,7 @@ async function optimizeImages() {
   console.log('✨ Image optimization complete!');
 }
 
-optimizeImages().catch(console.error);
+(async () => {
+  await resizeInPlace();
+  await optimizeImages();
+})().catch(console.error);

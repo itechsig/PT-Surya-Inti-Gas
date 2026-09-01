@@ -64,6 +64,8 @@ function ProductCard({ product, href, mainCategory, onVariantClick }: { product:
           <img
             src={getImageUrl(product.image)}
             alt={product.title}
+            loading="lazy"
+            decoding="async"
             onError={() => setImageError(true)}
           />
         )}
@@ -178,7 +180,7 @@ function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: stri
       transition={{ duration: 0.4 }}
     >
       <div className="featured-banner-image">
-        <img src={content.image} alt={content.title} />
+        <img src={content.image} alt={content.title} loading="lazy" decoding="async" />
         <div className="featured-banner-overlay" />
       </div>
       <div className="featured-banner-content">

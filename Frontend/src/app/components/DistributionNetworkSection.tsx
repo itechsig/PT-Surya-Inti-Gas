@@ -7,13 +7,13 @@ import { motion, type Variants } from "motion/react";
 
 const css = `
   .distribution-corporate {
-    --primary: var(--brand-navy, #0F4C81);
+    --primary: var(--brand-navy, #0C2D5E);
     --secondary: var(--brand-sky, #00AEEF);
     --navy-dark: #0f172a;
     --navy: #1e293b;
-    --blue-dark: var(--brand-navy, #1e3a8a);
-    --blue: var(--brand-blue, #1e40af);
-    --sky: var(--brand-blue, #3b82f6);
+    --blue-dark: var(--brand-navy, #0C2D5E);
+    --blue: var(--brand-blue, #1565C0);
+    --sky: var(--brand-blue, #1565C0);
     --sky-light: #7fb5ee;
     --white: #ffffff;
     --slate-50: #f8fafc;
@@ -243,8 +243,8 @@ export function DistributionNetworkSection() {
               scrollWheelZoom={false}
             >
               <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                attribution='&​copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &​copy; <a href="https://carto.com/attributions">CARTO</a>'
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               {currentLocations.map((location) => (
                 <Marker 

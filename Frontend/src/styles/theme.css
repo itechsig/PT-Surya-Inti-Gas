@@ -60,6 +60,17 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: var(--brand-blue);
 
+  /* ── Layout scale — single source of truth ──────────────────
+     Marketing sections historically hardcoded their own widths
+     (1400 / 1200 / "clean-container") and radii (16 / 20 / 50px).
+     New/edited components should consume these tokens. */
+  --container-max: 1400px;
+  --container-prose: 820px;
+  --section-pad-y: clamp(64px, 9vw, 120px);
+  --section-pad-x: 6vw;
+
+  --radius-pill: 999px;
+
   /* Spacing system */
   --spacing-section: 96px;
   --spacing-element: 48px;
