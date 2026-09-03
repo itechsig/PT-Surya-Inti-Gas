@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
-import { motion, useReducedMotion, type PanInfo, type Variants } from "motion/react";
-import { ChevronLeft, ChevronRight, Pause, Play, Quote, Star } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion, type PanInfo, type Variants } from "motion/react";
+import { ChevronLeft, ChevronRight, Pause, Play, Quote, Star, X } from "lucide-react";
 import { getImageUrl } from "../../utils/imageUrl";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -196,7 +197,7 @@ const css = `
     color: var(--slate-800);
     margin: 0 0 auto;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     pointer-events: none;
@@ -216,6 +217,107 @@ const css = `
     font-size: 0.8125rem;
     color: var(--slate-600);
     pointer-events: none;
+  }
+
+  .trust-quote-more {
+    align-self: center;
+    margin-top: 8px;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    font-family: var(--ff-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--blue);
+    cursor: pointer;
+    transition: background 0.2s var(--ease);
+  }
+
+  .trust-quote-more:hover {
+    background: rgba(30, 64, 175, 0.08);
+    text-decoration: underline;
+  }
+
+  .trust-quote-more:focus-visible {
+    outline: 3px solid var(--sky);
+    outline-offset: 2px;
+  }
+
+  /* ── Full-quote Dialog ── */
+  .trust-quote-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .trust-quote-dialog {
+    position: relative;
+    width: min(520px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 40px 36px 32px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: var(--ff-body);
+  }
+
+  .trust-quote-dialog .trust-stars {
+    justify-content: center;
+  }
+
+  .trust-quote-dialog .trust-avatar,
+  .trust-quote-dialog .trust-stars,
+  .trust-quote-dialog .trust-quote-icon {
+    pointer-events: none;
+  }
+
+  .trust-quote-dialog-quote {
+    font-family: var(--ff-body);
+    font-size: 1rem;
+    line-height: 1.65;
+    font-weight: 500;
+    color: var(--slate-800);
+    margin: 0 0 18px;
+  }
+
+  .trust-quote-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: var(--slate-200);
+    color: var(--slate-600);
+    cursor: pointer;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease);
+  }
+
+  .trust-quote-close:hover {
+    background: var(--slate-300);
+    color: var(--navy-dark);
+  }
+
+  .trust-quote-close:focus-visible {
+    outline: 3px solid var(--sky);
+    outline-offset: 2px;
   }
 
   /* ── Controls ── */
@@ -444,6 +546,105 @@ function getDrumTransform(offset: number, radius: number) {
   return { x, z, rotateY: -angle, scale, opacity, zIndex };
 }
 
+/** Reads the full testimonial when the card clamps it. Same modal pattern as CradleSizeDialog. */
+function TestimonialDialog({ item, onClose }: { item: TestimonialItem; onClose: () => void }) {
+  const { t } = useTranslation();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const node = dialogRef.current;
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "Tab" && node) {
+        const focusables = node.querySelectorAll<HTMLElement>(
+          'button, [href], [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKey);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    node?.querySelector<HTMLElement>(".trust-quote-close")?.focus();
+
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = originalOverflow;
+      previouslyFocused?.focus?.();
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <AnimatePresence>
+      {/* Re-declares the component's CSS variables + font — the portal sits outside .trust-cta-corporate. */}
+      <motion.div
+        className="trust-cta-corporate trust-quote-backdrop"
+        onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <motion.div
+          ref={dialogRef}
+          className="trust-quote-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="trust-quote-dialog-name"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ opacity: 0, y: 24, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 24, scale: 0.96 }}
+          transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+        >
+          <button
+            type="button"
+            className="trust-quote-close"
+            onClick={onClose}
+            aria-label={t("common.close")}
+          >
+            <X size={20} aria-hidden="true" />
+          </button>
+
+          <div className="trust-avatar" aria-hidden="true">
+            {AVATAR_BY_NAME[item.name] ? (
+              <img src={getImageUrl(AVATAR_BY_NAME[item.name])} alt="" loading="lazy" />
+            ) : (
+              getInitials(item.name)
+            )}
+          </div>
+          <div className="trust-stars" role="img" aria-label={`${item.rating} / 5`}>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} size={13} className={i < item.rating ? "filled" : ""} />
+            ))}
+          </div>
+          <Quote className="trust-quote-icon" size={20} aria-hidden="true" />
+          <p className="trust-quote-dialog-quote">&ldquo;{item.quote}&rdquo;</p>
+          <div className="trust-name" id="trust-quote-dialog-name">
+            {item.name}
+          </div>
+          <div className="trust-role">
+            {item.role} &middot; {item.company}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>,
+    document.body
+  );
+}
+
 export function TrustCTA() {
   const { t } = useTranslation();
 
@@ -454,9 +655,19 @@ export function TrustCTA() {
   const [hoverPaused, setHoverPaused] = useState(false);
   const [userPaused, setUserPaused] = useState(false);
   const [radius, setRadius] = useState(230);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [quoteClamped, setQuoteClamped] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
+  const activeQuoteRef = useRef<HTMLParagraphElement>(null);
 
-  const isPaused = hoverPaused || userPaused || !!prefersReduced;
+  const isPaused =
+    hoverPaused || userPaused || openIndex !== null || !!prefersReduced;
+
+  /* The active quote is line-clamped in CSS; expose a "read more" only when it overflows. */
+  useLayoutEffect(() => {
+    const el = activeQuoteRef.current;
+    setQuoteClamped(!!el && el.scrollHeight - el.clientHeight > 2);
+  }, [activeIndex, radius, total]);
 
   useEffect(() => {
     const node = stageRef.current;
@@ -570,7 +781,21 @@ export function TrustCTA() {
                       ))}
                     </div>
                     <Quote className="trust-quote-icon" size={20} aria-hidden="true" />
-                    <p className="trust-quote">&ldquo;{item.quote}&rdquo;</p>
+                    <p className="trust-quote" ref={isActive ? activeQuoteRef : undefined}>
+                      &ldquo;{item.quote}&rdquo;
+                    </p>
+                    {isActive && quoteClamped && (
+                      <button
+                        type="button"
+                        className="trust-quote-more"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenIndex(index);
+                        }}
+                      >
+                        {t("common.readMore")}
+                      </button>
+                    )}
                     <div className="trust-name">{item.name}</div>
                     <div className="trust-role">
                       {item.role} &middot; {item.company}
@@ -633,6 +858,10 @@ export function TrustCTA() {
 
         </div>
       </section>
+
+      {openIndex !== null && items[openIndex] && (
+        <TestimonialDialog item={items[openIndex]} onClose={() => setOpenIndex(null)} />
+      )}
     </div>
   );
 }
