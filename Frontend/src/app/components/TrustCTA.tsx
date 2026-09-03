@@ -104,7 +104,7 @@ const css = `
   /* ── Drum Stage ── */
   .trust-stage {
     position: relative;
-    height: 340px;
+    height: 380px;
     perspective: 1400px;
   }
 
@@ -113,10 +113,10 @@ const css = `
     inset: 0;
     margin: auto;
     width: clamp(260px, 24vw, 380px);
-    height: 300px;
+    height: 340px;
     background: var(--white);
     border-radius: 20px;
-    padding: 28px 24px;
+    padding: 26px 24px;
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
@@ -196,7 +196,7 @@ const css = `
     color: var(--slate-800);
     margin: 0 0 auto;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     pointer-events: none;
@@ -327,12 +327,12 @@ const css = `
   /* ── Responsive Design ── */
   @media (max-width: 900px) {
     .trust-stage {
-      height: 300px;
+      height: 360px;
     }
 
     .trust-card {
       width: clamp(240px, 58vw, 300px);
-      height: 280px;
+      height: 340px;
       padding: 24px 20px;
     }
 
@@ -352,12 +352,12 @@ const css = `
     }
 
     .trust-stage {
-      height: 280px;
+      height: 380px;
     }
 
     .trust-card {
       width: clamp(220px, 74vw, 280px);
-      height: 270px;
+      height: 360px;
       padding: 22px 18px;
     }
 
