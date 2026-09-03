@@ -26,11 +26,11 @@ export function SlideContent() {
   const currentLang = lang || "id";
   const { t } = useTranslation();
 
-  // Static content as requested
+  // Fixed hero copy, localized via the shared hero.slides.company entry.
   const staticContent = {
-    subtitle: "Pemasok Gas Industri Terpercaya",
-    title: "PT Surya Inti Gas",
-    description: "Menyediakan gas industri berkualitas tinggi untuk manufaktur, kesehatan, pengolahan makanan, pengelasan, laboratorium, dan berbagai industri lainnya dengan distribusi yang andal serta layanan yang unggul."
+    subtitle: t('hero.slides.company.subtitle'),
+    title: t('hero.slides.company.title'),
+    description: t('hero.slides.company.description'),
   };
 
   return (
