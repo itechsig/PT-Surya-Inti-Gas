@@ -1,0 +1,1 @@
+import{j as s}from"./motion-vendor-B5XW7Dq0.js";import{c as a}from"./utils-5sI-GAPm.js";function o({className:o,...t}){return s.jsx("div",{"data-slot":"skeleton",className:a("bg-accent animate-pulse rounded-md",o),...t})}export{o as S};
