@@ -406,7 +406,7 @@ const staggerContainer: Variants = {
    Ayu: "/images/testimoni/profil2.webp",
    Rendy: "/images/testimoni/profil1.webp",
    Zafi: "/images/testimoni/profil1.webp",
-   Tasya: "/images/testimoni/profil2.webp",
+   Tasya: "/images/testimoni/tasya.webp",
    Hengky: "/images/testimoni/profil1.webp",
 };
 
