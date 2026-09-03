@@ -9,27 +9,16 @@
            <Seo> component (react-helmet-async). Only the fallback title stays here
            for no-JS crawlers; react-helmet replaces it on render. Do NOT re-add a
            static <meta name="description"> or <link rel="canonical"> — react-helmet
-           cannot dedupe against static tags and Google would see two of each. -->
+           cannot dedupe against static tags and Google would see two of each.
+           Legacy/ignored meta (keywords, revisit-after, page-topic, coverage,
+           distribution, rating, ICBM…) were removed 2026-09 — Google ignores them
+           and they only added noise. -->
       <title>PT Surya Inti Gas — Distributor Gas Industri & Medis Terpercaya Sejak 2003 | Oxygen, Nitrogen, Argon, Acetylene</title>
-      <meta name="keywords" content="distributor gas industri, supplier gas medis, specialty gas Indonesia, PT Surya Inti Gas, oksigen industri, nitrogen medis, argon welding, acetylene gas, mixed gas, cryogenic equipment, industrial gas supplier Indonesia, medical gas distributor, oxygen supplier Indonesia, nitrogen supplier, argon supplier, East Java gas supplier, Sidoarjo gas distributor, Balikpapan gas supplier, Jawa Timur gas, Kalimantan gas, 工业气体供应商, 医用气体, 氧气供应商, 氮气供应商, 氩气供应商, 乙炔气体, 混合气体" />
       <meta name="author" content="PT Surya Inti Gas" />
       <meta name="robots" content="index, follow" />
-      <meta name="googlebot" content="index, follow" />
-      <meta name="language" content="Indonesian, English, Chinese" />
-      <meta name="revisit-after" content="7 days" />
       <meta name="geo.region" content="ID-JI" />
-      <meta name="geo.placename" content="Sidoarjo, East Java, Indonesia" />
-      <meta name="geo.position" content="-7.4034;112.7206" />
-      <meta name="ICBM" content="-7.4034, 112.7206" />
-      
-      <!-- Additional SEO for Homepage Priority -->
-      <meta name="page-topic" content="Industrial and Medical Gas Distribution" />
-      <meta name="topic" content="Gas Industrial, Gas Medis, Specialty Gas" />
-      <meta name="category" content="Business, Industrial, Medical" />
-      <meta name="coverage" content="Worldwide" />
-      <meta name="distribution" content="Global" />
-      <meta name="rating" content="General" />
-      
+      <meta name="geo.placename" content="Sidoarjo, Jawa Timur, Indonesia" />
+
       <!-- Google Search Console Verification -->
       <meta name="google-site-verification" content="SbDlwmYgav8EIXRPB5mtFMC1RDMXvVzGE9GGBBf82Y8" />
       
@@ -58,11 +47,6 @@
         "url": "https://suryaintigas.com",
         "description": "Distributor gas industri, medis, dan specialty gas terpercaya sejak 2003",
         "inLanguage": ["id", "en", "zh"],
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://suryaintigas.com/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        },
         "publisher": {
           "@type": "Organization",
           "name": "PT Surya Inti Gas",
@@ -71,150 +55,107 @@
       }
       </script>
       
-      <!-- Structured Data (Schema.org) for Business Information -->
+      <!-- Company + branch structured data. One @graph so Organization and the two
+           branch LocalBusinesses cross-reference each other cleanly.
+           NAP (name/address/phone) is kept identical to src/data/contact.ts —
+           keep the two in sync, and keep both identical to the Google Business
+           Profile listings (NAP consistency drives local ranking).
+           TODO: replace the geo lat/long below with the exact pin from each
+           Google Business Profile. -->
       <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "PT Surya Inti Gas",
-        "alternateName": ["Surya Inti Gas", "PT. Surya Inti Gas"],
-        "url": "https://suryaintigas.com",
-        "logo": "/logo.png",
-        "description": "Distributor gas industri, medis, dan specialty gas terpercaya sejak 2003. Industrial, medical, and specialty gas trusted distributor since 2003. 工业气体分销商",
-        "foundingDate": "2003",
-        "address": [
+        "@graph": [
           {
-            "@type": "PostalAddress",
-            "streetAddress": "Jl. Lingkar Timur KM 5.5, Rangkah Kidul",
-            "addressLocality": "Sidoarjo",
-            "addressRegion": "East Java",
-            "postalCode": "61254",
-            "addressCountry": "ID"
-          },
-          {
-            "@type": "PostalAddress",
-            "streetAddress": "Balikpapan",
-            "addressLocality": "Balikpapan",
-            "addressRegion": "East Kalimantan",
-            "addressCountry": "ID"
-          }
-        ],
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "telephone": "+62-31-1234567",
-          "contactType": "sales",
-          "areaServed": "ID",
-          "availableLanguage": ["Indonesian", "English", "Chinese"]
-        },
-        "sameAs": [
-          "https://www.facebook.com/suryaintigas",
-          "https://www.instagram.com/surya.inti.gas",
-          "https://www.tiktok.com/@surya.inti.gas",
-          "https://www.linkedin.com/company/suryaintigas"
-        ],
-        "keywords": [
-          "distributor gas industri",
-          "gas medis",
-          "specialty gas",
-          "industrial gas supplier",
-          "medical gas",
-          "工业气体供应商",
-          "医用气体",
-          "氧气供应商",
-          "氮气供应商",
-          "氩气供应商",
-          "East Java gas supplier",
-          "Sidoarjo gas distributor",
-          "Balikpapan gas supplier"
-        ]
-      }
-      </script>
-
-      <!-- LocalBusiness Schema for Local SEO -->
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "PT Surya Inti Gas",
-        "alternateName": ["Surya Inti Gas", "PT. Surya Inti Gas"],
-        "description": "Distributor gas industri, medis, dan specialty gas terpercaya sejak 2003. Melayani Jawa Timur, Kalimantan, dan seluruh Indonesia. Industrial, medical, and specialty gas trusted distributor since 2003.",
-        "url": "https://suryaintigas.com",
-        "logo": "/logo.png",
-        "image": "https://suryaintigas.com/office-optimized.jpg",
-        "telephone": "+62-31-1234567",
-        "email": "info@suryaintigas.com",
-        "address": [
-          {
-            "@type": "PostalAddress",
-            "streetAddress": "Jl. Lingkar Timur KM 5.5, Rangkah Kidul",
-            "addressLocality": "Sidoarjo",
-            "addressRegion": "East Java",
-            "postalCode": "61254",
-            "addressCountry": "ID"
-          },
-          {
-            "@type": "PostalAddress",
-            "streetAddress": "Balikpapan",
-            "addressLocality": "Balikpapan",
-            "addressRegion": "East Kalimantan",
-            "addressCountry": "ID"
-          }
-        ],
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": "-7.4034",
-          "longitude": "112.7206"
-        },
-        "areaServed": [
-          {
-            "@type": "GeoCircle",
-            "geoMidpoint": {
-              "@type": "GeoCoordinates",
-              "latitude": "-7.4034",
-              "longitude": "112.7206"
-            },
-            "geoRadius": "200000"
-          },
-          "East Java",
-          "Central Java",
-          "DIY",
-          "East Kalimantan",
-          "Indonesia"
-        ],
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday"
+            "@type": "Organization",
+            "@id": "https://suryaintigas.com/#organization",
+            "name": "PT Surya Inti Gas",
+            "alternateName": ["Surya Inti Gas", "PT. Surya Inti Gas"],
+            "url": "https://suryaintigas.com",
+            "logo": "https://suryaintigas.com/logo.png",
+            "image": "https://suryaintigas.com/office-optimized.jpg",
+            "description": "Distributor gas industri, gas medis, dan specialty gas terpercaya sejak 2003. Memasok Oksigen, Nitrogen, Argon, Acetylene, CO₂, Hidrogen, Helium, mixed gas, serta peralatan cryogenic ke seluruh Indonesia.",
+            "foundingDate": "2003",
+            "email": "salescounter.sda@suryaintigas.com",
+            "telephone": "+62-812-3390-6378",
+            "areaServed": ["Jawa Timur", "Jawa Tengah", "DI Yogyakarta", "Kalimantan Timur", "Indonesia"],
+            "sameAs": [
+              "https://www.instagram.com/surya.inti.gas",
+              "https://www.tiktok.com/@surya.inti.gas"
             ],
-            "opens": "08:00",
-            "closes": "17:00"
+            "location": [
+              { "@id": "https://suryaintigas.com/#sidoarjo" },
+              { "@id": "https://suryaintigas.com/#balikpapan" }
+            ]
           },
           {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "08:00",
-            "closes": "14:00"
+            "@type": "LocalBusiness",
+            "@id": "https://suryaintigas.com/#sidoarjo",
+            "name": "PT Surya Inti Gas — Kantor Pusat Sidoarjo",
+            "parentOrganization": { "@id": "https://suryaintigas.com/#organization" },
+            "url": "https://suryaintigas.com",
+            "logo": "https://suryaintigas.com/logo.png",
+            "image": "https://suryaintigas.com/office-optimized.jpg",
+            "description": "Kantor pusat PT Surya Inti Gas — distributor gas industri dan gas medis untuk Jawa Timur, Jawa Tengah, dan DI Yogyakarta.",
+            "telephone": "+62-812-3390-6378",
+            "email": "salescounter.sda@suryaintigas.com",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Komp. Pergudangan & Industri Safe N Lock, Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul",
+              "addressLocality": "Sidoarjo",
+              "addressRegion": "Jawa Timur",
+              "postalCode": "61232",
+              "addressCountry": "ID"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "-7.4693",
+              "longitude": "112.7267"
+            },
+            "areaServed": ["Jawa Timur", "Jawa Tengah", "DI Yogyakarta"],
+            "openingHoursSpecification": [
+              { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:00" },
+              { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "14:00" }
+            ],
+            "priceRange": "$$",
+            "currenciesAccepted": "IDR",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "reviewCount": "20",
+              "bestRating": "5"
+            }
+          },
+          {
+            "@type": "LocalBusiness",
+            "@id": "https://suryaintigas.com/#balikpapan",
+            "name": "PT Surya Inti Gas — Balikpapan",
+            "parentOrganization": { "@id": "https://suryaintigas.com/#organization" },
+            "url": "https://suryaintigas.com",
+            "logo": "https://suryaintigas.com/logo.png",
+            "description": "Cabang PT Surya Inti Gas di Balikpapan — distributor gas industri dan gas medis untuk Kalimantan Timur.",
+            "telephone": "+62-851-5711-8879",
+            "email": "salescounter.bpn@suryaintigas.com",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Jl. AMD Projakal Kariangau KM 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara",
+              "addressLocality": "Balikpapan",
+              "addressRegion": "Kalimantan Timur",
+              "addressCountry": "ID"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "-1.2107",
+              "longitude": "116.8253"
+            },
+            "areaServed": ["Kalimantan Timur"],
+            "openingHoursSpecification": [
+              { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:00" },
+              { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "14:00" }
+            ],
+            "priceRange": "$$",
+            "currenciesAccepted": "IDR"
           }
-        ],
-        "priceRange": "$$",
-        "paymentAccepted": ["Cash", "Credit Card", "Bank Transfer"],
-        "currenciesAccepted": "IDR",
-        "foundingDate": "2003",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.7",
-          "reviewCount": "200"
-        },
-        "sameAs": [
-          "https://www.facebook.com/suryaintigas",
-          "https://www.instagram.com/surya.inti.gas",
-          "https://www.tiktok.com/@surya.inti.gas",
-          "https://www.linkedin.com/company/suryaintigas"
         ]
       }
       </script>
@@ -224,76 +165,18 @@
       {
         "@context": "https://schema.org",
         "@type": "ItemList",
+        "name": "Produk gas PT Surya Inti Gas",
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "item": {
               "@type": "Product",
-              "name": "Oxygen (O₂)",
-              "description": "Industrial and medical oxygen gas with high purity for welding, medical applications, and industrial processes. 工业和医用氧气，纯度高。",
+              "name": "Oksigen (O₂)",
+              "description": "Gas oksigen industri dan medis kemurnian tinggi untuk pengelasan, fasilitas kesehatan, dan proses industri.",
               "image": "https://suryaintigas.com/images/products/Oxygen-optimized.webp",
-              "keywords": ["oksigen", "oxygen gas", "氧气", "medical oxygen", "industrial oxygen", "welding oxygen", "gas oksigen"],
-              "brand": {
-                "@type": "Brand",
-                "name": "PT Surya Inti Gas"
-              },
-              "offers": {
-                "@type": "Offer",
-                "availability": "https://schema.org/InStock",
-                "priceCurrency": "IDR",
-                "price": "0",
-                "priceValidUntil": "2026-12-31",
-                "seller": {
-                  "@type": "Organization",
-                  "name": "PT Surya Inti Gas"
-                },
-                "hasMerchantReturnPolicy": {
-                  "@type": "MerchantReturnPolicy",
-                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                  "merchantReturnDays": 30,
-                  "returnMethod": "https://schema.org/ReturnByMail",
-                  "returnFees": "https://schema.org/ReturnShippingFees",
-                  "returnShippingFeesAmount": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "IDR"
-                  },
-                  "applicableCountry": "ID"
-                },
-                "shippingDetails": {
-                  "@type": "OfferShippingDetails",
-                  "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "IDR"
-                  },
-                  "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "ID"
-                  },
-                  "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 1,
-                      "maxValue": 3,
-                      "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 2,
-                      "maxValue": 7,
-                      "unitCode": "DAY"
-                    }
-                  }
-                }
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "125"
-              }
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
           },
           {
@@ -302,69 +185,10 @@
             "item": {
               "@type": "Product",
               "name": "Nitrogen (N₂)",
-              "description": "High purity nitrogen gas for industrial applications, food preservation, and laboratory use. 氮气，工业级高纯度。",
+              "description": "Gas nitrogen kemurnian tinggi untuk aplikasi industri, pengawetan makanan, dan laboratorium.",
               "image": "https://suryaintigas.com/images/products/Nitrogen-optimized.webp",
-              "keywords": ["nitrogen", "nitrogen gas", "氮气", "industrial nitrogen", "food grade nitrogen", "laboratory nitrogen", "gas nitrogen"],
-              "brand": {
-                "@type": "Brand",
-                "name": "PT Surya Inti Gas"
-              },
-              "offers": {
-                "@type": "Offer",
-                "availability": "https://schema.org/InStock",
-                "priceCurrency": "IDR",
-                "price": "0",
-                "priceValidUntil": "2026-12-31",
-                "seller": {
-                  "@type": "Organization",
-                  "name": "PT Surya Inti Gas"
-                },
-                "hasMerchantReturnPolicy": {
-                  "@type": "MerchantReturnPolicy",
-                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                  "merchantReturnDays": 30,
-                  "returnMethod": "https://schema.org/ReturnByMail",
-                  "returnFees": "https://schema.org/ReturnShippingFees",
-                  "returnShippingFeesAmount": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "IDR"
-                  },
-                  "applicableCountry": "ID"
-                },
-                "shippingDetails": {
-                  "@type": "OfferShippingDetails",
-                  "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "IDR"
-                  },
-                  "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "ID"
-                  },
-                  "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 1,
-                      "maxValue": 3,
-                      "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 2,
-                      "maxValue": 7,
-                      "unitCode": "DAY"
-                    }
-                  }
-                }
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.7",
-                "reviewCount": "98"
-              }
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
           },
           {
@@ -373,69 +197,10 @@
             "item": {
               "@type": "Product",
               "name": "Argon (Ar)",
-              "description": "Premium argon gas for TIG welding, metal fabrication, and industrial processes. 氩气，用于焊接和金属加工。",
+              "description": "Gas argon untuk pengelasan TIG, fabrikasi logam, dan proses industri.",
               "image": "https://suryaintigas.com/images/products/Argon-optimized.webp",
-              "keywords": ["argon", "argon gas", "氩气", "TIG welding argon", "welding gas", "shielding gas", "industrial argon"],
-              "brand": {
-                "@type": "Brand",
-                "name": "PT Surya Inti Gas"
-              },
-              "offers": {
-                "@type": "Offer",
-                "availability": "https://schema.org/InStock",
-                "priceCurrency": "IDR",
-                "price": "0",
-                "priceValidUntil": "2026-12-31",
-                "seller": {
-                  "@type": "Organization",
-                  "name": "PT Surya Inti Gas"
-                },
-                "hasMerchantReturnPolicy": {
-                  "@type": "MerchantReturnPolicy",
-                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                  "merchantReturnDays": 30,
-                  "returnMethod": "https://schema.org/ReturnByMail",
-                  "returnFees": "https://schema.org/ReturnShippingFees",
-                  "returnShippingFeesAmount": {
-                    "@type": "MonetaryAmount",
-                    "value": "50000",
-                    "currency": "IDR"
-                  },
-                  "applicableCountry": "ID"
-                },
-                "shippingDetails": {
-                  "@type": "OfferShippingDetails",
-                  "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "IDR"
-                  },
-                  "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "ID"
-                  },
-                  "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 1,
-                      "maxValue": 3,
-                      "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 2,
-                      "maxValue": 7,
-                      "unitCode": "DAY"
-                    }
-                  }
-                }
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.6",
-                "reviewCount": "87"
-              }
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
           },
           {
@@ -444,69 +209,10 @@
             "item": {
               "@type": "Product",
               "name": "Acetylene (C₂H₂)",
-              "description": "Industrial acetylene gas for oxy-fuel welding and cutting applications. 乙炔气体，用于焊接切割。",
+              "description": "Gas asetilena industri untuk pengelasan dan pemotongan oxy-fuel.",
               "image": "https://suryaintigas.com/images/products/Acetylene-optimized.webp",
-              "keywords": ["acetylene", "acetylene gas", "乙炔", "oxy-fuel welding", "cutting gas", "welding acetylene", "industrial acetylene"],
-              "brand": {
-                "@type": "Brand",
-                "name": "PT Surya Inti Gas"
-              },
-              "offers": {
-                "@type": "Offer",
-                "availability": "https://schema.org/InStock",
-                "priceCurrency": "IDR",
-                "price": "0",
-                "priceValidUntil": "2026-12-31",
-                "seller": {
-                  "@type": "Organization",
-                  "name": "PT Surya Inti Gas"
-                },
-                "hasMerchantReturnPolicy": {
-                  "@type": "MerchantReturnPolicy",
-                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                  "merchantReturnDays": 30,
-                  "returnMethod": "https://schema.org/ReturnByMail",
-                  "returnFees": "https://schema.org/ReturnShippingFees",
-                  "returnShippingFeesAmount": {
-                    "@type": "MonetaryAmount",
-                    "value": "50000",
-                    "currency": "IDR"
-                  },
-                  "applicableCountry": "ID"
-                },
-                "shippingDetails": {
-                  "@type": "OfferShippingDetails",
-                  "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "IDR"
-                  },
-                  "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "ID"
-                  },
-                  "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 1,
-                      "maxValue": 3,
-                      "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 2,
-                      "maxValue": 7,
-                      "unitCode": "DAY"
-                    }
-                  }
-                }
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.5",
-                "reviewCount": "76"
-              }
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
           },
           {
@@ -514,70 +220,11 @@
             "position": 5,
             "item": {
               "@type": "Product",
-              "name": "Hydrogen (H₂)",
-              "description": "High purity hydrogen gas for laboratory, industrial, and specialty applications. 氢气，高纯度工业气体。",
+              "name": "Hidrogen (H₂)",
+              "description": "Gas hidrogen kemurnian tinggi untuk laboratorium, industri, dan aplikasi khusus.",
               "image": "https://suryaintigas.com/images/products/Hidrogen-optimized.webp",
-              "keywords": ["hydrogen", "hydrogen gas", "氢气", "H2 gas", "laboratory hydrogen", "industrial hydrogen", "specialty hydrogen"],
-              "brand": {
-                "@type": "Brand",
-                "name": "PT Surya Inti Gas"
-              },
-              "offers": {
-                "@type": "Offer",
-                "availability": "https://schema.org/InStock",
-                "priceCurrency": "IDR",
-                "price": "0",
-                "priceValidUntil": "2026-12-31",
-                "seller": {
-                  "@type": "Organization",
-                  "name": "PT Surya Inti Gas"
-                },
-                "hasMerchantReturnPolicy": {
-                  "@type": "MerchantReturnPolicy",
-                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                  "merchantReturnDays": 30,
-                  "returnMethod": "https://schema.org/ReturnByMail",
-                  "returnFees": "https://schema.org/ReturnShippingFees",
-                  "returnShippingFeesAmount": {
-                    "@type": "MonetaryAmount",
-                    "value": "50000",
-                    "currency": "IDR"
-                  },
-                  "applicableCountry": "ID"
-                },
-                "shippingDetails": {
-                  "@type": "OfferShippingDetails",
-                  "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "IDR"
-                  },
-                  "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "ID"
-                  },
-                  "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 1,
-                      "maxValue": 3,
-                      "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 2,
-                      "maxValue": 7,
-                      "unitCode": "DAY"
-                    }
-                  }
-                }
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.4",
-                "reviewCount": "65"
-              }
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
           },
           {
@@ -586,69 +233,22 @@
             "item": {
               "@type": "Product",
               "name": "Helium (He)",
-              "description": "Premium helium gas for medical imaging, party balloons, and industrial applications. 氦气，医用和工业应用。",
+              "description": "Gas helium untuk pencitraan medis, aplikasi industri, dan laboratorium.",
               "image": "https://suryaintigas.com/images/products/Helium-optimized.webp",
-              "keywords": ["helium", "helium gas", "氦气", "medical helium", "balloon helium", "industrial helium", "MRI helium"],
-              "brand": {
-                "@type": "Brand",
-                "name": "PT Surya Inti Gas"
-              },
-              "offers": {
-                "@type": "Offer",
-                "availability": "https://schema.org/InStock",
-                "priceCurrency": "IDR",
-                "price": "0",
-                "priceValidUntil": "2026-12-31",
-                "seller": {
-                  "@type": "Organization",
-                  "name": "PT Surya Inti Gas"
-                },
-                "hasMerchantReturnPolicy": {
-                  "@type": "MerchantReturnPolicy",
-                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                  "merchantReturnDays": 30,
-                  "returnMethod": "https://schema.org/ReturnByMail",
-                  "returnFees": "https://schema.org/ReturnShippingFees",
-                  "returnShippingFeesAmount": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "IDR"
-                  },
-                  "applicableCountry": "ID"
-                },
-                "shippingDetails": {
-                  "@type": "OfferShippingDetails",
-                  "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "IDR"
-                  },
-                  "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "ID"
-                  },
-                  "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 1,
-                      "maxValue": 3,
-                      "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 2,
-                      "maxValue": 7,
-                      "unitCode": "DAY"
-                    }
-                  }
-                }
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.3",
-                "reviewCount": "54"
-              }
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "item": {
+              "@type": "Product",
+              "name": "Karbon Dioksida (CO₂)",
+              "description": "Gas CO₂ untuk pengelasan MIG/MAG, industri makanan dan minuman, serta aplikasi lainnya.",
+              "image": "https://suryaintigas.com/images/products/Oxygen-optimized.webp",
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
           }
         ]
@@ -662,13 +262,8 @@
         "@type": "Service",
         "name": "Gas & Pipe Installation Service",
         "description": "Professional gas and pipe installation service. Layanan instalasi gas dan pipa profesional. 气体和管道安装专业服务。",
-        "provider": {
-          "@type": "Organization",
-          "name": "PT Surya Inti Gas",
-          "url": "https://suryaintigas.com"
-        },
-        "areaServed": ["East Java", "Central Java", "DIY", "East Kalimantan"],
-        "keywords": ["gas installation", "pipe installation", "instalasi gas", "instalasi pipa", "气体安装", "管道安装"]
+        "provider": { "@id": "https://suryaintigas.com/#organization" },
+        "areaServed": ["Jawa Timur", "Jawa Tengah", "DI Yogyakarta", "Kalimantan Timur"]
       }
       </script>
 
@@ -755,7 +350,7 @@
             "name": "How can I request a quote for gas supply?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "You can request a quote by contacting our sales team through phone at +62-31-1234567, email at info@suryaintigas.com, or by filling out the contact form on our website. Our team will respond promptly with competitive pricing based on your requirements."
+              "text": "You can request a quote by contacting our sales team at +62 812 3390 6378 (Sidoarjo) or +62 851 5711 8879 (Balikpapan), by email at salescounter.sda@suryaintigas.com, or by filling out the contact form on our website. Our team will respond promptly with competitive pricing based on your requirements."
             }
           }
         ]
