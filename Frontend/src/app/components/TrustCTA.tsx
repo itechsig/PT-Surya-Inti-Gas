@@ -578,16 +578,15 @@ const staggerContainer: Variants = {
 /** Photo per testimonial, keyed by name (names are unchanged across id/en/zh locales). */
  const AVATAR_BY_NAME: Record<string, string> = {
    Fauzan: "/images/testimoni/ojan.webp",
-   Misse: "/images/testimoni/misse.webp",
-   Nabila: "/images/testimoni/profil2.webp",
-   Esty: "/images/testimoni/profil2.webp",
-   Ayu: "/images/testimoni/ayu.webp",
-   Jordy: "/images/testimoni/jordy.webp",
-   Rendy: "/images/testimoni/profil1.webp",
-   Zafi: "/images/testimoni/profil1.webp",
-   Naufal: "/images/testimoni/naufal.webp",
    Tasya: "/images/testimoni/tasya.webp",
-   Hengky: "/images/testimoni/profil1.webp",
+   Misse: "/images/testimoni/misse.webp",
+   Naufal: "/images/testimoni/naufal.webp",
+   Nabila: "/images/testimoni/nabila.webp",
+   Ayu: "/images/testimoni/ayu.webp",
+   Ika: "/images/testimoni/ika.webp",
+   Jordy: "/images/testimoni/jordy.webp",
+   Zafi: "/images/testimoni/profil1.webp",
+   Esty: "/images/testimoni/profil2.webp",
 };
 
 /** Turns "dr. Siti Rahmawati" into "SR" for the avatar badge. */
@@ -810,8 +809,6 @@ export function TrustCTA() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
             >
-              <span className="trust-cta-badge-dot" aria-hidden="true" />
-              {t("testimonials.badge", "Testimoni")}
             </motion.span>
             <motion.h2
               className="trust-cta-title"
