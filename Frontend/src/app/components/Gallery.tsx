@@ -675,8 +675,7 @@ function Gallery() {
                   key={selectedActivity}
                   className="ui-gallery-items"
                   initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: '-40px' }}
+                  animate={filteredItems.length > 0 ? 'show' : 'hidden'}
                   variants={gridStaggerContainer}
                 >
                   {filteredItems.map((item) => (

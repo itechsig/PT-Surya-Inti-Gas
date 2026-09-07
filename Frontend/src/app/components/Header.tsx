@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Menu, X, ChevronDown, Instagram } from "lucide-react";
+import { Menu, X, ChevronDown, Instagram, Facebook } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 // Custom TikTok Icon (since lucide-react doesn't have one)
@@ -412,6 +412,16 @@ export const Header = () => {
                 >
                   <TikTokIcon size={18} />
                 </a>
+                <a
+                  href={SOCIAL.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-2 rounded-lg transition-colors ${isLight ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}`}
+                  aria-label="Facebook"
+                  style={{ color: isLight ? '#6b7280' : '#ffffff' }}
+                >
+                  <Facebook size={18} strokeWidth={2.5} />
+                </a>
               </div>
 
               {/* Language Switcher */}
@@ -601,6 +611,15 @@ export const Header = () => {
                       aria-label="TikTok"
                     >
                       <TikTokIcon size={20} />
+                    </a>
+                    <a
+                      href={SOCIAL.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg text-blue-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                      aria-label="Facebook"
+                    >
+                      <Facebook size={20} strokeWidth={3} />
                     </a>
                   </div>
                 </div>

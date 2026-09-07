@@ -53,4 +53,5 @@ export const PRIMARY_OFFICE = OFFICES.sidoarjo;
 export const SOCIAL = {
   instagram: 'https://www.instagram.com/surya.inti.gas?igsh=MXM3czQyOWx5ZjNzYw==',
   tiktok: 'https://www.tiktok.com/@surya.inti.gas?_r=1&_t=ZS-97WlfSPPexY',
+  facebook: 'https://www.facebook.com/share/18bnUqF8GG/',
 };

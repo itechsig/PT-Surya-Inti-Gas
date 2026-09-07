@@ -1,11 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { motion, type Variants } from 'motion/react';
 import { Seo } from './Seo';
 import {
-  ChevronRight,
   Building2,
   PackageSearch,
   Eye,
@@ -23,8 +20,6 @@ import {
   Headset,
   CheckCircle2,
   Calendar,
-  X,
-  ChevronLeft,
   ArrowRight,
 } from 'lucide-react';
 
@@ -1023,122 +1018,18 @@ const fadeScale: Variants = {
   show: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
 };
 
-/* ── Lightbox ── */
-interface LightboxImage {
-  src: string;
-  alt: string;
-}
-
-function Lightbox({
-  images,
-  index,
-  onClose,
-  onNavigate,
-  labels,
-}: {
-  images: LightboxImage[];
-  index: number;
-  onClose: () => void;
-  onNavigate: (index: number) => void;
-  labels: { close: string; prev: string; next: string };
-}) {
-  const dialogRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-    const node = dialogRef.current;
-
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowRight') onNavigate((index + 1) % images.length);
-      if (e.key === 'ArrowLeft') onNavigate((index - 1 + images.length) % images.length);
-      if (e.key === 'Tab' && node) {
-        // Keep focus inside the lightbox.
-        const focusables = node.querySelectorAll<HTMLElement>('button, [href], [tabindex]:not([tabindex="-1"])');
-        if (focusables.length === 0) return;
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-
-    document.addEventListener('keydown', handleKey);
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    node?.querySelector<HTMLElement>('.au-lightbox-close')?.focus();
-
-    return () => {
-      document.removeEventListener('keydown', handleKey);
-      document.body.style.overflow = originalOverflow;
-      previouslyFocused?.focus?.();
-    };
-  }, [index, images.length, onClose, onNavigate]);
-
-  const current = images[index];
-
-  return createPortal(
-    <div ref={dialogRef} className="au-lightbox" role="dialog" aria-modal="true" aria-label={current.alt} onClick={onClose}>
-      <button type="button" className="au-lightbox-close" onClick={onClose} aria-label={labels.close}>
-        <X size={22} aria-hidden="true" />
-      </button>
-      <button
-        type="button"
-        className="au-lightbox-nav au-lightbox-prev"
-        onClick={(e) => {
-          e.stopPropagation();
-          onNavigate((index - 1 + images.length) % images.length);
-        }}
-        aria-label={labels.prev}
-      >
-        <ChevronLeft size={26} aria-hidden="true" />
-      </button>
-      <img src={current.src} alt={current.alt} className="au-lightbox-image" onClick={(e) => e.stopPropagation()} />
-      <button
-        type="button"
-        className="au-lightbox-nav au-lightbox-next"
-        onClick={(e) => {
-          e.stopPropagation();
-          onNavigate((index + 1) % images.length);
-        }}
-        aria-label={labels.next}
-      >
-        <ChevronRight size={26} aria-hidden="true" />
-      </button>
-    </div>,
-    document.body
-  );
-}
-
 /* ── Icon maps ── */
 const valueIcons = [ShieldCheck, Handshake, Award, ClipboardCheck, Heart, Gem, Lightbulb, Users];
 const whyUsIcons = [Award, Truck, Tag, Users, ShieldCheck, Headset];
-const statIcons = [Calendar, Users, Building2, Headset];
 
-const galleryImages = [
-  '/images/office/wp.jpg',
-  '/images/office/office_view2.webp',
-  '/images/office/office_view3.webp',
-  '/images/products/Oxygen_Fix.webp',
-  '/images/products/Cryogenic_Dewar.webp',
-  '/images/products/ISO_Tank.webp',
-];
 
 export function AboutUsPage() {
   const { t } = useTranslation();
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const values = t('aboutUsPage.values.items', { returnObjects: true }) as { title: string; description: string }[];
   const whyUsItems = t('aboutUsPage.whyUs.items', { returnObjects: true }) as { title: string; description: string }[];
-  const stats = t('aboutUsPage.stats.items', { returnObjects: true }) as { value: string; suffix: string; label: string }[];
-  const galleryLabels = t('aboutUsPage.gallery.items', { returnObjects: true }) as { title: string }[];
   const missionItems = t('about.mission.items', { returnObjects: true }) as string[];
   const timelineLabels = t('about.timeline.items', { returnObjects: true }) as { year: string; label: string }[];
 
@@ -1149,10 +1040,6 @@ export function AboutUsPage() {
     text: t(`aboutUsPage.milestones.${year}.description`),
   }));
 
-  const galleryItems: LightboxImage[] = galleryImages.map((src, i) => ({
-    src,
-    alt: galleryLabels[i]?.title ?? '',
-  }));
 
   return (
     <div className="about-us-corporate">
@@ -1374,89 +1261,6 @@ export function AboutUsPage() {
         </div>
       </section>
 
-      {/* ── Stats ── */}
-      <section className="au-stats-section">
-        <div className="au-container">
-          <motion.div
-            className="au-header"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="au-title" variants={fadeUp}>{t('aboutUsPage.stats.title')}</motion.h2>
-          </motion.div>
-
-          <motion.div
-            className="au-stats-grid"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={staggerContainer}
-          >
-            {stats.map((stat, index) => {
-              const Icon = statIcons[index % statIcons.length];
-              return (
-                <motion.div key={index} className="au-stat-card" variants={fadeUp}>
-                  <div className="au-stat-icon"><Icon size={24} /></div>
-                  <span className="stat-number">{stat.value}{stat.suffix}</span>
-                  <span className="au-stat-label">{stat.label}</span>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Gallery ── */}
-      <section className="au-section">
-        <div className="au-container">
-          <motion.div
-            className="au-header"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="au-title" variants={fadeUp}>{t('aboutUsPage.gallery.title')}</motion.h2>
-            <motion.p className="au-subtitle" variants={fadeUp}>{t('aboutUsPage.gallery.subtitle')}</motion.p>
-          </motion.div>
-
-          <motion.div
-            className="au-gallery-grid"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={staggerContainer}
-          >
-            {galleryItems.map((image, index) => (
-              <motion.button
-                key={image.src}
-                type="button"
-                className="au-gallery-item"
-                variants={fadeUp}
-                whileHover={{ y: -4 }}
-                onClick={() => setLightboxIndex(index)}
-                aria-label={image.alt}
-              >
-                <img src={image.src} alt={image.alt} loading="lazy" />
-                <div className="au-gallery-overlay">
-                  <p className="au-gallery-title">{image.alt}</p>
-                  <span className="au-gallery-zoom"><Eye size={16} /></span>
-                </div>
-              </motion.button>
-            ))}
-          </motion.div>
-
-          <div className="au-gallery-cta-wrap">
-            <Link to={`/${currentLang}/galeri`} className="au-btn au-btn-outline">
-              {t('aboutUsPage.gallery.viewAll')}
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* ── CTA ── */}
       <section className="au-cta-section">
         <div className="au-cta-pattern" aria-hidden="true" />
@@ -1482,19 +1286,6 @@ export function AboutUsPage() {
         </motion.div>
       </section>
 
-      {lightboxIndex !== null && (
-        <Lightbox
-          images={galleryItems}
-          index={lightboxIndex}
-          onClose={() => setLightboxIndex(null)}
-          onNavigate={setLightboxIndex}
-          labels={{
-            close: t('aboutUsPage.gallery.lightboxClose'),
-            prev: t('aboutUsPage.gallery.lightboxPrev'),
-            next: t('aboutUsPage.gallery.lightboxNext'),
-          }}
-        />
-      )}
     </div>
   );
 }
