@@ -1,1 +1,0 @@
-import{f as t}from"./react-vendor-CTM4zT_F.js";import{l as e,A as s}from"./index-D9AGnHBq.js";function a(a){const[n,r]=t.useState([]),[o,c]=t.useState(!0);return t.useEffect(()=>{let t=!1;return c(!0),fetch(`${e(s.GALLERY)}?lang=${a}`).then(t=>t.json()).then(e=>{!t&&e.success&&r(e.data)}).catch(()=>{}).finally(()=>{t||c(!1)}),()=>{t=!0}},[a]),{items:n,isLoading:o}}export{a as u};

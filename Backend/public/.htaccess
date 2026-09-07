@@ -1,3 +1,10 @@
+# The site is a React SPA; Laravel only serves /api/*. Without this, Hostinger's
+# default DirectoryIndex picks index.php first, so "/" falls through to Laravel's
+# leftover welcome route instead of serving the built SPA.
+<IfModule mod_dir.c>
+    DirectoryIndex index.html index.php
+</IfModule>
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
@@ -5,13 +12,10 @@
     RewriteCond %{REQUEST_URI} ^/api/
     RewriteRule ^ index.php [L]
 
-    # Handle Laravel routes that are not /api
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_URI} !^/api/
-    RewriteRule ^ index.php [L]
+    # Root request always serves the SPA, never Laravel's welcome route
+    RewriteRule ^$ index.html [L]
 
-    # Handle React SPA routing - serve index.html for non-file requests
+    # Handle React SPA routing - serve index.html for non-file requests (except API)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} !^/api/
@@ -23,6 +27,30 @@
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
+
+    # HTTPS is enforced for the apex domain; tell browsers to remember it.
+    # No includeSubDomains/preload on purpose (other subdomains aren't audited here).
+    Header always set Strict-Transport-Security "max-age=31536000"
+</IfModule>
+
+# Static-asset caching. These <FilesMatch> rules key off the served file's
+# extension, so they never touch /api/* (which is served by index.php) — the
+# API's own Cache-Control headers (see ImageController etc.) stay authoritative.
+<IfModule mod_headers.c>
+    # Vite build output uses content-hashed filenames -> safe to cache forever.
+    <FilesMatch "\.(js|mjs|css|woff2|woff|ttf|otf|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # Images referenced by stable names: long cache, but allow revalidation.
+    <FilesMatch "\.(jpe?g|png|webp|avif|gif|svg|ico)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+
+    # The SPA shell must always be revalidated so a new deploy is picked up at once.
+    <FilesMatch "^(index\.html|manifest\.webmanifest|sw\.js|robots\.txt|sitemap\.xml)$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
 </IfModule>
 
 # Disable directory browsing

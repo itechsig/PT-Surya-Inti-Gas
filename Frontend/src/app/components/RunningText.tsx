@@ -5,7 +5,7 @@ const css = `
     position: relative;
     width: 100%;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--brand-navy, #1e40af) 0%, var(--brand-blue, #3b82f6) 100%);
+    background: linear-gradient(135deg, var(--brand-navy, #0C2D5E) 0%, var(--brand-blue, #1565C0) 100%);
     padding: 16px 0;
   }
 

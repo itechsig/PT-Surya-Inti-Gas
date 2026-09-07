@@ -1,4 +1,34 @@
 {
+  "seo": {
+    "home": {
+      "title": "PT Surya Inti Gas — Trusted Industrial & Medical Gas Distributor Since 2003",
+      "description": "Trusted distributor of industrial, medical, and specialty gases since 2003. Supplier of Oxygen, Nitrogen, Argon, Acetylene, CO₂, Helium, mixed gas, and cryogenic equipment across Indonesia."
+    },
+    "products": {
+      "title": "Industrial & Medical Gas Products | PT Surya Inti Gas",
+      "description": "Full catalogue of Oxygen, Nitrogen, Argon, Acetylene, CO₂, Hydrogen, Helium, and specialty gases plus cryogenic equipment, cylinders, and cradles from PT Surya Inti Gas."
+    },
+    "productDetail": {
+      "title": "{{name}} | PT Surya Inti Gas Products",
+      "description": "Specifications, applications, and ordering information for {{name}} from PT Surya Inti Gas, a trusted industrial and medical gas distributor in Indonesia."
+    },
+    "about": {
+      "title": "About Us | PT Surya Inti Gas",
+      "description": "Get to know PT Surya Inti Gas — our journey since 2003, vision and mission, company values, and why industrial customers trust us with their gas supply."
+    },
+    "contact": {
+      "title": "Contact Us | PT Surya Inti Gas",
+      "description": "Contact PT Surya Inti Gas for industrial, medical, and specialty gas needs. Offices in Sidoarjo (East Java) and Balikpapan (East Kalimantan)."
+    },
+    "distribution": {
+      "title": "Distribution Network | PT Surya Inti Gas",
+      "description": "PT Surya Inti Gas distribution coverage spans East Java, Central Java, DIY, East Kalimantan, and other regions across Indonesia with fast, safe gas delivery."
+    },
+    "gallery": {
+      "title": "Gallery | PT Surya Inti Gas",
+      "description": "Documentation of operational facilities, company activities, and projects of PT Surya Inti Gas serving various industries across Indonesia."
+    }
+  },
   "header": {
     "home": "Home",
     "about": "About",
@@ -23,7 +53,10 @@
       "packageServices": "Package & Services",
       "packageDesc": "High-pressure gas and liquid supply in complete packages including cylinders, cradles, tanks, and more",
       "servicesDesc": "Professional gas services including installation, delivery, and refilling for your operational needs"
-    }
+    },
+    "menu": "Navigation menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "hero": {
     "badge": "Trusted Since 2003",
@@ -171,10 +204,9 @@
       "services": {
         "title": "Services",
         "description": "Professional installation, delivery, and refilling services with expert technical support.",
-        "shortDescription": "End-to-end gas service solutions"
+        "shortDescription": "Integrated industrial gas service solutions"
       }
     },
-
     "items": {
       "acetylene": {
         "title": "Acetylene (C2H2)",
@@ -338,7 +370,11 @@
       "weekday": "Monday - Friday",
       "weekdayTime": "08.00 - 16.00",
       "saturday": "Saturday",
-      "saturdayTime": "08.00 - 14.00"
+      "saturdayTime": "08.00 - 14.00",
+      "weekdayTimesidoarjo": "08.00 - 16.00 WIB",
+      "weekdayTimebalikpapan": "08.00 - 17.00 WITA",
+      "saturdayTimesidoarjo": "08.00 - 14.00 WIB",
+      "saturdayTimebalikpapan": "08.00 - 15.00 WITA"
     },
     "imageAlt": "PT Surya Inti Gas Office"
   },
@@ -352,7 +388,15 @@
     "iframeTitle": "PT Surya Inti Gas Company Profile"
   },
   "runningText": {
-    "items": ["Guaranteed Quality", "Nationwide Distribution", "Customer First", "Safety First", "Innovation", "Reliability", "Sustainability"]
+    "items": [
+      "Guaranteed Quality",
+      "Nationwide Distribution",
+      "Customer First",
+      "Safety First",
+      "Innovation",
+      "Reliability",
+      "Sustainability"
+    ]
   },
   "industriesServed": {
     "badge": "Industries Served",
@@ -447,7 +491,7 @@
     "profileText": "PT Surya Inti Gas is a provider of industrial and medical gas solutions, dedicated to delivering quality products and services for a wide range of industrial needs across Indonesia. With experience since 2003, we provide gases with purity levels tailored to specific requirements, safe packaging, reliable supply, on-time delivery, and responsive, professional service. Supported by competitive pricing and flexible solutions, we are ready to be your trusted partner in meeting your gas requirements and supporting smooth industrial operations.",
     "cta": "Learn More"
   },
-  "chatbot": {  
+  "chatbot": {
     "title": "Virtual Assistant",
     "greeting": "Hello! Welcome to PT Surya Inti Gas. How can I help you?",
     "errorFallback": "Sorry, an error occurred.",
@@ -517,14 +561,38 @@
       "title": "The Values of PT Surya Inti Gas",
       "subtitle": "The principles that guide every step we take in serving customers and running our business.",
       "items": [
-        { "title": "Safety", "description": "Upholding safety as the top priority in every operational activity to ensure a safe working environment for everyone involved." },
-        { "title": "Integrity", "description": "Conducting business with honesty, transparency, and strong ethical principles in every decision we make." },
-        { "title": "Professionalism", "description": "Delivering services with high professional standards, competence, and dedication in every operational aspect." },
-        { "title": "Responsibility", "description": "Taking full responsibility for every action and decision, and committing to business sustainability." },
-        { "title": "Customer Focus", "description": "Focusing on customer needs by delivering solutions that are precise, fast, and reliable." },
-        { "title": "Quality", "description": "Committed to consistently delivering high-quality products and services for customer satisfaction." },
-        { "title": "Innovation", "description": "Through innovation and continuous improvement, we keep raising our efficiency and service standards." },
-        { "title": "Teamwork", "description": "Strengthened by solid teamwork to achieve growth and success together." }
+        {
+          "title": "Safety",
+          "description": "Upholding safety as the top priority in every operational activity to ensure a safe working environment for everyone involved."
+        },
+        {
+          "title": "Integrity",
+          "description": "Conducting business with honesty, transparency, and strong ethical principles in every decision we make."
+        },
+        {
+          "title": "Professionalism",
+          "description": "Delivering services with high professional standards, competence, and dedication in every operational aspect."
+        },
+        {
+          "title": "Responsibility",
+          "description": "Taking full responsibility for every action and decision, and committing to business sustainability."
+        },
+        {
+          "title": "Customer Focus",
+          "description": "Focusing on customer needs by delivering solutions that are precise, fast, and reliable."
+        },
+        {
+          "title": "Quality",
+          "description": "Committed to consistently delivering high-quality products and services for customer satisfaction."
+        },
+        {
+          "title": "Innovation",
+          "description": "Through innovation and continuous improvement, we keep raising our efficiency and service standards."
+        },
+        {
+          "title": "Teamwork",
+          "description": "Strengthened by solid teamwork to achieve growth and success together."
+        }
       ]
     },
     "whyUs": {
@@ -532,22 +600,56 @@
       "title": "Why Choose PT Surya Inti Gas",
       "subtitle": "Six key reasons industrial customers trust us with their gas needs.",
       "items": [
-        { "title": "High Quality Products", "description": "Industrial, medical, specialty, and mixed gas that meet high quality standards." },
-        { "title": "Fast & On-Time Distribution", "description": "Our own delivery fleet ready to serve customer needs on time." },
-        { "title": "Competitive Pricing", "description": "Industrial gas solutions at competitive prices without compromising quality." },
-        { "title": "Experienced Team", "description": "Backed by strong and solid human resources since our founding in 2003." },
-        { "title": "High Safety Standards", "description": "Safety is our top priority in every operational process." },
-        { "title": "Excellent Customer Service", "description": "Customer satisfaction is our priority, with fast and responsive service." }
+        {
+          "title": "High Quality Products",
+          "description": "Industrial, medical, specialty, and mixed gas that meet high quality standards."
+        },
+        {
+          "title": "Fast & On-Time Distribution",
+          "description": "Our own delivery fleet ready to serve customer needs on time."
+        },
+        {
+          "title": "Competitive Pricing",
+          "description": "Industrial gas solutions at competitive prices without compromising quality."
+        },
+        {
+          "title": "Experienced Team",
+          "description": "Backed by strong and solid human resources since our founding in 2003."
+        },
+        {
+          "title": "High Safety Standards",
+          "description": "Safety is our top priority in every operational process."
+        },
+        {
+          "title": "Excellent Customer Service",
+          "description": "Customer satisfaction is our priority, with fast and responsive service."
+        }
       ]
     },
     "stats": {
       "badge": "Our Achievements",
       "title": "PT Surya Inti Gas in Numbers",
       "items": [
-        { "value": "20", "suffix": "+", "label": "Years of Experience" },
-        { "value": "150", "suffix": "+", "label": "Industrial Customers" },
-        { "value": "2", "suffix": "", "label": "Operational Offices" },
-        { "value": "24/7", "suffix": "", "label": "Customer Support" }
+        {
+          "value": "20",
+          "suffix": "+",
+          "label": "Years of Experience"
+        },
+        {
+          "value": "150",
+          "suffix": "+",
+          "label": "Industrial Customers"
+        },
+        {
+          "value": "2",
+          "suffix": "",
+          "label": "Operational Offices"
+        },
+        {
+          "value": "24/7",
+          "suffix": "",
+          "label": "Customer Support"
+        }
       ]
     },
     "gallery": {
@@ -559,12 +661,24 @@
       "lightboxPrev": "Previous image",
       "lightboxNext": "Next image",
       "items": [
-        { "title": "Operational Office" },
-        { "title": "Company Facility" },
-        { "title": "Work Area" },
-        { "title": "Oxygen Cylinder" },
-        { "title": "Cryogenic Dewar" },
-        { "title": "ISO Tank" }
+        {
+          "title": "Operational Office"
+        },
+        {
+          "title": "Company Facility"
+        },
+        {
+          "title": "Work Area"
+        },
+        {
+          "title": "Oxygen Cylinder"
+        },
+        {
+          "title": "Cryogenic Dewar"
+        },
+        {
+          "title": "ISO Tank"
+        }
       ]
     },
     "cta": {
@@ -1089,36 +1203,186 @@
       "projects": "Projects"
     },
     "items": {
-      "oxygen": { "alt": "Oxygen Cylinder", "title": "Oxygen (O2)", "description": "Oxygen gas for medical, metallurgical, and industrial applications", "detailedDescription": "Oxygen (O2) is a critical gas in a wide range of industrial and medical applications. PT Surya Inti Gas supplies high-purity oxygen for hospital medical needs, metallurgical processes in manufacturing, and various other industrial applications. Our products are manufactured to international quality standards and available in various cylinder sizes to suit customer needs." },
-      "nitrogen": { "alt": "Nitrogen Cylinder", "title": "Nitrogen (N2)", "description": "Nitrogen gas for inerting, blanketing, and cooling", "detailedDescription": "Nitrogen (N2) is an inert gas widely used for inerting, blanketing, and cooling processes across various industries. PT Surya Inti Gas supplies high-purity nitrogen to prevent oxidation, preserve product quality, and serve as a cooling medium in industrial processes. Our nitrogen is available in both gas and liquid form to suit application needs." },
-      "mix-gas": { "alt": "Mix Gas Cylinder", "title": "Mix Gas", "description": "Mixed gas for special applications", "detailedDescription": "Mix Gas is specially formulated for applications that require a specific gas composition. PT Surya Inti Gas can supply various gas mixture combinations according to the technical specifications customers need, including for instrument calibration, laboratory research, and special industrial processes. Each mixture is produced with high precision to ensure consistent quality." },
-      "vertical-tank": { "alt": "Vertical Tank", "title": "Vertical Tank", "description": "Vertical tank for gas storage", "detailedDescription": "The vertical tank is an efficient gas storage solution with a compact design for limited spaces. This tank is suitable for storing both liquid gas and high-pressure gas. PT Surya Inti Gas supplies vertical tanks in various capacities, equipped with best-in-class safety systems to ensure secure gas storage and distribution to customers." },
-      "acetylene": { "alt": "Acetylene Cylinder", "title": "Acetylene (C2H2)", "description": "Acetylene gas for metal welding and cutting", "detailedDescription": "Acetylene (C2H2) is a vital gas in the metal welding and cutting industry. PT Surya Inti Gas supplies high-quality acetylene that produces a high-temperature flame, ideal for welding and cutting various types of metal. Our products are available in safe cylinders that meet international safety standards for use in the construction and manufacturing industries." },
-      "iso-tank": { "alt": "ISO Tank", "title": "ISO Tank", "description": "ISO tank for transporting large volumes of liquid gas", "detailedDescription": "The ISO tank is an internationally standardized solution for transporting large volumes of liquid gas. PT Surya Inti Gas uses certified ISO tanks to distribute liquid gas across Indonesia. This tank is designed to maintain optimal temperature and pressure throughout the journey, ensuring gas quality is preserved until it reaches the customer's location." },
-      "liquid-filling": { "alt": "Liquid Filling System", "title": "Liquid Filling", "description": "Liquid gas filling system for cylinders and tanks", "detailedDescription": "Our liquid gas filling system uses advanced technology to fill gas cylinders and tanks with high precision. PT Surya Inti Gas operates modern filling facilities equipped with strict quality control systems to ensure every fill is carried out with accurate volume and pressure. This process guarantees the safety and quality of the products we distribute to customers." },
-      "microbulk": { "alt": "Microbulk Tank", "title": "Microbulk", "description": "Microbulk tank for medium-volume gas supply", "detailedDescription": "The microbulk tank is a gas supply solution for medium-volume needs that is more efficient than conventional gas cylinders. PT Surya Inti Gas provides microbulk systems that reduce the frequency of cylinder replacement, saving time and operational costs. This system is ideal for customers with regular gas consumption who don't need large storage tanks." },
-      "medical-gas": { "alt": "Medical Gas Cylinder", "title": "Medical Gas Cylinder", "description": "Medical gas cylinders for hospitals and healthcare facilities", "detailedDescription": "PT Surya Inti Gas's medical gas cylinders are specially designed for medical needs in hospitals and healthcare facilities. These cylinders meet international medical safety standards and are available in various sizes to suit healthcare facility needs. Our medical gas is produced with high purity and undergoes strict quality control to ensure patient safety." },
-      "office-view-2": { "alt": "Office View 2", "title": "Meeting Room", "description": "Meeting room for discussion and collaboration", "detailedDescription": "PT Surya Inti Gas's meeting room is designed to support productive discussions and team collaboration. This room is equipped with modern facilities for presentations and meetings, creating an environment conducive to strategic planning and project coordination. The professional interior design reflects our commitment to quality and efficiency." },
-      "office-view-3": { "alt": "Office View 3", "title": "Workspace", "description": "Modern and professional workspace", "detailedDescription": "PT Surya Inti Gas's workspace is designed to be modern and professional to support employee productivity. The ergonomic layout and complete facilities create a comfortable and efficient working environment. This workspace reflects a company culture that prioritizes employee wellbeing and quality of work." },
-      "gas-cylinder-1": { "alt": "Gas Cylinder Storage", "title": "Gas Cylinder Storage", "description": "Safe and organized gas cylinder storage area", "detailedDescription": "PT Surya Inti Gas's gas cylinder storage area is designed to high safety standards to ensure safe and organized storage. Each storage area is equipped with ventilation systems, leak detection, and gas-type separation to prevent contamination. The systematic layout makes inventory management and stock rotation easier." },
-      "industrial-plant-1": { "alt": "Industrial Plant", "title": "Industrial Plant", "description": "Modern industrial gas production facility", "detailedDescription": "PT Surya Inti Gas's industrial plant is equipped with modern production facilities that meet international safety and quality standards. This facility has the production capacity to meet industrial gas needs throughout Indonesia. With advanced technology and strict quality control processes, we ensure every gas product produced has consistent quality and meets specifications." },
-      "welding-1": { "alt": "Welding Process", "title": "Welding Process", "description": "Industrial gas application for welding", "detailedDescription": "The welding process using industrial gas is one of the main applications of PT Surya Inti Gas's products. Our gases are widely used in the construction, manufacturing, and automotive industries to produce high-quality welds. We supply various types of welding gas to suit specific welding process needs, including acetylene, argon, and other gas mixtures." },
-      "lab-1": { "alt": "Laboratory", "title": "Gas Laboratory", "description": "Laboratory facility for gas analysis", "detailedDescription": "PT Surya Inti Gas's gas laboratory is equipped with modern analytical equipment to ensure the quality and purity of every gas product. Our team of experts conducts routine testing to verify gas composition, detect contamination, and ensure compliance with industry standards. This laboratory facility is a vital part of our quality control system." },
-      "delivery-1": { "alt": "Gas Delivery", "title": "Gas Delivery", "description": "Gas delivery fleet for customers", "detailedDescription": "PT Surya Inti Gas's delivery fleet consists of specialized vehicles designed for safe gas transport. Each unit is equipped with the most advanced safety systems and operated by an experienced team. Our distribution network covers all of Indonesia, ensuring timely gas delivery to customer locations with the highest safety standards." },
-      "tank-1": { "alt": "Storage Tank", "title": "Storage Tank", "description": "Large-capacity liquid gas storage tank", "detailedDescription": "The large-capacity liquid gas storage tank is a vital facility in PT Surya Inti Gas's operations. This tank is designed to store large volumes of liquid gas while maintaining optimal temperature and pressure. Our storage system is equipped with dual safety features and 24-hour monitoring to ensure a continuous gas supply to customers." },
-      "valve-1": { "alt": "Gas Valve", "title": "Gas Valve", "description": "Valve system for gas flow control", "detailedDescription": "PT Surya Inti Gas's gas valve system uses high-quality components for precise gas flow control. Our valves are designed to withstand high pressure and demanding operating conditions. Each unit is equipped with automatic safety features and regularly inspected to ensure optimal performance in regulating gas flow to various industrial applications." },
-      "hospital-1": { "alt": "Hospital Gas System", "title": "Hospital Gas System", "description": "Medical gas installation for hospitals", "detailedDescription": "PT Surya Inti Gas's hospital gas system is specially designed for medical needs with the highest safety standards. We provide medical gas installations covering oxygen, nitrogen, and other medical gases for hospitals and healthcare facilities. Our system meets health regulations and is equipped with automatic safety features for the comfort of patients and medical staff." },
-      "quality-1": { "alt": "Quality Control", "title": "Quality Control", "description": "Quality control process for gas products", "detailedDescription": "PT Surya Inti Gas's quality control process is carried out thoroughly at every stage of production. From raw materials to finished products, every stage is inspected to ensure compliance with quality standards. Our QC system uses the latest analytical technology and is run by a certified team to guarantee consistent, reliable product quality." },
-      "training-1": { "alt": "Safety Training", "title": "Safety Training", "description": "Occupational safety training program", "detailedDescription": "PT Surya Inti Gas's occupational safety training program is designed to ensure employee competency in handling gas safely. Training covers emergency response, safety procedures, and the use of personal protective equipment. Every employee must pass certification before being allowed to work with gas, ensuring the highest safety standards in our operations." },
-      "pressure-gauge-1": { "alt": "Pressure Gauge", "title": "Pressure Gauge", "description": "Gas pressure measuring device", "detailedDescription": "The pressure gauge is a vital measuring device in PT Surya Inti Gas's gas systems. We use high-accuracy calibrated pressure gauges to monitor gas pressure in real time. Each device is routinely calibrated and inspected to ensure accurate readings, supporting the safety and operational efficiency of our gas distribution." },
-      "factory-1": { "alt": "Factory Floor", "title": "Factory Floor", "description": "Gas plant production area", "detailedDescription": "PT Surya Inti Gas's factory floor is designed with an efficient and safe workflow system. The production area is equipped with ventilation systems, gas detection, and strict safety procedures. Each production area has clearly defined zones for different processes, ensuring an organized production flow and minimizing the risk of cross-contamination between products." },
-      "medical-equipment-1": { "alt": "Medical Equipment", "title": "Medical Equipment", "description": "Medical equipment using gas", "detailedDescription": "Medical equipment using gas from PT Surya Inti Gas meets international health standards. We supply gas for various medical equipment including ventilators, anesthesia machines, and hospital oxygen systems. Every medical gas product we produce has the high purity and certification required for use in healthcare facilities." },
-      "cryogenic-1": { "alt": "Cryogenic System", "title": "Cryogenic System", "description": "Low-temperature liquid gas storage system", "detailedDescription": "PT Surya Inti Gas's cryogenic system uses advanced technology to store liquid gas at extremely low temperatures. This system maintains gas in liquid form with maximum efficiency, enabling large-volume storage in a compact space. Our cryogenic facility is equipped with dual safety systems and 24-hour temperature monitoring for operational safety." },
-      "assembly-1": { "alt": "Assembly Line", "title": "Assembly Line", "description": "Gas cylinder assembly line", "detailedDescription": "PT Surya Inti Gas's gas cylinder assembly line uses both automated and manual processes to ensure the quality of every cylinder. Each cylinder undergoes a series of quality tests, including pressure and leak tests, before being approved for distribution. Our assembly line is designed for high production efficiency without compromising safety and quality standards." },
-      "fire-safety-1": { "alt": "Fire Safety", "title": "Fire Safety", "description": "Industrial fire safety system", "detailedDescription": "PT Surya Inti Gas's fire safety system is designed to gas industry safety standards. Our facilities are equipped with automatic fire detection systems, hydrants, and easily accessible fire extinguishers. Fire drills and emergency response training are conducted routinely to ensure our team is ready to respond to emergencies quickly and effectively." },
-      "transport-1": { "alt": "Gas Transport", "title": "Gas Transport", "description": "Industrial gas transport vehicles", "detailedDescription": "PT Surya Inti Gas's gas transport vehicles are specially designed to safely carry various types of gas. Each vehicle is equipped with a GPS system, leak sensors, and compartments that meet hazardous gas transport standards. Our drivers hold special certification and follow strict safety procedures for every delivery." },
-      "laboratory-2": { "alt": "Chemistry Lab", "title": "Chemistry Lab", "description": "Laboratory for gas research", "detailedDescription": "PT Surya Inti Gas's chemistry lab supports research and development of new gas products. This facility is equipped with modern analytical equipment for gas composition research, new formula development, and gas application testing. Our research team works continuously to improve product quality and discover innovative gas solutions for customers' industrial needs." },
-      "regulator-1": { "alt": "Gas Regulator", "title": "Gas Regulator", "description": "Regulator for gas pressure control", "detailedDescription": "PT Surya Inti Gas's gas regulator is designed for precise and safe gas pressure control. Our regulators are available in various capacities and types to suit industrial application needs. Each unit is equipped with safety features such as a relief valve and pressure gauge to ensure safe and efficient gas use at customer locations." }
+      "oxygen": {
+        "alt": "Oxygen Cylinder",
+        "title": "Oxygen (O2)",
+        "description": "Oxygen gas for medical, metallurgical, and industrial applications",
+        "detailedDescription": "Oxygen (O2) is a critical gas in a wide range of industrial and medical applications. PT Surya Inti Gas supplies high-purity oxygen for hospital medical needs, metallurgical processes in manufacturing, and various other industrial applications. Our products are manufactured to international quality standards and available in various cylinder sizes to suit customer needs."
+      },
+      "nitrogen": {
+        "alt": "Nitrogen Cylinder",
+        "title": "Nitrogen (N2)",
+        "description": "Nitrogen gas for inerting, blanketing, and cooling",
+        "detailedDescription": "Nitrogen (N2) is an inert gas widely used for inerting, blanketing, and cooling processes across various industries. PT Surya Inti Gas supplies high-purity nitrogen to prevent oxidation, preserve product quality, and serve as a cooling medium in industrial processes. Our nitrogen is available in both gas and liquid form to suit application needs."
+      },
+      "mix-gas": {
+        "alt": "Mix Gas Cylinder",
+        "title": "Mix Gas",
+        "description": "Mixed gas for special applications",
+        "detailedDescription": "Mix Gas is specially formulated for applications that require a specific gas composition. PT Surya Inti Gas can supply various gas mixture combinations according to the technical specifications customers need, including for instrument calibration, laboratory research, and special industrial processes. Each mixture is produced with high precision to ensure consistent quality."
+      },
+      "vertical-tank": {
+        "alt": "Vertical Tank",
+        "title": "Vertical Tank",
+        "description": "Vertical tank for gas storage",
+        "detailedDescription": "The vertical tank is an efficient gas storage solution with a compact design for limited spaces. This tank is suitable for storing both liquid gas and high-pressure gas. PT Surya Inti Gas supplies vertical tanks in various capacities, equipped with best-in-class safety systems to ensure secure gas storage and distribution to customers."
+      },
+      "acetylene": {
+        "alt": "Acetylene Cylinder",
+        "title": "Acetylene (C2H2)",
+        "description": "Acetylene gas for metal welding and cutting",
+        "detailedDescription": "Acetylene (C2H2) is a vital gas in the metal welding and cutting industry. PT Surya Inti Gas supplies high-quality acetylene that produces a high-temperature flame, ideal for welding and cutting various types of metal. Our products are available in safe cylinders that meet international safety standards for use in the construction and manufacturing industries."
+      },
+      "iso-tank": {
+        "alt": "ISO Tank",
+        "title": "ISO Tank",
+        "description": "ISO tank for transporting large volumes of liquid gas",
+        "detailedDescription": "The ISO tank is an internationally standardized solution for transporting large volumes of liquid gas. PT Surya Inti Gas uses certified ISO tanks to distribute liquid gas across Indonesia. This tank is designed to maintain optimal temperature and pressure throughout the journey, ensuring gas quality is preserved until it reaches the customer's location."
+      },
+      "liquid-filling": {
+        "alt": "Liquid Filling System",
+        "title": "Liquid Filling",
+        "description": "Liquid gas filling system for cylinders and tanks",
+        "detailedDescription": "Our liquid gas filling system uses advanced technology to fill gas cylinders and tanks with high precision. PT Surya Inti Gas operates modern filling facilities equipped with strict quality control systems to ensure every fill is carried out with accurate volume and pressure. This process guarantees the safety and quality of the products we distribute to customers."
+      },
+      "microbulk": {
+        "alt": "Microbulk Tank",
+        "title": "Microbulk",
+        "description": "Microbulk tank for medium-volume gas supply",
+        "detailedDescription": "The microbulk tank is a gas supply solution for medium-volume needs that is more efficient than conventional gas cylinders. PT Surya Inti Gas provides microbulk systems that reduce the frequency of cylinder replacement, saving time and operational costs. This system is ideal for customers with regular gas consumption who don't need large storage tanks."
+      },
+      "medical-gas": {
+        "alt": "Medical Gas Cylinder",
+        "title": "Medical Gas Cylinder",
+        "description": "Medical gas cylinders for hospitals and healthcare facilities",
+        "detailedDescription": "PT Surya Inti Gas's medical gas cylinders are specially designed for medical needs in hospitals and healthcare facilities. These cylinders meet international medical safety standards and are available in various sizes to suit healthcare facility needs. Our medical gas is produced with high purity and undergoes strict quality control to ensure patient safety."
+      },
+      "office-view-2": {
+        "alt": "Office View 2",
+        "title": "Meeting Room",
+        "description": "Meeting room for discussion and collaboration",
+        "detailedDescription": "PT Surya Inti Gas's meeting room is designed to support productive discussions and team collaboration. This room is equipped with modern facilities for presentations and meetings, creating an environment conducive to strategic planning and project coordination. The professional interior design reflects our commitment to quality and efficiency."
+      },
+      "office-view-3": {
+        "alt": "Office View 3",
+        "title": "Workspace",
+        "description": "Modern and professional workspace",
+        "detailedDescription": "PT Surya Inti Gas's workspace is designed to be modern and professional to support employee productivity. The ergonomic layout and complete facilities create a comfortable and efficient working environment. This workspace reflects a company culture that prioritizes employee wellbeing and quality of work."
+      },
+      "gas-cylinder-1": {
+        "alt": "Gas Cylinder Storage",
+        "title": "Gas Cylinder Storage",
+        "description": "Safe and organized gas cylinder storage area",
+        "detailedDescription": "PT Surya Inti Gas's gas cylinder storage area is designed to high safety standards to ensure safe and organized storage. Each storage area is equipped with ventilation systems, leak detection, and gas-type separation to prevent contamination. The systematic layout makes inventory management and stock rotation easier."
+      },
+      "industrial-plant-1": {
+        "alt": "Industrial Plant",
+        "title": "Industrial Plant",
+        "description": "Modern industrial gas production facility",
+        "detailedDescription": "PT Surya Inti Gas's industrial plant is equipped with modern production facilities that meet international safety and quality standards. This facility has the production capacity to meet industrial gas needs throughout Indonesia. With advanced technology and strict quality control processes, we ensure every gas product produced has consistent quality and meets specifications."
+      },
+      "welding-1": {
+        "alt": "Welding Process",
+        "title": "Welding Process",
+        "description": "Industrial gas application for welding",
+        "detailedDescription": "The welding process using industrial gas is one of the main applications of PT Surya Inti Gas's products. Our gases are widely used in the construction, manufacturing, and automotive industries to produce high-quality welds. We supply various types of welding gas to suit specific welding process needs, including acetylene, argon, and other gas mixtures."
+      },
+      "lab-1": {
+        "alt": "Laboratory",
+        "title": "Gas Laboratory",
+        "description": "Laboratory facility for gas analysis",
+        "detailedDescription": "PT Surya Inti Gas's gas laboratory is equipped with modern analytical equipment to ensure the quality and purity of every gas product. Our team of experts conducts routine testing to verify gas composition, detect contamination, and ensure compliance with industry standards. This laboratory facility is a vital part of our quality control system."
+      },
+      "delivery-1": {
+        "alt": "Gas Delivery",
+        "title": "Gas Delivery",
+        "description": "Gas delivery fleet for customers",
+        "detailedDescription": "PT Surya Inti Gas's delivery fleet consists of specialized vehicles designed for safe gas transport. Each unit is equipped with the most advanced safety systems and operated by an experienced team. Our distribution network covers all of Indonesia, ensuring timely gas delivery to customer locations with the highest safety standards."
+      },
+      "tank-1": {
+        "alt": "Storage Tank",
+        "title": "Storage Tank",
+        "description": "Large-capacity liquid gas storage tank",
+        "detailedDescription": "The large-capacity liquid gas storage tank is a vital facility in PT Surya Inti Gas's operations. This tank is designed to store large volumes of liquid gas while maintaining optimal temperature and pressure. Our storage system is equipped with dual safety features and 24-hour monitoring to ensure a continuous gas supply to customers."
+      },
+      "valve-1": {
+        "alt": "Gas Valve",
+        "title": "Gas Valve",
+        "description": "Valve system for gas flow control",
+        "detailedDescription": "PT Surya Inti Gas's gas valve system uses high-quality components for precise gas flow control. Our valves are designed to withstand high pressure and demanding operating conditions. Each unit is equipped with automatic safety features and regularly inspected to ensure optimal performance in regulating gas flow to various industrial applications."
+      },
+      "hospital-1": {
+        "alt": "Hospital Gas System",
+        "title": "Hospital Gas System",
+        "description": "Medical gas installation for hospitals",
+        "detailedDescription": "PT Surya Inti Gas's hospital gas system is specially designed for medical needs with the highest safety standards. We provide medical gas installations covering oxygen, nitrogen, and other medical gases for hospitals and healthcare facilities. Our system meets health regulations and is equipped with automatic safety features for the comfort of patients and medical staff."
+      },
+      "quality-1": {
+        "alt": "Quality Control",
+        "title": "Quality Control",
+        "description": "Quality control process for gas products",
+        "detailedDescription": "PT Surya Inti Gas's quality control process is carried out thoroughly at every stage of production. From raw materials to finished products, every stage is inspected to ensure compliance with quality standards. Our QC system uses the latest analytical technology and is run by a certified team to guarantee consistent, reliable product quality."
+      },
+      "training-1": {
+        "alt": "Safety Training",
+        "title": "Safety Training",
+        "description": "Occupational safety training program",
+        "detailedDescription": "PT Surya Inti Gas's occupational safety training program is designed to ensure employee competency in handling gas safely. Training covers emergency response, safety procedures, and the use of personal protective equipment. Every employee must pass certification before being allowed to work with gas, ensuring the highest safety standards in our operations."
+      },
+      "pressure-gauge-1": {
+        "alt": "Pressure Gauge",
+        "title": "Pressure Gauge",
+        "description": "Gas pressure measuring device",
+        "detailedDescription": "The pressure gauge is a vital measuring device in PT Surya Inti Gas's gas systems. We use high-accuracy calibrated pressure gauges to monitor gas pressure in real time. Each device is routinely calibrated and inspected to ensure accurate readings, supporting the safety and operational efficiency of our gas distribution."
+      },
+      "factory-1": {
+        "alt": "Factory Floor",
+        "title": "Factory Floor",
+        "description": "Gas plant production area",
+        "detailedDescription": "PT Surya Inti Gas's factory floor is designed with an efficient and safe workflow system. The production area is equipped with ventilation systems, gas detection, and strict safety procedures. Each production area has clearly defined zones for different processes, ensuring an organized production flow and minimizing the risk of cross-contamination between products."
+      },
+      "medical-equipment-1": {
+        "alt": "Medical Equipment",
+        "title": "Medical Equipment",
+        "description": "Medical equipment using gas",
+        "detailedDescription": "Medical equipment using gas from PT Surya Inti Gas meets international health standards. We supply gas for various medical equipment including ventilators, anesthesia machines, and hospital oxygen systems. Every medical gas product we produce has the high purity and certification required for use in healthcare facilities."
+      },
+      "cryogenic-1": {
+        "alt": "Cryogenic System",
+        "title": "Cryogenic System",
+        "description": "Low-temperature liquid gas storage system",
+        "detailedDescription": "PT Surya Inti Gas's cryogenic system uses advanced technology to store liquid gas at extremely low temperatures. This system maintains gas in liquid form with maximum efficiency, enabling large-volume storage in a compact space. Our cryogenic facility is equipped with dual safety systems and 24-hour temperature monitoring for operational safety."
+      },
+      "assembly-1": {
+        "alt": "Assembly Line",
+        "title": "Assembly Line",
+        "description": "Gas cylinder assembly line",
+        "detailedDescription": "PT Surya Inti Gas's gas cylinder assembly line uses both automated and manual processes to ensure the quality of every cylinder. Each cylinder undergoes a series of quality tests, including pressure and leak tests, before being approved for distribution. Our assembly line is designed for high production efficiency without compromising safety and quality standards."
+      },
+      "fire-safety-1": {
+        "alt": "Fire Safety",
+        "title": "Fire Safety",
+        "description": "Industrial fire safety system",
+        "detailedDescription": "PT Surya Inti Gas's fire safety system is designed to gas industry safety standards. Our facilities are equipped with automatic fire detection systems, hydrants, and easily accessible fire extinguishers. Fire drills and emergency response training are conducted routinely to ensure our team is ready to respond to emergencies quickly and effectively."
+      },
+      "transport-1": {
+        "alt": "Gas Transport",
+        "title": "Gas Transport",
+        "description": "Industrial gas transport vehicles",
+        "detailedDescription": "PT Surya Inti Gas's gas transport vehicles are specially designed to safely carry various types of gas. Each vehicle is equipped with a GPS system, leak sensors, and compartments that meet hazardous gas transport standards. Our drivers hold special certification and follow strict safety procedures for every delivery."
+      },
+      "laboratory-2": {
+        "alt": "Chemistry Lab",
+        "title": "Chemistry Lab",
+        "description": "Laboratory for gas research",
+        "detailedDescription": "PT Surya Inti Gas's chemistry lab supports research and development of new gas products. This facility is equipped with modern analytical equipment for gas composition research, new formula development, and gas application testing. Our research team works continuously to improve product quality and discover innovative gas solutions for customers' industrial needs."
+      },
+      "regulator-1": {
+        "alt": "Gas Regulator",
+        "title": "Gas Regulator",
+        "description": "Regulator for gas pressure control",
+        "detailedDescription": "PT Surya Inti Gas's gas regulator is designed for precise and safe gas pressure control. Our regulators are available in various capacities and types to suit industrial application needs. Each unit is equipped with safety features such as a relief valve and pressure gauge to ensure safe and efficient gas use at customer locations."
+      }
     }
   },
   "portfolio": {
@@ -1595,6 +1859,104 @@
     "selectSubcategoryAria": "Select {{subcategory}} subcategory",
     "selectSizeAria": "Select {{size}} size",
     "backToTop": "Back to top",
-    "scrollToTop": "Scroll to top"
+    "scrollToTop": "Scroll to top",
+    "home": "Home"
+  },
+  "legal": {
+    "lastUpdatedLabel": "Last updated",
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "intro": "This policy explains how PT Surya Inti Gas collects, uses, and protects your personal data when you use our website and services.",
+      "updated": "1 September 2026",
+      "sections": [
+        {
+          "heading": "Information We Collect",
+          "body": "We collect information you provide directly through contact and job application forms, such as your name, email address, phone number, company, message, and supporting documents (CV/portfolio). We also automatically collect technical data such as IP address, device and browser type, pages visited, and visit duration."
+        },
+        {
+          "heading": "How We Use Information",
+          "body": "Data is used to respond to your enquiries and quotation requests, process job applications, improve our site and services, maintain system security, and meet applicable legal obligations."
+        },
+        {
+          "heading": "Basis for Processing",
+          "body": "We process personal data based on your consent, the need to take pre-contractual or contractual steps, the company's legitimate interests, and/or compliance with Indonesian law."
+        },
+        {
+          "heading": "Sharing With Third Parties",
+          "body": "We do not sell your personal data. Data may be shared on a limited basis with trusted service providers (hosting, email, analytics) that support our operations, or with authorities where required by law."
+        },
+        {
+          "heading": "Data Security",
+          "body": "We apply reasonable technical and organisational measures to protect data against unauthorised access, alteration, or disclosure, including transport encryption (HTTPS) and role-based access control on the admin panel."
+        },
+        {
+          "heading": "Cookies and Analytics",
+          "body": "The site uses cookies and local storage for language preferences, security, and aggregate traffic measurement. You can disable cookies via your browser settings, though some site functions may be affected."
+        },
+        {
+          "heading": "Data Retention",
+          "body": "Contact and application data is kept for as long as needed for the purpose it was collected or as required by regulation, after which it is deleted or anonymised."
+        },
+        {
+          "heading": "Your Rights",
+          "body": "You have the right to request access, correction, updating, deletion, or restriction of processing of your personal data, and to withdraw consent. Requests can be submitted via the contact below."
+        },
+        {
+          "heading": "Changes to This Policy",
+          "body": "This policy may be updated from time to time. The latest version is always available on this page with a revised update date."
+        },
+        {
+          "heading": "Contact Us",
+          "body": "For privacy questions, contact us at salescounter.sda@suryaintigas.com or +62 812 3390 6378 (Sidoarjo Head Office)."
+        }
+      ]
+    },
+    "termsOfService": {
+      "title": "Terms of Service",
+      "intro": "By accessing and using the PT Surya Inti Gas website, you agree to the following terms and conditions.",
+      "updated": "1 September 2026",
+      "sections": [
+        {
+          "heading": "Acceptance of Terms",
+          "body": "Using this site indicates your agreement to these terms and to our Privacy Policy. If you do not agree, please do not use this site."
+        },
+        {
+          "heading": "Use of the Site",
+          "body": "You agree to use the site only for lawful purposes and not to take any action that could damage, overload, or disrupt the site, or access systems without authorisation."
+        },
+        {
+          "heading": "Products, Services, and Quotations",
+          "body": "Product information, specifications, and availability shown are indicative and may change without notice. Binding quotations apply only after written confirmation from our sales team."
+        },
+        {
+          "heading": "Form Content",
+          "body": "You are responsible for the accuracy of the data you submit through the contact and application forms. We may reject or remove submissions that are unlawful or inappropriate."
+        },
+        {
+          "heading": "Intellectual Property",
+          "body": "All trademarks, logos, text, images, and other materials on this site are owned by PT Surya Inti Gas or its licensors and are protected by law. Use without written permission is prohibited."
+        },
+        {
+          "heading": "Limitation of Liability",
+          "body": "The site is provided \"as is\". To the extent permitted by law, PT Surya Inti Gas is not liable for indirect losses arising from use of or inability to use this site."
+        },
+        {
+          "heading": "Third-Party Links",
+          "body": "The site may contain links to third-party sites (e.g. maps, social media, WhatsApp). We do not control and are not responsible for the content or privacy practices of those sites."
+        },
+        {
+          "heading": "Governing Law",
+          "body": "These terms are governed by the laws of the Republic of Indonesia. Any dispute will be resolved through the competent courts in Sidoarjo, East Java."
+        },
+        {
+          "heading": "Changes to Terms",
+          "body": "We may update these terms at any time. Continued use of the site after changes means you accept the updated terms."
+        },
+        {
+          "heading": "Contact",
+          "body": "Questions about these terms can be sent to salescounter.sda@suryaintigas.com or +62 812 3390 6378."
+        }
+      ]
+    }
   }
 }

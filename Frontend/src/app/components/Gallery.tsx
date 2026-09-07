@@ -7,6 +7,7 @@ import { motion, type Variants } from 'motion/react';
 import type { GalleryItem } from '../../data/gallery';
 import { useGallery } from '../../hooks/useGallery';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
+import { Seo } from './Seo';
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -31,16 +32,16 @@ const cardReveal: Variants = {
 
 const galleryStyles = `
   .products-corporate {
-    --primary: var(--brand-navy, #0F4C81);
+    --primary: var(--brand-navy, #0C2D5E);
     --primary-dark: var(--brand-navy-hover, #0a3861);
     --secondary: var(--brand-sky, #00AEEF);
     --bg: #F8FAFC;
     --accent: #EAF4FF;
     --navy-dark: #0f172a;
     --navy: #1e293b;
-    --blue-dark: var(--brand-navy, #1e3a8a);
-    --blue: var(--brand-blue, #1e40af);
-    --sky: var(--brand-blue, #3b82f6);
+    --blue-dark: var(--brand-navy, #0C2D5E);
+    --blue: var(--brand-blue, #1565C0);
+    --sky: var(--brand-blue, #1565C0);
     --sky-light: #7fb5ee;
     --white: #ffffff;
     --slate-50: #f8fafc;
@@ -555,6 +556,7 @@ function Gallery() {
 
   return (
     <div className="products-corporate">
+      <Seo title={t('seo.gallery.title')} description={t('seo.gallery.description')} segment="galeri" />
       <style>{galleryStyles}</style>
       
       {/* Header Section */}

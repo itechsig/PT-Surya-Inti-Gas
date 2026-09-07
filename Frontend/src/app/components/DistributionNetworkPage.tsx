@@ -4,19 +4,20 @@ import L from "leaflet";
 import { useTranslation } from "react-i18next";
 import { getDistributionLocations } from "../../data/distribution";
 import { motion, type Variants } from "motion/react";
+import { Seo } from "./Seo";
 
 const css = `
   .distribution-corporate {
-    --primary: var(--brand-navy, #0F4C81);
+    --primary: var(--brand-navy, #0C2D5E);
     --primary-dark: var(--brand-navy-hover, #0a3861);
     --secondary: var(--brand-sky, #00AEEF);
     --bg: #F8FAFC;
     --accent: #EAF4FF;
     --navy-dark: #0f172a;
     --navy: #1e293b;
-    --blue-dark: var(--brand-navy, #1e3a8a);
-    --blue: var(--brand-blue, #1e40af);
-    --sky: var(--brand-blue, #3b82f6);
+    --blue-dark: var(--brand-navy, #0C2D5E);
+    --blue: var(--brand-blue, #1565C0);
+    --sky: var(--brand-blue, #1565C0);
     --sky-light: #7fb5ee;
     --white: #ffffff;
     --slate-50: #f8fafc;
@@ -295,6 +296,9 @@ export function DistributionNetworkPage({ showHero = true }: DistributionNetwork
 
   return (
     <div className="distribution-corporate">
+      {showHero && (
+        <Seo title={t('seo.distribution.title')} description={t('seo.distribution.description')} segment="jaringan-distribusi" />
+      )}
       <style>{css}</style>
 
       {/* Corporate Hero Section */}

@@ -99,7 +99,7 @@ const knowledgeBase = {
 
   "tabung": "Kami menyediakan berbagai ukuran tabung gas sesuai kebutuhan industri dan medis Anda. Hubungi tim sales kami untuk informasi detail tentang ukuran dan spesifikasi tabung yang tersedia.",
 
-  "ukuran tabung": "Kami menyediakan berbagai ukuran tabung gas industri dan medis. Hubungi tim sales kami di Sidoarjo - 081233906378 atau Balikpapan - +68515711887 untuk informasi detail tentang ukuran dan spesifikasi yang tersedia.",
+  "ukuran tabung": "Kami menyediakan berbagai ukuran tabung gas industri dan medis. Hubungi tim sales kami di Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879 untuk informasi detail tentang ukuran dan spesifikasi yang tersedia.",
 
   "perbedaan oksigen nitrogen argon": "Oksigen (O2) adalah gas oksidator yang mendukung pembakaran dan respirasi, digunakan dalam medis (terapi pernapasan, resusitasi) dan metalurgi (pembakaran dan pemurnian logam). Nitrogen (N2) adalah gas inert yang mencegah oksidasi, digunakan untuk inerting, blanketing, dan pendinginan cryogenic, serta industri makanan untuk pengawetan. Argon (Ar) adalah gas inert untuk pengelasan TIG/MIG, aplikasi elektronik presisi (semikonduktor), dan metalurgi untuk perlakuan panas.",
   
@@ -112,15 +112,15 @@ const knowledgeBase = {
   "cara memilih gas": "Untuk memilih gas yang sesuai kebutuhan, silakan konsultasikan dengan tim sales kami. Kami akan membantu Anda menentukan jenis gas yang tepat berdasarkan aplikasi dan kebutuhan spesifik industri Anda.",
 
   // Distribution Network
-  "kontak": "Untuk menghubungi kami: Kantor Sidoarjo - Phone: 081233906378. Kantor Balikpapan - Phone: +68515711887, Fax: +62 542 8532382.",
+  "kontak": "Untuk menghubungi kami: Kantor Sidoarjo - Phone: +6281233906378. Kantor Balikpapan - Phone: +6285157118879, Fax: +62 542 8532382.",
 
-  "nomor telepon": "Nomor telepon kami: Sidoarjo - 081233906378, Balikpapan - +68515711887. Fax: +62 542 8532382.",
+  "nomor telepon": "Nomor telepon kami: Sidoarjo - +6281233906378, Balikpapan - +6285157118879. Fax: +62 542 8532382.",
 
-  "whatsapp": "Untuk layanan WhatsApp, silakan hubungi nomor telepon Sidoarjo - 081233906378 atau Balikpapan - +68515711887.",
+  "whatsapp": "Untuk layanan WhatsApp, silakan hubungi nomor telepon Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879.",
 
   "email": "Anda dapat mengirim email melalui form kontak di website kami atau hubungi tim sales kami melalui telepon untuk alamat email yang spesifik.",
 
-  "cara menghubungi": "Anda dapat menghubungi kami melalui telepon di Sidoarjo - 081233906378 atau Balikpapan - +68515711887, atau mengisi form kontak di website kami.",
+  "cara menghubungi": "Anda dapat menghubungi kami melalui telepon di Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879, atau mengisi form kontak di website kami.",
 
   "alamat kantor": "Kantor Pusat kami di Komplek Pergudangan dan Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232. Pabrik di Jl. AMD Projakal Kariangau Km. 5.5, Balikpapan, Kalimantan Timur.",
 
@@ -167,7 +167,7 @@ const knowledgeBase = {
 
   "sewa tabung": "Untuk informasi tentang penyewaan tabung gas, silakan hubungi tim sales kami. Kami dapat memberikan opsi sewa yang sesuai dengan kebutuhan bisnis Anda.",
 
-  "proses pemesanan": "Untuk memesan produk, Anda dapat menghubungi tim sales kami melalui telepon di Sidoarjo - 081233906378 atau Balikpapan - +68515711887, atau mengisi form kontak di website kami.",
+  "proses pemesanan": "Untuk memesan produk, Anda dapat menghubungi tim sales kami melalui telepon di Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879, atau mengisi form kontak di website kami.",
 
   "estimasi pengiriman": "Estimasi waktu pengiriman bervariasi tergantung lokasi dan jenis produk. Hubungi tim sales kami untuk informasi yang lebih spesifik sesuai lokasi Anda.",
   
@@ -252,16 +252,16 @@ const knowledgeBase = {
   "apa saja prosedur keselamatan penggunaan gas industri": "Prosedur keselamatan penggunaan gas industri meliputi: penggunaan APD yang sesuai, pemeriksaan rutin peralatan, pelatihan operator, dan kepatuhan terhadap standar HSE. Tim Safety Officer kami siap membantu dengan pelatihan dan konsultasi.",
   
   // Fallback responses
-  "default": "Maaf, saya kurang mengerti pertanyaan Anda. Saya dapat membantu dengan informasi tentang produk gas, layanan, lokasi, karir, dan informasi perusahaan PT Surya Inti Gas. Coba tanyakan tentang produk, lokasi, atau kontak kami. Atau hubungi kami langsung di Sidoarjo - 081233906378 atau Balikpapan - +68515711887.",
+  "default": "Maaf, saya kurang mengerti pertanyaan Anda. Saya dapat membantu dengan informasi tentang produk gas, layanan, lokasi, karir, dan informasi perusahaan PT Surya Inti Gas. Coba tanyakan tentang produk, lokasi, atau kontak kami. Atau hubungi kami langsung di Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879.",
   
   "greeting": "Halo! Selamat datang di PT Surya Inti Gas. Ada yang bisa saya bantu? Saya dapat memberikan informasi tentang produk gas, layanan, lokasi, karir, dan informasi perusahaan lainnya.",
   
   "help": "Saya dapat membantu Anda dengan informasi tentang: Produk gas industri (Asetilena, Oksigen, Nitrogen, dll), Layanan perusahaan, Lokasi kantor Sidoarjo dan Balikpapan, Informasi karir dan lowongan kerja, Sejarah dan profil perusahaan, serta kontak dan jam operasional.",
   
   // Additional questions from user
-  "berapa nomor telepon pt surya inti gas": "Nomor telepon kami: Sidoarjo - 081233906378, Balikpapan - +68515711887. Fax: +62 542 8532382.",
+  "berapa nomor telepon pt surya inti gas": "Nomor telepon kami: Sidoarjo - +6281233906378, Balikpapan - +6285157118879. Fax: +62 542 8532382.",
   
-  "apakah tersedia layanan whatsapp": "Untuk layanan WhatsApp, silakan hubungi nomor telepon Sidoarjo - 081233906378 atau Balikpapan - +68515711887.",
+  "apakah tersedia layanan whatsapp": "Untuk layanan WhatsApp, silakan hubungi nomor telepon Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879.",
   
   "bagaimana cara mengirim email": "Anda dapat mengirim email melalui form kontak di website kami atau hubungi tim sales kami melalui telepon untuk alamat email yang spesifik.",
   

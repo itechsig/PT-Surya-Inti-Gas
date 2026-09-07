@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { motion, type Variants } from 'motion/react';
+import { Seo } from './Seo';
 import {
   ChevronRight,
   Building2,
@@ -35,7 +36,7 @@ import {
 const css = `
   /* ── Corporate Variables ── */
   .about-us-corporate {
-    --primary: var(--brand-navy, #0F4C81);
+    --primary: var(--brand-navy, #0C2D5E);
     --primary-dark: var(--brand-navy-hover, #0a3861);
     --secondary: var(--brand-sky, #00AEEF);
     --bg: #F8FAFC;
@@ -596,6 +597,11 @@ const css = `
     margin-bottom: 48px;
   }
 
+  .au-stats-section .au-title,
+  .au-stats-section .au-subtitle {
+    color: var(--white);
+  }
+
   .au-stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1150,6 +1156,7 @@ export function AboutUsPage() {
 
   return (
     <div className="about-us-corporate">
+      <Seo title={t('seo.about.title')} description={t('seo.about.description')} segment="tentang-kami" />
       <style>{css}</style>
 
       {/* ── Hero ── */}

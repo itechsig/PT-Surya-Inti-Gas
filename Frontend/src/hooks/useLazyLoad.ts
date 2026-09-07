@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 /**
  * Hook for lazy loading components or images
  */
-export function useLazyLoad(threshold: number = 0.1) {
+export function useLazyLoad(threshold: number = 0.1, rootMargin: string = '0px') {
   const [isIntersecting, setIsIntersecting] = useState(false);
   const elementRef = useRef<HTMLElement>(null);
 
@@ -18,7 +18,7 @@ export function useLazyLoad(threshold: number = 0.1) {
           observer.unobserve(element);
         }
       },
-      { threshold }
+      { threshold, rootMargin }
     );
 
     observer.observe(element);
@@ -26,7 +26,7 @@ export function useLazyLoad(threshold: number = 0.1) {
     return () => {
       observer.disconnect();
     };
-  }, [threshold]);
+  }, [threshold, rootMargin]);
 
   return [elementRef, isIntersecting] as const;
 }

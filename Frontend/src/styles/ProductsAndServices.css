@@ -1,9 +1,9 @@
 
 /* ── Premium Corporate Variables ── */
 .products-corporate {
-  --blue-dark: var(--brand-navy, #1E3A8A);
-  --blue: var(--brand-blue, #1E40AF);
-  --blue-light: var(--brand-sky, #3B82F6);
+  --blue-dark: var(--brand-navy, #0C2D5E);
+  --blue: var(--brand-blue, #1565C0);
+  --blue-light: var(--brand-sky, #00AEEF);
   --orange: #F97316;
   --orange-light: #FB923C;
 
@@ -21,6 +21,13 @@
   background: linear-gradient(180deg, var(--slate-50) 0%, var(--white) 100%);
   padding: 100px 6vw 120px;
   overflow: hidden;
+}
+
+/* Product detail page: the full-bleed dark header clips itself, so the section
+   does not need to, and `overflow: hidden` here would break the sticky product
+   image. */
+.products-section.products-section--detail {
+  overflow: visible;
 }
 
 .products-container {
@@ -761,10 +768,14 @@ button.products-card {
 }
 
 .products-detail-image {
-  position: relative;
-  height: auto;
-  min-height: 300px;
-  overflow: visible;
+  /* Box hugs the image exactly — its height is the image's natural rendered
+     height, so there is never a grey letterbox above/below it. On desktop it
+     sticks while the (usually taller) text column scrolls, so the left side
+     never leaves a dead gap either. */
+  position: sticky;
+  top: 96px;
+  align-self: start;
+  overflow: hidden;
   background: var(--slate-100);
   border-radius: 16px;
 }
@@ -772,7 +783,6 @@ button.products-card {
 .products-detail-image img {
   width: 100%;
   height: auto;
-  object-fit: contain;
   display: block;
   border-radius: 16px;
 }
@@ -781,9 +791,6 @@ button.products-card {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-height: 500px;
-  overflow-y: auto;
-  padding-right: 20px;
 }
 
 /* Custom scrollbar for product detail content */
@@ -1029,9 +1036,9 @@ button.products-card {
   }
 
   .products-detail-image {
-    height: 300px;
-    position: relative;
-    top: 0;
+    height: auto;
+    position: static;
+    top: auto;
   }
 }
 
@@ -1118,9 +1125,9 @@ button.products-card {
   }
 
   .products-detail-image {
-    height: 250px;
-    position: relative;
-    top: 0;
+    height: auto;
+    position: static;
+    top: auto;
   }
 
   .products-detail-title {

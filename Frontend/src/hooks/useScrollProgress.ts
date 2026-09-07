@@ -46,13 +46,18 @@ export function useScrollY() {
  * @returns boolean apakah sudah scroll melewati threshold
  */
 export function useScrolledPast(threshold: number = 24) {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(
+    () => typeof window !== "undefined" && window.scrollY > threshold
+  );
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > threshold);
     };
-    
+
+    // Sync once on mount in case the page loaded already scrolled (deep link,
+    // refresh, browser scroll restoration).
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [threshold]);

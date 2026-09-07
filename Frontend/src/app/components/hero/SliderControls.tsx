@@ -34,7 +34,7 @@ export function SliderControls({
       </button>
 
       <div
-        className="flex items-center gap-2 sm:gap-3"
+        className="flex items-center gap-3 sm:gap-4"
         role="group"
         aria-label={t("hero.slideIndicators")}
       >
@@ -47,14 +47,14 @@ export function SliderControls({
               aria-label={t("hero.goToSlide", { number: index + 1 })}
               aria-current={isActive ? "true" : undefined}
               onClick={() => onSelect(index)}
-              className={`relative h-1.5 overflow-hidden rounded-full transition-all duration-500 ${
+              className={`relative h-1.5 rounded-full transition-all duration-500 before:absolute before:left-1/2 before:top-1/2 before:h-6 before:w-6 before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] ${
                 isActive ? "w-8 bg-white/25 sm:w-10" : "w-1.5 bg-white/40 hover:bg-white/60"
               }`}
             >
               {isActive && (
                 <span
                   key={activeIndex}
-                  className="absolute inset-y-0 left-0 rounded-full bg-brand-sky"
+                  className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-brand-sky"
                   style={{
                     animation: `hero-progress ${duration}ms linear forwards`,
                     animationPlayState: isPaused ? "paused" : "running",

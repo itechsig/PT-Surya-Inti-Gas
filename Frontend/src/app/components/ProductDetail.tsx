@@ -8,6 +8,7 @@ import { useProductCatalog } from "../../hooks/useProductCatalog";
 import type { Product, SubCategory } from "../../data/products";
 import { getImageUrl } from "../../utils/imageUrl";
 import { trackProductInteraction } from "../../utils/productTracking";
+import { Seo } from "./Seo";
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -125,7 +126,15 @@ export function ProductDetail() {
 
   return (
     <div className="products-corporate">
-      <section className="products-section" id="products" style={{
+      <Seo
+        title={t('seo.productDetail.title', { name: product.title })}
+        description={t('seo.productDetail.description', { name: product.title })}
+        segment="produk/detail"
+        query={productSlug ? `?id=${productSlug}` : ''}
+        image={getImageUrl(product.image) || '/office-optimized.jpg'}
+        type="article"
+      />
+      <section className="products-section products-section--detail" id="products" style={{
         paddingTop: '0'
       }}>
 

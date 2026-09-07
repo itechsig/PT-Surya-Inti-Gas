@@ -692,7 +692,7 @@ export function DashboardHome() {
                     <BarChart data={productViews} layout="vertical" margin={{ left: 8, right: 16, top: 8, bottom: 0 }}>
                       <CartesianGrid horizontal={false} />
                       <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
-                      <YAxis dataKey="name" type="category" tickLine={false} axisLine={false} width={110} tick={{ fontSize: 12 }} />
+                      <YAxis dataKey="name" type="category" tickLine={false} axisLine={false} width={148} tick={{ fontSize: 11 }} interval={0} />
                       <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                       <Bar dataKey="count" fill="var(--color-count)" radius={4} />
                     </BarChart>
@@ -716,7 +716,7 @@ export function DashboardHome() {
                     <BarChart data={productOrders} layout="vertical" margin={{ left: 8, right: 16, top: 8, bottom: 0 }}>
                       <CartesianGrid horizontal={false} />
                       <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
-                      <YAxis dataKey="name" type="category" tickLine={false} axisLine={false} width={110} tick={{ fontSize: 12 }} />
+                      <YAxis dataKey="name" type="category" tickLine={false} axisLine={false} width={148} tick={{ fontSize: 11 }} interval={0} />
                       <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                       <Bar dataKey="count" fill="var(--color-count)" radius={4} />
                     </BarChart>

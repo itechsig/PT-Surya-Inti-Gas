@@ -12,7 +12,7 @@ export function ProgressBar({ activeIndex, duration, isPaused }: ProgressBarProp
     >
       <div
         key={activeIndex}
-        className="h-full rounded-full"
+        className="h-full w-full origin-left rounded-full"
         style={{
           background: "linear-gradient(90deg, #00AEEF, #7fd8ff)",
           animation: `hero-progress ${duration}ms linear forwards`,
