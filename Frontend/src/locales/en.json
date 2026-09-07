@@ -415,6 +415,7 @@
     }
   },
   "testimonials": {
+    "badge": "Testimonials",
     "title": "Stories of Those Who Grow With Us",
     "subtitle": "Testimonials and experiences from the people who grow, develop, learn, and contribute with us.",
     "items": [
@@ -449,6 +450,13 @@
       {
         "quote": "I make sure cylinder stock is recorded accurately and neatly, so there are no mistakes when shipments go out to customers.",
         "name": "Ayu",
+        "role": "Warehouse Admin",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "PT Surya Inti Gas has given me so many new stories and experiences. As a Warehouse Admin, I’ve learned that the job isn’t only about managing and preparing goods, but also about precision, responsibility, communication, and how every small step supports a project running smoothly.\n\nThere’s always something new to learn each day, and challenges that help me grow. From still adapting at first, I now understand my work and my role in supporting the company’s needs far better. For me, SIG isn’t just a place to work, but a place to learn, grow, and become a better version of myself. I hope this journey is the start of many good things I can contribute together with SIG.",
+        "name": "Jordy",
         "role": "Warehouse Admin",
         "company": "PT Surya Inti Gas",
         "rating": 5
