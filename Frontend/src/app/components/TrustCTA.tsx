@@ -81,9 +81,36 @@ const css = `
     text-transform: uppercase;
     color: var(--sky-light);
     margin-bottom: 22px;
+    cursor: default;
+    transition: transform 0.35s var(--ease), background 0.35s var(--ease),
+      border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  }
+
+  .trust-cta-badge:hover,
+  .trust-cta-badge:active {
+    transform: translateY(-2px);
+    background: rgba(96, 165, 250, 0.2);
+    border-color: rgba(96, 165, 250, 0.55);
+    box-shadow: 0 10px 28px rgba(96, 165, 250, 0.2);
+  }
+
+  .trust-cta-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--sky-light);
+    animation: trust-badge-pulse 2.4s var(--ease) infinite;
+  }
+
+  @keyframes trust-badge-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(127, 181, 238, 0.55); }
+    70% { box-shadow: 0 0 0 9px rgba(127, 181, 238, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(127, 181, 238, 0); }
   }
 
   .trust-cta-title {
+    position: relative;
+    display: inline-block;
     font-family: var(--ff-display);
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 800;
@@ -91,6 +118,53 @@ const css = `
     letter-spacing: -0.02em;
     color: var(--white);
     margin: 0 0 16px;
+    cursor: default;
+    background-image: linear-gradient(
+      100deg,
+      var(--white) 0%,
+      var(--white) 42%,
+      var(--sky-light) 50%,
+      var(--white) 58%,
+      var(--white) 100%
+    );
+    background-size: 220% 100%;
+    background-position: 100% 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background-position 0.9s var(--ease);
+  }
+
+  .trust-cta-title:hover,
+  .trust-cta-title:focus-visible,
+  .trust-cta-title:active {
+    background-position: 0 0;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .trust-cta-title::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    width: 0;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--sky-light), transparent);
+    transform: translateX(-50%);
+    transition: width 0.45s var(--ease);
+  }
+
+  .trust-cta-title:hover::after,
+  .trust-cta-title:focus-visible::after,
+  .trust-cta-title:active::after {
+    width: min(160px, 45%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .trust-cta-badge-dot { animation: none; }
+    .trust-cta-title,
+    .trust-cta-title::after { transition: none; }
   }
 
   .trust-cta-subtitle {
@@ -291,6 +365,7 @@ const css = `
     font-weight: 500;
     color: var(--slate-800);
     margin: 0 0 18px;
+    white-space: pre-line;
   }
 
   .trust-quote-close {
@@ -507,6 +582,7 @@ const staggerContainer: Variants = {
    Nabila: "/images/testimoni/profil2.webp",
    Esty: "/images/testimoni/profil2.webp",
    Ayu: "/images/testimoni/ayu.webp",
+   Jordy: "/images/testimoni/jordy.webp",
    Rendy: "/images/testimoni/profil1.webp",
    Zafi: "/images/testimoni/profil1.webp",
    Naufal: "/images/testimoni/naufal.webp",
@@ -728,7 +804,21 @@ export function TrustCTA() {
             viewport={{ once: true, margin: "-80px" }}
             variants={staggerContainer}
           >
-            <motion.h2 className="trust-cta-title" variants={fadeUp}>
+            <motion.span
+              className="trust-cta-badge"
+              variants={fadeUp}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <span className="trust-cta-badge-dot" aria-hidden="true" />
+              {t("testimonials.badge", "Testimoni")}
+            </motion.span>
+            <motion.h2
+              className="trust-cta-title"
+              variants={fadeUp}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.985 }}
+            >
               {t("testimonials.title")}
             </motion.h2>
             <motion.p className="trust-cta-subtitle" variants={fadeUp}>

@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { Instagram, Mail, Phone, MapPin, ChevronRight } from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, MapPin, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { motion, type Variants } from "motion/react";
 import { OFFICES, SOCIAL } from "../../data/contact";
@@ -444,6 +444,9 @@ export function Footer() {
               </a>
               <a href={SOCIAL.tiktok} className="corporate-footer-social-link" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
                 <TikTok />
+              </a>
+              <a href={SOCIAL.facebook} className="corporate-footer-social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                <Facebook strokeWidth={2.5} />
               </a>
             </div>
           </motion.div>
