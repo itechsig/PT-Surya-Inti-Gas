@@ -66,41 +66,8 @@ const css = `
     margin-bottom: 56px;
   }
 
-  .trust-cta-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 24px;
-    border-radius: 50px;
-    background: rgba(96, 165, 250, 0.12);
-    border: 1px solid rgba(96, 165, 250, 0.3);
-    font-family: var(--ff-display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--sky-light);
-    margin-bottom: 22px;
-    cursor: default;
-    transition: transform 0.35s var(--ease), background 0.35s var(--ease),
-      border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
-  }
 
-  .trust-cta-badge:hover,
-  .trust-cta-badge:active {
-    transform: translateY(-2px);
-    background: rgba(96, 165, 250, 0.2);
-    border-color: rgba(96, 165, 250, 0.55);
-    box-shadow: 0 10px 28px rgba(96, 165, 250, 0.2);
-  }
 
-  .trust-cta-badge-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--sky-light);
-    animation: trust-badge-pulse 2.4s var(--ease) infinite;
-  }
 
   @keyframes trust-badge-pulse {
     0% { box-shadow: 0 0 0 0 rgba(127, 181, 238, 0.55); }
@@ -162,7 +129,6 @@ const css = `
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .trust-cta-badge-dot { animation: none; }
     .trust-cta-title,
     .trust-cta-title::after { transition: none; }
   }
@@ -578,16 +544,15 @@ const staggerContainer: Variants = {
 /** Photo per testimonial, keyed by name (names are unchanged across id/en/zh locales). */
  const AVATAR_BY_NAME: Record<string, string> = {
    Fauzan: "/images/testimoni/ojan.webp",
-   Misse: "/images/testimoni/misse.webp",
-   Nabila: "/images/testimoni/profil2.webp",
-   Esty: "/images/testimoni/profil2.webp",
-   Ayu: "/images/testimoni/ayu.webp",
-   Jordy: "/images/testimoni/jordy.webp",
-   Rendy: "/images/testimoni/profil1.webp",
-   Zafi: "/images/testimoni/profil1.webp",
-   Naufal: "/images/testimoni/naufal.webp",
    Tasya: "/images/testimoni/tasya.webp",
-   Hengky: "/images/testimoni/profil1.webp",
+   Misse: "/images/testimoni/misse.webp",
+   Naufal: "/images/testimoni/naufal.webp",
+   Nabila: "/images/testimoni/nabila.webp",
+   Ayu: "/images/testimoni/ayu.webp",
+   Ika: "/images/testimoni/ika.webp",
+   Jordy: "/images/testimoni/jordy.webp",
+   Zafi: "/images/testimoni/profil1.webp",
+   Esty: "/images/testimoni/profil2.webp",
 };
 
 /** Turns "dr. Siti Rahmawati" into "SR" for the avatar badge. */
@@ -810,8 +775,6 @@ export function TrustCTA() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
             >
-              <span className="trust-cta-badge-dot" aria-hidden="true" />
-              {t("testimonials.badge", "Testimoni")}
             </motion.span>
             <motion.h2
               className="trust-cta-title"
