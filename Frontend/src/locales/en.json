@@ -419,7 +419,7 @@
     "subtitle": "Testimonials and experiences from the people who grow, develop, learn, and contribute with us.",
     "items": [
       {
-        "quote": "I make sure the systems this company relies on keep running smoothly, so our service to customers is never disrupted by technical issues.",
+        "quote": "PT Surya Inti Gas has become a place where I can continuously learn, grow, and have the courage to try new things. Every idea and innovation is supported, and I’m trusted to build, develop, and maintain the stability of the IT infrastructure to keep supporting the company’s operations. In the end, it’s not just about working here, but also about growing together.",
         "name": "Fauzan",
         "role": "IT Engineer",
         "company": "PT Surya Inti Gas",
@@ -429,6 +429,13 @@
         "quote": "For me, PT Surya Inti Gas is not just a place to work, but also a place to learn and grow. During my time as a Cylinder Admin, I gained valuable experiences, had the opportunity to make meaningful contributions, and learned many things that helped me become a better version of myself",
         "name": "Misse",
         "role": "Cylinder Admin",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
+        "quote": "PT Surya Inti Gas has been a place for me to keep learning, trying new things, and growing. I’m trusted to contribute through creative ideas, good communication, and efforts to build a positive image for the company. This experience pushes me to become more confident and innovative.",
+        "name": "Naufal",
+        "role": "Digital Marketing",
         "company": "PT Surya Inti Gas",
         "rating": 5
       },
