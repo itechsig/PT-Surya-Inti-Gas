@@ -101,13 +101,6 @@ export function PortfolioDetail() {
           transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
         >
           <img
-            className="portfolio-detail-hero-bg"
-            src={getImageUrl(portfolio.thumbnail)}
-            alt=""
-            aria-hidden="true"
-          />
-          <img
-            className="portfolio-detail-hero-main"
             src={getImageUrl(portfolio.thumbnail)}
             alt={portfolio.title}
             onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
