@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown, Instagram, Facebook } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
-// Custom TikTok Icon (since lucide-react doesn't have one)
+// Custom TikTok Icon (since lucide-react esn't have one)
 const TikTokIcon = ({ size = 18, className }: { size?: number; className?: string }) => (
   <svg 
     className={className}
