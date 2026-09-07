@@ -66,41 +66,8 @@ const css = `
     margin-bottom: 56px;
   }
 
-  .trust-cta-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 24px;
-    border-radius: 50px;
-    background: rgba(96, 165, 250, 0.12);
-    border: 1px solid rgba(96, 165, 250, 0.3);
-    font-family: var(--ff-display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--sky-light);
-    margin-bottom: 22px;
-    cursor: default;
-    transition: transform 0.35s var(--ease), background 0.35s var(--ease),
-      border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
-  }
 
-  .trust-cta-badge:hover,
-  .trust-cta-badge:active {
-    transform: translateY(-2px);
-    background: rgba(96, 165, 250, 0.2);
-    border-color: rgba(96, 165, 250, 0.55);
-    box-shadow: 0 10px 28px rgba(96, 165, 250, 0.2);
-  }
 
-  .trust-cta-badge-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--sky-light);
-    animation: trust-badge-pulse 2.4s var(--ease) infinite;
-  }
 
   @keyframes trust-badge-pulse {
     0% { box-shadow: 0 0 0 0 rgba(127, 181, 238, 0.55); }
@@ -162,7 +129,6 @@ const css = `
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .trust-cta-badge-dot { animation: none; }
     .trust-cta-title,
     .trust-cta-title::after { transition: none; }
   }
