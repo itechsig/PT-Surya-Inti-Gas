@@ -502,8 +502,9 @@ const staggerContainer: Variants = {
 
 /** Photo per testimonial, keyed by name (names are unchanged across id/en/zh locales). */
  const AVATAR_BY_NAME: Record<string, string> = {
-   Fauzan: "/images/testimoni/profil1.webp",
+   Fauzan: "/images/testimoni/ojan.webp",
    Misse: "/images/testimoni/profil2.webp",
+   Nabila: "/images/testimoni/profil2.webp",
    Esty: "/images/testimoni/profil2.webp",
    Ayu: "/images/testimoni/profil2.webp",
    Rendy: "/images/testimoni/profil1.webp",
