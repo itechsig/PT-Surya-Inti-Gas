@@ -114,7 +114,7 @@ const css = `
     inset: 0;
     margin: auto;
     width: clamp(260px, 24vw, 380px);
-    height: 340px;
+    height: 360px;
     background: var(--white);
     border-radius: 20px;
     padding: 26px 24px;
