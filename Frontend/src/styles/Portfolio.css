@@ -482,17 +482,18 @@
 }
 
 @media (max-width: 640px) {
-  /* Mobile: pas 1 kartu penuh */
+  /* Mobile: pas 1 kartu penuh, panah tetap tampil (lebih kecil) */
   .portfolio-card {
     flex-basis: 100%;
   }
 
   .portfolio-slider {
-    gap: 0;
+    gap: 6px;
   }
 
   .portfolio-slider-arrow {
-    display: none;
+    width: 32px;
+    height: 32px;
   }
 
   .portfolio-gallery-grid {
