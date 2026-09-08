@@ -149,7 +149,11 @@ const css = `
     .trust-quote-icon { animation: none; }
     .trust-card.is-active::before { display: none; }
     .trust-card.is-active:hover .trust-avatar,
-    .trust-card.is-active:hover .trust-avatar img { transform: none; }
+    .trust-card.is-active:hover .trust-avatar img {
+      transition: none;
+      transform: none;
+      box-shadow: 0 10px 24px rgba(30, 64, 175, 0.3), 0 0 0 4px rgba(96, 165, 250, 0.18);
+    }
   }
 
   .trust-cta-subtitle {
@@ -200,11 +204,6 @@ const css = `
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(96, 165, 250, 0.25);
   }
 
-  .trust-card.is-active:hover {
-    box-shadow: 0 42px 90px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(96, 165, 250, 0.5),
-      0 0 40px rgba(96, 165, 250, 0.25);
-  }
-
   /* Gloss sweep across the active card on hover */
   .trust-card.is-active::before {
     content: "";
@@ -225,10 +224,6 @@ const css = `
     z-index: 2;
   }
 
-  .trust-card.is-active:hover::before {
-    animation: trust-card-shine 0.9s var(--ease);
-  }
-
   @keyframes trust-card-shine {
     0% { left: -80%; opacity: 0; }
     12% { opacity: 1; }
@@ -241,6 +236,27 @@ const css = `
 
   .trust-card.is-side {
     cursor: pointer;
+  }
+
+  /* Hover flourishes only where a real pointer can hover — never sticky on touch. */
+  @media (hover: hover) and (pointer: fine) {
+    .trust-card.is-active:hover {
+      box-shadow: 0 42px 90px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(96, 165, 250, 0.5),
+        0 0 40px rgba(96, 165, 250, 0.25);
+    }
+
+    .trust-card.is-active:hover::before {
+      animation: trust-card-shine 0.9s var(--ease);
+    }
+
+    .trust-card.is-active:hover .trust-avatar {
+      transform: scale(1.05);
+      box-shadow: 0 14px 30px rgba(30, 64, 175, 0.38), 0 0 0 5px rgba(96, 165, 250, 0.3);
+    }
+
+    .trust-card.is-active:hover .trust-avatar img {
+      transform: scale(1.06);
+    }
   }
 
   .trust-avatar {
@@ -265,21 +281,12 @@ const css = `
     transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
   }
 
-  .trust-card.is-active:hover .trust-avatar {
-    transform: scale(1.07);
-    box-shadow: 0 14px 30px rgba(30, 64, 175, 0.38), 0 0 0 5px rgba(96, 165, 250, 0.3);
-  }
-
   .trust-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 22%;
+    object-position: center 30%;
     transition: transform 0.6s var(--ease);
-  }
-
-  .trust-card.is-active:hover .trust-avatar img {
-    transform: scale(1.08);
   }
 
   .trust-stars {
@@ -663,6 +670,21 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
+/** Photo avatar that falls back to initials if the file is missing (e.g. not yet uploaded). */
+function AvatarMedia({ name }: { name: string }) {
+  const src = AVATAR_BY_NAME[name];
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) return <>{getInitials(name)}</>;
+  return (
+    <img
+      src={getImageUrl(src)}
+      alt=""
+      loading="lazy"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 /** Shortest signed distance from activeIndex to index around the circular drum. */
 function circularOffset(index: number, activeIndex: number, total: number) {
   let offset = index - activeIndex;
@@ -758,11 +780,7 @@ function TestimonialDialog({ item, onClose }: { item: TestimonialItem; onClose: 
           </button>
 
           <div className="trust-avatar" aria-hidden="true">
-            {AVATAR_BY_NAME[item.name] ? (
-              <img src={getImageUrl(AVATAR_BY_NAME[item.name])} alt="" loading="lazy" />
-            ) : (
-              getInitials(item.name)
-            )}
+            <AvatarMedia name={item.name} />
           </div>
           <div className="trust-stars" role="img" aria-label={`${item.rating} / 5`}>
             {Array.from({ length: 5 }).map((_, i) => (
@@ -807,11 +825,13 @@ export function TrustCTA() {
 
   const handleCardTilt = useCallback(
     (e: ReactPointerEvent<HTMLElement>) => {
+      if (e.pointerType !== "mouse") return; // no tilt on touch / pen — it sticks
       const r = e.currentTarget.getBoundingClientRect();
+      if (!r.width || !r.height) return;
       const px = (e.clientX - r.left) / r.width - 0.5;
       const py = (e.clientY - r.top) / r.height - 0.5;
-      tiltRY.set(px * 16);
-      tiltRX.set(-py * 16);
+      tiltRY.set(Math.max(-8, Math.min(8, px * 16)));
+      tiltRX.set(Math.max(-8, Math.min(8, -py * 16)));
     },
     [tiltRX, tiltRY]
   );
@@ -950,7 +970,6 @@ export function TrustCTA() {
                   >
                    <motion.div
                     className="trust-card-inner"
-                    whileHover={isActive && !prefersReduced ? { scale: 1.03 } : undefined}
                     style={
                       isActive && !prefersReduced
                         ? { transformPerspective: 900, rotateX: springRX, rotateY: springRY }
@@ -958,11 +977,7 @@ export function TrustCTA() {
                     }
                    >
                     <div className="trust-avatar" aria-hidden="true">
-                      {AVATAR_BY_NAME[item.name] ? (
-                        <img src={getImageUrl(AVATAR_BY_NAME[item.name])} alt="" loading="lazy" />
-                      ) : (
-                        getInitials(item.name)
-                      )}
+                      <AvatarMedia name={item.name} />
                     </div>
                     <motion.div
                       className="trust-stars"
