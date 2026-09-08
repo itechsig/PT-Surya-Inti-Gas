@@ -96,8 +96,7 @@
 .portfolio-grid {
   display: flex;
   gap: 24px;
-  width: max-content;
-  max-width: none;
+  width: 100%;
 }
 
 .portfolio-slider-arrow {
@@ -124,8 +123,8 @@
 }
 
 .portfolio-card {
-  flex: 0 0 340px;
-  max-width: 82vw;
+  /* Desktop: pas 3 kartu penuh dalam track (2 gap × 24px), sisanya di-geser */
+  flex: 0 0 calc((100% - 48px) / 3);
   scroll-snap-align: start;
   background: #fff;
   border: 1px solid var(--slate-200);
@@ -248,10 +247,6 @@
   color: var(--slate-500);
   font-family: var(--ff-body);
   font-size: 14px;
-}
-
-.portfolio-pagination-wrap {
-  padding-bottom: 56px;
 }
 
 /* ── CTA band ── */
@@ -476,14 +471,24 @@
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
+  /* Tablet: pas 2 kartu penuh (1 gap × 24px) */
+  .portfolio-card {
+    flex-basis: calc((100% - 24px) / 2);
+  }
+
   .portfolio-detail-hero-image img {
     max-height: 60vh;
   }
 }
 
 @media (max-width: 640px) {
+  /* Mobile: pas 1 kartu penuh */
   .portfolio-card {
-    flex-basis: 280px;
+    flex-basis: 100%;
+  }
+
+  .portfolio-slider {
+    gap: 0;
   }
 
   .portfolio-slider-arrow {

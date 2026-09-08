@@ -7,6 +7,7 @@ export interface PortfolioFilters {
   service?: string;
   search?: string;
   page?: number;
+  perPage?: number;
 }
 
 interface RawPaginatedResponse {
@@ -25,7 +26,7 @@ export function usePortfolioCatalog(lang: string, filters: PortfolioFilters) {
   const [pagination, setPagination] = useState<PortfolioPagination>(EMPTY_PAGINATION);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { industry, service, search, page } = filters;
+  const { industry, service, search, page, perPage } = filters;
 
   useEffect(() => {
     let cancelled = false;
@@ -36,6 +37,7 @@ export function usePortfolioCatalog(lang: string, filters: PortfolioFilters) {
     if (service) params.set('service', service);
     if (search) params.set('search', search);
     if (page) params.set('page', String(page));
+    if (perPage) params.set('per_page', String(perPage));
 
     fetch(`${getApiUrl(API_ENDPOINTS.PORTFOLIOS)}?${params.toString()}`)
       .then((res) => res.json())
@@ -60,7 +62,7 @@ export function usePortfolioCatalog(lang: string, filters: PortfolioFilters) {
     return () => {
       cancelled = true;
     };
-  }, [lang, industry, service, search, page]);
+  }, [lang, industry, service, search, page, perPage]);
 
   return { portfolios, pagination, isLoading };
 }

@@ -9,9 +9,6 @@ import { PageHero } from './PageHero';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Skeleton } from './ui/skeleton';
-import {
-  Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious,
-} from './ui/pagination';
 import { usePortfolioCatalog } from '../../hooks/usePortfolioCatalog';
 import { useIndustries } from '../../hooks/useIndustries';
 import { useServiceTypes } from '../../hooks/useServiceTypes';
@@ -97,12 +94,10 @@ export function Portfolio() {
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') ?? '');
   const [industry, setIndustry] = useState(searchParams.get('industry') ?? '');
   const [service, setService] = useState(searchParams.get('service') ?? '');
-  const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
 
   useEffect(() => {
     const handle = setTimeout(() => {
       setSearchTerm(searchInput);
-      setPage(1);
     }, 350);
     return () => clearTimeout(handle);
   }, [searchInput]);
@@ -112,10 +107,9 @@ export function Portfolio() {
     if (industry) params.industry = industry;
     if (service) params.service = service;
     if (searchTerm) params.search = searchTerm;
-    if (page > 1) params.page = String(page);
     setSearchParams(params, { replace: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [industry, service, searchTerm, page]);
+  }, [industry, service, searchTerm]);
 
   const trackRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ down: false, startX: 0, scrollLeft: 0, moved: false });
@@ -153,11 +147,11 @@ export function Portfolio() {
 
   const { industries, localize: localizeIndustry } = useIndustries(currentLang);
   const { serviceTypes, localize: localizeService } = useServiceTypes(currentLang);
-  const { portfolios, pagination, isLoading } = usePortfolioCatalog(currentLang, {
+  const { portfolios, isLoading } = usePortfolioCatalog(currentLang, {
     industry: industry || undefined,
     service: service || undefined,
     search: searchTerm || undefined,
-    page,
+    perPage: 50,
   });
 
   return (
@@ -196,7 +190,7 @@ export function Portfolio() {
           </div>
 
           <div className="portfolio-select-group">
-            <Select value={industry || 'all'} onValueChange={(v) => { setIndustry(v === 'all' ? '' : v); setPage(1); }}>
+            <Select value={industry || 'all'} onValueChange={(v) => setIndustry(v === 'all' ? '' : v)}>
               <SelectTrigger className="w-48">
                 <SelectValue placeholder={t('portfolio.page.allIndustries')} />
               </SelectTrigger>
@@ -208,7 +202,7 @@ export function Portfolio() {
               </SelectContent>
             </Select>
 
-            <Select value={service || 'all'} onValueChange={(v) => { setService(v === 'all' ? '' : v); setPage(1); }}>
+            <Select value={service || 'all'} onValueChange={(v) => setService(v === 'all' ? '' : v)}>
               <SelectTrigger className="w-48">
                 <SelectValue placeholder={t('portfolio.page.allServices')} />
               </SelectTrigger>
@@ -267,7 +261,7 @@ export function Portfolio() {
                 </motion.div>
               ) : (
                 <motion.div
-                  key={`grid-${industry}-${service}-${searchTerm}-${page}`}
+                  key={`grid-${industry}-${service}-${searchTerm}`}
                   className="portfolio-grid"
                   initial="hidden"
                   animate="show"
@@ -292,39 +286,6 @@ export function Portfolio() {
           </button>
         </div>
 
-        {pagination.lastPage > 1 && (
-          <div className="portfolio-pagination-wrap">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={(e) => { e.preventDefault(); if (page > 1) setPage(page - 1); }}
-                    aria-disabled={page <= 1}
-                  />
-                </PaginationItem>
-                {Array.from({ length: pagination.lastPage }, (_, i) => i + 1).map((p) => (
-                  <PaginationItem key={p}>
-                    <PaginationLink
-                      href="#"
-                      isActive={p === pagination.currentPage}
-                      onClick={(e) => { e.preventDefault(); setPage(p); }}
-                    >
-                      {p}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-                <PaginationItem>
-                  <PaginationNext
-                    href="#"
-                    onClick={(e) => { e.preventDefault(); if (page < pagination.lastPage) setPage(page + 1); }}
-                    aria-disabled={page >= pagination.lastPage}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        )}
       </div>
         
       <motion.div
