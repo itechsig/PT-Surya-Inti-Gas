@@ -1,7 +1,22 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
-import { AnimatePresence, motion, useReducedMotion, type PanInfo, type Variants } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  type PanInfo,
+  type Variants,
+} from "motion/react";
 import { ChevronLeft, ChevronRight, Pause, Play, Quote, Star, X } from "lucide-react";
 import { getImageUrl } from "../../utils/imageUrl";
 
@@ -131,6 +146,10 @@ const css = `
   @media (prefers-reduced-motion: reduce) {
     .trust-cta-title,
     .trust-cta-title::after { transition: none; }
+    .trust-quote-icon { animation: none; }
+    .trust-card.is-active::before { display: none; }
+    .trust-card.is-active:hover .trust-avatar,
+    .trust-card.is-active:hover .trust-avatar img { transform: none; }
   }
 
   .trust-cta-subtitle {
@@ -163,12 +182,57 @@ const css = `
     flex-direction: column;
     align-items: center;
     text-align: center;
-    will-change: transform, opacity;
+    transition: box-shadow 0.45s var(--ease);
+  }
+
+  /* Holds the card content; carries the pointer-tracking 3D tilt on the active card. */
+  .trust-card-inner {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .trust-card.is-active {
     cursor: grab;
+    overflow: hidden;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(96, 165, 250, 0.25);
+  }
+
+  .trust-card.is-active:hover {
+    box-shadow: 0 42px 90px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(96, 165, 250, 0.5),
+      0 0 40px rgba(96, 165, 250, 0.25);
+  }
+
+  /* Gloss sweep across the active card on hover */
+  .trust-card.is-active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 100%
+    );
+    transform: skewX(-16deg);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .trust-card.is-active:hover::before {
+    animation: trust-card-shine 0.9s var(--ease);
+  }
+
+  @keyframes trust-card-shine {
+    0% { left: -80%; opacity: 0; }
+    12% { opacity: 1; }
+    100% { left: 135%; opacity: 0; }
   }
 
   .trust-card.is-active:active {
@@ -181,8 +245,8 @@ const css = `
 
   .trust-avatar {
     flex-shrink: 0;
-    width: 62px;
-    height: 62px;
+    width: 92px;
+    height: 92px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
@@ -190,25 +254,38 @@ const css = `
     background: linear-gradient(135deg, var(--blue) 0%, var(--sky-light) 100%);
     color: var(--white);
     font-family: var(--ff-display);
-    font-size: 1.05rem;
+    font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: 0.02em;
-    box-shadow: 0 6px 16px rgba(30, 64, 175, 0.28);
-    margin-bottom: 12px;
+    border: 3px solid var(--white);
+    box-shadow: 0 10px 24px rgba(30, 64, 175, 0.3), 0 0 0 4px rgba(96, 165, 250, 0.18);
+    margin-bottom: 14px;
     pointer-events: none;
     overflow: hidden;
+    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+  }
+
+  .trust-card.is-active:hover .trust-avatar {
+    transform: scale(1.07);
+    box-shadow: 0 14px 30px rgba(30, 64, 175, 0.38), 0 0 0 5px rgba(96, 165, 250, 0.3);
   }
 
   .trust-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 22%;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .trust-card.is-active:hover .trust-avatar img {
+    transform: scale(1.08);
   }
 
   .trust-stars {
     display: flex;
     gap: 2px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     pointer-events: none;
   }
 
@@ -225,8 +302,14 @@ const css = `
   .trust-quote-icon {
     color: var(--sky-light);
     opacity: 0.4;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     pointer-events: none;
+    animation: trust-quote-bob 3.6s var(--ease) infinite;
+  }
+
+  @keyframes trust-quote-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
   }
 
   .trust-quote {
@@ -245,10 +328,10 @@ const css = `
 
   .trust-name {
     font-family: var(--ff-display);
-    font-size: 0.9375rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--navy-dark);
-    margin-top: 14px;
+    margin-top: 12px;
     pointer-events: none;
   }
 
@@ -475,8 +558,14 @@ const css = `
 
     .trust-card {
       width: clamp(240px, 58vw, 300px);
-      height: 340px;
+      height: 348px;
       padding: 24px 20px;
+    }
+
+    .trust-avatar {
+      width: 82px;
+      height: 82px;
+      font-size: 1.35rem;
     }
 
     .trust-stats-row {
@@ -500,8 +589,14 @@ const css = `
 
     .trust-card {
       width: clamp(220px, 74vw, 280px);
-      height: 360px;
+      height: 366px;
       padding: 22px 18px;
+    }
+
+    .trust-avatar {
+      width: 78px;
+      height: 78px;
+      font-size: 1.3rem;
     }
 
     .trust-controls {
@@ -543,6 +638,7 @@ const staggerContainer: Variants = {
 
 /** Photo per testimonial, keyed by name (names are unchanged across id/en/zh locales). */
  const AVATAR_BY_NAME: Record<string, string> = {
+   Tiara: "/images/testimoni/tiara4.webp",
    Fauzan: "/images/testimoni/ojan.webp",
    Tasya: "/images/testimoni/tasya.webp",
    Misse: "/images/testimoni/misse.webp",
@@ -703,6 +799,33 @@ export function TrustCTA() {
   const stageRef = useRef<HTMLDivElement>(null);
   const activeQuoteRef = useRef<HTMLParagraphElement>(null);
 
+  /* Pointer-tracking 3D tilt for the active card. */
+  const tiltRX = useMotionValue(0);
+  const tiltRY = useMotionValue(0);
+  const springRX = useSpring(tiltRX, { stiffness: 170, damping: 18, mass: 0.4 });
+  const springRY = useSpring(tiltRY, { stiffness: 170, damping: 18, mass: 0.4 });
+
+  const handleCardTilt = useCallback(
+    (e: ReactPointerEvent<HTMLElement>) => {
+      const r = e.currentTarget.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      tiltRY.set(px * 16);
+      tiltRX.set(-py * 16);
+    },
+    [tiltRX, tiltRY]
+  );
+
+  const resetCardTilt = useCallback(() => {
+    tiltRX.set(0);
+    tiltRY.set(0);
+  }, [tiltRX, tiltRY]);
+
+  /* Re-centre the tilt whenever the front card changes. */
+  useEffect(() => {
+    resetCardTilt();
+  }, [activeIndex, resetCardTilt]);
+
   const isPaused =
     hoverPaused || userPaused || openIndex !== null || !!prefersReduced;
 
@@ -820,9 +943,20 @@ export function TrustCTA() {
                     dragElastic={0.5}
                     onDragStart={() => setHoverPaused(true)}
                     onDragEnd={isActive ? handleDragEnd : undefined}
+                    onPointerMove={isActive && !prefersReduced ? handleCardTilt : undefined}
+                    onPointerLeave={isActive && !prefersReduced ? resetCardTilt : undefined}
                     onClick={!isActive ? () => goTo(index) : undefined}
                     aria-hidden={Math.abs(offset) > 2}
                   >
+                   <motion.div
+                    className="trust-card-inner"
+                    whileHover={isActive && !prefersReduced ? { scale: 1.03 } : undefined}
+                    style={
+                      isActive && !prefersReduced
+                        ? { transformPerspective: 900, rotateX: springRX, rotateY: springRY }
+                        : undefined
+                    }
+                   >
                     <div className="trust-avatar" aria-hidden="true">
                       {AVATAR_BY_NAME[item.name] ? (
                         <img src={getImageUrl(AVATAR_BY_NAME[item.name])} alt="" loading="lazy" />
@@ -830,11 +964,37 @@ export function TrustCTA() {
                         getInitials(item.name)
                       )}
                     </div>
-                    <div className="trust-stars" role="img" aria-label={`${item.rating} / 5`}>
+                    <motion.div
+                      className="trust-stars"
+                      role="img"
+                      aria-label={`${item.rating} / 5`}
+                      key={isActive ? `stars-${activeIndex}` : undefined}
+                    >
                       {Array.from({ length: 5 }).map((_, i) => (
-                        <Star key={i} size={13} className={i < item.rating ? "filled" : ""} />
+                        <motion.span
+                          key={i}
+                          style={{ display: "inline-flex" }}
+                          initial={
+                            isActive && !prefersReduced
+                              ? { scale: 0, rotate: -45, opacity: 0 }
+                              : false
+                          }
+                          animate={
+                            isActive && !prefersReduced
+                              ? { scale: 1, rotate: 0, opacity: 1 }
+                              : undefined
+                          }
+                          transition={{
+                            delay: 0.15 + i * 0.06,
+                            type: "spring",
+                            stiffness: 480,
+                            damping: 16,
+                          }}
+                        >
+                          <Star size={13} className={i < item.rating ? "filled" : ""} />
+                        </motion.span>
                       ))}
-                    </div>
+                    </motion.div>
                     <Quote className="trust-quote-icon" size={20} aria-hidden="true" />
                     <p className="trust-quote" ref={isActive ? activeQuoteRef : undefined}>
                       &ldquo;{item.quote}&rdquo;
@@ -855,6 +1015,7 @@ export function TrustCTA() {
                     <div className="trust-role">
                       {item.role} &middot; {item.company}
                     </div>
+                   </motion.div>
                   </motion.article>
                 );
               })}
