@@ -47,20 +47,26 @@ export function SliderControls({
               aria-label={t("hero.goToSlide", { number: index + 1 })}
               aria-current={isActive ? "true" : undefined}
               onClick={() => onSelect(index)}
-              className={`relative h-1.5 rounded-full transition-all duration-500 before:absolute before:left-1/2 before:top-1/2 before:h-6 before:w-6 before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] ${
-                isActive ? "w-8 bg-white/25 sm:w-10" : "w-1.5 bg-white/40 hover:bg-white/60"
-              }`}
+              className={`group grid h-6 shrink-0 place-items-center ${isActive ? "w-10 sm:w-12" : "w-6"}`}
             >
-              {isActive && (
-                <span
-                  key={activeIndex}
-                  className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-brand-sky"
-                  style={{
-                    animation: `hero-progress ${duration}ms linear forwards`,
-                    animationPlayState: isPaused ? "paused" : "running",
-                  }}
-                />
-              )}
+              {/* Visible bar sits inside a 24px hit area so the control meets the
+                  minimum touch-target size without enlarging the dot itself. */}
+              <span
+                className={`relative block h-1.5 rounded-full transition-all duration-500 ${
+                  isActive ? "w-8 bg-white/25 sm:w-10" : "w-1.5 bg-white/40 group-hover:bg-white/60"
+                }`}
+              >
+                {isActive && (
+                  <span
+                    key={activeIndex}
+                    className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-brand-sky"
+                    style={{
+                      animation: `hero-progress ${duration}ms linear forwards`,
+                      animationPlayState: isPaused ? "paused" : "running",
+                    }}
+                  />
+                )}
+              </span>
             </button>
           );
         })}

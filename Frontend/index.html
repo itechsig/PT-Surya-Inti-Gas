@@ -174,7 +174,7 @@
               "@type": "Product",
               "name": "Oksigen (O₂)",
               "description": "Gas oksigen industri dan medis kemurnian tinggi untuk pengelasan, fasilitas kesehatan, dan proses industri.",
-              "image": "https://suryaintigas.com/images/products/Oxygen-optimized.webp",
+              "image": "https://suryaintigas.com/images/products/Oxygen_Fix.webp",
               "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
               "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
@@ -186,7 +186,7 @@
               "@type": "Product",
               "name": "Nitrogen (N₂)",
               "description": "Gas nitrogen kemurnian tinggi untuk aplikasi industri, pengawetan makanan, dan laboratorium.",
-              "image": "https://suryaintigas.com/images/products/Nitrogen-optimized.webp",
+              "image": "https://suryaintigas.com/images/products/Nitrogen_Fix.webp",
               "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
               "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
@@ -198,7 +198,7 @@
               "@type": "Product",
               "name": "Argon (Ar)",
               "description": "Gas argon untuk pengelasan TIG, fabrikasi logam, dan proses industri.",
-              "image": "https://suryaintigas.com/images/products/Argon-optimized.webp",
+              "image": "https://suryaintigas.com/images/products/Argon_Fix.webp",
               "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
               "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
@@ -210,7 +210,7 @@
               "@type": "Product",
               "name": "Acetylene (C₂H₂)",
               "description": "Gas asetilena industri untuk pengelasan dan pemotongan oxy-fuel.",
-              "image": "https://suryaintigas.com/images/products/Acetylene-optimized.webp",
+              "image": "https://suryaintigas.com/images/products/Acetylene_fix.webp",
               "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
               "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
@@ -222,7 +222,7 @@
               "@type": "Product",
               "name": "Hidrogen (H₂)",
               "description": "Gas hidrogen kemurnian tinggi untuk laboratorium, industri, dan aplikasi khusus.",
-              "image": "https://suryaintigas.com/images/products/Hidrogen-optimized.webp",
+              "image": "https://suryaintigas.com/images/products/Hidrogen_Fix.webp",
               "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
               "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
@@ -234,7 +234,7 @@
               "@type": "Product",
               "name": "Helium (He)",
               "description": "Gas helium untuk pencitraan medis, aplikasi industri, dan laboratorium.",
-              "image": "https://suryaintigas.com/images/products/Helium-optimized.webp",
+              "image": "https://suryaintigas.com/images/products/Helium_Fix.webp",
               "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
               "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
@@ -246,7 +246,7 @@
               "@type": "Product",
               "name": "Karbon Dioksida (CO₂)",
               "description": "Gas CO₂ untuk pengelasan MIG/MAG, industri makanan dan minuman, serta aplikasi lainnya.",
-              "image": "https://suryaintigas.com/images/products/Oxygen-optimized.webp",
+              "image": "https://suryaintigas.com/images/products/CO2_Fix.webp",
               "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
               "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
             }
@@ -366,16 +366,28 @@
       <!-- Font Optimization. The stylesheet is loaded non-render-blocking
            (media=print flip on load); combined with display=swap the page paints
            immediately in the fallback stack and swaps to Barlow/DM Sans when ready.
-           Dropped Barlow weight 900 – nothing in the app uses it. -->
+           Only Barlow + DM Sans are referenced anywhere in the app — Cormorant
+           Garamond, Outfit and EB Garamond were requested but never used, and so
+           are Barlow weight 900 and italic 500. -->
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet" />
-      
-      <!-- Preconnect for performance -->
-      <link rel="preconnect" href="https://a.tile.openstreetmap.org" />
-      <link rel="preconnect" href="https://b.tile.openstreetmap.org" />
-      <link rel="preconnect" href="https://c.tile.openstreetmap.org" />
-      <link rel="preconnect" href="https://img.youtube.com" />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+        media="print"
+        onload="this.media='all'"
+      />
+      <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" />
+      </noscript>
+
+      <!-- Third-party origins used only by deeper routes (OSM map tiles, YouTube
+           thumbnails) — dns-prefetch keeps the DNS hint without spending one of
+           the ~4 useful preconnect slots on the homepage. -->
+      <link rel="dns-prefetch" href="https://a.tile.openstreetmap.org" />
+      <link rel="dns-prefetch" href="https://b.tile.openstreetmap.org" />
+      <link rel="dns-prefetch" href="https://c.tile.openstreetmap.org" />
+      <link rel="dns-prefetch" href="https://img.youtube.com" />
     </head>
 
     <body>

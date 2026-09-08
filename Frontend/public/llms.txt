@@ -1,0 +1,26 @@
+# PT Surya Inti Gas
+
+> Distributor gas industri, gas medis, dan specialty gas di Indonesia sejak 2003. Memasok Oksigen (O₂), Nitrogen (N₂), Argon (Ar), Acetylene (C₂H₂), Karbon Dioksida (CO₂), Hidrogen (H₂), Helium (He), mixed gas, serta peralatan cryogenic dan instalasi pipa gas. Kantor pusat di Sidoarjo (Jawa Timur) dengan cabang di Balikpapan (Kalimantan Timur).
+
+Situs ini adalah aplikasi satu halaman (SPA) tiga bahasa. Setiap URL tersedia dalam Indonesia (`/id/...`), Inggris (`/en/...`), dan Mandarin (`/zh/...`). Tautan di bawah memakai versi Indonesia.
+
+## Halaman utama
+
+- [Beranda](https://suryaintigas.com/id): ringkasan perusahaan, kategori produk, dan jangkauan layanan.
+- [Tentang Kami](https://suryaintigas.com/id/tentang-kami): profil, sejarah sejak 2003, nilai, dan sertifikasi perusahaan.
+- [Produk](https://suryaintigas.com/id/produk): katalog gas industri & medis, tabung/cradle, tangki cryogenic, regulator, dan valve.
+- [Jaringan Distribusi](https://suryaintigas.com/id/jaringan-distribusi): area layanan Jawa Timur, Jawa Tengah, DI Yogyakarta, dan Kalimantan Timur.
+- [Portofolio](https://suryaintigas.com/id/portofolio): proyek dan pelanggan yang pernah dilayani.
+- [Galeri](https://suryaintigas.com/id/galeri): dokumentasi fasilitas, armada, dan kegiatan.
+- [Karier](https://suryaintigas.com/id/karir): lowongan kerja dan formulir lamaran.
+- [Kontak](https://suryaintigas.com/id/kontak): alamat kedua kantor, telepon, email, dan formulir permintaan penawaran.
+
+## Kontak
+
+- Kantor Pusat Sidoarjo: Komp. Pergudangan & Industri Safe N Lock, Blok V1 No. 3223/3225/3232/3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232. Telepon +62 812 3390 6378, email salescounter.sda@suryaintigas.com.
+- Cabang Balikpapan: Jl. AMD Projakal Kariangau KM 5.5, RT 046, Kel. Graha Indah, Kec. Balikpapan Utara, Balikpapan, Kalimantan Timur. Telepon +62 851 5711 8879, email salescounter.bpn@suryaintigas.com.
+
+## Referensi
+
+- [Sitemap](https://suryaintigas.com/sitemap.xml): daftar lengkap URL dalam tiga bahasa.
+- [robots.txt](https://suryaintigas.com/robots.txt): aturan crawling.

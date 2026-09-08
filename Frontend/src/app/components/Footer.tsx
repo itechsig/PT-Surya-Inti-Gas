@@ -472,7 +472,7 @@ export function Footer() {
 
           {/* About Column */}
           <motion.div className="corporate-footer-column" variants={fadeUp}>
-            <h5 className="corporate-footer-column-title">{t('footer.about.title')}</h5>
+            <h2 className="corporate-footer-column-title">{t('footer.about.title')}</h2>
             <nav className="corporate-footer-links">
               <Link to={`/${currentLang}/tentang-kami`} className="corporate-footer-link">
                 <ChevronRight size={16} />
@@ -487,7 +487,7 @@ export function Footer() {
 
           {/* Products Column */}
           <motion.div className="corporate-footer-column" variants={fadeUp}>
-            <h5 className="corporate-footer-column-title">{t('footer.product.title')}</h5>
+            <h2 className="corporate-footer-column-title">{t('footer.product.title')}</h2>
             <nav className="corporate-footer-links">
               <Link to={`/${currentLang}/produk?category=gas`} className="corporate-footer-link">
                 <ChevronRight size={16} />
@@ -506,7 +506,7 @@ export function Footer() {
 
           {/* CTA & Other Links */}
           <motion.div className="corporate-footer-column" variants={fadeUp}>
-            <h5 className="corporate-footer-column-title">{t('footer.quickLinks')}</h5>
+            <h2 className="corporate-footer-column-title">{t('footer.quickLinks')}</h2>
             <nav className="corporate-footer-links">
               <Link to={`/${currentLang}/galeri`} className="corporate-footer-link">
                 <ChevronRight size={16} />
