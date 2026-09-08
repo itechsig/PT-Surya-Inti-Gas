@@ -420,6 +420,13 @@
     "subtitle": "Testimonials and experiences from the people who grow, develop, learn, and contribute with us.",
     "items": [
       {
+        "quote": "Being a Cylinder Admin at PT Surya Inti Gas has taught me how important precision and teamwork really are. From handling cylinder data and distribution administration to making sure everything runs smoothly, there’s always something new to learn every day. The work environment is fun and supportive too, which keeps me motivated to keep growing.",
+        "name": "Tiara",
+        "role": "Cylinder Admin",
+        "company": "PT Surya Inti Gas",
+        "rating": 5
+      },
+      {
         "quote": "PT Surya Inti Gas has become a place where I can continuously learn, grow, and have the courage to try new things. Every idea and innovation is supported, and I’m trusted to build, develop, and maintain the stability of the IT infrastructure to keep supporting the company’s operations. In the end, it’s not just about working here, but also about growing together.",
         "name": "Fauzan",
         "role": "IT Engineer",
@@ -469,7 +476,7 @@
         "rating": 5
       },
       {
-        "quote": "I make sure the company's data and systems stay secure, so service to our customers runs without interruption.",
+        "quote": "For me, PT Surya Inti Gas isn’t just a place to work, but also a place to learn and grow. During my time here, I’ve discovered many new things, tried experiences I’d never had before, and met people who are fun and supportive. There’s so much I’ve gained at SIG — not only about work, but also experiences and stories that will become part of my life’s journey.",
         "name": "Zafi",
         "role": "IT Engineer",
         "company": "PT Surya Inti Gas",
