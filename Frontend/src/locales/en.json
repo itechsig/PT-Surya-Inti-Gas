@@ -36,6 +36,7 @@
     "productsServices": "Products & Services",
     "industrialMedical": "Industrial & Medical (Gas & Liquid)",
     "specialityMixed": "Speciality & Mixed Gas",
+    "relatedEquipment": "Related Equipment",
     "package": "Package",
     "services": "Services",
     "contact": "Contact",
@@ -50,6 +51,7 @@
       "gasProducts": "Gas Products",
       "industrialMedicalDesc": "Industrial and medical gases in gas and liquid form for various needs",
       "specialityMixedDesc": "Specialty and mixed gases with precise composition for sensitive applications",
+      "relatedEquipmentDesc": "Regulators, valves, and medical gas supply equipment to complete your gas system",
       "packageServices": "Package & Services",
       "packageDesc": "High-pressure gas and liquid supply in complete packages including cylinders, cradles, tanks, and more",
       "servicesDesc": "Professional gas services including installation, delivery, and refilling for your operational needs"

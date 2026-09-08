@@ -51,6 +51,7 @@ const NAV_LINKS: NavItem[] = [
         items: [
           { nameKey: "header.industrialMedical", href: "/produk?category=gas&subcategory=industrial-medical", descriptionKey: "header.megaMenu.industrialMedicalDesc" },
           { nameKey: "header.specialityMixed", href: "/produk?category=gas&subcategory=speciality-mixed", descriptionKey: "header.megaMenu.specialityMixedDesc" },
+          { nameKey: "header.relatedEquipment", href: "/produk?category=gas&subcategory=related-equipment", descriptionKey: "header.megaMenu.relatedEquipmentDesc" },
         ]
       },
       {

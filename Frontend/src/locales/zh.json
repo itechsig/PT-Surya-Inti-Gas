@@ -36,6 +36,7 @@
     "productsServices": "产品与服务",
     "industrialMedical": "工业与医疗（气体与液体）",
     "specialityMixed": "特种与混合气体",
+    "relatedEquipment": "相关设备",
     "package": "包装",
     "services": "服务",
     "contact": "联系我们",
@@ -50,6 +51,7 @@
       "gasProducts": "气体产品",
       "industrialMedicalDesc": "用于各种需求的工业和医用气体及液体形式",
       "specialityMixedDesc": "用于敏感应用的精确组成的特种和混合气体",
+      "relatedEquipmentDesc": "调压器、阀门及医用气体供应设备，完善您的气体系统",
       "packageServices": "包装与服务",
       "packageDesc": "完整包装的高压气体和液体供应，包括气瓶、摇篮、储罐等",
       "servicesDesc": "专业气体服务，包括安装、交付和充装，满足您的运营需求"
