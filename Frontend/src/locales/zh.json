@@ -563,7 +563,9 @@
       "allIndustries": "所有行业",
       "allServices": "所有服务",
       "viewDetail": "查看详情",
-      "noResults": "暂无已发布的项目案例。"
+      "noResults": "暂无已发布的项目案例。",
+      "prev": "上一个",
+      "next": "下一个"
     },
     "detail": {
       "notFound": "未找到该项目案例。",

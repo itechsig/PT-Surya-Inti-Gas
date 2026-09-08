@@ -1420,7 +1420,9 @@
       "allIndustries": "Semua Industri",
       "allServices": "Semua Layanan",
       "viewDetail": "Lihat Detail",
-      "noResults": "Belum ada portofolio yang dipublikasikan."
+      "noResults": "Belum ada portofolio yang dipublikasikan.",
+      "prev": "Sebelumnya",
+      "next": "Berikutnya"
     },
     "detail": {
       "notFound": "Portofolio tidak ditemukan.",

@@ -65,15 +65,68 @@
   gap: 10px;
 }
 
-/* ── Grid ── */
-.portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+/* ── Slider (geser horizontal) ── */
+.portfolio-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.portfolio-track {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
   padding-bottom: 56px;
 }
 
+.portfolio-track:active {
+  cursor: grabbing;
+}
+
+.portfolio-track::-webkit-scrollbar {
+  display: none;
+}
+
+.portfolio-grid {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  max-width: none;
+}
+
+.portfolio-slider-arrow {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 56px;
+  border: 1px solid var(--slate-200);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--blue);
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.portfolio-slider-arrow:hover {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+  box-shadow: 0 6px 16px rgba(21, 101, 192, 0.25);
+}
+
 .portfolio-card {
+  flex: 0 0 340px;
+  max-width: 82vw;
+  scroll-snap-align: start;
   background: #fff;
   border: 1px solid var(--slate-200);
   border-radius: 12px;
@@ -84,6 +137,11 @@
   text-decoration: none;
   color: inherit;
   transition: box-shadow 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.portfolio-card img {
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .portfolio-card:hover {
@@ -418,18 +476,18 @@
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .portfolio-detail-hero-image img {
     max-height: 60vh;
   }
 }
 
 @media (max-width: 640px) {
-  .portfolio-grid {
-    grid-template-columns: 1fr;
+  .portfolio-card {
+    flex-basis: 280px;
+  }
+
+  .portfolio-slider-arrow {
+    display: none;
   }
 
   .portfolio-gallery-grid {

@@ -1415,7 +1415,9 @@
       "allIndustries": "All Industries",
       "allServices": "All Services",
       "viewDetail": "View Details",
-      "noResults": "No portfolio has been published yet."
+      "noResults": "No portfolio has been published yet.",
+      "prev": "Previous",
+      "next": "Next"
     },
     "detail": {
       "notFound": "Portfolio not found.",

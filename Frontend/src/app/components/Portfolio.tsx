@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { Search, MapPin, Calendar, ArrowRight, FolderOpen } from 'lucide-react';
+import { Search, MapPin, Calendar, ArrowRight, FolderOpen, ChevronLeft, ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
@@ -117,6 +117,40 @@ export function Portfolio() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [industry, service, searchTerm, page]);
 
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dragState = useRef({ down: false, startX: 0, scrollLeft: 0, moved: false });
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    if (!el) return;
+    dragState.current = { down: true, startX: e.pageX, scrollLeft: el.scrollLeft, moved: false };
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    if (!el || !dragState.current.down) return;
+    const dx = e.pageX - dragState.current.startX;
+    if (Math.abs(dx) > 5) dragState.current.moved = true;
+    el.scrollLeft = dragState.current.scrollLeft - dx;
+  };
+
+  const endDrag = () => { dragState.current.down = false; };
+
+  // Cegah navigasi ke halaman detail ketika kartu baru saja di-geser
+  const handleClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (dragState.current.moved) {
+      e.preventDefault();
+      e.stopPropagation();
+      dragState.current.moved = false;
+    }
+  };
+
+  const scrollByDir = (dir: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' });
+  };
+
   const { industries, localize: localizeIndustry } = useIndustries(currentLang);
   const { serviceTypes, localize: localizeService } = useServiceTypes(currentLang);
   const { portfolios, pagination, isLoading } = usePortfolioCatalog(currentLang, {
@@ -188,45 +222,75 @@ export function Portfolio() {
           </div>
         </div>
 
-        <AnimatePresence mode="wait">
-          {isLoading ? (
-            <motion.div
-              key="skeleton"
-              className="portfolio-grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            >
-              {Array.from({ length: 6 }).map((_, i) => <PortfolioCardSkeleton key={i} />)}
-            </motion.div>
-          ) : portfolios.length === 0 ? (
-            <motion.div
-              key="empty"
-              className="portfolio-empty-state"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            >
-              <FolderOpen size={40} strokeWidth={1.5} />
-              <p>{t('portfolio.page.noResults')}</p>
-            </motion.div>
-          ) : (
-            <motion.div
-              key={`grid-${industry}-${service}-${searchTerm}-${page}`}
-              className="portfolio-grid"
-              initial="hidden"
-              animate="show"
-              exit={{ opacity: 0, scale: 0.98, transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] } }}
-              variants={staggerContainer}
-            >
-              {portfolios.map((item) => (
-                <PortfolioCard key={item.id} item={item} currentLang={currentLang} />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="portfolio-slider">
+          <button
+            type="button"
+            className="portfolio-slider-arrow portfolio-slider-arrow-prev"
+            onClick={() => scrollByDir(-1)}
+            aria-label={t('portfolio.page.prev', 'Sebelumnya')}
+          >
+            <ChevronLeft size={20} />
+          </button>
+
+          <div
+            className="portfolio-track"
+            ref={trackRef}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={endDrag}
+            onPointerLeave={endDrag}
+            onClickCapture={handleClickCapture}
+          >
+            <AnimatePresence mode="wait">
+              {isLoading ? (
+                <motion.div
+                  key="skeleton"
+                  className="portfolio-grid"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  {Array.from({ length: 6 }).map((_, i) => <PortfolioCardSkeleton key={i} />)}
+                </motion.div>
+              ) : portfolios.length === 0 ? (
+                <motion.div
+                  key="empty"
+                  className="portfolio-empty-state"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  <FolderOpen size={40} strokeWidth={1.5} />
+                  <p>{t('portfolio.page.noResults')}</p>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key={`grid-${industry}-${service}-${searchTerm}-${page}`}
+                  className="portfolio-grid"
+                  initial="hidden"
+                  animate="show"
+                  exit={{ opacity: 0, scale: 0.98, transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] } }}
+                  variants={staggerContainer}
+                >
+                  {portfolios.map((item) => (
+                    <PortfolioCard key={item.id} item={item} currentLang={currentLang} />
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <button
+            type="button"
+            className="portfolio-slider-arrow portfolio-slider-arrow-next"
+            onClick={() => scrollByDir(1)}
+            aria-label={t('portfolio.page.next', 'Berikutnya')}
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
 
         {pagination.lastPage > 1 && (
           <div className="portfolio-pagination-wrap">
