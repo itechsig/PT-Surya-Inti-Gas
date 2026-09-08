@@ -306,6 +306,24 @@ const css = `
     fill: var(--gold);
   }
 
+  /* Partial star: a clipped gold star layered over the grey one. */
+  .trust-star-part {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .trust-star-part-fill {
+    position: absolute;
+    inset: 0;
+    display: inline-flex;
+    overflow: hidden;
+  }
+
+  .trust-star-part svg {
+    flex-shrink: 0;
+  }
+
   .trust-quote-icon {
     color: var(--sky-light);
     opacity: 0.4;
@@ -685,6 +703,21 @@ function AvatarMedia({ name }: { name: string }) {
   );
 }
 
+/** One star at position `i` for a rating that may be fractional (e.g. 4.5 → half). */
+function starNode(rating: number, i: number, size = 13) {
+  const fill = Math.max(0, Math.min(1, rating - i));
+  if (fill >= 1) return <Star size={size} className="filled" />;
+  if (fill <= 0) return <Star size={size} />;
+  return (
+    <span className="trust-star-part" style={{ width: size, height: size }}>
+      <Star size={size} />
+      <span className="trust-star-part-fill" style={{ width: `${Math.round(fill * 100)}%` }}>
+        <Star size={size} className="filled" />
+      </span>
+    </span>
+  );
+}
+
 /** Shortest signed distance from activeIndex to index around the circular drum. */
 function circularOffset(index: number, activeIndex: number, total: number) {
   let offset = index - activeIndex;
@@ -784,7 +817,7 @@ function TestimonialDialog({ item, onClose }: { item: TestimonialItem; onClose: 
           </div>
           <div className="trust-stars" role="img" aria-label={`${item.rating} / 5`}>
             {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} size={13} className={i < item.rating ? "filled" : ""} />
+              <span key={i} style={{ display: "inline-flex" }}>{starNode(item.rating, i)}</span>
             ))}
           </div>
           <Quote className="trust-quote-icon" size={20} aria-hidden="true" />
@@ -1006,7 +1039,7 @@ export function TrustCTA() {
                             damping: 16,
                           }}
                         >
-                          <Star size={13} className={i < item.rating ? "filled" : ""} />
+                          {starNode(item.rating, i)}
                         </motion.span>
                       ))}
                     </motion.div>
