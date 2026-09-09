@@ -16,54 +16,54 @@ const generateUUID = (): string => {
 // Comprehensive Knowledge Base
 const knowledgeBase = {
   // Company Information
-  "tentang perusahaan": "PT Surya Inti Gas adalah perusahaan gas industri terkemuka yang berdedikasi untuk menyediakan solusi gas berkualitas tinggi bagi berbagai sektor industri di Indonesia. Dengan pengalaman lebih dari 20 tahun, kami telah membangun reputasi sebagai mitra terpercaya dalam industri manufaktur, kesehatan, energi, dan infrastruktur.",
-  
-  "apa itu pt surya inti gas": "PT Surya Inti Gas adalah perusahaan gas industri terkemuka yang berdedikasi untuk menyediakan solusi gas berkualitas tinggi bagi berbagai sektor industri di Indonesia. Dengan pengalaman lebih dari 20 tahun, kami telah membangun reputasi sebagai mitra terpercaya dalam industri manufaktur, kesehatan, energi, dan infrastruktur.",
+  "tentang perusahaan": "PT Surya Inti Gas adalah distributor gas industri yang telah beroperasi sejak 2003, dengan kantor pusat di Sidoarjo, Jawa Timur, dan cabang di Balikpapan, Kalimantan Timur. Kami menyediakan gas industri & cair, gas campur (mixed gas), speciality gas, dan medical gas, beserta tabung bertekanan tinggi, cryogenic equipment, dry ice, dan peralatan pendukungnya. Saat ini kami melayani lebih dari 150 pelanggan industri di berbagai sektor.",
+
+  "apa itu pt surya inti gas": "PT Surya Inti Gas adalah distributor gas industri yang telah beroperasi sejak 2003, dengan kantor pusat di Sidoarjo, Jawa Timur, dan cabang di Balikpapan, Kalimantan Timur. Kami menyediakan gas industri & cair, gas campur (mixed gas), speciality gas, dan medical gas, beserta tabung bertekanan tinggi, cryogenic equipment, dry ice, dan peralatan pendukungnya. Saat ini kami melayani lebih dari 150 pelanggan industri di berbagai sektor.",
   
   "siapa": "Saya adalah asisten virtual PT Surya Inti Gas. Saya siap membantu Anda dengan informasi tentang produk gas, layanan, lokasi, karir, dan informasi perusahaan lainnya.",
   
   "kamu": "Saya adalah asisten virtual PT Surya Inti Gas yang dibuat untuk membantu menjawab pertanyaan Anda tentang perusahaan dan produk kami.",
   
-  "kalian": "PT Surya Inti Gas adalah perusahaan gas industri terkemuka di Indonesia yang berdiri sejak 2003. Kami menyediakan berbagai produk gas berkualitas tinggi untuk industri, medis, dan aplikasi khusus.",
-  
-  "sejarah": "PT Surya Inti Gas didirikan pada tahun 2003 sebagai CV. Surya Inti Gas di Jl. KH. Mukmin, Sidoarjo, Jawa Timur. Pada tahun 2007, kami merelokasi operasional ke Komplek Pergudangan dan Industri 'Meiko Abadi' di Gedangan, Sidoarjo. Tahun 2016, kami pindah ke Komplek Pergudangan dan Industri 'Safe N Lock' sebagai Head Office Sidoarjo. Pada tahun 2017, CV. Surya Inti Gas bertransformasi menjadi PT. Surya Inti Gas dan membuka cabang pertama di Balikpapan, Kalimantan Timur.",
-  
-  "kapan pt surya inti gas didirikan": "PT Surya Inti Gas didirikan pada tahun 2003 sebagai CV. Surya Inti Gas di Jl. KH. Mukmin, Sidoarjo, Jawa Timur.",
-  
-  "bagaimana sejarah pt surya inti gas": "PT Surya Inti Gas didirikan pada tahun 2003 sebagai CV. Surya Inti Gas di Jl. KH. Mukmin, Sidoarjo, Jawa Timur. Pada tahun 2007, kami merelokasi operasional ke Komplek Pergudangan dan Industri 'Meiko Abadi' di Gedangan, Sidoarjo. Tahun 2016, kami pindah ke Komplek Pergudangan dan Industri 'Safe N Lock' sebagai Head Office Sidoarjo. Pada tahun 2017, CV. Surya Inti Gas bertransformasi menjadi PT. Surya Inti Gas dan membuka cabang pertama di Balikpapan, Kalimantan Timur.",
-  
-  "visi": "Visi kami adalah menjadi pemimpin pasar dalam industri gas Indonesia yang terpercaya, inovatif, dan berkelanjutan.",
-  
-  "apa visi pt surya inti gas": "Visi PT Surya Inti Gas adalah menjadi pemimpin pasar dalam industri gas Indonesia yang terpercaya, inovatif, dan berkelanjutan.",
-  
-  "misi": "Misi kami meliputi: 1) Menyediakan produk gas berkualitas tinggi yang memenuhi standar internasional. 2) Memberikan layanan pelanggan yang unggul dan responsif. 3) Terus berinovasi dalam teknologi dan proses produksi. 4) Menjaga kepatuhan terhadap standar keselamatan dan lingkungan. 5) Mengembangkan jaringan distribusi yang luas di seluruh Indonesia.",
-  
-  "apa misi pt surya inti gas": "Misi PT Surya Inti Gas meliputi: 1) Menyediakan produk gas berkualitas tinggi yang memenuhi standar internasional. 2) Memberikan layanan pelanggan yang unggul dan responsif. 3) Terus berinovasi dalam teknologi dan proses produksi. 4) Menjaga kepatuhan terhadap standar keselamatan dan lingkungan. 5) Mengembangkan jaringan distribusi yang luas di seluruh Indonesia.",
-  
-  "apa visi dan misi pt surya inti gas": "Visi PT Surya Inti Gas adalah menjadi pemimpin pasar dalam industri gas Indonesia yang terpercaya, inovatif, dan berkelanjutan. Misi kami meliputi: 1) Menyediakan produk gas berkualitas tinggi yang memenuhi standar internasional. 2) Memberikan layanan pelanggan yang unggul dan responsif. 3) Terus berinovasi dalam teknologi dan proses produksi. 4) Menjaga kepatuhan terhadap standar keselamatan dan lingkungan. 5) Mengembangkan jaringan distribusi yang luas di seluruh Indonesia.",
-  
-  "nilai": "Nilai-nilai perusahaan kami: Integritas - kami menjunjung tinggi kejujuran dan transparansi dalam semua aspek operasional. Kualitas - kami berkomitmen untuk memberikan produk dan layanan terbaik. Keselamatan - keselamatan adalah prioritas utama dalam semua operasional kami. Inovasi - kami terus berinovasi untuk meningkatkan layanan dan produk. Keberlanjutan - kami berkomitmen untuk menjaga lingkungan dan operasional yang berkelanjutan.",
+  "kalian": "PT Surya Inti Gas adalah distributor gas industri di Indonesia yang berdiri sejak 2003, dengan kantor pusat di Sidoarjo dan cabang di Balikpapan. Kami menyediakan berbagai produk gas berkualitas untuk kebutuhan industri, medis, speciality, dan mixed gas.",
 
-  "industri": "Kami melayani berbagai industri termasuk: Manufaktur (pengelasan, pemotongan logam, metalurgi), Kesehatan (rumah sakit, klinik, terapi pernapasan), Energi (minyak dan gas, pembangkit listrik), Infrastruktur (konstruksi, proyek engineering), Makanan dan Minuman (pengawetan, pendinginan), Elektronik (semikonduktor, sirkuit), serta industri lain yang membutuhkan gas berkualitas tinggi.",
+  "sejarah": "PT Surya Inti Gas didirikan pada tahun 2003 sebagai CV. Surya Inti Gas dengan kantor pertama di Jl. KH. Mukmin, Sidoarjo, Jawa Timur. Pada tahun 2007, operasional dipindahkan ke Komplek Pergudangan & Industri Meiko Abadi Blok B-70, Desa Wedi, Kecamatan Gedangan, Sidoarjo. Tahun 2016, kantor pusat berpindah ke Komplek Pergudangan & Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo — yang hingga kini menjadi Head Office. Pada tahun 2017, CV. Surya Inti Gas resmi bertransformasi menjadi PT. Surya Inti Gas dan membuka cabang pertama di Balikpapan, Kalimantan Timur.",
 
-  "industri yang dilayani": "Kami melayani berbagai industri termasuk: Manufaktur (pengelasan, pemotongan logam, metalurgi), Kesehatan (rumah sakit, klinik, terapi pernapasan), Energi (minyak dan gas, pembangkit listrik), Infrastruktur (konstruksi, proyek engineering), Makanan dan Minuman (pengawetan, pendinginan), Elektronik (semikonduktor, sirkuit), serta industri lain yang membutuhkan gas berkualitas tinggi.",
+  "kapan pt surya inti gas didirikan": "PT Surya Inti Gas didirikan pada tahun 2003 sebagai CV. Surya Inti Gas di Jl. KH. Mukmin, Sidoarjo, Jawa Timur. Pada tahun 2017 resmi bertransformasi menjadi PT. Surya Inti Gas.",
 
-  "bidang usaha": "Bidang usaha PT Surya Inti Gas meliputi penyediaan gas industri dan medis untuk berbagai sektor: Manufaktur (pengelasan, pemotongan logam, metalurgi), Kesehatan (rumah sakit, klinik, terapi pernapasan), Energi (minyak dan gas, pembangkit listrik), Infrastruktur (konstruksi, proyek engineering), Makanan dan Minuman (pengawetan, pendinginan), dan Elektronik (semikonduktor, sirkuit).",
-  
-  "apa saja bidang usaha pt surya inti gas": "Bidang usaha PT Surya Inti Gas meliputi penyediaan gas industri dan medis untuk berbagai sektor: Manufaktur (pengelasan, pemotongan logam, metalurgi), Kesehatan (rumah sakit, klinik, terapi pernapasan), Energi (minyak dan gas, pembangkit listrik), Infrastruktur (konstruksi, proyek engineering), Makanan dan Minuman (pengawetan, pendinginan), dan Elektronik (semikonduktor, sirkuit).",
+  "bagaimana sejarah pt surya inti gas": "PT Surya Inti Gas didirikan pada tahun 2003 sebagai CV. Surya Inti Gas dengan kantor pertama di Jl. KH. Mukmin, Sidoarjo, Jawa Timur. Pada tahun 2007, operasional dipindahkan ke Komplek Pergudangan & Industri Meiko Abadi Blok B-70, Desa Wedi, Kecamatan Gedangan, Sidoarjo. Tahun 2016, kantor pusat berpindah ke Komplek Pergudangan & Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo — yang hingga kini menjadi Head Office. Pada tahun 2017, CV. Surya Inti Gas resmi bertransformasi menjadi PT. Surya Inti Gas dan membuka cabang pertama di Balikpapan, Kalimantan Timur.",
 
-  "cabang": "Ya, PT Surya Inti Gas memiliki cabang di Balikpapan, Kalimantan Timur. Kantor pusat kami berada di Sidoarjo, Jawa Timur, dan kami memiliki pabrik serta stasiun pengisian gas di Balikpapan.",
-  
-  "apakah pt surya inti gas memiliki cabang": "Ya, PT Surya Inti Gas memiliki cabang di Balikpapan, Kalimantan Timur. Kantor pusat kami berada di Sidoarjo, Jawa Timur, dan kami memiliki pabrik serta stasiun pengisian gas di Balikpapan.",
+  "visi": "Visi kami: menjadi sebuah perusahaan yang berkembang, memiliki cabang di seluruh kota besar Indonesia, yang mampu memenuhi dan menunjang kebutuhan gas-gas industri di dalam negeri serta melayani kebutuhan gas Oksigen Medis di seluruh Rumah Sakit di Indonesia.",
 
-  "lokasi": "Kami memiliki dua lokasi utama: 1) Kantor Pusat di Komplek Pergudangan dan Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232. 2) Pabrik dan Stasiun Pengisian Gas di Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur.",
-  
-  "di mana lokasi kantor pusat pt surya inti gas": "Kantor Pusat PT Surya Inti Gas berlokasi di Komplek Pergudangan dan Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232.",
+  "apa visi pt surya inti gas": "Visi PT Surya Inti Gas adalah menjadi sebuah perusahaan yang berkembang, memiliki cabang di seluruh kota besar Indonesia, yang mampu memenuhi dan menunjang kebutuhan gas-gas industri di dalam negeri serta melayani kebutuhan gas Oksigen Medis di seluruh Rumah Sakit di Indonesia.",
+
+  "misi": "Misi kami: 1) Mampu menyediakan produk yang berkecukupan dengan standar tinggi. 2) Memiliki sumber daya manusia yang kuat dan solid. 3) Mampu memenuhi kebutuhan dan keinginan pelanggan dengan cepat, tepat, dan baik. 4) Kepuasan pelanggan adalah prioritas kami.",
+
+  "apa misi pt surya inti gas": "Misi PT Surya Inti Gas: 1) Mampu menyediakan produk yang berkecukupan dengan standar tinggi. 2) Memiliki sumber daya manusia yang kuat dan solid. 3) Mampu memenuhi kebutuhan dan keinginan pelanggan dengan cepat, tepat, dan baik. 4) Kepuasan pelanggan adalah prioritas kami.",
+
+  "apa visi dan misi pt surya inti gas": "Visi PT Surya Inti Gas adalah menjadi sebuah perusahaan yang berkembang, memiliki cabang di seluruh kota besar Indonesia, yang mampu memenuhi dan menunjang kebutuhan gas-gas industri di dalam negeri serta melayani kebutuhan gas Oksigen Medis di seluruh Rumah Sakit di Indonesia. Misi kami: 1) Mampu menyediakan produk yang berkecukupan dengan standar tinggi. 2) Memiliki sumber daya manusia yang kuat dan solid. 3) Mampu memenuhi kebutuhan dan keinginan pelanggan dengan cepat, tepat, dan baik. 4) Kepuasan pelanggan adalah prioritas kami.",
+
+  "nilai": "Nilai-nilai PT Surya Inti Gas: Keselamatan (mengutamakan keselamatan dalam setiap aktivitas), Integritas (jujur, transparan, dan beretika), Profesionalisme (kompetensi, standar tinggi, dan dedikasi), Tanggung Jawab (bertanggung jawab atas setiap tindakan dan keputusan), Fokus Pelanggan (solusi yang tepat, cepat, dan terpercaya), Kualitas (menjaga kualitas produk dan layanan secara konsisten), Inovasi (terus berinovasi dan memperbaiki pelayanan), serta Kerja Sama Tim (kerja sama solid untuk keberhasilan bersama).",
+
+  "industri": "Kami melayani berbagai sektor industri: Manufaktur (pengelasan, pemotongan logam, metalurgi), Kesehatan (rumah sakit, klinik, terapi pernapasan), Makanan & Minuman (karbonasi, pengawetan, pendinginan), Minyak & Gas, Energi (pembangkit listrik), dan Konstruksi. Kami juga melayani kebutuhan gas untuk industri elektronik dan aplikasi khusus lainnya.",
+
+  "industri yang dilayani": "Kami melayani berbagai sektor industri: Manufaktur (pengelasan, pemotongan logam, metalurgi), Kesehatan (rumah sakit, klinik, terapi pernapasan), Makanan & Minuman (karbonasi, pengawetan, pendinginan), Minyak & Gas, Energi (pembangkit listrik), dan Konstruksi. Kami juga melayani kebutuhan gas untuk industri elektronik dan aplikasi khusus lainnya.",
+
+  "bidang usaha": "Bidang usaha PT Surya Inti Gas adalah distribusi gas industri, medis, speciality, dan mixed gas beserta peralatan pendukungnya, untuk sektor Manufaktur, Kesehatan, Makanan & Minuman, Minyak & Gas, Energi, dan Konstruksi.",
+
+  "apa saja bidang usaha pt surya inti gas": "Bidang usaha PT Surya Inti Gas adalah distribusi gas industri, medis, speciality, dan mixed gas beserta peralatan pendukungnya, untuk sektor Manufaktur, Kesehatan, Makanan & Minuman, Minyak & Gas, Energi, dan Konstruksi.",
+
+  "cabang": "Ya. Kantor pusat PT Surya Inti Gas berada di Sidoarjo, Jawa Timur, dan cabang di Balikpapan, Kalimantan Timur, yang berfungsi sebagai pabrik dan stasiun pengisian gas.",
+
+  "apakah pt surya inti gas memiliki cabang": "Ya. Kantor pusat PT Surya Inti Gas berada di Sidoarjo, Jawa Timur, dan cabang di Balikpapan, Kalimantan Timur, yang berfungsi sebagai pabrik dan stasiun pengisian gas.",
+
+  "lokasi": "Kami memiliki dua lokasi utama: 1) Kantor Pusat — Komplek Pergudangan & Industri Safe N Lock, Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232. 2) Pabrik & Stasiun Pengisian Gas — Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur.",
+
+  "di mana lokasi kantor pusat pt surya inti gas": "Kantor Pusat PT Surya Inti Gas berlokasi di Komplek Pergudangan & Industri Safe N Lock, Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232.",
 
   // Products
-  "produk": "Kami menyediakan berbagai produk gas industri dan medis termasuk: Industrial & Medical Gas (Acetylene, Oksigen, Nitrogen, Argon, Hidrogen), Speciality & Mixed Gas (Helium, Sulfur Hexaflouride, Gas Campuran), serta berbagai peralatan gas seperti Color Code High Pressure Gas Supply, Package System, Assist Gas Equipment, Cryogenic Transport, Regulator & Valves, dan Medical Gas Equipment.",
-  
-  "produk apa saja yang dijual pt surya inti gas": "Kami menyediakan berbagai produk gas industri dan medis termasuk: Industrial & Medical Gas (Acetylene, Oksigen, Nitrogen, Argon, Hidrogen), Speciality & Mixed Gas (Helium, Sulfur Hexaflouride, Gas Campuran), serta berbagai peralatan gas seperti Color Code High Pressure Gas Supply, Package System, Assist Gas Equipment, Cryogenic Transport, Regulator & Valves, dan Medical Gas Equipment.",
+  "produk": "Kami menyediakan gas industri, medis, speciality, dan mixed gas, antara lain: Acetylene (C2H2), Oksigen (O2), Nitrogen (N2), Argon (Ar), Karbon Dioksida (CO2), Hidrogen (H2), Helium (He), Sulfur Hexaflouride (SF6), Karbon Monoksida (CO), Propana (C3H8), Butana (C4H10), dan gas campuran (mixed gas). Kami juga menyediakan dry ice. Untuk penyimpanan dan penanganan gas tersedia Cradle (2x2 hingga 4x4), Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, Vertical Storage Tank, ISO Tank, Rigged Tank, dan Cryogenic Road Tank, beserta regulator, valve, dan peralatan gas medis.",
+
+  "produk apa saja yang dijual pt surya inti gas": "Kami menyediakan gas industri, medis, speciality, dan mixed gas, antara lain: Acetylene (C2H2), Oksigen (O2), Nitrogen (N2), Argon (Ar), Karbon Dioksida (CO2), Hidrogen (H2), Helium (He), Sulfur Hexaflouride (SF6), Karbon Monoksida (CO), Propana (C3H8), Butana (C4H10), dan gas campuran (mixed gas). Kami juga menyediakan dry ice. Untuk penyimpanan dan penanganan gas tersedia Cradle (2x2 hingga 4x4), Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, Vertical Storage Tank, ISO Tank, Rigged Tank, dan Cryogenic Road Tank, beserta regulator, valve, dan peralatan gas medis.",
   
   "apakah tersedia gas industri": "Ya, kami menyediakan berbagai gas industri termasuk Acetylene, Oksigen, Nitrogen, Argon, Hidrogen, dan gas lainnya untuk kebutuhan industri.",
   
@@ -95,11 +95,21 @@ const knowledgeBase = {
   
   "apakah tersedia acetylene": "Ya, kami menyediakan Acetylene (Asetilena/C2H2) untuk pengelasan dan pemotongan logam. Gas ini memiliki suhu nyala yang sangat tinggi, mencapai 3.100°C, menjadikannya ideal untuk pengelasan oksi-asetilena dan pemotongan logam.",
 
-  "lpg": "Untuk informasi tentang LPG, silakan hubungi tim sales kami. Kami dapat memberikan informasi yang lebih spesifik sesuai kebutuhan Anda.",
+  "lpg": "Untuk kebutuhan gas bahan bakar, kami menyediakan Propana (C3H8) dan Butana (C4H10) untuk aplikasi industri maupun rumah tangga. Silakan hubungi tim sales kami untuk informasi kebutuhan spesifik Anda.",
+
+  "propana": "Ya, kami menyediakan Propana (C3H8), gas hidrokarbon yang digunakan sebagai bahan bakar untuk pemotongan logam, pengelasan, forklift, serta aplikasi industri dan rumah tangga lainnya.",
+
+  "butana": "Ya, kami menyediakan Butana (C4H10), gas hidrokarbon yang digunakan sebagai bahan bakar untuk proses kimia, torch, manufaktur, serta aplikasi industri dan rumah tangga lainnya.",
+
+  "karbon monoksida": "Ya, kami menyediakan Karbon Monoksida (CO) dengan tingkat kemurnian yang sesuai untuk aplikasi industri (proses kimia, metalurgi) dan medis.",
+
+  "dry ice": "Ya, kami menyediakan dry ice (es kering / CO2 padat) untuk kebutuhan pendinginan, rantai dingin, pembersihan (dry ice blasting), dan keperluan industri lainnya. Hubungi tim sales kami untuk informasi ketersediaan dan pengiriman.",
+
+  "es kering": "Ya, kami menyediakan dry ice (es kering / CO2 padat) untuk kebutuhan pendinginan, rantai dingin, pembersihan (dry ice blasting), dan keperluan industri lainnya. Hubungi tim sales kami untuk informasi ketersediaan dan pengiriman.",
 
   "tabung": "Kami menyediakan berbagai ukuran tabung gas sesuai kebutuhan industri dan medis Anda. Hubungi tim sales kami untuk informasi detail tentang ukuran dan spesifikasi tabung yang tersedia.",
 
-  "ukuran tabung": "Kami menyediakan berbagai ukuran tabung gas industri dan medis. Hubungi tim sales kami di Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879 untuk informasi detail tentang ukuran dan spesifikasi yang tersedia.",
+  "ukuran tabung": "Kami menyediakan berbagai ukuran tabung gas industri dan medis. Hubungi tim sales kami di Sidoarjo - +62 812 3390 6378 atau Balikpapan - +62 851 5711 8879 untuk informasi detail tentang ukuran dan spesifikasi yang tersedia.",
 
   "perbedaan oksigen nitrogen argon": "Oksigen (O2) adalah gas oksidator yang mendukung pembakaran dan respirasi, digunakan dalam medis (terapi pernapasan, resusitasi) dan metalurgi (pembakaran dan pemurnian logam). Nitrogen (N2) adalah gas inert yang mencegah oksidasi, digunakan untuk inerting, blanketing, dan pendinginan cryogenic, serta industri makanan untuk pengawetan. Argon (Ar) adalah gas inert untuk pengelasan TIG/MIG, aplikasi elektronik presisi (semikonduktor), dan metalurgi untuk perlakuan panas.",
   
@@ -112,17 +122,25 @@ const knowledgeBase = {
   "cara memilih gas": "Untuk memilih gas yang sesuai kebutuhan, silakan konsultasikan dengan tim sales kami. Kami akan membantu Anda menentukan jenis gas yang tepat berdasarkan aplikasi dan kebutuhan spesifik industri Anda.",
 
   // Distribution Network
-  "kontak": "Untuk menghubungi kami: Kantor Sidoarjo - Phone: +6281233906378. Kantor Balikpapan - Phone: +6285157118879, Fax: +62 542 8532382.",
+  "kontak": "Untuk menghubungi kami: Kantor Pusat Sidoarjo — Telp/WA: +62 812 3390 6378, Email: salescounter.sda@suryaintigas.com. Cabang Balikpapan — Telp/WA: +62 851 5711 8879, Fax: +62 542 8532382, Email: salescounter.bpn@suryaintigas.com.",
 
-  "nomor telepon": "Nomor telepon kami: Sidoarjo - +6281233906378, Balikpapan - +6285157118879. Fax: +62 542 8532382.",
+  "nomor telepon": "Nomor kami: Sidoarjo — +62 812 3390 6378 (juga WhatsApp), Balikpapan — +62 851 5711 8879 (juga WhatsApp). Fax Balikpapan: +62 542 8532382.",
 
-  "whatsapp": "Untuk layanan WhatsApp, silakan hubungi nomor telepon Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879.",
+  "whatsapp": "Anda dapat menghubungi kami via WhatsApp di https://wa.me/6281233906378 (Sidoarjo) atau https://wa.me/6285157118879 (Balikpapan).",
 
-  "email": "Anda dapat mengirim email melalui form kontak di website kami atau hubungi tim sales kami melalui telepon untuk alamat email yang spesifik.",
+  "email": "Email kami: Sidoarjo — salescounter.sda@suryaintigas.com, Balikpapan — salescounter.bpn@suryaintigas.com. Anda juga bisa mengisi form kontak di halaman Kontak website kami.",
 
-  "cara menghubungi": "Anda dapat menghubungi kami melalui telepon di Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879, atau mengisi form kontak di website kami.",
+  "media sosial": "Ikuti PT Surya Inti Gas di media sosial: Instagram @suryaintigas, TikTok @surya.inti.gas, dan Facebook Surya Inti Gas.",
 
-  "alamat kantor": "Kantor Pusat kami di Komplek Pergudangan dan Industri Safe N Lock, Blok V1 - 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232. Pabrik di Jl. AMD Projakal Kariangau Km. 5.5, Balikpapan, Kalimantan Timur.",
+  "instagram": "Ikuti kami di Instagram: @suryaintigas (https://www.instagram.com/suryaintigas).",
+
+  "facebook": "Ikuti kami di Facebook: Surya Inti Gas (https://www.facebook.com/share/18bnUqF8GG/).",
+
+  "tiktok": "Ikuti kami di TikTok: @surya.inti.gas.",
+
+  "cara menghubungi": "Anda dapat menghubungi kami melalui telepon/WhatsApp di Sidoarjo — +62 812 3390 6378 atau Balikpapan — +62 851 5711 8879, melalui email (salescounter.sda@suryaintigas.com / salescounter.bpn@suryaintigas.com), atau mengisi form kontak di website kami.",
+
+  "alamat kantor": "Kantor Pusat: Komplek Pergudangan & Industri Safe N Lock, Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM. 5.5, Rangkah Kidul, Sidoarjo, Jawa Timur 61232. Pabrik & Stasiun Pengisian Gas: Jl. AMD Projakal Kariangau Km. 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara, Kota Balikpapan, Kalimantan Timur.",
 
   "cara menuju kantor": "Untuk menuju kantor Sidoarjo, ikuti Jl. Lingkar Timur KM. 5.5 di Rangkah Kidul. Untuk Balikpapan, ikuti Jl. AMD Projakal Kariangau Km. 5.5. Gunakan Google Maps untuk navigasi yang lebih akurat.",
 
@@ -131,7 +149,7 @@ const knowledgeBase = {
   // Career
   "karir": "Kami membuka berbagai posisi lowongan kerja termasuk Sales Executive, Installation Technician, Admin & Finance Staff, Gas Delivery Driver, Quality Control Engineer, Marketing Specialist, Warehouse Supervisor, HR Manager, dan Safety Officer. Informasi lebih lanjut dapat ditemukan di halaman Karir website kami.",
 
-  "lowongan": "Posisi lowongan yang tersedia meliputi berbagai divisi: Sales & Marketing, Technical Operations, Finance & Admin, dan Logistics & Distribution. Kunjungi halaman Karir untuk detail persyaratan dan cara melamar.",
+  "lowongan": "Posisi lowongan yang tersedia meliputi berbagai divisi: Sales & Marketing, Teknik & Operasional, Finance & Admin, dan Logistik & Distribusi, berlokasi di Sidoarjo dan Balikpapan. Kunjungi halaman Karir untuk detail persyaratan dan cara melamar.",
 
   "lowongan kerja": "Ya, PT Surya Inti Gas secara rutin membuka lowongan kerja untuk berbagai posisi. Kunjungi halaman Karir pada website kami untuk melihat posisi yang tersedia saat ini.",
 
@@ -143,7 +161,13 @@ const knowledgeBase = {
 
   "promo": "Untuk informasi promo yang sedang berlangsung, silakan hubungi tim sales kami atau kunjungi website kami secara berkala untuk update terbaru.",
 
-  "artikel": "Anda dapat melihat artikel terbaru tentang PT Surya Inti Gas di halaman Berita pada website kami. Kami secara rutin membagikan informasi tentang industri gas dan update perusahaan.",
+  "artikel": "Anda dapat melihat proyek dan portofolio terbaru PT Surya Inti Gas di halaman Portofolio pada website kami.",
+
+  "berita": "Untuk melihat proyek dan aktivitas terbaru PT Surya Inti Gas, kunjungi halaman Portofolio pada website kami.",
+
+  "portofolio": "Halaman Portofolio menampilkan proyek-proyek PT Surya Inti Gas di berbagai sektor industri. Anda dapat mengaksesnya melalui menu Portofolio pada website kami.",
+
+  "proyek": "Halaman Portofolio menampilkan proyek-proyek PT Surya Inti Gas di berbagai sektor industri. Anda dapat mengaksesnya melalui menu Portofolio pada website kami.",
 
   "pameran": "PT Surya Inti Gas terkadang mengikuti pameran dan event industri. Silakan hubungi tim marketing kami untuk informasi tentang partisipasi dalam event yang akan datang.",
 
@@ -151,13 +175,13 @@ const knowledgeBase = {
   "galeri": "Galeri kami menampilkan berbagai foto kegiatan perusahaan, fasilitas produksi, tim kami, dan dokumentasi operasional yang mencerminkan komitmen kami terhadap kualitas dan keselamatan.",
   
   // General
-  "jam operasional": "Jam operasional kantor kami Senin - Jumat: 08:00 - 17:00 WIB. Untuk keadaan darurat, silakan hubungi nomor telepon yang tersedia.",
-  
-  "apa jam operasional perusahaan": "Jam operasional kantor kami Senin - Jumat: 08:00 - 17:00 WIB. Untuk keadaan darurat, silakan hubungi nomor telepon yang tersedia.",
+  "jam operasional": "Jam operasional kantor kami: Senin – Jumat 08.00 – 16.00 WIB dan Sabtu 08.00 – 14.00 WIB. Untuk keadaan darurat, silakan hubungi nomor telepon yang tersedia.",
 
-  "layanan": "Layanan kami meliputi penyediaan gas industri, pengiriman dan distribusi, instalasi peralatan gas, maintenance dan troubleshooting, konsultasi teknis, dan layanan pelanggan 24/7 untuk keadaan darurat.",
-  
-  "layanan apa saja yang disediakan pt surya inti gas": "Layanan kami meliputi penyediaan gas industri, pengiriman dan distribusi, instalasi peralatan gas, maintenance dan troubleshooting, konsultasi teknis, dan layanan pelanggan 24/7 untuk keadaan darurat.",
+  "apa jam operasional perusahaan": "Jam operasional kantor kami: Senin – Jumat 08.00 – 16.00 WIB dan Sabtu 08.00 – 14.00 WIB. Untuk keadaan darurat, silakan hubungi nomor telepon yang tersedia.",
+
+  "layanan": "Layanan kami meliputi: Instalasi sistem gas industri, Pengiriman/distribusi gas ke lokasi pelanggan, Pengisian ulang tabung dan tangki, Maintenance, Purging, dan Leak Test. Tim teknis kami juga siap membantu konsultasi kebutuhan gas Anda.",
+
+  "layanan apa saja yang disediakan pt surya inti gas": "Layanan kami meliputi: Instalasi sistem gas industri, Pengiriman/distribusi gas ke lokasi pelanggan, Pengisian ulang tabung dan tangki, Maintenance, Purging, dan Leak Test. Tim teknis kami juga siap membantu konsultasi kebutuhan gas Anda.",
 
   "pengiriman": "Ya, kami melayani pengiriman gas ke lokasi pelanggan. Jaringan distribusi kami mencakup wilayah Jawa Timur dan Kalimantan Timur dengan layanan pengiriman yang andal dan tepat waktu.",
 
@@ -167,7 +191,7 @@ const knowledgeBase = {
 
   "sewa tabung": "Untuk informasi tentang penyewaan tabung gas, silakan hubungi tim sales kami. Kami dapat memberikan opsi sewa yang sesuai dengan kebutuhan bisnis Anda.",
 
-  "proses pemesanan": "Untuk memesan produk, Anda dapat menghubungi tim sales kami melalui telepon di Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879, atau mengisi form kontak di website kami.",
+  "proses pemesanan": "Untuk memesan produk, Anda dapat menghubungi tim sales kami melalui telepon/WhatsApp di Sidoarjo - +62 812 3390 6378 atau Balikpapan - +62 851 5711 8879, atau mengisi form kontak di website kami.",
 
   "estimasi pengiriman": "Estimasi waktu pengiriman bervariasi tergantung lokasi dan jenis produk. Hubungi tim sales kami untuk informasi yang lebih spesifik sesuai lokasi Anda.",
   
@@ -252,16 +276,16 @@ const knowledgeBase = {
   "apa saja prosedur keselamatan penggunaan gas industri": "Prosedur keselamatan penggunaan gas industri meliputi: penggunaan APD yang sesuai, pemeriksaan rutin peralatan, pelatihan operator, dan kepatuhan terhadap standar HSE. Tim Safety Officer kami siap membantu dengan pelatihan dan konsultasi.",
   
   // Fallback responses
-  "default": "Maaf, saya kurang mengerti pertanyaan Anda. Saya dapat membantu dengan informasi tentang produk gas, layanan, lokasi, karir, dan informasi perusahaan PT Surya Inti Gas. Coba tanyakan tentang produk, lokasi, atau kontak kami. Atau hubungi kami langsung di Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879.",
+  "default": "Maaf, saya kurang mengerti pertanyaan Anda. Saya dapat membantu dengan informasi tentang produk gas, layanan, lokasi, karir, dan informasi perusahaan PT Surya Inti Gas. Coba tanyakan tentang produk, lokasi, atau kontak kami. Atau hubungi kami langsung di Sidoarjo - +62 812 3390 6378 atau Balikpapan - +62 851 5711 8879.",
   
   "greeting": "Halo! Selamat datang di PT Surya Inti Gas. Ada yang bisa saya bantu? Saya dapat memberikan informasi tentang produk gas, layanan, lokasi, karir, dan informasi perusahaan lainnya.",
   
   "help": "Saya dapat membantu Anda dengan informasi tentang: Produk gas industri (Asetilena, Oksigen, Nitrogen, dll), Layanan perusahaan, Lokasi kantor Sidoarjo dan Balikpapan, Informasi karir dan lowongan kerja, Sejarah dan profil perusahaan, serta kontak dan jam operasional.",
   
   // Additional questions from user
-  "berapa nomor telepon pt surya inti gas": "Nomor telepon kami: Sidoarjo - +6281233906378, Balikpapan - +6285157118879. Fax: +62 542 8532382.",
+  "berapa nomor telepon pt surya inti gas": "Nomor kami: Sidoarjo - +62 812 3390 6378 (juga WhatsApp), Balikpapan - +62 851 5711 8879 (juga WhatsApp). Fax Balikpapan: +62 542 8532382.",
   
-  "apakah tersedia layanan whatsapp": "Untuk layanan WhatsApp, silakan hubungi nomor telepon Sidoarjo - +6281233906378 atau Balikpapan - +6285157118879.",
+  "apakah tersedia layanan whatsapp": "Ya. Anda dapat menghubungi kami via WhatsApp di https://wa.me/6281233906378 (Sidoarjo) atau https://wa.me/6285157118879 (Balikpapan).",
   
   "bagaimana cara mengirim email": "Anda dapat mengirim email melalui form kontak di website kami atau hubungi tim sales kami melalui telepon untuk alamat email yang spesifik.",
   
@@ -271,7 +295,7 @@ const knowledgeBase = {
   
   "apakah ada promo yang sedang berlangsung": "Untuk informasi promo yang sedang berlangsung, silakan hubungi tim sales kami atau kunjungi website kami secara berkala untuk update terbaru.",
   
-  "bagaimana cara melihat artikel terbaru": "Anda dapat melihat artikel terbaru tentang PT Surya Inti Gas di halaman Berita pada website kami. Kami secara rutin membagikan informasi tentang industri gas dan update perusahaan.",
+  "bagaimana cara melihat artikel terbaru": "Anda dapat melihat proyek dan portofolio terbaru PT Surya Inti Gas di halaman Portofolio pada website kami.",
   
   "apakah pt surya inti gas mengikuti pameran atau event": "PT Surya Inti Gas terkadang mengikuti pameran dan event industri. Silakan hubungi tim marketing kami untuk informasi tentang partisipasi dalam event yang akan datang.",
   
@@ -451,7 +475,7 @@ export function Chatbot() {
     }
 
     if (lowerMessage.includes('mengapa harus memilih') || lowerMessage.includes('keunggulan') || lowerMessage.includes('kelebihan') || lowerMessage.includes('kenapa pilih')) {
-      return "Keunggulan PT Surya Inti Gas: 1) Produk berkualitas tinggi yang memenuhi standar internasional. 2) Pengalaman lebih dari 20 tahun di industri gas. 3) Jaringan distribusi luas di Jawa Timur dan Kalimantan. 4) Layanan pelanggan yang responsif dan profesional. 5) Tim teknis yang berpengalaman. 6) Kepatuhan ketat terhadap standar keselamatan. 7) Harga kompetitif dengan kualitas terjamin.";
+      return "Keunggulan PT Surya Inti Gas: 1) Produk gas industri, medis, speciality, dan mixed gas berkualitas tinggi. 2) Berpengalaman sejak 2003 dan dipercaya 150+ pelanggan industri. 3) Armada pengiriman mandiri untuk distribusi cepat dan tepat waktu. 4) Harga kompetitif tanpa mengorbankan kualitas. 5) Tim berpengalaman dan solid. 6) Standar keselamatan tinggi di setiap proses operasional. 7) Layanan pelanggan yang cepat dan responsif.";
     }
     
     if (lowerMessage.includes('bidang usaha') || (lowerMessage.includes('bergerak') && lowerMessage.includes('bidang'))) {
