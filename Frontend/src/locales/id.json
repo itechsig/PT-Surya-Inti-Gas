@@ -37,7 +37,7 @@
     "industrialMedical": "Industrial & Medical (Gas & Cair)",
     "specialityMixed": "Speciality & Mixed Gas",
     "relatedEquipment": "Related Equipment",
-    "package": "Package",
+    "package": "Kemasan",
     "services": "Layanan",
     "contact": "Kontak",
     "career": "Karir",
@@ -52,7 +52,7 @@
       "industrialMedicalDesc": "Gas industri dan medis dalam bentuk gas maupun cair untuk berbagai kebutuhan",
       "specialityMixedDesc": "Gas khusus dan gas campuran dengan komposisi presisi untuk aplikasi sensitif",
       "relatedEquipmentDesc": "Regulator, valve, dan peralatan pendukung gas medis untuk melengkapi sistem gas Anda",
-      "packageServices": "Package & Layanan",
+      "packageServices": "Kemasan & Layanan",
       "packageDesc": "Pasokan gas bertekanan tinggi dan cair dalam paket lengkap termasuk tabung, cradle, tangki, dan lainnya",
       "servicesDesc": "Layanan gas profesional termasuk instalasi, pengiriman, dan pengisian ulang untuk kebutuhan operasional Anda"
     },
@@ -167,7 +167,7 @@
     },
     "mainCategories": {
       "gas": "Produk Gas",
-      "package": "Package",
+      "package": "Kemasan",
       "services": "Layanan",
       "equipment": "Peralatan"
     },
@@ -183,7 +183,7 @@
     "categories": {
       "industrial-medical": "Industrial & Medical (Gas & Cair)",
       "speciality-mixed": "Speciality & Mixed Gas",
-      "package": "Package",
+      "package": "Kemasan",
       "services": "Layanan",
       "cylinder": "Cylinder",
       "cryogenic-dewars": "Cryogenic Dewars",
@@ -199,8 +199,8 @@
         "shortDescription": "Solusi gas lengkap untuk aplikasi industri"
       },
       "package": {
-        "title": "Package",
-        "description": "Package Cradle, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Cryogenic Rigged Tank.",
+        "title": "Kemasan",
+        "description": "Kemasan Cradle, Cylinder, Cryogenic Dewars, Vessel Gas Liquid, Microbulk Tank, ISO Tank, Cryogenic Rigged Tank.",
         "shortDescription": "Solusi penyimpanan dan penanganan premium"
       },
       "services": {
