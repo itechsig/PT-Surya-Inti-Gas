@@ -128,13 +128,12 @@ export function Slider() {
   const total = heroSlides.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoverPaused, setHoverPaused] = useState(false);
-  const [userPaused, setUserPaused] = useState(false);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
   const [preloadedNext, setPreloadedNext] = useState(1);
 
-  // Autoplay is suspended while the pointer is over the hero, when the visitor
-  // explicitly pauses, or when they prefer reduced motion.
-  const isPaused = hoverPaused || userPaused || !!prefersReduced;
+  // Autoplay is suspended while the pointer is over the hero or when the
+  // visitor prefers reduced motion.
+  const isPaused = hoverPaused || !!prefersReduced;
 
   const sectionRef = useRef<HTMLElement>(null);
   const touchStartX = useRef<number | null>(null);
@@ -357,8 +356,6 @@ export function Slider() {
           activeIndex={activeIndex}
           duration={slide.durationMs}
           isPaused={isPaused}
-          userPaused={userPaused}
-          onTogglePause={() => setUserPaused((v) => !v)}
           onSelect={goTo}
         />
       )}

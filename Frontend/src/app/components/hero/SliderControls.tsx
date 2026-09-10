@@ -1,4 +1,3 @@
-import { Pause, Play } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface SliderControlsProps {
@@ -6,8 +5,6 @@ interface SliderControlsProps {
   activeIndex: number;
   duration: number;
   isPaused: boolean;
-  userPaused: boolean;
-  onTogglePause: () => void;
   onSelect: (index: number) => void;
 }
 
@@ -16,23 +13,11 @@ export function SliderControls({
   activeIndex,
   duration,
   isPaused,
-  userPaused,
-  onTogglePause,
   onSelect,
 }: SliderControlsProps) {
   const { t } = useTranslation();
   return (
     <div className="absolute inset-x-0 bottom-7 z-20 flex items-center justify-center gap-4 px-6">
-      <button
-        type="button"
-        onClick={onTogglePause}
-        aria-pressed={userPaused}
-        aria-label={userPaused ? t("hero.play", "Play slideshow") : t("hero.pause", "Pause slideshow")}
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20"
-      >
-        {userPaused ? <Play size={16} className="translate-x-px" aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
-      </button>
-
       <div
         className="flex items-center gap-3 sm:gap-4"
         role="group"

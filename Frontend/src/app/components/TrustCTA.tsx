@@ -17,7 +17,7 @@ import {
   type PanInfo,
   type Variants,
 } from "motion/react";
-import { ChevronLeft, ChevronRight, Pause, Play, Quote, Star, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote, Star, X } from "lucide-react";
 import { getImageUrl } from "../../utils/imageUrl";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -843,7 +843,6 @@ export function TrustCTA() {
   const prefersReduced = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoverPaused, setHoverPaused] = useState(false);
-  const [userPaused, setUserPaused] = useState(false);
   const [radius, setRadius] = useState(230);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [quoteClamped, setQuoteClamped] = useState(false);
@@ -880,7 +879,7 @@ export function TrustCTA() {
   }, [activeIndex, resetCardTilt]);
 
   const isPaused =
-    hoverPaused || userPaused || openIndex !== null || !!prefersReduced;
+    hoverPaused || openIndex !== null || !!prefersReduced;
 
   /* The active quote is line-clamped in CSS; expose a "read more" only when it overflows. */
   useLayoutEffect(() => {
@@ -1071,22 +1070,6 @@ export function TrustCTA() {
 
             {/* Controls */}
             <div className="trust-controls">
-              {total > 1 && (
-                <button
-                  type="button"
-                  className="trust-nav-btn"
-                  onClick={() => setUserPaused((v) => !v)}
-                  aria-pressed={userPaused}
-                  aria-label={
-                    userPaused
-                      ? t("hero.play", "Play testimonials")
-                      : t("hero.pause", "Pause testimonials")
-                  }
-                >
-                  {userPaused ? <Play size={16} className="translate-x-px" /> : <Pause size={16} />}
-                </button>
-              )}
-
               <button
                 type="button"
                 className="trust-nav-btn"

@@ -1,8 +1,7 @@
 import '../../styles/ProductsAndServices.css';
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
 import type { GalleryItem } from '../../data/gallery';
 import { useGallery } from '../../hooks/useGallery';
@@ -58,138 +57,6 @@ const galleryStyles = `
     
     font-family: var(--ff-body);
     background: var(--bg);
-  }
-
-  .gallery-filters {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 40px;
-    gap: 20px;
-  }
-
-  .gallery-filter-right {
-    display: flex;
-    align-items: center;
-  }
-
-  .gallery-filter-dropdown-wrapper {
-    position: relative;
-    display: inline-block;
-  }
-
-  .gallery-filter-dropdown {
-    padding: 10px 36px 10px 16px;
-    background: #f1f5f9;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-family: 'Barlow, system-ui, sans-serif';
-    font-size: 14px;
-    font-weight: 600;
-    color: #475569;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 200px;
-    appearance: none;
-  }
-
-  .gallery-filter-dropdown:hover,
-  .gallery-filter-dropdown:focus {
-    border-color: #1e40af;
-    outline: none;
-    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
-  }
-
-  .gallery-filter-dropdown-icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: #475569;
-    transition: color 0.3s ease, transform 0.2s ease;
-  }
-
-  .gallery-filter-dropdown-icon.rotated {
-    transform: translateY(-50%) rotate(180deg);
-  }
-
-  .gallery-filter-dropdown:hover + .gallery-filter-dropdown-icon,
-  .gallery-filter-dropdown:focus + .gallery-filter-dropdown-icon {
-    color: #1e40af;
-  }
-
-  .gallery-filter-custom-dropdown {
-    position: relative;
-  }
-
-  .gallery-filter-custom-select {
-    padding: 10px 36px 10px 16px;
-    background: #f1f5f9;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-family: 'Barlow, system-ui, sans-serif';
-    font-size: 14px;
-    font-weight: 600;
-    color: #475569;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 200px;
-    user-select: none;
-  }
-
-  .gallery-filter-custom-select:hover,
-  .gallery-filter-custom-select:focus {
-    border-color: #1e40af;
-    outline: none;
-    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
-  }
-
-  .gallery-filter-custom-options {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
-    background: white;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    max-height: 300px;
-    overflow-y: auto;
-    display: none;
-  }
-
-  .gallery-filter-custom-options.show {
-    display: block;
-  }
-
-  .gallery-filter-custom-option {
-    padding: 10px 16px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    font-family: 'Barlow, system-ui, sans-serif';
-    font-size: 14px;
-    font-weight: 600;
-    color: #475569;
-  }
-
-  .gallery-filter-custom-option:hover {
-    background: #f1f5f9;
-    color: #1e40af;
-  }
-
-  .gallery-filter-custom-option.selected {
-    background: #1e40af;
-    color: white;
-  }
-
-  .gallery-filter-label {
-    font-family: 'Barlow, system-ui, sans-serif';
-    font-size: 14px;
-    font-weight: 600;
-    color: #475569;
-    margin-right: 12px;
   }
 
   /* UI Gallery Styles */
@@ -428,20 +295,6 @@ const galleryStyles = `
       grid-row: span 2;
     }
 
-    .gallery-filters {
-      justify-content: flex-end;
-      gap: 16px;
-    }
-
-    .gallery-filter-right {
-      width: 100%;
-    }
-
-    .gallery-filter-dropdown {
-      width: 100%;
-      min-width: auto;
-    }
-
     .ui-title {
       font-size: 0.9rem;
     }
@@ -511,48 +364,8 @@ function Gallery() {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
   const { t } = useTranslation();
-  const [selectedActivity, setSelectedActivity] = useState('all');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const { items: galleryItems } = useGallery(currentLang);
-
-  const activityCategories = useMemo(
-    () => [
-      { id: 'all', name: t('gallery.categories.all') },
-      { id: 'products', name: t('gallery.categories.products') },
-      { id: 'equipment', name: t('gallery.categories.equipment') },
-      { id: 'facility', name: t('gallery.categories.facility') },
-      { id: 'activities', name: t('gallery.categories.activities') },
-      { id: 'projects', name: t('gallery.categories.projects') },
-    ],
-    [t]
-  );
-
-  const filteredItems = galleryItems.filter(item => {
-    return selectedActivity === 'all' || item.category === selectedActivity;
-  });
-
-  const handleActivityChange = (activityId: string) => {
-    setSelectedActivity(activityId);
-  };
-
-  const handleDropdownClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   return (
     <div className="products-corporate">
@@ -628,39 +441,7 @@ function Gallery() {
       viewport={{ once: true, margin: '-80px' }}
       variants={staggerContainer}
       >
-        {/* Category Filters */}
-        <motion.div className="products-container" style={{
-          padding: '100px 6vw'
-        }} variants={fadeUp}>
-          <div className="gallery-filters">
-            <div className="gallery-filter-right">
-              <span className="gallery-filter-label">{t('gallery.page.activityLabel')}</span>
-              <div className="gallery-filter-custom-dropdown" ref={dropdownRef}>
-                <div
-                  className="gallery-filter-custom-select"
-                  onClick={handleDropdownClick}
-                >
-                  {activityCategories.find(cat => cat.id === selectedActivity)?.name || t('gallery.categories.all')}
-                  <ChevronDown size={16} className={`gallery-filter-dropdown-icon ${isDropdownOpen ? 'rotated' : ''}`} />
-                </div>
-                <div className={`gallery-filter-custom-options ${isDropdownOpen ? 'show' : ''}`}>
-                  {activityCategories.map((category) => (
-                    <div
-                      key={category.id}
-                      className={`gallery-filter-custom-option ${selectedActivity === category.id ? 'selected' : ''}`}
-                      onClick={() => {
-                        handleActivityChange(category.id);
-                        setIsDropdownOpen(false);
-                      }}
-                    >
-                      {category.name}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+        <div style={{ padding: '100px 6vw 0' }} />
 
         {/* Gallery Grid */}
         <div style={{
@@ -672,13 +453,12 @@ function Gallery() {
             <div className="ui-gallery-inner">
               <div className="">
                 <motion.div
-                  key={selectedActivity}
                   className="ui-gallery-items"
                   initial="hidden"
-                  animate={filteredItems.length > 0 ? 'show' : 'hidden'}
+                  animate={galleryItems.length > 0 ? 'show' : 'hidden'}
                   variants={gridStaggerContainer}
                 >
-                  {filteredItems.map((item) => (
+                  {galleryItems.map((item) => (
                     <GalleryCard key={item.id} item={item} currentLang={currentLang} />
                   ))}
                 </motion.div>

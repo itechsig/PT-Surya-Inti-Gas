@@ -402,7 +402,9 @@ export function ProductsAndServices() {
 
           {/* Sub-Category Navigation (Premium Pill Buttons) */}
           <AnimatePresence mode="wait">
-            {getSubCategories().length >= 1 && (
+            {/* Hide the pill bar when there is only one sub-category (e.g. the lone
+                "Layanan" pill under Services) — it just repeats the active tab. */}
+            {getSubCategories().length >= 2 && (
               <motion.div
                 key={mainCategory}
                 className="products-subcategories"

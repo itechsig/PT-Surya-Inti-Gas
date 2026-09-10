@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   Calendar,
@@ -10,7 +10,7 @@ import {
   ZoomIn
 } from 'lucide-react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence, type Variants } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useGallery } from '../../hooks/useGallery';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
 
@@ -91,15 +91,15 @@ const galleryDetailStyles = `
 
   .gallery-detail-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 48px;
     align-items: start;
     margin-bottom: 32px;
   }
 
   .gallery-detail-image-container {
     width: 100%;
-    height: 500px;
+    height: 640px;
     border-radius: 12px;
     overflow: hidden;
     position: relative;
@@ -156,6 +156,14 @@ const galleryDetailStyles = `
     line-height: 1.8;
     color: #475569;
     margin: 0;
+    position: sticky;
+    top: 40px;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-detail-description {
+      position: static;
+    }
   }
 
   .gallery-detail-description p {
@@ -236,79 +244,6 @@ const galleryDetailStyles = `
     overflow: hidden;
   }
 
-  .related-gallery {
-    margin-top: 48px;
-  }
-
-  .related-gallery-title {
-    font-family: 'Barlow, system-ui, sans-serif';
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #0C2D5E;
-    margin-bottom: 24px;
-  }
-
-  .related-gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 16px;
-  }
-
-  .related-gallery-item {
-    display: block;
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    background: white;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .related-gallery-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #1e3a8a, #3b82f6);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1;
-  }
-
-  .related-gallery-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);
-  }
-
-  .related-gallery-item:hover::before {
-    transform: scaleX(1);
-  }
-
-  .related-gallery-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .related-gallery-item:hover img {
-    transform: scale(1.06);
-  }
-
-  .related-gallery-item-title {
-    padding: 12px;
-    font-family: 'Barlow, system-ui, sans-serif';
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #0C2D5E;
-    background: white;
-  }
-
   @media (max-width: 768px) {
     .gallery-detail-container {
       padding: 20px 16px;
@@ -320,7 +255,7 @@ const galleryDetailStyles = `
     }
 
     .gallery-detail-image-container {
-      height: 300px;
+      height: 320px;
     }
 
     .lightbox-nav-prev {
@@ -330,24 +265,8 @@ const galleryDetailStyles = `
     .lightbox-nav-next {
       right: 10px;
     }
-
-    .related-gallery-grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
   }
 `;
-
-const MotionLink = motion.create(Link);
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
-};
-
-const staggerContainer: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
-};
 
 // Back Button Component
 const BackButton = ({ navigate, currentLang, t }: { navigate: (path: string) => void; currentLang: string; t: (key: string) => string }) => {
@@ -485,11 +404,6 @@ function GalleryDetail() {
     );
   }
 
-  // Get related items (same category, excluding current item)
-  const relatedItems = galleryItems
-    .filter(item => item.category === currentItem.category && item.id !== currentItem.id)
-    .slice(0, 4);
-
   return (
     <div className="products-corporate">
       <style>{galleryDetailStyles}</style>
@@ -590,35 +504,6 @@ function GalleryDetail() {
             </p>
           </div>
         </motion.div>
-
-        {relatedItems.length > 0 && (
-          <div className="related-gallery">
-            <h2 className="related-gallery-title">{t('gallery.page.relatedPhotos')}</h2>
-            <motion.div
-              className="related-gallery-grid"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: '-40px' }}
-              variants={staggerContainer}
-            >
-              {relatedItems.map((item) => (
-                <MotionLink
-                  key={item.id}
-                  to={`/${currentLang}/galeri/${item.id}`}
-                  className="related-gallery-item"
-                  variants={fadeUp}
-                >
-                  <img
-                    src={getImageUrl(item.thumbnail)}
-                    alt={item.alt}
-                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
-                  />
-                  <div className="related-gallery-item-title">{item.title}</div>
-                </MotionLink>
-              ))}
-            </motion.div>
-          </div>
-        )}
       </div>
 
       {createPortal(
