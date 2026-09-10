@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { Pencil, Plus, Star, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Pencil, Plus, Star, Trash2 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
 import { Switch } from '../../components/ui/switch';
@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../..
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { useAuth } from '../../../context';
 import {
-  deleteProduct, listProductCategories, listProducts, toggleProductFeatured, toggleProductPublished,
+  deleteProduct, listProductCategories, listProducts, reorderProducts, toggleProductFeatured, toggleProductPublished,
 } from './api';
 import { ProductFormDialog } from './ProductFormDialog';
 import { MAIN_CATEGORY_LABELS, type AdminProduct, type AdminProductCategory } from './types';
@@ -74,6 +74,27 @@ export function ProductsPage() {
     }
   };
 
+  const move = async (index: number, direction: -1 | 1) => {
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= filteredProducts.length) return;
+
+    const current = filteredProducts[index];
+    const target = filteredProducts[targetIndex];
+
+    const reordered = [...products];
+    const ia = reordered.findIndex((p) => p.id === current.id);
+    const ib = reordered.findIndex((p) => p.id === target.id);
+    [reordered[ia], reordered[ib]] = [reordered[ib], reordered[ia]];
+    setProducts(reordered);
+
+    try {
+      await reorderProducts(reordered.map((p, i) => ({ id: p.id, display_order: i })));
+    } catch {
+      toast.error('Gagal menyimpan urutan produk');
+      load();
+    }
+  };
+
   const handleToggleFeatured = async (product: AdminProduct) => {
     const previous = products;
     setProducts((prev) => prev.map((p) => (p.id === product.id ? { ...p, is_featured: !p.is_featured } : p)));
@@ -115,7 +136,7 @@ export function ProductsPage() {
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Daftar Produk</CardTitle>
-            <CardDescription>{filteredProducts.length} produk</CardDescription>
+            <CardDescription>{filteredProducts.length} produk &middot; urutan di sini menentukan urutan tampil di website</CardDescription>
           </div>
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
             <SelectTrigger className="w-56">
@@ -140,6 +161,7 @@ export function ProductsPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-20">Urutan</TableHead>
                   <TableHead className="w-20">Gambar</TableHead>
                   <TableHead>Produk</TableHead>
                   <TableHead>Kategori</TableHead>
@@ -149,8 +171,18 @@ export function ProductsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredProducts.map((product) => (
+                {filteredProducts.map((product, index) => (
                   <TableRow key={product.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-1">
+                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === 0} onClick={() => move(index, -1)} aria-label={`Naikkan urutan ${product.name_id}`}>
+                          <ArrowUp className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" disabled={index === filteredProducts.length - 1} onClick={() => move(index, 1)} aria-label={`Turunkan urutan ${product.name_id}`}>
+                          <ArrowDown className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <img src={getImageUrl(product.image)} alt={product.name_id} className="h-12 w-12 rounded object-cover" />
                     </TableCell>
