@@ -183,8 +183,8 @@
     },
     "categories": {
       "industrial-medical": "Industri & Medis",
-      "liquid": "Gas Cair",
       "speciality-mixed": "Gas Spesial & Campuran",
+      "liquid": "Gas Cair",
       "package": "Kemasan",
       "services": "Layanan",
       "cylinder": "Cylinder",

@@ -183,8 +183,8 @@
     },
     "categories": {
       "industrial-medical": "Industrial & Medical",
-      "liquid": "Liquid Gas",
       "speciality-mixed": "Speciality & Mixed Gas",
+      "liquid": "Liquid Gas",
       "package": "Package",
       "services": "Services",
       "cylinder": "Cylinder",
