@@ -134,7 +134,7 @@ function CategoryCard({
 function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: string) => string }) {
   const bannerContent = {
     gas: {
-      image: '/images/products/Oxygen_Fix.webp',
+      image: '/images/products/bg_produk_gas.jpg',
       title: t('products.featured.gas.title'),
       description: t('products.featured.gas.description')
     },
@@ -144,7 +144,7 @@ function FeaturedBanner({ category, t }: { category: MainCategory; t: (key: stri
       description: t('products.featured.package.description')
     },
     services: {
-      image: '/images/products/Craddle_4x4_fixed.webp',
+      image: '/images/services/bg_layanan.png',
       title: t('products.featured.services.title'),
       description: t('products.featured.services.description')
     },
