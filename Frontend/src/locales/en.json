@@ -34,7 +34,8 @@
     "about": "About",
     "distribution": "Distribution Network",
     "productsServices": "Products & Services",
-    "industrialMedical": "Industrial & Medical (Gas & Liquid)",
+    "industrialMedical": "Industrial & Medical",
+    "liquid": "Liquid",
     "specialityMixed": "Speciality & Mixed Gas",
     "relatedEquipment": "Related Equipment",
     "package": "Package",
@@ -181,7 +182,8 @@
       "dialogDescription": "Select the cradle size you need:"
     },
     "categories": {
-      "industrial-medical": "Industrial & Medical (Gas & Liquid)",
+      "industrial-medical": "Industrial & Medical",
+      "liquid": "Liquid Gas",
       "speciality-mixed": "Speciality & Mixed Gas",
       "package": "Package",
       "services": "Services",
@@ -808,7 +810,7 @@
     "categories": {
       "highPressure": "High Pressure Seamless Steal Gas",
       "regulator": "Regulator & Valves",
-      "industrialMedical": "Industrial & Medical (Gas & Liquid)",
+      "industrialMedical": "Industrial & Medical",
       "specialityMixed": "Speciality & Mixed Gas",
       "equipment": "Related Equipment & Accessories",
       "assistSupply": "Assist Gas Supply",

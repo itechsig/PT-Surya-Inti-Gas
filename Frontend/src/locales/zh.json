@@ -182,6 +182,7 @@
     },
     "categories": {
       "industrial-medical": "工业与医用（气态与液态）",
+      "liquid": "液态气体",
       "speciality-mixed": "特种与混合气体",
       "package": "包装",
       "services": "服务"

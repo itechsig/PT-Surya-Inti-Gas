@@ -34,9 +34,10 @@
     "about": "Tentang Kami",
     "distribution": "Jaringan Distribusi",
     "productsServices": "Produk & Layanan",
-    "industrialMedical": "Industri & Medis (Gas & Cair)",
+    "industrialMedical": "Industri & Medis",
     "specialityMixed": "Gas Spesial & Campuran",
     "relatedEquipment": "Peralatan Pendukung Gas Industri",
+    "liquid": "Gas Cair",
     "package": "Kemasan",
     "services": "Layanan",
     "contact": "Kontak",
@@ -181,7 +182,8 @@
       "dialogDescription": "Pilih ukuran cradle yang Anda butuhkan:"
     },
     "categories": {
-      "industrial-medical": "Industri & Medis (Gas & Cair)",
+      "industrial-medical": "Industri & Medis",
+      "liquid": "Gas Cair",
       "speciality-mixed": "Gas Spesial & Campuran",
       "package": "Kemasan",
       "services": "Layanan",
@@ -251,7 +253,7 @@
         "fullDescription": "Sulfur heksafluorida (SF6) adalah gas dielektrik yang sangat efektif dengan kekuatan isolasi listrik yang tinggi. Gas ini digunakan secara luas dalam industri kelistrikan sebagai medium isolasi untuk switchgear, circuit breaker, dan transformator. SF6 juga digunakan dalam aplikasi pelacakan kebocoran, dalam industri magnesium untuk casting, serta dalam proses plasma etching dalam pembuatan semikonduktor. PT Surya Inti Gas menyediakan SF6 dengan kualitas tinggi untuk aplikasi isolasi listrik dan industri lainnya."
       },
       "mixed-gas": {
-        "title": "Mixed Gas (Gas Campur)",
+        "title": "Gas Campuran",
         "description": "Gas campuran khusus untuk aplikasi industri tertentu",
         "fullDescription": "Gas campuran (Mixed Gas) adalah kombinasi berbagai gas yang diformulasikan khusus untuk aplikasi industri tertentu. Campuran ini mencakup gas calibrasi untuk instrumen pengukuran, gas proses untuk industri manufaktur, gas shielding untuk pengelasan, dan gas campuran medis untuk aplikasi kesehatan. Setiap campuran dirancang dengan komposisi yang presisi untuk memenuhi kebutuhan spesifik pelanggan. PT Surya Inti Gas menyediakan berbagai jenis gas campuran dengan komposisi yang dapat disesuaikan sesuai kebutuhan aplikasi Anda."
       },
@@ -808,7 +810,7 @@
       "highPressureDesc": "Tabung gas bertekanan tinggi seamless berkualitas untuk berbagai aplikasi industri",
       "regulator": "Regulator & Valves",
       "regulatorDesc": "Peralatan regulasi tekanan dan katup kontrol untuk distribusi gas yang aman",
-      "industrialMedical": "Industri & Medis (Gas & Cair)",
+      "industrialMedical": "Industri & Medis",
       "industrialMedicalDesc": "Gas industri dan medis dalam bentuk gas maupun cair untuk berbagai kebutuhan",
       "specialityMixed": "Gas Spesial & Campuran",
       "specialityMixedDesc": "Gas khusus dan gas campuran dengan komposisi presisi untuk aplikasi sensitif",
