@@ -441,7 +441,7 @@ function Gallery() {
       viewport={{ once: true, margin: '-80px' }}
       variants={staggerContainer}
       >
-        <div style={{ padding: '100px 6vw 0' }} />
+        <div style={{ padding: '32px 6vw 0' }} />
 
         {/* Gallery Grid */}
         <div style={{

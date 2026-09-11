@@ -2,11 +2,11 @@
   "seo": {
     "home": {
       "title": "PT Surya Inti Gas — Distributor Gas Industri & Medis Terpercaya Sejak 2003",
-      "description": "Distributor gas industri, medis, dan specialty gas terpercaya sejak 2003. Pemasok Oksigen, Nitrogen, Argon, Acetylene, CO₂, Helium, mixed gas, dan cryogenic equipment untuk seluruh Indonesia."
+      "description": "Distributor gas industri, medis, dan gas spesial terpercaya sejak 2003. Pemasok Oksigen, Nitrogen, Argon, Acetylene, CO₂, Helium, mixed gas, dan cryogenic equipment untuk seluruh Indonesia."
     },
     "products": {
       "title": "Produk Gas Industri & Medis | PT Surya Inti Gas",
-      "description": "Katalog lengkap gas Oksigen, Nitrogen, Argon, Acetylene, CO₂, Hidrogen, Helium, dan specialty gas beserta peralatan cryogenic, tabung, dan cradle dari PT Surya Inti Gas."
+      "description": "Katalog lengkap gas Oksigen, Nitrogen, Argon, Acetylene, CO₂, Hidrogen, Helium, dan gas spesial beserta peralatan cryogenic, tabung, dan cradle dari PT Surya Inti Gas."
     },
     "productDetail": {
       "title": "{{name}} | Produk Gas PT Surya Inti Gas",
@@ -18,7 +18,7 @@
     },
     "contact": {
       "title": "Hubungi Kami | PT Surya Inti Gas",
-      "description": "Hubungi PT Surya Inti Gas untuk kebutuhan gas industri, medis, dan specialty gas. Kantor di Sidoarjo (Jawa Timur) dan Balikpapan (Kalimantan Timur)."
+      "description": "Hubungi PT Surya Inti Gas untuk kebutuhan gas industri, medis, dan gas spesial. Kantor di Sidoarjo (Jawa Timur) dan Balikpapan (Kalimantan Timur)."
     },
     "distribution": {
       "title": "Jaringan Distribusi | PT Surya Inti Gas",
@@ -34,9 +34,9 @@
     "about": "Tentang Kami",
     "distribution": "Jaringan Distribusi",
     "productsServices": "Produk & Layanan",
-    "industrialMedical": "Industrial & Medical (Gas & Cair)",
-    "specialityMixed": "Speciality & Mixed Gas",
-    "relatedEquipment": "Related Equipment",
+    "industrialMedical": "Industri & Medis (Gas & Cair)",
+    "specialityMixed": "Gas Spesial & Campuran",
+    "relatedEquipment": "Peralatan Pendukung Gas Industri",
     "package": "Kemasan",
     "services": "Layanan",
     "contact": "Kontak",
@@ -173,7 +173,7 @@
     },
     "subCategories": {
       "cradle": "Cradle",
-      "relatedEquipment": "Related Equipment"
+      "relatedEquipment": "Peralatan Pendukung Gas Industri"
     },
     "cradleGroup": {
       "description": "Rangka penyimpanan tabung gas industri yang aman dan hemat ruang.",
@@ -181,8 +181,8 @@
       "dialogDescription": "Pilih ukuran cradle yang Anda butuhkan:"
     },
     "categories": {
-      "industrial-medical": "Industrial & Medical (Gas & Cair)",
-      "speciality-mixed": "Speciality & Mixed Gas",
+      "industrial-medical": "Industri & Medis (Gas & Cair)",
+      "speciality-mixed": "Gas Spesial & Campuran",
       "package": "Kemasan",
       "services": "Layanan",
       "cylinder": "Cylinder",
@@ -195,7 +195,7 @@
     "featured": {
       "gas": {
         "title": "Solusi Gas Industri",
-        "description": "Oksigen, nitrogen, argon, helium dan gas specialty andal untuk industri di seluruh Indonesia.",
+        "description": "Oksigen, nitrogen, argon, helium dan gas spesial andal untuk industri di seluruh Indonesia.",
         "shortDescription": "Solusi gas lengkap untuk aplikasi industri"
       },
       "package": {
@@ -542,7 +542,7 @@
       },
       "whatWeDo": {
         "title": "Apa yang Kami Kerjakan",
-        "text": "Kami menyediakan gas industri & cair, gas campur (mixed gas), speciality gas, medical gas, tabung bertekanan tinggi, cryogenic equipment, dry ice, hingga peralatan pendukungnya."
+        "text": "Kami menyediakan gas industri & cair, gas campur , gas spesial, gas medis, tabung bertekanan tinggi, cryogenic equipment, dry ice, hingga peralatan pendukungnya."
       },
       "whyChooseUs": {
         "title": "Mengapa Memilih Kami",
@@ -624,7 +624,7 @@
       "items": [
         {
           "title": "Produk Berkualitas Tinggi",
-          "description": "Gas industri, medis, speciality, dan mixed gas yang memenuhi standar kualitas tinggi."
+          "description": "Gas industri, medis, spesial, dan gas campuran yang memenuhi standar kualitas tinggi."
         },
         {
           "title": "Distribusi Cepat & Tepat Waktu",
@@ -705,7 +705,7 @@
     },
     "cta": {
       "title": "Butuh Solusi Gas Industri yang Andal?",
-      "subtitle": "Tim kami siap membantu memenuhi kebutuhan gas industri, medis, dan speciality gas Anda dengan layanan terbaik.",
+      "subtitle": "Tim kami siap membantu memenuhi kebutuhan gas industri, medis, dan gas spesial Anda dengan layanan terbaik.",
       "primaryButton": "Hubungi Kami",
       "secondaryButton": "Lihat Produk"
     }
@@ -715,9 +715,9 @@
     "subtitle": "Mitra Terpercaya dalam Solusi Gas Industri",
     "description": "PT Surya Inti Gas adalah perusahaan penyedia gas industri yang telah beroperasi sejak tahun 2003. Kami berkomitmen untuk memberikan solusi gas berkualitas tinggi dengan pelayanan prima untuk mendukung kebutuhan industri di Indonesia.",
     "companyName": "PT. Surya Inti Gas",
-    "intro": "Surya Inti Gas berdiri sejak tahun 2003, saat ini perusahan kami berdomisili di Komplek Pergudangan & Industri \"Safe N Lock\" Blok V 1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Ds. Rangkah Kidul, Sidoarjo, Jawa Timur 61232. Perusahaan kami selaku distributor gas yang siap menyediakan dan melayani kebutuhan gas industri (gas & cair), gas campur (mixed gas), speciality gas, medical gas, serta tabung bertekanan tinggi, cryogenic equipment, dry ice dan peralatan-peralatan yang mendukung serta terkait produk tersebut.",
+    "intro": "Surya Inti Gas berdiri sejak tahun 2003, saat ini perusahan kami berdomisili di Komplek Pergudangan & Industri \"Safe N Lock\" Blok V 1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Ds. Rangkah Kidul, Sidoarjo, Jawa Timur 61232. Perusahaan kami selaku distributor gas yang siap menyediakan dan melayani kebutuhan gas industri (gas & cair), gas campur, gas spesial, gas medis, serta tabung bertekanan tinggi, cryogenic equipment, dry ice dan peralatan-peralatan yang mendukung serta terkait produk tersebut.",
     "highlights": {
-      "industrialGas": "Gas Industri, Medis, Speciality & Mixed Gas",
+      "industrialGas": "Gas Industri, Medis, Spesial & Campuran",
       "delivery": "Armada Pengiriman Mandiri & Tepat Waktu",
       "customers": "Melayani 150+ Pelanggan Industri",
       "offices": "Head Office Sidoarjo + Cabang Balikpapan"
@@ -802,17 +802,17 @@
     "servicesLabel": "LAYANAN",
     "gasAndCylinder": "Gas & Tabung",
     "highQualityCylinders": "dan berbagai jenis tabung bertekanan tinggi berkualitas",
-    "medicalSpecialty": "Medis & Specialty",
+    "medicalSpecialty": "Medis & Spesial",
     "categories": {
       "highPressure": "High Pressure Seamless Steal Gas",
       "highPressureDesc": "Tabung gas bertekanan tinggi seamless berkualitas untuk berbagai aplikasi industri",
       "regulator": "Regulator & Valves",
       "regulatorDesc": "Peralatan regulasi tekanan dan katup kontrol untuk distribusi gas yang aman",
-      "industrialMedical": "Industrial & Medical (Gas & Cair)",
+      "industrialMedical": "Industri & Medis (Gas & Cair)",
       "industrialMedicalDesc": "Gas industri dan medis dalam bentuk gas maupun cair untuk berbagai kebutuhan",
-      "specialityMixed": "Speciality & Mixed Gas",
+      "specialityMixed": "Gas Spesial & Campuran",
       "specialityMixedDesc": "Gas khusus dan gas campuran dengan komposisi presisi untuk aplikasi sensitif",
-      "equipment": "Related Equipment & Accessories",
+      "equipment": "Peralatan Pendukung Gas Industri",
       "equipmentDesc": "Peralatan pendukung dan aksesoris untuk sistem distribusi dan penggunaan gas",
       "assistSupply": "Assist Gas Supply",
       "assistSupplyDesc": "Layanan pasokan gas terpadu dengan sistem distribusi yang andal dan tepat waktu",
@@ -875,7 +875,7 @@
         "title": "Argon (Ar)",
         "description": "Gas argon untuk pengelasan TIG dan aplikasi khusus.",
         "purity": "99.9% – 99.999%",
-        "usage": "Las TIG & Specialty",
+        "usage": "Las TIG & Spesial",
         "color": "Tidak berwarna, tidak berbau",
         "pressure": "150 bar / 200 bar",
         "cylinderSizes": [
@@ -887,7 +887,7 @@
           "Pengelasan TIG & MIG",
           "Industri semikonduktor",
           "Penerangan & lampu",
-          "Produksi specialty gas"
+          "Produksi gas spesial"
         ],
         "safety": "Gas inert. Hindari akumulasi di ruang terbatas. Simpan tabung dalam posisi tegak."
       },
