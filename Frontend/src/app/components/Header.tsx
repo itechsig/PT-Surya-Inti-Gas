@@ -679,6 +679,17 @@ export const Header = () => {
                   })}
                 </motion.nav>
 
+                {/* Language switcher — right below the nav list, after Karir */}
+                <motion.div
+                  variants={mobileItemVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="mt-2 flex items-center justify-between bg-white rounded-2xl px-4 py-3 shadow-sm shadow-slate-200/60"
+                >
+                  <span className="text-sm font-semibold text-slate-700">{t('header.language')}</span>
+                  <LanguageSwitcher isLight={true} />
+                </motion.div>
+
                 {/* WhatsApp CTA */}
                 <motion.a
                   variants={mobileItemVariants}
@@ -687,7 +698,7 @@ export const Header = () => {
                   href={PRIMARY_OFFICE.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-white shadow-lg shadow-green-900/15 transition-transform active:scale-[0.98]"
+                  className="mt-3 flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-white shadow-lg shadow-green-900/15 transition-transform active:scale-[0.98]"
                   style={{
                     fontFamily: "'Barlow', system-ui, sans-serif",
                     background: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)",
@@ -698,10 +709,6 @@ export const Header = () => {
                 </motion.a>
 
                 <div className="mt-6 pt-5 border-t border-slate-200/80">
-                  <div className="flex items-center justify-between mb-4 bg-white rounded-2xl px-4 py-3 shadow-sm shadow-slate-200/60">
-                    <span className="text-sm font-semibold text-slate-700">{t('header.language')}</span>
-                    <LanguageSwitcher isLight={true} />
-                  </div>
                   <div className="flex items-center justify-center gap-3">
                     <a
                       href={SOCIAL.instagram}
