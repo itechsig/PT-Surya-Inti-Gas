@@ -21,11 +21,17 @@ class CorsMiddleware
         $requestOrigin = $request->header('Origin');
 
         // For image requests, always allow CORS
-        $isImageRequest = str_contains($request->path(), 'storage') || 
+        $isImageRequest = str_contains($request->path(), 'storage') ||
                            str_contains($request->path(), 'products') ||
                            str_contains($request->path(), 'image') ||
                            $request->is('storage/*') ||
                            $request->is('api/v1/image/*');
+
+        // Actual image-serving routes only, used for the long-lived Cache-Control below.
+        // $isImageRequest is deliberately broader (matches "products", used only for CORS),
+        // which previously made GET /api/v1/products (JSON data, not a file) get cached for a
+        // year too - visitors kept seeing stale product data until they hard-refreshed.
+        $isImageFile = $request->is('storage/*') || $request->is('api/v1/image/*');
 
         // Only reflect the origin back when it's actually on the allow-list. Falling back
         // to the first configured origin for unrecognized origins would advertise an
@@ -70,8 +76,8 @@ class CorsMiddleware
         // Add CORS headers for images and static files
         $response->headers->set('Access-Control-Expose-Headers', 'Content-Length, Content-Type');
         
-        // Add cache control headers for images
-        if ($isImageRequest) {
+        // Add cache control headers for images only (not for data endpoints like /products)
+        if ($isImageFile) {
             $response->headers->set('Cache-Control', 'public, max-age=31536000');
         }
 
