@@ -295,10 +295,6 @@ const css = `
     .about-content-section {
       order: 2;
     }
-
-    .about-main-image {
-      min-height: 420px;
-    }
   }
 
   @media (max-width: 768px) {
@@ -308,10 +304,6 @@ const css = `
 
     .about-header {
       margin-bottom: 48px;
-    }
-
-    .about-main-image {
-      min-height: 320px;
     }
 
     .about-overlay-card {
