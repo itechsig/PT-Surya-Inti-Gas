@@ -158,6 +158,11 @@
       "title": "Select Packaging",
       "description": "Choose the packaging type for this gas product:",
       "selectAria": "Select {{packaging}} packaging"
+    },
+    "gallery": {
+      "prevAria": "Previous photo",
+      "nextAria": "Next photo",
+      "goToAria": "Go to photo {{index}}"
     }
   },
   "products": {

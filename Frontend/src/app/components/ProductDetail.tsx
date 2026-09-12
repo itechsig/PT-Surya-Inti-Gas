@@ -6,7 +6,7 @@ import '../../styles/ProductsAndServices.css';
 import { useProductDetail } from "../../hooks/useProductDetail";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 import type { Product, SubCategory } from "../../data/products";
-import { getImageUrl } from "../../utils/imageUrl";
+import { getImageUrl, IMAGE_PLACEHOLDER } from "../../utils/imageUrl";
 import { trackProductInteraction } from "../../utils/productTracking";
 import { Seo } from "./Seo";
 
@@ -34,6 +34,7 @@ export function ProductDetail() {
   const [imageError, setImageError] = useState(false);
   const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
   const [selectedLiquid, setSelectedLiquid] = useState<string | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleBack = () => {
     navigate(`/${currentLang}/produk`);
@@ -105,6 +106,11 @@ export function ProductDetail() {
     }
   }, [productData?.product.id]);
 
+  useEffect(() => {
+    setCurrentSlide(0);
+    setImageError(false);
+  }, [productData?.product.id]);
+
   if (isLoading) {
     return (
       <div className="products-corporate">
@@ -139,6 +145,13 @@ export function ProductDetail() {
   const { product, mainCategory, subCategoryTitle } = productData;
   const categoryLabel = t(`products.mainCategories.${mainCategory}`);
   const subCategoryLabel = subCategoryTitle || null;
+
+  // Only the delivery service gets a photo slider — every other product keeps a single image.
+  const isDeliveryService = product.id === 'delivery';
+  const deliveryPhotos = isDeliveryService
+    ? Array.from(new Set([product.image, ...(product.gallery || [])].filter(Boolean)))
+    : [];
+  const hasDeliverySlider = isDeliveryService && deliveryPhotos.length > 1;
 
   return (
     <div className="products-corporate">
@@ -211,7 +224,53 @@ export function ProductDetail() {
             transition={{ duration: 0.5, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
           >
             <div className="products-detail-image">
-              {imageError ? (
+              {hasDeliverySlider ? (
+                <div className="product-image-slider">
+                  <div
+                    className="product-image-slider-track"
+                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                  >
+                    {deliveryPhotos.map((photo, i) => (
+                      <div className="product-image-slider-slide" key={photo + i}>
+                        <img
+                          src={getImageUrl(photo)}
+                          alt={`${product.title} ${i + 1}`}
+                          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    className="product-image-slider-arrow product-image-slider-arrow--prev"
+                    onClick={() => setCurrentSlide((prev) => (prev - 1 + deliveryPhotos.length) % deliveryPhotos.length)}
+                    aria-label={t('productDetail.gallery.prevAria')}
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    className="product-image-slider-arrow product-image-slider-arrow--next"
+                    onClick={() => setCurrentSlide((prev) => (prev + 1) % deliveryPhotos.length)}
+                    aria-label={t('productDetail.gallery.nextAria')}
+                  >
+                    ›
+                  </button>
+
+                  <div className="product-image-slider-dots">
+                    {deliveryPhotos.map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        className={`product-image-slider-dot ${i === currentSlide ? 'active' : ''}`}
+                        onClick={() => setCurrentSlide(i)}
+                        aria-label={t('productDetail.gallery.goToAria', { index: i + 1 })}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : imageError ? (
                 <div style={{
                   width: '100%',
                   height: '100%',

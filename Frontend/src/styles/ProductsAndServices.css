@@ -787,6 +787,89 @@ button.products-card {
   border-radius: 16px;
 }
 
+/* Photo slider — used only for the delivery service, which can have more than one photo. */
+.product-image-slider {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.product-image-slider-track {
+  display: flex;
+  transition: transform 0.4s ease;
+}
+
+.product-image-slider-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
+.product-image-slider-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+}
+
+.product-image-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.55);
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  z-index: 2;
+}
+
+.product-image-slider-arrow:hover {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.product-image-slider-arrow--prev {
+  left: 12px;
+}
+
+.product-image-slider-arrow--next {
+  right: 12px;
+}
+
+.product-image-slider-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.product-image-slider-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.product-image-slider-dot.active {
+  background: #ffffff;
+  transform: scale(1.2);
+}
+
 .products-detail-content {
   display: flex;
   flex-direction: column;

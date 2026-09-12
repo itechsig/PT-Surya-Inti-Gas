@@ -158,6 +158,11 @@
       "title": "选择包装",
       "description": "为此气体产品选择包装类型：",
       "selectAria": "选择{{packaging}}包装"
+    },
+    "gallery": {
+      "prevAria": "上一张照片",
+      "nextAria": "下一张照片",
+      "goToAria": "转到第{{index}}张照片"
     }
   },
   "products": {
