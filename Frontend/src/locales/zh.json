@@ -151,7 +151,8 @@
       "description": "如需了解更多技术规格、价格及订购信息，请联系我们的销售团队。",
       "button": "通过WhatsApp咨询库存",
       "whatsappMessage": "您好，我想咨询{{title}}产品的库存情况。请问该产品是否有货？",
-      "selectedPackaging": "选择的包装"
+      "selectedPackaging": "选择的包装",
+      "selectedLiquid": "选择的液体"
     },
     "packaging": {
       "title": "选择包装",

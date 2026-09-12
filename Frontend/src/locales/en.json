@@ -151,7 +151,8 @@
       "description": "For more information on technical specifications, pricing, and ordering, please contact our sales team.",
       "button": "Ask Availability via WhatsApp",
       "whatsappMessage": "Hello, I would like to ask about the availability of {{title}}. Is this product in stock?",
-      "selectedPackaging": "Selected Packaging"
+      "selectedPackaging": "Selected Packaging",
+      "selectedLiquid": "Selected Liquid"
     },
     "packaging": {
       "title": "Select Packaging",

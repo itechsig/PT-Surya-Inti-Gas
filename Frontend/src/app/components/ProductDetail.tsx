@@ -33,6 +33,7 @@ export function ProductDetail() {
   const { categories: productCategories } = useProductCatalog(currentLang);
   const [imageError, setImageError] = useState(false);
   const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
+  const [selectedLiquid, setSelectedLiquid] = useState<string | null>(null);
 
   const handleBack = () => {
     navigate(`/${currentLang}/produk`);
@@ -54,6 +55,15 @@ export function ProductDetail() {
     return allProducts;
   };
 
+  const getLiquidOptions = () => {
+    return [
+      { id: 'nitrogen', title: t('products.items.nitrogen.title') },
+      { id: 'argon', title: t('products.items.argon.title') },
+      { id: 'carbon-dioxide', title: t('products.items.carbon-dioxide.title') },
+      { id: 'oxygen', title: t('products.items.oxygen.title') }
+    ];
+  };
+
   const handleContactSales = (productTitle: string) => {
     const whatsappNumber = '6281233906378';
     let message = t('productDetail.contact.whatsappMessage', { title: productTitle });
@@ -62,6 +72,12 @@ export function ProductDetail() {
     if (selectedPackaging && productData?.mainCategory === 'gas') {
       const packagingLabel = t(`products.items.${selectedPackaging}.title`);
       message += `\n${t('productDetail.contact.selectedPackaging')}: ${packagingLabel}`;
+    }
+
+    // Add selected liquid type if available
+    if (selectedLiquid && productData?.mainCategory === 'gas') {
+      const liquidLabel = getLiquidOptions().find(l => l.id === selectedLiquid)?.title || selectedLiquid;
+      message += `\n${t('productDetail.contact.selectedLiquid')}: ${liquidLabel}`;
     }
 
     // Add the cradle size the visitor picked from the size picker.
@@ -291,41 +307,84 @@ export function ProductDetail() {
                   </motion.div>
 
                   {/* Packaging Selection for Gas Products */}
-                  <motion.div className="product-packaging" variants={fadeUp}>
-                    <h3>{t('productDetail.packaging.title')}</h3>
-                    <p>{t('productDetail.packaging.description')}</p>
-                    <motion.div
-                      className="packaging-options"
-                      variants={staggerContainer}
-                      initial="hidden"
-                      whileInView="show"
-                      viewport={{ once: true, margin: "-40px" }}
-                    >
-                      {getPackagingOptions().map((packaging: Product) => (
-                        <motion.button
-                          key={packaging.id}
-                          className={`packaging-option ${selectedPackaging === packaging.id ? 'selected' : ''}`}
-                          onClick={() => setSelectedPackaging(selectedPackaging === packaging.id ? null : packaging.id)}
-                          aria-label={t('productDetail.packaging.selectAria', { packaging: packaging.title })}
-                          aria-pressed={selectedPackaging === packaging.id}
-                          variants={fadeUp}
-                          whileHover={{ y: -2 }}
-                          whileTap={{ scale: 0.97 }}
-                        >
-                          <div className="packaging-option-image">
-                            <img
-                              src={getImageUrl(packaging.image)}
-                              alt={packaging.title}
-                              onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                              }}
-                            />
-                          </div>
-                          <span className="packaging-option-title">{packaging.title}</span>
-                        </motion.button>
-                      ))}
+                  {subCategoryLabel === t('products.categories.liquid') ? (
+                    <motion.div className="product-packaging" variants={fadeUp}>
+                      <h3>Pilih Liquid</h3>
+                      <p>Pilih jenis liquid untuk produk gas ini:</p>
+                      <motion.div
+                        className="packaging-options"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, margin: "-40px" }}
+                      >
+                        {getLiquidOptions().map((liquid) => (
+                          <motion.button
+                            key={liquid.id}
+                            className={`packaging-option ${selectedLiquid === liquid.id ? 'selected' : ''}`}
+                            onClick={() => setSelectedLiquid(selectedLiquid === liquid.id ? null : liquid.id)}
+                            aria-label={`${t('productDetail.packaging.selectAria', { packaging: liquid.title })}`}
+                            aria-pressed={selectedLiquid === liquid.id}
+                            variants={fadeUp}
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.97 }}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              padding: '20px',
+                              border: '2px solid #e2e8f0',
+                              borderRadius: '8px',
+                              background: selectedLiquid === liquid.id ? '#0f172a' : '#ffffff',
+                              color: selectedLiquid === liquid.id ? '#ffffff' : '#0f172a',
+                              fontWeight: '600',
+                              fontSize: '16px',
+                              cursor: 'pointer',
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            <span>{liquid.title}</span>
+                          </motion.button>
+                        ))}
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
+                  ) : (
+                    <motion.div className="product-packaging" variants={fadeUp}>
+                      <h3>{t('productDetail.packaging.title')}</h3>
+                      <p>{t('productDetail.packaging.description')}</p>
+                      <motion.div
+                        className="packaging-options"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, margin: "-40px" }}
+                      >
+                        {getPackagingOptions().map((packaging: Product) => (
+                          <motion.button
+                            key={packaging.id}
+                            className={`packaging-option ${selectedPackaging === packaging.id ? 'selected' : ''}`}
+                            onClick={() => setSelectedPackaging(selectedPackaging === packaging.id ? null : packaging.id)}
+                            aria-label={t('productDetail.packaging.selectAria', { packaging: packaging.title })}
+                            aria-pressed={selectedPackaging === packaging.id}
+                            variants={fadeUp}
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.97 }}
+                          >
+                            <div className="packaging-option-image">
+                              <img
+                                src={getImageUrl(packaging.image)}
+                                alt={packaging.title}
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            </div>
+                            <span className="packaging-option-title">{packaging.title}</span>
+                          </motion.button>
+                        ))}
+                      </motion.div>
+                    </motion.div>
+                  )}
 
                   {/* WhatsApp Contact Button Only for Gas Products */}
                   <motion.div className="product-contact" variants={fadeUp}>

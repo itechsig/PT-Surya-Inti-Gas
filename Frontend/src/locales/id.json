@@ -151,7 +151,8 @@
       "description": "Untuk informasi lebih lanjut tentang spesifikasi teknis, harga, dan pemesanan, silakan hubungi tim sales kami.",
       "button": "Tanya Ketersediaan via WhatsApp",
       "whatsappMessage": "Halo, saya ingin menanyakan persediaan produk {{title}}. Apakah produk ini tersedia?",
-      "selectedPackaging": "Kemasan yang Dipilih"
+      "selectedPackaging": "Kemasan yang Dipilih",
+      "selectedLiquid": "Liquid yang Dipilih"
     },
     "packaging": {
       "title": "Pilih Kemasan",
