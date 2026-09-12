@@ -787,27 +787,34 @@ button.products-card {
   border-radius: 16px;
 }
 
-/* Photo slider — used only for the delivery service, which can have more than one photo. */
+/* Photo slider — used only for the delivery service, which can have more than one photo.
+   Photos in the gallery can have different aspect ratios, so the slider is locked to a
+   fixed ratio and each photo is cropped to fill it — otherwise a shorter photo leaves a
+   band of empty space below it whenever the track's height is set by the tallest slide. */
 .product-image-slider {
   position: relative;
   overflow: hidden;
   border-radius: 16px;
+  aspect-ratio: 4 / 3;
 }
 
 .product-image-slider-track {
   display: flex;
+  height: 100%;
   transition: transform 0.4s ease;
 }
 
 .product-image-slider-slide {
   flex: 0 0 100%;
   min-width: 100%;
+  height: 100%;
 }
 
 .product-image-slider-slide img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  object-fit: cover;
   border-radius: 16px;
 }
 
@@ -855,13 +862,18 @@ button.products-card {
 }
 
 .product-image-slider-dot {
-  width: 9px;
-  height: 9px;
+  appearance: none;
+  -webkit-appearance: none;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  min-width: 0;
   border-radius: 50%;
   border: none;
   background: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   padding: 0;
+  margin: 0;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
