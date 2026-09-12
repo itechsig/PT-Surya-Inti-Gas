@@ -1,5 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Menu, X, ChevronDown, Instagram, Facebook } from "lucide-react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  Instagram,
+  Facebook,
+  Home,
+  Building2,
+  Share2,
+  Package,
+  Images,
+  Briefcase,
+  PhoneCall,
+  UsersRound,
+  MessageCircle,
+} from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 // Custom TikTok Icon (since lucide-react esn't have one)
@@ -24,7 +39,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import { useScrolledPast } from "../../hooks/useScrollProgress";
-import { SOCIAL } from "../../data/contact";
+import { SOCIAL, PRIMARY_OFFICE } from "../../data/contact";
 
 // ─── Corporate Nav Config (Air Liquide & Linde inspired) ───────────────────────────────────────────────
 type NavItem = { 
@@ -70,6 +85,28 @@ const NAV_LINKS: NavItem[] = [
   { nameKey: "header.career", href: "/karir", isRoute: true },
 ];
 
+// Icon per top-level nav item, used only in the mobile drawer.
+const NAV_ICONS: Record<string, React.ComponentType<import("lucide-react").LucideProps>> = {
+  "header.home": Home,
+  "header.about": Building2,
+  "header.distribution": Share2,
+  "header.productsServices": Package,
+  "header.gallery": Images,
+  "header.portfolio": Briefcase,
+  "header.contact": PhoneCall,
+  "header.career": UsersRound,
+};
+
+// Staggered reveal for the mobile drawer's nav items.
+const mobileListVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.045, delayChildren: 0.12 } },
+};
+const mobileItemVariants = {
+  hidden: { opacity: 0, x: 24 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] as const } },
+};
+
 // ─── Corporate Shared class builders (Air Liquide inspired) ────────────────────────────────────
 const desktopLinkClass = (isLight: boolean) => {
   return `flex items-center gap-2 px-4 py-3 text-sm transition-all duration-200 font-semibold relative group ${isLight ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}`;
@@ -83,26 +120,12 @@ const activeMarkClass = (isLight: boolean) =>
     isLight ? 'after:bg-[var(--brand-blue)] text-gray-900' : 'after:bg-white text-white'
   }`;
 
-const mobileLinkClass = (isActive: boolean) =>
-  `block px-4 py-4 text-sm transition-all duration-200 no-underline visited:text-inherit hover:text-inherit border-b border-blue-100 ${
-    isActive
-      ? "text-blue-600 bg-blue-50 font-semibold border-l-4 border-l-blue-600"
-      : "text-blue-700 hover:bg-blue-50 hover:text-blue-600"
-  }`;
-
 const desktopLinkStyle = (isLight: boolean) => ({
   fontFamily: "'Barlow', system-ui, sans-serif",
   fontWeight: 600,
   letterSpacing: "0.02em",
   color: isLight ? '#0C2D5E' : '#ffffff',
 } as React.CSSProperties);
-
-const mobileLinkStyle = {
-  fontFamily: "'Barlow', system-ui, sans-serif",
-  fontWeight: 600,
-  color: 'inherit',
-  textDecoration: 'none',
-} as React.CSSProperties;
 
 // ─── Corporate Main Component ───────────────────────────────────────────
 export const Header = () => {
@@ -472,24 +495,34 @@ export const Header = () => {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
             className="fixed inset-0 z-50 lg:hidden"
           >
-            <div className="absolute inset-0 bg-white/98 backdrop-blur-xl" />
-            <div className="relative h-full overflow-y-auto">
-              <div className="w-full px-4 py-4 sm:px-6 sm:py-6">
-                <div className="flex justify-between items-center mb-6 sm:mb-8">
+            <div className="absolute inset-0 bg-slate-50" />
+            {/* Decorative glow — echoes the brand gradient without competing with the content */}
+            <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-gradient-to-br from-blue-400/20 to-cyan-300/10 blur-3xl pointer-events-none" />
+            <div className="absolute top-1/3 -left-20 w-56 h-56 rounded-full bg-blue-200/30 blur-3xl pointer-events-none" />
+
+            <div className="relative h-full overflow-y-auto flex flex-col">
+              {/* Header band */}
+              <div
+                className="relative shrink-0 px-4 sm:px-6 pt-5 pb-6 sm:pb-7"
+                style={{ background: "linear-gradient(135deg, #0C2D5E 0%, #1565C0 60%, #00AEEF 130%)" }}
+              >
+                <div className="flex justify-between items-center">
                   <Link to={`/${currentLang}`} onClick={() => setIsOpen(false)} className="flex items-center gap-3">
-                    <img
-                      src="/logo.png"
-                      alt="Logo PT Surya Inti Gas"
-                      className="h-10 sm:h-12 w-auto object-contain"
-                      width="200"
-                      height="56"
-                    />
+                    <div className="bg-white/95 rounded-xl p-1.5 shadow-md">
+                      <img
+                        src="/logo.png"
+                        alt="Logo PT Surya Inti Gas"
+                        className="h-8 sm:h-10 w-auto object-contain"
+                        width="200"
+                        height="56"
+                      />
+                    </div>
                     <div>
                       <div
-                        className="leading-tight text-blue-900"
+                        className="leading-tight text-white"
                         style={{
                           fontFamily: "'Barlow', system-ui, sans-serif",
                           fontWeight: 800,
@@ -499,129 +532,203 @@ export const Header = () => {
                       >
                         SURYA INTI GAS
                       </div>
-                      <div className="text-[10px] sm:text-xs text-blue-600 font-semibold tracking-wider uppercase">
+                      <div className="text-[10px] sm:text-xs text-blue-100 font-semibold tracking-wider uppercase">
                         {t('header.corporate')}
                       </div>
                     </div>
                   </Link>
                   <button
-                    className="p-3 sm:p-2 rounded-full hover:bg-slate-100 transition-colors"
+                    className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
                     onClick={() => setIsOpen(false)}
                     aria-label="Close menu"
                   >
-                    <X size={24} className="sm:hidden" />
-                    <X size={22} className="hidden sm:block" />
+                    <X size={22} />
                   </button>
                 </div>
+              </div>
 
-                <div className="flex flex-col gap-1">
+              <div className="relative flex-1 px-4 py-5 sm:px-6 sm:py-6">
+                <motion.nav
+                  variants={mobileListVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="flex flex-col gap-2"
+                >
                   {NAV_LINKS.map((link) => {
                     const active = isActive(link.href);
+                    const Icon = NAV_ICONS[link.nameKey];
 
                     if (link.isDisabled) {
                       return (
-                        <span
+                        <motion.span
                           key={link.nameKey}
-                          className="px-4 py-4 sm:py-4 text-blue-400 cursor-not-allowed"
+                          variants={mobileItemVariants}
+                          className="flex items-center gap-3 px-4 py-4 rounded-2xl bg-white/60 text-blue-300 cursor-not-allowed"
                           style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 600 }}
                         >
-                          {t(link.nameKey)} <span className="text-xs ml-2">({t('header.comingSoon')})</span>
-                        </span>
+                          {Icon && (
+                            <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-slate-100 text-slate-300 shrink-0">
+                              <Icon size={18} />
+                            </span>
+                          )}
+                          {t(link.nameKey)} <span className="text-xs ml-1">({t('header.comingSoon')})</span>
+                        </motion.span>
                       );
                     }
 
                     if (link.hasMegaMenu) {
+                      const expanded = activeMobileMegaMenu === link.nameKey;
                       return (
-                        <div key={link.nameKey}>
-                          <div
-                            className="flex items-center justify-between px-4 py-4 sm:py-4 text-blue-700 font-semibold cursor-pointer border-b border-slate-100"
-                            style={{ ...mobileLinkStyle }}
-                            onClick={() => setActiveMobileMegaMenu(activeMobileMegaMenu === link.nameKey ? null : link.nameKey)}
+                        <motion.div key={link.nameKey} variants={mobileItemVariants} className="overflow-hidden">
+                          <button
+                            type="button"
+                            aria-expanded={expanded}
+                            className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl font-semibold transition-all duration-200 ${
+                              expanded || active
+                                ? "bg-gradient-to-r from-[#0C2D5E] to-[#1565C0] text-white shadow-lg shadow-blue-900/20"
+                                : "bg-white text-blue-900 shadow-sm shadow-slate-200/60 hover:bg-blue-50"
+                            }`}
+                            style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+                            onClick={() => setActiveMobileMegaMenu(expanded ? null : link.nameKey)}
                           >
-                            {t(link.nameKey)}
-                            <ChevronDown size={18} className={`transition-transform duration-200 ${activeMobileMegaMenu === link.nameKey ? 'rotate-180' : ''}`} />
-                          </div>
-                          {activeMobileMegaMenu === link.nameKey && (
-                            <div className="bg-slate-50 border-l-4 border-blue-600">
-                              {link.megaMenuSections?.map((section, sectionIdx) => (
-                                <div key={sectionIdx} className="py-4 px-4 border-b border-slate-200 last:border-0">
-                                  <h4 className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-3" style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}>
-                                    {t(section.titleKey)}
-                                  </h4>
-                                  <div className="space-y-3">
-                                    {section.items.map((item, itemIdx) => (
-                                      <Link
-                                        key={itemIdx}
-                                        to={toHref(item.href)}
-                                        className="block text-sm text-slate-700 hover:text-blue-600 py-2 transition-colors"
-                                        style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
-                                        onClick={() => {
-                                          setActiveMobileMegaMenu(null);
-                                          setIsOpen(false);
-                                        }}
-                                      >
-                                        <div className="font-semibold">{t(item.nameKey)}</div>
-                                        {item.descriptionKey && (
-                                          <div className="text-xs text-slate-500 mt-1">{t(item.descriptionKey)}</div>
-                                        )}
-                                      </Link>
-                                    ))}
-                                  </div>
+                            {Icon && (
+                              <span
+                                className={`flex items-center justify-center w-9 h-9 rounded-xl shrink-0 transition-colors ${
+                                  expanded || active ? "bg-white/15 text-white" : "bg-blue-50 text-blue-600"
+                                }`}
+                              >
+                                <Icon size={18} />
+                              </span>
+                            )}
+                            <span className="flex-1 text-left">{t(link.nameKey)}</span>
+                            <ChevronDown
+                              size={18}
+                              className={`transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+                            />
+                          </button>
+                          <AnimatePresence initial={false}>
+                            {expanded && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                                className="overflow-hidden"
+                              >
+                                <div className="mt-2 mb-1 mx-1 rounded-2xl bg-white shadow-sm shadow-slate-200/60 divide-y divide-slate-100">
+                                  {link.megaMenuSections?.map((section, sectionIdx) => (
+                                    <div key={sectionIdx} className="py-3.5 px-4">
+                                      <h4 className="text-[11px] font-bold text-blue-500 uppercase tracking-wider mb-2.5" style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}>
+                                        {t(section.titleKey)}
+                                      </h4>
+                                      <div className="flex flex-col">
+                                        {section.items.map((item, itemIdx) => (
+                                          <Link
+                                            key={itemIdx}
+                                            to={toHref(item.href)}
+                                            className="block rounded-xl px-2.5 py-2 -mx-2.5 hover:bg-blue-50 transition-colors"
+                                            style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
+                                            onClick={() => {
+                                              setActiveMobileMegaMenu(null);
+                                              setIsOpen(false);
+                                            }}
+                                          >
+                                            <div className="font-semibold text-sm text-slate-800">{t(item.nameKey)}</div>
+                                            {item.descriptionKey && (
+                                              <div className="text-xs text-slate-500 mt-0.5">{t(item.descriptionKey)}</div>
+                                            )}
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </motion.div>
                       );
                     }
 
                     return (
-                      <Link
-                        key={link.nameKey}
-                        to={toHref(link.href)}
-                        aria-current={active ? 'page' : undefined}
-                        className={mobileLinkClass(active)}
-                        style={{ ...mobileLinkStyle }}
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {t(link.nameKey)}
-                      </Link>
+                      <motion.div key={link.nameKey} variants={mobileItemVariants}>
+                        <Link
+                          to={toHref(link.href)}
+                          aria-current={active ? 'page' : undefined}
+                          className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl font-semibold no-underline visited:text-inherit transition-all duration-200 ${
+                            active
+                              ? "bg-gradient-to-r from-[#0C2D5E] to-[#1565C0] text-white shadow-lg shadow-blue-900/20"
+                              : "bg-white text-blue-900 shadow-sm shadow-slate-200/60 hover:bg-blue-50"
+                          }`}
+                          style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {Icon && (
+                            <span
+                              className={`flex items-center justify-center w-9 h-9 rounded-xl shrink-0 transition-colors ${
+                                active ? "bg-white/15 text-white" : "bg-blue-50 text-blue-600"
+                              }`}
+                            >
+                              <Icon size={18} />
+                            </span>
+                          )}
+                          <span>{t(link.nameKey)}</span>
+                        </Link>
+                      </motion.div>
                     );
                   })}
-                </div>
+                </motion.nav>
 
-                <div className="mt-8 pt-6 border-t border-slate-200">
-                  <div className="flex items-center justify-between mb-4">
+                {/* WhatsApp CTA */}
+                <motion.a
+                  variants={mobileItemVariants}
+                  initial="hidden"
+                  animate="visible"
+                  href={PRIMARY_OFFICE.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-white shadow-lg shadow-green-900/15 transition-transform active:scale-[0.98]"
+                  style={{
+                    fontFamily: "'Barlow', system-ui, sans-serif",
+                    background: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)",
+                  }}
+                >
+                  <MessageCircle size={19} />
+                  {t('header.chatWhatsapp', 'Chat via WhatsApp')}
+                </motion.a>
+
+                <div className="mt-6 pt-5 border-t border-slate-200/80">
+                  <div className="flex items-center justify-between mb-4 bg-white rounded-2xl px-4 py-3 shadow-sm shadow-slate-200/60">
                     <span className="text-sm font-semibold text-slate-700">{t('header.language')}</span>
                     <LanguageSwitcher isLight={true} />
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center gap-3">
                     <a
                       href={SOCIAL.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-lg text-blue-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                      className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-700 shadow-sm shadow-slate-200/60 hover:text-white hover:bg-gradient-to-br hover:from-[#1565C0] hover:to-[#00AEEF] transition-all"
                       aria-label="Instagram"
                     >
-                      <Instagram size={20} strokeWidth={3} />
+                      <Instagram size={18} strokeWidth={2.5} />
                     </a>
                     <a
                       href={SOCIAL.tiktok}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-lg text-blue-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                      className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-700 shadow-sm shadow-slate-200/60 hover:text-white hover:bg-gradient-to-br hover:from-[#1565C0] hover:to-[#00AEEF] transition-all"
                       aria-label="TikTok"
                     >
-                      <TikTokIcon size={20} />
+                      <TikTokIcon size={18} />
                     </a>
                     <a
                       href={SOCIAL.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-lg text-blue-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                      className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-700 shadow-sm shadow-slate-200/60 hover:text-white hover:bg-gradient-to-br hover:from-[#1565C0] hover:to-[#00AEEF] transition-all"
                       aria-label="Facebook"
                     >
-                      <Facebook size={20} strokeWidth={3} />
+                      <Facebook size={18} strokeWidth={2.5} />
                     </a>
                   </div>
                 </div>

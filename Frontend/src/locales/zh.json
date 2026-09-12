@@ -60,7 +60,8 @@
     },
     "menu": "导航菜单",
     "openMenu": "打开菜单",
-    "closeMenu": "关闭菜单"
+    "closeMenu": "关闭菜单",
+    "chatWhatsapp": "通过 WhatsApp 联系我们"
   },
   "hero": {
     "badge": "自2003年以来值得信赖",
