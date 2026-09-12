@@ -235,6 +235,17 @@
   border-radius: 10px;
   transition: all 0.3s ease;
   border: 1px solid transparent;
+  min-width: 0;
+}
+
+.contact-link svg {
+  flex-shrink: 0;
+}
+
+.contact-link span {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .contact-link:visited {
