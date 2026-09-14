@@ -865,21 +865,29 @@ button.products-card {
   appearance: none;
   -webkit-appearance: none;
   flex-shrink: 0;
-  width: 8px;
-  height: 8px;
+  width: 18px;
+  height: 18px;
   min-width: 0;
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  background-clip: content-box;
   border: none;
-  background: rgba(255, 255, 255, 0.6);
   cursor: pointer;
-  padding: 0;
+  padding: 6px;
   margin: 0;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, width 0.2s ease;
+}
+
+.product-image-slider-dot:hover {
+  background: rgba(255, 255, 255, 0.85);
+  background-clip: content-box;
 }
 
 .product-image-slider-dot.active {
+  width: 28px;
+  border-radius: 9px;
   background: #ffffff;
-  transform: scale(1.2);
+  background-clip: content-box;
 }
 
 .products-detail-content {
