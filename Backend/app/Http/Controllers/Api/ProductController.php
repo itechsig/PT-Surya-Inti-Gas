@@ -50,7 +50,12 @@ class ProductController extends Controller
                 ];
             }
 
-            return response()->json(['success' => true, 'data' => $result]);
+            // Short browser-side cache so repeated SPA navigation (home -> products -> detail -> back)
+            // doesn't re-hit this endpoint every time. Deliberately NOT using Laravel's Cache facade
+            // here - see TeamService::getActiveMembers() for why that made a similar public listing
+            // slower on this app's "database" cache store.
+            return response()->json(['success' => true, 'data' => $result])
+                ->header('Cache-Control', 'public, max-age=60');
         } catch (\Exception $e) {
             return $this->handleApiError($e, 'Failed to retrieve products', 'products_public_index_failed');
         }
