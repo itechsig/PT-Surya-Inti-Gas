@@ -4,31 +4,10 @@
  * berupa daftar referensi jenis & item stok, bukan produk yang dikelola lewat CMS.
  */
 
-export interface ValveStockItem {
-  /** Slug unik untuk key React. */
-  id: string;
-  /** Dipakai sebagai judul kartu ketika item tidak punya merek (mis. varian generik). */
-  label?: string;
-  /** Material/kelas badan valve, mis. "BR" (Brass), "SS316", "BZ (EN 1626)". */
-  material?: string;
-  brand?: string;
-  model?: string;
-  connection?: string;
-  /** Rating tekanan kerja, mis. "MWP 600psi" atau "DN 25mm PN 63bar". */
-  pressure?: string;
-  /** Catatan kondisi, mis. "Refurbished". */
-  condition?: string;
-}
+import type { CatalogStockItem, CatalogTypeGroup, CatalogLegendEntry } from "./catalogTypes";
 
-export interface ValveTypeGroup {
-  /** Slug unik untuk key React & state aktif. */
-  id: string;
-  /** Nama jenis valve, ditampilkan di daftar. */
-  name: string;
-  /** Penjelasan umum tentang fungsi & aplikasi jenis valve ini. */
-  description: string;
-  items: ValveStockItem[];
-}
+export type ValveStockItem = CatalogStockItem;
+export type ValveTypeGroup = CatalogTypeGroup;
 
 export const VALVE_CATEGORIES: ValveTypeGroup[] = [
   {
@@ -188,7 +167,7 @@ export const VALVE_CATEGORIES: ValveTypeGroup[] = [
 ];
 
 /** Singkatan material yang dipakai pada kartu item, ditampilkan sebagai legenda. */
-export const MATERIAL_LEGEND: { code: string; label: string }[] = [
+export const MATERIAL_LEGEND: CatalogLegendEntry[] = [
   { code: "BR", label: "Brass (Kuningan)" },
   { code: "SS / SS316", label: "Stainless Steel" },
   { code: "BZ", label: "Bronze (Perunggu)" },

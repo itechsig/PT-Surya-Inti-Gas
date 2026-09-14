@@ -1,5 +1,5 @@
-/* ── Valve Catalog Explorer ── */
-.valve-explorer {
+/* ── Catalog Explorer (Valve, Regulator, ...) ── */
+.catalog-explorer {
   margin-top: 32px;
   display: flex;
   align-items: flex-start;
@@ -10,14 +10,14 @@
   border: 1px solid var(--slate-200);
 }
 
-.valve-explorer-sidebar {
+.catalog-explorer-sidebar {
   display: flex;
   flex-direction: column;
   gap: 6px;
   flex: 0 0 260px;
 }
 
-.valve-explorer-nav-item {
+.catalog-explorer-nav-item {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -35,29 +35,29 @@
   transition: all 0.2s var(--ease);
 }
 
-.valve-explorer-nav-item:hover {
+.catalog-explorer-nav-item:hover {
   border-color: var(--sky-light);
   transform: translateX(2px);
 }
 
-.valve-explorer-nav-item.active {
+.catalog-explorer-nav-item.active {
   border-color: var(--blue);
   background: rgba(30, 64, 175, 0.06);
   color: var(--blue);
 }
 
-.valve-explorer-nav-icon {
+.catalog-explorer-nav-icon {
   font-size: 1.1rem;
   line-height: 1;
   color: var(--slate-600);
   flex-shrink: 0;
 }
 
-.valve-explorer-nav-item.active .valve-explorer-nav-icon {
+.catalog-explorer-nav-item.active .catalog-explorer-nav-icon {
   color: var(--blue);
 }
 
-.valve-explorer-panel {
+.catalog-explorer-panel {
   flex: 1 1 auto;
   min-width: 0;
   background: var(--white);
@@ -66,14 +66,14 @@
   padding: 24px;
 }
 
-.valve-explorer-placeholder {
+.catalog-explorer-placeholder {
   font-family: var(--ff-body);
   font-size: 0.92rem;
   color: var(--slate-600);
   margin: 0;
 }
 
-.valve-explorer-detail-title {
+.catalog-explorer-detail-title {
   font-family: var(--ff-display);
   font-size: 1.15rem;
   font-weight: 700;
@@ -81,7 +81,7 @@
   margin: 0 0 10px;
 }
 
-.valve-explorer-detail-description {
+.catalog-explorer-detail-description {
   font-family: var(--ff-body);
   font-size: 0.92rem;
   line-height: 1.7;
@@ -89,7 +89,7 @@
   margin: 0 0 20px;
 }
 
-.valve-explorer-models-title {
+.catalog-explorer-models-title {
   font-family: var(--ff-display);
   font-size: 0.85rem;
   font-weight: 700;
@@ -100,20 +100,20 @@
 }
 
 /* ── Item spec cards ── */
-.valve-explorer-items {
+.catalog-explorer-items {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 14px;
 }
 
-.valve-explorer-item-card {
+.catalog-explorer-item-card {
   background: var(--slate-50);
   border: 1px solid var(--slate-200);
   border-radius: 8px;
   padding: 14px 16px;
 }
 
-.valve-explorer-item-header {
+.catalog-explorer-item-header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -121,14 +121,14 @@
   margin-bottom: 10px;
 }
 
-.valve-explorer-item-title {
+.catalog-explorer-item-title {
   font-family: var(--ff-display);
   font-size: 0.92rem;
   font-weight: 700;
   color: var(--navy-dark);
 }
 
-.valve-explorer-item-badge {
+.catalog-explorer-item-badge {
   font-family: var(--ff-body);
   font-size: 0.7rem;
   font-weight: 700;
@@ -139,41 +139,41 @@
   padding: 2px 8px;
 }
 
-.valve-explorer-item-badge--condition {
+.catalog-explorer-item-badge--condition {
   color: #b45309;
   background: rgba(180, 83, 9, 0.1);
 }
 
-.valve-explorer-item-specs {
+.catalog-explorer-item-specs {
   margin: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.valve-explorer-item-spec {
+.catalog-explorer-item-spec {
   display: flex;
   gap: 6px;
   font-family: var(--ff-body);
   font-size: 0.83rem;
 }
 
-.valve-explorer-item-spec dt {
+.catalog-explorer-item-spec dt {
   color: var(--slate-600);
   flex-shrink: 0;
 }
 
-.valve-explorer-item-spec dt::after {
+.catalog-explorer-item-spec dt::after {
   content: ":";
 }
 
-.valve-explorer-item-spec dd {
+.catalog-explorer-item-spec dd {
   margin: 0;
   color: var(--slate-700);
   font-weight: 600;
 }
 
-.valve-explorer-legend {
+.catalog-explorer-legend {
   margin: 18px 0 0;
   font-family: var(--ff-body);
   font-size: 0.75rem;
@@ -181,22 +181,22 @@
 }
 
 @media (max-width: 900px) {
-  .valve-explorer {
+  .catalog-explorer {
     flex-direction: column;
     padding: 16px;
   }
 
-  .valve-explorer-sidebar {
+  .catalog-explorer-sidebar {
     flex-basis: auto;
     width: 100%;
   }
 
-  .valve-explorer-panel {
+  .catalog-explorer-panel {
     width: 100%;
     padding: 16px;
   }
 
-  .valve-explorer-items {
+  .catalog-explorer-items {
     grid-template-columns: 1fr;
   }
 }

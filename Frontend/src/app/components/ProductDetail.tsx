@@ -11,6 +11,7 @@ import { trackProductInteraction } from "../../utils/productTracking";
 import { RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 import { Seo } from "./Seo";
 import { ValveCatalogExplorer } from "./ValveCatalogExplorer";
+import { RegulatorCatalogExplorer } from "./RegulatorCatalogExplorer";
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -346,6 +347,13 @@ export function ProductDetail() {
               {productData?.mainCategory === 'equipment' && product.id === 'valve' && (
                 <motion.div variants={fadeUp}>
                   <ValveCatalogExplorer />
+                </motion.div>
+              )}
+
+              {/* Regulator type/model browser, only on the dedicated Regulator equipment product */}
+              {productData?.mainCategory === 'equipment' && product.id === 'reg' && (
+                <motion.div variants={fadeUp}>
+                  <RegulatorCatalogExplorer />
                 </motion.div>
               )}
 
