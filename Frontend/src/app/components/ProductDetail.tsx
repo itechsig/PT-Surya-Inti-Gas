@@ -12,6 +12,7 @@ import { RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 import { Seo } from "./Seo";
 import { ValveCatalogExplorer } from "./ValveCatalogExplorer";
 import { RegulatorCatalogExplorer } from "./RegulatorCatalogExplorer";
+import { MedicalEquipmentCatalogExplorer } from "./MedicalEquipmentCatalogExplorer";
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -354,6 +355,13 @@ export function ProductDetail() {
               {productData?.mainCategory === 'equipment' && product.id === 'reg' && (
                 <motion.div variants={fadeUp}>
                   <RegulatorCatalogExplorer />
+                </motion.div>
+              )}
+
+              {/* Medical instrument browser, only on the dedicated Medical Instrumen equipment product */}
+              {productData?.mainCategory === 'equipment' && product.id === 'mdc' && (
+                <motion.div variants={fadeUp}>
+                  <MedicalEquipmentCatalogExplorer />
                 </motion.div>
               )}
 

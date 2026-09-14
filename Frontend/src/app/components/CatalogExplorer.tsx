@@ -20,10 +20,13 @@ export function CatalogExplorer({ categories, legend, navLabel, placeholder }: C
 
   const activeCategory = categories.find((c) => c.id === activeCategoryId) || null;
 
+  // When an item has a `label` (e.g. "Front Part Medical Gas Outlet Oxygen"), that's the
+  // meaningful title — brand/model become spec rows instead of being folded into the title,
+  // since for those items the brand alone (often "LOKAL") isn't what tells items apart.
   const itemTitle = (item: CatalogStockItem) => {
+    if (item.label) return item.label;
     if (item.brand && item.model) return `${item.brand} — ${item.model}`;
-    if (item.brand) return item.brand;
-    return item.label || "Item";
+    return item.brand || "Item";
   };
 
   return (
@@ -64,6 +67,18 @@ export function CatalogExplorer({ categories, legend, navLabel, placeholder }: C
                     )}
                   </div>
                   <dl className="catalog-explorer-item-specs">
+                    {item.label && item.brand && (
+                      <div className="catalog-explorer-item-spec">
+                        <dt>Merek</dt>
+                        <dd>{item.brand}</dd>
+                      </div>
+                    )}
+                    {item.label && item.model && (
+                      <div className="catalog-explorer-item-spec">
+                        <dt>Model</dt>
+                        <dd>{item.model}</dd>
+                      </div>
+                    )}
                     {item.connection && (
                       <div className="catalog-explorer-item-spec">
                         <dt>Koneksi</dt>
