@@ -34,7 +34,7 @@
     "about": "Tentang Kami",
     "distribution": "Jaringan Distribusi",
     "productsServices": "Produk & Layanan",
-    "industrialMedical": "Industri & Medis",
+    "industrialMedical": "Gas Industri & Medis",
     "specialityMixed": "Gas Spesial & Campuran",
     "relatedEquipment": "Peralatan Pendukung Gas Industri",
     "liquid": "Gas Cair",
@@ -190,7 +190,7 @@
       "dialogDescription": "Pilih ukuran cradle yang Anda butuhkan:"
     },
     "categories": {
-      "industrial-medical": "Industri & Medis",
+      "industrial-medical": "Gas Industri & Medis",
       "speciality-mixed": "Gas Spesial & Campuran",
       "liquid": "Gas Cair",
       "package": "Kemasan",
@@ -818,7 +818,7 @@
       "highPressureDesc": "Tabung gas bertekanan tinggi seamless berkualitas untuk berbagai aplikasi industri",
       "regulator": "Regulator & Valves",
       "regulatorDesc": "Peralatan regulasi tekanan dan katup kontrol untuk distribusi gas yang aman",
-      "industrialMedical": "Industri & Medis",
+      "industrialMedical": "Gas Industri & Medis",
       "industrialMedicalDesc": "Gas industri dan medis dalam bentuk gas maupun cair untuk berbagai kebutuhan",
       "specialityMixed": "Gas Spesial & Campuran",
       "specialityMixedDesc": "Gas khusus dan gas campuran dengan komposisi presisi untuk aplikasi sensitif",

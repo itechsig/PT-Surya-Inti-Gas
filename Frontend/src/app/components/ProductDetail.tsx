@@ -8,6 +8,7 @@ import { useProductCatalog } from "../../hooks/useProductCatalog";
 import type { Product, SubCategory } from "../../data/products";
 import { getImageUrl, IMAGE_PLACEHOLDER } from "../../utils/imageUrl";
 import { trackProductInteraction } from "../../utils/productTracking";
+import { collapseCradleVariants } from "../../utils/cradleVariants";
 import { RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 import { Seo } from "./Seo";
 import { ValveCatalogExplorer } from "./ValveCatalogExplorer";
@@ -27,6 +28,9 @@ const staggerContainer: Variants = {
 
 /** Liquid gas (Gas Cair) products only ship in packaging suited for liquefied gas. */
 const LIQUID_PACKAGING_IDS = ['cryogenic-dewars', 'vessel-gas-liquid', 'microbulk-tank', 'vertical-storage-tank'];
+
+/** Industrial & Medical / Speciality & Mixed gases only ship in cylinders or cradles. */
+const STANDARD_PACKAGING_IDS = ['package-high-pressure', 'cradle'];
 
 export function ProductDetail() {
   const [searchParams] = useSearchParams();
@@ -78,12 +82,23 @@ export function ProductDetail() {
       });
     }
 
+    // Collapse the Cradle size variants into a single "Cradle" option (same as Product.tsx).
+    const collapsed = collapseCradleVariants(allProducts, t);
+
     // Gas Cair (liquid gas) only ships in packaging suited for liquefied gas.
     if (productData?.subCategoryTitle === t('products.categories.liquid')) {
-      return allProducts.filter(p => LIQUID_PACKAGING_IDS.includes(p.id));
+      return collapsed.filter(p => LIQUID_PACKAGING_IDS.includes(p.id));
     }
 
-    return allProducts;
+    // Industrial & Medical / Speciality & Mixed gases only ship in cylinders or cradles.
+    if (
+      productData?.subCategoryTitle === t('products.categories.industrial-medical') ||
+      productData?.subCategoryTitle === t('products.categories.speciality-mixed')
+    ) {
+      return collapsed.filter(p => STANDARD_PACKAGING_IDS.includes(p.id));
+    }
+
+    return collapsed;
   };
 
   const handleContactSales = (productTitle: string) => {
