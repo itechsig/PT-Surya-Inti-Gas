@@ -374,6 +374,17 @@ export function ProductDetail() {
                 </motion.div>
               )}
 
+              {/* WhatsApp Contact Button for Equipment Products (Peralatan Pendukung Gas Industri) */}
+              {productData?.mainCategory === 'equipment' && (
+                <motion.div className="product-contact" variants={fadeUp}>
+                  <h3>{t('productDetail.contact.title')}</h3>
+                  <p>{t('productDetail.contact.description')}</p>
+                  <button className="contact-button" onClick={() => handleContactSales(product.title)}>
+                    {t('productDetail.contact.button')}
+                  </button>
+                </motion.div>
+              )}
+
               {/* Product Information and Applications Only for Gas Products */}
               {productData?.mainCategory === 'gas' && (
                 <>
