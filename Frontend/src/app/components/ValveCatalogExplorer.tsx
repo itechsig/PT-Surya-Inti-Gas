@@ -1,47 +1,22 @@
 import { useState } from "react";
-import {
-  VALVE_CATEGORIES,
-  OTHER_VALVE_CATEGORIES,
-  OTHER_VALVES_ID,
-  OTHER_VALVES_LABEL,
-  type ValveEntry,
-} from "../../data/valveCatalog";
+import { VALVE_CATEGORIES, MATERIAL_LEGEND, type ValveStockItem } from "../../data/valveCatalog";
 import "../../styles/ValveCatalogExplorer.css";
 
 /**
  * Master-detail browser for the Valve product page: left-hand list of valve jenis,
- * with type codes shown on selection. "Other Valves" drills one level deeper into
- * its own sub-jenis before showing type codes.
+ * with actual stocked items (brand/model/connection/pressure) shown as spec cards
+ * on selection.
  */
 export function ValveCatalogExplorer() {
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
-  const [activeSubCategoryId, setActiveSubCategoryId] = useState<string | null>(null);
 
   const activeCategory = VALVE_CATEGORIES.find((c) => c.id === activeCategoryId) || null;
-  const isOtherValves = activeCategoryId === OTHER_VALVES_ID;
-  const activeSubCategory = isOtherValves
-    ? OTHER_VALVE_CATEGORIES.find((c) => c.id === activeSubCategoryId) || null
-    : null;
 
-  const selectCategory = (id: string) => {
-    setActiveCategoryId(id);
-    setActiveSubCategoryId(null);
+  const itemTitle = (item: ValveStockItem) => {
+    if (item.brand && item.model) return `${item.brand} — ${item.model}`;
+    if (item.brand) return item.brand;
+    return item.label || "Item";
   };
-
-  const renderDetail = (entry: ValveEntry) => (
-    <>
-      <h3 className="valve-explorer-detail-title">{entry.name}</h3>
-      <p className="valve-explorer-detail-description">{entry.description}</p>
-      <h4 className="valve-explorer-models-title">Tipe / Model</h4>
-      <ul className="valve-explorer-models">
-        {entry.models.map((model) => (
-          <li key={model} className="valve-explorer-model-item">
-            {model}
-          </li>
-        ))}
-      </ul>
-    </>
-  );
 
   return (
     <div className="valve-explorer">
@@ -51,60 +26,60 @@ export function ValveCatalogExplorer() {
             key={category.id}
             type="button"
             className={`valve-explorer-nav-item ${activeCategoryId === category.id ? "active" : ""}`}
-            onClick={() => selectCategory(category.id)}
+            onClick={() => setActiveCategoryId(category.id)}
             aria-current={activeCategoryId === category.id}
           >
             <span className="valve-explorer-nav-icon">›</span>
             <span>{category.name}</span>
           </button>
         ))}
-        <button
-          type="button"
-          className={`valve-explorer-nav-item ${isOtherValves ? "active" : ""}`}
-          onClick={() => selectCategory(OTHER_VALVES_ID)}
-          aria-current={isOtherValves}
-        >
-          <span className="valve-explorer-nav-icon">›</span>
-          <span>{OTHER_VALVES_LABEL}</span>
-        </button>
       </nav>
 
       <div className="valve-explorer-panel">
-        {!activeCategoryId && (
+        {!activeCategory && (
           <p className="valve-explorer-placeholder">
-            Pilih jenis valve di sebelah kiri untuk melihat penjelasan dan daftar tipenya.
+            Pilih jenis valve di sebelah kiri untuk melihat penjelasan dan daftar item yang tersedia.
           </p>
         )}
 
-        {activeCategory && renderDetail(activeCategory)}
-
-        {isOtherValves && !activeSubCategory && (
-          <nav className="valve-explorer-subsidebar" aria-label="Jenis Other Valves">
-            {OTHER_VALVE_CATEGORIES.map((sub) => (
-              <button
-                key={sub.id}
-                type="button"
-                className="valve-explorer-nav-item"
-                onClick={() => setActiveSubCategoryId(sub.id)}
-              >
-                <span className="valve-explorer-nav-icon">›</span>
-                <span>{sub.name}</span>
-              </button>
-            ))}
-          </nav>
-        )}
-
-        {activeSubCategory && (
-          <div className="valve-explorer-subdetail">
-            <button
-              type="button"
-              className="valve-explorer-back"
-              onClick={() => setActiveSubCategoryId(null)}
-            >
-              ‹ {OTHER_VALVES_LABEL}
-            </button>
-            {renderDetail(activeSubCategory)}
-          </div>
+        {activeCategory && (
+          <>
+            <h3 className="valve-explorer-detail-title">{activeCategory.name}</h3>
+            <p className="valve-explorer-detail-description">{activeCategory.description}</p>
+            <h4 className="valve-explorer-models-title">Item Tersedia</h4>
+            <div className="valve-explorer-items">
+              {activeCategory.items.map((item) => (
+                <div key={item.id} className="valve-explorer-item-card">
+                  <div className="valve-explorer-item-header">
+                    <span className="valve-explorer-item-title">{itemTitle(item)}</span>
+                    {item.material && <span className="valve-explorer-item-badge">{item.material}</span>}
+                    {item.condition && (
+                      <span className="valve-explorer-item-badge valve-explorer-item-badge--condition">
+                        {item.condition}
+                      </span>
+                    )}
+                  </div>
+                  <dl className="valve-explorer-item-specs">
+                    {item.connection && (
+                      <div className="valve-explorer-item-spec">
+                        <dt>Koneksi</dt>
+                        <dd>{item.connection}</dd>
+                      </div>
+                    )}
+                    {item.pressure && (
+                      <div className="valve-explorer-item-spec">
+                        <dt>Tekanan Kerja</dt>
+                        <dd>{item.pressure}</dd>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+              ))}
+            </div>
+            <p className="valve-explorer-legend">
+              {MATERIAL_LEGEND.map((entry) => `${entry.code}: ${entry.label}`).join(" · ")}
+            </p>
+          </>
         )}
       </div>
     </div>

@@ -10,20 +10,11 @@
   border: 1px solid var(--slate-200);
 }
 
-.valve-explorer-sidebar,
-.valve-explorer-subsidebar {
+.valve-explorer-sidebar {
   display: flex;
   flex-direction: column;
   gap: 6px;
   flex: 0 0 260px;
-}
-
-.valve-explorer-subsidebar {
-  flex-basis: auto;
-  width: 100%;
-  margin-top: 12px;
-  padding-top: 16px;
-  border-top: 1px dashed var(--slate-200);
 }
 
 .valve-explorer-nav-item {
@@ -105,51 +96,88 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--slate-700);
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 
-.valve-explorer-models {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* ── Item spec cards ── */
+.valve-explorer-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
 }
 
-.valve-explorer-model-item {
-  font-family: var(--ff-body);
-  font-size: 0.88rem;
-  color: var(--slate-700);
+.valve-explorer-item-card {
   background: var(--slate-50);
   border: 1px solid var(--slate-200);
-  border-radius: 6px;
-  padding: 10px 14px;
+  border-radius: 8px;
+  padding: 14px 16px;
 }
 
-.valve-explorer-subdetail {
-  margin-top: 12px;
-  padding-top: 16px;
-  border-top: 1px dashed var(--slate-200);
-}
-
-.valve-explorer-back {
-  display: inline-flex;
+.valve-explorer-item-header {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 16px;
-  padding: 6px 12px;
-  background: transparent;
-  border: none;
-  font-family: var(--ff-body);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--blue);
-  cursor: pointer;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
-.valve-explorer-back:hover {
-  text-decoration: underline;
+.valve-explorer-item-title {
+  font-family: var(--ff-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--navy-dark);
+}
+
+.valve-explorer-item-badge {
+  font-family: var(--ff-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--blue);
+  background: rgba(30, 64, 175, 0.08);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+.valve-explorer-item-badge--condition {
+  color: #b45309;
+  background: rgba(180, 83, 9, 0.1);
+}
+
+.valve-explorer-item-specs {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.valve-explorer-item-spec {
+  display: flex;
+  gap: 6px;
+  font-family: var(--ff-body);
+  font-size: 0.83rem;
+}
+
+.valve-explorer-item-spec dt {
+  color: var(--slate-600);
+  flex-shrink: 0;
+}
+
+.valve-explorer-item-spec dt::after {
+  content: ":";
+}
+
+.valve-explorer-item-spec dd {
+  margin: 0;
+  color: var(--slate-700);
+  font-weight: 600;
+}
+
+.valve-explorer-legend {
+  margin: 18px 0 0;
+  font-family: var(--ff-body);
+  font-size: 0.75rem;
+  color: var(--slate-600);
 }
 
 @media (max-width: 900px) {
@@ -166,5 +194,9 @@
   .valve-explorer-panel {
     width: 100%;
     padding: 16px;
+  }
+
+  .valve-explorer-items {
+    grid-template-columns: 1fr;
   }
 }
