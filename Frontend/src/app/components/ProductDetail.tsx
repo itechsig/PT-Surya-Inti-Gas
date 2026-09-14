@@ -8,6 +8,7 @@ import { useProductCatalog } from "../../hooks/useProductCatalog";
 import type { Product, SubCategory } from "../../data/products";
 import { getImageUrl, IMAGE_PLACEHOLDER } from "../../utils/imageUrl";
 import { trackProductInteraction } from "../../utils/productTracking";
+import { RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 import { Seo } from "./Seo";
 
 /* ── Motion variants ── */
@@ -37,7 +38,26 @@ export function ProductDetail() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleBack = () => {
-    navigate(`/${currentLang}/produk`);
+    if (!productData) {
+      navigate(`/${currentLang}/produk`);
+      return;
+    }
+
+    const { mainCategory, subCategory } = productData;
+
+    // Equipment products are surfaced as a virtual "Related Equipment" sub-tab under Gas.
+    if (mainCategory === 'equipment') {
+      navigate(`/${currentLang}/produk?category=gas&subcategory=${RELATED_EQUIPMENT_ID}`);
+      return;
+    }
+
+    // Package has no sub-category tabs, so just land back on the package tab.
+    if (mainCategory === 'package' || !subCategory) {
+      navigate(`/${currentLang}/produk?category=${mainCategory}`);
+      return;
+    }
+
+    navigate(`/${currentLang}/produk?category=${mainCategory}&subcategory=${encodeURIComponent(subCategory)}`);
   };
 
   const getPackagingOptions = () => {
