@@ -10,6 +10,7 @@ import { getImageUrl, IMAGE_PLACEHOLDER } from "../../utils/imageUrl";
 import { trackProductInteraction } from "../../utils/productTracking";
 import { RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 import { Seo } from "./Seo";
+import { ValveCatalogExplorer } from "./ValveCatalogExplorer";
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -338,6 +339,13 @@ export function ProductDetail() {
                   <button className="contact-button" onClick={() => handleContactSales(product.title)}>
                     {t('productDetail.contact.button')}
                   </button>
+                </motion.div>
+              )}
+
+              {/* Valve type/model browser, only on the dedicated Valve equipment product */}
+              {productData?.mainCategory === 'equipment' && product.id === 'valve' && (
+                <motion.div variants={fadeUp}>
+                  <ValveCatalogExplorer />
                 </motion.div>
               )}
 
