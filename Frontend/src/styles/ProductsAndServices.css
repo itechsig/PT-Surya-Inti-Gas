@@ -1086,6 +1086,20 @@ button.products-card {
   box-shadow: 0 8px 20px rgba(30, 64, 175, 0.3);
 }
 
+.contact-button:disabled {
+  background: var(--slate-300, #cbd5e1);
+  color: var(--slate-600, #475569);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.product-contact-hint {
+  font-family: var(--ff-body);
+  font-size: 0.83rem;
+  color: #b45309;
+  margin: -8px 0 16px;
+}
+
 /* ── Responsive Design for Product Detail ── */
 @media (max-width: 768px) {
   .spec-item {

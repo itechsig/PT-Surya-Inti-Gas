@@ -152,7 +152,10 @@
       "button": "Ask Availability via WhatsApp",
       "whatsappMessage": "Hello, I would like to ask about the availability of {{title}}. Is this product in stock?",
       "selectedPackaging": "Selected Packaging",
-      "selectedLiquid": "Selected Liquid"
+      "selectedLiquid": "Selected Liquid",
+      "selectedType": "Selected Type",
+      "selectedItem": "Selected Item",
+      "selectHint": "Please select a type and an available item above first before asking via WhatsApp."
     },
     "packaging": {
       "title": "Select Packaging",

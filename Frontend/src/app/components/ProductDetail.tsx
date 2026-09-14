@@ -14,6 +14,11 @@ import { Seo } from "./Seo";
 import { ValveCatalogExplorer } from "./ValveCatalogExplorer";
 import { RegulatorCatalogExplorer } from "./RegulatorCatalogExplorer";
 import { MedicalEquipmentCatalogExplorer } from "./MedicalEquipmentCatalogExplorer";
+import type { CatalogSelection } from "./CatalogExplorer";
+import { catalogItemTitle } from "../../data/catalogTypes";
+
+/** Equipment products with a jenis→item catalog browser: the WhatsApp CTA stays disabled until one is picked. */
+const CATALOG_EQUIPMENT_IDS = ['valve', 'reg', 'mdc'];
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -47,6 +52,7 @@ export function ProductDetail() {
   const [imageError, setImageError] = useState(false);
   const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [equipmentSelection, setEquipmentSelection] = useState<CatalogSelection | null>(null);
 
   const handleBack = () => {
     if (!productData) {
@@ -113,6 +119,12 @@ export function ProductDetail() {
       message += `\n${t('productDetail.contact.selectedPackaging')}: ${packagingLabel}`;
     }
 
+    // Add the jenis + item picked from the equipment catalog browser (Valve/Regulator/Medical Instrumen).
+    if (equipmentSelection) {
+      message += `\n${t('productDetail.contact.selectedType')}: ${equipmentSelection.category.name}`;
+      message += `\n${t('productDetail.contact.selectedItem')}: ${catalogItemTitle(equipmentSelection.item)}`;
+    }
+
     // Add the cradle size the visitor picked from the size picker.
     if (selectedSize) {
       message += `\n${t('productDetail.selectedSize')}: ${selectedSize}`;
@@ -141,6 +153,7 @@ export function ProductDetail() {
   useEffect(() => {
     setCurrentSlide(0);
     setImageError(false);
+    setEquipmentSelection(null);
   }, [productData?.product.id]);
 
   if (isLoading) {
@@ -356,34 +369,46 @@ export function ProductDetail() {
               {/* Valve type/model browser, only on the dedicated Valve equipment product */}
               {productData?.mainCategory === 'equipment' && product.id === 'valve' && (
                 <motion.div variants={fadeUp}>
-                  <ValveCatalogExplorer />
+                  <ValveCatalogExplorer onSelectionChange={setEquipmentSelection} />
                 </motion.div>
               )}
 
               {/* Regulator type/model browser, only on the dedicated Regulator equipment product */}
               {productData?.mainCategory === 'equipment' && product.id === 'reg' && (
                 <motion.div variants={fadeUp}>
-                  <RegulatorCatalogExplorer />
+                  <RegulatorCatalogExplorer onSelectionChange={setEquipmentSelection} />
                 </motion.div>
               )}
 
               {/* Medical instrument browser, only on the dedicated Medical Instrumen equipment product */}
               {productData?.mainCategory === 'equipment' && product.id === 'mdc' && (
                 <motion.div variants={fadeUp}>
-                  <MedicalEquipmentCatalogExplorer />
+                  <MedicalEquipmentCatalogExplorer onSelectionChange={setEquipmentSelection} />
                 </motion.div>
               )}
 
-              {/* WhatsApp Contact Button for Equipment Products (Peralatan Pendukung Gas Industri) */}
-              {productData?.mainCategory === 'equipment' && (
-                <motion.div className="product-contact" variants={fadeUp}>
-                  <h3>{t('productDetail.contact.title')}</h3>
-                  <p>{t('productDetail.contact.description')}</p>
-                  <button className="contact-button" onClick={() => handleContactSales(product.title)}>
-                    {t('productDetail.contact.button')}
-                  </button>
-                </motion.div>
-              )}
+              {/* WhatsApp Contact Button for Equipment Products (Peralatan Pendukung Gas Industri).
+                  Products with a jenis→item catalog browser require a pick there first. */}
+              {productData?.mainCategory === 'equipment' && (() => {
+                const requiresCatalogPick = CATALOG_EQUIPMENT_IDS.includes(product.id);
+                const canContact = !requiresCatalogPick || !!equipmentSelection;
+                return (
+                  <motion.div className="product-contact" variants={fadeUp}>
+                    <h3>{t('productDetail.contact.title')}</h3>
+                    <p>{t('productDetail.contact.description')}</p>
+                    {requiresCatalogPick && !canContact && (
+                      <p className="product-contact-hint">{t('productDetail.contact.selectHint')}</p>
+                    )}
+                    <button
+                      className="contact-button"
+                      onClick={() => handleContactSales(product.title)}
+                      disabled={!canContact}
+                    >
+                      {t('productDetail.contact.button')}
+                    </button>
+                  </motion.div>
+                );
+              })()}
 
               {/* Product Information and Applications Only for Gas Products */}
               {productData?.mainCategory === 'gas' && (

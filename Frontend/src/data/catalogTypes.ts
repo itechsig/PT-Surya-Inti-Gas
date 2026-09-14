@@ -35,3 +35,13 @@ export interface CatalogLegendEntry {
   code: string;
   label: string;
 }
+
+/**
+ * Same title logic used to render an item's card heading — reused when building the
+ * WhatsApp inquiry message so the picked item reads the same way there.
+ */
+export function catalogItemTitle(item: CatalogStockItem): string {
+  if (item.label) return item.label;
+  if (item.brand && item.model) return `${item.brand} — ${item.model}`;
+  return item.brand || "Item";
+}

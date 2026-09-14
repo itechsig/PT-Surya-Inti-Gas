@@ -152,7 +152,10 @@
       "button": "Tanya Ketersediaan via WhatsApp",
       "whatsappMessage": "Halo, saya ingin menanyakan persediaan produk {{title}}. Apakah produk ini tersedia?",
       "selectedPackaging": "Kemasan yang Dipilih",
-      "selectedLiquid": "Liquid yang Dipilih"
+      "selectedLiquid": "Liquid yang Dipilih",
+      "selectedType": "Jenis yang Dipilih",
+      "selectedItem": "Item yang Dipilih",
+      "selectHint": "Pilih jenis dan item yang tersedia terlebih dahulu di atas sebelum menanyakan via WhatsApp."
     },
     "packaging": {
       "title": "Pilih Kemasan",

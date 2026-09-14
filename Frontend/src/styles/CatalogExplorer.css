@@ -99,6 +99,13 @@
   margin: 0 0 12px;
 }
 
+.catalog-explorer-item-hint {
+  font-family: var(--ff-body);
+  font-size: 0.83rem;
+  color: var(--slate-600);
+  margin: -6px 0 14px;
+}
+
 /* ── Item spec cards ── */
 .catalog-explorer-items {
   display: grid;
@@ -107,10 +114,26 @@
 }
 
 .catalog-explorer-item-card {
+  display: block;
+  width: 100%;
   background: var(--slate-50);
-  border: 1px solid var(--slate-200);
+  border: 2px solid var(--slate-200);
   border-radius: 8px;
   padding: 14px 16px;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+
+.catalog-explorer-item-card:hover {
+  border-color: var(--sky-light);
+}
+
+.catalog-explorer-item-card.selected {
+  border-color: var(--blue);
+  background: rgba(30, 64, 175, 0.06);
+  box-shadow: 0 0 0 1px var(--blue);
 }
 
 .catalog-explorer-item-header {

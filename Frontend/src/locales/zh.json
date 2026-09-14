@@ -152,7 +152,10 @@
       "button": "通过WhatsApp咨询库存",
       "whatsappMessage": "您好，我想咨询{{title}}产品的库存情况。请问该产品是否有货？",
       "selectedPackaging": "选择的包装",
-      "selectedLiquid": "选择的液体"
+      "selectedLiquid": "选择的液体",
+      "selectedType": "选择的类型",
+      "selectedItem": "选择的项目",
+      "selectHint": "请先在上方选择类型和可用项目，然后再通过WhatsApp咨询。"
     },
     "packaging": {
       "title": "选择包装",
