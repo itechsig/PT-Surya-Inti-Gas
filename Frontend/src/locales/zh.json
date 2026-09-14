@@ -190,7 +190,7 @@
       "dialogDescription": "请选择您需要的气瓶架尺寸："
     },
     "categories": {
-      "industrial-medical": "工业与医用（气态与液态）",
+      "industrial-medical": "工业与医用气体",
       "speciality-mixed": "特种与混合气体",
       "liquid": "液态气体",
       "package": "包装",

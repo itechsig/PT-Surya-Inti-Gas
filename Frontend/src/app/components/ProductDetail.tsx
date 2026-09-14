@@ -28,9 +28,11 @@ const staggerContainer: Variants = {
 
 /** Liquid gas (Gas Cair) products only ship in packaging suited for liquefied gas. */
 const LIQUID_PACKAGING_IDS = ['cryogenic-dewars', 'vessel-gas-liquid', 'microbulk-tank', 'vertical-storage-tank'];
+const LIQUID_SUBCATEGORY_SLUG = 'liquid';
 
 /** Industrial & Medical / Speciality & Mixed gases only ship in cylinders or cradles. */
-const STANDARD_PACKAGING_IDS = ['package-high-pressure', 'cradle'];
+const STANDARD_PACKAGING_IDS = ['cylinder', 'cradle'];
+const STANDARD_SUBCATEGORY_SLUGS = ['industrial-medical', 'speciality-mixed'];
 
 export function ProductDetail() {
   const [searchParams] = useSearchParams();
@@ -85,16 +87,16 @@ export function ProductDetail() {
     // Collapse the Cradle size variants into a single "Cradle" option (same as Product.tsx).
     const collapsed = collapseCradleVariants(allProducts, t);
 
+    // Match by the category's stable slug, not its (admin-editable, per-language) display
+    // title — comparing against a translated title silently breaks the moment anyone
+    // renames the category in the CMS.
     // Gas Cair (liquid gas) only ships in packaging suited for liquefied gas.
-    if (productData?.subCategoryTitle === t('products.categories.liquid')) {
+    if (productData?.subCategory === LIQUID_SUBCATEGORY_SLUG) {
       return collapsed.filter(p => LIQUID_PACKAGING_IDS.includes(p.id));
     }
 
     // Industrial & Medical / Speciality & Mixed gases only ship in cylinders or cradles.
-    if (
-      productData?.subCategoryTitle === t('products.categories.industrial-medical') ||
-      productData?.subCategoryTitle === t('products.categories.speciality-mixed')
-    ) {
+    if (productData?.subCategory && STANDARD_SUBCATEGORY_SLUGS.includes(productData.subCategory)) {
       return collapsed.filter(p => STANDARD_PACKAGING_IDS.includes(p.id));
     }
 
