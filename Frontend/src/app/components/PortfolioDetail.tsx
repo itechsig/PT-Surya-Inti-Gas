@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
-import { ArrowLeft, Building2, Calendar, FolderOpen, MapPin, Wrench } from 'lucide-react';
+import { ArrowLeft, Building2, Calendar, ChevronLeft, ChevronRight, FolderOpen, MapPin, Wrench } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
@@ -31,6 +31,39 @@ export function PortfolioDetail() {
   const { t } = useTranslation();
   const { data: portfolio, isLoading } = usePortfolioDetail(slug ?? null, currentLang);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const galleryTrackRef = useRef<HTMLDivElement>(null);
+  const dragState = useRef({ down: false, startX: 0, scrollLeft: 0, moved: false });
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = galleryTrackRef.current;
+    if (!el) return;
+    dragState.current = { down: true, startX: e.pageX, scrollLeft: el.scrollLeft, moved: false };
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = galleryTrackRef.current;
+    if (!el || !dragState.current.down) return;
+    const dx = e.pageX - dragState.current.startX;
+    if (Math.abs(dx) > 5) dragState.current.moved = true;
+    el.scrollLeft = dragState.current.scrollLeft - dx;
+  };
+
+  const endDrag = () => { dragState.current.down = false; };
+
+  const handleClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (dragState.current.moved) {
+      e.preventDefault();
+      e.stopPropagation();
+      dragState.current.moved = false;
+    }
+  };
+
+  const scrollGalleryByDir = (dir: number) => {
+    const el = galleryTrackRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' });
+  };
 
   if (isLoading) {
     return (
@@ -149,24 +182,50 @@ export function PortfolioDetail() {
         {portfolio.gallery.length > 0 && (
           <>
             <h2 className="portfolio-section-title">{t('portfolio.detail.gallery')}</h2>
-            <motion.div
-              className="portfolio-gallery-grid"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: '-40px' }}
-              variants={staggerContainer}
-            >
-              {portfolio.gallery.map((img, i) => (
-                <motion.div key={i} className="portfolio-gallery-thumb" onClick={() => setLightboxIndex(i)} variants={fadeUp} whileHover={{ scale: 1.03 }}>
-                  <img
-                    src={getImageUrl(img.image)}
-                    alt={img.caption || portfolio.title}
-                    loading="lazy"
-                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
+            <div className="portfolio-gallery-slider">
+              <button
+                type="button"
+                className="portfolio-gallery-arrow portfolio-gallery-arrow-prev"
+                onClick={() => scrollGalleryByDir(-1)}
+                aria-label={t('portfolio.page.prev', 'Sebelumnya')}
+              >
+                <ChevronLeft size={18} />
+              </button>
+
+              <motion.div
+                className="portfolio-gallery-grid"
+                ref={galleryTrackRef}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={endDrag}
+                onPointerLeave={endDrag}
+                onClickCapture={handleClickCapture}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-40px' }}
+                variants={staggerContainer}
+              >
+                {portfolio.gallery.map((img, i) => (
+                  <motion.div key={i} className="portfolio-gallery-thumb" onClick={() => setLightboxIndex(i)} variants={fadeUp} whileHover={{ scale: 1.03 }}>
+                    <img
+                      src={getImageUrl(img.image)}
+                      alt={img.caption || portfolio.title}
+                      loading="lazy"
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <button
+                type="button"
+                className="portfolio-gallery-arrow portfolio-gallery-arrow-next"
+                onClick={() => scrollGalleryByDir(1)}
+                aria-label={t('portfolio.page.next', 'Berikutnya')}
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
             <Lightbox
               open={lightboxIndex !== null}
               index={lightboxIndex ?? 0}
