@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -207,15 +208,22 @@ const customIcon = new L.Icon({
 
 function MapUpdater({ activeLocations }: { activeLocations: any[] }) {
   const map = useMap();
+  // See DistributionNetworkPage.tsx's MapUpdater for why this keys off
+  // coordinates instead of the (always-fresh) array reference.
+  const coordsKey = activeLocations.map(loc => `${loc.lat},${loc.lng}`).join('|');
 
-  if (activeLocations.length > 0) {
+  useEffect(() => {
+    if (activeLocations.length === 0) return;
+
     if (activeLocations.length === 1) {
       map.setView([activeLocations[0].lat, activeLocations[0].lng], 13);
     } else {
       const bounds = L.latLngBounds(activeLocations.map(loc => [loc.lat, loc.lng]));
       map.fitBounds(bounds, { padding: [50, 50] });
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, coordsKey]);
+
   return null;
 }
 

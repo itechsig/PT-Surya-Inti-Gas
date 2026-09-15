@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -272,8 +273,16 @@ const customIcon = new L.Icon({
 // Komponen pembantu untuk mengatur pergerakan/zoom peta secara dinamis
 function MapUpdater({ activeLocations }: { activeLocations: any[] }) {
   const map = useMap();
+  // `activeLocations` is a fresh array/object reference on every parent render
+  // (getDistributionLocations() always re-maps), so key off the actual
+  // coordinates instead of the array reference - otherwise this effect (and the
+  // fitBounds/setView + tile reload it triggers) would re-run on every render,
+  // not just when the set of locations genuinely changes.
+  const coordsKey = activeLocations.map(loc => `${loc.lat},${loc.lng}`).join('|');
 
-  if (activeLocations.length > 0) {
+  useEffect(() => {
+    if (activeLocations.length === 0) return;
+
     if (activeLocations.length === 1) {
       // Jika hanya 1 lokasi, zoom langsung ke titik tersebut
       map.setView([activeLocations[0].lat, activeLocations[0].lng], 13);
@@ -282,7 +291,9 @@ function MapUpdater({ activeLocations }: { activeLocations: any[] }) {
       const bounds = L.latLngBounds(activeLocations.map(loc => [loc.lat, loc.lng]));
       map.fitBounds(bounds, { padding: [50, 50] });
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, coordsKey]);
+
   return null;
 }
 
