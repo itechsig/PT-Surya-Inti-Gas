@@ -64,6 +64,7 @@ const inPlaceResize = [
   { file: 'public/office-optimized.jpg', width: 1280, jpeg: 80 }, // AboutCompany <img>
   { file: 'public/images/office/wp.jpg', width: 1400, jpeg: 76 }, // interior page bg
   { file: 'public/images/office/wp2.jpg', width: 1400, jpeg: 74 }, // homepage fixed bg
+  { file: 'public/images/products/bg_produk_gas.jpg', width: 1600, jpeg: 76 }, // "Solusi Gas Industri" banner, displayed ~1173px
 ];
 
 async function resizeInPlace() {
