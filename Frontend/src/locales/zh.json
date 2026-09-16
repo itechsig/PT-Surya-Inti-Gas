@@ -179,9 +179,7 @@
     },
     "nav": {
       "backToCategories": "返回分类",
-      "backToSubcategories": "返回子分类",
-      "chooseCategory": "选择产品或服务分类",
-      "chooseSubcategory": "选择气体产品子分类"
+      "backToSubcategories": "返回子分类"
     },
     "mainCategories": {
       "gas": "气体产品",

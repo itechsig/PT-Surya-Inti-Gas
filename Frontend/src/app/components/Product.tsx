@@ -322,9 +322,6 @@ export function Product() {
             {/* Step 1: pick a main category */}
             {step === 'hub' && (
               <motion.div key="hub" initial="hidden" animate="show" exit={stepExit} variants={staggerContainer}>
-                <motion.div className="products-flow-heading" variants={fadeUp}>
-                  <p>{t('products.nav.chooseCategory')}</p>
-                </motion.div>
                 <motion.div className="picker-grid" variants={staggerContainer}>
                   {mainCategories.map((category) => (
                     <PickerCard
@@ -349,7 +346,6 @@ export function Product() {
                 </motion.div>
                 <motion.div className="products-flow-heading" variants={fadeUp}>
                   <h2>{t('products.mainCategories.gas')}</h2>
-                  <p>{t('products.nav.chooseSubcategory')}</p>
                 </motion.div>
                 <motion.div className="picker-grid picker-grid--sub" variants={staggerContainer}>
                   {getGasSubCategories().map((subCat) => (

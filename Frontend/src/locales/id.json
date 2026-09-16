@@ -179,9 +179,7 @@
     },
     "nav": {
       "backToCategories": "Kembali ke Kategori",
-      "backToSubcategories": "Kembali ke Subkategori",
-      "chooseCategory": "Pilih kategori produk atau layanan",
-      "chooseSubcategory": "Pilih subkategori Produk Gas"
+      "backToSubcategories": "Kembali ke Subkategori"
     },
     "mainCategories": {
       "gas": "Produk Gas",

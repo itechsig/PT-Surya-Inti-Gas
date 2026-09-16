@@ -179,9 +179,7 @@
     },
     "nav": {
       "backToCategories": "Back to Categories",
-      "backToSubcategories": "Back to Subcategories",
-      "chooseCategory": "Choose a product or service category",
-      "chooseSubcategory": "Choose a Gas Products subcategory"
+      "backToSubcategories": "Back to Subcategories"
     },
     "mainCategories": {
       "gas": "Gas Products",
