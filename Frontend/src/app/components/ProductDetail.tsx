@@ -11,14 +11,8 @@ import { trackProductInteraction } from "../../utils/productTracking";
 import { collapseCradleVariants } from "../../utils/cradleVariants";
 import { RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 import { Seo } from "./Seo";
-import { ValveCatalogExplorer } from "./ValveCatalogExplorer";
-import { RegulatorCatalogExplorer } from "./RegulatorCatalogExplorer";
-import { MedicalEquipmentCatalogExplorer } from "./MedicalEquipmentCatalogExplorer";
-import type { CatalogSelection } from "./CatalogExplorer";
+import { EQUIPMENT_CATALOGS } from "../../data/equipmentCatalogs";
 import { catalogItemTitle } from "../../data/catalogTypes";
-
-/** Equipment products with a jenis→item catalog browser: the WhatsApp CTA stays disabled until one is picked. */
-const CATALOG_EQUIPMENT_IDS = ['valve', 'reg', 'mdc'];
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -52,7 +46,16 @@ export function ProductDetail() {
   const [imageError, setImageError] = useState(false);
   const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [equipmentSelection, setEquipmentSelection] = useState<CatalogSelection | null>(null);
+
+  // Valve/Regulator/Instrumen Medis: the jenis + tipe were already picked in the grid
+  // (RelatedEquipmentExplorer) before navigating here, so the selection is just read
+  // back from the URL instead of tracked in local state.
+  const catalogEntry = productData && productData.mainCategory === 'equipment'
+    ? EQUIPMENT_CATALOGS[productData.product.id]
+    : null;
+  const isCatalogEquipment = !!catalogEntry;
+  const resolvedJenis = catalogEntry?.categories.find((c) => c.id === searchParams.get('jenis')) || null;
+  const resolvedTipe = resolvedJenis?.items.find((i) => i.id === searchParams.get('tipe')) || null;
 
   const handleBack = () => {
     if (!productData) {
@@ -119,10 +122,10 @@ export function ProductDetail() {
       message += `\n${t('productDetail.contact.selectedPackaging')}: ${packagingLabel}`;
     }
 
-    // Add the jenis + item picked from the equipment catalog browser (Valve/Regulator/Medical Instrumen).
-    if (equipmentSelection) {
-      message += `\n${t('productDetail.contact.selectedType')}: ${equipmentSelection.category.name}`;
-      message += `\n${t('productDetail.contact.selectedItem')}: ${catalogItemTitle(equipmentSelection.item)}`;
+    // Add the jenis + tipe picked before navigating here (Valve/Regulator/Instrumen Medis).
+    if (resolvedJenis && resolvedTipe) {
+      message += `\n${t('productDetail.contact.selectedType')}: ${resolvedJenis.name}`;
+      message += `\n${t('productDetail.contact.selectedItem')}: ${catalogItemTitle(resolvedTipe)}`;
     }
 
     // Add the cradle size the visitor picked from the size picker.
@@ -153,8 +156,16 @@ export function ProductDetail() {
   useEffect(() => {
     setCurrentSlide(0);
     setImageError(false);
-    setEquipmentSelection(null);
   }, [productData?.product.id]);
+
+  // Valve/Regulator/Instrumen Medis are only reachable this way with a jenis + tipe
+  // already picked in the grid — a direct/stale link without both just bounces back
+  // to the Related Equipment grid to pick again.
+  useEffect(() => {
+    if (isCatalogEquipment && !(resolvedJenis && resolvedTipe)) {
+      navigate(`/${currentLang}/produk?category=gas&subcategory=${RELATED_EQUIPMENT_ID}`);
+    }
+  }, [isCatalogEquipment, resolvedJenis, resolvedTipe, navigate, currentLang]);
 
   if (isLoading) {
     return (
@@ -190,11 +201,6 @@ export function ProductDetail() {
   const { product, mainCategory, subCategoryTitle } = productData;
   const categoryLabel = t(`products.mainCategories.${mainCategory}`);
   const subCategoryLabel = subCategoryTitle || null;
-
-  // Valve/Regulator/Instrumen Medis are just category pickers into their jenis -> tipe
-  // catalog browser — the description and ordering info belong to the tipe (the actual
-  // "sub product"), not to this entry point, so both are skipped here.
-  const isCatalogEquipment = mainCategory === 'equipment' && CATALOG_EQUIPMENT_IDS.includes(product.id);
 
   // Only the delivery service gets a photo slider — every other product keeps a single image.
   const isDeliveryService = product.id === 'delivery';
@@ -349,11 +355,9 @@ export function ProductDetail() {
               animate="show"
               variants={staggerContainer}
             >
-              {!isCatalogEquipment && (
-                <motion.p className="products-detail-description" variants={fadeUp}>
-                  {product.fullDescription || product.description}
-                </motion.p>
-              )}
+              <motion.p className="products-detail-description" variants={fadeUp}>
+                {isCatalogEquipment ? resolvedJenis?.description : (product.fullDescription || product.description)}
+              </motion.p>
 
               {/* Size chosen from the Cradle size picker */}
               {selectedSize && (
@@ -373,41 +377,60 @@ export function ProductDetail() {
                 </motion.div>
               )}
 
-              {/* Valve type/model browser, only on the dedicated Valve equipment product.
-                  Description + ordering info render inside, on its own detail step. */}
-              {productData?.mainCategory === 'equipment' && product.id === 'valve' && (
-                <motion.div variants={fadeUp}>
-                  <ValveCatalogExplorer
-                    onSelectionChange={setEquipmentSelection}
-                    onContactSales={() => handleContactSales(product.title)}
-                  />
+              {/* Tipe specs, for Valve/Regulator/Instrumen Medis — jenis + tipe were already
+                  picked in the Related Equipment grid before landing on this page. */}
+              {isCatalogEquipment && resolvedJenis && resolvedTipe && (
+                <motion.div className="products-detail-info" variants={fadeUp}>
+                  <h3>Spesifikasi</h3>
+                  <div className="product-specifications">
+                    {resolvedTipe.brand && (
+                      <div className="spec-item">
+                        <span className="spec-label">Merek</span>
+                        <span className="spec-value">{resolvedTipe.brand}</span>
+                      </div>
+                    )}
+                    {resolvedTipe.model && (
+                      <div className="spec-item">
+                        <span className="spec-label">Model</span>
+                        <span className="spec-value">{resolvedTipe.model}</span>
+                      </div>
+                    )}
+                    {resolvedTipe.connection && (
+                      <div className="spec-item">
+                        <span className="spec-label">Koneksi</span>
+                        <span className="spec-value">{resolvedTipe.connection}</span>
+                      </div>
+                    )}
+                    {resolvedTipe.pressure && (
+                      <div className="spec-item">
+                        <span className="spec-label">Tekanan Kerja</span>
+                        <span className="spec-value">{resolvedTipe.pressure}</span>
+                      </div>
+                    )}
+                    {resolvedTipe.material && (
+                      <div className="spec-item">
+                        <span className="spec-label">Material</span>
+                        <span className="spec-value">{resolvedTipe.material}</span>
+                      </div>
+                    )}
+                    {resolvedTipe.condition && (
+                      <div className="spec-item">
+                        <span className="spec-label">Kondisi</span>
+                        <span className="spec-value">{resolvedTipe.condition}</span>
+                      </div>
+                    )}
+                  </div>
+                  {catalogEntry?.legend && catalogEntry.legend.length > 0 && (
+                    <p className="catalog-explorer-legend">
+                      {catalogEntry.legend.map((entry) => `${entry.code}: ${entry.label}`).join(" · ")}
+                    </p>
+                  )}
                 </motion.div>
               )}
 
-              {/* Regulator type/model browser, only on the dedicated Regulator equipment product */}
-              {productData?.mainCategory === 'equipment' && product.id === 'reg' && (
-                <motion.div variants={fadeUp}>
-                  <RegulatorCatalogExplorer
-                    onSelectionChange={setEquipmentSelection}
-                    onContactSales={() => handleContactSales(product.title)}
-                  />
-                </motion.div>
-              )}
-
-              {/* Medical instrument browser, only on the dedicated Medical Instrumen equipment product */}
-              {productData?.mainCategory === 'equipment' && product.id === 'mdc' && (
-                <motion.div variants={fadeUp}>
-                  <MedicalEquipmentCatalogExplorer
-                    onSelectionChange={setEquipmentSelection}
-                    onContactSales={() => handleContactSales(product.title)}
-                  />
-                </motion.div>
-              )}
-
-              {/* WhatsApp Contact Button for non-catalog equipment products. Valve/Regulator/
-                  Instrumen Medis render their own ordering info inside the catalog browser's
-                  detail step instead — this product-level entry point is just a category picker. */}
-              {productData?.mainCategory === 'equipment' && !isCatalogEquipment && (
+              {/* WhatsApp Contact Button for equipment products (Valve/Regulator/Instrumen
+                  Medis included — by the time this page renders, a tipe is always picked). */}
+              {productData?.mainCategory === 'equipment' && (
                 <motion.div className="product-contact" variants={fadeUp}>
                   <h3>{t('productDetail.contact.title')}</h3>
                   <p>{t('productDetail.contact.description')}</p>

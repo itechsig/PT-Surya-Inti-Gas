@@ -10,6 +10,7 @@ import { useProductCatalog } from "../../hooks/useProductCatalog";
 import { getImageUrl } from "../../utils/imageUrl";
 import { collapseCradleVariants } from "../../utils/cradleVariants";
 import { CradleSizeDialog } from "./CradleSizeDialog";
+import { RelatedEquipmentExplorer } from "./RelatedEquipmentExplorer";
 import { getRelatedEquipmentProducts, isRelatedEquipmentSlug, RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 
 const MotionLink = motion.create(Link);
@@ -374,16 +375,22 @@ export function Product() {
                 <motion.div className="products-flow-heading" variants={fadeUp} style={{ marginBottom: '24px' }}>
                   <h2>{currentListingLabel}</h2>
                 </motion.div>
-                <motion.div className="products-grid-compact" variants={gridStagger}>
-                  {getCurrentProducts().map((product: Product) => (
-                    <CompactProductCard
-                      key={product.id}
-                      product={product}
-                      href={productHref(product.id)}
-                      onVariantClick={(p) => setCradleVariants(p.variants ?? null)}
-                    />
-                  ))}
-                </motion.div>
+                {mainCategory === 'gas' && subCategory === RELATED_EQUIPMENT_ID ? (
+                  <motion.div variants={gridStagger}>
+                    <RelatedEquipmentExplorer products={getCurrentProducts()} lang={currentLang} />
+                  </motion.div>
+                ) : (
+                  <motion.div className="products-grid-compact" variants={gridStagger}>
+                    {getCurrentProducts().map((product: Product) => (
+                      <CompactProductCard
+                        key={product.id}
+                        product={product}
+                        href={productHref(product.id)}
+                        onVariantClick={(p) => setCradleVariants(p.variants ?? null)}
+                      />
+                    ))}
+                  </motion.div>
+                )}
               </motion.div>
             )}
 

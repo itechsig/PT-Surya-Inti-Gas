@@ -901,6 +901,14 @@ button.products-card {
   font-weight: 600;
 }
 
+/* Material abbreviation legend for equipment tipe specs (Valve/Regulator/Instrumen Medis). */
+.catalog-explorer-legend {
+  margin: 12px 0 0;
+  font-family: var(--ff-body);
+  font-size: 0.75rem;
+  color: var(--slate-600);
+}
+
 /* ── Product Applications & Contact ── */
 .product-applications,
 .product-contact {
