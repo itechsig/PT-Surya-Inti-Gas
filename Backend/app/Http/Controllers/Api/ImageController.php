@@ -96,6 +96,15 @@ class ImageController extends Controller
                 return $original;
             }
 
+            // GD drops EXIF metadata on re-encode, so the Orientation tag phones write
+            // (e.g. "rotate 90deg to display correctly") would otherwise be lost, leaving
+            // the resized image tilted. Bake the correct rotation into the pixels first.
+            if ($mimeType === 'image/jpeg' && function_exists('exif_read_data')) {
+                $source = $this->applyExifOrientation($source, $original);
+                $width = imagesx($source);
+                $height = imagesy($source);
+            }
+
             $ratio = self::MAX_DIMENSION / max($width, $height);
             $newWidth = max(1, (int) round($width * $ratio));
             $newHeight = max(1, (int) round($height * $ratio));
@@ -129,5 +138,43 @@ class ImageController extends Controller
         } catch (\Throwable $e) {
             return $original;
         }
+    }
+
+    /**
+     * Rotate/flip a GD image resource so its pixels match the JPEG's EXIF Orientation
+     * tag, since GD itself ignores that tag when decoding and would otherwise discard it.
+     */
+    private function applyExifOrientation($source, string $original)
+    {
+        $exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($original));
+        $orientation = $exif['Orientation'] ?? 1;
+
+        switch ($orientation) {
+            case 2:
+                imageflip($source, IMG_FLIP_HORIZONTAL);
+                break;
+            case 3:
+                $source = imagerotate($source, 180, 0);
+                break;
+            case 4:
+                imageflip($source, IMG_FLIP_VERTICAL);
+                break;
+            case 5:
+                imageflip($source, IMG_FLIP_VERTICAL);
+                $source = imagerotate($source, -90, 0);
+                break;
+            case 6:
+                $source = imagerotate($source, -90, 0);
+                break;
+            case 7:
+                imageflip($source, IMG_FLIP_HORIZONTAL);
+                $source = imagerotate($source, -90, 0);
+                break;
+            case 8:
+                $source = imagerotate($source, 90, 0);
+                break;
+        }
+
+        return $source;
     }
 }
