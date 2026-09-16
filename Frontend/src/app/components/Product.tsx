@@ -102,25 +102,16 @@ function PickerCard({ label, icon: Icon, onClick }: { label: string; icon: any; 
 
 // Compact Product/Service Card — image + name only, used for the listing grid.
 function CompactProductCard({ product, href, onVariantClick }: { product: Product; href: string; onVariantClick: (product: Product) => void }) {
-  const [imageError, setImageError] = useState(false);
-  const { t } = useTranslation();
   const isVariantGroup = !!product.variants?.length;
 
   const inner = (
     <>
-      <div className="products-card-compact-image">
-        {imageError ? (
-          <div className="products-card-compact-fallback">{t('common.imageNotFound')}</div>
-        ) : (
-          <img
-            src={getImageUrl(product.image)}
-            alt={product.title}
-            loading="lazy"
-            decoding="async"
-            onError={() => setImageError(true)}
-          />
-        )}
-      </div>
+      <div 
+        className="products-card-compact-image"
+        style={{
+          backgroundImage: `url(${getImageUrl(product.image)})`
+        }}
+      />
       <div className="products-card-compact-title">{product.title}</div>
     </>
   );
