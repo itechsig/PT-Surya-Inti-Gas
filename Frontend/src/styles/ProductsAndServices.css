@@ -1480,11 +1480,11 @@ button.products-card {
 .products-card-compact-image {
   position: relative;
   width: 100%;
-  padding-top: 100%; /* 1:1 aspect ratio */
-  background: transparent;
+  padding-top: 100%; /* 1:1 aspect ratio — same box for every card regardless of the source photo's own orientation */
+  background-color: var(--slate-50);
   border-radius: 10px;
   overflow: hidden;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   transition: transform 0.3s var(--ease);
