@@ -1495,18 +1495,21 @@ button.products-card {
 }
 
 .products-card-compact-title {
-  padding: 12px 6px 0;
+  margin-top: 12px;
+  padding: 14px 6px 0;
+  border-top: 2px solid var(--slate-200);
   font-family: var(--ff-display);
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.3;
   color: var(--navy-dark);
   text-align: center;
-  transition: color 0.25s ease;
+  transition: color 0.25s ease, border-color 0.25s ease;
 }
 
 .products-card-compact:hover .products-card-compact-title {
   color: var(--blue-dark);
+  border-color: var(--blue-light);
 }
 
 @media (max-width: 1200px) {
@@ -1538,7 +1541,7 @@ button.products-card {
   }
 
   .products-card-compact-title {
-    font-size: 0.9rem;
-    padding: 10px 4px 0;
+    font-size: 1.05rem;
+    padding: 12px 4px 0;
   }
 }
