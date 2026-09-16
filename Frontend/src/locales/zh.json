@@ -123,6 +123,8 @@
     "notFoundTitle": "未找到产品",
     "backToList": "返回产品列表",
     "backAria": "返回产品列表",
+    "backToTipeList": "返回型号列表",
+    "backToTipeAria": "返回型号列表",
     "selectedSize": "已选尺寸",
     "info": {
       "title": "产品信息",

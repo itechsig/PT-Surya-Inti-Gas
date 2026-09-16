@@ -66,8 +66,13 @@ export function ProductDetail() {
     const { mainCategory, subCategory } = productData;
 
     // Equipment products are surfaced as a virtual "Related Equipment" sub-tab under Gas.
+    // Valve/Regulator/Instrumen Medis carry the jenis picked back along, so the grid
+    // reopens straight at the tipe list instead of the top-level equipment picker.
     if (mainCategory === 'equipment') {
-      navigate(`/${currentLang}/produk?category=gas&subcategory=${RELATED_EQUIPMENT_ID}`);
+      const back = isCatalogEquipment && resolvedJenis
+        ? `/${currentLang}/produk?category=gas&subcategory=${RELATED_EQUIPMENT_ID}&equipment=${productData.product.id}&jenis=${resolvedJenis.id}`
+        : `/${currentLang}/produk?category=gas&subcategory=${RELATED_EQUIPMENT_ID}`;
+      navigate(back);
       return;
     }
 
@@ -268,8 +273,13 @@ export function ProductDetail() {
 
         <div className="products-container">
           {/* Back Button */}
-          <button onClick={handleBack} className="products-tab" style={{ marginBottom: '20px' }} aria-label={t('productDetail.backAria')}>
-            ← {t('productDetail.backToList')}
+          <button
+            onClick={handleBack}
+            className="products-tab"
+            style={{ marginBottom: '20px' }}
+            aria-label={isCatalogEquipment ? t('productDetail.backToTipeAria') : t('productDetail.backAria')}
+          >
+            ← {isCatalogEquipment ? t('productDetail.backToTipeList') : t('productDetail.backToList')}
           </button>
 
           {/* Product Detail */}

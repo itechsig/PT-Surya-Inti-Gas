@@ -123,6 +123,8 @@
     "notFoundTitle": "Product not found",
     "backToList": "Back to Product List",
     "backAria": "Back to product list",
+    "backToTipeList": "Back to Type List",
+    "backToTipeAria": "Back to type list",
     "selectedSize": "Selected size",
     "info": {
       "title": "Product Information",

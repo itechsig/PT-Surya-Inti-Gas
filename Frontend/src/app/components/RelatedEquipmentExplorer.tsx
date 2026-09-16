@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ChevronRight, Layers } from "lucide-react";
 import type { Product } from "../../data/products";
 import { EQUIPMENT_CATALOGS } from "../../data/equipmentCatalogs";
@@ -56,19 +55,42 @@ function Breadcrumb({ items }: { items: Crumb[] }) {
  */
 export function RelatedEquipmentExplorer({ products, lang, parentCrumbs, parentLabel, onBack, backLabel }: RelatedEquipmentExplorerProps) {
   const navigate = useNavigate();
-  const [activeEquipmentId, setActiveEquipmentId] = useState<string | null>(null);
-  const [activeJenisId, setActiveJenisId] = useState<string | null>(null);
+  // The jenis/tipe drill-down lives in the URL (not local state) so a product detail
+  // page's back button can link straight back to the exact tipe list the visitor was
+  // on, instead of always bouncing to the top-level equipment picker.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeEquipmentId = searchParams.get('equipment');
+  const activeJenisId = searchParams.get('jenis');
 
   const activeEquipment = products.find((p) => p.id === activeEquipmentId) || null;
   const catalog = activeEquipmentId ? EQUIPMENT_CATALOGS[activeEquipmentId] : null;
   const activeJenis = catalog?.categories.find((c) => c.id === activeJenisId) || null;
 
-  const backToEquipment = () => {
-    setActiveEquipmentId(null);
-    setActiveJenisId(null);
+  const selectEquipment = (id: string) => {
+    const next = new URLSearchParams(searchParams);
+    next.set('equipment', id);
+    next.delete('jenis');
+    setSearchParams(next);
   };
 
-  const backToJenis = () => setActiveJenisId(null);
+  const selectJenis = (id: string) => {
+    const next = new URLSearchParams(searchParams);
+    next.set('jenis', id);
+    setSearchParams(next);
+  };
+
+  const backToEquipment = () => {
+    const next = new URLSearchParams(searchParams);
+    next.delete('equipment');
+    next.delete('jenis');
+    setSearchParams(next);
+  };
+
+  const backToJenis = () => {
+    const next = new URLSearchParams(searchParams);
+    next.delete('jenis');
+    setSearchParams(next);
+  };
 
   // Level 1: pick Valve / Regulator / Instrumen Medis — same photo+name cards as any
   // other product grid, but picking one expands the jenis grid instead of navigating.
@@ -91,7 +113,7 @@ export function RelatedEquipmentExplorer({ products, lang, parentCrumbs, parentL
               aria-label={product.title}
               onClick={() =>
                 EQUIPMENT_CATALOGS[product.id]
-                  ? setActiveEquipmentId(product.id)
+                  ? selectEquipment(product.id)
                   : navigate(`/${lang}/produk/detail?id=${product.id}`)
               }
             >
@@ -128,7 +150,7 @@ export function RelatedEquipmentExplorer({ products, lang, parentCrumbs, parentL
         </div>
         <div className="picker-grid picker-grid--sub" role="list" aria-label={catalog.navLabel}>
           {catalog.categories.map((category) => (
-            <button key={category.id} type="button" className="picker-card" onClick={() => setActiveJenisId(category.id)}>
+            <button key={category.id} type="button" className="picker-card" onClick={() => selectJenis(category.id)}>
               <div className="picker-card-icon">
                 <Layers size={32} aria-hidden="true" />
               </div>

@@ -123,6 +123,8 @@
     "notFoundTitle": "Produk tidak ditemukan",
     "backToList": "Kembali ke Daftar Produk",
     "backAria": "Kembali ke daftar produk",
+    "backToTipeList": "Kembali ke Daftar Tipe",
+    "backToTipeAria": "Kembali ke daftar tipe",
     "selectedSize": "Ukuran dipilih",
     "info": {
       "title": "Informasi Produk",
