@@ -1449,15 +1449,16 @@ button.products-card {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   margin-bottom: 60px;
 }
 
 /* No card chrome — just the photo and its name, no border/background/shadow. */
 .products-card-compact {
   display: block;
-  flex: 0 1 calc((100% - 2 * 6px) / 3);
-  max-width: calc((100% - 2 * 6px) / 3);
+  flex: 0 1 calc((100% - 2 * 8px) / 3);
+  max-width: calc((100% - 2 * 8px) / 3);
+  min-width: 0;
   padding: 0;
   margin: 0;
   background: transparent;
@@ -1494,10 +1495,10 @@ button.products-card {
 }
 
 .products-card-compact-title {
-  padding: 10px 4px 0;
+  padding: 12px 6px 0;
   font-family: var(--ff-display);
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   line-height: 1.3;
   color: var(--navy-dark);
   text-align: center;
@@ -1510,19 +1511,19 @@ button.products-card {
 
 @media (max-width: 1200px) {
   .products-card-compact {
-    flex-basis: calc((100% - 2 * 6px) / 3);
-    max-width: calc((100% - 2 * 6px) / 3);
+    flex-basis: calc((100% - 2 * 8px) / 3);
+    max-width: calc((100% - 2 * 8px) / 3);
   }
 }
 
 @media (max-width: 900px) {
   .products-grid-compact {
-    gap: 5px;
+    gap: 6px;
   }
 
   .products-card-compact {
-    flex-basis: calc((100% - 2 * 5px) / 3);
-    max-width: calc((100% - 2 * 5px) / 3);
+    flex-basis: calc((100% - 2 * 6px) / 3);
+    max-width: calc((100% - 2 * 6px) / 3);
   }
 }
 
@@ -1537,7 +1538,7 @@ button.products-card {
   }
 
   .products-card-compact-title {
-    font-size: 0.78rem;
-    padding: 8px;
+    font-size: 0.9rem;
+    padding: 10px 4px 0;
   }
 }
