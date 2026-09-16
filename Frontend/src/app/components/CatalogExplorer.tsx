@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { ChevronRight, Layers } from "lucide-react";
 import type { CatalogTypeGroup, CatalogStockItem, CatalogLegendEntry } from "../../data/catalogTypes";
 import { catalogItemTitle } from "../../data/catalogTypes";
+import "../../styles/ProductsAndServices.css";
 import "../../styles/CatalogExplorer.css";
 
 export interface CatalogSelection {
@@ -11,28 +13,49 @@ export interface CatalogSelection {
 interface CatalogExplorerProps {
   categories: CatalogTypeGroup[];
   legend?: CatalogLegendEntry[];
-  /** aria-label for the left-hand nav, e.g. "Jenis Valve". */
+  /** Heading for the jenis picker step, e.g. "Jenis Valve". */
   navLabel: string;
   placeholder: string;
   /** Notified with the picked jenis + item, or null once either is cleared/changed. */
   onSelectionChange?: (selection: CatalogSelection | null) => void;
 }
 
+// Breadcrumb trail — click any earlier crumb to jump back to that step. Mirrors the
+// one in Product.tsx/ProductsAndServices.tsx so the equipment browser (Valve/Regulator/
+// Instrumen Medis) reads the same way as the main jenis -> tipe -> detail flow.
+function CatalogBreadcrumb({ items }: { items: { label: string; onClick?: () => void }[] }) {
+  return (
+    <nav className="products-breadcrumb" aria-label="breadcrumb">
+      {items.map((item, i) => {
+        const isLast = i === items.length - 1;
+        return (
+          <span key={i} className="products-breadcrumb-item">
+            {item.onClick ? (
+              <button type="button" onClick={item.onClick} className="products-breadcrumb-link">{item.label}</button>
+            ) : (
+              <span className="products-breadcrumb-current">{item.label}</span>
+            )}
+            {!isLast && <ChevronRight size={13} className="products-breadcrumb-sep" aria-hidden="true" />}
+          </span>
+        );
+      })}
+    </nav>
+  );
+}
+
 /**
- * Master-detail browser reused across equipment product detail pages (Valve,
- * Regulator, ...): left-hand list of jenis, with actual stocked items
- * (brand/model/connection/pressure) shown as spec cards on selection. Picking an
- * item card is required before the surrounding page will enable its WhatsApp CTA.
+ * Master-detail browser reused across equipment product detail pages (Valve, Regulator,
+ * Instrumen Medis): a 3-step flow that mirrors the main product browser — pick a jenis
+ * (picker cards), pick a tipe/model (compact photo cards), then a detail step with specs
+ * and ordering info, just like a gas cylinder's product detail page.
  */
 export function CatalogExplorer({ categories, legend, navLabel, placeholder, onSelectionChange }: CatalogExplorerProps) {
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   const activeCategory = categories.find((c) => c.id === activeCategoryId) || null;
+  const selectedItem = activeCategory?.items.find((i) => i.id === selectedItemId) || null;
 
-  // When an item has a `label` (e.g. "Front Part Medical Gas Outlet Oxygen"), that's the
-  // meaningful title — brand/model become spec rows instead of being folded into the title,
-  // since for those items the brand alone (often "LOKAL") isn't what tells items apart.
   const itemTitle = catalogItemTitle;
 
   const handleSelectCategory = (categoryId: string) => {
@@ -42,92 +65,139 @@ export function CatalogExplorer({ categories, legend, navLabel, placeholder, onS
   };
 
   const handleSelectItem = (category: CatalogTypeGroup, item: CatalogStockItem) => {
-    const nextId = selectedItemId === item.id ? null : item.id;
-    setSelectedItemId(nextId);
-    onSelectionChange?.(nextId ? { category, item } : null);
+    setSelectedItemId(item.id);
+    onSelectionChange?.({ category, item });
   };
 
+  const backToJenis = () => {
+    setActiveCategoryId(null);
+    setSelectedItemId(null);
+    onSelectionChange?.(null);
+  };
+
+  const backToTipe = () => {
+    setSelectedItemId(null);
+    onSelectionChange?.(null);
+  };
+
+  const rootCrumb = { label: navLabel, onClick: backToJenis };
+
   return (
-    <div className="catalog-explorer">
-      <nav className="catalog-explorer-sidebar" aria-label={navLabel}>
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            type="button"
-            className={`catalog-explorer-nav-item ${activeCategoryId === category.id ? "active" : ""}`}
-            onClick={() => handleSelectCategory(category.id)}
-            aria-current={activeCategoryId === category.id}
-          >
-            <span className="catalog-explorer-nav-icon">›</span>
-            <span>{category.name}</span>
+    <div className="catalog-explorer-flow">
+
+      {/* Step 1: pick a jenis */}
+      {!activeCategory && (
+        <div>
+          <div className="products-flow-heading" style={{ marginBottom: '24px' }}>
+            <h2>{navLabel}</h2>
+            <p>{placeholder}</p>
+          </div>
+          <div className="picker-grid picker-grid--sub" role="list" aria-label={navLabel}>
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                type="button"
+                className="picker-card"
+                onClick={() => handleSelectCategory(category.id)}
+              >
+                <div className="picker-card-icon">
+                  <Layers size={32} aria-hidden="true" />
+                </div>
+                <div className="picker-card-title">{category.name}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Step 2: pick a tipe/model within the chosen jenis */}
+      {activeCategory && !selectedItem && (
+        <div>
+          <CatalogBreadcrumb items={[rootCrumb, { label: activeCategory.name }]} />
+          <button type="button" onClick={backToJenis} className="products-tab" style={{ marginBottom: '20px' }}>
+            ← Kembali ke {navLabel}
           </button>
-        ))}
-      </nav>
+          <div className="products-flow-heading" style={{ marginBottom: '24px' }}>
+            <h2>{activeCategory.name}</h2>
+            <p>{activeCategory.description}</p>
+          </div>
+          <div className="products-grid-compact">
+            {activeCategory.items.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className="products-card-compact"
+                aria-label={itemTitle(item)}
+                onClick={() => handleSelectItem(activeCategory, item)}
+              >
+                {/* No product photos yet for these stock items — the box stays as a
+                    plain placeholder until real photos are uploaded, same layout as
+                    the photo cards elsewhere so it's a drop-in swap later. */}
+                <div className="products-card-compact-image" />
+                <div className="products-card-compact-title">{itemTitle(item)}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
-      <div className="catalog-explorer-panel">
-        {!activeCategory && <p className="catalog-explorer-placeholder">{placeholder}</p>}
-
-        {activeCategory && (
-          <>
-            <h3 className="catalog-explorer-detail-title">{activeCategory.name}</h3>
-            <p className="catalog-explorer-detail-description">{activeCategory.description}</p>
-            <h4 className="catalog-explorer-models-title">Item Tersedia</h4>
-            <p className="catalog-explorer-item-hint">Pilih salah satu item di bawah untuk menanyakan ketersediaannya via WhatsApp.</p>
-            <div className="catalog-explorer-items">
-              {activeCategory.items.map((item) => (
-                <button
-                  type="button"
-                  key={item.id}
-                  className={`catalog-explorer-item-card ${selectedItemId === item.id ? "selected" : ""}`}
-                  onClick={() => handleSelectItem(activeCategory, item)}
-                  aria-pressed={selectedItemId === item.id}
-                >
-                  <div className="catalog-explorer-item-header">
-                    <span className="catalog-explorer-item-title">{itemTitle(item)}</span>
-                    {item.material && <span className="catalog-explorer-item-badge">{item.material}</span>}
-                    {item.condition && (
-                      <span className="catalog-explorer-item-badge catalog-explorer-item-badge--condition">
-                        {item.condition}
-                      </span>
-                    )}
-                  </div>
-                  <dl className="catalog-explorer-item-specs">
-                    {item.label && item.brand && (
-                      <div className="catalog-explorer-item-spec">
-                        <dt>Merek</dt>
-                        <dd>{item.brand}</dd>
-                      </div>
-                    )}
-                    {item.label && item.model && (
-                      <div className="catalog-explorer-item-spec">
-                        <dt>Model</dt>
-                        <dd>{item.model}</dd>
-                      </div>
-                    )}
-                    {item.connection && (
-                      <div className="catalog-explorer-item-spec">
-                        <dt>Koneksi</dt>
-                        <dd>{item.connection}</dd>
-                      </div>
-                    )}
-                    {item.pressure && (
-                      <div className="catalog-explorer-item-spec">
-                        <dt>Tekanan Kerja</dt>
-                        <dd>{item.pressure}</dd>
-                      </div>
-                    )}
-                  </dl>
-                </button>
-              ))}
+      {/* Step 3: tipe detail — specs + ordering info, styled like a product detail page */}
+      {activeCategory && selectedItem && (
+        <div>
+          <CatalogBreadcrumb items={[rootCrumb, { label: activeCategory.name, onClick: backToTipe }, { label: itemTitle(selectedItem) }]} />
+          <button type="button" onClick={backToTipe} className="products-tab" style={{ marginBottom: '20px' }}>
+            ← Kembali ke Tipe
+          </button>
+          <div className="products-detail-info">
+            <h2>{itemTitle(selectedItem)}</h2>
+            <p>{activeCategory.description}</p>
+            <div className="product-specifications">
+              {selectedItem.brand && (
+                <div className="spec-item">
+                  <span className="spec-label">Merek</span>
+                  <span className="spec-value">{selectedItem.brand}</span>
+                </div>
+              )}
+              {selectedItem.model && (
+                <div className="spec-item">
+                  <span className="spec-label">Model</span>
+                  <span className="spec-value">{selectedItem.model}</span>
+                </div>
+              )}
+              {selectedItem.connection && (
+                <div className="spec-item">
+                  <span className="spec-label">Koneksi</span>
+                  <span className="spec-value">{selectedItem.connection}</span>
+                </div>
+              )}
+              {selectedItem.pressure && (
+                <div className="spec-item">
+                  <span className="spec-label">Tekanan Kerja</span>
+                  <span className="spec-value">{selectedItem.pressure}</span>
+                </div>
+              )}
+              {selectedItem.material && (
+                <div className="spec-item">
+                  <span className="spec-label">Material</span>
+                  <span className="spec-value">{selectedItem.material}</span>
+                </div>
+              )}
+              {selectedItem.condition && (
+                <div className="spec-item">
+                  <span className="spec-label">Kondisi</span>
+                  <span className="spec-value">{selectedItem.condition}</span>
+                </div>
+              )}
             </div>
             {legend && legend.length > 0 && (
               <p className="catalog-explorer-legend">
                 {legend.map((entry) => `${entry.code}: ${entry.label}`).join(" · ")}
               </p>
             )}
-          </>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
