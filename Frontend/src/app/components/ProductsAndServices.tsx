@@ -297,41 +297,53 @@ export function ProductsAndServices() {
             {/* Step 3: compact product/service grid */}
             {step === 'grid' && (
               <motion.div key={`grid-${mainCategory}-${subCategory}`} initial="hidden" animate="show" exit={stepExit} variants={staggerContainer}>
-                <motion.div variants={fadeUp}>
-                  <Breadcrumb
-                    items={
-                      mainCategory === 'gas'
-                        ? [rootCrumb, { label: t('products.mainCategories.gas'), onClick: goBackToSubcategories }, { label: currentListingLabel }]
-                        : [rootCrumb, { label: currentListingLabel }]
-                    }
-                  />
-                  <button
-                    onClick={mainCategory === 'gas' ? goBackToSubcategories : goBackToHub}
-                    className="products-tab"
-                    aria-label={mainCategory === 'gas' ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
-                    style={{ marginBottom: '20px' }}
-                  >
-                    ← {mainCategory === 'gas' ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
-                  </button>
-                </motion.div>
-                <motion.div className="products-flow-heading" variants={fadeUp} style={{ marginBottom: '24px' }}>
-                  <h2>{currentListingLabel}</h2>
-                </motion.div>
                 {mainCategory === 'gas' && subCategory === RELATED_EQUIPMENT_ID ? (
+                  // Owns its own breadcrumb + back button + heading for every jenis/tipe
+                  // level, folding in the crumbs up to here — so there's only ever one
+                  // path and one back button, never a second one stacked underneath.
                   <motion.div variants={gridStagger}>
-                    <RelatedEquipmentExplorer products={getCurrentProducts()} lang={currentLang} />
+                    <RelatedEquipmentExplorer
+                      products={getCurrentProducts()}
+                      lang={currentLang}
+                      parentCrumbs={[rootCrumb, { label: t('products.mainCategories.gas'), onClick: goBackToSubcategories }]}
+                      parentLabel={currentListingLabel}
+                      onBack={goBackToSubcategories}
+                      backLabel={t('products.nav.backToSubcategories')}
+                    />
                   </motion.div>
                 ) : (
-                  <motion.div className="products-grid-compact" variants={gridStagger}>
-                    {getCurrentProducts().map((product) => (
-                      <CompactProductCard
-                        key={product.id}
-                        product={product}
-                        href={productHref(product.id)}
-                        onVariantClick={(p) => setCradleVariants(p.variants ?? null)}
+                  <>
+                    <motion.div variants={fadeUp}>
+                      <Breadcrumb
+                        items={
+                          mainCategory === 'gas'
+                            ? [rootCrumb, { label: t('products.mainCategories.gas'), onClick: goBackToSubcategories }, { label: currentListingLabel }]
+                            : [rootCrumb, { label: currentListingLabel }]
+                        }
                       />
-                    ))}
-                  </motion.div>
+                      <button
+                        onClick={mainCategory === 'gas' ? goBackToSubcategories : goBackToHub}
+                        className="products-tab"
+                        aria-label={mainCategory === 'gas' ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
+                        style={{ marginBottom: '20px' }}
+                      >
+                        ← {mainCategory === 'gas' ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
+                      </button>
+                    </motion.div>
+                    <motion.div className="products-flow-heading" variants={fadeUp} style={{ marginBottom: '24px' }}>
+                      <h2>{currentListingLabel}</h2>
+                    </motion.div>
+                    <motion.div className="products-grid-compact" variants={gridStagger}>
+                      {getCurrentProducts().map((product) => (
+                        <CompactProductCard
+                          key={product.id}
+                          product={product}
+                          href={productHref(product.id)}
+                          onVariantClick={(p) => setCradleVariants(p.variants ?? null)}
+                        />
+                      ))}
+                    </motion.div>
+                  </>
                 )}
               </motion.div>
             )}

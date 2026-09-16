@@ -6,15 +6,25 @@ import { EQUIPMENT_CATALOGS } from "../../data/equipmentCatalogs";
 import { catalogItemTitle } from "../../data/catalogTypes";
 import { getImageUrl } from "../../utils/imageUrl";
 
+type Crumb = { label: string; onClick?: () => void };
+
 interface RelatedEquipmentExplorerProps {
   /** The Valve / Regulator / Instrumen Medis "products" shown in the Related Equipment grid. */
   products: Product[];
   lang: string;
+  /** Breadcrumb crumbs before this step, e.g. [Produk & Layanan, Produk Gas]. */
+  parentCrumbs: Crumb[];
+  /** Label for this whole sub-category, e.g. "Peralatan Pendukung Gas Industri". */
+  parentLabel: string;
+  /** Goes back one step further up, to the gas sub-category picker. */
+  onBack: () => void;
+  backLabel: string;
 }
 
 // Breadcrumb trail — click any earlier crumb to jump back to that step. Mirrors the
-// one in Product.tsx/ProductsAndServices.tsx so this drill-down reads the same way.
-function Breadcrumb({ items }: { items: { label: string; onClick?: () => void }[] }) {
+// one in Product.tsx/ProductsAndServices.tsx so this drill-down reads the same way —
+// as ONE continuous path, not a second breadcrumb stacked under the first.
+function Breadcrumb({ items }: { items: Crumb[] }) {
   return (
     <nav className="products-breadcrumb" aria-label="breadcrumb">
       {items.map((item, i) => {
@@ -39,8 +49,12 @@ function Breadcrumb({ items }: { items: { label: string; onClick?: () => void }[
  * Instrumen Medis). Picking Valve or a jenis never navigates away — it just expands the
  * next grid in place, exactly like picking a gas sub-category. Only picking a tipe
  * navigates, to its own detail page (description + specs + ordering info).
+ *
+ * Owns the ENTIRE breadcrumb + back button for every level here (folding in the parent
+ * crumbs it's handed) so there is always exactly one path and one back button on screen,
+ * never a second one stacked underneath for the jenis/tipe steps.
  */
-export function RelatedEquipmentExplorer({ products, lang }: RelatedEquipmentExplorerProps) {
+export function RelatedEquipmentExplorer({ products, lang, parentCrumbs, parentLabel, onBack, backLabel }: RelatedEquipmentExplorerProps) {
   const navigate = useNavigate();
   const [activeEquipmentId, setActiveEquipmentId] = useState<string | null>(null);
   const [activeJenisId, setActiveJenisId] = useState<string | null>(null);
@@ -60,26 +74,35 @@ export function RelatedEquipmentExplorer({ products, lang }: RelatedEquipmentExp
   // other product grid, but picking one expands the jenis grid instead of navigating.
   if (!activeEquipment || !catalog) {
     return (
-      <div className="products-grid-compact">
-        {products.map((product) => (
-          <button
-            key={product.id}
-            type="button"
-            className="products-card-compact"
-            aria-label={product.title}
-            onClick={() =>
-              EQUIPMENT_CATALOGS[product.id]
-                ? setActiveEquipmentId(product.id)
-                : navigate(`/${lang}/produk/detail?id=${product.id}`)
-            }
-          >
-            <div
-              className="products-card-compact-image"
-              style={{ backgroundImage: `url(${getImageUrl(product.image)})` }}
-            />
-            <div className="products-card-compact-title">{product.title}</div>
-          </button>
-        ))}
+      <div>
+        <Breadcrumb items={[...parentCrumbs, { label: parentLabel }]} />
+        <button type="button" onClick={onBack} className="products-tab" style={{ marginBottom: '20px' }}>
+          ← {backLabel}
+        </button>
+        <div className="products-flow-heading" style={{ marginBottom: '24px' }}>
+          <h2>{parentLabel}</h2>
+        </div>
+        <div className="products-grid-compact">
+          {products.map((product) => (
+            <button
+              key={product.id}
+              type="button"
+              className="products-card-compact"
+              aria-label={product.title}
+              onClick={() =>
+                EQUIPMENT_CATALOGS[product.id]
+                  ? setActiveEquipmentId(product.id)
+                  : navigate(`/${lang}/produk/detail?id=${product.id}`)
+              }
+            >
+              <div
+                className="products-card-compact-image"
+                style={{ backgroundImage: `url(${getImageUrl(product.image)})` }}
+              />
+              <div className="products-card-compact-title">{product.title}</div>
+            </button>
+          ))}
+        </div>
       </div>
     );
   }
@@ -88,7 +111,14 @@ export function RelatedEquipmentExplorer({ products, lang }: RelatedEquipmentExp
   if (!activeJenis) {
     return (
       <div>
-        <Breadcrumb items={[{ label: activeEquipment.title, onClick: backToEquipment }, { label: catalog.navLabel }]} />
+        <Breadcrumb
+          items={[
+            ...parentCrumbs,
+            { label: parentLabel, onClick: backToEquipment },
+            { label: activeEquipment.title, onClick: backToEquipment },
+            { label: catalog.navLabel },
+          ]}
+        />
         <button type="button" onClick={backToEquipment} className="products-tab" style={{ marginBottom: '20px' }}>
           ← Kembali ke {activeEquipment.title}
         </button>
@@ -115,9 +145,11 @@ export function RelatedEquipmentExplorer({ products, lang }: RelatedEquipmentExp
     <div>
       <Breadcrumb
         items={[
+          ...parentCrumbs,
+          { label: parentLabel, onClick: backToEquipment },
           { label: activeEquipment.title, onClick: backToEquipment },
           { label: catalog.navLabel, onClick: backToJenis },
-          { label: activeJenis.name },
+          { label: "Tipe" },
         ]}
       />
       <button type="button" onClick={backToJenis} className="products-tab" style={{ marginBottom: '20px' }}>
