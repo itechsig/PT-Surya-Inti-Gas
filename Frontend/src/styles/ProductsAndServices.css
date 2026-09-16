@@ -1456,8 +1456,8 @@ button.products-card {
 /* No card chrome — just the photo and its name, no border/background/shadow. */
 .products-card-compact {
   display: block;
-  flex: 0 1 calc((100% - 3 * 18px) / 4);
-  max-width: calc((100% - 3 * 18px) / 4);
+  flex: 0 1 calc((100% - 2 * 18px) / 3);
+  max-width: calc((100% - 2 * 18px) / 3);
   padding: 0;
   margin: 0;
   background: transparent;
@@ -1478,7 +1478,7 @@ button.products-card {
 
 .products-card-compact-image {
   position: relative;
-  height: 130px;
+  height: 180px;
   background: transparent;
   border-radius: 10px;
   overflow: hidden;
@@ -1532,6 +1532,10 @@ button.products-card {
     flex-basis: calc((100% - 2 * 18px) / 3);
     max-width: calc((100% - 2 * 18px) / 3);
   }
+  
+  .products-card-compact-image {
+    height: 160px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1540,8 +1544,12 @@ button.products-card {
   }
 
   .products-card-compact {
-    flex-basis: calc((100% - 14px) / 2);
-    max-width: calc((100% - 14px) / 2);
+    flex-basis: calc((100% - 2 * 14px) / 3);
+    max-width: calc((100% - 2 * 14px) / 3);
+  }
+  
+  .products-card-compact-image {
+    height: 140px;
   }
 }
 
@@ -1551,12 +1559,12 @@ button.products-card {
   }
 
   .products-card-compact {
-    flex-basis: calc((100% - 10px) / 2);
-    max-width: calc((100% - 10px) / 2);
+    flex-basis: calc((100% - 2 * 10px) / 3);
+    max-width: calc((100% - 2 * 10px) / 3);
   }
 
   .products-card-compact-image {
-    height: 100px;
+    height: 120px;
   }
 
   .products-card-compact-title {
