@@ -2,7 +2,7 @@ import { Link, useNavigate, useSearchParams, useParams } from "react-router-dom"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Droplets, Package, Wrench, Syringe, FlaskConical, Droplet, Cog, Layers } from "lucide-react";
 import '../../styles/ProductsAndServices.css';
 import { Seo } from "./Seo";
 import { mainCategoryIds, type Product, type ProductVariant, type SubCategory, type MainCategory } from "../../data/products";
@@ -24,13 +24,20 @@ const MotionLink = motion.create(Link);
    always agree on where the previous step is.
 ══════════════════════════════════════════════════════════════ */
 
-/* Static hero images for the 3 main categories — same assets already used
-   across the site, just reused here as plain picker-card thumbnails. */
-const MAIN_CATEGORY_IMAGES: Record<MainCategory, string> = {
-  gas: '/images/products/bg_produk_gas.jpg',
-  package: '/images/products/Cryogenic_Dewar.webp',
-  services: '/images/services/bg_layanan.png',
-  equipment: '/images/products/Craddle_4x4_fixed.webp',
+/** Icons for the 3 main categories. */
+const MAIN_CATEGORY_ICONS: Record<MainCategory, any> = {
+  gas: Droplets,
+  package: Package,
+  services: Wrench,
+  equipment: Cog,
+};
+
+/** Icons for the 4 "Produk Gas" sub-categories, keyed by their stable CMS slug. */
+const SUB_CATEGORY_ICONS: Record<string, any> = {
+  'industrial-medical': Syringe,
+  'speciality-mixed': FlaskConical,
+  'liquid': Droplet,
+  [RELATED_EQUIPMENT_ID]: Cog,
 };
 
 /* ── Motion variants ── */
@@ -72,13 +79,10 @@ function Breadcrumb({ items }: { items: { label: string; onClick?: () => void }[
   );
 }
 
-// Picker Card — plain image + title, used for both the main-category hub
-// and the Produk Gas sub-category step. Same visual language as the
-// compact product cards below, just a bit larger.
-function PickerCard({ label, imageSrc, onClick }: { label: string; imageSrc?: string; onClick: () => void }) {
-  const [imageError, setImageError] = useState(false);
-  const { t } = useTranslation();
-
+// Picker Card — plain icon + title, used for both the main-category hub
+// and the Produk Gas sub-category step. No photo, no description, no
+// gradient chrome — just a clean logo-style selector.
+function PickerCard({ label, icon: Icon, onClick }: { label: string; icon: any; onClick: () => void }) {
   return (
     <motion.button
       type="button"
@@ -88,18 +92,8 @@ function PickerCard({ label, imageSrc, onClick }: { label: string; imageSrc?: st
       whileHover={{ y: -4 }}
       transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
     >
-      <div className="picker-card-image">
-        {!imageSrc || imageError ? (
-          <div className="picker-card-fallback">{t('common.imageNotFound')}</div>
-        ) : (
-          <img
-            src={imageSrc}
-            alt={label}
-            loading="lazy"
-            decoding="async"
-            onError={() => setImageError(true)}
-          />
-        )}
+      <div className="picker-card-icon">
+        <Icon size={32} aria-hidden="true" />
       </div>
       <div className="picker-card-title">{label}</div>
     </motion.button>
@@ -178,10 +172,10 @@ export function Product() {
   const step: 'hub' | 'subcategory' | 'grid' =
     !mainCategory ? 'hub' : (mainCategory === 'gas' && !subCategory) ? 'subcategory' : 'grid';
 
-  const mainCategories: { id: MainCategory; label: string; image: string }[] = [
-    { id: 'gas', label: t('products.mainCategories.gas'), image: MAIN_CATEGORY_IMAGES.gas },
-    { id: 'package', label: t('products.mainCategories.package'), image: MAIN_CATEGORY_IMAGES.package },
-    { id: 'services', label: t('products.mainCategories.services'), image: MAIN_CATEGORY_IMAGES.services },
+  const mainCategories: { id: MainCategory; label: string; icon: any }[] = [
+    { id: 'gas', label: t('products.mainCategories.gas'), icon: MAIN_CATEGORY_ICONS.gas },
+    { id: 'package', label: t('products.mainCategories.package'), icon: MAIN_CATEGORY_ICONS.package },
+    { id: 'services', label: t('products.mainCategories.services'), icon: MAIN_CATEGORY_ICONS.services },
   ];
 
   const goToCategory = (category: MainCategory) => {
@@ -204,20 +198,12 @@ export function Product() {
       .filter(key => !isRelatedEquipmentSlug(key))
       .map(key => ({
         id: key,
-        title: categories[key]?.title || '',
-        // Representative thumbnail: the first product's own image, so the
-        // card never needs a hand-picked or dummy asset.
-        image: categories[key]?.products?.[0]?.image
+        title: categories[key]?.title || ''
       }));
 
     // Gas exposes CMS "equipment" products as a virtual "Related Equipment" sub-category.
-    const equipmentProducts = getRelatedEquipmentProducts(productCategories);
-    if (equipmentProducts.length > 0) {
-      subs.push({
-        id: RELATED_EQUIPMENT_ID,
-        title: t('products.subCategories.relatedEquipment'),
-        image: equipmentProducts[0]?.image
-      });
+    if (getRelatedEquipmentProducts(productCategories).length > 0) {
+      subs.push({ id: RELATED_EQUIPMENT_ID, title: t('products.subCategories.relatedEquipment') });
     }
 
     return subs;
@@ -344,7 +330,7 @@ export function Product() {
                     <PickerCard
                       key={category.id}
                       label={category.label}
-                      imageSrc={category.image}
+                      icon={category.icon}
                       onClick={() => goToCategory(category.id)}
                     />
                   ))}
@@ -370,7 +356,7 @@ export function Product() {
                     <PickerCard
                       key={subCat.id}
                       label={subCat.title}
-                      imageSrc={subCat.image ? getImageUrl(subCat.image) : undefined}
+                      icon={SUB_CATEGORY_ICONS[subCat.id] || Layers}
                       onClick={() => goToSubCategory(subCat.id)}
                     />
                   ))}
