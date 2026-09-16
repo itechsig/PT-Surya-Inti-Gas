@@ -99,10 +99,15 @@ class ImageController extends Controller
             // GD drops EXIF metadata on re-encode, so the Orientation tag phones write
             // (e.g. "rotate 90deg to display correctly") would otherwise be lost, leaving
             // the resized image tilted. Bake the correct rotation into the pixels first.
-            if ($mimeType === 'image/jpeg' && function_exists('exif_read_data')) {
-                $source = $this->applyExifOrientation($source, $original);
-                $width = imagesx($source);
-                $height = imagesy($source);
+            // Parsed by hand (not exif_read_data) since the ext-exif extension isn't
+            // guaranteed to be enabled on shared hosting.
+            if ($mimeType === 'image/jpeg') {
+                $orientation = $this->readJpegOrientation($original);
+                if ($orientation !== 1) {
+                    $source = $this->applyExifOrientation($source, $orientation);
+                    $width = imagesx($source);
+                    $height = imagesy($source);
+                }
             }
 
             $ratio = self::MAX_DIMENSION / max($width, $height);
@@ -141,14 +146,95 @@ class ImageController extends Controller
     }
 
     /**
+     * Reads the EXIF Orientation tag (1-8) straight from the JPEG's APP1 segment, without
+     * relying on the ext-exif PHP extension, which isn't guaranteed to be present on shared
+     * hosting. Returns 1 (no correction needed) if there's no EXIF data or parsing fails.
+     */
+    private function readJpegOrientation(string $data): int
+    {
+        $length = strlen($data);
+        if ($length < 4 || substr($data, 0, 2) !== "\xFF\xD8") {
+            return 1;
+        }
+
+        $offset = 2;
+        while ($offset + 4 <= $length) {
+            if ($data[$offset] !== "\xFF") {
+                break;
+            }
+            $marker = ord($data[$offset + 1]);
+
+            // SOS (start of scan) means pixel data follows - no more metadata beyond this.
+            if ($marker === 0xDA) {
+                break;
+            }
+
+            $segmentLength = (ord($data[$offset + 2]) << 8) + ord($data[$offset + 3]);
+
+            if ($marker === 0xE1 && $offset + 4 + $segmentLength <= $length + 2) {
+                $segment = substr($data, $offset + 4, $segmentLength - 2);
+                $orientation = $this->parseExifOrientationTag($segment);
+                if ($orientation !== null) {
+                    return $orientation;
+                }
+            }
+
+            $offset += 2 + $segmentLength;
+        }
+
+        return 1;
+    }
+
+    /** Parses an APP1 segment's TIFF header for tag 0x0112 (Orientation). */
+    private function parseExifOrientationTag(string $segment): ?int
+    {
+        if (substr($segment, 0, 6) !== "Exif\x00\x00") {
+            return null;
+        }
+
+        $tiff = substr($segment, 6);
+        if (strlen($tiff) < 8) {
+            return null;
+        }
+
+        $byteOrder = substr($tiff, 0, 2);
+        if ($byteOrder === 'II') {
+            [$short, $long] = ['v', 'V'];
+        } elseif ($byteOrder === 'MM') {
+            [$short, $long] = ['n', 'N'];
+        } else {
+            return null;
+        }
+
+        $ifdOffset = unpack($long, substr($tiff, 4, 4))[1];
+        if ($ifdOffset + 2 > strlen($tiff)) {
+            return null;
+        }
+
+        $entryCount = unpack($short, substr($tiff, $ifdOffset, 2))[1];
+        $entriesStart = $ifdOffset + 2;
+
+        for ($i = 0; $i < $entryCount; $i++) {
+            $entryOffset = $entriesStart + ($i * 12);
+            if ($entryOffset + 12 > strlen($tiff)) {
+                break;
+            }
+
+            $tag = unpack($short, substr($tiff, $entryOffset, 2))[1];
+            if ($tag === 0x0112) {
+                return unpack($short, substr($tiff, $entryOffset + 8, 2))[1];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Rotate/flip a GD image resource so its pixels match the JPEG's EXIF Orientation
      * tag, since GD itself ignores that tag when decoding and would otherwise discard it.
      */
-    private function applyExifOrientation($source, string $original)
+    private function applyExifOrientation($source, int $orientation)
     {
-        $exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($original));
-        $orientation = $exif['Orientation'] ?? 1;
-
         switch ($orientation) {
             case 2:
                 imageflip($source, IMG_FLIP_HORIZONTAL);

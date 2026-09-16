@@ -177,6 +177,12 @@
     "homeSection": {
       "subtitle": "Beragam produk gas dan peralatan pendukung yang dirancang untuk memenuhi kebutuhan operasional Anda."
     },
+    "nav": {
+      "backToCategories": "Kembali ke Kategori",
+      "backToSubcategories": "Kembali ke Subkategori",
+      "chooseCategory": "Pilih kategori produk atau layanan",
+      "chooseSubcategory": "Pilih subkategori Produk Gas"
+    },
     "mainCategories": {
       "gas": "Produk Gas",
       "package": "Kemasan",

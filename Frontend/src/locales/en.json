@@ -177,6 +177,12 @@
     "homeSection": {
       "subtitle": "A wide range of gas products and supporting equipment designed to meet your operational needs."
     },
+    "nav": {
+      "backToCategories": "Back to Categories",
+      "backToSubcategories": "Back to Subcategories",
+      "chooseCategory": "Choose a product or service category",
+      "chooseSubcategory": "Choose a Gas Products subcategory"
+    },
     "mainCategories": {
       "gas": "Gas Products",
       "package": "Package",
