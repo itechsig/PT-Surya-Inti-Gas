@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ChevronRight, Layers } from "lucide-react";
 import type { CatalogTypeGroup, CatalogStockItem, CatalogLegendEntry } from "../../data/catalogTypes";
 import { catalogItemTitle } from "../../data/catalogTypes";
@@ -18,11 +19,15 @@ interface CatalogExplorerProps {
   placeholder: string;
   /** Notified with the picked jenis + item, or null once either is cleared/changed. */
   onSelectionChange?: (selection: CatalogSelection | null) => void;
+  /** Opens the WhatsApp order flow for the tipe picked in the detail step. Valve/Regulator/
+   *  Instrumen Medis and their jenis are just plain pickers — description + ordering info
+   *  only appear on the tipe's own detail page. */
+  onContactSales?: () => void;
 }
 
 // Breadcrumb trail — click any earlier crumb to jump back to that step. Mirrors the
 // one in Product.tsx/ProductsAndServices.tsx so the equipment browser (Valve/Regulator/
-// Instrumen Medis) reads the same way as the main jenis -> tipe -> detail flow.
+// Instrumen Medis) reads the same way as the main product browser.
 function CatalogBreadcrumb({ items }: { items: { label: string; onClick?: () => void }[] }) {
   return (
     <nav className="products-breadcrumb" aria-label="breadcrumb">
@@ -46,10 +51,12 @@ function CatalogBreadcrumb({ items }: { items: { label: string; onClick?: () => 
 /**
  * Master-detail browser reused across equipment product detail pages (Valve, Regulator,
  * Instrumen Medis): a 3-step flow that mirrors the main product browser — pick a jenis
- * (picker cards), pick a tipe/model (compact photo cards), then a detail step with specs
- * and ordering info, just like a gas cylinder's product detail page.
+ * (picker cards, no description), pick a tipe/model (compact photo cards, no description
+ * either), then the tipe's own detail step shows the description + specs + ordering info,
+ * just like a gas cylinder's product detail page.
  */
-export function CatalogExplorer({ categories, legend, navLabel, placeholder, onSelectionChange }: CatalogExplorerProps) {
+export function CatalogExplorer({ categories, legend, navLabel, placeholder, onSelectionChange, onContactSales }: CatalogExplorerProps) {
+  const { t } = useTranslation();
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
@@ -85,7 +92,7 @@ export function CatalogExplorer({ categories, legend, navLabel, placeholder, onS
   return (
     <div className="catalog-explorer-flow">
 
-      {/* Step 1: pick a jenis */}
+      {/* Step 1: pick a jenis — plain category picker, no description. */}
       {!activeCategory && (
         <div>
           <div className="products-flow-heading" style={{ marginBottom: '24px' }}>
@@ -110,7 +117,8 @@ export function CatalogExplorer({ categories, legend, navLabel, placeholder, onS
         </div>
       )}
 
-      {/* Step 2: pick a tipe/model within the chosen jenis */}
+      {/* Step 2: pick a tipe/model within the chosen jenis — still just a plain
+          picker, no description yet (that's the tipe's own page, one step further). */}
       {activeCategory && !selectedItem && (
         <div>
           <CatalogBreadcrumb items={[rootCrumb, { label: activeCategory.name }]} />
@@ -119,7 +127,7 @@ export function CatalogExplorer({ categories, legend, navLabel, placeholder, onS
           </button>
           <div className="products-flow-heading" style={{ marginBottom: '24px' }}>
             <h2>{activeCategory.name}</h2>
-            <p>{activeCategory.description}</p>
+            <p>Pilih tipe/model yang tersedia di bawah ini.</p>
           </div>
           <div className="products-grid-compact">
             {activeCategory.items.map((item) => (
@@ -141,16 +149,24 @@ export function CatalogExplorer({ categories, legend, navLabel, placeholder, onS
         </div>
       )}
 
-      {/* Step 3: tipe detail — specs + ordering info, styled like a product detail page */}
+      {/* Step 3: the tipe's own page — description + specs + ordering info, exactly
+          like a gas cylinder's product detail page. */}
       {activeCategory && selectedItem && (
         <div>
           <CatalogBreadcrumb items={[rootCrumb, { label: activeCategory.name, onClick: backToTipe }, { label: itemTitle(selectedItem) }]} />
           <button type="button" onClick={backToTipe} className="products-tab" style={{ marginBottom: '20px' }}>
             ← Kembali ke Tipe
           </button>
+
+          <h2 className="products-detail-title" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: '12px' }}>
+            {itemTitle(selectedItem)}
+          </h2>
+          <p className="products-detail-description" style={{ marginBottom: '24px' }}>
+            {activeCategory.description}
+          </p>
+
           <div className="products-detail-info">
-            <h2>{itemTitle(selectedItem)}</h2>
-            <p>{activeCategory.description}</p>
+            <h3>Spesifikasi</h3>
             <div className="product-specifications">
               {selectedItem.brand && (
                 <div className="spec-item">
@@ -194,6 +210,16 @@ export function CatalogExplorer({ categories, legend, navLabel, placeholder, onS
                 {legend.map((entry) => `${entry.code}: ${entry.label}`).join(" · ")}
               </p>
             )}
+          </div>
+
+          {/* Ordering info lives here — on the tipe's own page — not on the jenis
+              grid or the Valve/Regulator/Instrumen Medis category page. */}
+          <div className="product-contact">
+            <h3>{t('productDetail.contact.title')}</h3>
+            <p>{t('productDetail.contact.description')}</p>
+            <button className="contact-button" onClick={onContactSales}>
+              {t('productDetail.contact.button')}
+            </button>
           </div>
         </div>
       )}

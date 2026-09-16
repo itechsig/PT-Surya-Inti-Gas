@@ -191,6 +191,11 @@ export function ProductDetail() {
   const categoryLabel = t(`products.mainCategories.${mainCategory}`);
   const subCategoryLabel = subCategoryTitle || null;
 
+  // Valve/Regulator/Instrumen Medis are just category pickers into their jenis -> tipe
+  // catalog browser — the description and ordering info belong to the tipe (the actual
+  // "sub product"), not to this entry point, so both are skipped here.
+  const isCatalogEquipment = mainCategory === 'equipment' && CATALOG_EQUIPMENT_IDS.includes(product.id);
+
   // Only the delivery service gets a photo slider — every other product keeps a single image.
   const isDeliveryService = product.id === 'delivery';
   const deliveryPhotos = isDeliveryService
@@ -344,9 +349,11 @@ export function ProductDetail() {
               animate="show"
               variants={staggerContainer}
             >
-              <motion.p className="products-detail-description" variants={fadeUp}>
-                {product.fullDescription || product.description}
-              </motion.p>
+              {!isCatalogEquipment && (
+                <motion.p className="products-detail-description" variants={fadeUp}>
+                  {product.fullDescription || product.description}
+                </motion.p>
+              )}
 
               {/* Size chosen from the Cradle size picker */}
               {selectedSize && (
@@ -366,49 +373,49 @@ export function ProductDetail() {
                 </motion.div>
               )}
 
-              {/* Valve type/model browser, only on the dedicated Valve equipment product */}
+              {/* Valve type/model browser, only on the dedicated Valve equipment product.
+                  Description + ordering info render inside, on its own detail step. */}
               {productData?.mainCategory === 'equipment' && product.id === 'valve' && (
                 <motion.div variants={fadeUp}>
-                  <ValveCatalogExplorer onSelectionChange={setEquipmentSelection} />
+                  <ValveCatalogExplorer
+                    onSelectionChange={setEquipmentSelection}
+                    onContactSales={() => handleContactSales(product.title)}
+                  />
                 </motion.div>
               )}
 
               {/* Regulator type/model browser, only on the dedicated Regulator equipment product */}
               {productData?.mainCategory === 'equipment' && product.id === 'reg' && (
                 <motion.div variants={fadeUp}>
-                  <RegulatorCatalogExplorer onSelectionChange={setEquipmentSelection} />
+                  <RegulatorCatalogExplorer
+                    onSelectionChange={setEquipmentSelection}
+                    onContactSales={() => handleContactSales(product.title)}
+                  />
                 </motion.div>
               )}
 
               {/* Medical instrument browser, only on the dedicated Medical Instrumen equipment product */}
               {productData?.mainCategory === 'equipment' && product.id === 'mdc' && (
                 <motion.div variants={fadeUp}>
-                  <MedicalEquipmentCatalogExplorer onSelectionChange={setEquipmentSelection} />
+                  <MedicalEquipmentCatalogExplorer
+                    onSelectionChange={setEquipmentSelection}
+                    onContactSales={() => handleContactSales(product.title)}
+                  />
                 </motion.div>
               )}
 
-              {/* WhatsApp Contact Button for Equipment Products (Peralatan Pendukung Gas Industri).
-                  Products with a jenis→item catalog browser require a pick there first. */}
-              {productData?.mainCategory === 'equipment' && (() => {
-                const requiresCatalogPick = CATALOG_EQUIPMENT_IDS.includes(product.id);
-                const canContact = !requiresCatalogPick || !!equipmentSelection;
-                return (
-                  <motion.div className="product-contact" variants={fadeUp}>
-                    <h3>{t('productDetail.contact.title')}</h3>
-                    <p>{t('productDetail.contact.description')}</p>
-                    {requiresCatalogPick && !canContact && (
-                      <p className="product-contact-hint">{t('productDetail.contact.selectHint')}</p>
-                    )}
-                    <button
-                      className="contact-button"
-                      onClick={() => handleContactSales(product.title)}
-                      disabled={!canContact}
-                    >
-                      {t('productDetail.contact.button')}
-                    </button>
-                  </motion.div>
-                );
-              })()}
+              {/* WhatsApp Contact Button for non-catalog equipment products. Valve/Regulator/
+                  Instrumen Medis render their own ordering info inside the catalog browser's
+                  detail step instead — this product-level entry point is just a category picker. */}
+              {productData?.mainCategory === 'equipment' && !isCatalogEquipment && (
+                <motion.div className="product-contact" variants={fadeUp}>
+                  <h3>{t('productDetail.contact.title')}</h3>
+                  <p>{t('productDetail.contact.description')}</p>
+                  <button className="contact-button" onClick={() => handleContactSales(product.title)}>
+                    {t('productDetail.contact.button')}
+                  </button>
+                </motion.div>
+              )}
 
               {/* Product Information and Applications Only for Gas Products */}
               {productData?.mainCategory === 'gas' && (

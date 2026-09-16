@@ -3,17 +3,19 @@ import { CatalogExplorer, type CatalogSelection } from "./CatalogExplorer";
 
 interface RegulatorCatalogExplorerProps {
   onSelectionChange?: (selection: CatalogSelection | null) => void;
+  onContactSales?: () => void;
 }
 
-/** Regulator product page: jenis regulator on the left, stocked items (brand/model/connection/pressure) on the right. */
-export function RegulatorCatalogExplorer({ onSelectionChange }: RegulatorCatalogExplorerProps) {
+/** Regulator product page: jenis regulator -> tipe/model -> detail (specs + ordering info). */
+export function RegulatorCatalogExplorer({ onSelectionChange, onContactSales }: RegulatorCatalogExplorerProps) {
   return (
     <CatalogExplorer
       categories={REGULATOR_CATEGORIES}
       legend={MATERIAL_LEGEND}
       navLabel="Jenis Regulator"
-      placeholder="Pilih jenis regulator di sebelah kiri untuk melihat penjelasan dan daftar item yang tersedia."
+      placeholder="Pilih jenis regulator di bawah untuk melihat tipe/model yang tersedia."
       onSelectionChange={onSelectionChange}
+      onContactSales={onContactSales}
     />
   );
 }

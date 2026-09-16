@@ -3,17 +3,19 @@ import { CatalogExplorer, type CatalogSelection } from "./CatalogExplorer";
 
 interface ValveCatalogExplorerProps {
   onSelectionChange?: (selection: CatalogSelection | null) => void;
+  onContactSales?: () => void;
 }
 
-/** Valve product page: jenis valve on the left, stocked items (brand/model/connection/pressure) on the right. */
-export function ValveCatalogExplorer({ onSelectionChange }: ValveCatalogExplorerProps) {
+/** Valve product page: jenis valve -> tipe/model -> detail (specs + ordering info). */
+export function ValveCatalogExplorer({ onSelectionChange, onContactSales }: ValveCatalogExplorerProps) {
   return (
     <CatalogExplorer
       categories={VALVE_CATEGORIES}
       legend={MATERIAL_LEGEND}
       navLabel="Jenis Valve"
-      placeholder="Pilih jenis valve di sebelah kiri untuk melihat penjelasan dan daftar item yang tersedia."
+      placeholder="Pilih jenis valve di bawah untuk melihat tipe/model yang tersedia."
       onSelectionChange={onSelectionChange}
+      onContactSales={onContactSales}
     />
   );
 }
