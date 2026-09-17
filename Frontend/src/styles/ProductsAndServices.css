@@ -545,15 +545,14 @@ button.products-card {
 }
 
 .products-cta-button.primary {
-  background: var(--orange);
+  background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-light) 100%);
   color: var(--white);
-  box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 8px 25px rgba(21, 101, 192, 0.3);
 }
 
 .products-cta-button.primary:hover {
-  background: var(--orange-light);
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(249, 115, 22, 0.4);
+  box-shadow: 0 12px 35px rgba(21, 101, 192, 0.4);
 }
 
 .products-cta-button.secondary {
