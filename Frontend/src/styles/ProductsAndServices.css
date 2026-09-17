@@ -1456,7 +1456,7 @@ button.products-card {
 .products-grid-compact {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 32px 8px; /* extra row-gap so a title never sits flush against the next row's photo */
   margin-bottom: 60px;
 }
