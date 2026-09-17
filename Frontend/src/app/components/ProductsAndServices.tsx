@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, type Variants } from "motion/react";
+import { ChevronRight } from "lucide-react";
 
 const MotionLink = motion.create(Link);
 import '../../styles/ProductsAndServices.css';
@@ -172,6 +173,19 @@ export function ProductsAndServices() {
             productHref={productHref}
             onVariantClick={onVariantClick}
           />
+
+          <motion.div
+            className="products-cta-buttons"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp}
+          >
+            <Link to={`/${currentLang}/produk`} className="products-cta-button primary">
+              {t('products.homeSection.cta')}
+              <ChevronRight size={18} aria-hidden="true" />
+            </Link>
+          </motion.div>
 
         </div>
       </section>
