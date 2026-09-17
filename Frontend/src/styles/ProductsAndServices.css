@@ -1464,8 +1464,8 @@ button.products-card {
 /* No card chrome — just the photo and its name, no border/background/shadow. */
 .products-card-compact {
   display: block;
-  flex: 0 1 calc((100% - 2 * 8px) / 3);
-  max-width: calc((100% - 2 * 8px) / 3);
+  flex: 0 1 calc((100% - 3 * 8px) / 4);
+  max-width: calc((100% - 3 * 8px) / 4);
   min-width: 0;
   padding: 0;
   margin: 0;
