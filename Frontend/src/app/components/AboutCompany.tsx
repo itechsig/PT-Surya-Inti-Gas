@@ -48,7 +48,7 @@ const css = `
     right: 0;
     bottom: 0;
     left: 0;
-    background-image: url('/gambar about.jpg');
+    background-image: url('/gambar about.webp');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
