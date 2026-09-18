@@ -156,8 +156,28 @@ export const Header = () => {
   useEffect(() => {
     if (!isOpen) return;
     const { body } = document;
-    const prevOverflow = body.style.overflow;
+    const scrollY = window.scrollY;
+    // Removing the scrollbar (via overflow:hidden alone) makes the body a few
+    // pixels wider, which shifts fixed-width/centered content and leaves a
+    // white gap on the right. Pin the body in place with `position: fixed`
+    // instead — this also stops iOS/Android from chaining an overscroll drag
+    // through to the page behind once the menu list hits its own scroll end,
+    // which was letting the page underneath peek through at the bottom.
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      overflow: body.style.overflow,
+      paddingRight: body.style.paddingRight,
+    };
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollY}px`;
+    body.style.width = '100%';
     body.style.overflow = 'hidden';
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${scrollbarWidth}px`;
+    }
 
     const panel = mobilePanelRef.current;
     const focusables = () =>
@@ -191,7 +211,12 @@ export const Header = () => {
     document.addEventListener('keydown', onKey);
     return () => {
       document.removeEventListener('keydown', onKey);
-      body.style.overflow = prevOverflow;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      body.style.overflow = prev.overflow;
+      body.style.paddingRight = prev.paddingRight;
+      window.scrollTo(0, scrollY);
       menuButtonRef.current?.focus();
     };
   }, [isOpen]);
@@ -553,7 +578,7 @@ export const Header = () => {
               style={{ background: "radial-gradient(circle, rgba(191,219,254,0.4) 0%, rgba(191,219,254,0.18) 45%, transparent 70%)" }}
             />
 
-            <div className="relative h-full overflow-y-auto flex flex-col">
+            <div className="relative h-full overflow-y-auto overscroll-contain flex flex-col">
               {/* Header band */}
               <div
                 className="relative shrink-0 px-4 sm:px-6 pt-5 pb-6 sm:pb-7"
