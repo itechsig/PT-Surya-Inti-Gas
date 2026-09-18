@@ -9,9 +9,7 @@ import '../../styles/ProductsAndServices.css';
 import { type Product, type ProductVariant, type SubCategory } from "../../data/products";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
 import { getImageUrl } from "../../utils/imageUrl";
-import { collapseCradleVariants } from "../../utils/cradleVariants";
 import { CradleSizeDialog } from "./CradleSizeDialog";
-import { getRelatedEquipmentProducts } from "../../utils/relatedEquipment";
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -98,6 +96,13 @@ function ProductSection({ title, products, productHref, onVariantClick }: {
   );
 }
 
+/** Picks products by slug (id), in the given order, skipping any slug the catalog hasn't
+ *  returned yet (e.g. still loading). */
+function pickProductsBySlug(products: Product[], slugs: string[]): Product[] {
+  const bySlug = new Map(products.map((product) => [product.id, product]));
+  return slugs.map((slug) => bySlug.get(slug)).filter((product): product is Product => !!product);
+}
+
 export function ProductsAndServices() {
   const { t } = useTranslation();
   const { lang } = useParams();
@@ -109,22 +114,19 @@ export function ProductsAndServices() {
   const productHref = (productId: string) => `/${currentLang}/produk/detail?id=${productId}`;
   const onVariantClick = (product: Product) => setCradleVariants(product.variants ?? null);
 
-  // Produk Gas: 2 from Gas Industri & Medis, all of Gas Spesial & Campuran, 2 from
-  // Gas Cair, and all of Peralatan Pendukung Gas Industri, combined into one grid.
+  // Produk Gas: Oksigen, Hidrogen, Karbondioksida, dan Acetylene dari Gas Industri & Medis.
   const gasCategories = productCategories.gas as Record<string, SubCategory> | undefined;
-  const gasProducts: Product[] = [
-    ...(gasCategories?.['industrial-medical']?.products.slice(0, 2) ?? []),
-    ...(gasCategories?.['speciality-mixed']?.products ?? []),
-    ...(gasCategories?.['liquid']?.products.slice(0, 2) ?? []),
-    ...getRelatedEquipmentProducts(productCategories),
-  ];
+  const gasProducts: Product[] = pickProductsBySlug(
+    gasCategories?.['industrial-medical']?.products ?? [],
+    ['oxygen', 'hydrogen', 'karbondioksida', 'acetylene'],
+  );
 
-  // Kemasan: first 4 products across every packaging bucket (Cradle sizes collapsed
-  // into a single card, same as the full catalog page).
+  // Kemasan: High Pressure Cylinder, Vessel Gas Liquid, Microbulk Tank, Vertical Storage Tank.
   const packageCategories = productCategories.package as Record<string, SubCategory> | undefined;
-  const packageProducts: Product[] = packageCategories
-    ? collapseCradleVariants(Object.values(packageCategories).flatMap(sub => sub?.products ?? []), t).slice(0, 4)
-    : [];
+  const packageProducts: Product[] = pickProductsBySlug(
+    Object.values(packageCategories ?? {}).flatMap(sub => sub?.products ?? []),
+    ['cylinder', 'vessel-gas-liquid', 'microbulk-tank', 'vertical-storage-tank'],
+  );
 
   // Layanan: first 4 services.
   const serviceCategories = productCategories.services as Record<string, SubCategory> | undefined;
