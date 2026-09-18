@@ -286,7 +286,14 @@ export const Header = () => {
       {/* ── Corporate Navbar (Linde & Air Liquide inspired) ──────────────────────────────────────── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          isLight
+          isOpen
+            // The mobile drawer is a fully opaque panel that completely covers this bar, so
+            // `backdrop-blur-xl` here is invisible while it's open — but the browser still has
+            // to keep computing that blur every frame underneath the drawer's own slide/stagger
+            // animation, which is what was making the open transition feel laggy. Swap to a
+            // plain solid background for the duration the drawer is open; nothing visibly changes.
+            ? "bg-white shadow-lg shadow-gray-200/50 border-b border-gray-200 py-2.5 lg:py-4"
+            : isLight
             ? "bg-white/98 backdrop-blur-xl shadow-lg shadow-gray-200/50 border-b border-gray-200 py-2.5 lg:py-4"
             : "bg-transparent backdrop-blur-none shadow-none border-none py-3 lg:py-5"
         }`}
