@@ -540,9 +540,18 @@ export const Header = () => {
             className="fixed inset-0 z-50 lg:hidden"
           >
             <div className="absolute inset-0 bg-slate-50" />
-            {/* Decorative glow — echoes the brand gradient without competing with the content */}
-            <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-gradient-to-br from-blue-400/20 to-cyan-300/10 blur-3xl pointer-events-none" />
-            <div className="absolute top-1/3 -left-20 w-56 h-56 rounded-full bg-blue-200/30 blur-3xl pointer-events-none" />
+            {/* Decorative glow — echoes the brand gradient without competing with the content.
+                Uses a radial-gradient instead of `blur-3xl` (filter: blur) so the browser
+                doesn't have to recompute a blur pass every frame while this panel slides in/out
+                on mobile — that was the main cause of the drawer feeling laggy on lower-end phones. */}
+            <div
+              className="absolute -top-24 -right-24 w-72 h-72 rounded-full pointer-events-none"
+              style={{ background: "radial-gradient(circle, rgba(96,165,250,0.28) 0%, rgba(103,232,249,0.14) 40%, transparent 70%)" }}
+            />
+            <div
+              className="absolute top-1/3 -left-20 w-56 h-56 rounded-full pointer-events-none"
+              style={{ background: "radial-gradient(circle, rgba(191,219,254,0.4) 0%, rgba(191,219,254,0.18) 45%, transparent 70%)" }}
+            />
 
             <div className="relative h-full overflow-y-auto flex flex-col">
               {/* Header band */}
