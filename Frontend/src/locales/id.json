@@ -473,22 +473,8 @@
         "rating": 4.5
       },
       {
-        "quote": "Saya memastikan kebutuhan operasional selalu tersedia tepat waktu, supaya proses produksi dan pengiriman ke pelanggan tidak pernah terhambat.",
-        "name": "Esty",
-        "role": "Purchasing",
-        "company": "PT Surya Inti Gas",
-        "rating": 5
-      },
-      {
         "quote": "Saya memastikan stok tabung tercatat rapi dan akurat, supaya tidak ada kesalahan saat pengiriman ke pelanggan.",
         "name": "Ayu",
-        "role": "Admin Gudang",
-        "company": "PT Surya Inti Gas",
-        "rating": 5
-      },
-      {
-        "quote": "PT Surya Inti Gas sudah memberikan banyak cerita dan pengalaman baru. Sebagai Admin Gudang, saya belajar bahwa pekerjaan bukan hanya tentang mengelola dan menyiapkan barang, tetapi juga tentang ketelitian, tanggung jawab, komunikasi, dan bagaimana setiap proses kecil dapat mendukung kelancaran proyek.\n\nSetiap hari selalu ada hal baru yang bisa dipelajari dan tantangan yang membuat saya berkembang. Dari yang awalnya masih beradaptasi, kini saya semakin memahami pekerjaan dan peran saya dalam mendukung kebutuhan perusahaan. Bagi saya, SIG bukan sekadar tempat untuk bekerja, tetapi tempat untuk belajar, bertumbuh, dan menjadi versi diri yang lebih baik. Semoga perjalanan ini menjadi awal dari banyak hal baik yang bisa saya kontribusikan bersama SIG.",
-        "name": "Jordy",
         "role": "Admin Gudang",
         "company": "PT Surya Inti Gas",
         "rating": 5

@@ -671,9 +671,7 @@ const staggerContainer: Variants = {
    Nabila: "/images/testimoni/nabila.webp",
    Ayu: "/images/testimoni/ayu.webp",
    Ika: "/images/testimoni/ika.webp",
-   Jordy: "/images/testimoni/jordy.webp",
    Zafi: "/images/testimoni/zafi.webp",
-   Esty: "/images/testimoni/profil2.webp",
 };
 
 /** Turns "dr. Siti Rahmawati" into "SR" for the avatar badge. */
