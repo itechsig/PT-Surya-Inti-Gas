@@ -450,6 +450,18 @@ export function ProductDetail() {
                 </motion.div>
               )}
 
+              {/* Ordering info + WhatsApp Contact Button for Kemasan (package) products —
+                  no specs/applications section applies to these. */}
+              {productData?.mainCategory === 'package' && (
+                <motion.div className="product-contact" variants={fadeUp}>
+                  <h3>{t('productDetail.contact.title')}</h3>
+                  <p>{t('productDetail.contact.description')}</p>
+                  <button className="contact-button" onClick={() => handleContactSales(product.title)}>
+                    {t('productDetail.contact.button')}
+                  </button>
+                </motion.div>
+              )}
+
               {/* Product Information and Applications Only for Gas Products */}
               {productData?.mainCategory === 'gas' && (
                 <>
