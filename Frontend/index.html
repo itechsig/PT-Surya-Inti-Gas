@@ -160,7 +160,13 @@
       }
       </script>
 
-      <!-- Product Structured Data - All Products -->
+      <!-- Product Structured Data - All Products.
+           Deliberately "@type": "Thing", not "Product": Google requires offers,
+           review, or aggregateRating for Product rich results, and we don't have
+           real ones (no published per-unit pricing, no per-product reviews).
+           Fake offers (price "0") and fake ratings were removed 2026-09-03 —
+           do NOT re-add them to silence the Search Console "critical issue";
+           that error is the expected, accepted result of that cleanup. -->
       <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -171,7 +177,7 @@
             "@type": "ListItem",
             "position": 1,
             "item": {
-              "@type": "Product",
+              "@type": "Thing",
               "name": "Oksigen (O₂)",
               "description": "Gas oksigen industri dan medis kemurnian tinggi untuk pengelasan, fasilitas kesehatan, dan proses industri.",
               "image": "https://suryaintigas.com/images/products/Oxygen_Fix.webp",
@@ -183,7 +189,7 @@
             "@type": "ListItem",
             "position": 2,
             "item": {
-              "@type": "Product",
+              "@type": "Thing",
               "name": "Nitrogen (N₂)",
               "description": "Gas nitrogen kemurnian tinggi untuk aplikasi industri, pengawetan makanan, dan laboratorium.",
               "image": "https://suryaintigas.com/images/products/Nitrogen_Fix.webp",
@@ -195,7 +201,7 @@
             "@type": "ListItem",
             "position": 3,
             "item": {
-              "@type": "Product",
+              "@type": "Thing",
               "name": "Argon (Ar)",
               "description": "Gas argon untuk pengelasan TIG, fabrikasi logam, dan proses industri.",
               "image": "https://suryaintigas.com/images/products/Argon_Fix.webp",
@@ -207,7 +213,7 @@
             "@type": "ListItem",
             "position": 4,
             "item": {
-              "@type": "Product",
+              "@type": "Thing",
               "name": "Acetylene (C₂H₂)",
               "description": "Gas asetilena industri untuk pengelasan dan pemotongan oxy-fuel.",
               "image": "https://suryaintigas.com/images/products/Acetylene_fix.webp",
@@ -219,7 +225,7 @@
             "@type": "ListItem",
             "position": 5,
             "item": {
-              "@type": "Product",
+              "@type": "Thing",
               "name": "Hidrogen (H₂)",
               "description": "Gas hidrogen kemurnian tinggi untuk laboratorium, industri, dan aplikasi khusus.",
               "image": "https://suryaintigas.com/images/products/Hidrogen_Fix.webp",
@@ -231,7 +237,7 @@
             "@type": "ListItem",
             "position": 6,
             "item": {
-              "@type": "Product",
+              "@type": "Thing",
               "name": "Helium (He)",
               "description": "Gas helium untuk pencitraan medis, aplikasi industri, dan laboratorium.",
               "image": "https://suryaintigas.com/images/products/Helium_Fix.webp",
@@ -243,7 +249,7 @@
             "@type": "ListItem",
             "position": 7,
             "item": {
-              "@type": "Product",
+              "@type": "Thing",
               "name": "Karbon Dioksida (CO₂)",
               "description": "Gas CO₂ untuk pengelasan MIG/MAG, industri makanan dan minuman, serta aplikasi lainnya.",
               "image": "https://suryaintigas.com/images/products/CO2_Fix.webp",
