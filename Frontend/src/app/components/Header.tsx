@@ -68,8 +68,7 @@ const NAV_LINKS: NavItem[] = [
         nameKey: "header.megaMenu.gasProducts",
         href: "/produk?category=gas",
         children: [
-          { nameKey: "header.industrialMedical", href: "/produk?category=gas&subcategory=industrial-medical" },
-          { nameKey: "header.specialityMixed", href: "/produk?category=gas&subcategory=speciality-mixed" },
+          { nameKey: "header.industrialMedicalSpeciality", href: "/produk?category=gas&subcategory=industrial-medical-speciality" },
           { nameKey: "header.liquid", href: "/produk?category=gas&subcategory=liquid" },
           { nameKey: "header.relatedEquipment", href: "/produk?category=gas&subcategory=related-equipment" },
         ]
@@ -413,12 +412,14 @@ export const Header = () => {
                             transition={{ duration: 0.2 }}
                             className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-slate-100 z-50 py-2"
                           >
-                            <div
-                              className="px-4 pt-1 pb-2 text-xs font-bold uppercase tracking-wider text-slate-400"
+                            <Link
+                              to={toHref(link.href)}
+                              className="block px-4 pt-1 pb-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-brand-blue transition-colors"
                               style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+                              onClick={() => setActiveMegaMenu(null)}
                             >
                               {t('header.megaMenu.categoryLabel')}
-                            </div>
+                            </Link>
                             {link.megaMenuItems?.map((item, itemIdx) => {
                               const hasChildren = !!item.children?.length;
                               const subOpen = activeDesktopSubmenu === item.nameKey;
