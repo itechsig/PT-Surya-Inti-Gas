@@ -56,7 +56,8 @@
       "relatedEquipmentDesc": "Regulator, valve, dan peralatan pendukung gas medis untuk melengkapi sistem gas Anda",
       "packageServices": "Kemasan & Layanan",
       "packageDesc": "Pasokan gas bertekanan tinggi dan cair dalam paket lengkap termasuk tabung, cradle, tangki, dan lainnya",
-      "servicesDesc": "Layanan gas profesional termasuk instalasi, pengiriman, dan pengisian ulang untuk kebutuhan operasional Anda"
+      "servicesDesc": "Layanan gas profesional termasuk instalasi, pengiriman, dan pengisian ulang untuk kebutuhan operasional Anda",
+      "categoryLabel": "Kategori Produk"
     },
     "menu": "Menu navigasi",
     "openMenu": "Buka menu",
@@ -192,7 +193,8 @@
     },
     "subCategories": {
       "cradle": "Cradle",
-      "relatedEquipment": "Peralatan Pendukung Gas Industri"
+      "relatedEquipment": "Peralatan Pendukung Gas Industri",
+      "industrialMedicalSpeciality": "Gas Industri, Medis & Spesial"
     },
     "cradleGroup": {
       "description": "Rangka penyimpanan tabung gas industri yang aman dan hemat ruang.",

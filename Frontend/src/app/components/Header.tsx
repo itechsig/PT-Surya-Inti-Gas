@@ -373,6 +373,16 @@ export const Header = () => {
                       key={link.nameKey}
                       className="relative"
                       ref={megaMenuRef}
+                      // Hovering the trigger opens the panel immediately; leaving the
+                      // whole item (button + panel, since both live in this container)
+                      // closes it. onClick below is kept as the keyboard/touch fallback.
+                      onMouseEnter={() => {
+                        setActiveMegaMenu(link.nameKey);
+                      }}
+                      onMouseLeave={() => {
+                        setActiveMegaMenu(null);
+                        setActiveDesktopSubmenu(null);
+                      }}
                     >
                       <button
                         type="button"
@@ -403,6 +413,12 @@ export const Header = () => {
                             transition={{ duration: 0.2 }}
                             className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-slate-100 z-50 py-2"
                           >
+                            <div
+                              className="px-4 pt-1 pb-2 text-xs font-bold uppercase tracking-wider text-slate-400"
+                              style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+                            >
+                              {t('header.megaMenu.categoryLabel')}
+                            </div>
                             {link.megaMenuItems?.map((item, itemIdx) => {
                               const hasChildren = !!item.children?.length;
                               const subOpen = activeDesktopSubmenu === item.nameKey;

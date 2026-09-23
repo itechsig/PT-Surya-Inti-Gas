@@ -1,8 +1,8 @@
 import { Link, useNavigate, useSearchParams, useParams } from "react-router-dom";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-import { ChevronRight, Droplets, Package, Wrench, Syringe, FlaskConical, Droplet, Cog, Layers } from "lucide-react";
+import { ChevronRight, Droplets, Package, Wrench, Syringe, Droplet, Cog, Layers } from "lucide-react";
 import '../../styles/ProductsAndServices.css';
 import { Seo } from "./Seo";
 import { mainCategoryIds, type Product, type ProductVariant, type SubCategory, type MainCategory } from "../../data/products";
@@ -33,10 +33,15 @@ const MAIN_CATEGORY_ICONS: Record<MainCategory, any> = {
   equipment: Cog,
 };
 
-/** Icons for the 4 "Produk Gas" sub-categories, keyed by their stable CMS slug. */
+/** Virtual sub-category id: "Gas Industri & Medis" and "Gas Spesial & Campuran" are
+ *  merged into a single picker card, which then lists both as separate headed
+ *  sections on the grid step below. */
+const INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID = 'industrial-medical-speciality';
+
+/** Icons for the "Produk Gas" sub-categories, keyed by their stable CMS slug
+ *  (or virtual id for merged/synthetic sub-categories). */
 const SUB_CATEGORY_ICONS: Record<string, any> = {
-  'industrial-medical': Syringe,
-  'speciality-mixed': FlaskConical,
+  [INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID]: Syringe,
   'liquid': Droplet,
   [RELATED_EQUIPMENT_ID]: Cog,
 };
@@ -185,13 +190,24 @@ export function Product() {
     const categories = productCategories.gas as Record<string, SubCategory>;
     if (!categories) return [];
 
-    const subs = Object.keys(categories)
+    const subs: { id: string; title: string }[] = [];
+    let addedIndustrialSpeciality = false;
+
+    Object.keys(categories)
       // "Related Equipment" categories are folded into a single virtual card below.
       .filter(key => !isRelatedEquipmentSlug(key))
-      .map(key => ({
-        id: key,
-        title: categories[key]?.title || ''
-      }));
+      .forEach(key => {
+        // "Gas Industri & Medis" and "Gas Spesial & Campuran" are folded into a
+        // single virtual card; picking it reveals both as separate sections.
+        if (key === 'industrial-medical' || key === 'speciality-mixed') {
+          if (!addedIndustrialSpeciality) {
+            subs.push({ id: INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID, title: t('products.subCategories.industrialMedicalSpeciality') });
+            addedIndustrialSpeciality = true;
+          }
+          return;
+        }
+        subs.push({ id: key, title: categories[key]?.title || '' });
+      });
 
     // Gas exposes CMS "equipment" products as a virtual "Related Equipment" sub-category.
     if (getRelatedEquipmentProducts(productCategories).length > 0) {
@@ -199,6 +215,18 @@ export function Product() {
     }
 
     return subs;
+  };
+
+  // The merged "Gas Industri, Medis & Spesial" card expands into these two
+  // separately headed sections, each hidden if the CMS has no products for it.
+  const getIndustrialMedicalSpecialityGroups = () => {
+    const categories = productCategories.gas as Record<string, SubCategory> | undefined;
+    if (!categories) return [];
+
+    return [
+      { id: 'industrial-medical', title: categories['industrial-medical']?.title || '', products: categories['industrial-medical']?.products ?? [] },
+      { id: 'speciality-mixed', title: categories['speciality-mixed']?.title || '', products: categories['speciality-mixed']?.products ?? [] },
+    ].filter(group => group.products.length > 0);
   };
 
   const getCurrentProducts = (): Product[] => {
@@ -236,7 +264,12 @@ export function Product() {
     if (!mainCategory) return '';
     if (mainCategory === 'gas') {
       if (subCategory === RELATED_EQUIPMENT_ID) return t('products.subCategories.relatedEquipment');
-      return getGasSubCategories().find(s => s.id === subCategory)?.title || t('products.mainCategories.gas');
+      const pickerLabel = getGasSubCategories().find(s => s.id === subCategory)?.title;
+      if (pickerLabel) return pickerLabel;
+      // Direct links to the raw 'industrial-medical'/'speciality-mixed' slugs (e.g. a
+      // product detail page's "back" button) bypass the merged picker card above.
+      const categories = productCategories.gas as Record<string, SubCategory> | undefined;
+      return categories?.[subCategory]?.title || t('products.mainCategories.gas');
     }
     return t(`products.mainCategories.${mainCategory}`);
   })();
@@ -369,6 +402,39 @@ export function Product() {
                       backLabel={t('products.nav.backToSubcategories')}
                     />
                   </motion.div>
+                ) : mainCategory === 'gas' && subCategory === INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID ? (
+                  // The merged card: one breadcrumb + back button, then "Gas Industri &
+                  // Medis" and "Gas Spesial & Campuran" stacked as their own headed sections.
+                  <>
+                    <motion.div variants={fadeUp}>
+                      <Breadcrumb items={[rootCrumb, { label: t('products.mainCategories.gas'), onClick: goBackToSubcategories }, { label: currentListingLabel }]} />
+                      <button
+                        onClick={goBackToSubcategories}
+                        className="products-tab"
+                        aria-label={t('products.nav.backToSubcategories')}
+                        style={{ marginBottom: '20px' }}
+                      >
+                        ← {t('products.nav.backToSubcategories')}
+                      </button>
+                    </motion.div>
+                    {getIndustrialMedicalSpecialityGroups().map((group) => (
+                      <Fragment key={group.id}>
+                        <motion.div className="products-flow-heading" variants={fadeUp} style={{ marginBottom: '24px' }}>
+                          <h2>{group.title}</h2>
+                        </motion.div>
+                        <motion.div className="products-grid-compact" variants={gridStagger}>
+                          {group.products.map((product: Product) => (
+                            <CompactProductCard
+                              key={product.id}
+                              product={product}
+                              href={productHref(product.id)}
+                              onVariantClick={(p) => setCradleVariants(p.variants ?? null)}
+                            />
+                          ))}
+                        </motion.div>
+                      </Fragment>
+                    ))}
+                  </>
                 ) : (
                   <>
                     <motion.div variants={fadeUp}>
