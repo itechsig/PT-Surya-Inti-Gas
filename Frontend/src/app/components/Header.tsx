@@ -372,16 +372,6 @@ export const Header = () => {
                       key={link.nameKey}
                       className="relative"
                       ref={megaMenuRef}
-                      // Hovering the trigger opens the panel immediately; leaving the
-                      // whole item (button + panel, since both live in this container)
-                      // closes it. onClick below is kept as the keyboard/touch fallback.
-                      onMouseEnter={() => {
-                        setActiveMegaMenu(link.nameKey);
-                      }}
-                      onMouseLeave={() => {
-                        setActiveMegaMenu(null);
-                        setActiveDesktopSubmenu(null);
-                      }}
                     >
                       <button
                         type="button"
