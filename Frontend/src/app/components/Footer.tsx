@@ -3,6 +3,7 @@ import { Facebook, Instagram, Mail, Phone, MapPin, ChevronRight } from "lucide-r
 import { useTranslation } from 'react-i18next';
 import { motion, type Variants } from "motion/react";
 import { OFFICES, SOCIAL } from "../../data/contact";
+import { trackEvent } from "../../utils/eventTracking";
 
 // TikTok icon component (SVG)
 const TikTok = ({ size = 18, className = "" }: { size?: number; className?: string }) => (
@@ -422,11 +423,19 @@ export function Footer() {
 
             <div className="corporate-footer-contact">
               <div className="corporate-footer-contact-title">{OFFICES.sidoarjo.role}</div>
-              <a className="corporate-footer-contact-item" href={`tel:+${OFFICES.sidoarjo.phoneE164}`}>
+              <a
+                className="corporate-footer-contact-item"
+                href={`tel:+${OFFICES.sidoarjo.phoneE164}`}
+                onClick={() => trackEvent('phone_click', { label: 'footer-sidoarjo' })}
+              >
                 <Phone />
                 {OFFICES.sidoarjo.phoneDisplay}
               </a>
-              <a className="corporate-footer-contact-item" href={`mailto:${OFFICES.sidoarjo.email}`}>
+              <a
+                className="corporate-footer-contact-item"
+                href={`mailto:${OFFICES.sidoarjo.email}`}
+                onClick={() => trackEvent('email_click', { label: 'footer-sidoarjo' })}
+              >
                 <Mail />
                 {OFFICES.sidoarjo.email}
               </a>
@@ -455,11 +464,19 @@ export function Footer() {
           <motion.div className="corporate-footer-column" variants={fadeUp}>
             <div className="corporate-footer-contact-title">{t('distribution.locations.pabrik-balikpapan.name')}</div>
             <div className="corporate-footer-contact">
-              <a className="corporate-footer-contact-item" href={`tel:+${OFFICES.balikpapan.phoneE164}`}>
+              <a
+                className="corporate-footer-contact-item"
+                href={`tel:+${OFFICES.balikpapan.phoneE164}`}
+                onClick={() => trackEvent('phone_click', { label: 'footer-balikpapan' })}
+              >
                 <Phone />
                 {OFFICES.balikpapan.phoneDisplay}
               </a>
-              <a className="corporate-footer-contact-item" href={`mailto:${OFFICES.balikpapan.email}`}>
+              <a
+                className="corporate-footer-contact-item"
+                href={`mailto:${OFFICES.balikpapan.email}`}
+                onClick={() => trackEvent('email_click', { label: 'footer-balikpapan' })}
+              >
                 <Mail />
                 {OFFICES.balikpapan.email}
               </a>

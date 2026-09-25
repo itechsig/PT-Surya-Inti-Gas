@@ -4,6 +4,7 @@ import { motion, type Variants } from 'motion/react';
 import {
   Mail, MailOpen, MessageSquareText, Users, ArrowRight, AlertCircle,
   Globe, UserPlus, Eye, Clock, Package, Briefcase, ScrollText,
+  Share2, Search, Megaphone, FileText, Filter, MousePointerClick, Monitor,
   type LucideIcon,
 } from 'lucide-react';
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, XAxis, YAxis } from 'recharts';
@@ -14,6 +15,7 @@ import { adminNavItems } from './navConfig';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Skeleton } from '../components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
 import {
   ChartContainer,
   ChartLegend,
@@ -29,6 +31,27 @@ import { ACTION_TYPE_LABELS, type AuditLogStatistics, type AuditLogTimelinePoint
 import { listGalleryItems } from './gallery/api';
 import { listProducts, getProductInteractionStatistics } from './products/api';
 import { listPortfolios } from './portfolios/api';
+import { DateRangeFilter } from './components/DateRangeFilter';
+import {
+  getTrafficTrend,
+  getTrafficSource,
+  getCampaignPerformance,
+  getTopPages,
+  getFunnel,
+  getEventCounts,
+  getDeviceBreakdown,
+  getSearchConsoleSummary,
+} from './analytics/api';
+import type {
+  AnalyticsRangeParams,
+  CampaignRow,
+  DeviceBreakdown as DeviceBreakdownData,
+  EventCountRow,
+  FunnelStage,
+  SearchConsoleSummary,
+  TopPageRow,
+  TrafficSourceRow,
+} from './analytics/types';
 
 interface RecentContact {
   id: number;
@@ -235,6 +258,22 @@ const productOrdersConfig = {
   count: { label: 'Dipesan (WA)', color: 'var(--chart-5)' },
 } satisfies ChartConfig;
 
+const trafficSourceConfig = {
+  users: { label: 'Pengunjung', color: 'var(--chart-2)' },
+} satisfies ChartConfig;
+
+const topPagesConfig = {
+  views: { label: 'Views', color: 'var(--chart-3)' },
+} satisfies ChartConfig;
+
+const browserConfig = {
+  count: { label: 'Sesi', color: 'var(--chart-1)' },
+} satisfies ChartConfig;
+
+const osConfig = {
+  count: { label: 'Sesi', color: 'var(--chart-4)' },
+} satisfies ChartConfig;
+
 export function DashboardHome() {
   const { user, hasRole, can } = useAuth();
   const [overview, setOverview] = useState<DashboardOverview | null>(null);
@@ -250,6 +289,19 @@ export function DashboardHome() {
   const [error, setError] = useState<string | null>(null);
   const [recruitmentDenied, setRecruitmentDenied] = useState(false);
   const [auditDenied, setAuditDenied] = useState(false);
+
+  // Analytics dashboard enhancement — new, isolated state. Driven by the DateRangeFilter
+  // below, refetched independently from the section above (which stays on its own,
+  // untouched "today" semantics for the KPI/recent-contacts cards).
+  const [dateRange, setDateRange] = useState<AnalyticsRangeParams>({ range: '30d' });
+  const [trafficSourceData, setTrafficSourceData] = useState<TrafficSourceRow[]>([]);
+  const [campaigns, setCampaigns] = useState<CampaignRow[]>([]);
+  const [topPages, setTopPages] = useState<TopPageRow[]>([]);
+  const [funnel, setFunnel] = useState<FunnelStage[]>([]);
+  const [eventCounts, setEventCounts] = useState<EventCountRow[]>([]);
+  const [deviceBreakdown, setDeviceBreakdown] = useState<DeviceBreakdownData | null>(null);
+  const [searchConsole, setSearchConsole] = useState<SearchConsoleSummary | null>(null);
+  const [isAnalyticsLoading, setIsAnalyticsLoading] = useState(true);
 
   // Every dashboard section is shown to every admin role. Note this is a display-only choice —
   // the Rekrutmen and Aktivitas Admin sections still call backend endpoints that are role-restricted
@@ -269,7 +321,6 @@ export function DashboardHome() {
 
       const [
         overviewResult,
-        visitorTimelineResult,
         statsResult,
         appTimelineResult,
         auditStatsResult,
@@ -280,7 +331,6 @@ export function DashboardHome() {
         productInteractionsResult,
       ] = await Promise.allSettled([
         apiRequest<ApiResponse<DashboardOverview>>(API_ENDPOINTS.DASHBOARD_OVERVIEW),
-        apiRequest<ApiResponse<VisitorTimelinePoint[]>>(API_ENDPOINTS.VISITORS_TIMELINE),
         canViewRecruitment ? getCareerApplicationStatistics() : skipped(),
         canViewRecruitment ? getCareerApplicationTimeline() : skipped(),
         canViewAudit ? getAuditLogStatistics() : skipped(),
@@ -302,7 +352,6 @@ export function DashboardHome() {
       const isForbidden = (result: PromiseSettledResult<unknown>) =>
         result.status === 'rejected' && result.reason instanceof ApiError && result.reason.status === 403;
 
-      if (visitorTimelineResult.status === 'fulfilled') setVisitorTimeline(visitorTimelineResult.value.data);
       if (statsResult.status === 'fulfilled') setApplicationStats(statsResult.value.data);
       if (appTimelineResult.status === 'fulfilled') setApplicationTimeline(appTimelineResult.value.data);
       setRecruitmentDenied(isForbidden(statsResult) || isForbidden(appTimelineResult));
@@ -341,6 +390,56 @@ export function DashboardHome() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canViewRecruitment, canViewAudit, canViewContent]);
+
+  // Analytics dashboard enhancement — new, isolated effect, refetches whenever the
+  // DateRangeFilter changes. "Tren Kunjungan" below now gets its data from here
+  // (getTrafficTrend), via the existing visitorTimeline state — same {date,count} shape,
+  // same chart, just filterable now instead of a fixed 14 days.
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadAnalytics() {
+      setIsAnalyticsLoading(true);
+
+      const [
+        trendResult,
+        sourceResult,
+        campaignsResult,
+        topPagesResult,
+        funnelResult,
+        eventsResult,
+        deviceResult,
+        searchConsoleResult,
+      ] = await Promise.allSettled([
+        getTrafficTrend(dateRange),
+        getTrafficSource(dateRange),
+        getCampaignPerformance(dateRange),
+        getTopPages(dateRange),
+        getFunnel(dateRange),
+        getEventCounts(dateRange),
+        getDeviceBreakdown(dateRange),
+        getSearchConsoleSummary(dateRange),
+      ]);
+
+      if (cancelled) return;
+
+      if (trendResult.status === 'fulfilled') setVisitorTimeline(trendResult.value.data);
+      if (sourceResult.status === 'fulfilled') setTrafficSourceData(sourceResult.value.data);
+      if (campaignsResult.status === 'fulfilled') setCampaigns(campaignsResult.value.data);
+      if (topPagesResult.status === 'fulfilled') setTopPages(topPagesResult.value.data);
+      if (funnelResult.status === 'fulfilled') setFunnel(funnelResult.value.data);
+      if (eventsResult.status === 'fulfilled') setEventCounts(eventsResult.value.data);
+      if (deviceResult.status === 'fulfilled') setDeviceBreakdown(deviceResult.value.data);
+      if (searchConsoleResult.status === 'fulfilled') setSearchConsole(searchConsoleResult.value.data);
+
+      setIsAnalyticsLoading(false);
+    }
+
+    loadAnalytics();
+    return () => {
+      cancelled = true;
+    };
+  }, [dateRange]);
 
   const stats = [
     {
@@ -456,12 +555,18 @@ export function DashboardHome() {
 
   return (
     <motion.div className="flex flex-col gap-8" initial="hidden" animate="show" variants={staggerContainer}>
-      <motion.div variants={fadeUp}>
-        <h1 className="text-2xl font-semibold">
-          {getTimeGreeting(new Date().getHours())}, {user?.name}
-          {user && <span className="font-normal text-muted-foreground"> ({user.role_label})</span>}
-        </h1>
-        <p className="text-muted-foreground">Ringkasan aktivitas terbaru pada website PT Surya Inti Gas.</p>
+      <motion.div variants={fadeUp} className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold">
+            {getTimeGreeting(new Date().getHours())}, {user?.name}
+            {user && <span className="font-normal text-muted-foreground"> ({user.role_label})</span>}
+          </h1>
+          <p className="text-muted-foreground">Ringkasan aktivitas terbaru pada website PT Surya Inti Gas.</p>
+        </div>
+        <div className="flex flex-col items-end gap-1">
+          <span className="text-xs font-medium text-muted-foreground">Periode Analytics</span>
+          <DateRangeFilter value={dateRange} onChange={setDateRange} />
+        </div>
       </motion.div>
 
       {error && (
@@ -559,10 +664,10 @@ export function DashboardHome() {
       <Card>
         <CardHeader>
           <CardTitle>Tren Kunjungan</CardTitle>
-          <CardDescription>Jumlah sesi pengunjung per hari, 14 hari terakhir.</CardDescription>
+          <CardDescription>Jumlah sesi pengunjung per hari, sesuai periode yang dipilih.</CardDescription>
         </CardHeader>
         <CardContent>
-          {isLoading ? (
+          {isAnalyticsLoading ? (
             <Skeleton className="h-[220px] w-full" />
           ) : visitorTimelineData.length ? (
             <ChartContainer config={visitorTimelineConfig} className="aspect-auto h-[220px] w-full">
@@ -587,58 +692,273 @@ export function DashboardHome() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Perangkat Pengunjung</CardTitle>
-            <CardDescription>Sesi hari ini berdasarkan jenis perangkat.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <Skeleton className="h-[220px] w-full" />
-            ) : deviceData.length > 0 ? (
-              <ChartContainer config={deviceConfig} className="aspect-auto h-[220px] w-full">
-                <PieChart margin={{ top: 8, bottom: 8 }}>
-                  <ChartTooltip content={<ChartTooltipContent nameKey="device" hideLabel />} />
-                  <Pie data={deviceData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
-                    {deviceData.map((row) => (
-                      <Cell key={row.device} fill={`var(--color-${row.device})`} />
-                    ))}
-                  </Pie>
-                  <ChartLegend content={<ChartLegendContent nameKey="device" />} />
-                </PieChart>
-              </ChartContainer>
-            ) : (
-              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data perangkat.</p>
-            )}
-          </CardContent>
-        </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Distribusi Status Kontak</CardTitle>
+          <CardDescription>Seluruh pesan kontak, sepanjang waktu.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <Skeleton className="h-[220px] w-full" />
+          ) : contactStatusData.length > 0 ? (
+            <ChartContainer config={contactStatusConfig} className="aspect-auto h-[220px] w-full max-w-md">
+              <PieChart margin={{ top: 8, bottom: 8 }}>
+                <ChartTooltip content={<ChartTooltipContent nameKey="status" hideLabel />} />
+                <Pie data={contactStatusData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
+                  {contactStatusData.map((row) => (
+                    <Cell key={row.status} fill={`var(--color-${row.status})`} />
+                  ))}
+                </Pie>
+                <ChartLegend content={<ChartLegendContent nameKey="status" />} />
+              </PieChart>
+            </ChartContainer>
+          ) : (
+            <p className="py-10 text-center text-sm text-muted-foreground">Belum ada pesan kontak.</p>
+          )}
+        </CardContent>
+      </Card>
+      </motion.div>
 
+      {/* ── Traffic Source — dari mana pengunjung datang ── */}
+      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+        <SectionHeader
+          icon={Share2}
+          color="var(--chart-2)"
+          title="Traffic Source"
+          description="Channel mana yang membawa traffic ke website."
+        />
         <Card>
           <CardHeader>
-            <CardTitle>Distribusi Status Kontak</CardTitle>
-            <CardDescription>Seluruh pesan kontak, sepanjang waktu.</CardDescription>
+            <CardTitle>Sumber Kunjungan</CardTitle>
+            <CardDescription>Google Organic, Instagram, WhatsApp, TikTok, LinkedIn, Facebook, YouTube, Referral, Direct.</CardDescription>
           </CardHeader>
           <CardContent>
-            {isLoading ? (
-              <Skeleton className="h-[220px] w-full" />
-            ) : contactStatusData.length > 0 ? (
-              <ChartContainer config={contactStatusConfig} className="aspect-auto h-[220px] w-full">
-                <PieChart margin={{ top: 8, bottom: 8 }}>
-                  <ChartTooltip content={<ChartTooltipContent nameKey="status" hideLabel />} />
-                  <Pie data={contactStatusData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
-                    {contactStatusData.map((row) => (
-                      <Cell key={row.status} fill={`var(--color-${row.status})`} />
-                    ))}
-                  </Pie>
-                  <ChartLegend content={<ChartLegendContent nameKey="status" />} />
-                </PieChart>
+            {isAnalyticsLoading ? (
+              <Skeleton className="h-[260px] w-full" />
+            ) : trafficSourceData.length ? (
+              <ChartContainer config={trafficSourceConfig} className="aspect-auto h-[260px] w-full">
+                <BarChart data={trafficSourceData} layout="vertical" margin={{ left: 8, right: 16, top: 8, bottom: 0 }}>
+                  <CartesianGrid horizontal={false} />
+                  <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
+                  <YAxis dataKey="channel" type="category" tickLine={false} axisLine={false} width={110} tick={{ fontSize: 11 }} interval={0} />
+                  <ChartTooltip
+                    content={
+                      <ChartTooltipContent
+                        hideLabel
+                        formatter={(value, _name, item) => `${value} pengunjung (${item.payload.percentage}%)`}
+                      />
+                    }
+                  />
+                  <Bar dataKey="users" fill="var(--color-users)" radius={4} />
+                </BarChart>
               </ChartContainer>
             ) : (
-              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada pesan kontak.</p>
+              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data traffic source.</p>
             )}
           </CardContent>
         </Card>
+      </motion.div>
+
+      {/* ── Google Search Performance ── */}
+      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+        <SectionHeader
+          icon={Search}
+          color="var(--chart-1)"
+          title="Google Search Performance"
+          description="Bagaimana orang menemukan PT Surya Inti Gas lewat pencarian Google."
+        />
+        {isAnalyticsLoading ? (
+          <Skeleton className="h-[220px] w-full" />
+        ) : searchConsole?.connected ? (
+          <>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <StatCard label="Clicks" value={searchConsole.clicks} description="Total klik dari hasil pencarian" icon={MousePointerClick} color="var(--chart-1)" isLoading={false} />
+              <StatCard label="Impressions" value={searchConsole.impressions} description="Total tampil di hasil pencarian" icon={Eye} color="var(--chart-2)" isLoading={false} />
+              <StatCard label="CTR" value={`${searchConsole.ctr}%`} description="Click-through rate" icon={Search} color="var(--chart-3)" isLoading={false} />
+              <StatCard label="Posisi Rata-rata" value={searchConsole.position} description="Rata-rata posisi di hasil pencarian" icon={Filter} color="var(--chart-4)" isLoading={false} />
+            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Search Query</CardTitle>
+                <CardDescription>Kata kunci yang membawa pengunjung dari Google Search.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {searchConsole.queries.length ? (
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Search Query</TableHead>
+                          <TableHead className="text-right">Clicks</TableHead>
+                          <TableHead className="text-right">Impressions</TableHead>
+                          <TableHead className="text-right">CTR</TableHead>
+                          <TableHead className="text-right">Position</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {searchConsole.queries.map((row) => (
+                          <TableRow key={row.query}>
+                            <TableCell className="font-medium">{row.query}</TableCell>
+                            <TableCell className="text-right">{row.clicks}</TableCell>
+                            <TableCell className="text-right">{row.impressions}</TableCell>
+                            <TableCell className="text-right">{row.ctr}%</TableCell>
+                            <TableCell className="text-right">{row.position}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                ) : (
+                  <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data search query.</p>
+                )}
+              </CardContent>
+            </Card>
+          </>
+        ) : (
+          <Card>
+            <CardContent className="flex flex-col items-center gap-2 py-10 text-center">
+              <Search className="h-8 w-8 text-muted-foreground" />
+              <p className="text-sm font-medium">Google Search Console belum terhubung</p>
+              <p className="max-w-md text-xs text-muted-foreground">
+                Hubungkan properti Search Console (GOOGLE_SEARCH_CONSOLE_SITE_URL + kredensial service account
+                di .env server) untuk melihat clicks, impressions, CTR, dan search query di sini.
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </motion.div>
+
+      {/* ── Social & Campaign Performance ── */}
+      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+        <SectionHeader
+          icon={Megaphone}
+          color="var(--chart-5)"
+          title="Social & Campaign Performance"
+          description="Performa link ber-UTM dari Instagram, TikTok, WhatsApp, LinkedIn, Facebook, YouTube."
+        />
+        <Card>
+          <CardContent>
+            {isAnalyticsLoading ? (
+              <Skeleton className="h-[160px] w-full" />
+            ) : campaigns.length ? (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Source</TableHead>
+                      <TableHead>Campaign</TableHead>
+                      <TableHead className="text-right">Users</TableHead>
+                      <TableHead className="text-right">Sessions</TableHead>
+                      <TableHead className="text-right">Conversion</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {campaigns.map((row, i) => (
+                      <TableRow key={`${row.source}-${row.campaign ?? i}`}>
+                        <TableCell className="font-medium">{row.source}</TableCell>
+                        <TableCell>{row.campaign ?? '–'}</TableCell>
+                        <TableCell className="text-right">{row.users}</TableCell>
+                        <TableCell className="text-right">{row.sessions}</TableCell>
+                        <TableCell className="text-right">{row.conversions}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            ) : (
+              <p className="py-10 text-center text-sm text-muted-foreground">
+                Belum ada kunjungan dengan UTM (contoh: ?utm_source=instagram&amp;utm_medium=social&amp;utm_campaign=company_profile).
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* ── Top Pages ── */}
+      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+        <SectionHeader
+          icon={FileText}
+          color="var(--chart-3)"
+          title="Top Pages"
+          description="Halaman yang paling banyak dikunjungi."
+        />
+        <Card>
+          <CardContent>
+            {isAnalyticsLoading ? (
+              <Skeleton className="h-[260px] w-full" />
+            ) : topPages.length ? (
+              <ChartContainer config={topPagesConfig} className="aspect-auto h-[260px] w-full">
+                <BarChart data={topPages} layout="vertical" margin={{ left: 8, right: 16, top: 8, bottom: 0 }}>
+                  <CartesianGrid horizontal={false} />
+                  <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
+                  <YAxis dataKey="page" type="category" tickLine={false} axisLine={false} width={120} tick={{ fontSize: 11 }} interval={0} />
+                  <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                  <Bar dataKey="views" fill="var(--color-views)" radius={4} />
+                </BarChart>
+              </ChartContainer>
+            ) : (
+              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data halaman.</p>
+            )}
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* ── User Journey / Funnel ── */}
+      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+        <SectionHeader
+          icon={Filter}
+          color="var(--chart-4)"
+          title="User Journey"
+          description="Pengunjung → melihat produk → membuka kontak → konversi (klik WhatsApp/telepon/email)."
+        />
+        <Card>
+          <CardContent className="flex flex-col gap-3 pt-6">
+            {isAnalyticsLoading ? (
+              <Skeleton className="h-[180px] w-full" />
+            ) : funnel.length ? (
+              funnel.map((stage, i) => (
+                <div key={stage.stage} className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-medium">{i + 1}. {stage.stage}</span>
+                    <span className="text-muted-foreground">{stage.count} ({stage.percentage}%)</span>
+                  </div>
+                  <div className="h-2.5 w-full overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-[var(--chart-1)]"
+                      style={{ width: `${Math.max(stage.percentage, 2)}%` }}
+                    />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data kunjungan.</p>
+            )}
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* ── Events ── */}
+      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+        <SectionHeader
+          icon={MousePointerClick}
+          color="var(--chart-2)"
+          title="Events"
+          description="Tindakan bernilai bisnis yang dilakukan pengunjung."
+        />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {isAnalyticsLoading
+            ? [...Array(5)].map((_, i) => <Skeleton key={i} className="h-[104px] w-full" />)
+            : eventCounts.map((row) => (
+                <StatCard
+                  key={row.event_type}
+                  label={row.label}
+                  value={row.count}
+                  description="Total pada periode ini"
+                  icon={MousePointerClick}
+                  color="var(--chart-5)"
+                  isLoading={false}
+                />
+              ))}
         </div>
       </motion.div>
 
@@ -856,6 +1176,91 @@ export function DashboardHome() {
           </Card>
         </motion.div>
       )}
+
+      {/* ── Device / Technology — bukan prioritas utama, jadi paling bawah ── */}
+      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
+        <SectionHeader
+          icon={Monitor}
+          color="var(--chart-3)"
+          title="Device & Technology"
+          description="Perangkat dan teknologi yang dipakai pengunjung mengakses situs."
+        />
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <Card>
+            <CardHeader>
+              <CardTitle>Perangkat Pengunjung</CardTitle>
+              <CardDescription>Sesi hari ini berdasarkan jenis perangkat.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <Skeleton className="h-[220px] w-full" />
+              ) : deviceData.length > 0 ? (
+                <ChartContainer config={deviceConfig} className="aspect-auto h-[220px] w-full">
+                  <PieChart margin={{ top: 8, bottom: 8 }}>
+                    <ChartTooltip content={<ChartTooltipContent nameKey="device" hideLabel />} />
+                    <Pie data={deviceData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
+                      {deviceData.map((row) => (
+                        <Cell key={row.device} fill={`var(--color-${row.device})`} />
+                      ))}
+                    </Pie>
+                    <ChartLegend content={<ChartLegendContent nameKey="device" />} />
+                  </PieChart>
+                </ChartContainer>
+              ) : (
+                <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data perangkat.</p>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Top Browser</CardTitle>
+              <CardDescription>Browser yang paling sering dipakai, periode ini.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isAnalyticsLoading ? (
+                <Skeleton className="h-[220px] w-full" />
+              ) : deviceBreakdown?.browsers.length ? (
+                <ChartContainer config={browserConfig} className="aspect-auto h-[220px] w-full">
+                  <BarChart data={deviceBreakdown.browsers} layout="vertical" margin={{ left: 8, right: 16, top: 8, bottom: 0 }}>
+                    <CartesianGrid horizontal={false} />
+                    <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
+                    <YAxis dataKey="label" type="category" tickLine={false} axisLine={false} width={80} tick={{ fontSize: 11 }} interval={0} />
+                    <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                    <Bar dataKey="count" fill="var(--color-count)" radius={4} />
+                  </BarChart>
+                </ChartContainer>
+              ) : (
+                <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data browser.</p>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Top Operating System</CardTitle>
+              <CardDescription>Sistem operasi yang paling sering dipakai, periode ini.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isAnalyticsLoading ? (
+                <Skeleton className="h-[220px] w-full" />
+              ) : deviceBreakdown?.operating_systems.length ? (
+                <ChartContainer config={osConfig} className="aspect-auto h-[220px] w-full">
+                  <BarChart data={deviceBreakdown.operating_systems} layout="vertical" margin={{ left: 8, right: 16, top: 8, bottom: 0 }}>
+                    <CartesianGrid horizontal={false} />
+                    <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
+                    <YAxis dataKey="label" type="category" tickLine={false} axisLine={false} width={80} tick={{ fontSize: 11 }} interval={0} />
+                    <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                    <Bar dataKey="count" fill="var(--color-count)" radius={4} />
+                  </BarChart>
+                </ChartContainer>
+              ) : (
+                <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data OS.</p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }

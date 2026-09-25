@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, type Variants } from 'motion/react';
 import { OFFICES } from '../../data/contact';
 import { Seo } from './Seo';
+import { trackEvent } from '../../utils/eventTracking';
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -112,11 +113,21 @@ export const ContactPage = () => {
                   {t('contactPage.sidoarjo.address')}
                 </p>
                 <div className="office-card-contact">
-                  <a href={OFFICES.sidoarjo.whatsappUrl} target="_blank" rel="noopener noreferrer" className="contact-link">
+                  <a
+                    href={OFFICES.sidoarjo.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-link"
+                    onClick={() => trackEvent('whatsapp_click', { page: '/kontak', label: 'sidoarjo' })}
+                  >
                     <FaWhatsapp size={18} aria-hidden="true" />
                     <span>{OFFICES.sidoarjo.phoneDisplay}</span>
                   </a>
-                  <a href={`mailto:${OFFICES.sidoarjo.email}`} className="contact-link">
+                  <a
+                    href={`mailto:${OFFICES.sidoarjo.email}`}
+                    className="contact-link"
+                    onClick={() => trackEvent('email_click', { page: '/kontak', label: 'sidoarjo' })}
+                  >
                     <Mail size={18} aria-hidden="true" />
                     <span>{OFFICES.sidoarjo.email}</span>
                   </a>
@@ -147,11 +158,21 @@ export const ContactPage = () => {
                   {t('contactPage.balikpapan.address')}
                 </p>
                 <div className="office-card-contact">
-                  <a href={OFFICES.balikpapan.whatsappUrl} target="_blank" rel="noopener noreferrer" className="contact-link">
+                  <a
+                    href={OFFICES.balikpapan.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-link"
+                    onClick={() => trackEvent('whatsapp_click', { page: '/kontak', label: 'balikpapan' })}
+                  >
                     <FaWhatsapp size={18} aria-hidden="true" />
                     <span>{OFFICES.balikpapan.phoneDisplay}</span>
                   </a>
-                  <a href={`mailto:${OFFICES.balikpapan.email}`} className="contact-link">
+                  <a
+                    href={`mailto:${OFFICES.balikpapan.email}`}
+                    className="contact-link"
+                    onClick={() => trackEvent('email_click', { page: '/kontak', label: 'balikpapan' })}
+                  >
                     <Mail size={18} aria-hidden="true" />
                     <span>{OFFICES.balikpapan.email}</span>
                   </a>

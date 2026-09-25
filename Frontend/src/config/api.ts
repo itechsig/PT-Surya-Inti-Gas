@@ -66,6 +66,19 @@ export const API_ENDPOINTS = {
   VISITOR_PAGEVIEW: '/api/v1/visitor/pageview',
   VISITORS_TIMELINE: '/api/v1/admin/visitors/timeline',
 
+  // Analytics dashboard enhancement — new, isolated from Visitor tracking above.
+  // EVENT_TRACK is public (POST); the rest are admin GETs, each accepting an optional
+  // ?range=7d|30d|90d|180d|365d|custom (&start=&end= for custom) date-filter param.
+  EVENT_TRACK: '/api/v1/events/track',
+  ANALYTICS_TRAFFIC_TREND: '/api/v1/admin/analytics/traffic-trend',
+  ANALYTICS_TRAFFIC_SOURCE: '/api/v1/admin/analytics/traffic-source',
+  ANALYTICS_CAMPAIGNS: '/api/v1/admin/analytics/campaigns',
+  ANALYTICS_TOP_PAGES: '/api/v1/admin/analytics/top-pages',
+  ANALYTICS_FUNNEL: '/api/v1/admin/analytics/funnel',
+  ANALYTICS_EVENTS: '/api/v1/admin/analytics/events',
+  ANALYTICS_DEVICE_BREAKDOWN: '/api/v1/admin/analytics/device-breakdown',
+  ANALYTICS_SEARCH_CONSOLE: '/api/v1/admin/analytics/search-console',
+
   // AI Agent endpoints (admin)
   AI_AGENT_STATUS: '/api/v1/admin/ai-agent/status',
   AI_MONITORING: '/api/v1/admin/ai-agent/monitor',
