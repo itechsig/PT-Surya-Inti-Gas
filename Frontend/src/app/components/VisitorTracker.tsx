@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { API_ENDPOINTS, getApiUrl } from "../../config/api";
+import { captureUtmParams, trackEvent } from "../../utils/eventTracking";
 
 const SESSION_STORAGE_KEY = "sig_visitor_session";
 
@@ -29,7 +30,7 @@ function post(endpoint: string, body: Record<string, unknown>) {
  * root. Skips /admin routes so internal staff usage never pollutes public traffic analytics.
  */
 export function VisitorTracker() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const hasTrackedVisit = useRef(false);
   const lastPageEnteredAt = useRef(Date.now());
 
@@ -37,6 +38,11 @@ export function VisitorTracker() {
     if (pathname.startsWith("/admin")) return;
 
     const sessionId = getOrCreateSessionId();
+
+    // New, isolated Analytics dashboard pipeline — doesn't touch the visitor/pageview
+    // calls below. Captures ?utm_source=... once per session and records this page view.
+    captureUtmParams(search);
+    trackEvent("page_view", { page: pathname, sessionId });
 
     if (!hasTrackedVisit.current) {
       hasTrackedVisit.current = true;

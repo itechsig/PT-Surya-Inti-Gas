@@ -8,6 +8,7 @@ import { useProductCatalog } from "../../hooks/useProductCatalog";
 import type { Product, SubCategory } from "../../data/products";
 import { getImageUrl, IMAGE_PLACEHOLDER } from "../../utils/imageUrl";
 import { trackProductInteraction } from "../../utils/productTracking";
+import { trackEvent } from "../../utils/eventTracking";
 import { collapseCradleVariants } from "../../utils/cradleVariants";
 import { RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 import { Seo } from "./Seo";
@@ -140,6 +141,7 @@ export function ProductDetail() {
 
     if (productData?.product.id) {
       trackProductInteraction(productData.product.id, 'whatsapp_click');
+      trackEvent('whatsapp_click', { page: '/produk', label: productTitle });
     }
 
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -155,6 +157,7 @@ export function ProductDetail() {
   useEffect(() => {
     if (productData?.product.id) {
       trackProductInteraction(productData.product.id, 'view');
+      trackEvent('product_view', { page: '/produk', label: productData.product.title });
     }
   }, [productData?.product.id]);
 

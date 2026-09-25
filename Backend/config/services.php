@@ -92,4 +92,18 @@ return [
         'health_check_interval' => env('HEALTH_CHECK_INTERVAL', 300), // 5 minutes
     ],
 
+    // Analytics dashboard enhancement — GA4 Data API. Optional; leave blank and the
+    // dashboard's own first-party visitor tracking keeps powering Traffic Trend/Source.
+    'ga4' => [
+        'property_id' => env('GA4_PROPERTY_ID', ''),
+        'credentials_path' => env('GOOGLE_ANALYTICS_CREDENTIALS_PATH', ''),
+    ],
+
+    // Analytics dashboard enhancement — Search Console API. Optional; the "Google
+    // Search Performance" section shows a "not connected" empty state until set.
+    'search_console' => [
+        'site_url' => env('GOOGLE_SEARCH_CONSOLE_SITE_URL', ''),
+        'credentials_path' => env('GOOGLE_SEARCH_CONSOLE_CREDENTIALS_PATH', ''),
+    ],
+
 ];

@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\UnmannedAgentController;
 use App\Http\Controllers\Api\HeroSlideController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductInteractionController;
+use App\Http\Controllers\Api\AnalyticsController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\JobVacancyController;
 use App\Http\Controllers\Api\UserController;
@@ -102,6 +103,10 @@ Route::prefix('v1')->group(function () {
             Route::post('/visitor/pageview', [VisitorTrackingController::class, 'trackPageView']);
             Route::get('/visitor/current-ip', [VisitorTrackingController::class, 'getCurrentIP']);
         // });
+
+        // Analytics Events API (Public) — new, isolated from Visitor Tracking above.
+        // Fire-and-forget page-view / contact-click events for the admin Analytics dashboard.
+        Route::post('/events/track', [AnalyticsController::class, 'trackEvent']);
 
         // Chatbot API - Core Features (Public) - 30 req/min (API calls are expensive)
         // Route::middleware('throttle:60,1')->group(function () {
@@ -211,6 +216,18 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/dashboard/contacts/{id}', [DashboardController::class, 'contactDetails']);
         Route::put('/admin/dashboard/contacts/{id}', [DashboardController::class, 'updateContact']);
         Route::get('/admin/visitors/timeline', [VisitorTrackingController::class, 'timeline']);
+
+        // Analytics Dashboard API (new, isolated — Traffic Trend / Source / Search /
+        // Campaigns / Top Pages / Funnel / Events / device breakdown for the enhanced
+        // admin Analytics section)
+        Route::get('/admin/analytics/traffic-trend', [AnalyticsController::class, 'trafficTrend']);
+        Route::get('/admin/analytics/traffic-source', [AnalyticsController::class, 'trafficSource']);
+        Route::get('/admin/analytics/campaigns', [AnalyticsController::class, 'campaigns']);
+        Route::get('/admin/analytics/top-pages', [AnalyticsController::class, 'topPages']);
+        Route::get('/admin/analytics/funnel', [AnalyticsController::class, 'funnel']);
+        Route::get('/admin/analytics/events', [AnalyticsController::class, 'events']);
+        Route::get('/admin/analytics/device-breakdown', [AnalyticsController::class, 'deviceBreakdown']);
+        Route::get('/admin/analytics/search-console', [AnalyticsController::class, 'searchConsole']);
 
         // AI Agent API
         Route::get('/admin/ai-agent/status', [AIAgentController::class, 'getStatus']);

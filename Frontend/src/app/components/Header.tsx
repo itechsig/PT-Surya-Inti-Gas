@@ -41,6 +41,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import { useScrolledPast } from "../../hooks/useScrollProgress";
 import { SOCIAL, PRIMARY_OFFICE } from "../../data/contact";
+import { trackEvent } from "../../utils/eventTracking";
 
 // ─── Corporate Nav Config (Air Liquide & Linde inspired) ───────────────────────────────────────────────
 type MegaMenuItem = { nameKey: string; href: string; children?: Array<{ nameKey: string; href: string }> };
@@ -833,6 +834,7 @@ export const Header = () => {
                   href={PRIMARY_OFFICE.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackEvent('whatsapp_click', { label: 'header' })}
                   className="mt-3 flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-white shadow-lg shadow-green-900/15 transition-transform active:scale-[0.98]"
                   style={{
                     fontFamily: "'Barlow', system-ui, sans-serif",
