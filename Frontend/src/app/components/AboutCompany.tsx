@@ -225,6 +225,7 @@ const css = `
     color: var(--slate-600);
     margin: 0 0 32px;
     max-width: 60ch;
+    text-align: justify;
   }
 
   /* ── Corporate CTA Section ── */

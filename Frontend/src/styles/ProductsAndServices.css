@@ -830,6 +830,7 @@ button.products-card {
   line-height: 1.7;
   color: var(--slate-600);
   margin: 0;
+  text-align: justify;
 }
 
 .products-detail-info {
