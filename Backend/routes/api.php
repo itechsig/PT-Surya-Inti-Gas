@@ -32,6 +32,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\PortfolioController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\CategoryPhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,9 @@ Route::prefix('v1')->group(function () {
 
         // Hero Slides API (Public)
         Route::get('/hero-slides', [HeroSlideController::class, 'index']);
+
+        // Category Photos API (Public) - key -> image URL map for the Product.tsx picker cards
+        Route::get('/category-photos', [CategoryPhotoController::class, 'index']);
 
         // Products API (Public)
         Route::get('/products', [ProductController::class, 'index']);
@@ -171,6 +175,13 @@ Route::prefix('v1')->group(function () {
             Route::delete('/admin/products/{product}', [ProductController::class, 'destroy']);
             Route::post('/admin/products/reorder', [ProductController::class, 'reorder']);
         });
+        // Category Photos API (Admin)
+        Route::get('/admin/category-photos', [CategoryPhotoController::class, 'adminIndex']);
+        Route::middleware(['permission:products.manage'])->group(function () {
+            Route::post('/admin/category-photos/{categoryPhoto}', [CategoryPhotoController::class, 'update']);
+            Route::delete('/admin/category-photos/{categoryPhoto}', [CategoryPhotoController::class, 'destroy']);
+        });
+
         // Gallery API (Admin)
         Route::get('/admin/gallery', [GalleryController::class, 'adminIndex']);
         Route::get('/admin/gallery/{galleryItem}', [GalleryController::class, 'show']);

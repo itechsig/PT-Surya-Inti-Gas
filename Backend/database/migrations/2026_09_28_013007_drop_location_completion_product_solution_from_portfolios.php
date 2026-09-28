@@ -11,13 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('portfolios', function (Blueprint $table) {
-            $table->dropColumn([
-                'location_id', 'location_en', 'location_zh',
-                'completion_date',
-                'product_solution_id', 'product_solution_en', 'product_solution_zh',
-            ]);
-        });
+        $columns = [
+            'location_id', 'location_en', 'location_zh',
+            'completion_date',
+            'product_solution_id', 'product_solution_en', 'product_solution_zh',
+        ];
+
+        $existing = array_filter($columns, fn ($column) => Schema::hasColumn('portfolios', $column));
+
+        if (! empty($existing)) {
+            Schema::table('portfolios', function (Blueprint $table) use ($existing) {
+                $table->dropColumn(array_values($existing));
+            });
+        }
     }
 
     /**
@@ -26,13 +32,27 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('portfolios', function (Blueprint $table) {
-            $table->string('location_id')->after('title_zh');
-            $table->string('location_en')->nullable()->after('location_id');
-            $table->string('location_zh')->nullable()->after('location_en');
-            $table->date('completion_date')->after('location_zh');
-            $table->string('product_solution_id')->after('completion_date');
-            $table->string('product_solution_en')->nullable()->after('product_solution_id');
-            $table->string('product_solution_zh')->nullable()->after('product_solution_en');
+            if (! Schema::hasColumn('portfolios', 'location_id')) {
+                $table->string('location_id')->after('title_zh');
+            }
+            if (! Schema::hasColumn('portfolios', 'location_en')) {
+                $table->string('location_en')->nullable()->after('location_id');
+            }
+            if (! Schema::hasColumn('portfolios', 'location_zh')) {
+                $table->string('location_zh')->nullable()->after('location_en');
+            }
+            if (! Schema::hasColumn('portfolios', 'completion_date')) {
+                $table->date('completion_date')->after('location_zh');
+            }
+            if (! Schema::hasColumn('portfolios', 'product_solution_id')) {
+                $table->string('product_solution_id')->after('completion_date');
+            }
+            if (! Schema::hasColumn('portfolios', 'product_solution_en')) {
+                $table->string('product_solution_en')->nullable()->after('product_solution_id');
+            }
+            if (! Schema::hasColumn('portfolios', 'product_solution_zh')) {
+                $table->string('product_solution_zh')->nullable()->after('product_solution_en');
+            }
         });
     }
 };

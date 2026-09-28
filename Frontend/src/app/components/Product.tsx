@@ -7,6 +7,7 @@ import '../../styles/ProductsAndServices.css';
 import { Seo } from "./Seo";
 import { mainCategoryIds, type Product, type ProductVariant, type SubCategory, type MainCategory } from "../../data/products";
 import { useProductCatalog } from "../../hooks/useProductCatalog";
+import { useCategoryPhotos } from "../../hooks/useCategoryPhotos";
 import { getImageUrl } from "../../utils/imageUrl";
 import { collapseCradleVariants } from "../../utils/cradleVariants";
 import { CradleSizeDialog } from "./CradleSizeDialog";
@@ -68,6 +69,11 @@ const SUB_CATEGORY_ICONS: Record<string, any> = {
   'package-cylinder': Layers,
 };
 
+/** category_photos lookup keys (see Backend's create_category_photos_table migration) —
+ *  admin-uploadable photos shown instead of the icons above whenever one has been set. */
+const mainCategoryPhotoKey = (category: MainCategory) => `main-${category}`;
+const subCategoryPhotoKey = (subCategoryId: string) => `sub-${subCategoryId}`;
+
 /* ── Motion variants ── */
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -107,10 +113,10 @@ function Breadcrumb({ items }: { items: { label: string; onClick?: () => void }[
   );
 }
 
-// Picker Card — plain icon + title, used for both the main-category hub
-// and the Produk Gas sub-category step. No photo, no description, no
-// gradient chrome — just a clean logo-style selector.
-function PickerCard({ label, icon: Icon, onClick }: { label: string; icon: any; onClick: () => void }) {
+// Picker Card — photo (when the admin has uploaded one for this category/sub-category)
+// or a plain icon fallback, plus title — used for both the main-category hub and the
+// Produk Gas/Kemasan sub-category step.
+function PickerCard({ label, icon: Icon, image, onClick }: { label: string; icon: any; image?: string | null; onClick: () => void }) {
   return (
     <motion.button
       type="button"
@@ -120,9 +126,13 @@ function PickerCard({ label, icon: Icon, onClick }: { label: string; icon: any; 
       whileHover={{ y: -4 }}
       transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
     >
-      <div className="picker-card-icon">
-        <Icon size={32} aria-hidden="true" />
-      </div>
+      {image ? (
+        <div className="picker-card-photo" style={{ backgroundImage: `url(${getImageUrl(image)})` }} />
+      ) : (
+        <div className="picker-card-icon">
+          <Icon size={32} aria-hidden="true" />
+        </div>
+      )}
       <div className="picker-card-title">{label}</div>
     </motion.button>
   );
@@ -174,6 +184,7 @@ export function Product() {
   const currentLang = lang || 'id';
   const { t } = useTranslation();
   const { categories: productCategories } = useProductCatalog(currentLang);
+  const categoryPhotos = useCategoryPhotos();
   const [searchParams] = useSearchParams();
   const [cradleVariants, setCradleVariants] = useState<ProductVariant[] | null>(null);
 
@@ -400,6 +411,7 @@ export function Product() {
                       key={category.id}
                       label={category.label}
                       icon={category.icon}
+                      image={categoryPhotos[mainCategoryPhotoKey(category.id)]}
                       onClick={() => goToCategory(category.id)}
                     />
                   ))}
@@ -425,6 +437,7 @@ export function Product() {
                       key={subCat.id}
                       label={subCat.title}
                       icon={SUB_CATEGORY_ICONS[subCat.id] || Layers}
+                      image={categoryPhotos[subCategoryPhotoKey(subCat.id)]}
                       onClick={() => goToSubCategory(mainCategory, subCat.id)}
                     />
                   ))}

@@ -1,4 +1,4 @@
-import { Briefcase, FolderKanban, GalleryHorizontal, Images, LayoutDashboard, Package, Users, UserCog, ScrollText, ShieldCheck, type LucideIcon } from 'lucide-react';
+import { Briefcase, FolderKanban, GalleryHorizontal, Image, Images, LayoutDashboard, Package, Users, UserCog, ScrollText, ShieldCheck, type LucideIcon } from 'lucide-react';
 
 export interface AdminNavItem {
   label: string;
@@ -17,6 +17,7 @@ export const adminNavItems: AdminNavItem[] = [
   { label: 'Dashboard', to: '/admin', icon: LayoutDashboard },
   { label: 'Hero Slides', to: '/admin/hero-slides', icon: GalleryHorizontal, permission: 'hero_slides.manage' },
   { label: 'Produk', to: '/admin/products', icon: Package, permission: 'products.manage' },
+  { label: 'Foto Kategori', to: '/admin/category-photos', icon: Image, permission: 'products.manage' },
   { label: 'Galeri', to: '/admin/gallery', icon: Images, permission: 'gallery.manage' },
   { label: 'Portofolio', to: '/admin/portfolios', icon: FolderKanban, permission: 'portfolios.manage' },
   { label: 'Lowongan Kerja', to: '/admin/job-vacancies', icon: Briefcase, permission: 'job_vacancies.manage' },

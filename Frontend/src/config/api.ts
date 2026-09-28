@@ -130,6 +130,10 @@ export const API_ENDPOINTS = {
   HERO_SLIDES: '/api/v1/hero-slides', // public (GET, ?lang=id|en|zh)
   ADMIN_HERO_SLIDES: '/api/v1/admin/hero-slides', // admin CRUD; append /{id}, /{id}/toggle-active, /reorder
 
+  // Category Photos endpoints (Product.tsx picker card photos, replacing the lucide icons)
+  CATEGORY_PHOTOS: '/api/v1/category-photos', // public (GET) - key -> image URL map
+  ADMIN_CATEGORY_PHOTOS: '/api/v1/admin/category-photos', // admin; append /{key} for update (POST) / clear (DELETE)
+
   // Products endpoints
   PRODUCTS_CATALOG: '/api/v1/products', // public (GET, ?lang=id|en|zh) - grouped by category
   PRODUCT_DETAIL: '/api/v1/products', // public (GET); append /{slug}?lang=

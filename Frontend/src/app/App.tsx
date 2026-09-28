@@ -50,6 +50,7 @@ const LoginPage = lazy(() => import("./admin/LoginPage").then(m => ({ default: m
 const DashboardHome = lazy(() => import("./admin/DashboardHome").then(m => ({ default: m.DashboardHome })));
 const HeroSlidesPage = lazy(() => import("./admin/heroSlides/HeroSlidesPage").then(m => ({ default: m.HeroSlidesPage })));
 const ProductsPage = lazy(() => import("./admin/products/ProductsPage").then(m => ({ default: m.ProductsPage })));
+const CategoryPhotosPage = lazy(() => import("./admin/categoryPhotos/CategoryPhotosPage").then(m => ({ default: m.CategoryPhotosPage })));
 const GalleryPage = lazy(() => import("./admin/gallery/GalleryPage").then(m => ({ default: m.GalleryPage })));
 const PortfoliosPage = lazy(() => import("./admin/portfolios/PortfoliosPage").then(m => ({ default: m.PortfoliosPage })));
 const JobVacanciesPage = lazy(() => import("./admin/jobVacancies/JobVacanciesPage").then(m => ({ default: m.JobVacanciesPage })));
@@ -477,6 +478,7 @@ function App() {
               <Route index element={<DashboardHome />} />
               <Route path="hero-slides" element={<HeroSlidesPage />} />
               <Route path="products" element={<ProductsPage />} />
+              <Route path="category-photos" element={<CategoryPhotosPage />} />
               <Route path="gallery" element={<GalleryPage />} />
               <Route path="portfolios" element={<PortfoliosPage />} />
               <Route

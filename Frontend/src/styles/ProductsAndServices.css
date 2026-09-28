@@ -213,6 +213,20 @@
   color: var(--white);
 }
 
+.picker-card-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background-color: var(--slate-200);
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.25s ease;
+}
+
+.picker-card:hover .picker-card-photo {
+  transform: scale(1.03);
+}
+
 .picker-card-title {
   font-family: var(--ff-display);
   font-size: 1.05rem;
