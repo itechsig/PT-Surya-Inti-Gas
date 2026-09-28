@@ -162,6 +162,9 @@ export const Header = () => {
   const megaMenuRef = useRef<HTMLDivElement | null>(null);
   const mobilePanelRef = useRef<HTMLDivElement | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
+  // Closing on hover-out is debounced so a mouse crossing the small gap between
+  // the trigger and the panel below it doesn't flicker the menu shut.
+  const megaMenuCloseTimeoutRef = useRef<number | null>(null);
 
   // Mobile menu: lock the page behind it, close on Escape, keep Tab inside the
   // panel, and hand focus back to the trigger when it closes.
@@ -289,6 +292,32 @@ export const Header = () => {
     setActiveMegaMenu(null);
   };
 
+  // Hover-to-open for the desktop mega menu: opening cancels any pending close,
+  // closing is delayed briefly so moving the pointer from the trigger down into
+  // the panel (crossing the small gap between them) doesn't flicker it shut.
+  const openMegaMenuOnHover = (name: string) => {
+    if (megaMenuCloseTimeoutRef.current !== null) {
+      window.clearTimeout(megaMenuCloseTimeoutRef.current);
+      megaMenuCloseTimeoutRef.current = null;
+    }
+    setActiveMegaMenu(name);
+  };
+  const scheduleMegaMenuClose = () => {
+    if (megaMenuCloseTimeoutRef.current !== null) {
+      window.clearTimeout(megaMenuCloseTimeoutRef.current);
+    }
+    megaMenuCloseTimeoutRef.current = window.setTimeout(() => {
+      setActiveMegaMenu(null);
+      megaMenuCloseTimeoutRef.current = null;
+    }, 150);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (megaMenuCloseTimeoutRef.current !== null) window.clearTimeout(megaMenuCloseTimeoutRef.current);
+    };
+  }, []);
+
   return (
     <header role="banner">
       {/* ── Corporate Navbar (Linde & Air Liquide inspired) ──────────────────────────────────────── */}
@@ -381,19 +410,23 @@ export const Header = () => {
                       key={link.nameKey}
                       className="relative"
                       ref={megaMenuRef}
+                      onMouseEnter={() => openMegaMenuOnHover(link.nameKey)}
+                      onMouseLeave={scheduleMegaMenuClose}
                     >
-                      <button
-                        type="button"
+                      <Link
+                        to={toHref(link.href)}
                         aria-expanded={open}
                         aria-haspopup="true"
                         aria-controls={menuId}
+                        aria-current={active ? 'page' : undefined}
                         className={`${desktopLinkClass(isLight)} ${active ? activeMarkClass(isLight) : ''}`}
-                        style={{ ...desktopLinkStyle(isLight), cursor: 'pointer', background: 'transparent', border: 'none' }}
-                        onClick={() => setActiveMegaMenu(open ? null : link.nameKey)}
+                        style={{ ...desktopLinkStyle(isLight), cursor: 'pointer' }}
+                        onFocus={() => openMegaMenuOnHover(link.nameKey)}
+                        onClick={() => setActiveMegaMenu(null)}
                       >
                         {t(link.nameKey)}
                         <ChevronDown size={16} aria-hidden="true" className={`ml-1 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
-                      </button>
+                      </Link>
 
                       {/* Corporate Mega Menu — Singapore Airlines-style column layout: each
                           top-level entry is its own bold, always-expanded column. */}
