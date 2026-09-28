@@ -13,9 +13,6 @@ export interface PortfolioSummary {
   title: string;
   industry: PortfolioTaxonomyRef | null;
   serviceType: PortfolioTaxonomyRef | null;
-  productSolution: string;
-  location: string;
-  completionDate: string; // pre-formatted, e.g. "Juni 2026" / "June 2026" / "2026年6月"
   thumbnail: string;
   isFeatured: boolean;
 }

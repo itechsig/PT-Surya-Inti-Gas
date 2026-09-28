@@ -22,17 +22,12 @@ function toFormData(values: Partial<PortfolioFormValues>): FormData {
   const scalarKeys: (keyof PortfolioFormValues)[] = [
     'industry_id', 'industry_name', 'service_type_id', 'service_type_name', 'slug',
     'title_id', 'title_en', 'title_zh',
-    'location_id', 'location_en', 'location_zh',
-    'product_solution_id', 'product_solution_en', 'product_solution_zh',
     'summary_id', 'summary_en', 'summary_zh',
   ];
   scalarKeys.forEach((key) => {
     const value = values[key];
     if (value !== undefined && value !== null && value !== '') formData.append(key, String(value));
   });
-
-  // <input type="month"> yields "YYYY-MM"; the API stores a full date (always day 1 of that month).
-  if (values.completionMonth) formData.append('completion_date', `${values.completionMonth}-01`);
 
   if (values.is_featured !== undefined) formData.append('is_featured', values.is_featured ? '1' : '0');
   if (values.is_published !== undefined) formData.append('is_published', values.is_published ? '1' : '0');

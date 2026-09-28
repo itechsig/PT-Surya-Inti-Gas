@@ -23,7 +23,7 @@ class PortfolioController extends Controller
     private const LANGUAGES = ['id', 'en', 'zh'];
 
     /** Fields snapshotted for the activity log's before/after preview. */
-    private const AUDIT_FIELDS = ['title_id', 'industry_id', 'service_type_id', 'location_id', 'is_featured', 'is_published'];
+    private const AUDIT_FIELDS = ['title_id', 'industry_id', 'service_type_id', 'is_featured', 'is_published'];
 
     /**
      * Public: paginated, filterable, searchable portfolio listing.
@@ -47,10 +47,6 @@ class PortfolioController extends Controller
                     $q->where('title_id', 'like', "%{$search}%")
                         ->orWhere('title_en', 'like', "%{$search}%")
                         ->orWhere('title_zh', 'like', "%{$search}%")
-                        ->orWhere('location_id', 'like', "%{$search}%")
-                        ->orWhere('location_en', 'like', "%{$search}%")
-                        ->orWhere('product_solution_id', 'like', "%{$search}%")
-                        ->orWhere('product_solution_en', 'like', "%{$search}%")
                         ->orWhereHas('industry', fn ($iq) => $iq->where('name_id', 'like', "%{$search}%")->orWhere('name_en', 'like', "%{$search}%"))
                         ->orWhereHas('serviceType', fn ($sq) => $sq->where('name_id', 'like', "%{$search}%")->orWhere('name_en', 'like', "%{$search}%"));
                 });
@@ -369,19 +365,6 @@ class PortfolioController extends Controller
         return in_array($request->input('lang'), self::LANGUAGES, true) ? $request->input('lang') : 'id';
     }
 
-    private const MONTH_NAMES = [
-        'id' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-        'en' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        'zh' => ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-    ];
-
-    /** Formats a completion date as "Juni 2026" / "June 2026" / "2026年6月", localized per language. */
-    private function formatMonthYear(\Illuminate\Support\Carbon $date, string $lang): string
-    {
-        $month = self::MONTH_NAMES[$lang][$date->month - 1];
-        return $lang === 'zh' ? "{$date->year}年{$month}" : "{$month} {$date->year}";
-    }
-
     private function attachGalleryFiles(Portfolio $portfolio, array $files): void
     {
         $nextOrder = ($portfolio->images()->max('display_order') ?? -1) + 1;
@@ -418,9 +401,6 @@ class PortfolioController extends Controller
                 'slug' => $p->serviceType->slug,
                 'name' => $p->serviceType->{"name_$lang"} ?: $p->serviceType->name_id,
             ] : null,
-            'productSolution' => $p->{"product_solution_$lang"} ?: $p->product_solution_id,
-            'location' => $p->{"location_$lang"} ?: $p->location_id,
-            'completionDate' => $this->formatMonthYear($p->completion_date, $lang),
             'thumbnail' => ImageUrl::resolve($p->thumbnail),
             'isFeatured' => $p->is_featured,
         ];
@@ -445,9 +425,6 @@ class PortfolioController extends Controller
             'service_type' => $p->serviceType ? ['id' => $p->serviceType->id, 'slug' => $p->serviceType->slug, 'name_id' => $p->serviceType->name_id] : null,
             'slug' => $p->slug,
             'title_id' => $p->title_id, 'title_en' => $p->title_en, 'title_zh' => $p->title_zh,
-            'location_id' => $p->location_id, 'location_en' => $p->location_en, 'location_zh' => $p->location_zh,
-            'completion_date' => $p->completion_date->format('Y-m-d'),
-            'product_solution_id' => $p->product_solution_id, 'product_solution_en' => $p->product_solution_en, 'product_solution_zh' => $p->product_solution_zh,
             'summary_id' => $p->summary_id, 'summary_en' => $p->summary_en, 'summary_zh' => $p->summary_zh,
             'thumbnail' => ImageUrl::resolve($p->thumbnail),
             'gallery' => $p->relationLoaded('images')

@@ -18,16 +18,6 @@ import {
 import { PortfolioFormDialog } from './PortfolioFormDialog';
 import type { AdminIndustry, AdminPortfolio, AdminServiceType } from './types';
 
-const MONTH_NAMES_ID = [
-  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
-];
-
-function formatCompletionDate(isoDate: string): string {
-  const [year, month] = isoDate.split('-').map(Number);
-  return `${MONTH_NAMES_ID[month - 1]} ${year}`;
-}
-
 export function PortfoliosPage() {
   const { can } = useAuth();
   const canDelete = can('portfolios.manage');
@@ -155,7 +145,6 @@ export function PortfoliosPage() {
                   <TableHead>Judul</TableHead>
                   <TableHead>Industry</TableHead>
                   <TableHead>Service</TableHead>
-                  <TableHead>Selesai</TableHead>
                   <TableHead>Featured</TableHead>
                   <TableHead>Publish</TableHead>
                   <TableHead className="text-right">Aksi</TableHead>
@@ -169,7 +158,6 @@ export function PortfoliosPage() {
                     </TableCell>
                     <TableCell>
                       <div className="font-medium">{portfolio.title_id}</div>
-                      <div className="text-xs text-muted-foreground">{portfolio.location_id}</div>
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline">{portfolio.industry?.name_id ?? '—'}</Badge>
@@ -177,7 +165,6 @@ export function PortfoliosPage() {
                     <TableCell>
                       <Badge variant="outline">{portfolio.service_type?.name_id ?? '—'}</Badge>
                     </TableCell>
-                    <TableCell>{formatCompletionDate(portfolio.completion_date)}</TableCell>
                     <TableCell>
                       <Button
                         variant="ghost"

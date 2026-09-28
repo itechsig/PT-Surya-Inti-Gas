@@ -31,13 +31,6 @@ export interface AdminPortfolio {
   title_id: string;
   title_en: string | null;
   title_zh: string | null;
-  location_id: string;
-  location_en: string | null;
-  location_zh: string | null;
-  completion_date: string; // ISO date, e.g. "2026-06-01"
-  product_solution_id: string;
-  product_solution_en: string | null;
-  product_solution_zh: string | null;
   summary_id: string;
   summary_en: string | null;
   summary_zh: string | null;
@@ -59,13 +52,6 @@ export interface PortfolioFormValues {
   title_id: string;
   title_en: string;
   title_zh: string;
-  location_id: string;
-  location_en: string;
-  location_zh: string;
-  completionMonth: string; // <input type="month"> value, e.g. "2026-06"
-  product_solution_id: string;
-  product_solution_en: string;
-  product_solution_zh: string;
   summary_id: string;
   summary_en: string;
   summary_zh: string;

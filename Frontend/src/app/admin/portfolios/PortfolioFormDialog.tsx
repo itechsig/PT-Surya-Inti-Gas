@@ -23,9 +23,6 @@ import {
 const EMPTY_FORM: PortfolioFormValues = {
   industry_id: '', industry_name: '', service_type_id: '', service_type_name: '', slug: '',
   title_id: '', title_en: '', title_zh: '',
-  location_id: '', location_en: '', location_zh: '',
-  completionMonth: '',
-  product_solution_id: '', product_solution_en: '', product_solution_zh: '',
   summary_id: '', summary_en: '', summary_zh: '',
   is_featured: false, is_published: true,
   thumbnail: null, newGalleryFiles: [],
@@ -65,9 +62,6 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
         service_type_id: String(portfolio.service_type_id), service_type_name: '',
         slug: portfolio.slug,
         title_id: portfolio.title_id, title_en: portfolio.title_en ?? '', title_zh: portfolio.title_zh ?? '',
-        location_id: portfolio.location_id, location_en: portfolio.location_en ?? '', location_zh: portfolio.location_zh ?? '',
-        completionMonth: portfolio.completion_date.slice(0, 7),
-        product_solution_id: portfolio.product_solution_id, product_solution_en: portfolio.product_solution_en ?? '', product_solution_zh: portfolio.product_solution_zh ?? '',
         summary_id: portfolio.summary_id, summary_en: portfolio.summary_en ?? '', summary_zh: portfolio.summary_zh ?? '',
         is_featured: portfolio.is_featured, is_published: portfolio.is_published,
         thumbnail: null, newGalleryFiles: [],
@@ -242,19 +236,6 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="completionMonth">Tanggal Selesai (bulan &amp; tahun)</Label>
-              <Input
-                id="completionMonth"
-                type="month"
-                className="w-48"
-                value={values.completionMonth}
-                onChange={(e) => setValues((prev) => ({ ...prev, completionMonth: e.target.value }))}
-                {...fieldErrorProps(errors, 'completion_date')}
-              />
-              {fieldError('completion_date') && <p className="text-xs text-destructive">{fieldError('completion_date')}</p>}
-            </div>
-
             <div className="flex flex-col gap-2">
               <Label htmlFor="portfolio-thumbnail">Thumbnail (rasio 4:3)</Label>
               {thumbnailPreview && <img src={thumbnailPreview} alt="Preview" className="h-32 w-full rounded-md object-cover" />}
@@ -274,16 +255,6 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
                     <Label htmlFor={`title_${lang}`}>Judul</Label>
                     <Input id={`title_${lang}`} {...field(`title_${lang}` as keyof PortfolioFormValues)} />
                     {fieldError(`title_${lang}`) && <p className="text-xs text-destructive">{fieldError(`title_${lang}`)}</p>}
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor={`location_${lang}`}>Location</Label>
-                    <Input id={`location_${lang}`} {...field(`location_${lang}` as keyof PortfolioFormValues)} />
-                    {fieldError(`location_${lang}`) && <p className="text-xs text-destructive">{fieldError(`location_${lang}`)}</p>}
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor={`product_solution_${lang}`}>Product / Solution</Label>
-                    <Input id={`product_solution_${lang}`} placeholder="misal: Oksigen Cair, Nitrogen" {...field(`product_solution_${lang}` as keyof PortfolioFormValues)} />
-                    {fieldError(`product_solution_${lang}`) && <p className="text-xs text-destructive">{fieldError(`product_solution_${lang}`)}</p>}
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`summary_${lang}`}>Summary</Label>

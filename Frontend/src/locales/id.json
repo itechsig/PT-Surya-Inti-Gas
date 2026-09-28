@@ -56,7 +56,10 @@
       "packageServices": "Kemasan & Layanan",
       "packageDesc": "Pasokan gas bertekanan tinggi dan cair dalam paket lengkap termasuk tabung, cradle, tangki, dan lainnya",
       "servicesDesc": "Layanan gas profesional termasuk instalasi, pengiriman, dan pengisian ulang untuk kebutuhan operasional Anda",
-      "categoryLabel": "Kategori Produk"
+      "servicesSolutions": "Layanan & Solusi",
+      "packageGas": "Kemasan Gas",
+      "packageLiquid": "Kemasan Gas Cair",
+      "packageCylinder": "Kemasan Tabung"
     },
     "menu": "Menu navigasi",
     "openMenu": "Buka menu",

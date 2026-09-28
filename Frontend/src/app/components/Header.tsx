@@ -3,7 +3,6 @@ import {
   Menu,
   X,
   ChevronDown,
-  ChevronRight,
   Instagram,
   Facebook,
   Home,
@@ -74,8 +73,22 @@ const NAV_LINKS: NavItem[] = [
           { nameKey: "header.relatedEquipment", href: "/produk?category=gas&subcategory=related-equipment" },
         ]
       },
-      { nameKey: "header.package", href: "/produk?category=package" },
-      { nameKey: "header.services", href: "/produk?category=services" },
+      {
+        nameKey: "header.package",
+        href: "/produk?category=package",
+        children: [
+          { nameKey: "header.megaMenu.packageGas", href: "/produk?category=package" },
+          { nameKey: "header.megaMenu.packageLiquid", href: "/produk?category=package" },
+          { nameKey: "header.megaMenu.packageCylinder", href: "/produk?category=package" },
+        ]
+      },
+      {
+        nameKey: "header.megaMenu.servicesSolutions",
+        href: "/produk?category=services",
+        children: [
+          { nameKey: "header.services", href: "/produk?category=services" },
+        ]
+      },
     ]
   },
   { nameKey: "header.gallery", href: "/galeri", isRoute: true },
@@ -133,7 +146,6 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
-  const [activeDesktopSubmenu, setActiveDesktopSubmenu] = useState<string | null>(null);
   const [activeMobileMegaMenu, setActiveMobileMegaMenu] = useState<string | null>(null);
   const [activeMobileSubmenu, setActiveMobileSubmenu] = useState<string | null>(null);
   const scrolled = useScrolledPast(50);
@@ -240,14 +252,12 @@ export const Header = () => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setActiveMegaMenu(null);
-        setActiveDesktopSubmenu(null);
         trigger?.focus();
       }
     };
     const onPointer = (e: PointerEvent) => {
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) {
         setActiveMegaMenu(null);
-        setActiveDesktopSubmenu(null);
       }
     };
     document.addEventListener('keydown', onKey);
@@ -262,7 +272,6 @@ export const Header = () => {
   // Any navigation dismisses both menus.
   useEffect(() => {
     setActiveMegaMenu(null);
-    setActiveDesktopSubmenu(null);
     setActiveMobileMegaMenu(null);
     setActiveMobileSubmenu(null);
     setIsOpen(false);
@@ -278,7 +287,6 @@ export const Header = () => {
 
   const handleMegaMenuLeave = () => {
     setActiveMegaMenu(null);
-    setActiveDesktopSubmenu(null);
   };
 
   return (
@@ -381,16 +389,14 @@ export const Header = () => {
                         aria-controls={menuId}
                         className={`${desktopLinkClass(isLight)} ${active ? activeMarkClass(isLight) : ''}`}
                         style={{ ...desktopLinkStyle(isLight), cursor: 'pointer', background: 'transparent', border: 'none' }}
-                        onClick={() => {
-                          setActiveMegaMenu(open ? null : link.nameKey);
-                          setActiveDesktopSubmenu(null);
-                        }}
+                        onClick={() => setActiveMegaMenu(open ? null : link.nameKey)}
                       >
                         {t(link.nameKey)}
                         <ChevronDown size={16} aria-hidden="true" className={`ml-1 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
                       </button>
 
-                      {/* Corporate Dropdown Menu */}
+                      {/* Corporate Mega Menu — Singapore Airlines-style column layout: each
+                          top-level entry is its own bold, always-expanded column. */}
                       <AnimatePresence>
                         {open && (
                           <motion.div
@@ -401,76 +407,33 @@ export const Header = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-slate-100 z-50 py-2"
+                            className="absolute top-full left-0 mt-2 grid grid-cols-3 divide-x divide-slate-100 bg-white rounded-xl shadow-2xl border border-slate-100 z-50 w-[42rem]"
                           >
-                            <Link
-                              to={toHref(link.href)}
-                              className="block px-4 pt-1 pb-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-brand-blue transition-colors"
-                              style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
-                              onClick={() => setActiveMegaMenu(null)}
-                            >
-                              {t('header.megaMenu.categoryLabel')}
-                            </Link>
-                            {link.megaMenuItems?.map((item, itemIdx) => {
-                              const hasChildren = !!item.children?.length;
-                              const subOpen = activeDesktopSubmenu === item.nameKey;
-
-                              if (!hasChildren) {
-                                return (
-                                  <Link
-                                    key={itemIdx}
-                                    to={toHref(item.href)}
-                                    className="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 hover:text-brand-blue transition-colors"
-                                    style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
-                                    onClick={() => setActiveMegaMenu(null)}
-                                  >
-                                    {t(item.nameKey)}
-                                  </Link>
-                                );
-                              }
-
-                              return (
-                                <div key={itemIdx} className="relative">
-                                  <button
-                                    type="button"
-                                    aria-expanded={subOpen}
-                                    aria-haspopup="true"
-                                    className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 hover:text-brand-blue transition-colors"
-                                    style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
-                                    onClick={() => setActiveDesktopSubmenu(subOpen ? null : item.nameKey)}
-                                  >
-                                    {t(item.nameKey)}
-                                    <ChevronRight size={15} aria-hidden="true" />
-                                  </button>
-                                  <AnimatePresence>
-                                    {subOpen && (
-                                      <motion.div
-                                        initial={{ opacity: 0, x: -8 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -8 }}
-                                        transition={{ duration: 0.15 }}
-                                        className="absolute top-0 left-full ml-1 w-64 bg-white rounded-xl shadow-2xl border border-slate-100 py-2"
-                                      >
-                                        {item.children!.map((child, childIdx) => (
-                                          <Link
-                                            key={childIdx}
-                                            to={toHref(child.href)}
-                                            className="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 hover:text-brand-blue transition-colors"
-                                            style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
-                                            onClick={() => {
-                                              setActiveMegaMenu(null);
-                                              setActiveDesktopSubmenu(null);
-                                            }}
-                                          >
-                                            {t(child.nameKey)}
-                                          </Link>
-                                        ))}
-                                      </motion.div>
-                                    )}
-                                  </AnimatePresence>
+                            {link.megaMenuItems?.map((column, colIdx) => (
+                              <div key={colIdx} className="px-5 py-5">
+                                <Link
+                                  to={toHref(column.href)}
+                                  className="block pb-3 mb-1 border-b-2 border-slate-200 text-sm font-extrabold uppercase tracking-wide text-slate-900 hover:text-brand-blue transition-colors"
+                                  style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+                                  onClick={() => setActiveMegaMenu(null)}
+                                >
+                                  {t(column.nameKey)}
+                                </Link>
+                                <div className="flex flex-col">
+                                  {column.children?.map((child, childIdx) => (
+                                    <Link
+                                      key={childIdx}
+                                      to={toHref(child.href)}
+                                      className="py-2.5 border-b border-slate-100 text-sm font-semibold text-slate-700 hover:text-brand-blue transition-colors"
+                                      style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+                                      onClick={() => setActiveMegaMenu(null)}
+                                    >
+                                      {t(child.nameKey)}
+                                    </Link>
+                                  ))}
                                 </div>
-                              );
-                            })}
+                              </div>
+                            ))}
                           </motion.div>
                         )}
                       </AnimatePresence>

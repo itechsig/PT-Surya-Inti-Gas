@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { Search, MapPin, Calendar, ArrowRight, FolderOpen, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ArrowRight, FolderOpen, ChevronLeft, ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
@@ -52,11 +52,6 @@ export function PortfolioCard({ item, currentLang }: { item: PortfolioSummary; c
         <div className="portfolio-card-badges">
           {item.industry && <Badge variant="outline">{item.industry.name}</Badge>}
           {item.serviceType && <Badge variant="outline">{item.serviceType.name}</Badge>}
-        </div>
-        <p className="portfolio-card-solution">{item.productSolution}</p>
-        <div className="portfolio-card-meta">
-          <span className="portfolio-card-meta-item"><MapPin size={13} /> {item.location}</span>
-          <span className="portfolio-card-meta-item"><Calendar size={13} /> {item.completionDate}</span>
         </div>
         <span className="portfolio-card-btn" aria-hidden="true">
           {t('portfolio.page.viewDetail')} <ArrowRight size={14} />

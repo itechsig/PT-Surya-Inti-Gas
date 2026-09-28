@@ -11,9 +11,6 @@ class Portfolio extends Model
     protected $fillable = [
         'industry_id', 'service_type_id', 'slug',
         'title_id', 'title_en', 'title_zh',
-        'location_id', 'location_en', 'location_zh',
-        'completion_date',
-        'product_solution_id', 'product_solution_en', 'product_solution_zh',
         'summary_id', 'summary_en', 'summary_zh',
         'thumbnail',
         'is_featured', 'is_published', 'display_order',
@@ -22,7 +19,6 @@ class Portfolio extends Model
     protected function casts(): array
     {
         return [
-            'completion_date' => 'date',
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
             'display_order' => 'integer',

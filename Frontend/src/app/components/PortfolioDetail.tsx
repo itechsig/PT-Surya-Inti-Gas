@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
-import { ArrowLeft, Building2, Calendar, ChevronLeft, ChevronRight, FolderOpen, MapPin, Wrench } from 'lucide-react';
+import { ArrowLeft, Building2, ChevronLeft, ChevronRight, FolderOpen, Wrench } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
@@ -96,8 +96,6 @@ export function PortfolioDetail() {
   const facts: { icon: typeof Building2; label: string; value: string }[] = [
     { icon: Building2, label: t('portfolio.detail.industry'), value: portfolio.industry?.name ?? '—' },
     { icon: Wrench, label: t('portfolio.detail.service'), value: portfolio.serviceType?.name ?? '—' },
-    { icon: MapPin, label: t('portfolio.detail.location'), value: portfolio.location },
-    { icon: Calendar, label: t('portfolio.detail.completionDate'), value: portfolio.completionDate },
   ];
 
   return (
@@ -155,17 +153,6 @@ export function PortfolioDetail() {
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
-        <motion.div
-          className="portfolio-detail-product"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-40px' }}
-          variants={fadeUp}
-        >
-          <div className="portfolio-detail-product-label">{t('portfolio.detail.productSolution')}</div>
-          <div className="portfolio-detail-product-value">{portfolio.productSolution}</div>
         </motion.div>
 
         <motion.div

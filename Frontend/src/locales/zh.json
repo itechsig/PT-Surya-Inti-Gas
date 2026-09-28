@@ -56,7 +56,10 @@
       "packageServices": "包装与服务",
       "packageDesc": "完整包装的高压气体和液体供应，包括气瓶、摇篮、储罐等",
       "servicesDesc": "专业气体服务，包括安装、交付和充装，满足您的运营需求",
-      "categoryLabel": "产品类别"
+      "servicesSolutions": "服务与解决方案",
+      "packageGas": "气体包装",
+      "packageLiquid": "液态气体包装",
+      "packageCylinder": "气瓶包装"
     },
     "menu": "导航菜单",
     "openMenu": "打开菜单",

@@ -26,16 +26,6 @@ class StorePortfolioRequest extends FormRequest
             'title_en' => 'nullable|string|max:255',
             'title_zh' => 'nullable|string|max:255',
 
-            'location_id' => 'required|string|max:255',
-            'location_en' => 'nullable|string|max:255',
-            'location_zh' => 'nullable|string|max:255',
-
-            'completion_date' => 'required|date',
-
-            'product_solution_id' => 'required|string|max:500',
-            'product_solution_en' => 'nullable|string|max:500',
-            'product_solution_zh' => 'nullable|string|max:500',
-
             'summary_id' => 'required|string|max:2000',
             'summary_en' => 'nullable|string|max:2000',
             'summary_zh' => 'nullable|string|max:2000',
