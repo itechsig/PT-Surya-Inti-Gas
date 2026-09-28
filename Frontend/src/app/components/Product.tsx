@@ -38,12 +38,34 @@ const MAIN_CATEGORY_ICONS: Record<MainCategory, any> = {
  *  sections on the grid step below. */
 const INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID = 'industrial-medical-speciality';
 
-/** Icons for the "Produk Gas" sub-categories, keyed by their stable CMS slug
- *  (or virtual id for merged/synthetic sub-categories). */
+/** Main categories that need an explicit sub-category pick before the product
+ *  grid (Produk Gas and Kemasan). Layanan has only one bucket, so it skips
+ *  straight to the grid. */
+const CATEGORIES_WITH_SUBCATEGORY_STEP: MainCategory[] = ['gas', 'package'];
+
+/** Kemasan has no CMS sub-categories of its own (every product sits in one flat
+ *  "package" bucket), so its 3 sub-category cards — and which products belong to
+ *  each — are defined here by product slug, keyed by virtual sub-category id. */
+const PACKAGE_SUBCATEGORY_GROUPS: Record<string, string[]> = {
+  'package-gas': ['cylinder', 'tabung-medis', 'tabung-asitilin'],
+  'package-liquid': ['cryogenic-dewars', 'vessel-gas-liquid', 'microbulk-tank', 'vertical-storage-tank', 'iso-tank', 'rigid-tank'],
+  'package-cylinder': ['cradle', 'cradle-2x2', 'cradle-3x2', 'cradle-3x3', 'cradle-4x4'],
+};
+const PACKAGE_SUBCATEGORY_TITLE_KEYS: Record<string, string> = {
+  'package-gas': 'header.megaMenu.packageGas',
+  'package-liquid': 'header.megaMenu.packageLiquid',
+  'package-cylinder': 'header.megaMenu.packageCylinder',
+};
+
+/** Icons for the "Produk Gas" / "Kemasan" sub-categories, keyed by their stable
+ *  CMS slug (or virtual id for merged/synthetic sub-categories). */
 const SUB_CATEGORY_ICONS: Record<string, any> = {
   [INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID]: Syringe,
   'liquid': Droplet,
   [RELATED_EQUIPMENT_ID]: Cog,
+  'package-gas': Package,
+  'package-liquid': Droplet,
+  'package-cylinder': Layers,
 };
 
 /* ── Motion variants ── */
@@ -164,10 +186,10 @@ export function Product() {
       : null;
   const subCategory = subcategoryParam || '';
 
-  // Produk Gas always needs an explicit sub-category pick first; Kemasan and
-  // Layanan have none, so landing on the main category is enough.
+  // Produk Gas and Kemasan need an explicit sub-category pick first; Layanan
+  // has none, so landing on the main category is enough.
   const step: 'hub' | 'subcategory' | 'grid' =
-    !mainCategory ? 'hub' : (mainCategory === 'gas' && !subCategory) ? 'subcategory' : 'grid';
+    !mainCategory ? 'hub' : (CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) && !subCategory) ? 'subcategory' : 'grid';
 
   const mainCategories: { id: MainCategory; label: string; icon: any }[] = [
     { id: 'gas', label: t('products.mainCategories.gas'), icon: MAIN_CATEGORY_ICONS.gas },
@@ -179,12 +201,12 @@ export function Product() {
     navigate(`/${currentLang}/produk?category=${category}`);
   };
 
-  const goToSubCategory = (subCatId: string) => {
-    navigate(`/${currentLang}/produk?category=gas&subcategory=${encodeURIComponent(subCatId)}`);
+  const goToSubCategory = (category: MainCategory, subCatId: string) => {
+    navigate(`/${currentLang}/produk?category=${category}&subcategory=${encodeURIComponent(subCatId)}`);
   };
 
   const goBackToHub = () => navigate(`/${currentLang}/produk`);
-  const goBackToSubcategories = () => navigate(`/${currentLang}/produk?category=gas`);
+  const goBackToSubcategories = () => navigate(`/${currentLang}/produk?category=${mainCategory ?? 'gas'}`);
 
   const getGasSubCategories = () => {
     const categories = productCategories.gas as Record<string, SubCategory>;
@@ -217,6 +239,30 @@ export function Product() {
     return subs;
   };
 
+  // Kemasan has no CMS sub-categories of its own — every product sits in one flat
+  // "package" bucket — so build the flat, cradle-collapsed product list once and
+  // reuse it both to build the sub-category cards below and to filter each
+  // group's grid in getCurrentProducts.
+  const getAllPackageProducts = (): Product[] => {
+    const categories = productCategories.package as Record<string, SubCategory> | undefined;
+    if (!categories) return [];
+    const allProducts: Product[] = [];
+    Object.values(categories).forEach(sub => {
+      if (sub?.products) allProducts.push(...sub.products);
+    });
+    // Collapse the Cradle size variants into a single card (sizes shown on click).
+    return collapseCradleVariants(allProducts, t);
+  };
+
+  // Kemasan's 3 sub-category cards, hidden individually if the CMS doesn't (yet)
+  // have any product matching that group's slugs.
+  const getPackageSubCategories = () => {
+    const bySlug = new Map(getAllPackageProducts().map(p => [p.id, p]));
+    return Object.keys(PACKAGE_SUBCATEGORY_GROUPS)
+      .filter(id => PACKAGE_SUBCATEGORY_GROUPS[id].some(slug => bySlug.has(slug)))
+      .map(id => ({ id, title: t(PACKAGE_SUBCATEGORY_TITLE_KEYS[id]) }));
+  };
+
   // The merged "Gas Industri, Medis & Spesial" card expands into these two
   // separately headed sections, each hidden if the CMS has no products for it.
   const getIndustrialMedicalSpecialityGroups = () => {
@@ -231,19 +277,16 @@ export function Product() {
 
   const getCurrentProducts = (): Product[] => {
     if (!mainCategory) return [];
+
+    // Kemasan: filtered by the chosen virtual sub-category's product slugs.
+    if (mainCategory === 'package') {
+      const bySlug = new Map(getAllPackageProducts().map(p => [p.id, p]));
+      const slugs = PACKAGE_SUBCATEGORY_GROUPS[subCategory] ?? [];
+      return slugs.map(slug => bySlug.get(slug)).filter((p): p is Product => !!p);
+    }
+
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
-
-    // Kemasan has no sub-categories — show every product across its buckets.
-    if (mainCategory === 'package') {
-      const allProducts: Product[] = [];
-      Object.values(categories).forEach(sub => {
-        if (sub?.products) allProducts.push(...sub.products);
-      });
-
-      // Collapse the Cradle size variants into a single card (sizes shown on click).
-      return collapseCradleVariants(allProducts, t);
-    }
 
     // Virtual "Related Equipment" sub-category in the gas category.
     if (mainCategory === 'gas' && subCategory === RELATED_EQUIPMENT_ID) {
@@ -270,6 +313,10 @@ export function Product() {
       // product detail page's "back" button) bypass the merged picker card above.
       const categories = productCategories.gas as Record<string, SubCategory> | undefined;
       return categories?.[subCategory]?.title || t('products.mainCategories.gas');
+    }
+    if (mainCategory === 'package') {
+      const pickerLabel = getPackageSubCategories().find(s => s.id === subCategory)?.title;
+      return pickerLabel || t('products.mainCategories.package');
     }
     return t(`products.mainCategories.${mainCategory}`);
   })();
@@ -360,25 +407,25 @@ export function Product() {
               </motion.div>
             )}
 
-            {/* Step 2 (Produk Gas only): pick a sub-category */}
-            {step === 'subcategory' && (
+            {/* Step 2 (Produk Gas and Kemasan): pick a sub-category */}
+            {step === 'subcategory' && mainCategory && (
               <motion.div key="subcategory" initial="hidden" animate="show" exit={stepExit} variants={staggerContainer}>
                 <motion.div variants={fadeUp}>
-                  <Breadcrumb items={[rootCrumb, { label: t('products.mainCategories.gas') }]} />
+                  <Breadcrumb items={[rootCrumb, { label: t(`products.mainCategories.${mainCategory}`) }]} />
                   <button onClick={goBackToHub} className="products-tab" aria-label={t('products.nav.backToCategories')} style={{ marginBottom: '20px' }}>
                     ← {t('products.nav.backToCategories')}
                   </button>
                 </motion.div>
                 <motion.div className="products-flow-heading" variants={fadeUp}>
-                  <h2>{t('products.mainCategories.gas')}</h2>
+                  <h2>{t(`products.mainCategories.${mainCategory}`)}</h2>
                 </motion.div>
                 <motion.div className="picker-grid picker-grid--sub" variants={staggerContainer}>
-                  {getGasSubCategories().map((subCat) => (
+                  {(mainCategory === 'package' ? getPackageSubCategories() : getGasSubCategories()).map((subCat) => (
                     <PickerCard
                       key={subCat.id}
                       label={subCat.title}
                       icon={SUB_CATEGORY_ICONS[subCat.id] || Layers}
-                      onClick={() => goToSubCategory(subCat.id)}
+                      onClick={() => goToSubCategory(mainCategory, subCat.id)}
                     />
                   ))}
                 </motion.div>
@@ -440,18 +487,18 @@ export function Product() {
                     <motion.div variants={fadeUp}>
                       <Breadcrumb
                         items={
-                          mainCategory === 'gas'
-                            ? [rootCrumb, { label: t('products.mainCategories.gas'), onClick: goBackToSubcategories }, { label: currentListingLabel }]
+                          mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory)
+                            ? [rootCrumb, { label: t(`products.mainCategories.${mainCategory}`), onClick: goBackToSubcategories }, { label: currentListingLabel }]
                             : [rootCrumb, { label: currentListingLabel }]
                         }
                       />
                       <button
-                        onClick={mainCategory === 'gas' ? goBackToSubcategories : goBackToHub}
+                        onClick={mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) ? goBackToSubcategories : goBackToHub}
                         className="products-tab"
-                        aria-label={mainCategory === 'gas' ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
+                        aria-label={mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
                         style={{ marginBottom: '20px' }}
                       >
-                        ← {mainCategory === 'gas' ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
+                        ← {mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
                       </button>
                     </motion.div>
                     <motion.div className="products-flow-heading" variants={fadeUp} style={{ marginBottom: '24px' }}>
