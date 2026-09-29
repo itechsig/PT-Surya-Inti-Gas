@@ -471,10 +471,10 @@ export function ProductDetail() {
                   <motion.div className="products-detail-info" variants={fadeUp}>
                     <h2>{t('productDetail.info.title')}</h2>
                     <motion.div className="product-specifications" variants={staggerContainer}>
-                      {product.quality && (
+                      {product.quality && product.quality.length > 0 && (
                         <motion.div className="spec-item" variants={fadeUp}>
                           <span className="spec-label">{t('productDetail.info.quality')}</span>
-                          <span className="spec-value">{product.quality}</span>
+                          <span className="spec-value">{product.quality.join(' / ')}</span>
                         </motion.div>
                       )}
                       <motion.div className="spec-item" variants={fadeUp}>

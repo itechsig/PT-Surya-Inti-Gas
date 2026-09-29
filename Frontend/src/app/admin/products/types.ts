@@ -47,7 +47,7 @@ export interface AdminProduct {
   image: string;
   gallery: string[];
   specifications: ProductSpecification[];
-  quality: ProductQuality | null;
+  quality: ProductQuality[];
   availability: ProductAvailability;
   is_featured: boolean;
   display_order: number;
@@ -78,8 +78,8 @@ export interface ProductFormValues {
   full_description_id: string;
   full_description_en: string;
   full_description_zh: string;
-  /** '' = not set. */
-  quality: ProductQuality | '';
+  /** Empty = not shown on the product page. */
+  quality: ProductQuality[];
   availability: ProductAvailability;
   is_featured: boolean;
   is_published: boolean;

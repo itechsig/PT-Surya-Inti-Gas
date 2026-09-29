@@ -24,7 +24,7 @@ function toFormData(values: Partial<ProductFormValues>): FormData {
     'name_id', 'name_en', 'name_zh',
     'description_id', 'description_en', 'description_zh',
     'full_description_id', 'full_description_en', 'full_description_zh',
-    'quality', 'availability',
+    'availability',
   ];
   scalarKeys.forEach((key) => {
     const value = values[key];
@@ -33,6 +33,11 @@ function toFormData(values: Partial<ProductFormValues>): FormData {
 
   if (values.is_featured !== undefined) formData.append('is_featured', values.is_featured ? '1' : '0');
   if (values.is_published !== undefined) formData.append('is_published', values.is_published ? '1' : '0');
+  if (values.quality !== undefined) {
+    // An empty string (-> null on the server) clears the selection; FormData can't send an empty array.
+    if (values.quality.length === 0) formData.append('quality', '');
+    values.quality.forEach((quality) => formData.append('quality[]', quality));
+  }
   if (values.specifications !== undefined) {
     formData.append('specifications', JSON.stringify(values.specifications.filter((s) => s.label && s.value)));
   }

@@ -26,6 +26,7 @@ class Product extends Model
         return [
             'gallery' => 'array',
             'specifications' => 'array',
+            'quality' => 'array',
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
             'display_order' => 'integer',

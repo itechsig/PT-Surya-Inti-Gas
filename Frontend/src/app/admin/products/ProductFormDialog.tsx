@@ -9,6 +9,7 @@ import { Input } from '../../components/ui/input';
 import { Textarea } from '../../components/ui/textarea';
 import { Label } from '../../components/ui/label';
 import { Switch } from '../../components/ui/switch';
+import { Checkbox } from '../../components/ui/checkbox';
 import { Button } from '../../components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { ApiError } from '../../../utils/apiClient';
@@ -26,7 +27,7 @@ const EMPTY_FORM: ProductFormValues = {
   name_id: '', name_en: '', name_zh: '',
   description_id: '', description_en: '', description_zh: '',
   full_description_id: '', full_description_en: '', full_description_zh: '',
-  quality: '', availability: 'available',
+  quality: [], availability: 'available',
   is_featured: false, is_published: true,
   image: null, newGalleryFiles: [], existingGallery: [], specifications: [],
 };
@@ -53,7 +54,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
         name_id: product.name_id, name_en: product.name_en ?? '', name_zh: product.name_zh ?? '',
         description_id: product.description_id, description_en: product.description_en ?? '', description_zh: product.description_zh ?? '',
         full_description_id: product.full_description_id ?? '', full_description_en: product.full_description_en ?? '', full_description_zh: product.full_description_zh ?? '',
-        quality: product.quality ?? '', availability: product.availability ?? 'available',
+        quality: product.quality ?? [], availability: product.availability ?? 'available',
         is_featured: product.is_featured, is_published: product.is_published,
         image: null, newGalleryFiles: [], existingGallery: product.gallery, specifications: product.specifications,
       });
@@ -90,6 +91,14 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
 
   const removeNewGalleryFile = (index: number) => {
     setValues((prev) => ({ ...prev, newGalleryFiles: prev.newGalleryFiles.filter((_, i) => i !== index) }));
+  };
+
+  const toggleQuality = (quality: ProductQuality, checked: boolean) => {
+    setValues((prev) => ({
+      ...prev,
+      // Keep the canonical UHP → HP → WG order regardless of click order.
+      quality: PRODUCT_QUALITY_OPTIONS.filter((q) => (q === quality ? checked : prev.quality.includes(q))),
+    }));
   };
 
   const addSpecRow = () => {
@@ -180,23 +189,19 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
 
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="quality">Kualitas</Label>
-                <Select
-                  value={values.quality || 'none'}
-                  onValueChange={(value) =>
-                    setValues((prev) => ({ ...prev, quality: value === 'none' ? '' : (value as ProductQuality) }))
-                  }
-                >
-                  <SelectTrigger id="quality" {...fieldErrorProps(errors, 'quality')}>
-                    <SelectValue placeholder="Pilih kualitas" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">— Tidak ditampilkan —</SelectItem>
-                    {PRODUCT_QUALITY_OPTIONS.map((quality) => (
-                      <SelectItem key={quality} value={quality}>{quality}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label>Kualitas (boleh lebih dari satu)</Label>
+                <div className="flex h-9 items-center gap-4">
+                  {PRODUCT_QUALITY_OPTIONS.map((quality) => (
+                    <div key={quality} className="flex items-center gap-2">
+                      <Checkbox
+                        id={`quality-${quality}`}
+                        checked={values.quality.includes(quality)}
+                        onCheckedChange={(checked) => toggleQuality(quality, checked === true)}
+                      />
+                      <Label htmlFor={`quality-${quality}`} className="font-normal">{quality}</Label>
+                    </div>
+                  ))}
+                </div>
                 <FieldError errors={errors} name="quality" />
               </div>
               <div className="flex flex-col gap-1.5">

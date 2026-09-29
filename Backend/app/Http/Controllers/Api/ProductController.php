@@ -123,6 +123,7 @@ class ProductController extends Controller
             $data['is_featured'] = $request->boolean('is_featured', false);
             $data['is_published'] = $request->boolean('is_published', true);
             $data['availability'] = $data['availability'] ?? 'available';
+            $data['quality'] = $this->normalizeQuality($data['quality'] ?? null);
 
             $product = Product::create($data);
 
@@ -167,6 +168,10 @@ class ProductController extends Controller
             }
             $newGalleryFiles = $this->storeGalleryFiles($request);
             $data['gallery'] = array_values(array_merge($keptGallery, $newGalleryFiles));
+
+            if (array_key_exists('quality', $data)) {
+                $data['quality'] = $this->normalizeQuality($data['quality']);
+            }
 
             if (array_key_exists('specifications', $data)) {
                 $data['specifications'] = $data['specifications'] ? json_decode($data['specifications'], true) : null;
@@ -305,6 +310,15 @@ class ProductController extends Controller
         return $file->storeAs($directory, $filename, 'public');
     }
 
+    /**
+     * Keeps the selected grades in the canonical UHP → HP → WG order; an empty selection is stored as null.
+     */
+    private function normalizeQuality(?array $quality): ?array
+    {
+        $selected = array_values(array_intersect(Product::QUALITIES, $quality ?? []));
+        return $selected ?: null;
+    }
+
     private function galleryUrlToPath(string $url): string
     {
         $marker = '/storage/';
@@ -337,7 +351,7 @@ class ProductController extends Controller
         ];
 
         if ($full) {
-            $data['quality'] = $p->quality;
+            $data['quality'] = $p->quality ?? [];
             $data['availability'] = $p->availability ?: 'available';
             $data['gallery'] = collect($p->gallery ?? [])->map(fn ($path) => ImageUrl::resolve($path))->values();
             $data['specifications'] = $p->specifications ?? [];
@@ -365,7 +379,7 @@ class ProductController extends Controller
             'image' => ImageUrl::resolve($p->image),
             'gallery' => collect($p->gallery ?? [])->map(fn ($path) => ImageUrl::resolve($path))->values(),
             'specifications' => $p->specifications ?? [],
-            'quality' => $p->quality,
+            'quality' => $p->quality ?? [],
             'availability' => $p->availability ?: 'available',
             'is_featured' => $p->is_featured,
             'display_order' => $p->display_order,
