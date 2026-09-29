@@ -113,27 +113,34 @@ function Breadcrumb({ items }: { items: { label: string; onClick?: () => void }[
   );
 }
 
-// Picker Card — photo (when the admin has uploaded one for this category/sub-category)
-// or a plain icon fallback, plus title — used for both the main-category hub and the
+// Picker Card — full-bleed photo with overlaid title (when the admin has uploaded one for
+// this category/sub-category) or a plain icon + title card fallback — used for both the main-category hub and the
 // Produk Gas/Kemasan sub-category step.
 function PickerCard({ label, icon: Icon, image, onClick }: { label: string; icon: any; image?: string | null; onClick: () => void }) {
+  const motionProps = {
+    type: "button" as const,
+    onClick,
+    variants: fadeUp,
+    whileHover: { y: -4 },
+    transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] },
+  };
+
+  // No white card chrome — the photo is the card, with the title overlaid
+  // bottom-left and a chevron bottom-right. Without an uploaded photo, a brand
+  // gradient with a large faded icon stands in for it.
   return (
-    <motion.button
-      type="button"
-      className="picker-card"
-      onClick={onClick}
-      variants={fadeUp}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-    >
+    <motion.button className="picker-card picker-card--photo" aria-label={label} {...motionProps}>
       {image ? (
         <div className="picker-card-photo" style={{ backgroundImage: `url(${getImageUrl(image)})` }} />
       ) : (
-        <div className="picker-card-icon">
-          <Icon size={32} aria-hidden="true" />
+        <div className="picker-card-photo picker-card-photo--placeholder">
+          <Icon size={72} strokeWidth={1.25} aria-hidden="true" />
         </div>
       )}
-      <div className="picker-card-title">{label}</div>
+      <div className="picker-card-overlay">
+        <span className="picker-card-title">{label}</span>
+        <ChevronRight size={22} className="picker-card-chevron" aria-hidden="true" />
+      </div>
     </motion.button>
   );
 }
