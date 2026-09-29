@@ -21,24 +21,11 @@ class DashboardController extends Controller
             $dateRange = $request->input('date_range', 'today');
             $startDate = $this->getStartDate($dateRange);
 
-            // Get recent contacts
-            $recentContacts = Contact::latest()
-                ->limit(5)
-                ->get(['id', 'nama', 'email', 'pesan', 'status', 'created_at']);
-
-            // All-time status breakdown, for the contacts distribution chart
-            $contactsByStatus = [
-                'pending' => Contact::pending()->count(),
-                'read' => Contact::read()->count(),
-                'replied' => Contact::replied()->count(),
-                'archived' => Contact::archived()->count(),
-            ];
-
             // "Total Kontak" is labeled all-time and "Kontak Menunggu" means currently outstanding —
             // neither should be scoped to $dateRange, or a contact from yesterday that's still
             // pending would silently disappear from the count once the day rolls over.
             $totalContacts = Contact::count();
-            $pendingContacts = $contactsByStatus['pending'];
+            $pendingContacts = Contact::pending()->count();
             $newContacts = Contact::whereDate('created_at', '>=', $startDate)->count();
 
             // Visitor traffic for the same date range as the contact stats above
@@ -61,7 +48,6 @@ class DashboardController extends Controller
                         'total' => $totalContacts,
                         'pending' => $pendingContacts,
                         'new' => $newContacts,
-                        'by_status' => $contactsByStatus,
                     ],
                     'visitors' => [
                         'total' => $totalVisitors,
@@ -70,8 +56,6 @@ class DashboardController extends Controller
                         'avg_time_on_site' => $avgTimeOnSite,
                     ],
                     'devices' => $devices,
-                    'recent_contacts' => $recentContacts,
-                    'recent_visitors' => [],
                 ]
             ]);
         } catch (\Exception $e) {

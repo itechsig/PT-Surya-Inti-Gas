@@ -54,21 +54,11 @@ import type {
   TrafficSourceRow,
 } from './analytics/types';
 
-interface RecentContact {
-  id: number;
-  nama: string;
-  email: string;
-  pesan: string;
-  status: 'pending' | 'read' | 'replied' | 'archived';
-  created_at: string;
-}
-
 interface DashboardOverview {
   contacts: {
     total: number;
     pending: number;
     new: number;
-    by_status?: { pending: number; read: number; replied: number; archived: number };
   };
   visitors: {
     total: number;
@@ -77,7 +67,6 @@ interface DashboardOverview {
     avg_time_on_site: number;
   };
   devices: { device_type: string; count: number }[];
-  recent_contacts: RecentContact[];
 }
 
 interface ContentSummaryRow {
@@ -103,27 +92,6 @@ const DEVICE_LABELS: Record<string, string> = {
 };
 
 type ApiResponse<T> = { success: boolean; message?: string; data: T };
-
-const CONTACT_STATUS_LABELS: Record<RecentContact['status'], string> = {
-  pending: 'Menunggu',
-  read: 'Dibaca',
-  replied: 'Dibalas',
-  archived: 'Diarsipkan',
-};
-
-const CONTACT_STATUS_VARIANT: Record<RecentContact['status'], 'default' | 'secondary' | 'destructive' | 'outline'> = {
-  pending: 'secondary',
-  read: 'outline',
-  replied: 'default',
-  archived: 'outline',
-};
-
-const dateFormatter = new Intl.DateTimeFormat('id-ID', {
-  day: 'numeric',
-  month: 'short',
-  hour: '2-digit',
-  minute: '2-digit',
-});
 
 const monthLabelFormatter = new Intl.DateTimeFormat('id-ID', { month: 'short', year: 'numeric' });
 const dayLabelFormatter = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short' });
@@ -282,13 +250,6 @@ const applicationStatusConfig = {
 
 const auditTimelineConfig = {
   count: { label: 'Aktivitas', color: 'var(--chart-2)' },
-} satisfies ChartConfig;
-
-const contactStatusConfig = {
-  pending: { label: 'Menunggu', color: 'var(--chart-1)' },
-  read: { label: 'Dibaca', color: 'var(--chart-2)' },
-  replied: { label: 'Dibalas', color: 'var(--chart-3)' },
-  archived: { label: 'Diarsipkan', color: 'var(--chart-4)' },
 } satisfies ChartConfig;
 
 const contentSummaryConfig = {
@@ -538,14 +499,6 @@ export function DashboardHome() {
     }));
   }, [applicationStats]);
 
-  const contactStatusData = useMemo(() => {
-    const byStatus = overview?.contacts.by_status;
-    if (!byStatus) return [];
-    return (['pending', 'read', 'replied', 'archived'] as const)
-      .map((key) => ({ status: key, label: CONTACT_STATUS_LABELS[key], count: byStatus[key] }))
-      .filter((row) => row.count > 0);
-  }, [overview]);
-
   const topAuditActions = useMemo(() => (auditStats?.by_action ?? []).slice(0, 5), [auditStats]);
 
   const applicationTimelineData = useMemo(
@@ -630,51 +583,12 @@ export function DashboardHome() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Pesan Kontak Terbaru</CardTitle>
-            <CardDescription>5 pesan terakhir yang masuk melalui formulir kontak.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <div className="flex flex-col gap-3">
-                {[...Array(3)].map((_, i) => (
-                  <Skeleton key={i} className="h-14 w-full" />
-                ))}
-              </div>
-            ) : overview?.recent_contacts.length ? (
-              <ul className="flex flex-col divide-y">
-                {overview.recent_contacts.map((contact) => (
-                  <li key={contact.id} className="flex items-start justify-between gap-3 py-3 first:pt-0 last:pb-0">
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{contact.nama}</p>
-                      <p className="truncate text-xs text-muted-foreground">{contact.email}</p>
-                      <p className="mt-1 line-clamp-1 text-sm text-foreground/80">{contact.pesan}</p>
-                    </div>
-                    <div className="flex shrink-0 flex-col items-end gap-1">
-                      <Badge variant={CONTACT_STATUS_VARIANT[contact.status]}>
-                        {CONTACT_STATUS_LABELS[contact.status]}
-                      </Badge>
-                      <span className="text-xs text-muted-foreground">
-                        {dateFormatter.format(new Date(contact.created_at))}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="py-6 text-center text-sm text-muted-foreground">Belum ada pesan kontak.</p>
-            )}
-          </CardContent>
-        </Card>
-
         <Card>
           <CardHeader>
             <CardTitle>Akses Cepat</CardTitle>
             <CardDescription>Modul yang dapat Anda kelola.</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-2">
+          <CardContent className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
             {quickLinks.map((item) => (
               <Link
                 key={item.to}
@@ -690,7 +604,6 @@ export function DashboardHome() {
             ))}
           </CardContent>
         </Card>
-        </div>
       </motion.div>
 
       {/* ── Trafik Kunjungan Website — prioritas utama untuk web company bisnis ── */}
