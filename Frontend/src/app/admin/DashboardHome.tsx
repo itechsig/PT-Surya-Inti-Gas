@@ -5,6 +5,7 @@ import {
   Mail, MailOpen, MessageSquareText, Users, ArrowRight, AlertCircle,
   Globe, UserPlus, Eye, Clock, Package, Briefcase, ScrollText,
   Share2, Search, Megaphone, FileText, Filter, MousePointerClick, Monitor,
+  MessageCircle, Phone, Download, Trophy, Lightbulb, ChevronDown,
   type LucideIcon,
 } from 'lucide-react';
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, XAxis, YAxis } from 'recharts';
@@ -96,8 +97,8 @@ interface VisitorTimelinePoint {
 }
 
 const DEVICE_LABELS: Record<string, string> = {
-  desktop: 'Desktop',
-  mobile: 'Mobile',
+  desktop: 'Komputer',
+  mobile: 'HP',
   tablet: 'Tablet',
 };
 
@@ -138,6 +139,49 @@ function formatDayLabel(date: string): string {
   const [year, m, d] = date.split('-').map(Number);
   return dayLabelFormatter.format(new Date(year, m - 1, d));
 }
+
+const numberFormatter = new Intl.NumberFormat('id-ID');
+
+/** 1234 -> "1.234", 12.5 -> "12,5" */
+function formatNumber(value: number): string {
+  return numberFormatter.format(value);
+}
+
+/** 95 -> "1 mnt 35 dtk" — easier to read than raw seconds. */
+function formatDuration(totalSeconds: number): string {
+  const seconds = Math.round(totalSeconds);
+  if (seconds < 60) return `${seconds} dtk`;
+  const minutes = Math.floor(seconds / 60);
+  const rest = seconds % 60;
+  return rest ? `${minutes} mnt ${rest} dtk` : `${minutes} mnt`;
+}
+
+/** Google shows ~10 results per page, so average position maps to a result page. */
+function describeSearchPosition(position: number): string {
+  if (position <= 0) return 'Belum ada data posisi';
+  if (position <= 3) return 'Sangat bagus — di urutan teratas Google';
+  if (position <= 10) return 'Bagus — muncul di halaman 1 Google';
+  if (position <= 20) return 'Cukup — rata-rata di halaman 2 Google';
+  return 'Perlu ditingkatkan — di luar halaman 2 Google';
+}
+
+/** Backend channel names -> plain-Indonesian labels; social network names stay as-is. */
+const CHANNEL_DISPLAY: Record<string, string> = {
+  'Google Organic': 'Pencarian Google',
+  Direct: 'Langsung (ketik alamat)',
+  Referral: 'Link dari website lain',
+};
+
+/** Search Console returns up to 25 keywords; show the top few, the rest on demand. */
+const TOP_QUERY_COUNT = 5;
+
+const EVENT_DISPLAY: Record<string, { label: string; description: string; icon: LucideIcon }> = {
+  whatsapp_click: { label: 'Klik WhatsApp', description: 'Pengunjung menekan tombol WhatsApp', icon: MessageCircle },
+  phone_click: { label: 'Klik Telepon', description: 'Pengunjung menekan nomor telepon', icon: Phone },
+  email_click: { label: 'Klik Email', description: 'Pengunjung menekan alamat email', icon: Mail },
+  product_view: { label: 'Lihat Produk', description: 'Halaman detail produk dibuka', icon: Package },
+  catalog_download: { label: 'Unduh Katalog', description: 'Katalog produk diunduh', icon: Download },
+};
 
 function getTimeGreeting(hour: number): string {
   if (hour < 11) return 'Selamat pagi';
@@ -207,7 +251,9 @@ function StatCard({
           {isLoading ? (
             <Skeleton className="h-7 w-16" />
           ) : (
-            <p className="text-2xl font-bold leading-none">{value ?? '–'}</p>
+            <p className="text-2xl font-bold leading-none">
+              {typeof value === 'number' ? formatNumber(value) : value ?? '–'}
+            </p>
           )}
           <p className="text-xs text-muted-foreground">{description}</p>
         </div>
@@ -221,8 +267,8 @@ const visitorTimelineConfig = {
 } satisfies ChartConfig;
 
 const deviceConfig = {
-  desktop: { label: 'Desktop', color: 'var(--chart-1)' },
-  mobile: { label: 'Mobile', color: 'var(--chart-2)' },
+  desktop: { label: 'Komputer', color: 'var(--chart-1)' },
+  mobile: { label: 'HP', color: 'var(--chart-2)' },
   tablet: { label: 'Tablet', color: 'var(--chart-3)' },
 } satisfies ChartConfig;
 
@@ -263,15 +309,15 @@ const trafficSourceConfig = {
 } satisfies ChartConfig;
 
 const topPagesConfig = {
-  views: { label: 'Views', color: 'var(--chart-3)' },
+  views: { label: 'Dilihat', color: 'var(--chart-3)' },
 } satisfies ChartConfig;
 
 const browserConfig = {
-  count: { label: 'Sesi', color: 'var(--chart-1)' },
+  count: { label: 'Kunjungan', color: 'var(--chart-1)' },
 } satisfies ChartConfig;
 
 const osConfig = {
-  count: { label: 'Sesi', color: 'var(--chart-4)' },
+  count: { label: 'Kunjungan', color: 'var(--chart-4)' },
 } satisfies ChartConfig;
 
 export function DashboardHome() {
@@ -302,6 +348,7 @@ export function DashboardHome() {
   const [deviceBreakdown, setDeviceBreakdown] = useState<DeviceBreakdownData | null>(null);
   const [searchConsole, setSearchConsole] = useState<SearchConsoleSummary | null>(null);
   const [isAnalyticsLoading, setIsAnalyticsLoading] = useState(true);
+  const [showAllQueries, setShowAllQueries] = useState(false);
 
   // Every dashboard section is shown to every admin role. Note this is a display-only choice —
   // the Rekrutmen and Aktivitas Admin sections still call backend endpoints that are role-restricted
@@ -528,28 +575,28 @@ export function DashboardHome() {
       value: overview?.visitors.total,
       icon: Globe,
       color: 'var(--chart-1)',
-      description: 'Sesi pengunjung hari ini',
+      description: 'Berapa kali website dikunjungi hari ini',
     },
     {
       label: 'Pengunjung Baru',
       value: overview?.visitors.unique,
       icon: UserPlus,
       color: 'var(--chart-2)',
-      description: 'Sesi baru hari ini',
+      description: 'Orang yang baru pertama kali datang hari ini',
     },
     {
-      label: 'Page Views',
+      label: 'Halaman Dilihat',
       value: overview?.visitors.page_views,
       icon: Eye,
       color: 'var(--chart-3)',
-      description: 'Total halaman dilihat',
+      description: 'Jumlah halaman yang dibuka hari ini',
     },
     {
-      label: 'Rata-rata Durasi',
-      value: overview?.visitors.avg_time_on_site != null ? `${overview.visitors.avg_time_on_site}s` : undefined,
+      label: 'Lama Berkunjung',
+      value: overview?.visitors.avg_time_on_site != null ? formatDuration(overview.visitors.avg_time_on_site) : undefined,
       icon: Clock,
       color: 'var(--chart-4)',
-      description: 'Waktu per sesi',
+      description: 'Rata-rata waktu pengunjung di website',
     },
   ];
 
@@ -664,7 +711,7 @@ export function DashboardHome() {
       <Card>
         <CardHeader>
           <CardTitle>Tren Kunjungan</CardTitle>
-          <CardDescription>Jumlah sesi pengunjung per hari, sesuai periode yang dipilih.</CardDescription>
+          <CardDescription>Jumlah kunjungan setiap hari sesuai periode yang dipilih. Arahkan kursor ke grafik untuk melihat angka per hari.</CardDescription>
         </CardHeader>
         <CardContent>
           {isAnalyticsLoading ? (
@@ -694,8 +741,8 @@ export function DashboardHome() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Distribusi Status Kontak</CardTitle>
-          <CardDescription>Seluruh pesan kontak, sepanjang waktu.</CardDescription>
+          <CardTitle>Status Pesan Kontak</CardTitle>
+          <CardDescription>Perbandingan pesan yang menunggu, sudah dibaca, dibalas, dan diarsipkan (semua waktu).</CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -724,23 +771,30 @@ export function DashboardHome() {
         <SectionHeader
           icon={Share2}
           color="var(--chart-2)"
-          title="Traffic Source"
-          description="Channel mana yang membawa traffic ke website."
+          title="Asal Pengunjung"
+          description="Dari mana orang datang ke website: Google, media sosial, atau langsung mengetik alamat website."
         />
         <Card>
           <CardHeader>
             <CardTitle>Sumber Kunjungan</CardTitle>
-            <CardDescription>Google Organic, Instagram, WhatsApp, TikTok, LinkedIn, Facebook, YouTube, Referral, Direct.</CardDescription>
+            <CardDescription>
+              Batang makin panjang berarti makin banyak pengunjung dari sumber tersebut. Arahkan kursor untuk melihat
+              jumlah dan persentasenya.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {isAnalyticsLoading ? (
               <Skeleton className="h-[260px] w-full" />
             ) : trafficSourceData.length ? (
               <ChartContainer config={trafficSourceConfig} className="aspect-auto h-[260px] w-full">
-                <BarChart data={trafficSourceData} layout="vertical" margin={{ left: 8, right: 16, top: 8, bottom: 0 }}>
+                <BarChart
+                  data={trafficSourceData.map((row) => ({ ...row, channel: CHANNEL_DISPLAY[row.channel] ?? row.channel }))}
+                  layout="vertical"
+                  margin={{ left: 8, right: 16, top: 8, bottom: 0 }}
+                >
                   <CartesianGrid horizontal={false} />
                   <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
-                  <YAxis dataKey="channel" type="category" tickLine={false} axisLine={false} width={110} tick={{ fontSize: 11 }} interval={0} />
+                  <YAxis dataKey="channel" type="category" tickLine={false} axisLine={false} width={150} tick={{ fontSize: 11 }} interval={0} />
                   <ChartTooltip
                     content={
                       <ChartTooltipContent
@@ -753,7 +807,7 @@ export function DashboardHome() {
                 </BarChart>
               </ChartContainer>
             ) : (
-              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data traffic source.</p>
+              <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data asal pengunjung pada periode ini.</p>
             )}
           </CardContent>
         </Card>
@@ -764,23 +818,35 @@ export function DashboardHome() {
         <SectionHeader
           icon={Search}
           color="var(--chart-1)"
-          title="Google Search Performance"
-          description="Bagaimana orang menemukan PT Surya Inti Gas lewat pencarian Google."
+          title="Performa di Pencarian Google"
+          description="Seberapa sering website PT Surya Inti Gas muncul dan diklik orang di hasil pencarian Google."
         />
         {isAnalyticsLoading ? (
           <Skeleton className="h-[220px] w-full" />
         ) : searchConsole?.connected ? (
           <>
+            <div className="flex items-start gap-3 rounded-lg border bg-muted/40 p-4 text-sm">
+              <Lightbulb className="mt-0.5 h-5 w-5 shrink-0 text-[var(--chart-4)]" />
+              <p>
+                Pada periode ini, website <strong>muncul {formatNumber(searchConsole.impressions)} kali</strong> di
+                hasil pencarian Google dan <strong>diklik {formatNumber(searchConsole.clicks)} kali</strong>. Artinya,
+                dari setiap 100 orang yang melihat website di Google, sekitar{' '}
+                <strong>{formatNumber(Math.round(searchConsole.ctr))} orang</strong> mengkliknya.
+              </p>
+            </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Clicks" value={searchConsole.clicks} description="Total klik dari hasil pencarian" icon={MousePointerClick} color="var(--chart-1)" isLoading={false} />
-              <StatCard label="Impressions" value={searchConsole.impressions} description="Total tampil di hasil pencarian" icon={Eye} color="var(--chart-2)" isLoading={false} />
-              <StatCard label="CTR" value={`${searchConsole.ctr}%`} description="Click-through rate" icon={Search} color="var(--chart-3)" isLoading={false} />
-              <StatCard label="Posisi Rata-rata" value={searchConsole.position} description="Rata-rata posisi di hasil pencarian" icon={Filter} color="var(--chart-4)" isLoading={false} />
+              <StatCard label="Muncul di Google" value={searchConsole.impressions} description="Berapa kali website tampil di hasil pencarian" icon={Eye} color="var(--chart-2)" isLoading={false} />
+              <StatCard label="Diklik dari Google" value={searchConsole.clicks} description="Berapa kali orang mengklik website dari Google" icon={MousePointerClick} color="var(--chart-1)" isLoading={false} />
+              <StatCard label="Persentase Klik" value={`${formatNumber(searchConsole.ctr)}%`} description="Dari yang melihat, berapa persen yang mengklik" icon={Search} color="var(--chart-3)" isLoading={false} />
+              <StatCard label="Peringkat Rata-rata" value={searchConsole.position > 0 ? `#${formatNumber(searchConsole.position)}` : '–'} description={describeSearchPosition(searchConsole.position)} icon={Trophy} color="var(--chart-4)" isLoading={false} />
             </div>
             <Card>
               <CardHeader>
-                <CardTitle>Search Query</CardTitle>
-                <CardDescription>Kata kunci yang membawa pengunjung dari Google Search.</CardDescription>
+                <CardTitle>Kata Kunci Pencarian</CardTitle>
+                <CardDescription>
+                  5 kata kunci teratas yang diketik orang di Google sebelum menemukan website. Peringkat makin kecil makin bagus
+                  (peringkat 1–10 = halaman pertama Google).
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {searchConsole.queries.length ? (
@@ -788,28 +854,47 @@ export function DashboardHome() {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Search Query</TableHead>
-                          <TableHead className="text-right">Clicks</TableHead>
-                          <TableHead className="text-right">Impressions</TableHead>
-                          <TableHead className="text-right">CTR</TableHead>
-                          <TableHead className="text-right">Position</TableHead>
+                          <TableHead>Kata Kunci</TableHead>
+                          <TableHead className="text-right">Muncul</TableHead>
+                          <TableHead className="text-right">Diklik</TableHead>
+                          <TableHead className="text-right">% Klik</TableHead>
+                          <TableHead className="text-right">Peringkat</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {searchConsole.queries.map((row) => (
+                        {(showAllQueries ? searchConsole.queries : searchConsole.queries.slice(0, TOP_QUERY_COUNT)).map((row) => (
                           <TableRow key={row.query}>
                             <TableCell className="font-medium">{row.query}</TableCell>
-                            <TableCell className="text-right">{row.clicks}</TableCell>
-                            <TableCell className="text-right">{row.impressions}</TableCell>
-                            <TableCell className="text-right">{row.ctr}%</TableCell>
-                            <TableCell className="text-right">{row.position}</TableCell>
+                            <TableCell className="text-right">{formatNumber(row.impressions)}</TableCell>
+                            <TableCell className="text-right">{formatNumber(row.clicks)}</TableCell>
+                            <TableCell className="text-right">{formatNumber(row.ctr)}%</TableCell>
+                            <TableCell className="text-right">
+                              <Badge variant={row.position <= 10 ? 'default' : 'outline'} className="font-normal">
+                                #{formatNumber(row.position)}
+                              </Badge>
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
                     </Table>
+                    {searchConsole.queries.length > TOP_QUERY_COUNT && (
+                      <button
+                        type="button"
+                        onClick={() => setShowAllQueries((open) => !open)}
+                        aria-expanded={showAllQueries}
+                        className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-md border p-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                      >
+                        {showAllQueries
+                          ? 'Tampilkan 5 teratas saja'
+                          : `Lihat semua ${formatNumber(searchConsole.queries.length)} kata kunci`}
+                        <ChevronDown className={`h-4 w-4 transition-transform ${showAllQueries ? 'rotate-180' : ''}`} />
+                      </button>
+                    )}
                   </div>
                 ) : (
-                  <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data search query.</p>
+                  <p className="py-10 text-center text-sm text-muted-foreground">
+                    Belum ada kata kunci pada periode ini. Data Google biasanya terlambat 2–3 hari.
+                  </p>
                 )}
               </CardContent>
             </Card>
@@ -818,10 +903,10 @@ export function DashboardHome() {
           <Card>
             <CardContent className="flex flex-col items-center gap-2 py-10 text-center">
               <Search className="h-8 w-8 text-muted-foreground" />
-              <p className="text-sm font-medium">Google Search Console belum terhubung</p>
+              <p className="text-sm font-medium">Data pencarian Google belum tersedia</p>
               <p className="max-w-md text-xs text-muted-foreground">
-                Hubungkan properti Search Console (GOOGLE_SEARCH_CONSOLE_SITE_URL + kredensial service account
-                di .env server) untuk melihat clicks, impressions, CTR, dan search query di sini.
+                Bagian ini akan menampilkan berapa kali website muncul dan diklik di Google, serta kata kunci yang
+                dipakai orang. Hubungi tim IT untuk menyambungkan Google Search Console.
               </p>
             </CardContent>
           </Card>
@@ -833,10 +918,16 @@ export function DashboardHome() {
         <SectionHeader
           icon={Megaphone}
           color="var(--chart-5)"
-          title="Social & Campaign Performance"
-          description="Performa link ber-UTM dari Instagram, TikTok, WhatsApp, LinkedIn, Facebook, YouTube."
+          title="Performa Media Sosial & Promosi"
+          description="Hasil dari link promosi yang dibagikan di Instagram, TikTok, WhatsApp, LinkedIn, Facebook, dan YouTube."
         />
         <Card>
+          <CardHeader>
+            <CardTitle>Hasil Link Promosi</CardTitle>
+            <CardDescription>
+              "Menghubungi" = pengunjung dari link tersebut yang lalu menekan tombol WhatsApp, telepon, atau email.
+            </CardDescription>
+          </CardHeader>
           <CardContent>
             {isAnalyticsLoading ? (
               <Skeleton className="h-[160px] w-full" />
@@ -845,11 +936,11 @@ export function DashboardHome() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Source</TableHead>
-                      <TableHead>Campaign</TableHead>
-                      <TableHead className="text-right">Users</TableHead>
-                      <TableHead className="text-right">Sessions</TableHead>
-                      <TableHead className="text-right">Conversion</TableHead>
+                      <TableHead>Asal</TableHead>
+                      <TableHead>Nama Promosi</TableHead>
+                      <TableHead className="text-right">Pengunjung</TableHead>
+                      <TableHead className="text-right">Kunjungan</TableHead>
+                      <TableHead className="text-right">Menghubungi</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -857,18 +948,23 @@ export function DashboardHome() {
                       <TableRow key={`${row.source}-${row.campaign ?? i}`}>
                         <TableCell className="font-medium">{row.source}</TableCell>
                         <TableCell>{row.campaign ?? '–'}</TableCell>
-                        <TableCell className="text-right">{row.users}</TableCell>
-                        <TableCell className="text-right">{row.sessions}</TableCell>
-                        <TableCell className="text-right">{row.conversions}</TableCell>
+                        <TableCell className="text-right">{formatNumber(row.users)}</TableCell>
+                        <TableCell className="text-right">{formatNumber(row.sessions)}</TableCell>
+                        <TableCell className="text-right">{formatNumber(row.conversions)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </div>
             ) : (
-              <p className="py-10 text-center text-sm text-muted-foreground">
-                Belum ada kunjungan dengan UTM (contoh: ?utm_source=instagram&amp;utm_medium=social&amp;utm_campaign=company_profile).
-              </p>
+              <div className="flex flex-col items-center gap-1 py-10 text-center">
+                <p className="text-sm text-muted-foreground">Belum ada pengunjung dari link promosi pada periode ini.</p>
+                <p className="max-w-lg text-xs text-muted-foreground">
+                  Tips: saat membagikan link di media sosial, tambahkan penanda di akhir link, misalnya{' '}
+                  <code className="rounded bg-muted px-1">suryaintigas.com/?utm_source=instagram&amp;utm_campaign=promo_agustus</code>{' '}
+                  agar hasilnya muncul di tabel ini.
+                </p>
+              </div>
             )}
           </CardContent>
         </Card>
@@ -879,10 +975,14 @@ export function DashboardHome() {
         <SectionHeader
           icon={FileText}
           color="var(--chart-3)"
-          title="Top Pages"
-          description="Halaman yang paling banyak dikunjungi."
+          title="Halaman Terpopuler"
+          description="Halaman website yang paling sering dibuka pengunjung."
         />
         <Card>
+          <CardHeader>
+            <CardTitle>10 Halaman Teratas</CardTitle>
+            <CardDescription>Batang makin panjang berarti halaman makin sering dilihat.</CardDescription>
+          </CardHeader>
           <CardContent>
             {isAnalyticsLoading ? (
               <Skeleton className="h-[260px] w-full" />
@@ -908,8 +1008,8 @@ export function DashboardHome() {
         <SectionHeader
           icon={Filter}
           color="var(--chart-4)"
-          title="User Journey"
-          description="Pengunjung → melihat produk → membuka kontak → konversi (klik WhatsApp/telepon/email)."
+          title="Alur Pengunjung"
+          description="Dari semua pengunjung, berapa yang lanjut melihat produk, membuka halaman kontak, sampai menghubungi perusahaan."
         />
         <Card>
           <CardContent className="flex flex-col gap-3 pt-6">
@@ -920,7 +1020,9 @@ export function DashboardHome() {
                 <div key={stage.stage} className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between text-sm">
                     <span className="font-medium">{i + 1}. {stage.stage}</span>
-                    <span className="text-muted-foreground">{stage.count} ({stage.percentage}%)</span>
+                    <span className="text-muted-foreground">
+                      {formatNumber(stage.count)} orang ({formatNumber(stage.percentage)}%)
+                    </span>
                   </div>
                   <div className="h-2.5 w-full overflow-hidden rounded-full bg-muted">
                     <div
@@ -942,23 +1044,26 @@ export function DashboardHome() {
         <SectionHeader
           icon={MousePointerClick}
           color="var(--chart-2)"
-          title="Events"
-          description="Tindakan bernilai bisnis yang dilakukan pengunjung."
+          title="Aksi Pengunjung"
+          description="Tindakan penting yang dilakukan pengunjung di website pada periode ini."
         />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {isAnalyticsLoading
             ? [...Array(5)].map((_, i) => <Skeleton key={i} className="h-[104px] w-full" />)
-            : eventCounts.map((row) => (
-                <StatCard
-                  key={row.event_type}
-                  label={row.label}
-                  value={row.count}
-                  description="Total pada periode ini"
-                  icon={MousePointerClick}
-                  color="var(--chart-5)"
-                  isLoading={false}
-                />
-              ))}
+            : eventCounts.map((row) => {
+                const display = EVENT_DISPLAY[row.event_type];
+                return (
+                  <StatCard
+                    key={row.event_type}
+                    label={display?.label ?? row.label}
+                    value={row.count}
+                    description={display?.description ?? 'Total pada periode ini'}
+                    icon={display?.icon ?? MousePointerClick}
+                    color="var(--chart-5)"
+                    isLoading={false}
+                  />
+                );
+              })}
         </div>
       </motion.div>
 
@@ -1182,14 +1287,14 @@ export function DashboardHome() {
         <SectionHeader
           icon={Monitor}
           color="var(--chart-3)"
-          title="Device & Technology"
-          description="Perangkat dan teknologi yang dipakai pengunjung mengakses situs."
+          title="Perangkat Pengunjung"
+          description="Pengunjung membuka website lewat HP, laptop/komputer, atau tablet, dan aplikasi apa yang dipakai."
         />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Card>
             <CardHeader>
-              <CardTitle>Perangkat Pengunjung</CardTitle>
-              <CardDescription>Sesi hari ini berdasarkan jenis perangkat.</CardDescription>
+              <CardTitle>Jenis Perangkat</CardTitle>
+              <CardDescription>Kunjungan hari ini: HP, komputer, atau tablet.</CardDescription>
             </CardHeader>
             <CardContent>
               {isLoading ? (
@@ -1214,8 +1319,8 @@ export function DashboardHome() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Top Browser</CardTitle>
-              <CardDescription>Browser yang paling sering dipakai, periode ini.</CardDescription>
+              <CardTitle>Aplikasi Browser</CardTitle>
+              <CardDescription>Aplikasi untuk membuka website (Chrome, Safari, dll.) pada periode ini.</CardDescription>
             </CardHeader>
             <CardContent>
               {isAnalyticsLoading ? (
@@ -1238,8 +1343,8 @@ export function DashboardHome() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Top Operating System</CardTitle>
-              <CardDescription>Sistem operasi yang paling sering dipakai, periode ini.</CardDescription>
+              <CardTitle>Sistem Operasi</CardTitle>
+              <CardDescription>Jenis sistem perangkat (Android, iOS, Windows, dll.) pada periode ini.</CardDescription>
             </CardHeader>
             <CardContent>
               {isAnalyticsLoading ? (
@@ -1255,7 +1360,7 @@ export function DashboardHome() {
                   </BarChart>
                 </ChartContainer>
               ) : (
-                <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data OS.</p>
+                <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data sistem operasi.</p>
               )}
             </CardContent>
           </Card>

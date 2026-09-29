@@ -42,20 +42,28 @@ class SearchConsoleService
         try {
             $siteUrl = config('services.search_console.site_url');
             $endpoint = 'https://www.googleapis.com/webmasters/v3/sites/' . rawurlencode($siteUrl) . '/searchAnalytics/query';
+            $dateRange = ['startDate' => $start->format('Y-m-d'), 'endDate' => $end->format('Y-m-d')];
 
-            $response = Http::withToken($token)->post($endpoint, [
-                'startDate' => $start->format('Y-m-d'),
-                'endDate' => $end->format('Y-m-d'),
+            // Site-wide totals come from a query with no dimensions, so they match the
+            // Search Console UI (including anonymized queries, which never appear per-keyword).
+            $totalsResponse = Http::withToken($token)->post($endpoint, $dateRange);
+            $queriesResponse = Http::withToken($token)->post($endpoint, $dateRange + [
                 'dimensions' => ['query'],
                 'rowLimit' => 25,
             ]);
 
-            if (!$response->successful()) {
-                Log::warning('Search Console query failed', ['status' => $response->status()]);
-                return ['connected' => false];
+            foreach ([$totalsResponse, $queriesResponse] as $response) {
+                if (!$response->successful()) {
+                    Log::warning('Search Console query failed', [
+                        'status' => $response->status(),
+                        'error' => $response->json('error.message'),
+                    ]);
+                    return ['connected' => false];
+                }
             }
 
-            $rows = $response->json('rows') ?? [];
+            $totals = $totalsResponse->json('rows.0') ?? [];
+            $rows = $queriesResponse->json('rows') ?? [];
 
             $queries = array_map(static fn (array $row) => [
                 'query' => $row['keys'][0] ?? '',
@@ -65,15 +73,12 @@ class SearchConsoleService
                 'position' => round((float) ($row['position'] ?? 0), 1),
             ], $rows);
 
-            $totalClicks = (int) array_sum(array_column($queries, 'clicks'));
-            $totalImpressions = (int) array_sum(array_column($queries, 'impressions'));
-
             return [
                 'connected' => true,
-                'clicks' => $totalClicks,
-                'impressions' => $totalImpressions,
-                'ctr' => $totalImpressions > 0 ? round($totalClicks / $totalImpressions * 100, 2) : 0.0,
-                'position' => count($queries) > 0 ? round(array_sum(array_column($queries, 'position')) / count($queries), 1) : 0.0,
+                'clicks' => (int) ($totals['clicks'] ?? 0),
+                'impressions' => (int) ($totals['impressions'] ?? 0),
+                'ctr' => round((float) ($totals['ctr'] ?? 0) * 100, 2),
+                'position' => round((float) ($totals['position'] ?? 0), 1),
                 'queries' => $queries,
             ];
         } catch (\Throwable $e) {
