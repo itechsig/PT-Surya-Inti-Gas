@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { Search, ArrowRight, FolderOpen, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ArrowRight, FolderOpen, ChevronLeft, ChevronRight, Images } from 'lucide-react';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
 import { PageHero } from './PageHero';
+import { PortfolioQuickView } from './PortfolioQuickView';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Skeleton } from './ui/skeleton';
@@ -27,14 +28,35 @@ const staggerContainer: Variants = {
 
 const MotionLink = motion.create(Link);
 
-export function PortfolioCard({ item, currentLang }: { item: PortfolioSummary; currentLang: string }) {
+/** Phones and tablets (including tablets in landscape) get the gallery quick view. */
+const QUICK_VIEW_QUERY = '(max-width: 1024px), (hover: none) and (pointer: coarse)';
+
+export function PortfolioCard({
+  item,
+  currentLang,
+  onQuickView,
+}: {
+  item: PortfolioSummary;
+  currentLang: string;
+  onQuickView?: (item: PortfolioSummary) => void;
+}) {
   const { t } = useTranslation();
+
+  // On mobile/tablet, tapping the card body opens the gallery quick view; the
+  // "Lihat Detail" button (and every tap on desktop) still navigates to the detail page.
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!onQuickView || !window.matchMedia(QUICK_VIEW_QUERY).matches) return;
+    if ((e.target as HTMLElement).closest('.portfolio-card-btn')) return;
+    e.preventDefault();
+    onQuickView(item);
+  };
 
   return (
     <MotionLink
       to={`/${currentLang}/portofolio/${item.id}`}
       className="portfolio-card"
       aria-label={item.title}
+      onClick={handleClick}
       variants={fadeUp}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.3 }}
@@ -46,6 +68,11 @@ export function PortfolioCard({ item, currentLang }: { item: PortfolioSummary; c
           loading="lazy"
           onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = IMAGE_PLACEHOLDER; }}
         />
+        {onQuickView && (
+          <span className="portfolio-card-gallery-hint" aria-hidden="true">
+            <Images size={14} /> {t('portfolio.quickView.hint', 'Lihat galeri')}
+          </span>
+        )}
       </div>
       <div className="portfolio-card-content">
         <h3 className="portfolio-card-title">{item.title}</h3>
@@ -105,6 +132,15 @@ export function Portfolio() {
     setSearchParams(params, { replace: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [industry, service, searchTerm]);
+
+  // Kept separately from `quickViewOpen` so the sheet keeps its content while closing.
+  const [quickViewItem, setQuickViewItem] = useState<PortfolioSummary | null>(null);
+  const [quickViewOpen, setQuickViewOpen] = useState(false);
+
+  const openQuickView = (item: PortfolioSummary) => {
+    setQuickViewItem(item);
+    setQuickViewOpen(true);
+  };
 
   const trackRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ down: false, startX: 0, scrollLeft: 0, moved: false });
@@ -264,7 +300,7 @@ export function Portfolio() {
                   variants={staggerContainer}
                 >
                   {portfolios.map((item) => (
-                    <PortfolioCard key={item.id} item={item} currentLang={currentLang} />
+                    <PortfolioCard key={item.id} item={item} currentLang={currentLang} onQuickView={openQuickView} />
                   ))}
                 </motion.div>
               )}
@@ -282,7 +318,14 @@ export function Portfolio() {
         </div>
 
       </div>
-        
+
+      <PortfolioQuickView
+        item={quickViewItem}
+        open={quickViewOpen}
+        onOpenChange={setQuickViewOpen}
+        currentLang={currentLang}
+      />
+
       <motion.div
         className="portfolio-cta"
         initial="hidden"

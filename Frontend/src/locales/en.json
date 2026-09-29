@@ -1448,6 +1448,14 @@
       "needSimilarTitle": "Need Similar Solution?",
       "needSimilarSubtitle": "Contact our team to discuss your industrial gas or engineering requirements.",
       "contactButton": "Contact Us"
+    },
+    "quickView": {
+      "hint": "View gallery",
+      "description": "Project photo gallery",
+      "close": "Close",
+      "photo": "Photo",
+      "noGallery": "No gallery photos for this project yet.",
+      "viewFullDetail": "View Project Details"
     }
   },
   "career": {

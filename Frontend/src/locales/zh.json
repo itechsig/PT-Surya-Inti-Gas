@@ -610,6 +610,14 @@
       "needSimilarTitle": "需要类似的解决方案？",
       "needSimilarSubtitle": "联系我们的团队，讨论您的工业气体或工程服务需求。",
       "contactButton": "联系我们"
+    },
+    "quickView": {
+      "hint": "查看图库",
+      "description": "项目照片图库",
+      "close": "关闭",
+      "photo": "照片",
+      "noGallery": "该项目暂无图库照片。",
+      "viewFullDetail": "查看项目详情"
     }
   },
   "career": {

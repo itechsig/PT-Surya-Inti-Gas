@@ -1453,6 +1453,14 @@
       "needSimilarTitle": "Butuh Solusi Serupa / Solusi lain??",
       "needSimilarSubtitle": "Hubungi tim kami untuk mendiskusikan kebutuhan gas industri atau layanan engineering Anda.",
       "contactButton": "Hubungi Kami"
+    },
+    "quickView": {
+      "hint": "Lihat galeri",
+      "description": "Galeri foto proyek",
+      "close": "Tutup",
+      "photo": "Foto",
+      "noGallery": "Belum ada foto galeri untuk proyek ini.",
+      "viewFullDetail": "Lihat Detail Proyek"
     }
   },
   "career": {
