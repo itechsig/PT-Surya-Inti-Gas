@@ -158,6 +158,7 @@ const galleryDetailStyles = `
     margin: 0;
     position: sticky;
     top: 40px;
+    text-align: justify;
   }
 
   @media (max-width: 768px) {

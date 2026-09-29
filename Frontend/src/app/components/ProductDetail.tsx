@@ -498,15 +498,6 @@ export function ProductDetail() {
                         <span className="spec-value">{t('productDetail.info.shippingValue')}</span>
                       </motion.div>
                     </motion.div>
-
-                    <div className="product-applications">
-                      <h3>{t('productDetail.applications.title')}</h3>
-                      <motion.ul variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-40px" }}>
-                        {(t('productDetail.applications.items', { returnObjects: true }) as string[]).map((item, i) => (
-                          <motion.li key={i} variants={fadeUp}>{item}</motion.li>
-                        ))}
-                      </motion.ul>
-                    </div>
                   </motion.div>
 
                   {/* Packaging Selection for Gas Products (Gas Cair only offers liquid-suited packaging) */}
