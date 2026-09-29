@@ -661,7 +661,7 @@ const staggerContainer: Variants = {
   show: { transition: { staggerChildren: 0.12 } },
 };
 
-/** Photo per testimonial, keyed by name (names are unchanged across id/en/zh locales). */
+/** Photo per testimonial, keyed by (first) name — see getAvatarSrc. */
  const AVATAR_BY_NAME: Record<string, string> = {
    Tiara: "/images/testimoni/tiara.webp",
    Fauzan: "/images/testimoni/ojan.webp",
@@ -686,9 +686,17 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
+/**
+ * Photo for a testimonial name. Falls back to the first name, since a locale may show
+ * a fuller name (e.g. "Fauzan Afif" in id vs "Fauzan" in en/zh) than the map key.
+ */
+function getAvatarSrc(name: string): string | undefined {
+  return AVATAR_BY_NAME[name.trim()] ?? AVATAR_BY_NAME[name.trim().split(/\s+/)[0]];
+}
+
 /** Photo avatar that falls back to initials if the file is missing (e.g. not yet uploaded). */
 function AvatarMedia({ name }: { name: string }) {
-  const src = AVATAR_BY_NAME[name];
+  const src = getAvatarSrc(name);
   const [failed, setFailed] = useState(false);
   if (!src || failed) return <>{getInitials(name)}</>;
   return (
