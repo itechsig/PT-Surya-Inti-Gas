@@ -4,20 +4,25 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-#[Fillable(['name', 'email', 'password', 'role', 'is_active', 'must_change_password', 'last_login_at', 'two_factor_secret', 'two_factor_enabled'])]
-#[Hidden(['password', 'remember_token', 'two_factor_secret'])]
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
+
+    // Plain properties, not #[Fillable]/#[Hidden] attributes: those need Laravel 13 and are
+    // silently ignored on Laravel 11, which left every User::update() failing mass assignment.
+    protected $fillable = [
+        'name', 'email', 'password', 'role', 'is_active', 'must_change_password',
+        'last_login_at', 'two_factor_secret', 'two_factor_enabled',
+    ];
+
+    protected $hidden = ['password', 'remember_token', 'two_factor_secret'];
 
     public const ROLE_SUPER_ADMIN = 'super_admin';
     public const ROLE_ADMIN = 'admin';

@@ -245,7 +245,7 @@ function AdminShell() {
           id="admin-content"
           ref={contentRef}
           tabIndex={-1}
-          className="mx-auto w-full max-w-7xl flex-1 p-4 outline-none sm:p-6 lg:p-8"
+          className="w-full flex-1 p-4 outline-none sm:p-6 lg:p-8"
         >
           {/* Nested admin pages are code-split; keep the sidebar/header mounted
               while a section's chunk loads instead of falling back to the

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion, type Variants } from 'motion/react';
 import {
-  Mail, MailOpen, MessageSquareText, Users, AlertCircle,
+  Mail, Users, AlertCircle,
   Globe, UserPlus, Eye, Clock, Package, Briefcase, ScrollText,
   Share2, Search, Megaphone, FileText, Filter, MousePointerClick, Monitor,
   MessageCircle, Phone, Download, Trophy, Lightbulb, ChevronDown,
@@ -447,41 +447,6 @@ export function DashboardHome() {
     };
   }, [dateRange]);
 
-  const stats = [
-    {
-      label: 'Kontak Baru',
-      value: overview?.contacts.new,
-      icon: Mail,
-      color: 'var(--chart-1)',
-      description: 'Masuk hari ini',
-    },
-    {
-      label: 'Kontak Menunggu',
-      value: overview?.contacts.pending,
-      icon: MailOpen,
-      color: 'var(--chart-4)',
-      description: 'Belum ditindaklanjuti',
-    },
-    {
-      label: 'Total Kontak',
-      value: overview?.contacts.total,
-      icon: MessageSquareText,
-      color: 'var(--chart-3)',
-      description: 'Sepanjang waktu',
-    },
-    ...(canViewRecruitment
-      ? [
-          {
-            label: 'Pelamar Menunggu',
-            value: applicationStats?.pending,
-            icon: Users,
-            color: 'var(--chart-5)',
-            description: 'Perlu ditinjau',
-          },
-        ]
-      : []),
-  ];
-
   const applicationStatusData = useMemo(() => {
     if (!applicationStats) return [];
     return (['pending', 'reviewed', 'interview', 'hired', 'rejected'] as const).map((key) => ({
@@ -542,6 +507,17 @@ export function DashboardHome() {
       color: 'var(--chart-4)',
       description: 'Rata-rata waktu pengunjung di website',
     },
+    ...(canViewRecruitment
+      ? [
+          {
+            label: 'Pelamar Menunggu',
+            value: applicationStats?.pending,
+            icon: Users,
+            color: 'var(--chart-5)',
+            description: 'Lamaran kerja yang perlu ditinjau',
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -567,14 +543,6 @@ export function DashboardHome() {
         </div>
       )}
 
-      <motion.div className="flex flex-col gap-4" variants={fadeUp}>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <StatCard key={stat.label} {...stat} isLoading={isLoading} />
-          ))}
-        </div>
-      </motion.div>
-
       {/* ── Trafik Kunjungan Website — prioritas utama untuk web company bisnis ── */}
       <motion.div className="flex flex-col gap-4" variants={fadeUp}>
         <SectionHeader
@@ -584,7 +552,7 @@ export function DashboardHome() {
           description="Seberapa banyak dan bagaimana pengunjung mengakses situs."
         />
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 sm:[&>*:last-child:nth-child(odd)]:col-span-2 lg:[&>*:last-child:nth-child(odd)]:col-span-1">
           {trafficStats.map((stat) => (
             <StatCard key={stat.label} {...stat} isLoading={isLoading} />
           ))}
