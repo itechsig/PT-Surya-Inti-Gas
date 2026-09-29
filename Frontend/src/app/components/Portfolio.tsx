@@ -28,6 +28,9 @@ const staggerContainer: Variants = {
 
 const MotionLink = motion.create(Link);
 
+/** How far a swipe must travel before the slider moves to the next card. */
+const SWIPE_THRESHOLD_PX = 40;
+
 /** Phones and tablets (including tablets in landscape) get the gallery quick view. */
 const QUICK_VIEW_QUERY = '(max-width: 1024px), (hover: none) and (pointer: coarse)';
 
@@ -145,10 +148,26 @@ export function Portfolio() {
   const trackRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ down: false, startX: 0, scrollLeft: 0, moved: false });
 
+  /** Distance between two neighbouring cards (card width + gap) — one "step" of the slider. */
+  const cardStep = () => {
+    const el = trackRef.current;
+    const cards = el?.querySelectorAll<HTMLElement>('.portfolio-card');
+    if (!el || !cards || cards.length === 0) return 0;
+    return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : cards[0].offsetWidth;
+  };
+
+  const snapRestoreTimer = useRef<number | undefined>(undefined);
+
+  // The card follows the finger/mouse while dragging, and on release the slider always
+  // moves exactly one card (or springs back) — never stopping half-way or skipping cards.
+  // Horizontal panning is owned by this handler (touch-action: pan-y in CSS), so the
+  // browser's own momentum can't fling past several cards.
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     const el = trackRef.current;
-    if (!el) return;
+    if (!el || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    window.clearTimeout(snapRestoreTimer.current);
     dragState.current = { down: true, startX: e.pageX, scrollLeft: el.scrollLeft, moved: false };
+    el.style.scrollSnapType = 'none';
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -159,7 +178,25 @@ export function Portfolio() {
     el.scrollLeft = dragState.current.scrollLeft - dx;
   };
 
-  const endDrag = () => { dragState.current.down = false; };
+  const endDrag = () => {
+    const el = trackRef.current;
+    if (!el || !dragState.current.down) return;
+    dragState.current.down = false;
+
+    const step = cardStep();
+    if (step) {
+      const startIndex = Math.round(dragState.current.scrollLeft / step);
+      const dragged = dragState.current.scrollLeft - el.scrollLeft; // >0 = digeser ke kanan
+      const maxIndex = Math.max(0, Math.round((el.scrollWidth - el.clientWidth) / step));
+      let target = startIndex;
+      if (Math.abs(dragged) > SWIPE_THRESHOLD_PX) target += dragged < 0 ? 1 : -1;
+      target = Math.min(Math.max(target, 0), maxIndex);
+      el.scrollTo({ left: target * step, behavior: 'smooth' });
+    }
+
+    // Re-enable CSS snapping once the smooth scroll has settled.
+    snapRestoreTimer.current = window.setTimeout(() => { el.style.scrollSnapType = ''; }, 450);
+  };
 
   // Cegah navigasi ke halaman detail ketika kartu baru saja di-geser
   const handleClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -173,7 +210,10 @@ export function Portfolio() {
   const scrollByDir = (dir: number) => {
     const el = trackRef.current;
     if (!el) return;
-    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' });
+    const step = cardStep();
+    if (!step) return;
+    const current = Math.round(el.scrollLeft / step);
+    el.scrollTo({ left: (current + dir) * step, behavior: 'smooth' });
   };
 
   const { industries, localize: localizeIndustry } = useIndustries(currentLang);
@@ -264,6 +304,7 @@ export function Portfolio() {
             onPointerMove={handlePointerMove}
             onPointerUp={endDrag}
             onPointerLeave={endDrag}
+            onPointerCancel={endDrag}
             onClickCapture={handleClickCapture}
           >
             <AnimatePresence mode="wait">

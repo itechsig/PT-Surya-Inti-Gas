@@ -1,19 +1,17 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import * as DialogPrimitive from '@radix-ui/react-dialog';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ArrowRight, ChevronLeft, ChevronRight, ImageOff, X } from 'lucide-react';
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle } from './ui/drawer';
-import { Badge } from './ui/badge';
-import { Skeleton } from './ui/skeleton';
 import { usePortfolioDetail } from '../../hooks/usePortfolioDetail';
 import type { PortfolioGalleryImage, PortfolioSummary } from '../../data/portfolio';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
 
 /**
- * Mobile/tablet quick view for a portfolio card: a bottom sheet with a swipeable
- * slider of the project's gallery. The summary list has no gallery, so the detail
- * is fetched only while the sheet is open.
+ * Mobile/tablet quick view for a portfolio card: a centered photo viewer over a dimmed,
+ * blurred backdrop so the project photos get full attention. The summary list has no
+ * gallery, so the detail is fetched only while the viewer is open.
  */
 export function PortfolioQuickView({
   item,
@@ -37,49 +35,60 @@ export function PortfolioQuickView({
   const hasGallery = Boolean(detail?.gallery.length);
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="portfolio-quickview mx-auto w-full max-w-2xl data-[vaul-drawer-direction=bottom]:max-h-[92vh]">
-        {item && (
-          <div className="portfolio-quickview-body">
-            <div className="portfolio-quickview-header">
-              <div className="min-w-0">
-                <DrawerTitle className="portfolio-quickview-title">{item.title}</DrawerTitle>
-                <DrawerDescription className="sr-only">
-                  {t('portfolio.quickView.description', 'Galeri foto proyek')}
-                </DrawerDescription>
-                <div className="portfolio-card-badges">
-                  {item.industry && <Badge variant="outline">{item.industry.name}</Badge>}
-                  {item.serviceType && <Badge variant="outline">{item.serviceType.name}</Badge>}
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay className="portfolio-quickview-overlay" />
+        <DialogPrimitive.Content
+          className="portfolio-quickview"
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
+          {item && (
+            <>
+              <DialogPrimitive.Close
+                className="portfolio-quickview-close"
+                aria-label={t('portfolio.quickView.close', 'Tutup')}
+              >
+                <X size={22} strokeWidth={2.5} />
+              </DialogPrimitive.Close>
+
+              {isLoading ? (
+                <div className="portfolio-quickview-stage portfolio-quickview-loading">
+                  <span className="portfolio-quickview-spinner" aria-hidden="true" />
                 </div>
+              ) : (
+                <GallerySlider key={item.id} images={gallery} fallbackAlt={item.title} />
+              )}
+
+              <div className="portfolio-quickview-info">
+                <DialogPrimitive.Title className="portfolio-quickview-title">{item.title}</DialogPrimitive.Title>
+                <DialogPrimitive.Description className="sr-only">
+                  {t('portfolio.quickView.description', 'Galeri foto proyek')}
+                </DialogPrimitive.Description>
+                {(item.industry || item.serviceType) && (
+                  <div className="portfolio-quickview-tags">
+                    {item.industry && <span>{item.industry.name}</span>}
+                    {item.serviceType && <span>{item.serviceType.name}</span>}
+                  </div>
+                )}
+                {!isLoading && !hasGallery && (
+                  <p className="portfolio-quickview-empty">
+                    <ImageOff size={14} /> {t('portfolio.quickView.noGallery', 'Belum ada foto galeri untuk proyek ini.')}
+                  </p>
+                )}
               </div>
-              <DrawerClose className="portfolio-quickview-close" aria-label={t('portfolio.quickView.close', 'Tutup')}>
-                <X size={18} />
-              </DrawerClose>
-            </div>
 
-            {isLoading ? (
-              <Skeleton className="portfolio-quickview-skeleton" />
-            ) : (
-              <GallerySlider key={item.id} images={gallery} fallbackAlt={item.title} />
-            )}
-
-            {!isLoading && !hasGallery && (
-              <p className="portfolio-quickview-empty">
-                <ImageOff size={14} /> {t('portfolio.quickView.noGallery', 'Belum ada foto galeri untuk proyek ini.')}
-              </p>
-            )}
-
-            <Link
-              to={`/${currentLang}/portofolio/${item.id}`}
-              className="portfolio-quickview-cta"
-              onClick={() => onOpenChange(false)}
-            >
-              {t('portfolio.quickView.viewFullDetail', 'Lihat Detail Proyek')} <ArrowRight size={16} />
-            </Link>
-          </div>
-        )}
-      </DrawerContent>
-    </Drawer>
+              <Link
+                to={`/${currentLang}/portofolio/${item.id}`}
+                className="portfolio-quickview-cta"
+                onClick={() => onOpenChange(false)}
+              >
+                {t('portfolio.quickView.viewFullDetail', 'Lihat Detail Proyek')} <ArrowRight size={16} />
+              </Link>
+            </>
+          )}
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
   );
 }
 
@@ -103,12 +112,31 @@ function GallerySlider({ images, fallbackAlt }: { images: PortfolioGalleryImage[
     };
   }, [emblaApi, onSelect]);
 
+  // Arrow keys flip photos (useful on tablets with a keyboard).
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') emblaApi.scrollPrev();
+      if (e.key === 'ArrowRight') emblaApi.scrollNext();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [emblaApi]);
+
+  // Keep the active thumbnail visible in the (scrollable) thumbnail strip.
+  const thumbsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const strip = thumbsRef.current;
+    const thumb = strip?.children[selected] as HTMLElement | undefined;
+    if (!strip || !thumb) return;
+    strip.scrollTo({ left: thumb.offsetLeft - (strip.clientWidth - thumb.offsetWidth) / 2, behavior: 'smooth' });
+  }, [selected]);
+
   const multiple = images.length > 1;
   const caption = images[selected]?.caption;
 
   return (
-    // data-vaul-no-drag: horizontal swipes belong to the slider, not the sheet.
-    <div className="portfolio-quickview-gallery" data-vaul-no-drag>
+    <div className="portfolio-quickview-gallery">
       <div className="portfolio-quickview-stage">
         <div className="portfolio-quickview-viewport" ref={emblaRef}>
           <div className="portfolio-quickview-track">
@@ -137,7 +165,7 @@ function GallerySlider({ images, fallbackAlt }: { images: PortfolioGalleryImage[
               onClick={() => emblaApi?.scrollPrev()}
               aria-label={t('portfolio.page.prev', 'Sebelumnya')}
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={22} />
             </button>
             <button
               type="button"
@@ -145,7 +173,7 @@ function GallerySlider({ images, fallbackAlt }: { images: PortfolioGalleryImage[
               onClick={() => emblaApi?.scrollNext()}
               aria-label={t('portfolio.page.next', 'Berikutnya')}
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={22} />
             </button>
           </>
         )}
@@ -154,7 +182,7 @@ function GallerySlider({ images, fallbackAlt }: { images: PortfolioGalleryImage[
       {caption && <p className="portfolio-quickview-caption">{caption}</p>}
 
       {multiple && (
-        <div className="portfolio-quickview-thumbs">
+        <div className="portfolio-quickview-thumbs" ref={thumbsRef}>
           {images.map((img, i) => (
             <button
               type="button"

@@ -79,6 +79,9 @@
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  /* Geser horizontal ditangani JS (tepat 1 kartu per swipe); scroll vertikal halaman tetap normal */
+  touch-action: pan-y;
   scrollbar-width: none;
   -ms-overflow-style: none;
   cursor: grab;
@@ -126,6 +129,8 @@
   /* Tablet/mobile fallback (slider); desktop overrides to a grid below */
   flex: 0 0 calc((100% - 48px) / 3);
   scroll-snap-align: start;
+  /* Satu swipe = maju satu kartu; swipe cepat tidak melompati kartu lain */
+  scroll-snap-stop: always;
   background: #fff;
   border: 1px solid var(--slate-200);
   border-radius: 12px;
@@ -582,67 +587,69 @@
   }
 }
 
-/* Sheet dirender di portal (di luar .portfolio-corporate), jadi token warnanya didefinisikan ulang. */
+/* ── Popup galeri: kartu ringkas di tengah layar, latar belakang redup transparan ── */
+.portfolio-quickview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(8, 15, 30, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.portfolio-quickview-overlay[data-state='open'] { animation: pqv-fade-in 0.25s ease-out; }
+.portfolio-quickview-overlay[data-state='closed'] { animation: pqv-fade-out 0.2s ease-in; }
+
+/* Dirender di portal (di luar .portfolio-corporate), jadi token warnanya didefinisikan ulang. */
 .portfolio-quickview {
   --blue: var(--brand-blue, #1565C0);
   --ff-display: var(--font-display, 'Barlow', system-ui, sans-serif);
   --ff-body: var(--font-sans, 'DM Sans', system-ui, sans-serif);
 
-  font-family: var(--ff-body);
-  background: #fff;
-  border-top-left-radius: 20px !important;
-  border-top-right-radius: 20px !important;
-}
-
-.portfolio-quickview-body {
+  position: fixed;
+  z-index: 10001;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(380px, calc(100vw - 48px));
+  max-height: min(78dvh, 640px);
+  overflow-y: auto;
+  scrollbar-width: none;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 12px 20px calc(20px + env(safe-area-inset-bottom));
-  overflow-y: auto;
-}
-
-.portfolio-quickview-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
   gap: 12px;
-}
-
-.portfolio-quickview-header .portfolio-card-badges {
-  margin-top: 8px;
-}
-
-.portfolio-quickview-title {
-  font-family: var(--ff-display);
-  font-size: 1.15rem;
-  font-weight: 700;
-  line-height: 1.3;
+  padding: 10px 10px 16px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(8, 15, 30, 0.35);
+  font-family: var(--ff-body);
   color: var(--navy-dark);
+  outline: none;
 }
 
+.portfolio-quickview::-webkit-scrollbar { display: none; }
+.portfolio-quickview[data-state='open'] { animation: pqv-zoom-in 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.portfolio-quickview[data-state='closed'] { animation: pqv-zoom-out 0.2s ease-in; }
+
+/* Tombol tutup mengambang di pojok kanan atas foto */
 .portfolio-quickview-close {
-  flex-shrink: 0;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 999px;
-  background: var(--slate-100);
-  color: var(--slate-700);
-  transition: background-color 0.2s var(--ease);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  transition: background-color 0.2s var(--ease), transform 0.15s var(--ease);
 }
 
-.portfolio-quickview-close:active {
-  background: var(--slate-200);
-}
-
-.portfolio-quickview-skeleton {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 14px;
-}
+.portfolio-quickview-close:hover { background: rgba(0, 0, 0, 0.75); }
+.portfolio-quickview-close:active { transform: scale(0.9); }
 
 .portfolio-quickview-gallery {
   display: flex;
@@ -654,7 +661,7 @@
   position: relative;
   border-radius: 14px;
   overflow: hidden;
-  background: var(--slate-100);
+  background: #0b1220;
 }
 
 .portfolio-quickview-viewport {
@@ -662,31 +669,49 @@
   touch-action: pan-y pinch-zoom;
 }
 
-.portfolio-quickview-track {
-  display: flex;
-}
+.portfolio-quickview-track { display: flex; }
 
 .portfolio-quickview-slide {
   flex: 0 0 100%;
   min-width: 0;
   aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* contain: foto tampil utuh tanpa terpotong */
 .portfolio-quickview-slide img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
 }
 
+.portfolio-quickview-loading {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portfolio-quickview-spinner {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fff;
+  animation: pqv-spin 0.8s linear infinite;
+}
+
 .portfolio-quickview-counter {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 8px;
+  left: 8px;
   padding: 5px 10px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.72);
+  background: rgba(0, 0, 0, 0.55);
   color: #fff;
   font-size: 12px;
   font-weight: 600;
@@ -701,47 +726,46 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.9);
   color: var(--navy-dark);
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
   transition: transform 0.15s var(--ease);
 }
 
-.portfolio-quickview-arrow:active {
-  transform: translateY(-50%) scale(0.92);
-}
-
-.portfolio-quickview-arrow-prev { left: 10px; }
-.portfolio-quickview-arrow-next { right: 10px; }
+.portfolio-quickview-arrow:active { transform: translateY(-50%) scale(0.9); }
+.portfolio-quickview-arrow-prev { left: 8px; }
+.portfolio-quickview-arrow-next { right: 8px; }
 
 .portfolio-quickview-caption {
   margin: 0;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--slate-500);
   text-align: center;
 }
 
 .portfolio-quickview-thumbs {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
-  padding: 2px;
+  padding: 3px;
   scrollbar-width: none;
 }
 
-.portfolio-quickview-thumbs::-webkit-scrollbar {
-  display: none;
-}
+.portfolio-quickview-thumbs::-webkit-scrollbar { display: none; }
+
+/* Center saat muat, tapi tetap bisa digeser sampai thumbnail pertama saat meluap */
+.portfolio-quickview-thumbs > :first-child { margin-left: auto; }
+.portfolio-quickview-thumbs > :last-child { margin-right: auto; }
 
 .portfolio-quickview-thumb {
-  flex: 0 0 64px;
-  height: 48px;
-  border-radius: 8px;
+  flex: 0 0 48px;
+  height: 36px;
+  border-radius: 6px;
   overflow: hidden;
-  opacity: 0.55;
+  opacity: 0.5;
   outline: 2px solid transparent;
   outline-offset: 1px;
   transition: opacity 0.2s var(--ease), outline-color 0.2s var(--ease);
@@ -758,49 +782,92 @@
   object-fit: cover;
 }
 
+.portfolio-quickview-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+  text-align: center;
+}
+
+.portfolio-quickview-title {
+  margin: 0;
+  font-family: var(--ff-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--navy-dark);
+}
+
+.portfolio-quickview-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.portfolio-quickview-tags span {
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--slate-200);
+  font-size: 11.5px;
+  color: var(--slate-600, #475569);
+}
+
 .portfolio-quickview-empty {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 6px;
   margin: 0;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--slate-500);
 }
 
 .portfolio-quickview-cta {
+  align-self: center;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 13px 18px;
-  border-radius: 10px;
-  background: var(--blue);
-  color: #fff;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--blue);
+  color: var(--blue);
   font-family: var(--ff-display);
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 600;
   text-decoration: none;
-  transition: filter 0.2s var(--ease);
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
 }
 
+.portfolio-quickview-cta:hover,
 .portfolio-quickview-cta:active {
-  filter: brightness(0.92);
+  background: var(--blue);
+  color: #fff;
 }
 
-/* Tablet: sheet mengambang di tengah dengan foto lebih lebar */
+/* Tablet: kartu sedikit lebih besar, tetap tidak memenuhi layar */
 @media (min-width: 640px) {
-  .portfolio-quickview-body {
-    padding: 16px 28px calc(28px + env(safe-area-inset-bottom));
-  }
+  .portfolio-quickview { width: min(520px, calc(100vw - 120px)); }
+  .portfolio-quickview-slide,
+  .portfolio-quickview-loading { aspect-ratio: 16 / 10; }
+  .portfolio-quickview-thumb { flex-basis: 60px; height: 44px; }
+  .portfolio-quickview-arrow { width: 40px; height: 40px; }
+}
 
-  .portfolio-quickview-slide {
-    aspect-ratio: 16 / 10;
-  }
+@keyframes pqv-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pqv-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes pqv-zoom-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.94); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes pqv-zoom-out {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+}
+@keyframes pqv-spin { to { transform: rotate(360deg); } }
 
-  .portfolio-quickview-thumb {
-    flex-basis: 80px;
-    height: 56px;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-quickview,
+  .portfolio-quickview-overlay { animation: none !important; }
 }
