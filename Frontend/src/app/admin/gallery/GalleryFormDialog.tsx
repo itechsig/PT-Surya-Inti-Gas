@@ -17,6 +17,7 @@ import { Button } from '../../components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { ApiError } from '../../../utils/apiClient';
 import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
+import { ORIGINAL_ASPECT, useImageCropper, type AspectOption } from '../components/ImageCropDialog';
 import { createGalleryItem, updateGalleryItem } from './api';
 import { GALLERY_CATEGORIES, GALLERY_SIZES, type AdminGalleryItem, type GalleryItemFormValues } from './types';
 
@@ -26,6 +27,19 @@ const EMPTY_FORM: GalleryItemFormValues = {
   detailed_description_id: '', detailed_description_en: '', detailed_description_zh: '',
   category: 'products', year: new Date().getFullYear(), size: 'medium', is_active: true, image: null,
 };
+
+/** Approximate box ratio of each `size` in the public Gallery grid (4 cols × 200px rows on desktop). */
+const GALLERY_SIZE_ASPECT: Record<string, AspectOption> = {
+  small: { label: '3:2', value: 3 / 2 },
+  medium: { label: '3:4', value: 3 / 4 },
+  tall: { label: '3:4', value: 3 / 4 },
+  large: { label: '3:2', value: 3 / 2 },
+  wide: { label: '3:1', value: 3 },
+};
+
+const GALLERY_CROP_ASPECTS: AspectOption[] = [
+  GALLERY_SIZE_ASPECT.small, GALLERY_SIZE_ASPECT.medium, GALLERY_SIZE_ASPECT.wide, ORIGINAL_ASPECT,
+];
 
 interface GalleryFormDialogProps {
   open: boolean;
@@ -39,6 +53,7 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [isSaving, setIsSaving] = useState(false);
+  const { requestCrop, cropDialog } = useImageCropper();
 
   useEffect(() => {
     if (!open) return;
@@ -66,10 +81,19 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
     ...fieldErrorProps(errors, key as string),
   });
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setValues((prev) => ({ ...prev, image: file }));
-    if (file) setImagePreview(URL.createObjectURL(file));
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    const sizeAspect = GALLERY_SIZE_ASPECT[values.size];
+    const cropped = await requestCrop([file], {
+      aspects: GALLERY_CROP_ASPECTS,
+      defaultAspect: Math.max(0, GALLERY_CROP_ASPECTS.findIndex((a) => a.label === sizeAspect?.label)),
+      hint: `Rasio disarankan mengikuti "Ukuran Grid" (saat ini ${values.size} → ${sizeAspect?.label ?? '-'}). Pilih Ukuran Grid lebih dulu agar crop sesuai kotak di halaman Galeri.`,
+    });
+    if (!cropped) return;
+    setValues((prev) => ({ ...prev, image: cropped[0] }));
+    setImagePreview(URL.createObjectURL(cropped[0]));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -216,6 +240,7 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
           </DialogFooter>
         </form>
       </DialogContent>
+      {cropDialog}
     </Dialog>
   );
 }

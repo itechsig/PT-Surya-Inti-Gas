@@ -12,7 +12,7 @@ import { Button } from '../../components/ui/button';
 import { ApiError } from '../../../utils/apiClient';
 import { FormErrorSummary, fieldErrorProps } from '../formErrors';
 import { createPortfolio, deletePortfolioImage, reorderPortfolioImages, updatePortfolio, uploadPortfolioImages } from './api';
-import { ThumbnailCropDialog } from './ThumbnailCropDialog';
+import { ORIGINAL_ASPECT, useImageCropper } from '../components/ImageCropDialog';
 import { PortfolioGalleryManager, type GalleryManagerItem } from './PortfolioGalleryManager';
 import { EntityCombobox } from './EntityCombobox';
 import {
@@ -49,7 +49,7 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [isSaving, setIsSaving] = useState(false);
 
-  const [cropSource, setCropSource] = useState<{ src: string; fileName: string } | null>(null);
+  const { requestCrop, cropDialog } = useImageCropper();
 
   const [stagedGallery, setStagedGallery] = useState<StagedGalleryFile[]>([]);
   const [galleryImages, setGalleryImages] = useState<AdminPortfolioImage[]>([]);
@@ -87,16 +87,17 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
 
   const fieldError = (key: string) => errors[key]?.[0];
 
-  const handleThumbnailSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleThumbnailSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = '';
     if (!file) return;
-    setCropSource({ src: URL.createObjectURL(file), fileName: file.name });
-  };
-
-  const handleCropped = (file: File) => {
-    setValues((prev) => ({ ...prev, thumbnail: file }));
-    setThumbnailPreview(URL.createObjectURL(file));
+    const cropped = await requestCrop([file], {
+      aspects: [{ label: '4:3', value: 4 / 3 }, { label: '16:9', value: 16 / 9 }, ORIGINAL_ASPECT],
+      hint: 'Thumbnail tampil di kartu portofolio dengan rasio 4:3 — pastikan objek utama berada di tengah bingkai.',
+    });
+    if (!cropped) return;
+    setValues((prev) => ({ ...prev, thumbnail: cropped[0] }));
+    setThumbnailPreview(URL.createObjectURL(cropped[0]));
   };
 
   // Gallery — create mode stages files locally; edit mode calls the live API immediately.
@@ -104,7 +105,12 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
     ? galleryImages.map((img) => ({ id: String(img.id), url: img.image }))
     : stagedGallery.map((s) => ({ id: s.id, url: s.url }));
 
-  const handleGalleryAddFiles = async (files: File[]) => {
+  const handleGalleryAddFiles = async (selected: File[]) => {
+    const files = await requestCrop(selected, {
+      aspects: [ORIGINAL_ASPECT, { label: '4:3', value: 4 / 3 }, { label: '16:9', value: 16 / 9 }, { label: '1:1', value: 1 }],
+      hint: 'Galeri proyek tampil utuh saat diperbesar; pilih "Asli" jika tidak perlu memotong.',
+    });
+    if (!files) return;
     if (portfolio) {
       try {
         const res = await uploadPortfolioImages(portfolio.id, files);
@@ -303,14 +309,7 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
         </form>
       </DialogContent>
 
-      <ThumbnailCropDialog
-        open={!!cropSource}
-        imageSrc={cropSource?.src ?? null}
-        fileName={cropSource?.fileName ?? 'thumbnail.jpg'}
-        aspect={4 / 3}
-        onOpenChange={(o) => !o && setCropSource(null)}
-        onCropped={handleCropped}
-      />
+      {cropDialog}
     </Dialog>
   );
 }

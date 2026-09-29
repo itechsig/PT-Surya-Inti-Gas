@@ -1,7 +1,18 @@
 import { Briefcase, FolderKanban, GalleryHorizontal, Image, Images, LayoutDashboard, Package, Users, UserCog, ScrollText, ShieldCheck, type LucideIcon } from 'lucide-react';
 
+export type AdminNavGroup = 'overview' | 'content' | 'career' | 'system';
+
+// Sidebar section order + headings. Items render under their group in this order.
+export const adminNavGroups: { id: AdminNavGroup; label: string }[] = [
+  { id: 'overview', label: 'Ringkasan' },
+  { id: 'content', label: 'Konten Website' },
+  { id: 'career', label: 'Karir' },
+  { id: 'system', label: 'Sistem' },
+];
+
 export interface AdminNavItem {
   label: string;
+  group: AdminNavGroup;
   to: string;
   icon: LucideIcon;
   // Dynamic permission slug required to see this item — mirrors the backend's `permission:...`
@@ -14,15 +25,15 @@ export interface AdminNavItem {
 }
 
 export const adminNavItems: AdminNavItem[] = [
-  { label: 'Dashboard', to: '/admin', icon: LayoutDashboard },
-  { label: 'Hero Slides', to: '/admin/hero-slides', icon: GalleryHorizontal, permission: 'hero_slides.manage' },
-  { label: 'Produk', to: '/admin/products', icon: Package, permission: 'products.manage' },
-  { label: 'Foto Kategori', to: '/admin/category-photos', icon: Image, permission: 'products.manage' },
-  { label: 'Galeri', to: '/admin/gallery', icon: Images, permission: 'gallery.manage' },
-  { label: 'Portofolio', to: '/admin/portfolios', icon: FolderKanban, permission: 'portfolios.manage' },
-  { label: 'Lowongan Kerja', to: '/admin/job-vacancies', icon: Briefcase, permission: 'job_vacancies.manage' },
-  { label: 'Pelamar Kerja', to: '/admin/career-applications', icon: Users, permission: 'career_applications.manage' },
-  { label: 'Manajemen User', to: '/admin/users', icon: UserCog, permission: 'users.manage' },
-  { label: 'Manajemen Role', to: '/admin/roles', icon: ShieldCheck, superAdminOnly: true },
-  { label: 'Log Aktivitas', to: '/admin/audit-logs', icon: ScrollText, permission: 'audit_logs.view' },
+  { label: 'Dashboard', to: '/admin', group: 'overview', icon: LayoutDashboard },
+  { label: 'Hero Slides', to: '/admin/hero-slides', group: 'content', icon: GalleryHorizontal, permission: 'hero_slides.manage' },
+  { label: 'Produk', to: '/admin/products', group: 'content', icon: Package, permission: 'products.manage' },
+  { label: 'Foto Kategori', to: '/admin/category-photos', group: 'content', icon: Image, permission: 'products.manage' },
+  { label: 'Galeri', to: '/admin/gallery', group: 'content', icon: Images, permission: 'gallery.manage' },
+  { label: 'Portofolio', to: '/admin/portfolios', group: 'content', icon: FolderKanban, permission: 'portfolios.manage' },
+  { label: 'Lowongan Kerja', to: '/admin/job-vacancies', group: 'career', icon: Briefcase, permission: 'job_vacancies.manage' },
+  { label: 'Pelamar Kerja', to: '/admin/career-applications', group: 'career', icon: Users, permission: 'career_applications.manage' },
+  { label: 'Manajemen User', to: '/admin/users', group: 'system', icon: UserCog, permission: 'users.manage' },
+  { label: 'Manajemen Role', to: '/admin/roles', group: 'system', icon: ShieldCheck, superAdminOnly: true },
+  { label: 'Log Aktivitas', to: '/admin/audit-logs', group: 'system', icon: ScrollText, permission: 'audit_logs.view' },
 ];

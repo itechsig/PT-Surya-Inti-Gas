@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, type Variants } from 'motion/react';
 import {
-  Mail, MailOpen, MessageSquareText, Users, ArrowRight, AlertCircle,
+  Mail, MailOpen, MessageSquareText, Users, AlertCircle,
   Globe, UserPlus, Eye, Clock, Package, Briefcase, ScrollText,
   Share2, Search, Megaphone, FileText, Filter, MousePointerClick, Monitor,
   MessageCircle, Phone, Download, Trophy, Lightbulb, ChevronDown,
@@ -12,7 +11,6 @@ import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, XAx
 import { useAuth } from '../../context';
 import { API_ENDPOINTS } from '../../config/api';
 import { apiRequest, ApiError } from '../../utils/apiClient';
-import { adminNavItems } from './navConfig';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Skeleton } from '../components/ui/skeleton';
@@ -282,7 +280,7 @@ const osConfig = {
 } satisfies ChartConfig;
 
 export function DashboardHome() {
-  const { user, hasRole, can } = useAuth();
+  const { user } = useAuth();
   const [overview, setOverview] = useState<DashboardOverview | null>(null);
   const [visitorTimeline, setVisitorTimeline] = useState<VisitorTimelinePoint[]>([]);
   const [applicationStats, setApplicationStats] = useState<CareerApplicationStatistics | null>(null);
@@ -484,13 +482,6 @@ export function DashboardHome() {
       : []),
   ];
 
-  const quickLinks = adminNavItems.filter((item) => {
-    if (item.to === '/admin') return false;
-    if (item.superAdminOnly) return hasRole('super_admin');
-    if (item.permission) return can(item.permission);
-    return true;
-  });
-
   const applicationStatusData = useMemo(() => {
     if (!applicationStats) return [];
     return (['pending', 'reviewed', 'interview', 'hired', 'rejected'] as const).map((key) => ({
@@ -582,28 +573,6 @@ export function DashboardHome() {
             <StatCard key={stat.label} {...stat} isLoading={isLoading} />
           ))}
         </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Akses Cepat</CardTitle>
-            <CardDescription>Modul yang dapat Anda kelola.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
-            {quickLinks.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="flex items-center justify-between rounded-md border p-3 text-sm transition-colors hover:bg-accent"
-              >
-                <span className="flex items-center gap-2">
-                  <item.icon className="h-4 w-4 text-muted-foreground" />
-                  {item.label}
-                </span>
-                <ArrowRight className="h-4 w-4 text-muted-foreground" />
-              </Link>
-            ))}
-          </CardContent>
-        </Card>
       </motion.div>
 
       {/* ── Trafik Kunjungan Website — prioritas utama untuk web company bisnis ── */}
@@ -648,32 +617,6 @@ export function DashboardHome() {
             </ChartContainer>
           ) : (
             <p className="py-10 text-center text-sm text-muted-foreground">Belum ada data kunjungan.</p>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Status Pesan Kontak</CardTitle>
-          <CardDescription>Perbandingan pesan yang menunggu, sudah dibaca, dibalas, dan diarsipkan (semua waktu).</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <Skeleton className="h-[220px] w-full" />
-          ) : contactStatusData.length > 0 ? (
-            <ChartContainer config={contactStatusConfig} className="aspect-auto h-[220px] w-full max-w-md">
-              <PieChart margin={{ top: 8, bottom: 8 }}>
-                <ChartTooltip content={<ChartTooltipContent nameKey="status" hideLabel />} />
-                <Pie data={contactStatusData} dataKey="count" nameKey="label" innerRadius={45} outerRadius={75} strokeWidth={2}>
-                  {contactStatusData.map((row) => (
-                    <Cell key={row.status} fill={`var(--color-${row.status})`} />
-                  ))}
-                </Pie>
-                <ChartLegend content={<ChartLegendContent nameKey="status" />} />
-              </PieChart>
-            </ChartContainer>
-          ) : (
-            <p className="py-10 text-center text-sm text-muted-foreground">Belum ada pesan kontak.</p>
           )}
         </CardContent>
       </Card>

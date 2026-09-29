@@ -21,6 +21,7 @@ import {
   type AdminProductCategory, type ProductFormValues,
 } from './types';
 import { getImageUrl } from '../../../utils/imageUrl';
+import { ORIGINAL_ASPECT, useImageCropper } from '../components/ImageCropDialog';
 
 const EMPTY_FORM: ProductFormValues = {
   product_category_id: '', slug: '',
@@ -45,6 +46,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [isSaving, setIsSaving] = useState(false);
+  const { requestCrop, cropDialog } = useImageCropper();
 
   useEffect(() => {
     if (!open) return;
@@ -73,16 +75,28 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
     ...fieldErrorProps(errors, key as string),
   });
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setValues((prev) => ({ ...prev, image: file }));
-    if (file) setImagePreview(URL.createObjectURL(file));
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    const cropped = await requestCrop([file], {
+      aspects: [{ label: '1:1', value: 1 }, { label: '4:3', value: 4 / 3 }, ORIGINAL_ASPECT],
+      hint: 'Gambar utama tampil persegi (1:1) di kartu daftar produk — posisikan produk di tengah bingkai.',
+    });
+    if (!cropped) return;
+    setValues((prev) => ({ ...prev, image: cropped[0] }));
+    setImagePreview(URL.createObjectURL(cropped[0]));
   };
 
-  const handleGalleryAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? []);
-    setValues((prev) => ({ ...prev, newGalleryFiles: [...prev.newGalleryFiles, ...files] }));
+  const handleGalleryAdd = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = Array.from(e.target.files ?? []);
     e.target.value = '';
+    const files = await requestCrop(selected, {
+      aspects: [{ label: '1:1', value: 1 }, { label: '4:3', value: 4 / 3 }, ORIGINAL_ASPECT],
+      hint: 'Galeri tampil di halaman detail produk. Samakan rasio dengan gambar utama agar rapi.',
+    });
+    if (!files?.length) return;
+    setValues((prev) => ({ ...prev, newGalleryFiles: [...prev.newGalleryFiles, ...files] }));
   };
 
   const removeExistingGalleryImage = (url: string) => {
@@ -225,7 +239,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="product-image">Gambar Utama</Label>
-              {imagePreview && <img src={imagePreview} alt="Preview" className="h-32 w-48 rounded-md object-cover" />}
+              {imagePreview && <img src={imagePreview} alt="Preview" className="h-32 w-32 rounded-md border object-cover" />}
               <Input id="product-image" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleImageChange} {...fieldErrorProps(errors, 'image')} />
               <FieldError errors={errors} name="image" />
             </div>
@@ -334,6 +348,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
           </DialogFooter>
         </form>
       </DialogContent>
+      {cropDialog}
     </Dialog>
   );
 }

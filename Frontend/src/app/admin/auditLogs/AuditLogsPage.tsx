@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../..
 import { listAuditLogs } from './api';
 import { AuditLogDetailDialog } from './AuditLogDetailDialog';
 import { ACTION_TYPE_LABELS, ENTITY_TYPE_LABELS, isRestorable, type AuditLogRecord } from './types';
+import { PageHeader } from '../components/PageHeader';
 
 const dateTimeFormatter = new Intl.DateTimeFormat('id-ID', {
   day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit',
@@ -58,20 +59,20 @@ export function AuditLogsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Log Aktivitas</h1>
-        <p className="text-muted-foreground">Riwayat tindakan yang dilakukan oleh seluruh role di dashboard admin.</p>
-      </div>
+      <PageHeader
+        title="Log Aktivitas"
+        description="Riwayat tindakan yang dilakukan oleh seluruh role di dashboard admin."
+      />
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between gap-3">
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <CardTitle>Riwayat Tindakan</CardTitle>
             <CardDescription>{isLoading ? 'Memuat...' : `${total} catatan ditemukan`}</CardDescription>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <Select value={entityFilter} onValueChange={setEntityFilter}>
-              <SelectTrigger className="w-44">
+              <SelectTrigger className="w-full sm:w-44">
                 <SelectValue placeholder="Semua Modul" />
               </SelectTrigger>
               <SelectContent>
@@ -82,7 +83,7 @@ export function AuditLogsPage() {
               </SelectContent>
             </Select>
             <Select value={actionFilter} onValueChange={setActionFilter}>
-              <SelectTrigger className="w-52">
+              <SelectTrigger className="w-full sm:w-52">
                 <SelectValue placeholder="Semua Tindakan" />
               </SelectTrigger>
               <SelectContent>

@@ -14,6 +14,7 @@ import { ApiError } from '../../../utils/apiClient';
 import { deleteRole, listRoles } from './api';
 import { RoleFormDialog } from './RoleFormDialog';
 import type { AdminRoleRecord } from './types';
+import { PageHeader } from '../components/PageHeader';
 
 export function RolesPage() {
   const [roles, setRoles] = useState<AdminRoleRecord[]>([]);
@@ -64,16 +65,16 @@ export function RolesPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Manajemen Role</h1>
-          <p className="text-muted-foreground">Atur role dan modul apa saja yang boleh diakses tiap role.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="h-4 w-4" />
-          Tambah Role
-        </Button>
-      </div>
+      <PageHeader
+        title="Manajemen Role"
+        description="Atur role dan modul apa saja yang boleh diakses tiap role."
+        actions={
+          <Button onClick={openCreate}>
+            <Plus className="h-4 w-4" />
+            Tambah Role
+          </Button>
+        }
+      />
 
       <Card>
         <CardHeader>

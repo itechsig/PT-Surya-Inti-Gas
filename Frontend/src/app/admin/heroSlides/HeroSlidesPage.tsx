@@ -16,6 +16,7 @@ import { useAuth } from '../../../context';
 import { deleteHeroSlide, listHeroSlides, reorderHeroSlides, toggleHeroSlideActive } from './api';
 import { HeroSlideFormDialog } from './HeroSlideFormDialog';
 import type { AdminHeroSlide } from './types';
+import { PageHeader } from '../components/PageHeader';
 
 export function HeroSlidesPage() {
   const { can } = useAuth();
@@ -95,16 +96,16 @@ export function HeroSlidesPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Hero Slides</h1>
-          <p className="text-muted-foreground">Kelola slide gambar di halaman utama website. Teks konten sudah diset secara statis.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="h-4 w-4" />
-          Tambah Slide
-        </Button>
-      </div>
+      <PageHeader
+        title="Hero Slides"
+        description="Kelola slide gambar di halaman utama website. Teks konten sudah diset secara statis."
+        actions={
+          <Button onClick={openCreate}>
+            <Plus className="h-4 w-4" />
+            Tambah Slide
+          </Button>
+        }
+      />
 
       <Card>
         <CardHeader>

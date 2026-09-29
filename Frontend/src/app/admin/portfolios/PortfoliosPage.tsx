@@ -17,6 +17,7 @@ import {
 } from './api';
 import { PortfolioFormDialog } from './PortfolioFormDialog';
 import type { AdminIndustry, AdminPortfolio, AdminServiceType } from './types';
+import { PageHeader } from '../components/PageHeader';
 
 export function PortfoliosPage() {
   const { can } = useAuth();
@@ -101,25 +102,25 @@ export function PortfoliosPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Portofolio</h1>
-          <p className="text-muted-foreground">Kelola pengalaman layanan yang ditampilkan pada halaman Portofolio.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="h-4 w-4" />
-          Tambah Portofolio
-        </Button>
-      </div>
+      <PageHeader
+        title="Portofolio"
+        description="Kelola pengalaman layanan yang ditampilkan pada halaman Portofolio."
+        actions={
+          <Button onClick={openCreate}>
+            <Plus className="h-4 w-4" />
+            Tambah Portofolio
+          </Button>
+        }
+      />
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <CardTitle>Daftar Portofolio</CardTitle>
             <CardDescription>{filteredPortfolios.length} entri</CardDescription>
           </div>
           <Select value={industryFilter} onValueChange={setIndustryFilter}>
-            <SelectTrigger className="w-56">
+            <SelectTrigger className="w-full sm:w-56">
               <SelectValue placeholder="Semua Industry" />
             </SelectTrigger>
             <SelectContent>

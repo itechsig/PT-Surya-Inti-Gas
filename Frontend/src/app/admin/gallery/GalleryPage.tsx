@@ -16,6 +16,7 @@ import { useAuth } from '../../../context';
 import { deleteGalleryItem, listGalleryItems, reorderGalleryItems, toggleGalleryItemActive } from './api';
 import { GalleryFormDialog } from './GalleryFormDialog';
 import { GALLERY_CATEGORIES, type AdminGalleryItem } from './types';
+import { PageHeader } from '../components/PageHeader';
 
 export function GalleryPage() {
   const { can } = useAuth();
@@ -98,16 +99,16 @@ export function GalleryPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Galeri</h1>
-          <p className="text-muted-foreground">Kelola foto dokumentasi yang tampil di halaman Galeri website.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="h-4 w-4" />
-          Tambah Foto
-        </Button>
-      </div>
+      <PageHeader
+        title="Galeri"
+        description="Kelola foto dokumentasi yang tampil di halaman Galeri website."
+        actions={
+          <Button onClick={openCreate}>
+            <Plus className="h-4 w-4" />
+            Tambah Foto
+          </Button>
+        }
+      />
 
       <Card>
         <CardHeader>

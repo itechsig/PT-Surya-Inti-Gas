@@ -18,6 +18,7 @@ import {
 import { ProductFormDialog } from './ProductFormDialog';
 import { MAIN_CATEGORY_LABELS, type AdminProduct, type AdminProductCategory } from './types';
 import { getImageUrl } from '../../../utils/imageUrl';
+import { PageHeader } from '../components/PageHeader';
 
 export function ProductsPage() {
   const { can } = useAuth();
@@ -121,25 +122,25 @@ export function ProductsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Produk</h1>
-          <p className="text-muted-foreground">Kelola katalog produk gas &amp; peralatan.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="h-4 w-4" />
-          Tambah Produk
-        </Button>
-      </div>
+      <PageHeader
+        title="Produk"
+        description="Kelola katalog produk gas & peralatan."
+        actions={
+          <Button onClick={openCreate}>
+            <Plus className="h-4 w-4" />
+            Tambah Produk
+          </Button>
+        }
+      />
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <CardTitle>Daftar Produk</CardTitle>
             <CardDescription>{filteredProducts.length} produk &middot; urutan di sini menentukan urutan tampil di website</CardDescription>
           </div>
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-56">
+            <SelectTrigger className="w-full sm:w-56">
               <SelectValue placeholder="Semua Kategori" />
             </SelectTrigger>
             <SelectContent>

@@ -14,6 +14,7 @@ import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
 import { ApiError } from '../../../utils/apiClient';
 import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
+import { ORIGINAL_ASPECT, useImageCropper } from '../components/ImageCropDialog';
 import { createHeroSlide, updateHeroSlide } from './api';
 import type { AdminHeroSlide, HeroSlideFormValues } from './types';
 
@@ -36,6 +37,7 @@ export function HeroSlideFormDialog({ open, onOpenChange, slide, onSaved }: Hero
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [isSaving, setIsSaving] = useState(false);
+  const { requestCrop, cropDialog } = useImageCropper();
 
   useEffect(() => {
     if (!open) return;
@@ -54,10 +56,17 @@ export function HeroSlideFormDialog({ open, onOpenChange, slide, onSaved }: Hero
     setErrors({});
   }, [open, slide]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setValues((prev) => ({ ...prev, image: file }));
-    if (file) setImagePreview(URL.createObjectURL(file));
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    const cropped = await requestCrop([file], {
+      aspects: [{ label: '16:9', value: 16 / 9 }, { label: '21:9', value: 21 / 9 }, ORIGINAL_ASPECT],
+      hint: 'Slide tampil layar penuh (16:9 di desktop); di HP bagian tengah gambar yang terlihat — letakkan objek penting di tengah.',
+    });
+    if (!cropped) return;
+    setValues((prev) => ({ ...prev, image: cropped[0] }));
+    setImagePreview(URL.createObjectURL(cropped[0]));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -145,6 +154,7 @@ export function HeroSlideFormDialog({ open, onOpenChange, slide, onSaved }: Hero
           </DialogFooter>
         </form>
       </DialogContent>
+      {cropDialog}
     </Dialog>
   );
 }

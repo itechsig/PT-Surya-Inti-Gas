@@ -16,6 +16,7 @@ import { useAuth } from '../../../context';
 import { deleteJobVacancy, listJobVacancies, reorderJobVacancies, toggleJobVacancyActive } from './api';
 import { JobVacancyFormDialog } from './JobVacancyFormDialog';
 import type { AdminJobVacancy } from './types';
+import { PageHeader } from '../components/PageHeader';
 
 export function JobVacanciesPage() {
   const { can } = useAuth();
@@ -97,16 +98,16 @@ export function JobVacanciesPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Lowongan Kerja</h1>
-          <p className="text-muted-foreground">Kelola daftar lowongan kerja yang tampil di halaman Karir website.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="h-4 w-4" />
-          Tambah Lowongan
-        </Button>
-      </div>
+      <PageHeader
+        title="Lowongan Kerja"
+        description="Kelola daftar lowongan kerja yang tampil di halaman Karir website."
+        actions={
+          <Button onClick={openCreate}>
+            <Plus className="h-4 w-4" />
+            Tambah Lowongan
+          </Button>
+        }
+      />
 
       <Card>
         <CardHeader>

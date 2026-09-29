@@ -15,6 +15,7 @@ import { useAuth } from '../../../context';
 import { deleteCareerApplication, getCareerApplicationStatistics, listCareerApplications } from './api';
 import { CareerApplicationDetailDialog } from './CareerApplicationDetailDialog';
 import { STATUS_BADGE_VARIANT, STATUS_LABELS, type ApplicationStatus, type CareerApplication, type CareerApplicationStatistics } from './types';
+import { PageHeader } from '../components/PageHeader';
 
 export function CareerApplicationsPage() {
   const { can } = useAuth();
@@ -72,10 +73,10 @@ export function CareerApplicationsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Pelamar Kerja</h1>
-        <p className="text-muted-foreground">Kelola lamaran yang masuk dari halaman Karir website.</p>
-      </div>
+      <PageHeader
+        title="Pelamar Kerja"
+        description="Kelola lamaran yang masuk dari halaman Karir website."
+      />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
         {statCards.map((card) => (
@@ -89,23 +90,23 @@ export function CareerApplicationsPage() {
       </div>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between gap-3">
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <CardTitle>Daftar Lamaran</CardTitle>
             <CardDescription>{applications.length} lamaran ditampilkan</CardDescription>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="relative">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <div className="relative w-full sm:w-auto">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Cari nama/email..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-56 pl-8"
+                className="w-full pl-8 sm:w-56"
               />
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-44">
+              <SelectTrigger className="w-full sm:w-44">
                 <SelectValue placeholder="Semua Status" />
               </SelectTrigger>
               <SelectContent>

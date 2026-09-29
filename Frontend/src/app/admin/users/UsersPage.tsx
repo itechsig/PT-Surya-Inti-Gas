@@ -22,6 +22,7 @@ import { listRoles } from '../roles/api';
 import type { AdminRoleRecord } from '../roles/types';
 import type { AdminRole } from '../../../context';
 import type { AdminUserRecord } from './types';
+import { PageHeader } from '../components/PageHeader';
 
 const dateFormatter = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
 const dateTimeFormatter = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -143,16 +144,16 @@ export function UsersPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Manajemen User</h1>
-          <p className="text-muted-foreground">Kelola akun admin dan peran yang diberikan ke masing-masing.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="h-4 w-4" />
-          Tambah User
-        </Button>
-      </div>
+      <PageHeader
+        title="Manajemen User"
+        description="Kelola akun admin dan peran yang diberikan ke masing-masing."
+        actions={
+          <Button onClick={openCreate}>
+            <Plus className="h-4 w-4" />
+            Tambah User
+          </Button>
+        }
+      />
 
       <Card>
         <CardHeader className="flex flex-col gap-3">
@@ -166,17 +167,17 @@ export function UsersPage() {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Cari nama/email..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-56 pl-8"
+                className="w-full pl-8 sm:w-56"
               />
             </div>
             <Select value={roleFilter} onValueChange={(value) => setRoleFilter(value as AdminRole | 'all')}>
-              <SelectTrigger className="w-44">
+              <SelectTrigger className="w-full sm:w-44">
                 <SelectValue placeholder="Semua Peran" />
               </SelectTrigger>
               <SelectContent>
@@ -187,7 +188,7 @@ export function UsersPage() {
               </SelectContent>
             </Select>
             <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as 'active' | 'inactive' | 'all')}>
-              <SelectTrigger className="w-40">
+              <SelectTrigger className="min-w-36 flex-1 sm:w-40 sm:flex-none">
                 <SelectValue placeholder="Semua Status" />
               </SelectTrigger>
               <SelectContent>
@@ -197,7 +198,7 @@ export function UsersPage() {
               </SelectContent>
             </Select>
             <Select value={sortBy} onValueChange={(value) => setSortBy(value as 'name' | 'created_at')}>
-              <SelectTrigger className="w-40">
+              <SelectTrigger className="min-w-36 flex-1 sm:w-40 sm:flex-none">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

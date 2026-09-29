@@ -7,6 +7,8 @@ import { useAuth } from '../../../context';
 import { getImageUrl } from '../../../utils/imageUrl';
 import { clearCategoryPhoto, listCategoryPhotos, uploadCategoryPhoto } from './api';
 import type { AdminCategoryPhoto } from './types';
+import { PageHeader } from '../components/PageHeader';
+import { ORIGINAL_ASPECT, useImageCropper } from '../components/ImageCropDialog';
 
 /** Display label + grouping for each fixed key seeded in the category_photos migration. */
 const GROUPS: { title: string; description: string; keys: { key: string; label: string }[] }[] = [
@@ -48,14 +50,20 @@ function PhotoTile({ label, photo, onUpload, onClear, canManage }: {
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isBusy, setIsBusy] = useState(false);
+  const { requestCrop, cropDialog } = useImageCropper();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = '';
     if (!file) return;
+    const cropped = await requestCrop([file], {
+      aspects: [{ label: '4:3', value: 4 / 3 }, ORIGINAL_ASPECT],
+      hint: `Foto kartu "${label}" tampil dengan rasio 4:3 dan judul di pojok kiri bawah — sisakan ruang di bagian bawah.`,
+    });
+    if (!cropped) return;
     setIsBusy(true);
     try {
-      await onUpload(file);
+      await onUpload(cropped[0]);
     } finally {
       setIsBusy(false);
     }
@@ -75,7 +83,7 @@ function PhotoTile({ label, photo, onUpload, onClear, canManage }: {
       <img
         src={photo?.image ? getImageUrl(photo.image) : '/images/placeholder.svg'}
         alt={`Pratinjau ${label}`}
-        className="h-32 w-full rounded-md border object-cover"
+        className="aspect-[4/3] w-full rounded-md border object-cover"
       />
       <div className="text-sm font-medium">{label}</div>
       {canManage && (
@@ -92,6 +100,7 @@ function PhotoTile({ label, photo, onUpload, onClear, canManage }: {
           )}
         </div>
       )}
+      {cropDialog}
     </div>
   );
 }
@@ -141,12 +150,10 @@ export function CategoryPhotosPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Foto Kategori Produk</h1>
-        <p className="text-muted-foreground">
-          Kelola foto yang tampil di kartu kategori &amp; sub-kategori halaman Produk &amp; Layanan. Kartu tanpa foto akan tetap memakai ikon bawaan.
-        </p>
-      </div>
+      <PageHeader
+        title="Foto Kategori Produk"
+        description="Kelola foto yang tampil di kartu kategori & sub-kategori halaman Produk & Layanan. Kartu tanpa foto akan tetap memakai ikon bawaan."
+      />
 
       {isLoading ? (
         <p className="py-8 text-center text-sm text-muted-foreground">Memuat...</p>
