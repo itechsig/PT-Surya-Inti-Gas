@@ -13,8 +13,13 @@ class Product extends Model
         'description_id', 'description_en', 'description_zh',
         'full_description_id', 'full_description_en', 'full_description_zh',
         'image', 'gallery', 'specifications',
+        'quality', 'availability',
         'is_featured', 'display_order', 'is_published',
     ];
+
+    public const QUALITIES = ['UHP', 'HP', 'WG'];
+
+    public const AVAILABILITIES = ['available', 'out_of_stock'];
 
     protected function casts(): array
     {

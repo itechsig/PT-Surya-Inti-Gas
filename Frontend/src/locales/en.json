@@ -131,13 +131,10 @@
     "selectedSize": "Selected size",
     "info": {
       "title": "Product Information",
-      "productId": "Product ID:",
-      "category": "Category:",
-      "subCategory": "Sub-Category:",
       "availability": "Availability:",
       "available": "Available",
+      "outOfStock": "Out of Stock",
       "quality": "Quality:",
-      "qualityValue": "Industrial / Medical Grade",
       "shipping": "Shipping:",
       "shippingValue": "Nationwide Indonesia"
     },

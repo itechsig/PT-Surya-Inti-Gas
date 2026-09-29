@@ -15,6 +15,16 @@ export const MAIN_CATEGORY_LABELS: Record<MainCategory, string> = {
   services: 'Services',
 };
 
+export type ProductQuality = 'UHP' | 'HP' | 'WG';
+export type ProductAvailability = 'available' | 'out_of_stock';
+
+export const PRODUCT_QUALITY_OPTIONS: ProductQuality[] = ['UHP', 'HP', 'WG'];
+
+export const PRODUCT_AVAILABILITY_LABELS: Record<ProductAvailability, string> = {
+  available: 'Tersedia',
+  out_of_stock: 'Kosong',
+};
+
 export interface ProductSpecification {
   label: string;
   value: string;
@@ -37,6 +47,8 @@ export interface AdminProduct {
   image: string;
   gallery: string[];
   specifications: ProductSpecification[];
+  quality: ProductQuality | null;
+  availability: ProductAvailability;
   is_featured: boolean;
   display_order: number;
   is_published: boolean;
@@ -66,6 +78,9 @@ export interface ProductFormValues {
   full_description_id: string;
   full_description_en: string;
   full_description_zh: string;
+  /** '' = not set. */
+  quality: ProductQuality | '';
+  availability: ProductAvailability;
   is_featured: boolean;
   is_published: boolean;
   image: File | null;

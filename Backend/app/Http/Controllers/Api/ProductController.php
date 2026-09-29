@@ -22,7 +22,7 @@ class ProductController extends Controller
     private const LANGUAGES = ['id', 'en', 'zh'];
 
     /** Fields snapshotted for the activity log's before/after preview. */
-    private const AUDIT_FIELDS = ['product_category_id', 'slug', 'name_id', 'description_id', 'is_featured', 'is_published'];
+    private const AUDIT_FIELDS = ['product_category_id', 'slug', 'name_id', 'description_id', 'quality', 'availability', 'is_featured', 'is_published'];
 
     /**
      * Public: published products grouped by main category -> subcategory slug,
@@ -122,6 +122,7 @@ class ProductController extends Controller
             $data['display_order'] = $data['display_order'] ?? ((Product::max('display_order') ?? -1) + 1);
             $data['is_featured'] = $request->boolean('is_featured', false);
             $data['is_published'] = $request->boolean('is_published', true);
+            $data['availability'] = $data['availability'] ?? 'available';
 
             $product = Product::create($data);
 
@@ -336,6 +337,8 @@ class ProductController extends Controller
         ];
 
         if ($full) {
+            $data['quality'] = $p->quality;
+            $data['availability'] = $p->availability ?: 'available';
             $data['gallery'] = collect($p->gallery ?? [])->map(fn ($path) => ImageUrl::resolve($path))->values();
             $data['specifications'] = $p->specifications ?? [];
             $data['isFeatured'] = $p->is_featured;
@@ -362,6 +365,8 @@ class ProductController extends Controller
             'image' => ImageUrl::resolve($p->image),
             'gallery' => collect($p->gallery ?? [])->map(fn ($path) => ImageUrl::resolve($path))->values(),
             'specifications' => $p->specifications ?? [],
+            'quality' => $p->quality,
+            'availability' => $p->availability ?: 'available',
             'is_featured' => $p->is_featured,
             'display_order' => $p->display_order,
             'is_published' => $p->is_published,

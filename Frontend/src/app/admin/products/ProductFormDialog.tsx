@@ -14,7 +14,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { ApiError } from '../../../utils/apiClient';
 import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
 import { createProduct, updateProduct } from './api';
-import { MAIN_CATEGORY_LABELS, type AdminProduct, type AdminProductCategory, type ProductFormValues } from './types';
+import {
+  MAIN_CATEGORY_LABELS, PRODUCT_QUALITY_OPTIONS, PRODUCT_AVAILABILITY_LABELS,
+  type AdminProduct, type ProductAvailability, type ProductQuality,
+  type AdminProductCategory, type ProductFormValues,
+} from './types';
 import { getImageUrl } from '../../../utils/imageUrl';
 
 const EMPTY_FORM: ProductFormValues = {
@@ -22,6 +26,7 @@ const EMPTY_FORM: ProductFormValues = {
   name_id: '', name_en: '', name_zh: '',
   description_id: '', description_en: '', description_zh: '',
   full_description_id: '', full_description_en: '', full_description_zh: '',
+  quality: '', availability: 'available',
   is_featured: false, is_published: true,
   image: null, newGalleryFiles: [], existingGallery: [], specifications: [],
 };
@@ -48,6 +53,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
         name_id: product.name_id, name_en: product.name_en ?? '', name_zh: product.name_zh ?? '',
         description_id: product.description_id, description_en: product.description_en ?? '', description_zh: product.description_zh ?? '',
         full_description_id: product.full_description_id ?? '', full_description_en: product.full_description_en ?? '', full_description_zh: product.full_description_zh ?? '',
+        quality: product.quality ?? '', availability: product.availability ?? 'available',
         is_featured: product.is_featured, is_published: product.is_published,
         image: null, newGalleryFiles: [], existingGallery: product.gallery, specifications: product.specifications,
       });
@@ -169,6 +175,46 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
                 <Label htmlFor="slug">Slug (untuk URL, huruf/angka/tanda hubung)</Label>
                 <Input id="slug" placeholder="misal: oxygen" {...field('slug')} />
                 <FieldError errors={errors} name="slug" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="quality">Kualitas</Label>
+                <Select
+                  value={values.quality || 'none'}
+                  onValueChange={(value) =>
+                    setValues((prev) => ({ ...prev, quality: value === 'none' ? '' : (value as ProductQuality) }))
+                  }
+                >
+                  <SelectTrigger id="quality" {...fieldErrorProps(errors, 'quality')}>
+                    <SelectValue placeholder="Pilih kualitas" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">— Tidak ditampilkan —</SelectItem>
+                    {PRODUCT_QUALITY_OPTIONS.map((quality) => (
+                      <SelectItem key={quality} value={quality}>{quality}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FieldError errors={errors} name="quality" />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="availability">Ketersediaan</Label>
+                <Select
+                  value={values.availability}
+                  onValueChange={(value) => setValues((prev) => ({ ...prev, availability: value as ProductAvailability }))}
+                >
+                  <SelectTrigger id="availability" {...fieldErrorProps(errors, 'availability')}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(Object.keys(PRODUCT_AVAILABILITY_LABELS) as ProductAvailability[]).map((key) => (
+                      <SelectItem key={key} value={key}>{PRODUCT_AVAILABILITY_LABELS[key]}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FieldError errors={errors} name="availability" />
               </div>
             </div>
 

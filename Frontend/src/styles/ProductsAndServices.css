@@ -982,6 +982,11 @@ button.products-card {
   font-weight: 600;
 }
 
+.spec-value.out-of-stock {
+  color: #dc2626;
+  font-weight: 600;
+}
+
 /* Material abbreviation legend for equipment tipe specs (Valve/Regulator/Instrumen Medis). */
 .catalog-explorer-legend {
   margin: 12px 0 0;

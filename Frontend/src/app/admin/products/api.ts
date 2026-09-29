@@ -24,6 +24,7 @@ function toFormData(values: Partial<ProductFormValues>): FormData {
     'name_id', 'name_en', 'name_zh',
     'description_id', 'description_en', 'description_zh',
     'full_description_id', 'full_description_en', 'full_description_zh',
+    'quality', 'availability',
   ];
   scalarKeys.forEach((key) => {
     const value = values[key];

@@ -471,27 +471,19 @@ export function ProductDetail() {
                   <motion.div className="products-detail-info" variants={fadeUp}>
                     <h2>{t('productDetail.info.title')}</h2>
                     <motion.div className="product-specifications" variants={staggerContainer}>
-                      <motion.div className="spec-item" variants={fadeUp}>
-                        <span className="spec-label">{t('productDetail.info.productId')}</span>
-                        <span className="spec-value">{product.id}</span>
-                      </motion.div>
-                      <motion.div className="spec-item" variants={fadeUp}>
-                        <span className="spec-label">{t('productDetail.info.category')}</span>
-                        <span className="spec-value">{categoryLabel}</span>
-                      </motion.div>
-                      {subCategoryLabel && (
+                      {product.quality && (
                         <motion.div className="spec-item" variants={fadeUp}>
-                          <span className="spec-label">{t('productDetail.info.subCategory')}</span>
-                          <span className="spec-value">{subCategoryLabel}</span>
+                          <span className="spec-label">{t('productDetail.info.quality')}</span>
+                          <span className="spec-value">{product.quality}</span>
                         </motion.div>
                       )}
                       <motion.div className="spec-item" variants={fadeUp}>
                         <span className="spec-label">{t('productDetail.info.availability')}</span>
-                        <span className="spec-value available">{t('productDetail.info.available')}</span>
-                      </motion.div>
-                      <motion.div className="spec-item" variants={fadeUp}>
-                        <span className="spec-label">{t('productDetail.info.quality')}</span>
-                        <span className="spec-value">{t('productDetail.info.qualityValue')}</span>
+                        {product.availability === 'out_of_stock' ? (
+                          <span className="spec-value out-of-stock">{t('productDetail.info.outOfStock')}</span>
+                        ) : (
+                          <span className="spec-value available">{t('productDetail.info.available')}</span>
+                        )}
                       </motion.div>
                       <motion.div className="spec-item" variants={fadeUp}>
                         <span className="spec-label">{t('productDetail.info.shipping')}</span>

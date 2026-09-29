@@ -131,13 +131,10 @@
     "selectedSize": "已选尺寸",
     "info": {
       "title": "产品信息",
-      "productId": "产品编号：",
-      "category": "类别：",
-      "subCategory": "子类别：",
       "availability": "库存状态：",
       "available": "有货",
+      "outOfStock": "缺货",
       "quality": "质量等级：",
-      "qualityValue": "工业级 / 医用级",
       "shipping": "配送范围：",
       "shippingValue": "印度尼西亚全境"
     },

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Product;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -31,6 +33,8 @@ class StoreProductRequest extends FormRequest
             'gallery' => 'nullable|array',
             'gallery.*' => 'image|mimes:jpeg,png,jpg,webp|max:5120',
             'specifications' => 'nullable|json',
+            'quality' => ['nullable', Rule::in(Product::QUALITIES)],
+            'availability' => ['nullable', Rule::in(Product::AVAILABILITIES)],
             'is_featured' => 'nullable|boolean',
             'display_order' => 'nullable|integer|min:0',
             'is_published' => 'nullable|boolean',

@@ -131,13 +131,10 @@
     "selectedSize": "Ukuran dipilih",
     "info": {
       "title": "Informasi Produk",
-      "productId": "ID Produk:",
-      "category": "Kategori:",
-      "subCategory": "Sub-Kategori:",
       "availability": "Ketersediaan:",
       "available": "Tersedia",
+      "outOfStock": "Kosong",
       "quality": "Kualitas:",
-      "qualityValue": "Grade Industri / Medis",
       "shipping": "Pengiriman:",
       "shippingValue": "Seluruh Indonesia"
     },
