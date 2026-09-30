@@ -228,6 +228,15 @@ Route::prefix('v1')->group(function () {
         Route::put('/admin/dashboard/contacts/{id}', [DashboardController::class, 'updateContact']);
         Route::get('/admin/visitors/timeline', [VisitorTrackingController::class, 'timeline']);
 
+        // Dashboard charts are visible to every admin role. These endpoints return aggregate
+        // counts only (no names/emails/CVs/log details), so they sit outside the module
+        // permission groups below; every other career-application / audit-log route stays gated.
+        // Registered before /admin/career-applications/{id} so "statistics" isn't taken as an id.
+        Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
+        Route::get('/admin/career-applications/timeline', [CareerApplicationController::class, 'timeline']);
+        Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
+        Route::get('/admin/audit-logs/timeline', [AuditLogController::class, 'timeline']);
+
         // Analytics Dashboard API (new, isolated — Traffic Trend / Source / Search /
         // Campaigns / Top Pages / Funnel / Events / device breakdown for the enhanced
         // admin Analytics section)
@@ -268,8 +277,6 @@ Route::prefix('v1')->group(function () {
         // Career Applications API - Editor has no access to this module
         Route::middleware(['permission:career_applications.manage'])->group(function () {
             Route::get('/admin/career-applications', [CareerApplicationController::class, 'index']);
-            Route::get('/admin/career-applications/statistics', [CareerApplicationController::class, 'statistics']);
-            Route::get('/admin/career-applications/timeline', [CareerApplicationController::class, 'timeline']);
             Route::get('/admin/career-applications/{id}', [CareerApplicationController::class, 'show']);
             Route::get('/admin/career-applications/{id}/cv', [CareerApplicationController::class, 'downloadCv']);
             Route::put('/admin/career-applications/{id}', [CareerApplicationController::class, 'update']);
@@ -289,8 +296,6 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['permission:audit_logs.view'])->group(function () {
             Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
             Route::get('/admin/audit-logs/recent', [AuditLogController::class, 'recent']);
-            Route::get('/admin/audit-logs/statistics', [AuditLogController::class, 'statistics']);
-            Route::get('/admin/audit-logs/timeline', [AuditLogController::class, 'timeline']);
         });
         // Restoring a logged change is a stronger power than merely viewing the log, so it stays
         // hardcoded to super_admin regardless of who else may hold audit_logs.view.
