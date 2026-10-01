@@ -70,7 +70,8 @@ const NAV_LINKS: NavItem[] = [
         children: [
           { nameKey: "header.industrialMedicalSpeciality", href: "/produk?category=gas&subcategory=industrial-medical-speciality" },
           { nameKey: "header.liquid", href: "/produk?category=gas&subcategory=liquid" },
-          { nameKey: "header.relatedEquipment", href: "/produk?category=gas&subcategory=related-equipment" },
+          // Hidden for now — uncomment to show "Peralatan Pendukung Gas Industri" again.
+          // { nameKey: "header.relatedEquipment", href: "/produk?category=gas&subcategory=related-equipment" },
         ]
       },
       {

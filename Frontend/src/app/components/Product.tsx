@@ -265,9 +265,10 @@ export function Product() {
       });
 
     // Gas exposes CMS "equipment" products as a virtual "Related Equipment" sub-category.
-    if (getRelatedEquipmentProducts(productCategories).length > 0) {
-      subs.push({ id: RELATED_EQUIPMENT_ID, title: t('products.subCategories.relatedEquipment') });
-    }
+    // Hidden for now — uncomment to show the "Peralatan Pendukung Gas Industri" card again.
+    // if (getRelatedEquipmentProducts(productCategories).length > 0) {
+    //   subs.push({ id: RELATED_EQUIPMENT_ID, title: t('products.subCategories.relatedEquipment') });
+    // }
 
     return subs;
   };
