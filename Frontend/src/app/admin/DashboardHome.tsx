@@ -309,10 +309,10 @@ export function DashboardHome() {
   const [isAnalyticsLoading, setIsAnalyticsLoading] = useState(true);
   const [showAllQueries, setShowAllQueries] = useState(false);
 
-  // Every dashboard section is shown to every admin role. Note this is a display-only choice —
-  // the Rekrutmen and Aktivitas Admin sections still call backend endpoints that are role-restricted
-  // (RECRUITMENT_ROLES / super_admin respectively), so a role outside those will see the section's
-  // cards but the data fetch will fail unless the corresponding routes/api.php middleware is widened too.
+  // Every dashboard section (charts included) is shown to every admin role. The backend matches:
+  // the aggregate statistics/timeline endpoints these charts call are open to any logged-in admin
+  // in routes/api.php, while the modules' detail data (applicant records, CVs, log entries) stays
+  // behind their permissions.
   const canViewRecruitment = true;
   const canViewAudit = true;
   const canViewContent = true;
