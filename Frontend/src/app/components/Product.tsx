@@ -45,7 +45,7 @@ const INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID = 'industrial-medical-speciality';
 const CATEGORIES_WITH_SUBCATEGORY_STEP: MainCategory[] = ['gas', 'package'];
 
 /** Kemasan has no CMS sub-categories of its own (every product sits in one flat
- *  "package" bucket), so its 3 sub-category cards — and which products belong to
+ *  "package" bucket), so its product groups — and which products belong to
  *  each — are defined here by product slug, keyed by virtual sub-category id. */
 const PACKAGE_SUBCATEGORY_GROUPS: Record<string, string[]> = {
   'package-gas': ['cylinder', 'tabung-medis', 'tabung-asitilin'],
@@ -53,10 +53,22 @@ const PACKAGE_SUBCATEGORY_GROUPS: Record<string, string[]> = {
   'package-cylinder': ['cradle', 'cradle-2x2', 'cradle-3x2', 'cradle-3x3', 'cradle-4x4'],
 };
 const PACKAGE_SUBCATEGORY_TITLE_KEYS: Record<string, string> = {
-  'package-gas': 'header.megaMenu.packageGas',
+  'package-gas': 'header.megaMenu.packagePureGas',
   'package-liquid': 'header.megaMenu.packageLiquid',
   'package-cylinder': 'header.megaMenu.packageCylinder',
 };
+
+/** Virtual sub-category id: "Kemasan Gas Murni" and "Kemasan Gas Cair" are merged
+ *  into a single picker card, which then lists both as separate headed sections on
+ *  the grid step (same pattern as INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID). */
+const PACKAGE_GAS_LIQUID_SUBCATEGORY_ID = 'package-gas-liquid';
+const PACKAGE_GAS_LIQUID_SECTIONS = ['package-gas', 'package-liquid'];
+
+/** Kemasan's picker cards, in display order. */
+const PACKAGE_PICKER_CARDS: { id: string; titleKey: string; groups: string[] }[] = [
+  { id: PACKAGE_GAS_LIQUID_SUBCATEGORY_ID, titleKey: 'header.megaMenu.packageGasLiquid', groups: PACKAGE_GAS_LIQUID_SECTIONS },
+  { id: 'package-cylinder', titleKey: 'header.megaMenu.packageCylinder', groups: ['package-cylinder'] },
+];
 
 /** Icons for the "Produk Gas" / "Kemasan" sub-categories, keyed by their stable
  *  CMS slug (or virtual id for merged/synthetic sub-categories). */
@@ -64,15 +76,18 @@ const SUB_CATEGORY_ICONS: Record<string, any> = {
   [INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID]: Syringe,
   'liquid': Droplet,
   [RELATED_EQUIPMENT_ID]: Cog,
-  'package-gas': Package,
-  'package-liquid': Droplet,
+  [PACKAGE_GAS_LIQUID_SUBCATEGORY_ID]: Package,
   'package-cylinder': Layers,
 };
 
 /** category_photos lookup keys (see Backend's create_category_photos_table migration) —
- *  admin-uploadable photos shown instead of the icons above whenever one has been set. */
+ *  admin-uploadable photos shown instead of the icons above whenever one has been set.
+ *  The merged Kemasan Gas Murni & Gas Cair card reuses the existing 'sub-package-gas' row. */
+const SUB_CATEGORY_PHOTO_KEY_OVERRIDES: Record<string, string> = {
+  [PACKAGE_GAS_LIQUID_SUBCATEGORY_ID]: 'sub-package-gas',
+};
 const mainCategoryPhotoKey = (category: MainCategory) => `main-${category}`;
-const subCategoryPhotoKey = (subCategoryId: string) => `sub-${subCategoryId}`;
+const subCategoryPhotoKey = (subCategoryId: string) => SUB_CATEGORY_PHOTO_KEY_OVERRIDES[subCategoryId] ?? `sub-${subCategoryId}`;
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -272,13 +287,26 @@ export function Product() {
     return collapseCradleVariants(allProducts, t);
   };
 
-  // Kemasan's 3 sub-category cards, hidden individually if the CMS doesn't (yet)
-  // have any product matching that group's slugs.
+  // Products of one Kemasan group, in the slug order defined above.
+  const getPackageGroupProducts = (groupId: string, bySlug: Map<string, Product>): Product[] =>
+    (PACKAGE_SUBCATEGORY_GROUPS[groupId] ?? []).map(slug => bySlug.get(slug)).filter((p): p is Product => !!p);
+
+  // Kemasan's sub-category cards, hidden individually if the CMS doesn't (yet)
+  // have any product matching that card's group slugs.
   const getPackageSubCategories = () => {
     const bySlug = new Map(getAllPackageProducts().map(p => [p.id, p]));
-    return Object.keys(PACKAGE_SUBCATEGORY_GROUPS)
-      .filter(id => PACKAGE_SUBCATEGORY_GROUPS[id].some(slug => bySlug.has(slug)))
-      .map(id => ({ id, title: t(PACKAGE_SUBCATEGORY_TITLE_KEYS[id]) }));
+    return PACKAGE_PICKER_CARDS
+      .filter(card => card.groups.some(groupId => getPackageGroupProducts(groupId, bySlug).length > 0))
+      .map(card => ({ id: card.id, title: t(card.titleKey) }));
+  };
+
+  // The merged "Kemasan Gas Murni & Gas Cair" card expands into these two
+  // separately headed sections, each hidden if the CMS has no products for it.
+  const getPackageGasLiquidGroups = () => {
+    const bySlug = new Map(getAllPackageProducts().map(p => [p.id, p]));
+    return PACKAGE_GAS_LIQUID_SECTIONS
+      .map(id => ({ id, title: t(PACKAGE_SUBCATEGORY_TITLE_KEYS[id]), products: getPackageGroupProducts(id, bySlug) }))
+      .filter(group => group.products.length > 0);
   };
 
   // The merged "Gas Industri, Medis & Spesial" card expands into these two
@@ -299,8 +327,7 @@ export function Product() {
     // Kemasan: filtered by the chosen virtual sub-category's product slugs.
     if (mainCategory === 'package') {
       const bySlug = new Map(getAllPackageProducts().map(p => [p.id, p]));
-      const slugs = PACKAGE_SUBCATEGORY_GROUPS[subCategory] ?? [];
-      return slugs.map(slug => bySlug.get(slug)).filter((p): p is Product => !!p);
+      return getPackageGroupProducts(subCategory, bySlug);
     }
 
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
@@ -334,12 +361,21 @@ export function Product() {
     }
     if (mainCategory === 'package') {
       const pickerLabel = getPackageSubCategories().find(s => s.id === subCategory)?.title;
-      return pickerLabel || t('products.mainCategories.package');
+      if (pickerLabel) return pickerLabel;
+      // Direct links to the raw 'package-gas'/'package-liquid' groups bypass the merged picker card.
+      const groupTitleKey = PACKAGE_SUBCATEGORY_TITLE_KEYS[subCategory];
+      return groupTitleKey ? t(groupTitleKey) : t('products.mainCategories.package');
     }
     return t(`products.mainCategories.${mainCategory}`);
   })();
 
   const rootCrumb = { label: t('products.pageHeader.badge'), onClick: goBackToHub };
+
+  // Merged picker cards render their groups as separately headed sections.
+  const mergedSections =
+    mainCategory === 'gas' && subCategory === INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID ? getIndustrialMedicalSpecialityGroups()
+    : mainCategory === 'package' && subCategory === PACKAGE_GAS_LIQUID_SUBCATEGORY_ID ? getPackageGasLiquidGroups()
+    : null;
 
   return (
     <div className="products-corporate">
@@ -469,12 +505,13 @@ export function Product() {
                       backLabel={t('products.nav.backToSubcategories')}
                     />
                   </motion.div>
-                ) : mainCategory === 'gas' && subCategory === INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID ? (
-                  // The merged card: one breadcrumb + back button, then "Gas Industri &
-                  // Medis" and "Gas Spesial & Campuran" stacked as their own headed sections.
+                ) : mainCategory && mergedSections ? (
+                  // A merged card: one breadcrumb + back button, then its groups stacked as
+                  // their own headed sections ("Gas Industri & Medis" / "Gas Spesial &
+                  // Campuran", or "Kemasan Gas Murni" / "Kemasan Gas Cair").
                   <>
                     <motion.div variants={fadeUp}>
-                      <Breadcrumb items={[rootCrumb, { label: t('products.mainCategories.gas'), onClick: goBackToSubcategories }, { label: currentListingLabel }]} />
+                      <Breadcrumb items={[rootCrumb, { label: t(`products.mainCategories.${mainCategory}`), onClick: goBackToSubcategories }, { label: currentListingLabel }]} />
                       <button
                         onClick={goBackToSubcategories}
                         className="products-tab"
@@ -484,7 +521,7 @@ export function Product() {
                         ← {t('products.nav.backToSubcategories')}
                       </button>
                     </motion.div>
-                    {getIndustrialMedicalSpecialityGroups().map((group) => (
+                    {mergedSections.map((group) => (
                       <Fragment key={group.id}>
                         <motion.div className="products-flow-heading" variants={fadeUp} style={{ marginBottom: '24px' }}>
                           <h2>{group.title}</h2>

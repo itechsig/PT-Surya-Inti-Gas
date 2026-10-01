@@ -57,6 +57,8 @@
       "packageDesc": "High-pressure gas and liquid supply in complete packages including cylinders, cradles, tanks, and more",
       "servicesDesc": "Professional gas services including installation, delivery, and refilling for your operational needs",
       "servicesSolutions": "Services & Solutions",
+      "packageGasLiquid": "Pure Gas & Liquid Gas Package",
+      "packagePureGas": "Pure Gas Package",
       "packageGas": "Gas Package",
       "packageLiquid": "Liquid Gas Package",
       "packageCylinder": "Cylinder Package"

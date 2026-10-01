@@ -77,8 +77,7 @@ const NAV_LINKS: NavItem[] = [
         nameKey: "header.package",
         href: "/produk?category=package",
         children: [
-          { nameKey: "header.megaMenu.packageGas", href: "/produk?category=package&subcategory=package-gas" },
-          { nameKey: "header.megaMenu.packageLiquid", href: "/produk?category=package&subcategory=package-liquid" },
+          { nameKey: "header.megaMenu.packageGasLiquid", href: "/produk?category=package&subcategory=package-gas-liquid" },
           { nameKey: "header.megaMenu.packageCylinder", href: "/produk?category=package&subcategory=package-cylinder" },
         ]
       },

@@ -34,8 +34,7 @@ const GROUPS: { title: string; description: string; keys: { key: string; label: 
     title: 'Sub-Kategori Kemasan',
     description: 'Foto kartu sub-kategori yang tampil setelah memilih Kemasan.',
     keys: [
-      { key: 'sub-package-gas', label: 'Kemasan Gas' },
-      { key: 'sub-package-liquid', label: 'Kemasan Gas Cair' },
+      { key: 'sub-package-gas', label: 'Kemasan Gas Murni & Gas Cair' },
       { key: 'sub-package-cylinder', label: 'Kemasan Tabung' },
     ],
   },
