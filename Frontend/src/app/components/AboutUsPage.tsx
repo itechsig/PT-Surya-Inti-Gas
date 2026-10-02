@@ -8,12 +8,7 @@ import {
   Eye,
   Compass,
   ShieldCheck,
-  Handshake,
   Award,
-  ClipboardCheck,
-  Heart,
-  Gem,
-  Lightbulb,
   Users,
   Truck,
   Tag,
@@ -470,8 +465,10 @@ const css = `
   /* ── Values grid ── */
   .au-values-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
   }
 
   .au-value-card {
@@ -501,6 +498,27 @@ const css = `
     color: var(--primary);
     margin-bottom: 18px;
     transition: transform 0.4s var(--ease), background 0.4s var(--ease), color 0.4s var(--ease);
+  }
+
+  .au-value-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--white);
+    font-family: var(--ff-display);
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 20px;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .au-value-card:hover .au-value-letter {
+    transform: scale(1.08) rotate(-4deg);
   }
 
   .au-value-card:hover .au-value-icon {
@@ -533,6 +551,7 @@ const css = `
 
   .au-whyus-card {
     display: flex;
+    align-items: center;
     gap: 18px;
     background: var(--white);
     border: 1px solid var(--slate-200);
@@ -567,7 +586,7 @@ const css = `
     font-size: 1.0625rem;
     font-weight: 700;
     color: var(--slate-800);
-    margin: 0 0 8px;
+    margin: 0;
   }
 
   .au-whyus-title svg {
@@ -887,10 +906,6 @@ const css = `
       grid-template-columns: 1fr 1fr;
     }
 
-    .au-values-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
     .au-stats-grid {
       grid-template-columns: repeat(2, 1fr);
       row-gap: 40px;
@@ -950,12 +965,9 @@ const css = `
     }
 
     .au-intro-grid,
-    .au-whyus-grid {
-      grid-template-columns: 1fr;
-    }
-
+    .au-whyus-grid,
     .au-values-grid {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
     }
 
     .au-stats-grid {
@@ -1019,7 +1031,6 @@ const fadeScale: Variants = {
 };
 
 /* ── Icon maps ── */
-const valueIcons = [ShieldCheck, Handshake, Award, ClipboardCheck, Heart, Gem, Lightbulb, Users];
 const whyUsIcons = [Award, Truck, Tag, Users, ShieldCheck, Headset];
 
 
@@ -1028,8 +1039,8 @@ export function AboutUsPage() {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = lang || 'id';
 
-  const values = t('aboutUsPage.values.items', { returnObjects: true }) as { title: string; description: string }[];
-  const whyUsItems = t('aboutUsPage.whyUs.items', { returnObjects: true }) as { title: string; description: string }[];
+  const values = t('aboutUsPage.values.items', { returnObjects: true }) as { letter: string; title: string; description: string }[];
+  const whyUsItems = t('aboutUsPage.whyUs.items', { returnObjects: true }) as { title: string }[];
   const missionItems = t('about.mission.items', { returnObjects: true }) as string[];
   const timelineLabels = t('about.timeline.items', { returnObjects: true }) as { year: string; label: string }[];
 
@@ -1207,16 +1218,13 @@ export function AboutUsPage() {
             viewport={{ once: true, margin: '-80px' }}
             variants={staggerContainer}
           >
-            {values.map((value, index) => {
-              const Icon = valueIcons[index % valueIcons.length];
-              return (
-                <motion.div key={index} className="au-value-card" variants={fadeUp}>
-                  <div className="au-value-icon"><Icon size={24} /></div>
-                  <h3 className="au-value-title">{value.title}</h3>
-                  <p className="au-value-description">{value.description}</p>
-                </motion.div>
-              );
-            })}
+            {values.map((value, index) => (
+              <motion.div key={index} className="au-value-card" variants={fadeUp}>
+                <div className="au-value-letter" aria-hidden="true">{value.letter}</div>
+                <h3 className="au-value-title">{value.title}</h3>
+                <p className="au-value-description">{value.description}</p>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
@@ -1252,7 +1260,6 @@ export function AboutUsPage() {
                       <CheckCircle2 size={18} />
                       {item.title}
                     </h3>
-                    <p className="au-whyus-description">{item.description}</p>
                   </div>
                 </motion.div>
               );

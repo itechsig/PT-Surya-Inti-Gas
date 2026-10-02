@@ -593,36 +593,19 @@
       "subtitle": "Prinsip yang memandu setiap langkah kami dalam melayani pelanggan dan menjalankan bisnis.",
       "items": [
         {
-          "title": "Keselamatan",
-          "description": "Mengutamakan keselamatan dalam setiap aktivitas untuk menciptakan lingkungan kerja yang aman."
+          "letter": "S",
+          "title": "Safety (Keselamatan)",
+          "description": "Mengutamakan keselamatan dalam setiap proses, pekerjaan, dan pelayanan."
         },
         {
-          "title": "Integritas",
-          "description": "Menjalankan bisnis dengan jujur, transparan, dan beretika."
+          "letter": "I",
+          "title": "Integrity (Integritas)",
+          "description": "Menjunjung tinggi kejujuran, tanggung jawab, dan komitmen dalam setiap tindakan."
         },
         {
-          "title": "Profesionalisme",
-          "description": "Memberikan layanan dengan kompetensi, standar tinggi, dan dedikasi."
-        },
-        {
-          "title": "Tanggung Jawab",
-          "description": "Bertanggung jawab atas setiap tindakan dan keputusan serta menjaga keberlanjutan bisnis."
-        },
-        {
-          "title": "Fokus Pelanggan",
-          "description": "Memahami kebutuhan pelanggan dan memberikan solusi yang tepat, cepat, dan terpercaya."
-        },
-        {
-          "title": "Kualitas",
-          "description": "Menjaga kualitas produk dan layanan secara konsisten demi kepuasan pelanggan."
-        },
-        {
-          "title": "Inovasi",
-          "description": "Terus melakukan inovasi dan perbaikan untuk meningkatkan efisiensi dan pelayanan."
-        },
-        {
-          "title": "Kerja Sama Tim",
-          "description": "Membangun kerja sama yang solid untuk mencapai pertumbuhan dan keberhasilan bersama."
+          "letter": "G",
+          "title": "Growth (Pertumbuhan)",
+          "description": "Terus berkembang melalui inovasi, peningkatan kualitas, dan pelayanan yang berkelanjutan."
         }
       ]
     },
@@ -632,28 +615,22 @@
       "subtitle": "Enam alasan utama mengapa pelanggan industri mempercayakan kebutuhan gas mereka kepada kami.",
       "items": [
         {
-          "title": "Produk Berkualitas Tinggi",
-          "description": "Gas industri, medis, spesial, dan gas campuran yang memenuhi standar kualitas tinggi."
+          "title": "Produk Berkualitas Tinggi"
         },
         {
-          "title": "Distribusi Cepat & Tepat Waktu",
-          "description": "Armada pengiriman mandiri yang siap melayani kebutuhan pelanggan secara tepat waktu."
+          "title": "Distribusi Cepat & Tepat Waktu"
         },
         {
-          "title": "Harga Kompetitif",
-          "description": "Solusi gas industri dengan harga yang bersaing tanpa mengorbankan kualitas."
+          "title": "Harga Kompetitif"
         },
         {
-          "title": "Tim Berpengalaman",
-          "description": "Didukung sumber daya manusia yang kuat dan solid sejak berdiri tahun 2003."
+          "title": "Tim Berpengalaman"
         },
         {
-          "title": "Standar Keselamatan Tinggi",
-          "description": "Keselamatan menjadi prioritas utama dalam setiap proses operasional kami."
+          "title": "Standar Keselamatan Tinggi"
         },
         {
-          "title": "Layanan Pelanggan Terbaik",
-          "description": "Kepuasan pelanggan adalah prioritas kami, dengan pelayanan yang cepat dan responsif."
+          "title": "Layanan Pelanggan Terbaik"
         }
       ]
     },
@@ -714,7 +691,7 @@
     },
     "cta": {
       "title": "Butuh Solusi Gas Industri yang Andal?",
-      "subtitle": "Tim kami siap membantu memenuhi kebutuhan gas industri, medis, dan gas spesial Anda dengan layanan terbaik.",
+      "subtitle": "Tim kami siap memenuhi kebutuhan anda.",
       "primaryButton": "Hubungi Kami",
       "secondaryButton": "Lihat Produk"
     }
@@ -1197,7 +1174,7 @@
       "badge": "Jaringan Distribusi",
       "title": "Lokasi Operasional",
       "titleHighlight": "PT Surya Inti Gas",
-      "description": "Jaringan distribusi kami tersebar di berbagai lokasi strategis untuk memastikan pasokan gas yang andal dan konsisten ke seluruh Indonesia.",
+      "description": "Didukung infrastruktur distribusi yang andal dan lokasi strategis, kami berkomitmen menghadirkan pasokan gas yang aman, tepat waktu, dan konsisten di seluruh Indonesia.",
       "viewOnGoogleMaps": "Lihat di Google Maps"
     },
     "locations": {
