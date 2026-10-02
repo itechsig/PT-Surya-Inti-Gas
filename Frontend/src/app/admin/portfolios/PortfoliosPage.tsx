@@ -121,10 +121,10 @@ export function PortfoliosPage() {
           </div>
           <Select value={industryFilter} onValueChange={setIndustryFilter}>
             <SelectTrigger className="w-full sm:w-56">
-              <SelectValue placeholder="Semua Industry" />
+              <SelectValue placeholder="Semua Solusi Industri" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Semua Industry</SelectItem>
+              <SelectItem value="all">Semua Solusi Industri</SelectItem>
               {industries.map((ind) => (
                 <SelectItem key={ind.id} value={String(ind.id)}>
                   {ind.name_id}
@@ -144,7 +144,7 @@ export function PortfoliosPage() {
                 <TableRow>
                   <TableHead className="w-20">Thumbnail</TableHead>
                   <TableHead>Judul</TableHead>
-                  <TableHead>Industry</TableHead>
+                  <TableHead>Solusi Industri</TableHead>
                   <TableHead>Service</TableHead>
                   <TableHead>Featured</TableHead>
                   <TableHead>Publish</TableHead>

@@ -212,12 +212,12 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
             <FormErrorSummary errors={errors} />
             <div className="grid grid-cols-3 gap-3">
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="industry">Industry</Label>
+                <Label htmlFor="industry">Solusi Industri</Label>
                 <EntityCombobox
                   options={industries.map((ind) => ({ id: ind.id, name: ind.name_id }))}
                   selectedId={values.industry_id}
                   newName={values.industry_name}
-                  placeholder="Pilih atau ketik industri"
+                  placeholder="Pilih atau ketik solusi industri"
                   onSelectExisting={(id) => setValues((prev) => ({ ...prev, industry_id: id, industry_name: '' }))}
                   onCreateNew={(name) => setValues((prev) => ({ ...prev, industry_id: '', industry_name: name }))}
                 />
