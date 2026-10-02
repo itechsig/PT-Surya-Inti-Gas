@@ -37,7 +37,7 @@
     "industrialMedicalSpeciality": "Industrial, Medical & Speciality Gas",
     "liquid": "Liquid",
     "relatedEquipment": "Related Equipment",
-    "package": "Package",
+    "package": "Packaging & Equipment",
     "services": "Services",
     "contact": "Contact",
     "career": "Career",
@@ -184,11 +184,12 @@
     },
     "nav": {
       "backToCategories": "Back to Categories",
-      "backToSubcategories": "Back to Subcategories"
+      "backToSubcategories": "Back to Subcategories",
+      "backTo": "Back to {{name}}"
     },
     "mainCategories": {
       "gas": "Gas Products",
-      "package": "Package",
+      "package": "Packaging & Equipment",
       "services": "Services",
       "equipment": "Equipment"
     },

@@ -70,15 +70,15 @@ const NAV_LINKS: NavItem[] = [
         children: [
           { nameKey: "header.industrialMedicalSpeciality", href: "/produk?category=gas&subcategory=industrial-medical-speciality" },
           { nameKey: "header.liquid", href: "/produk?category=gas&subcategory=liquid" },
-          { nameKey: "header.relatedEquipment", href: "/produk?category=gas&subcategory=related-equipment" },
         ]
       },
       {
         nameKey: "header.package",
         href: "/produk?category=package",
         children: [
-          { nameKey: "header.megaMenu.packageGasLiquid", href: "/produk?category=package&subcategory=package-gas-liquid" },
+          { nameKey: "header.megaMenu.packageGas", href: "/produk?category=package&subcategory=package-gas" },
           { nameKey: "header.megaMenu.packageCylinder", href: "/produk?category=package&subcategory=package-cylinder" },
+          { nameKey: "header.relatedEquipment", href: "/produk?category=package&subcategory=related-equipment" },
         ]
       },
       {

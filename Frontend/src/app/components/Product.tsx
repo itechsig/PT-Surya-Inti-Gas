@@ -2,7 +2,7 @@ import { Link, useNavigate, useSearchParams, useParams } from "react-router-dom"
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-import { ChevronRight, Droplets, Package, Wrench, Syringe, Droplet, Cog, Layers } from "lucide-react";
+import { ChevronRight, Droplets, Package, Wrench, Cog } from "lucide-react";
 import '../../styles/ProductsAndServices.css';
 import { Seo } from "./Seo";
 import { mainCategoryIds, type Product, type ProductVariant, type SubCategory, type MainCategory } from "../../data/products";
@@ -19,8 +19,9 @@ const MotionLink = motion.create(Link);
 /* ═══════════════════════════════════════════════════════════════
    PRODUCT.TSX — PT Surya Inti Gas Corporate
 
-   Flow: pick a main category (Produk Gas / Kemasan / Layanan) → for
-   Produk Gas only, pick a sub-category → compact product/service grid.
+   Flow: pick a main category (Produk Gas / Kemasan & Peralatan / Layanan)
+   → compact product/service grid; Produk Gas and Kemasan & Peralatan list
+   every sub-category as its own headed section on that one page.
    The whole flow is driven by the `category`/`subcategory` URL query
    params so the browser back button and the in-page "Kembali" button
    always agree on where the previous step is.
@@ -39,55 +40,39 @@ const MAIN_CATEGORY_ICONS: Record<MainCategory, any> = {
  *  sections on the grid step below. */
 const INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID = 'industrial-medical-speciality';
 
-/** Main categories that need an explicit sub-category pick before the product
- *  grid (Produk Gas and Kemasan). Layanan has only one bucket, so it skips
- *  straight to the grid. */
+/** Main categories with a sub-category level (Produk Gas and Kemasan & Peralatan) —
+ *  their grids get a "Produk Gas"/"Kemasan & Peralatan" breadcrumb + back button.
+ *  Layanan has only one bucket, so it skips straight to the grid. Neither shows a
+ *  sub-category picker: both list every sub-category with its products on one page. */
 const CATEGORIES_WITH_SUBCATEGORY_STEP: MainCategory[] = ['gas', 'package'];
 
 /** Kemasan has no CMS sub-categories of its own (every product sits in one flat
  *  "package" bucket), so its product groups — and which products belong to
- *  each — are defined here by product slug, keyed by virtual sub-category id. */
+ *  each — are defined here by product slug, keyed by virtual sub-category id.
+ *  "Kemasan Gas" covers both pure-gas and liquid-gas packaging. */
 const PACKAGE_SUBCATEGORY_GROUPS: Record<string, string[]> = {
-  'package-gas': ['cylinder', 'tabung-medis', 'tabung-asitilin'],
-  'package-liquid': ['cryogenic-dewars', 'vessel-gas-liquid', 'microbulk-tank', 'vertical-storage-tank', 'iso-tank', 'rigid-tank'],
+  'package-gas': [
+    'cylinder', 'tabung-medis', 'tabung-asitilin',
+    'cryogenic-dewars', 'vessel-gas-liquid', 'microbulk-tank', 'vertical-storage-tank', 'iso-tank', 'rigid-tank',
+  ],
   'package-cylinder': ['cradle', 'cradle-2x2', 'cradle-3x2', 'cradle-3x3', 'cradle-4x4'],
 };
 const PACKAGE_SUBCATEGORY_TITLE_KEYS: Record<string, string> = {
-  'package-gas': 'header.megaMenu.packagePureGas',
-  'package-liquid': 'header.megaMenu.packageLiquid',
+  'package-gas': 'header.megaMenu.packageGas',
   'package-cylinder': 'header.megaMenu.packageCylinder',
 };
 
-/** Virtual sub-category id: "Kemasan Gas Murni" and "Kemasan Gas Cair" are merged
- *  into a single picker card, which then lists both as separate headed sections on
- *  the grid step (same pattern as INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID). */
-const PACKAGE_GAS_LIQUID_SUBCATEGORY_ID = 'package-gas-liquid';
-const PACKAGE_GAS_LIQUID_SECTIONS = ['package-gas', 'package-liquid'];
-
-/** Kemasan's picker cards, in display order. */
-const PACKAGE_PICKER_CARDS: { id: string; titleKey: string; groups: string[] }[] = [
-  { id: PACKAGE_GAS_LIQUID_SUBCATEGORY_ID, titleKey: 'header.megaMenu.packageGasLiquid', groups: PACKAGE_GAS_LIQUID_SECTIONS },
-  { id: 'package-cylinder', titleKey: 'header.megaMenu.packageCylinder', groups: ['package-cylinder'] },
-];
-
-/** Icons for the "Produk Gas" / "Kemasan" sub-categories, keyed by their stable
- *  CMS slug (or virtual id for merged/synthetic sub-categories). */
-const SUB_CATEGORY_ICONS: Record<string, any> = {
-  [INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID]: Syringe,
-  'liquid': Droplet,
-  [RELATED_EQUIPMENT_ID]: Cog,
-  [PACKAGE_GAS_LIQUID_SUBCATEGORY_ID]: Package,
-  'package-cylinder': Layers,
+/** Old sub-category ids (bookmarks, search results) mapped onto the current groups. */
+const LEGACY_PACKAGE_SUBCATEGORY_ALIASES: Record<string, string> = {
+  'package-gas-liquid': 'package-gas',
+  'package-liquid': 'package-gas',
 };
 
-/** category_photos lookup keys (see Backend's create_category_photos_table migration) —
- *  admin-uploadable photos shown instead of the icons above whenever one has been set.
- *  The merged Kemasan Gas Murni & Gas Cair card reuses the existing 'sub-package-gas' row. */
-const SUB_CATEGORY_PHOTO_KEY_OVERRIDES: Record<string, string> = {
-  [PACKAGE_GAS_LIQUID_SUBCATEGORY_ID]: 'sub-package-gas',
-};
+/** One headed section of a multi-section grid. `href` overrides where its cards link
+ *  (defaults to the product detail page). */
+type SectionGroup = { id: string; title: string; products: Product[]; href?: (productId: string) => string };
+
 const mainCategoryPhotoKey = (category: MainCategory) => `main-${category}`;
-const subCategoryPhotoKey = (subCategoryId: string) => SUB_CATEGORY_PHOTO_KEY_OVERRIDES[subCategoryId] ?? `sub-${subCategoryId}`;
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -217,12 +202,11 @@ export function Product() {
     categoryParam && mainCategoryIds.includes(categoryParam as MainCategory)
       ? (categoryParam as MainCategory)
       : null;
-  const subCategory = subcategoryParam || '';
+  const subCategory = (mainCategory === 'package' && subcategoryParam && LEGACY_PACKAGE_SUBCATEGORY_ALIASES[subcategoryParam]) || subcategoryParam || '';
 
-  // Produk Gas and Kemasan need an explicit sub-category pick first; Layanan
-  // has none, so landing on the main category is enough.
-  const step: 'hub' | 'subcategory' | 'grid' =
-    !mainCategory ? 'hub' : (CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) && !subCategory) ? 'subcategory' : 'grid';
+  // Produk Gas and Kemasan & Peralatan list all their sub-categories at once and
+  // Layanan has none, so every main category goes straight to the grid.
+  const step: 'hub' | 'grid' = !mainCategory ? 'hub' : 'grid';
 
   const mainCategories: { id: MainCategory; label: string; icon: any }[] = [
     { id: 'gas', label: t('products.mainCategories.gas'), icon: MAIN_CATEGORY_ICONS.gas },
@@ -234,12 +218,8 @@ export function Product() {
     navigate(`/${currentLang}/produk?category=${category}`);
   };
 
-  const goToSubCategory = (category: MainCategory, subCatId: string) => {
-    navigate(`/${currentLang}/produk?category=${category}&subcategory=${encodeURIComponent(subCatId)}`);
-  };
-
   const goBackToHub = () => navigate(`/${currentLang}/produk`);
-  const goBackToSubcategories = () => navigate(`/${currentLang}/produk?category=${mainCategory ?? 'gas'}`);
+  const goBackToMainCategory = () => navigate(`/${currentLang}/produk?category=${mainCategory ?? 'gas'}`);
 
   const getGasSubCategories = () => {
     const categories = productCategories.gas as Record<string, SubCategory>;
@@ -249,11 +229,11 @@ export function Product() {
     let addedIndustrialSpeciality = false;
 
     Object.keys(categories)
-      // "Related Equipment" categories are folded into a single virtual card below.
+      // "Related Equipment" categories live under Kemasan & Peralatan instead.
       .filter(key => !isRelatedEquipmentSlug(key))
       .forEach(key => {
         // "Gas Industri & Medis" and "Gas Spesial & Campuran" are folded into a
-        // single virtual card; picking it reveals both as separate sections.
+        // single virtual sub-category that lists both as separate sections.
         if (key === 'industrial-medical' || key === 'speciality-mixed') {
           if (!addedIndustrialSpeciality) {
             subs.push({ id: INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID, title: t('products.subCategories.industrialMedicalSpeciality') });
@@ -264,18 +244,12 @@ export function Product() {
         subs.push({ id: key, title: categories[key]?.title || '' });
       });
 
-    // Gas exposes CMS "equipment" products as a virtual "Related Equipment" sub-category.
-    if (getRelatedEquipmentProducts(productCategories).length > 0) {
-      subs.push({ id: RELATED_EQUIPMENT_ID, title: t('products.subCategories.relatedEquipment') });
-    }
-
     return subs;
   };
 
   // Kemasan has no CMS sub-categories of its own — every product sits in one flat
   // "package" bucket — so build the flat, cradle-collapsed product list once and
-  // reuse it both to build the sub-category cards below and to filter each
-  // group's grid in getCurrentProducts.
+  // filter each group's products out of it by slug.
   const getAllPackageProducts = (): Product[] => {
     const categories = productCategories.package as Record<string, SubCategory> | undefined;
     if (!categories) return [];
@@ -291,25 +265,29 @@ export function Product() {
   const getPackageGroupProducts = (groupId: string, bySlug: Map<string, Product>): Product[] =>
     (PACKAGE_SUBCATEGORY_GROUPS[groupId] ?? []).map(slug => bySlug.get(slug)).filter((p): p is Product => !!p);
 
-  // Kemasan's sub-category cards, hidden individually if the CMS doesn't (yet)
-  // have any product matching that card's group slugs.
-  const getPackageSubCategories = () => {
+  // Equipment cards open the jenis/tipe explorer instead of a detail page.
+  const relatedEquipmentHref = (productId: string) =>
+    `/${currentLang}/produk?category=package&subcategory=${RELATED_EQUIPMENT_ID}&equipment=${encodeURIComponent(productId)}`;
+
+  // Kemasan & Peralatan overview: Kemasan Gas, Kemasan Tabung, then Peralatan
+  // Pendukung Gas Industri, each hidden if the CMS has no products for it.
+  const getAllPackageGroups = (): SectionGroup[] => {
     const bySlug = new Map(getAllPackageProducts().map(p => [p.id, p]));
-    return PACKAGE_PICKER_CARDS
-      .filter(card => card.groups.some(groupId => getPackageGroupProducts(groupId, bySlug).length > 0))
-      .map(card => ({ id: card.id, title: t(card.titleKey) }));
+    const groups: SectionGroup[] = Object.keys(PACKAGE_SUBCATEGORY_GROUPS).map(id => ({
+      id,
+      title: t(PACKAGE_SUBCATEGORY_TITLE_KEYS[id]),
+      products: getPackageGroupProducts(id, bySlug),
+    }));
+    groups.push({
+      id: RELATED_EQUIPMENT_ID,
+      title: t('products.subCategories.relatedEquipment'),
+      products: getRelatedEquipmentProducts(productCategories),
+      href: relatedEquipmentHref,
+    });
+    return groups.filter(group => group.products.length > 0);
   };
 
-  // The merged "Kemasan Gas Murni & Gas Cair" card expands into these two
-  // separately headed sections, each hidden if the CMS has no products for it.
-  const getPackageGasLiquidGroups = () => {
-    const bySlug = new Map(getAllPackageProducts().map(p => [p.id, p]));
-    return PACKAGE_GAS_LIQUID_SECTIONS
-      .map(id => ({ id, title: t(PACKAGE_SUBCATEGORY_TITLE_KEYS[id]), products: getPackageGroupProducts(id, bySlug) }))
-      .filter(group => group.products.length > 0);
-  };
-
-  // The merged "Gas Industri, Medis & Spesial" card expands into these two
+  // The merged "Gas Industri, Medis & Spesial" sub-category expands into these two
   // separately headed sections, each hidden if the CMS has no products for it.
   const getIndustrialMedicalSpecialityGroups = () => {
     const categories = productCategories.gas as Record<string, SubCategory> | undefined;
@@ -321,8 +299,27 @@ export function Product() {
     ].filter(group => group.products.length > 0);
   };
 
+  // Produk Gas overview: every sub-category as its own headed section — Gas
+  // Industri & Medis, Gas Spesial & Campuran, then Gas Cair.
+  const getAllGasGroups = (): SectionGroup[] => {
+    const categories = productCategories.gas as Record<string, SubCategory> | undefined;
+    if (!categories) return [];
+
+    const groups: SectionGroup[] = [...getIndustrialMedicalSpecialityGroups()];
+    Object.keys(categories)
+      .filter(key => !isRelatedEquipmentSlug(key) && key !== 'industrial-medical' && key !== 'speciality-mixed')
+      .forEach(key => groups.push({ id: key, title: categories[key]?.title || '', products: categories[key]?.products ?? [] }));
+
+    return groups.filter(group => group.products.length > 0);
+  };
+
   const getCurrentProducts = (): Product[] => {
     if (!mainCategory) return [];
+
+    // Virtual "Related Equipment" sub-category (old links may still say category=gas).
+    if (subCategory === RELATED_EQUIPMENT_ID) {
+      return getRelatedEquipmentProducts(productCategories);
+    }
 
     // Kemasan: filtered by the chosen virtual sub-category's product slugs.
     if (mainCategory === 'package') {
@@ -332,11 +329,6 @@ export function Product() {
 
     const categories = productCategories[mainCategory] as Record<string, SubCategory>;
     if (!categories) return [];
-
-    // Virtual "Related Equipment" sub-category in the gas category.
-    if (mainCategory === 'gas' && subCategory === RELATED_EQUIPMENT_ID) {
-      return getRelatedEquipmentProducts(productCategories);
-    }
 
     // Gas: filtered by the chosen sub-category. Services: only one bucket, so
     // falling back to the first key shows it without needing a sub-category pick.
@@ -350,19 +342,16 @@ export function Product() {
   // breadcrumb's last crumb and the grid heading.
   const currentListingLabel = (() => {
     if (!mainCategory) return '';
+    if (subCategory === RELATED_EQUIPMENT_ID) return t('products.subCategories.relatedEquipment');
     if (mainCategory === 'gas') {
-      if (subCategory === RELATED_EQUIPMENT_ID) return t('products.subCategories.relatedEquipment');
-      const pickerLabel = getGasSubCategories().find(s => s.id === subCategory)?.title;
-      if (pickerLabel) return pickerLabel;
+      const subLabel = getGasSubCategories().find(s => s.id === subCategory)?.title;
+      if (subLabel) return subLabel;
       // Direct links to the raw 'industrial-medical'/'speciality-mixed' slugs (e.g. a
-      // product detail page's "back" button) bypass the merged picker card above.
+      // product detail page's "back" button) bypass the merged sub-category above.
       const categories = productCategories.gas as Record<string, SubCategory> | undefined;
       return categories?.[subCategory]?.title || t('products.mainCategories.gas');
     }
     if (mainCategory === 'package') {
-      const pickerLabel = getPackageSubCategories().find(s => s.id === subCategory)?.title;
-      if (pickerLabel) return pickerLabel;
-      // Direct links to the raw 'package-gas'/'package-liquid' groups bypass the merged picker card.
       const groupTitleKey = PACKAGE_SUBCATEGORY_TITLE_KEYS[subCategory];
       return groupTitleKey ? t(groupTitleKey) : t('products.mainCategories.package');
     }
@@ -371,10 +360,19 @@ export function Product() {
 
   const rootCrumb = { label: t('products.pageHeader.badge'), onClick: goBackToHub };
 
-  // Merged picker cards render their groups as separately headed sections.
-  const mergedSections =
-    mainCategory === 'gas' && subCategory === INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID ? getIndustrialMedicalSpecialityGroups()
-    : mainCategory === 'package' && subCategory === PACKAGE_GAS_LIQUID_SUBCATEGORY_ID ? getPackageGasLiquidGroups()
+  // Produk Gas sub-pages go straight back to the main categories; Kemasan &
+  // Peralatan sub-pages (incl. Related Equipment) go back to its overview.
+  const goBackOneStep = mainCategory === 'gas' ? goBackToHub : goBackToMainCategory;
+  const backOneStepLabel = mainCategory === 'gas'
+    ? t('products.nav.backToCategories')
+    : t('products.nav.backTo', { name: t(`products.mainCategories.${mainCategory ?? 'package'}`) });
+
+  // The Produk Gas / Kemasan & Peralatan overviews and the merged Gas Industri,
+  // Medis & Spesial sub-category render their groups as separately headed sections.
+  const isOverview = !!mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) && !subCategory;
+  const mergedSections: SectionGroup[] | null =
+    isOverview ? (mainCategory === 'gas' ? getAllGasGroups() : getAllPackageGroups())
+    : mainCategory === 'gas' && subCategory === INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID ? getIndustrialMedicalSpecialityGroups()
     : null;
 
   return (
@@ -462,36 +460,10 @@ export function Product() {
               </motion.div>
             )}
 
-            {/* Step 2 (Produk Gas and Kemasan): pick a sub-category */}
-            {step === 'subcategory' && mainCategory && (
-              <motion.div key="subcategory" initial="hidden" animate="show" exit={stepExit} variants={staggerContainer}>
-                <motion.div variants={fadeUp}>
-                  <Breadcrumb items={[rootCrumb, { label: t(`products.mainCategories.${mainCategory}`) }]} />
-                  <button onClick={goBackToHub} className="products-tab" aria-label={t('products.nav.backToCategories')} style={{ marginBottom: '20px' }}>
-                    ← {t('products.nav.backToCategories')}
-                  </button>
-                </motion.div>
-                <motion.div className="products-flow-heading" variants={fadeUp}>
-                  <h2>{t(`products.mainCategories.${mainCategory}`)}</h2>
-                </motion.div>
-                <motion.div className="picker-grid picker-grid--sub" variants={staggerContainer}>
-                  {(mainCategory === 'package' ? getPackageSubCategories() : getGasSubCategories()).map((subCat) => (
-                    <PickerCard
-                      key={subCat.id}
-                      label={subCat.title}
-                      icon={SUB_CATEGORY_ICONS[subCat.id] || Layers}
-                      image={categoryPhotos[subCategoryPhotoKey(subCat.id)]}
-                      onClick={() => goToSubCategory(mainCategory, subCat.id)}
-                    />
-                  ))}
-                </motion.div>
-              </motion.div>
-            )}
-
-            {/* Step 3: compact product/service grid */}
+            {/* Step 2: compact product/service grid */}
             {step === 'grid' && (
               <motion.div key={`grid-${mainCategory}-${subCategory}`} initial="hidden" animate="show" exit={stepExit} variants={staggerContainer}>
-                {mainCategory === 'gas' && subCategory === RELATED_EQUIPMENT_ID ? (
+                {mainCategory && subCategory === RELATED_EQUIPMENT_ID ? (
                   // Owns its own breadcrumb + back button + heading for every jenis/tipe
                   // level, folding in the crumbs up to here — so there's only ever one
                   // path and one back button, never a second one stacked underneath.
@@ -499,27 +471,39 @@ export function Product() {
                     <RelatedEquipmentExplorer
                       products={getCurrentProducts()}
                       lang={currentLang}
-                      parentCrumbs={[rootCrumb, { label: t('products.mainCategories.gas'), onClick: goBackToSubcategories }]}
+                      parentCrumbs={[rootCrumb, { label: t('products.mainCategories.package'), onClick: () => navigate(`/${currentLang}/produk?category=package`) }]}
                       parentLabel={currentListingLabel}
-                      onBack={goBackToSubcategories}
-                      backLabel={t('products.nav.backToSubcategories')}
+                      onBack={() => navigate(`/${currentLang}/produk?category=package`)}
+                      backLabel={t('products.nav.backTo', { name: t('products.mainCategories.package') })}
                     />
                   </motion.div>
                 ) : mainCategory && mergedSections ? (
-                  // A merged card: one breadcrumb + back button, then its groups stacked as
-                  // their own headed sections ("Gas Industri & Medis" / "Gas Spesial &
-                  // Campuran", or "Kemasan Gas Murni" / "Kemasan Gas Cair").
+                  // A main-category overview or a merged sub-category: one breadcrumb + back
+                  // button, then its groups stacked as their own headed sections ("Gas
+                  // Industri & Medis" / "Gas Spesial & Campuran" / ..., or "Kemasan Gas" /
+                  // "Kemasan Tabung" / "Peralatan Pendukung Gas Industri").
                   <>
                     <motion.div variants={fadeUp}>
-                      <Breadcrumb items={[rootCrumb, { label: t(`products.mainCategories.${mainCategory}`), onClick: goBackToSubcategories }, { label: currentListingLabel }]} />
-                      <button
-                        onClick={goBackToSubcategories}
-                        className="products-tab"
-                        aria-label={t('products.nav.backToSubcategories')}
-                        style={{ marginBottom: '20px' }}
-                      >
-                        ← {t('products.nav.backToSubcategories')}
-                      </button>
+                      {isOverview ? (
+                        <>
+                          <Breadcrumb items={[rootCrumb, { label: t(`products.mainCategories.${mainCategory}`) }]} />
+                          <button onClick={goBackToHub} className="products-tab" aria-label={t('products.nav.backToCategories')} style={{ marginBottom: '20px' }}>
+                            ← {t('products.nav.backToCategories')}
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <Breadcrumb items={[rootCrumb, { label: t(`products.mainCategories.${mainCategory}`), onClick: goBackToMainCategory }, { label: currentListingLabel }]} />
+                          <button
+                            onClick={goBackOneStep}
+                            className="products-tab"
+                            aria-label={backOneStepLabel}
+                            style={{ marginBottom: '20px' }}
+                          >
+                            ← {backOneStepLabel}
+                          </button>
+                        </>
+                      )}
                     </motion.div>
                     {mergedSections.map((group) => (
                       <Fragment key={group.id}>
@@ -531,7 +515,7 @@ export function Product() {
                             <CompactProductCard
                               key={product.id}
                               product={product}
-                              href={productHref(product.id)}
+                              href={(group.href ?? productHref)(product.id)}
                               onVariantClick={(p) => setCradleVariants(p.variants ?? null)}
                             />
                           ))}
@@ -545,17 +529,17 @@ export function Product() {
                       <Breadcrumb
                         items={
                           mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory)
-                            ? [rootCrumb, { label: t(`products.mainCategories.${mainCategory}`), onClick: goBackToSubcategories }, { label: currentListingLabel }]
+                            ? [rootCrumb, { label: t(`products.mainCategories.${mainCategory}`), onClick: goBackToMainCategory }, { label: currentListingLabel }]
                             : [rootCrumb, { label: currentListingLabel }]
                         }
                       />
                       <button
-                        onClick={mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) ? goBackToSubcategories : goBackToHub}
+                        onClick={mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) ? goBackOneStep : goBackToHub}
                         className="products-tab"
-                        aria-label={mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
+                        aria-label={mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) ? backOneStepLabel : t('products.nav.backToCategories')}
                         style={{ marginBottom: '20px' }}
                       >
-                        ← {mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) ? t('products.nav.backToSubcategories') : t('products.nav.backToCategories')}
+                        ← {mainCategory && CATEGORIES_WITH_SUBCATEGORY_STEP.includes(mainCategory) ? backOneStepLabel : t('products.nav.backToCategories')}
                       </button>
                     </motion.div>
                     <motion.div className="products-flow-heading" variants={fadeUp} style={{ marginBottom: '24px' }}>

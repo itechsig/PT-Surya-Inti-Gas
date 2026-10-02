@@ -66,19 +66,20 @@ export function ProductDetail() {
 
     const { mainCategory, subCategory } = productData;
 
-    // Equipment products are surfaced as a virtual "Related Equipment" sub-tab under Gas.
+    // Equipment products are surfaced as a virtual "Related Equipment" section under Kemasan & Peralatan.
     // Valve/Regulator/Instrumen Medis carry the jenis picked back along, so the grid
     // reopens straight at the tipe list instead of the top-level equipment picker.
     if (mainCategory === 'equipment') {
       const back = isCatalogEquipment && resolvedJenis
-        ? `/${currentLang}/produk?category=gas&subcategory=${RELATED_EQUIPMENT_ID}&equipment=${productData.product.id}&jenis=${resolvedJenis.id}`
-        : `/${currentLang}/produk?category=gas&subcategory=${RELATED_EQUIPMENT_ID}`;
+        ? `/${currentLang}/produk?category=package&subcategory=${RELATED_EQUIPMENT_ID}&equipment=${productData.product.id}&jenis=${resolvedJenis.id}`
+        : `/${currentLang}/produk?category=package`;
       navigate(back);
       return;
     }
 
-    // Package has no sub-category tabs, so just land back on the package tab.
-    if (mainCategory === 'package' || !subCategory) {
+    // Package has no sub-category tabs, and Produk Gas lists every sub-category on
+    // one page, so both just land back on their main category.
+    if (mainCategory === 'package' || mainCategory === 'gas' || !subCategory) {
       navigate(`/${currentLang}/produk?category=${mainCategory}`);
       return;
     }
@@ -171,7 +172,7 @@ export function ProductDetail() {
   // to the Related Equipment grid to pick again.
   useEffect(() => {
     if (isCatalogEquipment && !(resolvedJenis && resolvedTipe)) {
-      navigate(`/${currentLang}/produk?category=gas&subcategory=${RELATED_EQUIPMENT_ID}`);
+      navigate(`/${currentLang}/produk?category=package&subcategory=${RELATED_EQUIPMENT_ID}`);
     }
   }, [isCatalogEquipment, resolvedJenis, resolvedTipe, navigate, currentLang]);
 

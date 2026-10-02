@@ -15,7 +15,7 @@ interface RelatedEquipmentExplorerProps {
   parentCrumbs: Crumb[];
   /** Label for this whole sub-category, e.g. "Peralatan Pendukung Gas Industri". */
   parentLabel: string;
-  /** Goes back one step further up, to the gas sub-category picker. */
+  /** Goes back out of Related Equipment, to the main product categories. */
   onBack: () => void;
   backLabel: string;
 }
@@ -141,8 +141,10 @@ export function RelatedEquipmentExplorer({ products, lang, parentCrumbs, parentL
             { label: catalog.navLabel },
           ]}
         />
-        <button type="button" onClick={backToEquipment} className="products-tab" style={{ marginBottom: '20px' }}>
-          ← Kembali ke {activeEquipment.title}
+        {/* The Produk Gas overview links straight to this level, so going back
+            skips the equipment picker and leaves Related Equipment entirely. */}
+        <button type="button" onClick={onBack} className="products-tab" style={{ marginBottom: '20px' }}>
+          ← {backLabel}
         </button>
         <div className="products-flow-heading" style={{ marginBottom: '24px' }}>
           <h2>{catalog.navLabel}</h2>

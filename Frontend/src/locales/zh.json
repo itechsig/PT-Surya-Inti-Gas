@@ -37,7 +37,7 @@
     "industrialMedicalSpeciality": "工业、医用与特种气体",
     "liquid": "液态气体",
     "relatedEquipment": "相关设备",
-    "package": "包装",
+    "package": "包装与设备",
     "services": "服务",
     "contact": "联系我们",
     "career": "招聘",
@@ -184,11 +184,12 @@
     },
     "nav": {
       "backToCategories": "返回分类",
-      "backToSubcategories": "返回子分类"
+      "backToSubcategories": "返回子分类",
+      "backTo": "返回{{name}}"
     },
     "mainCategories": {
       "gas": "气体产品",
-      "package": "包装",
+      "package": "包装与设备",
       "services": "服务",
       "equipment": "设备"
     },
