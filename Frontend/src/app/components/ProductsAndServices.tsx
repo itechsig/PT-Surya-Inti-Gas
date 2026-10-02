@@ -114,11 +114,11 @@ export function ProductsAndServices() {
   const productHref = (productId: string) => `/${currentLang}/produk/detail?id=${productId}`;
   const onVariantClick = (product: Product) => setCradleVariants(product.variants ?? null);
 
-  // Produk Gas: Oksigen, Hidrogen, Karbondioksida, dan Acetylene dari Gas Industri & Medis.
+  // Produk Gas: Oksigen, Nitrogen, Karbondioksida, dan Acetylene dari Gas Industri & Medis.
   const gasCategories = productCategories.gas as Record<string, SubCategory> | undefined;
   const gasProducts: Product[] = pickProductsBySlug(
     gasCategories?.['industrial-medical']?.products ?? [],
-    ['oxygen', 'hydrogen', 'karbondioksida', 'acetylene'],
+    ['oxygen', 'nitrogen', 'karbondioksida', 'acetylene'],
   );
 
   // Kemasan: High Pressure Cylinder, Vessel Gas Liquid, Microbulk Tank, Vertical Storage Tank.

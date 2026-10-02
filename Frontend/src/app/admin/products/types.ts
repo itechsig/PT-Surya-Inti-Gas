@@ -15,10 +15,10 @@ export const MAIN_CATEGORY_LABELS: Record<MainCategory, string> = {
   services: 'Services',
 };
 
-export type ProductQuality = 'UHP' | 'HP' | 'WG';
+export type ProductQuality = 'UHP' | 'HP' | 'IG';
 export type ProductAvailability = 'available' | 'out_of_stock';
 
-export const PRODUCT_QUALITY_OPTIONS: ProductQuality[] = ['UHP', 'HP', 'WG'];
+export const PRODUCT_QUALITY_OPTIONS: ProductQuality[] = ['UHP', 'HP', 'IG'];
 
 export const PRODUCT_AVAILABILITY_LABELS: Record<ProductAvailability, string> = {
   available: 'Tersedia',

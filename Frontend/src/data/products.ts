@@ -18,7 +18,7 @@ export type Product = {
   specifications?: { label: string; value: string }[];
   isFeatured?: boolean;
   /** Gas grades set in the admin (detail endpoint only); empty = not shown. */
-  quality?: ('UHP' | 'HP' | 'WG')[];
+  quality?: ('UHP' | 'HP' | 'IG')[];
   /** Stock status set in the admin (detail endpoint only). */
   availability?: 'available' | 'out_of_stock';
   /** When present, this card represents a group of size variants (e.g. Cradle) and opens a picker instead of navigating. */
