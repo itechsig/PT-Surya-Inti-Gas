@@ -400,45 +400,9 @@ export function ProductDetail() {
                 </motion.div>
               )}
 
-              {/* Jenis + tipe checklist for Valve/Regulator/Instrumen Medis — text only,
-                  multiple choice; every checked tipe goes into the WhatsApp inquiry. */}
-              {catalogEntry && (
-                <motion.div className="product-packaging equipment-checklist" variants={fadeUp}>
-                  <h3>Pilih Jenis &amp; Tipe</h3>
-                  <p>Centang satu atau lebih tipe yang Anda butuhkan.</p>
-                  {catalogEntry.categories.map((jenis) => (
-                    <fieldset key={jenis.id} className="equipment-checklist-group">
-                      <legend className="equipment-checklist-jenis">{jenis.name}</legend>
-                      {jenis.items.map((item) => {
-                        const key = tipeKey(jenis.id, item.id);
-                        const specs = catalogItemSpecs(item);
-                        return (
-                          <label key={item.id} className="equipment-checklist-item">
-                            <input
-                              type="checkbox"
-                              checked={selectedTipes.has(key)}
-                              onChange={() => toggleTipe(key)}
-                            />
-                            <span className="equipment-checklist-text">
-                              <span className="equipment-checklist-title">{catalogItemTitle(item)}</span>
-                              {specs && <span className="equipment-checklist-specs">{specs}</span>}
-                            </span>
-                          </label>
-                        );
-                      })}
-                    </fieldset>
-                  ))}
-                  {catalogEntry.legend && catalogEntry.legend.length > 0 && (
-                    <p className="catalog-explorer-legend">
-                      {catalogEntry.legend.map((entry) => `${entry.code}: ${entry.label}`).join(" · ")}
-                    </p>
-                  )}
-                </motion.div>
-              )}
-
-              {/* WhatsApp Contact Button for equipment products (Valve/Regulator/Instrumen
-                  Medis send their checked tipes along). */}
-              {productData?.mainCategory === 'equipment' && (
+              {/* WhatsApp Contact Button for equipment products without a jenis/tipe
+                  catalog — Valve/Regulator/Instrumen Medis get theirs under the checklist. */}
+              {productData?.mainCategory === 'equipment' && !catalogEntry && (
                 <motion.div className="product-contact" variants={fadeUp}>
                   <h3>{t('productDetail.contact.title')}</h3>
                   <p>{t('productDetail.contact.description')}</p>
@@ -536,6 +500,51 @@ export function ProductDetail() {
               )}
             </motion.div>
           </motion.div>
+
+          {/* Jenis + tipe checklist for Valve/Regulator/Instrumen Medis — text only,
+              multiple choice; every checked tipe goes into the WhatsApp inquiry. */}
+          {catalogEntry && (
+            <motion.div className="equipment-checklist" initial="hidden" animate="show" variants={fadeUp}>
+              <h3>Pilih Jenis &amp; Tipe</h3>
+              <p>Centang satu atau lebih tipe yang Anda butuhkan.</p>
+              <div className="equipment-checklist-grid">
+                {catalogEntry.categories.map((jenis) => (
+                  <div key={jenis.id} className="equipment-checklist-group" role="group" aria-label={jenis.name}>
+                    <h4 className="equipment-checklist-jenis">{jenis.name}</h4>
+                    {jenis.items.map((item) => {
+                      const key = tipeKey(jenis.id, item.id);
+                      const specs = catalogItemSpecs(item);
+                      return (
+                        <label key={item.id} className="equipment-checklist-item">
+                          <input
+                            type="checkbox"
+                            checked={selectedTipes.has(key)}
+                            onChange={() => toggleTipe(key)}
+                          />
+                          <span className="equipment-checklist-text">
+                            <span className="equipment-checklist-title">{catalogItemTitle(item)}</span>
+                            {specs && <span className="equipment-checklist-specs">{specs}</span>}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+              {catalogEntry.legend && catalogEntry.legend.length > 0 && (
+                <p className="catalog-explorer-legend">
+                  {catalogEntry.legend.map((entry) => `${entry.code}: ${entry.label}`).join(" · ")}
+                </p>
+              )}
+              <div className="product-contact equipment-checklist-contact">
+                <h3>{t('productDetail.contact.title')}</h3>
+                <p>{t('productDetail.contact.description')}</p>
+                <button className="contact-button" onClick={() => handleContactSales(product.title)}>
+                  {t('productDetail.contact.button')}
+                </button>
+              </div>
+            </motion.div>
+          )}
         </div>
 
       </section>

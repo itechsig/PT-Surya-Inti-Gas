@@ -1296,10 +1296,45 @@ button.products-card {
 }
 
 /* ── Equipment jenis/tipe checklist (Valve/Regulator/Instrumen Medis) ── */
-.equipment-checklist-group {
-  border: 0;
+/* Its own card under the photo + description (outside that grid, so the sticky
+   photo can't slide over it). Each jenis is a box, packed side by side in
+   masonry-style columns so boxes of different lengths leave no gaps. */
+.equipment-checklist {
+  margin-top: 24px;
+  background: var(--white);
+  border-radius: 24px;
+  padding: 32px 40px;
+  border: 1px solid var(--slate-200);
+}
+
+.equipment-checklist h3 {
+  font-family: var(--ff-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin: 0 0 6px;
+}
+
+.equipment-checklist > p {
+  font-family: var(--ff-body);
+  font-size: 0.9rem;
+  color: var(--slate-600);
   margin: 0 0 20px;
-  padding: 0;
+}
+
+.equipment-checklist-grid {
+  columns: 3 260px;
+  column-gap: 16px;
+}
+
+.equipment-checklist-group {
+  break-inside: avoid;
+  display: block;
+  margin: 0 0 16px;
+  padding: 12px;
+  border: 1px solid var(--slate-200);
+  border-radius: 12px;
+  background: var(--slate-50);
 }
 
 .equipment-checklist-jenis {
@@ -1307,25 +1342,40 @@ button.products-card {
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--navy-dark);
-  padding: 0;
-  margin-bottom: 8px;
+  margin: 0 0 8px;
+  padding: 0 4px;
+}
+
+.equipment-checklist-contact {
+  margin: 8px 0 0;
+}
+
+@media (max-width: 768px) {
+  .equipment-checklist {
+    padding: 20px;
+    border-radius: 16px;
+  }
 }
 
 .equipment-checklist-item {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 10px 12px;
-  margin-bottom: 6px;
+  padding: 7px 8px;
+  margin-bottom: 4px;
   background: var(--white);
-  border: 1px solid var(--slate-200);
-  border-radius: 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   cursor: pointer;
   transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
 }
 
+.equipment-checklist-item:last-child {
+  margin-bottom: 0;
+}
+
 .equipment-checklist-item:hover {
-  border-color: var(--blue);
+  border-color: var(--slate-200);
 }
 
 .equipment-checklist-item:has(input:checked) {
