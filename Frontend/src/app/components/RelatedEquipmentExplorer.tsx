@@ -1,8 +1,7 @@
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ChevronRight, Layers } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import type { Product } from "../../data/products";
-import { EQUIPMENT_CATALOGS } from "../../data/equipmentCatalogs";
-import { catalogItemTitle } from "../../data/catalogTypes";
 import { getImageUrl } from "../../utils/imageUrl";
 
 type Crumb = { label: string; onClick?: () => void };
@@ -11,18 +10,17 @@ interface RelatedEquipmentExplorerProps {
   /** The Valve / Regulator / Instrumen Medis "products" shown in the Related Equipment grid. */
   products: Product[];
   lang: string;
-  /** Breadcrumb crumbs before this step, e.g. [Produk & Layanan, Produk Gas]. */
+  /** Breadcrumb crumbs before this step, e.g. [Produk & Layanan, Kemasan & Peralatan]. */
   parentCrumbs: Crumb[];
   /** Label for this whole sub-category, e.g. "Peralatan Pendukung Gas Industri". */
   parentLabel: string;
-  /** Goes back out of Related Equipment, to the main product categories. */
+  /** Goes back out of Related Equipment, to the Kemasan & Peralatan overview. */
   onBack: () => void;
   backLabel: string;
 }
 
 // Breadcrumb trail — click any earlier crumb to jump back to that step. Mirrors the
-// one in Product.tsx/ProductsAndServices.tsx so this drill-down reads the same way —
-// as ONE continuous path, not a second breadcrumb stacked under the first.
+// one in Product.tsx/ProductsAndServices.tsx so this page reads as ONE continuous path.
 function Breadcrumb({ items }: { items: Crumb[] }) {
   return (
     <nav className="products-breadcrumb" aria-label="breadcrumb">
@@ -44,159 +42,46 @@ function Breadcrumb({ items }: { items: Crumb[] }) {
 }
 
 /**
- * Inline jenis -> tipe drill-down for the "Related Equipment" grid (Valve, Regulator,
- * Instrumen Medis). Picking Valve or a jenis never navigates away — it just expands the
- * next grid in place, exactly like picking a gas sub-category. Only picking a tipe
- * navigates, to its own detail page (description + specs + ordering info).
- *
- * Owns the ENTIRE breadcrumb + back button for every level here (folding in the parent
- * crumbs it's handed) so there is always exactly one path and one back button on screen,
- * never a second one stacked underneath for the jenis/tipe steps.
+ * The "Related Equipment" grid (Valve, Regulator, Instrumen Medis). Picking one goes
+ * straight to its detail page, where the jenis + tipe are picked as text checkboxes.
  */
 export function RelatedEquipmentExplorer({ products, lang, parentCrumbs, parentLabel, onBack, backLabel }: RelatedEquipmentExplorerProps) {
   const navigate = useNavigate();
-  // The jenis/tipe drill-down lives in the URL (not local state) so a product detail
-  // page's back button can link straight back to the exact tipe list the visitor was
-  // on, instead of always bouncing to the top-level equipment picker.
-  const [searchParams, setSearchParams] = useSearchParams();
-  const activeEquipmentId = searchParams.get('equipment');
-  const activeJenisId = searchParams.get('jenis');
+  const [searchParams] = useSearchParams();
 
-  const activeEquipment = products.find((p) => p.id === activeEquipmentId) || null;
-  const catalog = activeEquipmentId ? EQUIPMENT_CATALOGS[activeEquipmentId] : null;
-  const activeJenis = catalog?.categories.find((c) => c.id === activeJenisId) || null;
+  // Old links still carry the former in-grid jenis/tipe drill-down (`equipment`,
+  // `jenis`) — forward them to the detail page, which now hosts that selection.
+  const legacyEquipmentId = searchParams.get('equipment');
+  const legacyJenisId = searchParams.get('jenis');
+  useEffect(() => {
+    if (!legacyEquipmentId) return;
+    const base = `/${lang}/produk/detail?id=${encodeURIComponent(legacyEquipmentId)}`;
+    navigate(legacyJenisId ? `${base}&jenis=${encodeURIComponent(legacyJenisId)}` : base, { replace: true });
+  }, [legacyEquipmentId, legacyJenisId, lang, navigate]);
 
-  const selectEquipment = (id: string) => {
-    const next = new URLSearchParams(searchParams);
-    next.set('equipment', id);
-    next.delete('jenis');
-    setSearchParams(next);
-  };
-
-  const selectJenis = (id: string) => {
-    const next = new URLSearchParams(searchParams);
-    next.set('jenis', id);
-    setSearchParams(next);
-  };
-
-  const backToEquipment = () => {
-    const next = new URLSearchParams(searchParams);
-    next.delete('equipment');
-    next.delete('jenis');
-    setSearchParams(next);
-  };
-
-  const backToJenis = () => {
-    const next = new URLSearchParams(searchParams);
-    next.delete('jenis');
-    setSearchParams(next);
-  };
-
-  // Level 1: pick Valve / Regulator / Instrumen Medis — same photo+name cards as any
-  // other product grid, but picking one expands the jenis grid instead of navigating.
-  if (!activeEquipment || !catalog) {
-    return (
-      <div>
-        <Breadcrumb items={[...parentCrumbs, { label: parentLabel }]} />
-        <button type="button" onClick={onBack} className="products-tab" style={{ marginBottom: '20px' }}>
-          ← {backLabel}
-        </button>
-        <div className="products-flow-heading" style={{ marginBottom: '24px' }}>
-          <h2>{parentLabel}</h2>
-        </div>
-        <div className="products-grid-compact">
-          {products.map((product) => (
-            <button
-              key={product.id}
-              type="button"
-              className="products-card-compact"
-              aria-label={product.title}
-              onClick={() =>
-                EQUIPMENT_CATALOGS[product.id]
-                  ? selectEquipment(product.id)
-                  : navigate(`/${lang}/produk/detail?id=${product.id}`)
-              }
-            >
-              <div
-                className="products-card-compact-image"
-                style={{ backgroundImage: `url(${getImageUrl(product.image)})` }}
-              />
-              <div className="products-card-compact-title">{product.title}</div>
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Level 2: pick a jenis within the chosen equipment — plain picker, no description.
-  if (!activeJenis) {
-    return (
-      <div>
-        <Breadcrumb
-          items={[
-            ...parentCrumbs,
-            { label: parentLabel, onClick: backToEquipment },
-            { label: activeEquipment.title, onClick: backToEquipment },
-            { label: catalog.navLabel },
-          ]}
-        />
-        {/* The Produk Gas overview links straight to this level, so going back
-            skips the equipment picker and leaves Related Equipment entirely. */}
-        <button type="button" onClick={onBack} className="products-tab" style={{ marginBottom: '20px' }}>
-          ← {backLabel}
-        </button>
-        <div className="products-flow-heading" style={{ marginBottom: '24px' }}>
-          <h2>{catalog.navLabel}</h2>
-          <p>Pilih jenis di bawah ini untuk melihat tipe/model yang tersedia.</p>
-        </div>
-        <div className="picker-grid picker-grid--sub" role="list" aria-label={catalog.navLabel}>
-          {catalog.categories.map((category) => (
-            <button key={category.id} type="button" className="picker-card" onClick={() => selectJenis(category.id)}>
-              <div className="picker-card-icon">
-                <Layers size={32} aria-hidden="true" />
-              </div>
-              <div className="picker-card-title">{category.name}</div>
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Level 3: pick a tipe/model — this is what finally navigates, to its own detail page.
   return (
     <div>
-      <Breadcrumb
-        items={[
-          ...parentCrumbs,
-          { label: parentLabel, onClick: backToEquipment },
-          { label: activeEquipment.title, onClick: backToEquipment },
-          { label: catalog.navLabel, onClick: backToJenis },
-          { label: "Tipe" },
-        ]}
-      />
-      <button type="button" onClick={backToJenis} className="products-tab" style={{ marginBottom: '20px' }}>
-        ← Kembali ke {catalog.navLabel}
+      <Breadcrumb items={[...parentCrumbs, { label: parentLabel }]} />
+      <button type="button" onClick={onBack} className="products-tab" style={{ marginBottom: '20px' }}>
+        ← {backLabel}
       </button>
       <div className="products-flow-heading" style={{ marginBottom: '24px' }}>
-        <h2>{activeJenis.name}</h2>
-        <p>Pilih tipe/model yang tersedia di bawah ini.</p>
+        <h2>{parentLabel}</h2>
       </div>
       <div className="products-grid-compact">
-        {activeJenis.items.map((item) => (
+        {products.map((product) => (
           <button
-            key={item.id}
+            key={product.id}
             type="button"
             className="products-card-compact"
-            aria-label={catalogItemTitle(item)}
-            onClick={() => navigate(`/${lang}/produk/detail?id=${activeEquipmentId}&jenis=${activeJenisId}&tipe=${item.id}`)}
+            aria-label={product.title}
+            onClick={() => navigate(`/${lang}/produk/detail?id=${product.id}`)}
           >
-            {/* No product photos yet for these stock items — the box stays as a plain
-                placeholder until real photos are uploaded, same layout so it's a
-                drop-in swap later. */}
-            <div className="products-card-compact-image" />
-            <div className="products-card-compact-title">{catalogItemTitle(item)}</div>
+            <div
+              className="products-card-compact-image"
+              style={{ backgroundImage: `url(${getImageUrl(product.image)})` }}
+            />
+            <div className="products-card-compact-title">{product.title}</div>
           </button>
         ))}
       </div>

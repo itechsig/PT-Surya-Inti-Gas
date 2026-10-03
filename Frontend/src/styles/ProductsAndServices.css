@@ -1295,6 +1295,97 @@ button.products-card {
   margin: 0 0 20px;
 }
 
+/* ── Equipment jenis/tipe checklist (Valve/Regulator/Instrumen Medis) ── */
+.equipment-checklist-group {
+  border: 0;
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+.equipment-checklist-jenis {
+  font-family: var(--ff-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy-dark);
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.equipment-checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background: var(--white);
+  border: 1px solid var(--slate-200);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.equipment-checklist-item:hover {
+  border-color: var(--blue);
+}
+
+.equipment-checklist-item:has(input:checked) {
+  border-color: var(--blue);
+  background: rgba(30, 64, 175, 0.05);
+}
+
+.equipment-checklist-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  border: 2px solid var(--slate-400, #94a3b8);
+  border-radius: 3px;
+  background: var(--white);
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+}
+
+.equipment-checklist-item input[type="checkbox"]:checked {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+.equipment-checklist-item input[type="checkbox"]:checked::after {
+  content: "";
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+
+.equipment-checklist-item input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.equipment-checklist-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.equipment-checklist-title {
+  font-family: var(--ff-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--navy-dark);
+}
+
+.equipment-checklist-specs {
+  font-family: var(--ff-body);
+  font-size: 0.8rem;
+  color: var(--slate-600);
+}
+
 .packaging-options {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));

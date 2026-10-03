@@ -265,10 +265,6 @@ export function Product() {
   const getPackageGroupProducts = (groupId: string, bySlug: Map<string, Product>): Product[] =>
     (PACKAGE_SUBCATEGORY_GROUPS[groupId] ?? []).map(slug => bySlug.get(slug)).filter((p): p is Product => !!p);
 
-  // Equipment cards open the jenis/tipe explorer instead of a detail page.
-  const relatedEquipmentHref = (productId: string) =>
-    `/${currentLang}/produk?category=package&subcategory=${RELATED_EQUIPMENT_ID}&equipment=${encodeURIComponent(productId)}`;
-
   // Kemasan & Peralatan overview: Kemasan Gas, Kemasan Tabung, then Peralatan
   // Pendukung Gas Industri, each hidden if the CMS has no products for it.
   const getAllPackageGroups = (): SectionGroup[] => {
@@ -282,7 +278,6 @@ export function Product() {
       id: RELATED_EQUIPMENT_ID,
       title: t('products.subCategories.relatedEquipment'),
       products: getRelatedEquipmentProducts(productCategories),
-      href: relatedEquipmentHref,
     });
     return groups.filter(group => group.products.length > 0);
   };

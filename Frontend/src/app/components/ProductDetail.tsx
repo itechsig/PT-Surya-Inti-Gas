@@ -10,10 +10,9 @@ import { getImageUrl, IMAGE_PLACEHOLDER } from "../../utils/imageUrl";
 import { trackProductInteraction } from "../../utils/productTracking";
 import { trackEvent } from "../../utils/eventTracking";
 import { collapseCradleVariants } from "../../utils/cradleVariants";
-import { RELATED_EQUIPMENT_ID } from "../../utils/relatedEquipment";
 import { Seo } from "./Seo";
 import { EQUIPMENT_CATALOGS } from "../../data/equipmentCatalogs";
-import { catalogItemTitle } from "../../data/catalogTypes";
+import { catalogItemTitle, type CatalogStockItem } from "../../data/catalogTypes";
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -29,6 +28,13 @@ const staggerContainer: Variants = {
 /** Liquid gas (Gas Cair) products only ship in packaging suited for liquefied gas. */
 const LIQUID_PACKAGING_IDS = ['cryogenic-dewars', 'vessel-gas-liquid', 'microbulk-tank', 'vertical-storage-tank'];
 const LIQUID_SUBCATEGORY_SLUG = 'liquid';
+
+/** Spec line shown next to a tipe checkbox — text only, no photo. */
+const catalogItemSpecs = (item: CatalogStockItem) =>
+  [item.material, item.connection, item.pressure, item.condition].filter(Boolean).join(' · ');
+
+/** Key of one checked tipe in the jenis/tipe checklist. */
+const tipeKey = (jenisId: string, itemId: string) => `${jenisId}::${itemId}`;
 
 /** Industrial & Medical / Speciality & Mixed gases only ship in cylinders or cradles. */
 const STANDARD_PACKAGING_IDS = ['cylinder', 'cradle'];
@@ -48,15 +54,26 @@ export function ProductDetail() {
   const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Valve/Regulator/Instrumen Medis: the jenis + tipe were already picked in the grid
-  // (RelatedEquipmentExplorer) before navigating here, so the selection is just read
-  // back from the URL instead of tracked in local state.
+  // Valve/Regulator/Instrumen Medis: jenis + tipe are picked right here, as a
+  // multiple-choice checklist grouped by jenis. Old links carrying `jenis`/`tipe`
+  // pre-check that tipe.
   const catalogEntry = productData && productData.mainCategory === 'equipment'
     ? EQUIPMENT_CATALOGS[productData.product.id]
     : null;
-  const isCatalogEquipment = !!catalogEntry;
-  const resolvedJenis = catalogEntry?.categories.find((c) => c.id === searchParams.get('jenis')) || null;
-  const resolvedTipe = resolvedJenis?.items.find((i) => i.id === searchParams.get('tipe')) || null;
+  const [selectedTipes, setSelectedTipes] = useState<Set<string>>(() => {
+    const jenis = searchParams.get('jenis');
+    const tipe = searchParams.get('tipe');
+    return new Set(jenis && tipe ? [tipeKey(jenis, tipe)] : []);
+  });
+
+  const toggleTipe = (key: string) => {
+    setSelectedTipes((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
 
   const handleBack = () => {
     if (!productData) {
@@ -66,14 +83,10 @@ export function ProductDetail() {
 
     const { mainCategory, subCategory } = productData;
 
-    // Equipment products are surfaced as a virtual "Related Equipment" section under Kemasan & Peralatan.
-    // Valve/Regulator/Instrumen Medis carry the jenis picked back along, so the grid
-    // reopens straight at the tipe list instead of the top-level equipment picker.
+    // Equipment products are surfaced as a "Peralatan Pendukung Gas Industri" section
+    // on the Kemasan & Peralatan overview.
     if (mainCategory === 'equipment') {
-      const back = isCatalogEquipment && resolvedJenis
-        ? `/${currentLang}/produk?category=package&subcategory=${RELATED_EQUIPMENT_ID}&equipment=${productData.product.id}&jenis=${resolvedJenis.id}`
-        : `/${currentLang}/produk?category=package`;
-      navigate(back);
+      navigate(`/${currentLang}/produk?category=package`);
       return;
     }
 
@@ -129,11 +142,16 @@ export function ProductDetail() {
       message += `\n${t('productDetail.contact.selectedPackaging')}: ${packagingLabel}`;
     }
 
-    // Add the jenis + tipe picked before navigating here (Valve/Regulator/Instrumen Medis).
-    if (resolvedJenis && resolvedTipe) {
-      message += `\n${t('productDetail.contact.selectedType')}: ${resolvedJenis.name}`;
-      message += `\n${t('productDetail.contact.selectedItem')}: ${catalogItemTitle(resolvedTipe)}`;
-    }
+    // Add every checked jenis + tipe (Valve/Regulator/Instrumen Medis), grouped by jenis.
+    catalogEntry?.categories.forEach((jenis) => {
+      const picked = jenis.items.filter((item) => selectedTipes.has(tipeKey(jenis.id, item.id)));
+      if (picked.length === 0) return;
+      message += `\n\n${t('productDetail.contact.selectedType')}: ${jenis.name}`;
+      picked.forEach((item) => {
+        const specs = catalogItemSpecs(item);
+        message += `\n- ${catalogItemTitle(item)}${specs ? ` (${specs})` : ''}`;
+      });
+    });
 
     // Add the cradle size the visitor picked from the size picker.
     if (selectedSize) {
@@ -166,15 +184,6 @@ export function ProductDetail() {
     setCurrentSlide(0);
     setImageError(false);
   }, [productData?.product.id]);
-
-  // Valve/Regulator/Instrumen Medis are only reachable this way with a jenis + tipe
-  // already picked in the grid — a direct/stale link without both just bounces back
-  // to the Related Equipment grid to pick again.
-  useEffect(() => {
-    if (isCatalogEquipment && !(resolvedJenis && resolvedTipe)) {
-      navigate(`/${currentLang}/produk?category=package&subcategory=${RELATED_EQUIPMENT_ID}`);
-    }
-  }, [isCatalogEquipment, resolvedJenis, resolvedTipe, navigate, currentLang]);
 
   if (isLoading) {
     return (
@@ -281,9 +290,9 @@ export function ProductDetail() {
             onClick={handleBack}
             className="products-tab"
             style={{ marginBottom: '20px' }}
-            aria-label={isCatalogEquipment ? t('productDetail.backToTipeAria') : t('productDetail.backAria')}
+            aria-label={t('productDetail.backAria')}
           >
-            ← {isCatalogEquipment ? t('productDetail.backToTipeList') : t('productDetail.backToList')}
+            ← {t('productDetail.backToList')}
           </button>
 
           {/* Product Detail */}
@@ -370,7 +379,7 @@ export function ProductDetail() {
               variants={staggerContainer}
             >
               <motion.p className="products-detail-description" variants={fadeUp}>
-                {isCatalogEquipment ? resolvedJenis?.description : (product.fullDescription || product.description)}
+                {product.fullDescription || product.description}
               </motion.p>
 
               {/* Size chosen from the Cradle size picker */}
@@ -391,50 +400,35 @@ export function ProductDetail() {
                 </motion.div>
               )}
 
-              {/* Tipe specs, for Valve/Regulator/Instrumen Medis — jenis + tipe were already
-                  picked in the Related Equipment grid before landing on this page. */}
-              {isCatalogEquipment && resolvedJenis && resolvedTipe && (
-                <motion.div className="products-detail-info" variants={fadeUp}>
-                  <h3>Spesifikasi</h3>
-                  <div className="product-specifications">
-                    {resolvedTipe.brand && (
-                      <div className="spec-item">
-                        <span className="spec-label">Merek</span>
-                        <span className="spec-value">{resolvedTipe.brand}</span>
-                      </div>
-                    )}
-                    {resolvedTipe.model && (
-                      <div className="spec-item">
-                        <span className="spec-label">Model</span>
-                        <span className="spec-value">{resolvedTipe.model}</span>
-                      </div>
-                    )}
-                    {resolvedTipe.connection && (
-                      <div className="spec-item">
-                        <span className="spec-label">Koneksi</span>
-                        <span className="spec-value">{resolvedTipe.connection}</span>
-                      </div>
-                    )}
-                    {resolvedTipe.pressure && (
-                      <div className="spec-item">
-                        <span className="spec-label">Tekanan Kerja</span>
-                        <span className="spec-value">{resolvedTipe.pressure}</span>
-                      </div>
-                    )}
-                    {resolvedTipe.material && (
-                      <div className="spec-item">
-                        <span className="spec-label">Material</span>
-                        <span className="spec-value">{resolvedTipe.material}</span>
-                      </div>
-                    )}
-                    {resolvedTipe.condition && (
-                      <div className="spec-item">
-                        <span className="spec-label">Kondisi</span>
-                        <span className="spec-value">{resolvedTipe.condition}</span>
-                      </div>
-                    )}
-                  </div>
-                  {catalogEntry?.legend && catalogEntry.legend.length > 0 && (
+              {/* Jenis + tipe checklist for Valve/Regulator/Instrumen Medis — text only,
+                  multiple choice; every checked tipe goes into the WhatsApp inquiry. */}
+              {catalogEntry && (
+                <motion.div className="product-packaging equipment-checklist" variants={fadeUp}>
+                  <h3>Pilih Jenis &amp; Tipe</h3>
+                  <p>Centang satu atau lebih tipe yang Anda butuhkan.</p>
+                  {catalogEntry.categories.map((jenis) => (
+                    <fieldset key={jenis.id} className="equipment-checklist-group">
+                      <legend className="equipment-checklist-jenis">{jenis.name}</legend>
+                      {jenis.items.map((item) => {
+                        const key = tipeKey(jenis.id, item.id);
+                        const specs = catalogItemSpecs(item);
+                        return (
+                          <label key={item.id} className="equipment-checklist-item">
+                            <input
+                              type="checkbox"
+                              checked={selectedTipes.has(key)}
+                              onChange={() => toggleTipe(key)}
+                            />
+                            <span className="equipment-checklist-text">
+                              <span className="equipment-checklist-title">{catalogItemTitle(item)}</span>
+                              {specs && <span className="equipment-checklist-specs">{specs}</span>}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </fieldset>
+                  ))}
+                  {catalogEntry.legend && catalogEntry.legend.length > 0 && (
                     <p className="catalog-explorer-legend">
                       {catalogEntry.legend.map((entry) => `${entry.code}: ${entry.label}`).join(" · ")}
                     </p>
@@ -443,7 +437,7 @@ export function ProductDetail() {
               )}
 
               {/* WhatsApp Contact Button for equipment products (Valve/Regulator/Instrumen
-                  Medis included — by the time this page renders, a tipe is always picked). */}
+                  Medis send their checked tipes along). */}
               {productData?.mainCategory === 'equipment' && (
                 <motion.div className="product-contact" variants={fadeUp}>
                   <h3>{t('productDetail.contact.title')}</h3>
