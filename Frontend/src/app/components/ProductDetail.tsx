@@ -11,8 +11,6 @@ import { trackProductInteraction } from "../../utils/productTracking";
 import { trackEvent } from "../../utils/eventTracking";
 import { collapseCradleVariants } from "../../utils/cradleVariants";
 import { Seo } from "./Seo";
-import { EQUIPMENT_CATALOGS } from "../../data/equipmentCatalogs";
-import { catalogItemTitle, type CatalogStockItem } from "../../data/catalogTypes";
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -28,13 +26,6 @@ const staggerContainer: Variants = {
 /** Liquid gas (Gas Cair) products only ship in packaging suited for liquefied gas. */
 const LIQUID_PACKAGING_IDS = ['cryogenic-dewars', 'vessel-gas-liquid', 'microbulk-tank', 'vertical-storage-tank'];
 const LIQUID_SUBCATEGORY_SLUG = 'liquid';
-
-/** Spec line shown next to a tipe checkbox — text only, no photo. */
-const catalogItemSpecs = (item: CatalogStockItem) =>
-  [item.material, item.connection, item.pressure, item.condition].filter(Boolean).join(' · ');
-
-/** Key of one checked tipe in the jenis/tipe checklist. */
-const tipeKey = (jenisId: string, itemId: string) => `${jenisId}::${itemId}`;
 
 /** Industrial & Medical / Speciality & Mixed gases only ship in cylinders or cradles. */
 const STANDARD_PACKAGING_IDS = ['cylinder', 'cradle'];
@@ -53,27 +44,6 @@ export function ProductDetail() {
   const [imageError, setImageError] = useState(false);
   const [selectedPackaging, setSelectedPackaging] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Valve/Regulator/Instrumen Medis: jenis + tipe are picked right here, as a
-  // multiple-choice checklist grouped by jenis. Old links carrying `jenis`/`tipe`
-  // pre-check that tipe.
-  const catalogEntry = productData && productData.mainCategory === 'equipment'
-    ? EQUIPMENT_CATALOGS[productData.product.id]
-    : null;
-  const [selectedTipes, setSelectedTipes] = useState<Set<string>>(() => {
-    const jenis = searchParams.get('jenis');
-    const tipe = searchParams.get('tipe');
-    return new Set(jenis && tipe ? [tipeKey(jenis, tipe)] : []);
-  });
-
-  const toggleTipe = (key: string) => {
-    setSelectedTipes((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
-  };
 
   const handleBack = () => {
     if (!productData) {
@@ -141,17 +111,6 @@ export function ProductDetail() {
       const packagingLabel = t(`products.items.${selectedPackaging}.title`);
       message += `\n${t('productDetail.contact.selectedPackaging')}: ${packagingLabel}`;
     }
-
-    // Add every checked jenis + tipe (Valve/Regulator/Instrumen Medis), grouped by jenis.
-    catalogEntry?.categories.forEach((jenis) => {
-      const picked = jenis.items.filter((item) => selectedTipes.has(tipeKey(jenis.id, item.id)));
-      if (picked.length === 0) return;
-      message += `\n\n${t('productDetail.contact.selectedType')}: ${jenis.name}`;
-      picked.forEach((item) => {
-        const specs = catalogItemSpecs(item);
-        message += `\n- ${catalogItemTitle(item)}${specs ? ` (${specs})` : ''}`;
-      });
-    });
 
     // Add the cradle size the visitor picked from the size picker.
     if (selectedSize) {
@@ -400,9 +359,9 @@ export function ProductDetail() {
                 </motion.div>
               )}
 
-              {/* WhatsApp Contact Button for equipment products without a jenis/tipe
-                  catalog — Valve/Regulator/Instrumen Medis get theirs under the checklist. */}
-              {productData?.mainCategory === 'equipment' && !catalogEntry && (
+              {/* WhatsApp Contact Button for equipment (Peralatan Pendukung Gas Industri)
+                  products — no jenis/tipe to pick, the inquiry just names the product. */}
+              {productData?.mainCategory === 'equipment' && (
                 <motion.div className="product-contact" variants={fadeUp}>
                   <h3>{t('productDetail.contact.title')}</h3>
                   <p>{t('productDetail.contact.description')}</p>
@@ -501,50 +460,6 @@ export function ProductDetail() {
             </motion.div>
           </motion.div>
 
-          {/* Jenis + tipe checklist for Valve/Regulator/Instrumen Medis — text only,
-              multiple choice; every checked tipe goes into the WhatsApp inquiry. */}
-          {catalogEntry && (
-            <motion.div className="equipment-checklist" initial="hidden" animate="show" variants={fadeUp}>
-              <h3>Pilih Jenis &amp; Tipe</h3>
-              <p>Centang satu atau lebih tipe yang Anda butuhkan.</p>
-              <div className="equipment-checklist-grid">
-                {catalogEntry.categories.map((jenis) => (
-                  <div key={jenis.id} className="equipment-checklist-group" role="group" aria-label={jenis.name}>
-                    <h4 className="equipment-checklist-jenis">{jenis.name}</h4>
-                    {jenis.items.map((item) => {
-                      const key = tipeKey(jenis.id, item.id);
-                      const specs = catalogItemSpecs(item);
-                      return (
-                        <label key={item.id} className="equipment-checklist-item">
-                          <input
-                            type="checkbox"
-                            checked={selectedTipes.has(key)}
-                            onChange={() => toggleTipe(key)}
-                          />
-                          <span className="equipment-checklist-text">
-                            <span className="equipment-checklist-title">{catalogItemTitle(item)}</span>
-                            {specs && <span className="equipment-checklist-specs">{specs}</span>}
-                          </span>
-                        </label>
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-              {catalogEntry.legend && catalogEntry.legend.length > 0 && (
-                <p className="catalog-explorer-legend">
-                  {catalogEntry.legend.map((entry) => `${entry.code}: ${entry.label}`).join(" · ")}
-                </p>
-              )}
-              <div className="product-contact equipment-checklist-contact">
-                <h3>{t('productDetail.contact.title')}</h3>
-                <p>{t('productDetail.contact.description')}</p>
-                <button className="contact-button" onClick={() => handleContactSales(product.title)}>
-                  {t('productDetail.contact.button')}
-                </button>
-              </div>
-            </motion.div>
-          )}
         </div>
 
       </section>

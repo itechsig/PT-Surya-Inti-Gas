@@ -43,14 +43,14 @@ function Breadcrumb({ items }: { items: Crumb[] }) {
 
 /**
  * The "Related Equipment" grid (Valve, Regulator, Instrumen Medis). Picking one goes
- * straight to its detail page, where the jenis + tipe are picked as text checkboxes.
+ * straight to its detail page — no jenis/tipe to pick.
  */
 export function RelatedEquipmentExplorer({ products, lang, parentCrumbs, parentLabel, onBack, backLabel }: RelatedEquipmentExplorerProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   // Old links still carry the former in-grid jenis/tipe drill-down (`equipment`,
-  // `jenis`) — forward them to the detail page, which now hosts that selection.
+  // `jenis`) — forward them to the product's detail page.
   const legacyEquipmentId = searchParams.get('equipment');
   const legacyJenisId = searchParams.get('jenis');
   useEffect(() => {
