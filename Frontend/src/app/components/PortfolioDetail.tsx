@@ -7,10 +7,12 @@ import 'yet-another-react-lightbox/styles.css';
 import { ArrowLeft, Building2, ChevronLeft, ChevronRight, FolderOpen, Wrench } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
+import '../../styles/rich-text.css';
 import { PageHero } from './PageHero';
 import { Skeleton } from './ui/skeleton';
 import { usePortfolioDetail } from '../../hooks/usePortfolioDetail';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
+import { renderHtml } from '../../utils/renderHtml';
 
 const MotionLink = motion.create(Link);
 
@@ -163,7 +165,7 @@ export function PortfolioDetail() {
           variants={fadeUp}
         >
           <h2 className="portfolio-section-title">{t('portfolio.detail.summary')}</h2>
-          <p>{portfolio.summary}</p>
+          <div className="rich-text-content" dangerouslySetInnerHTML={{ __html: renderHtml(portfolio.summary) }} />
         </motion.div>
 
         {portfolio.gallery.length > 0 && (

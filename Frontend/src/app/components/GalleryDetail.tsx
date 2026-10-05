@@ -13,6 +13,8 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useGallery } from '../../hooks/useGallery';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
+import { renderHtml } from '../../utils/renderHtml';
+import '../../styles/rich-text.css';
 
 // Styles
 const galleryDetailStyles = `
@@ -499,10 +501,8 @@ function GalleryDetail() {
             </div>
           </div>
 
-          <div className="gallery-detail-description">
-            <p>
-              {currentItem.detailedDescription || currentItem.description}
-            </p>
+          <div className="gallery-detail-description rich-text-content">
+            <div dangerouslySetInnerHTML={{ __html: renderHtml(currentItem.detailedDescription || currentItem.description) }} />
           </div>
         </motion.div>
       </div>

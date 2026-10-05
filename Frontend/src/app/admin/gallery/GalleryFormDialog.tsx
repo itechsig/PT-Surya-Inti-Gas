@@ -20,6 +20,7 @@ import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
 import { ORIGINAL_ASPECT, useImageCropper, type AspectOption } from '../components/ImageCropDialog';
 import { createGalleryItem, updateGalleryItem } from './api';
 import { GALLERY_CATEGORIES, GALLERY_SIZES, type AdminGalleryItem, type GalleryItemFormValues } from './types';
+import { RichTextEditor } from '../components/RichTextEditor';
 
 const EMPTY_FORM: GalleryItemFormValues = {
   title_id: '', title_en: '', title_zh: '',
@@ -79,6 +80,12 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setValues((prev) => ({ ...prev, [key]: e.target.value })),
     ...fieldErrorProps(errors, key as string),
+  });
+
+  const richTextField = (key: keyof GalleryItemFormValues) => ({
+    value: values[key] as string,
+    onChange: (value: string) => setValues((prev) => ({ ...prev, [key]: value })),
+    error: errors[key]?.[0],
   });
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,8 +177,11 @@ export function GalleryFormDialog({ open, onOpenChange, item, onSaved }: Gallery
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`detailed_description_${lang}`}>Deskripsi Lengkap</Label>
-                    <Textarea id={`detailed_description_${lang}`} rows={4} {...field(`detailed_description_${lang}` as keyof GalleryItemFormValues)} />
-                    <FieldError errors={errors} name={`detailed_description_${lang}`} />
+                    <RichTextEditor
+                      id={`detailed_description_${lang}`}
+                      placeholder="Masukkan deskripsi lengkap..."
+                      {...richTextField(`detailed_description_${lang}` as keyof GalleryItemFormValues)}
+                    />
                   </div>
                 </TabsContent>
               ))}

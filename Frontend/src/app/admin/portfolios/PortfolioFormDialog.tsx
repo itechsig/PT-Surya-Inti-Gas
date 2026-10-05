@@ -19,6 +19,7 @@ import {
   type AdminIndustry, type AdminPortfolio, type AdminPortfolioImage, type AdminServiceType,
   type PortfolioFormValues,
 } from './types';
+import { RichTextEditor } from '../components/RichTextEditor';
 
 const EMPTY_FORM: PortfolioFormValues = {
   industry_id: '', industry_name: '', service_type_id: '', service_type_name: '', slug: '',
@@ -83,6 +84,12 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setValues((prev) => ({ ...prev, [key]: e.target.value })),
     ...fieldErrorProps(errors, key as string),
+  });
+
+  const richTextField = (key: keyof PortfolioFormValues) => ({
+    value: values[key] as string,
+    onChange: (value: string) => setValues((prev) => ({ ...prev, [key]: value })),
+    error: errors[key]?.[0],
   });
 
   const fieldError = (key: string) => errors[key]?.[0];
@@ -264,8 +271,11 @@ export function PortfolioFormDialog({ open, onOpenChange, portfolio, industries,
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`summary_${lang}`}>Summary</Label>
-                    <Textarea id={`summary_${lang}`} rows={3} {...field(`summary_${lang}` as keyof PortfolioFormValues)} />
-                    {fieldError(`summary_${lang}`) && <p className="text-xs text-destructive">{fieldError(`summary_${lang}`)}</p>}
+                    <RichTextEditor
+                      id={`summary_${lang}`}
+                      placeholder="Masukkan summary..."
+                      {...richTextField(`summary_${lang}` as keyof PortfolioFormValues)}
+                    />
                   </div>
                 </TabsContent>
               ))}

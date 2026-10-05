@@ -22,6 +22,7 @@ import {
 } from './types';
 import { getImageUrl } from '../../../utils/imageUrl';
 import { ORIGINAL_ASPECT, useImageCropper } from '../components/ImageCropDialog';
+import { RichTextEditor } from '../components/RichTextEditor';
 
 const EMPTY_FORM: ProductFormValues = {
   product_category_id: '', slug: '',
@@ -73,6 +74,12 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setValues((prev) => ({ ...prev, [key]: e.target.value })),
     ...fieldErrorProps(errors, key as string),
+  });
+
+  const richTextField = (key: keyof ProductFormValues) => ({
+    value: values[key] as string,
+    onChange: (value: string) => setValues((prev) => ({ ...prev, [key]: value })),
+    error: errors[key]?.[0],
   });
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -264,7 +271,11 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`full_description_${lang}`}>Deskripsi Lengkap</Label>
-                    <Textarea id={`full_description_${lang}`} rows={4} {...field(`full_description_${lang}` as keyof ProductFormValues)} />
+                    <RichTextEditor
+                      id={`full_description_${lang}`}
+                      placeholder="Masukkan deskripsi lengkap..."
+                      {...richTextField(`full_description_${lang}` as keyof ProductFormValues)}
+                    />
                   </div>
                 </TabsContent>
               ))}

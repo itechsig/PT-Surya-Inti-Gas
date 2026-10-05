@@ -4,7 +4,9 @@ import { MapPin, ArrowLeft, Send, Calendar, Building, Briefcase } from 'lucide-r
 import { Helmet } from 'react-helmet-async';
 import { motion, type Variants } from 'motion/react';
 import '../../styles/career.css';
+import '../../styles/rich-text.css';
 import { useJobVacancies } from '../../hooks/useJobVacancies';
+import { renderHtml } from '../../utils/renderHtml';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -168,7 +170,7 @@ export function JobDetail() {
           >
             <motion.div className="job-description-section" variants={fadeUp}>
               <h2>{t('career.page.jobDescription')}</h2>
-              <p>{job.fullDescription}</p>
+              <div className="rich-text-content" dangerouslySetInnerHTML={{ __html: renderHtml(job.fullDescription) }} />
             </motion.div>
 
             <motion.div className="job-requirements-section" variants={fadeUp}>

@@ -1,16 +1,18 @@
 import { useSearchParams, useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { motion, type Variants } from "motion/react";
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, type Variants } from 'motion/react';
 import '../../styles/ProductsAndServices.css';
-import { useProductDetail } from "../../hooks/useProductDetail";
-import { useProductCatalog } from "../../hooks/useProductCatalog";
-import type { Product, SubCategory } from "../../data/products";
-import { getImageUrl, IMAGE_PLACEHOLDER } from "../../utils/imageUrl";
-import { trackProductInteraction } from "../../utils/productTracking";
-import { trackEvent } from "../../utils/eventTracking";
-import { collapseCradleVariants } from "../../utils/cradleVariants";
-import { Seo } from "./Seo";
+import '../../styles/rich-text.css';
+import { useProductDetail } from '../../hooks/useProductDetail';
+import { useProductCatalog } from '../../hooks/useProductCatalog';
+import type { Product, SubCategory } from '../../data/products';
+import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
+import { trackProductInteraction } from '../../utils/productTracking';
+import { trackEvent } from '../../utils/eventTracking';
+import { collapseCradleVariants } from '../../utils/cradleVariants';
+import { Seo } from './Seo';
+import { renderHtml } from '../../utils/renderHtml';
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -337,9 +339,11 @@ export function ProductDetail() {
               animate="show"
               variants={staggerContainer}
             >
-              <motion.p className="products-detail-description" variants={fadeUp}>
-                {product.fullDescription || product.description}
-              </motion.p>
+              <motion.div
+                className="products-detail-description rich-text-content"
+                variants={fadeUp}
+                dangerouslySetInnerHTML={{ __html: renderHtml(product.fullDescription || product.description) }}
+              />
 
               {/* Size chosen from the Cradle size picker */}
               {selectedSize && (

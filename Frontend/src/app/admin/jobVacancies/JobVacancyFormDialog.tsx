@@ -15,6 +15,7 @@ import { ApiError } from '../../../utils/apiClient';
 import { FormErrorSummary, FieldError, fieldErrorProps } from '../formErrors';
 import { createJobVacancy, updateJobVacancy } from './api';
 import { JOB_LEVELS, type AdminJobVacancy, type JobVacancyFormValues } from './types';
+import { RichTextEditor } from '../components/RichTextEditor';
 
 const EMPTY_FORM: JobVacancyFormValues = {
   title_id: '', title_en: '', title_zh: '',
@@ -65,6 +66,12 @@ export function JobVacancyFormDialog({ open, onOpenChange, job, onSaved }: JobVa
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setValues((prev) => ({ ...prev, [key]: e.target.value })),
     ...fieldErrorProps(errors, key as string),
+  });
+
+  const richTextField = (key: keyof JobVacancyFormValues) => ({
+    value: values[key] as string,
+    onChange: (value: string) => setValues((prev) => ({ ...prev, [key]: value })),
+    error: errors[key]?.[0],
   });
 
   const requirementsKey = (lang: 'id' | 'en' | 'zh') => `requirements_${lang}` as const;
@@ -172,7 +179,11 @@ export function JobVacancyFormDialog({ open, onOpenChange, job, onSaved }: JobVa
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <Label htmlFor={`full_description_${lang}`}>Deskripsi Lengkap</Label>
-                    <Textarea id={`full_description_${lang}`} rows={4} {...field(`full_description_${lang}` as keyof JobVacancyFormValues)} />
+                    <RichTextEditor
+                      id={`full_description_${lang}`}
+                      placeholder="Masukkan deskripsi lengkap..."
+                      {...richTextField(`full_description_${lang}` as keyof JobVacancyFormValues)}
+                    />
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label>Persyaratan</Label>
