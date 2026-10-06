@@ -18,7 +18,7 @@ export const MAIN_CATEGORY_LABELS: Record<MainCategory, string> = {
 export type ProductQuality = 'UHP' | 'HP' | 'IG';
 export type ProductAvailability = 'available' | 'out_of_stock';
 
-export const PRODUCT_QUALITY_OPTIONS: ProductQuality[] = ['UHP', 'HP', 'IG'];
+export const PRODUCT_QUALITY_OPTIONS: ProductQuality[] = ['IG', 'HP', 'UHP'];
 
 export const PRODUCT_AVAILABILITY_LABELS: Record<ProductAvailability, string> = {
   available: 'Tersedia',

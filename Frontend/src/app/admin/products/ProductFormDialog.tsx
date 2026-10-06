@@ -117,7 +117,7 @@ export function ProductFormDialog({ open, onOpenChange, product, categories, onS
   const toggleQuality = (quality: ProductQuality, checked: boolean) => {
     setValues((prev) => ({
       ...prev,
-      // Keep the canonical UHP → HP → IG order regardless of click order.
+      // Keep the canonical IG → HP → UHP order regardless of click order.
       quality: PRODUCT_QUALITY_OPTIONS.filter((q) => (q === quality ? checked : prev.quality.includes(q))),
     }));
   };

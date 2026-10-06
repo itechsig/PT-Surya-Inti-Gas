@@ -36,8 +36,8 @@ const MAIN_CATEGORY_ICONS: Record<MainCategory, any> = {
 };
 
 /** Virtual sub-category id: "Gas Industri & Medis" and "Gas Spesial & Campuran" are
- *  merged into a single picker card, which then lists both as separate headed
- *  sections on the grid step below. */
+ *  merged into a single "Gas Industri, Medis, Spesial & Campuran" sub-category whose
+ *  products are listed together under one heading. */
 const INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID = 'industrial-medical-speciality';
 
 /** Main categories with a sub-category level (Produk Gas and Kemasan & Peralatan) —
@@ -282,20 +282,24 @@ export function Product() {
     return groups.filter(group => group.products.length > 0);
   };
 
-  // The merged "Gas Industri, Medis & Spesial" sub-category expands into these two
-  // separately headed sections, each hidden if the CMS has no products for it.
-  const getIndustrialMedicalSpecialityGroups = () => {
+  // "Gas Industri & Medis" and "Gas Spesial & Campuran" are shown as one combined
+  // "Gas Industri, Medis, Spesial & Campuran" section, hidden if both are empty.
+  const getIndustrialMedicalSpecialityGroups = (): SectionGroup[] => {
     const categories = productCategories.gas as Record<string, SubCategory> | undefined;
     if (!categories) return [];
 
-    return [
-      { id: 'industrial-medical', title: categories['industrial-medical']?.title || '', products: categories['industrial-medical']?.products ?? [] },
-      { id: 'speciality-mixed', title: categories['speciality-mixed']?.title || '', products: categories['speciality-mixed']?.products ?? [] },
-    ].filter(group => group.products.length > 0);
+    return [{
+      id: INDUSTRIAL_SPECIALITY_SUBCATEGORY_ID,
+      title: t('products.subCategories.industrialMedicalSpeciality'),
+      products: [
+        ...(categories['industrial-medical']?.products ?? []),
+        ...(categories['speciality-mixed']?.products ?? []),
+      ],
+    }].filter(group => group.products.length > 0);
   };
 
   // Produk Gas overview: every sub-category as its own headed section — Gas
-  // Industri & Medis, Gas Spesial & Campuran, then Gas Cair.
+  // Industri, Medis, Spesial & Campuran, then Gas Cair.
   const getAllGasGroups = (): SectionGroup[] => {
     const categories = productCategories.gas as Record<string, SubCategory> | undefined;
     if (!categories) return [];

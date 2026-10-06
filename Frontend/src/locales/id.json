@@ -34,7 +34,7 @@
     "about": "Tentang Kami",
     "distribution": "Jaringan Distribusi",
     "productsServices": "Produk & Layanan",
-    "industrialMedicalSpeciality": "Gas Industri, Medis & Spesial",
+    "industrialMedicalSpeciality": "Gas Industri, Medis, Spesial & Campuran",
     "relatedEquipment": "Peralatan Pendukung Gas Industri",
     "liquid": "Gas Cair",
     "package": "Kemasan & Peralatan",
@@ -196,7 +196,7 @@
     "subCategories": {
       "cradle": "Cradle",
       "relatedEquipment": "Peralatan Pendukung Gas Industri",
-      "industrialMedicalSpeciality": "Gas Industri, Medis & Spesial"
+      "industrialMedicalSpeciality": "Gas Industri, Medis, Spesial & Campuran"
     },
     "cradleGroup": {
       "description": "Rangka penyimpanan tabung gas industri yang aman dan hemat ruang.",
@@ -573,19 +573,19 @@
     "milestones": {
       "2003": {
         "title": "Awal Berdiri",
-        "description": "CV. Surya Inti Gas resmi didirikan di Sidoarjo, Jawa Timur, dengan kantor pertama yang berlokasi di Jl. KH. Mukmin. Sejak awal, perusahaan berkomitmen menyediakan solusi gas industri yang berkualitas dan terpercaya."
+        "description": "Perjalanan Surya Inti Gas berawal dari sebuah ruko sederhana di Sidoarjo, Jawa Timur. Berdiri di atas komitmen untuk menyediakan solusi gas industri yang berkualitas dan terpercaya, nilai dasar inilah yang terus menjadi dedikasi kami dari masa ke masa."
       },
       "2007": {
         "title": "Perluasan Operasional",
-        "description": "Seiring pertumbuhan bisnis dan meningkatnya permintaan pasar, kantor operasional dipindahkan ke Komplek Pergudangan & Industri Meiko Abadi Blok B70, Wedi, Gedangan, Sidoarjo guna mendukung kapasitas layanan dan distribusi yang lebih optimal."
+        "description": "Seiring berkembangnya bisnis dan meningkatnya permintaan pasar, Surya Inti Gas memindahkan kantor operasionalnya ke Komplek Pergudangan & Industri Meiko Abadi di Sidoarjo. Fasilitas baru yang lebih luas ini memperkuat kapasitas layanan dan distribusi, sehingga perusahaan dapat melayani pelanggan dengan lebih optimal."
       },
       "2016": {
         "title": "Menempati Kantor Pusat",
-        "description": "Untuk menunjang perkembangan perusahaan, kantor pusat (Head Office) dipindahkan ke Komplek Pergudangan & Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo, yang hingga kini menjadi pusat operasional PT Surya Inti Gas."
+        "description": "Untuk menunjang perkembangan perusahaan yang semakin pesat, kantor pusat (Head Office) Surya Inti Gas dipindahkan ke Komplek Pergudangan Safe N' Lock di Sidoarjo. Dari sinilah seluruh kegiatan operasional perusahaan berjalan, menjadi pusat pengelolaan layanan dan distribusi gas ke berbagai wilayah hingga saat ini."
       },
       "2017": {
         "title": "Transformasi dan Ekspansi",
-        "description": "Perusahaan resmi bertransformasi dari CV. Surya Inti Gas menjadi PT. Surya Inti Gas. Pada tahun yang sama, perusahaan memperluas jangkauan layanan dengan membuka cabang pertama di Balikpapan, Kalimantan Timur, sebagai langkah strategis untuk melayani kebutuhan pelanggan di wilayah Indonesia bagian timur."
+        "description": "PT Surya Inti Gas membuka cabang baru di Balikpapan berupa stasiun pengisian (filling station) gas, sebagai langkah memperluas jangkauan layanan ke luar Pulau Jawa. Kehadiran fasilitas ini memungkinkan perusahaan melayani pelanggan di Kalimantan secara langsung, dengan pasokan yang lebih dekat dan pengiriman yang lebih cepat. Ekspansi ini menandai babak baru perjalanan PT Surya Inti Gas dalam menghadirkan suplai gas yang andal di berbagai wilayah Indonesia."
       }
     },
     "values": {
@@ -730,22 +730,22 @@
         {
           "year": "2003",
           "label": "Awal Berdiri",
-          "text": "CV. Surya Inti Gas mulai dirintis dan didirikan sebagai perusahaan yang bergerak di bidang penyediaan gas industri. Pada awal operasionalnya, kantor perusahaan berlokasi di Jl. KH. Mukmin, Sidoarjo, Jawa Timur."
+          "text": "Perjalanan Surya Inti Gas berawal dari sebuah ruko sederhana di Sidoarjo, Jawa Timur. Berdiri di atas komitmen untuk menyediakan solusi gas industri yang berkualitas dan terpercaya, nilai dasar inilah yang terus menjadi dedikasi kami dari masa ke masa."
         },
         {
           "year": "2007",
           "label": "Ekspansi",
-          "text": "Seiring dengan perkembangan usaha dan meningkatnya potensi pasar, CV. Surya Inti Gas memindahkan kantor operasionalnya ke Komplek Pergudangan dan Industri Meiko Abadi Blok B-70, Desa Wedi, Kecamatan Gedangan, Sidoarjo, Jawa Timur. Relokasi ini dilakukan untuk mendukung kebutuhan operasional perusahaan yang terus berkembang."
+          "text": "Seiring berkembangnya bisnis dan meningkatnya permintaan pasar, Surya Inti Gas memindahkan kantor operasionalnya ke Komplek Pergudangan & Industri Meiko Abadi di Sidoarjo. Fasilitas baru yang lebih luas ini memperkuat kapasitas layanan dan distribusi, sehingga perusahaan dapat melayani pelanggan dengan lebih optimal."
         },
         {
           "year": "2016",
           "label": "Head Office Baru",
-          "text": "Untuk meningkatkan kapasitas dan efektivitas operasional, kantor pusat CV. Surya Inti Gas kembali berpindah ke Komplek Pergudangan dan Industri Safe N Lock Blok V1 No. 3223, 3225, 3232, dan 3233, Jl. Lingkar Timur KM 5,5, Desa Rangkah Kidul, Sidoarjo, Jawa Timur, yang hingga kini menjadi Head Office perusahaan."
+          "text": "Untuk menunjang perkembangan perusahaan yang semakin pesat, kantor pusat (Head Office) Surya Inti Gas dipindahkan ke Komplek Pergudangan Safe N' Lock di Sidoarjo. Dari sinilah seluruh kegiatan operasional perusahaan berjalan, menjadi pusat pengelolaan layanan dan distribusi gas ke berbagai wilayah hingga saat ini."
         },
         {
           "year": "2017",
-          "label": "PT & Cabang",
-          "text": "Menandai fase pertumbuhan yang lebih besar, perusahaan resmi bertransformasi menjadi PT. Surya Inti Gas. Pada tahun yang sama, perusahaan juga membuka cabang pertamanya di Kota Balikpapan, Kalimantan Timur, sebagai langkah awal dalam memperluas jangkauan layanan ke berbagai wilayah di Indonesia."
+          "label": "Cabang Balikpapan",
+          "text": "PT Surya Inti Gas membuka cabang baru di Balikpapan berupa stasiun pengisian (filling station) gas, sebagai langkah memperluas jangkauan layanan ke luar Pulau Jawa. Kehadiran fasilitas ini memungkinkan perusahaan melayani pelanggan di Kalimantan secara langsung, dengan pasokan yang lebih dekat dan pengiriman yang lebih cepat. Ekspansi ini menandai babak baru perjalanan PT Surya Inti Gas dalam menghadirkan suplai gas yang andal di berbagai wilayah Indonesia."
         }
       ]
     }

@@ -34,7 +34,7 @@
     "about": "关于我们",
     "distribution": "分销网络",
     "productsServices": "产品与服务",
-    "industrialMedicalSpeciality": "工业、医用与特种气体",
+    "industrialMedicalSpeciality": "工业、医用、特种与混合气体",
     "liquid": "液态气体",
     "relatedEquipment": "相关设备",
     "package": "包装与设备",
@@ -196,7 +196,7 @@
     "subCategories": {
       "cradle": "架",
       "relatedEquipment": "相关设备",
-      "industrialMedicalSpeciality": "工业、医用与特种气体"
+      "industrialMedicalSpeciality": "工业、医用、特种与混合气体"
     },
     "cradleGroup": {
       "description": "安全且节省空间的工业气瓶存放架。",
@@ -1049,19 +1049,19 @@
     "milestones": {
       "2003": {
         "title": "创立之初",
-        "description": "CV. Surya Inti Gas正式在东爪哇泗水成立，首个办公室位于Jl. KH. Mukmin。从一开始，公司就致力于提供优质、可靠的工业气体解决方案。"
+        "description": "Surya Inti Gas的旅程始于东爪哇诗都阿佐（Sidoarjo）的一间简朴店屋。公司秉持提供优质、可靠工业气体解决方案的承诺而创立，这一核心价值始终是我们历年来坚守的信念。"
       },
       "2007": {
         "title": "运营扩展",
-        "description": "随着业务增长和市场需求增加，运营中心迁至泗水Gedangan Wedi的Meiko Abadi仓储工业园区B70区，以支持更优化的服务和配送能力。"
+        "description": "随着业务发展和市场需求增长，Surya Inti Gas将运营办公室迁至诗都阿佐的Meiko Abadi仓储工业园区。更宽敞的新设施增强了服务和配送能力，使公司能够更好地服务客户。"
       },
       "2016": {
         "title": "迁入总部",
-        "description": "为支持公司发展，总部迁至泗水Rangkah Kidul东环路5.5公里处的Safe N Lock仓储工业园区V1区3223、3225、3232、3233号，至今仍是PT Surya Inti Gas的运营中心。"
+        "description": "为支持公司的快速发展，Surya Inti Gas总部迁至诗都阿佐的Safe N' Lock仓储园区。公司的全部运营活动均在此开展，至今仍是管理服务和向各地区配送气体的中心。"
       },
       "2017": {
         "title": "转型与扩张",
-        "description": "公司正式由CV. Surya Inti Gas转型为PT. Surya Inti Gas。同年，公司在东加里曼丹巴厘巴板开设首家分公司，作为服务印度尼西亚东部客户需求的战略举措，扩大了服务范围。"
+        "description": "PT Surya Inti Gas在巴厘巴板开设了一家新的分公司——气体充装站，将服务范围扩展到爪哇岛以外。该设施使公司能够直接服务加里曼丹的客户，供应更近、配送更快。此次扩张标志着PT Surya Inti Gas在为印度尼西亚各地提供可靠气体供应的历程中迈入了新篇章。"
       }
     },
     "values": {
@@ -1206,22 +1206,22 @@
         {
           "year": "2003",
           "label": "成立",
-          "text": "以CV. Surya Inti Gas的名义成立，办公室位于东爪哇泗水Jl. KH. Mukmin。"
+          "text": "Surya Inti Gas的旅程始于东爪哇诗都阿佐（Sidoarjo）的一间简朴店屋。公司秉持提供优质、可靠工业气体解决方案的承诺而创立，这一核心价值始终是我们历年来坚守的信念。"
         },
         {
           "year": "2007",
           "label": "扩张",
-          "text": "业务迅速发展，办公室迁至泗水Gedangan的Meiko Abadi工业仓储综合体。"
+          "text": "随着业务发展和市场需求增长，Surya Inti Gas将运营办公室迁至诗都阿佐的Meiko Abadi仓储工业园区。更宽敞的新设施增强了服务和配送能力，使公司能够更好地服务客户。"
         },
         {
           "year": "2016",
           "label": "新总部",
-          "text": "办公室迁至Safe N Lock综合体，Jl. Lingkar Timur KM 5.5, Rangkah Kidul作为总部。"
+          "text": "为支持公司的快速发展，Surya Inti Gas总部迁至诗都阿佐的Safe N' Lock仓储园区。公司的全部运营活动均在此开展，至今仍是管理服务和向各地区配送气体的中心。"
         },
         {
           "year": "2017",
-          "label": "公司与分公司",
-          "text": "正式成立为PT. Surya Inti Gas，并在东加里曼丹巴厘巴板开设第一家分公司。"
+          "label": "巴厘巴板分公司",
+          "text": "PT Surya Inti Gas在巴厘巴板开设了一家新的分公司——气体充装站，将服务范围扩展到爪哇岛以外。该设施使公司能够直接服务加里曼丹的客户，供应更近、配送更快。此次扩张标志着PT Surya Inti Gas在为印度尼西亚各地提供可靠气体供应的历程中迈入了新篇章。"
         }
       ]
     }

@@ -33,6 +33,9 @@ const LIQUID_SUBCATEGORY_SLUG = 'liquid';
 const STANDARD_PACKAGING_IDS = ['cylinder', 'cradle'];
 const STANDARD_SUBCATEGORY_SLUGS = ['industrial-medical', 'speciality-mixed'];
 
+/** Gas grades are always listed IG → HP → UHP, whatever order they were saved in. */
+const QUALITY_ORDER: NonNullable<Product['quality']> = ['IG', 'HP', 'UHP'];
+
 export function ProductDetail() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -396,7 +399,7 @@ export function ProductDetail() {
                       {product.quality && product.quality.length > 0 && (
                         <motion.div className="spec-item" variants={fadeUp}>
                           <span className="spec-label">{t('productDetail.info.quality')}</span>
-                          <span className="spec-value">{product.quality.join(' / ')}</span>
+                          <span className="spec-value">{QUALITY_ORDER.filter(q => product.quality!.includes(q)).join(' / ')}</span>
                         </motion.div>
                       )}
                       <motion.div className="spec-item" variants={fadeUp}>

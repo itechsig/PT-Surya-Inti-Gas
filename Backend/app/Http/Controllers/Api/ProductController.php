@@ -311,7 +311,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Keeps the selected grades in the canonical UHP → HP → IG order; an empty selection is stored as null.
+     * Keeps the selected grades in the canonical IG → HP → UHP order; an empty selection is stored as null.
      */
     private function normalizeQuality(?array $quality): ?array
     {

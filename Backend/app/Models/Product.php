@@ -17,7 +17,7 @@ class Product extends Model
         'is_featured', 'display_order', 'is_published',
     ];
 
-    public const QUALITIES = ['UHP', 'HP', 'IG'];
+    public const QUALITIES = ['IG', 'HP', 'UHP'];
 
     public const AVAILABILITIES = ['available', 'out_of_stock'];
 

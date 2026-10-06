@@ -34,7 +34,7 @@
     "about": "About",
     "distribution": "Distribution Network",
     "productsServices": "Products & Services",
-    "industrialMedicalSpeciality": "Industrial, Medical & Speciality Gas",
+    "industrialMedicalSpeciality": "Industrial, Medical, Speciality & Mixed Gas",
     "liquid": "Liquid",
     "relatedEquipment": "Related Equipment",
     "package": "Packaging & Equipment",
@@ -196,7 +196,7 @@
     "subCategories": {
       "cradle": "Cradle",
       "relatedEquipment": "Related Equipment",
-      "industrialMedicalSpeciality": "Industrial, Medical & Speciality Gas"
+      "industrialMedicalSpeciality": "Industrial, Medical, Speciality & Mixed Gas"
     },
     "cradleGroup": {
       "description": "A safe, space-efficient rack for storing industrial gas cylinders.",
@@ -575,19 +575,19 @@
     "milestones": {
       "2003": {
         "title": "Founding",
-        "description": "CV. Surya Inti Gas was officially established in Sidoarjo, East Java, with its first office located at Jl. KH. Mukmin. From the very beginning, the company has been committed to providing quality, reliable industrial gas solutions."
+        "description": "Surya Inti Gas's journey began in a modest shophouse in Sidoarjo, East Java. Founded on a commitment to providing quality, reliable industrial gas solutions, this core value has remained our dedication through the years."
       },
       "2007": {
         "title": "Operational Expansion",
-        "description": "As the business grew and market demand increased, operations were relocated to the Meiko Abadi Warehousing & Industrial Complex, Block B70, Wedi, Gedangan, Sidoarjo, to support more optimal service and distribution capacity."
+        "description": "As the business grew and market demand increased, Surya Inti Gas relocated its operational office to the Meiko Abadi Warehousing & Industrial Complex in Sidoarjo. This larger new facility strengthened service and distribution capacity, allowing the company to serve customers more optimally."
       },
       "2016": {
         "title": "Moving to the Head Office",
-        "description": "To support the company's growth, the head office was relocated to the Safe N Lock Warehousing & Industrial Complex, Block V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul, Sidoarjo, which remains PT Surya Inti Gas's operational center to this day."
+        "description": "To support the company's rapid growth, the Surya Inti Gas head office was relocated to the Safe N' Lock Warehousing Complex in Sidoarjo. All of the company's operations run from here, making it the hub for managing services and gas distribution to many regions to this day."
       },
       "2017": {
         "title": "Transformation and Expansion",
-        "description": "The company officially transformed from CV. Surya Inti Gas into PT. Surya Inti Gas. In the same year, the company expanded its service reach by opening its first branch in Balikpapan, East Kalimantan, as a strategic step to serve customers in eastern Indonesia."
+        "description": "PT Surya Inti Gas opened a new branch in Balikpapan in the form of a gas filling station, extending its service reach beyond Java. This facility lets the company serve customers in Kalimantan directly, with closer supply and faster delivery. The expansion marks a new chapter in PT Surya Inti Gas's journey to deliver reliable gas supply across Indonesia."
       }
     },
     "values": {
@@ -732,22 +732,22 @@
         {
           "year": "2003",
           "label": "Establishment",
-          "text": "Established as CV. Surya Inti Gas, office located at Jl. KH. Mukmin, Sidoarjo, East Java."
+          "text": "Surya Inti Gas's journey began in a modest shophouse in Sidoarjo, East Java. Founded on a commitment to providing quality, reliable industrial gas solutions, this core value has remained our dedication through the years."
         },
         {
           "year": "2007",
           "label": "Expansion",
-          "text": "Business grew rapidly, office moved to Meiko Abadi Industrial & Warehousing Complex, Gedangan, Sidoarjo."
+          "text": "As the business grew and market demand increased, Surya Inti Gas relocated its operational office to the Meiko Abadi Warehousing & Industrial Complex in Sidoarjo. This larger new facility strengthened service and distribution capacity, allowing the company to serve customers more optimally."
         },
         {
           "year": "2016",
           "label": "New Head Office",
-          "text": "Office moved to Safe N Lock Complex, Jl. Lingkar Timur KM 5.5, Rangkah Kidul as Head Office."
+          "text": "To support the company's rapid growth, the Surya Inti Gas head office was relocated to the Safe N' Lock Warehousing Complex in Sidoarjo. All of the company's operations run from here, making it the hub for managing services and gas distribution to many regions to this day."
         },
         {
           "year": "2017",
-          "label": "PT & Branch",
-          "text": "Officially established as PT. Surya Inti Gas and opened first branch in Balikpapan, East Kalimantan."
+          "label": "Balikpapan Branch",
+          "text": "PT Surya Inti Gas opened a new branch in Balikpapan in the form of a gas filling station, extending its service reach beyond Java. This facility lets the company serve customers in Kalimantan directly, with closer supply and faster delivery. The expansion marks a new chapter in PT Surya Inti Gas's journey to deliver reliable gas supply across Indonesia."
         }
       ]
     }
