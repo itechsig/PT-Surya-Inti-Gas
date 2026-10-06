@@ -12,7 +12,7 @@ import { trackProductInteraction } from '../../utils/productTracking';
 import { trackEvent } from '../../utils/eventTracking';
 import { collapseCradleVariants } from '../../utils/cradleVariants';
 import { Seo } from './Seo';
-import { renderHtml } from '../../utils/renderHtml';
+import { firstRichText, renderHtml } from '../../utils/renderHtml';
 
 /* ── Motion variants ── */
 const fadeUp: Variants = {
@@ -342,7 +342,7 @@ export function ProductDetail() {
               <motion.div
                 className="products-detail-description rich-text-content"
                 variants={fadeUp}
-                dangerouslySetInnerHTML={{ __html: renderHtml(product.fullDescription || product.description) }}
+                dangerouslySetInnerHTML={{ __html: renderHtml(firstRichText(product.fullDescription, product.description)) }}
               />
 
               {/* Size chosen from the Cradle size picker */}

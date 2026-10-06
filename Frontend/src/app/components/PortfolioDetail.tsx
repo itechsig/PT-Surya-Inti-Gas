@@ -12,7 +12,7 @@ import { PageHero } from './PageHero';
 import { Skeleton } from './ui/skeleton';
 import { usePortfolioDetail } from '../../hooks/usePortfolioDetail';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
-import { renderHtml } from '../../utils/renderHtml';
+import { htmlToPlainText, renderHtml } from '../../utils/renderHtml';
 
 const MotionLink = motion.create(Link);
 
@@ -104,9 +104,9 @@ export function PortfolioDetail() {
     <div className="portfolio-corporate">
       <Helmet>
         <title>{portfolio.title} | PT Surya Inti Gas</title>
-        <meta name="description" content={portfolio.summary} />
+        <meta name="description" content={htmlToPlainText(portfolio.summary)} />
         <meta property="og:title" content={portfolio.title} />
-        <meta property="og:description" content={portfolio.summary} />
+        <meta property="og:description" content={htmlToPlainText(portfolio.summary)} />
         <meta property="og:image" content={getImageUrl(portfolio.thumbnail)} />
         <meta property="og:type" content="article" />
         <link rel="canonical" href={`https://suryaintigas.com/${currentLang}/portofolio/${portfolio.id}`} />

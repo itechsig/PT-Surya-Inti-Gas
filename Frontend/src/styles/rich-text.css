@@ -1,6 +1,14 @@
-/* Rich text content styling for public pages */
+/* Rich text content styling for public pages.
+   Quill writes one <p> per line and an empty <p><br></p> per blank line, so paragraphs
+   get no margin here — otherwise every Enter in the admin editor becomes a big gap. */
+/* Left is the editor's default alignment; set on the blocks so it beats a justified
+   parent (product/gallery description), while .ql-align-* classes below still win. */
+.rich-text-content > * {
+  text-align: left;
+}
+
 .rich-text-content p {
-  margin-bottom: 1rem;
+  margin: 0;
   line-height: 1.7;
 }
 
@@ -27,12 +35,21 @@
 
 .rich-text-content ul,
 .rich-text-content ol {
-  margin-bottom: 1rem;
+  margin: 0.5rem 0;
   padding-left: 1.5rem;
 }
 
+/* Tailwind's preflight removes list markers */
+.rich-text-content ul {
+  list-style-type: disc;
+}
+
+.rich-text-content ol {
+  list-style-type: decimal;
+}
+
 .rich-text-content li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   line-height: 1.7;
 }
 
@@ -41,10 +58,6 @@
   font-weight: 900;
   color: #000;
   letter-spacing: -0.02em;
-}
-
-.rich-text-content .ql-align-left {
-  text-align: left;
 }
 
 .rich-text-content .ql-align-center {
@@ -66,8 +79,4 @@
 
 .rich-text-content u {
   text-decoration: underline;
-}
-
-.rich-text-content:last-child {
-  margin-bottom: 0;
 }
