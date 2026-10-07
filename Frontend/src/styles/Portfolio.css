@@ -477,16 +477,31 @@
     display: none;
   }
 
+  /* Lebar kartu sama seperti layout 3 kolom sebelumnya; area grid dilebarkan
+     melewati kontainer agar muat 4 kartu (dibatasi lebar layar). Toolbar filter
+     ikut lebar yang sama agar sejajar dengan tepi kiri & kanan kartu. */
+  .portfolio-container {
+    --portfolio-card-w: calc((min(1280px, 100vw) - 12vw - 48px) / 3);
+    --portfolio-grid-w: min(calc(4 * var(--portfolio-card-w) + 72px), calc(100vw - 64px));
+  }
+
+  .portfolio-toolbar,
+  .portfolio-slider {
+    width: var(--portfolio-grid-w);
+    margin-left: calc((100% - var(--portfolio-grid-w)) / 2);
+  }
+
   .portfolio-track {
     overflow: visible;
     scroll-snap-type: none;
     cursor: default;
-    padding-bottom: 0;
+    /* Jarak antara baris kartu terakhir dan section CTA */
+    padding-bottom: 72px;
   }
 
   .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .portfolio-card {

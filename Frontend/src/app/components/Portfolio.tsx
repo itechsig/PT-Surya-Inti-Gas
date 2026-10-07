@@ -317,7 +317,7 @@ export function Portfolio() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                 >
-                  {Array.from({ length: 6 }).map((_, i) => <PortfolioCardSkeleton key={i} />)}
+                  {Array.from({ length: 8 }).map((_, i) => <PortfolioCardSkeleton key={i} />)}
                 </motion.div>
               ) : portfolios.length === 0 ? (
                 <motion.div
