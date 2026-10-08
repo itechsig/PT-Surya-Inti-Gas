@@ -18,8 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Dynamic sitemap (public/.htaccess rewrites /sitemap.xml here ahead of the static file)
-Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index']);
+// Dynamic sitemap (public/.htaccess rewrites /sitemap.xml here ahead of the static file).
+// Stateless: no session/cookies/CSRF — the 'web' group's database session store
+// 500'd in production because there is no sessions table (the app is API-only).
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])
+    ->withoutMiddleware('web');
 
 // Serve storage files directly (for Railway compatibility)
 Route::get('/storage/{path}', function ($path) {

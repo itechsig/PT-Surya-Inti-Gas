@@ -3,6 +3,20 @@
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+      <!-- Google tag (gtag.js) — GA4 property "PT Surya Inti Gas" (G-MSKD7KYTVB).
+           SPA route changes are counted by GA4 Enhanced Measurement ("page changes
+           based on browser history events"), so no manual page_view calls needed.
+           Not configured on /admin so staff CMS sessions don't pollute visitor data. -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-MSKD7KYTVB"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        if (location.pathname.indexOf('/admin') !== 0) {
+          gtag('js', new Date());
+          gtag('config', 'G-MSKD7KYTVB');
+        }
+      </script>
   
       <!-- SEO Meta Tags -->
       <!-- title, description, canonical and hreflang are managed per-route by the
@@ -71,8 +85,8 @@
            NAP (name/address/phone) is kept identical to src/data/contact.ts —
            keep the two in sync, and keep both identical to the Google Business
            Profile listings (NAP consistency drives local ranking).
-           TODO: replace the geo lat/long below with the exact pin from each
-           Google Business Profile. -->
+           geo = exact pin of each Google Business Profile (same as src/data/distribution.ts);
+           hasMap = the GBP listing itself (cid). -->
       <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -120,9 +134,10 @@
             },
             "geo": {
               "@type": "GeoCoordinates",
-              "latitude": "-7.4693",
-              "longitude": "112.7267"
+              "latitude": -7.466979,
+              "longitude": 112.752327
             },
+            "hasMap": "https://maps.google.com/?cid=16520732487837559069",
             "areaServed": ["Jawa Timur", "Jawa Tengah", "DI Yogyakarta"],
             "openingHoursSpecification": [
               { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:00" },
@@ -156,9 +171,10 @@
             },
             "geo": {
               "@type": "GeoCoordinates",
-              "latitude": "-1.2107",
-              "longitude": "116.8253"
+              "latitude": -1.187093,
+              "longitude": 116.8515471
             },
+            "hasMap": "https://maps.google.com/?cid=13432757120916765108",
             "areaServed": ["Kalimantan Timur"],
             "openingHoursSpecification": [
               { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:00" },
@@ -318,7 +334,7 @@
       <link rel="dns-prefetch" href="https://b.tile.openstreetmap.org" />
       <link rel="dns-prefetch" href="https://c.tile.openstreetmap.org" />
       <link rel="dns-prefetch" href="https://img.youtube.com" />
-      <script type="module" crossorigin src="/assets/index-Cb2wQmLB.js"></script>
+      <script type="module" crossorigin src="/assets/index-cO_fev_s.js"></script>
       <link rel="modulepreload" crossorigin href="/assets/react-vendor-DQUATC2k.js">
       <link rel="modulepreload" crossorigin href="/assets/motion-vendor-BhVzDdA2.js">
       <link rel="stylesheet" crossorigin href="/assets/index-bSk6TYN7.css">
