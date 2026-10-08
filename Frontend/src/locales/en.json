@@ -27,6 +27,27 @@
     "gallery": {
       "title": "Gallery | PT Surya Inti Gas",
       "description": "Documentation of operational facilities, company activities, and projects of PT Surya Inti Gas serving various industries across Indonesia."
+    },
+    "career": {
+      "title": "Careers & Job Openings | PT Surya Inti Gas",
+      "description": "Latest job openings at PT Surya Inti Gas, an industrial and medical gas distributor in Sidoarjo and Balikpapan. Join us and build your career."
+    },
+    "jobDetail": {
+      "title": "{{title}} Job Opening — {{location}} | PT Surya Inti Gas",
+      "description": "{{title}} ({{division}}) job opening in {{location}}. {{summary}}"
+    },
+    "application": {
+      "title": "Apply for {{title}} | PT Surya Inti Gas"
+    },
+    "portfolio": {
+      "title": "Gas Installation Project Portfolio | PT Surya Inti Gas",
+      "description": "Gas installation, medical gas pipeline, and industrial gas system projects delivered by PT Surya Inti Gas for hospitals, factories, and industries across Indonesia."
+    },
+    "portfolioDetail": {
+      "title": "{{title}} | PT Surya Inti Gas Portfolio"
+    },
+    "galleryDetail": {
+      "title": "{{title}} | PT Surya Inti Gas Gallery"
     }
   },
   "header": {

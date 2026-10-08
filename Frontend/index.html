@@ -15,7 +15,7 @@
            and they only added noise. -->
       <title>PT Surya Inti Gas — Distributor Gas Industri & Medis Terpercaya Sejak 2003 | Oxygen, Nitrogen, Argon, Acetylene</title>
       <meta name="author" content="PT Surya Inti Gas" />
-      <meta name="robots" content="index, follow" />
+      <meta data-rh="true" name="robots" content="index, follow" />
       <meta name="geo.region" content="ID-JI" />
       <meta name="geo.placename" content="Sidoarjo, Jawa Timur, Indonesia" />
 
@@ -23,15 +23,16 @@
       <meta name="google-site-verification" content="SbDlwmYgav8EIXRPB5mtFMC1RDMXvVzGE9GGBBf82Y8" />
       
       <!-- Open Graph / Twitter fallback for non-JS scrapers (WhatsApp, Facebook).
-           Per-page values are set at runtime by <Seo>. -->
-      <meta property="og:type" content="website" />
-      <meta property="og:image" content="https://suryaintigas.com/office-optimized.jpg" />
-      <meta property="og:locale" content="id_ID" />
+           Per-page values are set at runtime by <Seo>. data-rh="true" marks them as
+           helmet-managed so they are replaced (not duplicated) once React renders. -->
+      <meta data-rh="true" property="og:type" content="website" />
+      <meta data-rh="true" property="og:image" content="https://suryaintigas.com/office-optimized.jpg" />
+      <meta data-rh="true" property="og:locale" content="id_ID" />
       <meta property="og:locale:alternate" content="en_US" />
       <meta property="og:locale:alternate" content="zh_CN" />
-      <meta property="og:site_name" content="PT Surya Inti Gas" />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content="https://suryaintigas.com/office-optimized.jpg" />
+      <meta data-rh="true" property="og:site_name" content="PT Surya Inti Gas" />
+      <meta data-rh="true" name="twitter:card" content="summary_large_image" />
+      <meta data-rh="true" name="twitter:image" content="https://suryaintigas.com/office-optimized.jpg" />
 
       <!-- Favicon -->
       <link rel="icon" type="image/png" href="/logo.png" />
@@ -273,99 +274,12 @@
       }
       </script>
 
-      <!-- FAQ Schema for Common Questions -->
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What types of industrial gases does PT Surya Inti Gas supply?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "PT Surya Inti Gas supplies a comprehensive range of industrial gases including Oxygen (O₂), Nitrogen (N₂), Argon (Ar), Acetylene (C₂H₂), Hydrogen (H₂), Helium (He), mixed gases, and specialty gases for various industrial, medical, and laboratory applications."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What areas does PT Surya Inti Gas serve?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "We serve East Java, Central Java, DIY (Yogyakarta), East Kalimantan, and other regions across Indonesia. Our main offices are located in Sidoarjo, East Java and Balikpapan, East Kalimantan."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do you provide medical grade gases?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, we supply medical grade gases including medical oxygen that meet international quality standards for healthcare applications. Our medical gases are certified and suitable for hospital and medical facility use."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What gas equipment and accessories do you offer?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "We provide comprehensive gas equipment including cryogenic tanks, gas cylinders, regulators, valves, manifolds, piping systems, and related accessories. We also offer installation and maintenance services for gas systems."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How long has PT Surya Inti Gas been in operation?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "PT Surya Inti Gas has been operating since 2003, bringing over 20 years of experience in the industrial gas distribution industry. We have established ourselves as a trusted supplier throughout Indonesia."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do you offer gas delivery services?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, we provide reliable gas delivery services to our customers across our service areas. Our delivery fleet ensures timely and safe delivery of gas cylinders and bulk gas to industrial facilities, hospitals, and other customers."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What quality standards do your gases meet?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Our gases meet international quality standards and are suitable for various applications including industrial processes, medical use, laboratory work, and specialty applications. We maintain strict quality control measures to ensure gas purity and consistency."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can you provide custom gas mixtures?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, we offer custom gas mixing services to meet specific customer requirements. Our team can create specialized gas mixtures for welding, laboratory, industrial, and other applications based on your specifications."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What payment methods do you accept?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "We accept various payment methods including cash, credit cards, and bank transfers. For regular customers, we also offer credit terms subject to approval. Contact our sales team for detailed payment options."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How can I request a quote for gas supply?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "You can request a quote by contacting our sales team at +62 812 3390 6378 (Sidoarjo) or +62 851 5711 8879 (Balikpapan), by email at salescounter.sda@suryaintigas.com, or by filling out the contact form on our website. Our team will respond promptly with competitive pricing based on your requirements."
-            }
-          }
-        ]
-      }
-      </script>
+      <!-- FAQPage schema was removed 2026-10: Google requires FAQ markup to match
+           a visible FAQ on the page, and the site has none (answers live only in
+           the chatbot). Re-add only alongside a real, visible FAQ section. -->
 
-      <!-- Breadcrumb schema is injected per-page by the SPA, not here.
-           A global BreadcrumbList listing the whole nav menu makes Google
-           render "... > About Us > Contact" under every result. -->
+      <!-- BreadcrumbList schema is emitted per-page by <PageHero> (from its visible
+           breadcrumb trail), never globally here. -->
 
       <link rel="apple-touch-icon" href="/logo.png" />
 

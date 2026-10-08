@@ -8,12 +8,27 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # One canonical host: www -> apex (301).
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
     # Handle API routes - send to Laravel
     RewriteCond %{REQUEST_URI} ^/api/
     RewriteRule ^ index.php [L]
 
-    # Root request always serves the SPA, never Laravel's welcome route
-    RewriteRule ^$ index.html [L]
+    # Dynamic sitemap from the database (SitemapController); the static
+    # sitemap.xml file is only a fallback for local/other hosting.
+    RewriteRule ^sitemap\.xml$ index.php [L]
+
+    # "/" has no content of its own; the Indonesian homepage is the x-default.
+    # A real 301 (not the SPA's client-side redirect) so Google consolidates it.
+    RewriteRule ^$ /id [R=301,L]
+
+    # SEO shells generated at build time (Frontend/scripts/prerender-seo.mjs):
+    # same SPA, but with per-page lang/title/description/canonical/hreflang in the
+    # raw HTML. Keep this page list in sync with ROUTES in that script.
+    RewriteRule ^(id|en|zh)/?$ prerender/$1.html [L]
+    RewriteRule ^(id|en|zh)/(tentang-kami|produk|jaringan-distribusi|portofolio|galeri|karir|kontak)/?$ prerender/$1/$2.html [L]
 
     # Handle React SPA routing - serve index.html for non-file requests (except API)
     RewriteCond %{REQUEST_FILENAME} !-f
@@ -47,8 +62,9 @@
         Header set Cache-Control "public, max-age=2592000"
     </FilesMatch>
 
-    # The SPA shell must always be revalidated so a new deploy is picked up at once.
-    <FilesMatch "^(index\.html|manifest\.webmanifest|sw\.js|robots\.txt|sitemap\.xml)$">
+    # The SPA shell (index.html + the prerender/*.html SEO shells) must always be
+    # revalidated so a new deploy is picked up at once.
+    <FilesMatch "(\.html|^manifest\.webmanifest|^sw\.js|^robots\.txt|^sitemap\.xml)$">
         Header set Cache-Control "no-cache"
     </FilesMatch>
 </IfModule>

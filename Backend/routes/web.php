@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Dynamic sitemap (public/.htaccess rewrites /sitemap.xml here ahead of the static file)
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index']);
+
 // Serve storage files directly (for Railway compatibility)
 Route::get('/storage/{path}', function ($path) {
     $fullPath = storage_path('app/public/' . $path);

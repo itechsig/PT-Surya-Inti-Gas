@@ -9,4 +9,6 @@ export interface Job {
   fullDescription: string;
   requirements: string[];
   deadline: string;
+  /** Publish date (Y-m-d), used for JobPosting structured data. */
+  postedAt?: string;
 }

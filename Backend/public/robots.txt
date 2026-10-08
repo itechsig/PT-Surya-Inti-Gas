@@ -1,63 +1,10 @@
-# robots.txt for PT Surya Inti Gas
+# robots.txt — PT Surya Inti Gas
+# Note: /api/ must stay crawlable. The site is a React SPA and Googlebot needs
+# the public API responses to render product, portfolio and gallery content.
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /*/karir/*/lamar
 
-# Disallow access to admin and sensitive areas
-Disallow: /admin/
-Disallow: /private/
-Disallow: /*.env$
-Disallow: /*.config$
-
-# Allow specific bots for better indexing
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: BaiduSpider
-Allow: /
-
-# Crawl-delay for respectful crawling (optional)
-# Crawl-delay: 1
-
-# Sitemap location
 Sitemap: https://suryaintigas.com/sitemap.xml
-
-# Important: Ensure homepage is prioritized
-Allow: /id
-Allow: /en
-Allow: /zh
-
-# Allow indexing of important static assets
-Allow: /images/
-Allow: /public/
-Allow: /logo.png
-Allow: /hero-video.mp4
-Allow: /office-optimized.jpg
-
-# Allow common static assets
-Allow: *.css
-Allow: *.js
-Allow: *.png
-Allow: *.jpg
-Allow: *.jpeg
-Allow: *.gif
-Allow: *.svg
-Allow: *.ico
-Allow: *.webp
-Allow: *.mp4
-Allow: *.woff
-Allow: *.woff2
-
-# Disallow tracking and analytics scripts from being indexed
-Disallow: /analytics/
-Disallow: /tracking/
-
-# Disallow development and testing directories
-Disallow: /dev/
-Disallow: /test/
-Disallow: /staging/
-Disallow: /temp/
-Disallow: /tmp/

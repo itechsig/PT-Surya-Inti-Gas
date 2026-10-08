@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet-async';
+import { Seo } from './Seo';
 import { Search, ArrowRight, FolderOpen, ChevronLeft, ChevronRight, Images } from 'lucide-react';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
 import '../../styles/Portfolio.css';
@@ -227,14 +227,7 @@ export function Portfolio() {
 
   return (
     <div className="portfolio-corporate">
-      <Helmet>
-        <title>{t('portfolio.page.title')} | PT Surya Inti Gas</title>
-        <meta name="description" content={t('portfolio.page.subtitle')} />
-        <meta property="og:title" content={`${t('portfolio.page.title')} | PT Surya Inti Gas`} />
-        <meta property="og:description" content={t('portfolio.page.subtitle')} />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href={`https://suryaintigas.com/${currentLang}/portofolio`} />
-      </Helmet>
+      <Seo title={t('seo.portfolio.title')} description={t('seo.portfolio.description')} segment="portofolio" />
 
       <PageHero
         title={t('portfolio.page.title')}

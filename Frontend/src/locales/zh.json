@@ -27,6 +27,27 @@
     "gallery": {
       "title": "图库 | 泗水英特佳气体公司",
       "description": "泗水英特佳气体公司服务印度尼西亚各行业的运营设施、公司活动及项目记录。"
+    },
+    "career": {
+      "title": "职业机会与招聘 | 泗水英特佳气体公司",
+      "description": "泗水英特佳气体公司最新招聘职位。我们是位于诗都阿佐和巴厘巴板的工业与医用气体分销商，欢迎加入我们。"
+    },
+    "jobDetail": {
+      "title": "招聘：{{title}} — {{location}} | 泗水英特佳气体公司",
+      "description": "{{location}} 招聘 {{title}}（{{division}}）。{{summary}}"
+    },
+    "application": {
+      "title": "申请职位：{{title}} | 泗水英特佳气体公司"
+    },
+    "portfolio": {
+      "title": "气体安装项目案例 | 泗水英特佳气体公司",
+      "description": "泗水英特佳气体公司为印度尼西亚医院、工厂及各行业完成的气体安装、医用气体管道及工业气体系统项目。"
+    },
+    "portfolioDetail": {
+      "title": "{{title}} | 泗水英特佳气体公司项目案例"
+    },
+    "galleryDetail": {
+      "title": "{{title}} | 泗水英特佳气体公司图库"
     }
   },
   "header": {

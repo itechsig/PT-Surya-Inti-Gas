@@ -1,7 +1,8 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, ArrowLeft, Send, Calendar, Building, Briefcase } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import { Seo } from './Seo';
+import { htmlToPlainText } from '../../utils/renderHtml';
 import { motion, type Variants } from 'motion/react';
 import '../../styles/career.css';
 import '../../styles/rich-text.css';
@@ -88,20 +89,38 @@ export function JobDetail() {
 
   const deadlinePassed = isDeadlinePassed(job.deadline);
 
-  const canonicalUrl = `https://suryaintigas.com/${currentLang}/karir/${job.id}`;
+  // Google for Jobs: only emitted while the vacancy is still open, since an
+  // expired JobPosting left in the markup is a structured-data policy violation.
+  const jobPostingJsonLd = deadlinePassed ? undefined : {
+    '@type': 'JobPosting',
+    title: job.title,
+    description: [job.fullDescription || job.description, ...(job.requirements.length ? [`<ul>${job.requirements.map(r => `<li>${r}</li>`).join('')}</ul>`] : [])].join(''),
+    datePosted: job.postedAt,
+    validThrough: `${job.deadline}T23:59:59+07:00`,
+    hiringOrganization: {
+      '@type': 'Organization',
+      name: 'PT Surya Inti Gas',
+      sameAs: 'https://suryaintigas.com',
+      logo: 'https://suryaintigas.com/logo.png',
+    },
+    jobLocation: {
+      '@type': 'Place',
+      address: { '@type': 'PostalAddress', addressLocality: job.location, addressCountry: 'ID' },
+    },
+    directApply: true,
+  };
 
   return (
     <>
-      <Helmet>
-        <title>{job.title} - PT Surya Inti Gas Career</title>
-        <meta name="description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}. ${job.description}`} />
-        <meta name="keywords" content={`${job.title}, ${job.division}, ${job.location}, career, job vacancy, PT Surya Inti Gas`} />
-        <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content={`${job.title} - PT Surya Inti Gas Career`} />
-        <meta property="og:description" content={`Apply for ${job.title} position at PT Surya Inti Gas. ${job.division} - ${job.location}`} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:type" content="website" />
-      </Helmet>
+      <Seo
+        title={t('seo.jobDetail.title', { title: job.title, location: job.location })}
+        description={t('seo.jobDetail.description', {
+          title: job.title, division: job.division, location: job.location,
+          summary: htmlToPlainText(job.description).slice(0, 120),
+        })}
+        segment={`karir/${job.id}`}
+        jsonLd={jobPostingJsonLd}
+      />
       <div className="career-page">
       {/* Career Hero Section */}
       <div className="career-hero">

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+      <!-- SEO Meta Tags -->
+      <!-- title, description, canonical and hreflang are managed per-route by the
+           <Seo> component (react-helmet-async). Only the fallback title stays here
+           for no-JS crawlers; react-helmet replaces it on render. Do NOT re-add a
+           static <meta name="description"> or <link rel="canonical"> — react-helmet
+           cannot dedupe against static tags and Google would see two of each.
+           Legacy/ignored meta (keywords, revisit-after, page-topic, coverage,
+           distribution, rating, ICBM…) were removed 2026-09 — Google ignores them
+           and they only added noise. -->
+      <title>Industrial &amp; Medical Gas Products | PT Surya Inti Gas</title>
+    <meta data-rh="true" name="description" content="Full catalogue of Oxygen, Nitrogen, Argon, Acetylene, CO₂, Hydrogen, Helium, and specialty gases plus cryogenic equipment, cylinders, and cradles from PT Surya Inti Gas." />
+    <link data-rh="true" rel="canonical" href="https://suryaintigas.com/en/produk" />
+    <link data-rh="true" rel="alternate" hreflang="id" href="https://suryaintigas.com/id/produk" />
+    <link data-rh="true" rel="alternate" hreflang="en" href="https://suryaintigas.com/en/produk" />
+    <link data-rh="true" rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/produk" />
+    <link data-rh="true" rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/produk" />
+    <meta data-rh="true" property="og:title" content="Industrial &amp; Medical Gas Products | PT Surya Inti Gas" />
+    <meta data-rh="true" property="og:description" content="Full catalogue of Oxygen, Nitrogen, Argon, Acetylene, CO₂, Hydrogen, Helium, and specialty gases plus cryogenic equipment, cylinders, and cradles from PT Surya Inti Gas." />
+    <meta data-rh="true" property="og:type" content="website" />
+    <meta data-rh="true" property="og:url" content="https://suryaintigas.com/en/produk" />
+    <meta data-rh="true" property="og:image" content="https://suryaintigas.com/office-optimized.jpg" />
+    <meta data-rh="true" property="og:locale" content="en_US" />
+    <meta data-rh="true" property="og:site_name" content="PT Surya Inti Gas" />
+    <meta data-rh="true" name="twitter:card" content="summary_large_image" />
+    <meta data-rh="true" name="twitter:title" content="Industrial &amp; Medical Gas Products | PT Surya Inti Gas" />
+    <meta data-rh="true" name="twitter:description" content="Full catalogue of Oxygen, Nitrogen, Argon, Acetylene, CO₂, Hydrogen, Helium, and specialty gases plus cryogenic equipment, cylinders, and cradles from PT Surya Inti Gas." />
+    <meta data-rh="true" name="twitter:image" content="https://suryaintigas.com/office-optimized.jpg" />
+      <meta name="author" content="PT Surya Inti Gas" />
+      <meta name="geo.region" content="ID-JI" />
+      <meta name="geo.placename" content="Sidoarjo, Jawa Timur, Indonesia" />
+
+      <!-- Google Search Console Verification -->
+      <meta name="google-site-verification" content="SbDlwmYgav8EIXRPB5mtFMC1RDMXvVzGE9GGBBf82Y8" />
+      
+      <!-- Open Graph / Twitter fallback for non-JS scrapers (WhatsApp, Facebook).
+           Per-page values are set at runtime by <Seo>. data-rh="true" marks them as
+           helmet-managed so they are replaced (not duplicated) once React renders. -->
+      <meta property="og:locale:alternate" content="en_US" />
+      <meta property="og:locale:alternate" content="zh_CN" />
+
+      <!-- Favicon -->
+      <link rel="icon" type="image/png" href="/logo.png" />
+      <link rel="shortcut icon" type="image/png" href="/logo.png" />
+
+      <!-- Structured Data (Schema.org) for WebSite -->
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "PT Surya Inti Gas",
+        "alternateName": ["Surya Inti Gas", "PT. Surya Inti Gas"],
+        "url": "https://suryaintigas.com",
+        "description": "Distributor gas industri, medis, dan specialty gas terpercaya sejak 2003",
+        "inLanguage": ["id", "en", "zh"],
+        "publisher": {
+          "@type": "Organization",
+          "name": "PT Surya Inti Gas",
+          "url": "https://suryaintigas.com"
+        }
+      }
+      </script>
+      
+      <!-- Company + branch structured data. One @graph so Organization and the two
+           branch LocalBusinesses cross-reference each other cleanly.
+           NAP (name/address/phone) is kept identical to src/data/contact.ts —
+           keep the two in sync, and keep both identical to the Google Business
+           Profile listings (NAP consistency drives local ranking).
+           TODO: replace the geo lat/long below with the exact pin from each
+           Google Business Profile. -->
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://suryaintigas.com/#organization",
+            "name": "PT Surya Inti Gas",
+            "alternateName": ["Surya Inti Gas", "PT. Surya Inti Gas"],
+            "url": "https://suryaintigas.com",
+            "logo": "https://suryaintigas.com/logo.png",
+            "image": "https://suryaintigas.com/office-optimized.jpg",
+            "description": "Distributor gas industri, gas medis, dan specialty gas terpercaya sejak 2003. Memasok Oksigen, Nitrogen, Argon, Acetylene, CO₂, Hidrogen, Helium, mixed gas, serta peralatan cryogenic ke seluruh Indonesia.",
+            "foundingDate": "2003",
+            "email": "salescounter.sda@suryaintigas.com",
+            "telephone": "+62-812-3390-6378",
+            "areaServed": ["Jawa Timur", "Jawa Tengah", "DI Yogyakarta", "Kalimantan Timur", "Indonesia"],
+            "sameAs": [
+              "https://www.instagram.com/surya.inti.gas",
+              "https://www.tiktok.com/@surya.inti.gas"
+            ],
+            "location": [
+              { "@id": "https://suryaintigas.com/#sidoarjo" },
+              { "@id": "https://suryaintigas.com/#balikpapan" }
+            ]
+          },
+          {
+            "@type": "LocalBusiness",
+            "@id": "https://suryaintigas.com/#sidoarjo",
+            "name": "PT Surya Inti Gas — Kantor Pusat Sidoarjo",
+            "parentOrganization": { "@id": "https://suryaintigas.com/#organization" },
+            "url": "https://suryaintigas.com",
+            "logo": "https://suryaintigas.com/logo.png",
+            "image": "https://suryaintigas.com/office-optimized.jpg",
+            "description": "Kantor pusat PT Surya Inti Gas — distributor gas industri dan gas medis untuk Jawa Timur, Jawa Tengah, dan DI Yogyakarta.",
+            "telephone": "+62-812-3390-6378",
+            "email": "salescounter.sda@suryaintigas.com",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Komp. Pergudangan & Industri Safe N Lock, Blok V1 No. 3223, 3225, 3232, 3233, Jl. Lingkar Timur KM 5.5, Rangkah Kidul",
+              "addressLocality": "Sidoarjo",
+              "addressRegion": "Jawa Timur",
+              "postalCode": "61232",
+              "addressCountry": "ID"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "-7.4693",
+              "longitude": "112.7267"
+            },
+            "areaServed": ["Jawa Timur", "Jawa Tengah", "DI Yogyakarta"],
+            "openingHoursSpecification": [
+              { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:00" },
+              { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "14:00" }
+            ],
+            "priceRange": "$$",
+            "currenciesAccepted": "IDR",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "reviewCount": "20",
+              "bestRating": "5"
+            }
+          },
+          {
+            "@type": "LocalBusiness",
+            "@id": "https://suryaintigas.com/#balikpapan",
+            "name": "PT Surya Inti Gas — Balikpapan",
+            "parentOrganization": { "@id": "https://suryaintigas.com/#organization" },
+            "url": "https://suryaintigas.com",
+            "logo": "https://suryaintigas.com/logo.png",
+            "description": "Cabang PT Surya Inti Gas di Balikpapan — distributor gas industri dan gas medis untuk Kalimantan Timur.",
+            "telephone": "+62-851-5711-8879",
+            "email": "salescounter.bpn@suryaintigas.com",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Jl. AMD Projakal Kariangau KM 5.5, RT 046, Kelurahan Graha Indah, Kecamatan Balikpapan Utara",
+              "addressLocality": "Balikpapan",
+              "addressRegion": "Kalimantan Timur",
+              "addressCountry": "ID"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "-1.2107",
+              "longitude": "116.8253"
+            },
+            "areaServed": ["Kalimantan Timur"],
+            "openingHoursSpecification": [
+              { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:00" },
+              { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "14:00" }
+            ],
+            "priceRange": "$$",
+            "currenciesAccepted": "IDR"
+          }
+        ]
+      }
+      </script>
+
+      <!-- Product Structured Data - All Products.
+           Deliberately "@type": "Thing", not "Product": Google requires offers,
+           review, or aggregateRating for Product rich results, and we don't have
+           real ones (no published per-unit pricing, no per-product reviews).
+           Fake offers (price "0") and fake ratings were removed 2026-09-03 —
+           do NOT re-add them to silence the Search Console "critical issue";
+           that error is the expected, accepted result of that cleanup. -->
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Produk gas PT Surya Inti Gas",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "Thing",
+              "name": "Oksigen (O₂)",
+              "description": "Gas oksigen industri dan medis kemurnian tinggi untuk pengelasan, fasilitas kesehatan, dan proses industri.",
+              "image": "https://suryaintigas.com/images/products/Oxygen_Fix.webp",
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "Thing",
+              "name": "Nitrogen (N₂)",
+              "description": "Gas nitrogen kemurnian tinggi untuk aplikasi industri, pengawetan makanan, dan laboratorium.",
+              "image": "https://suryaintigas.com/images/products/Nitrogen_Fix.webp",
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "Thing",
+              "name": "Argon (Ar)",
+              "description": "Gas argon untuk pengelasan TIG, fabrikasi logam, dan proses industri.",
+              "image": "https://suryaintigas.com/images/products/Argon_Fix.webp",
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "Thing",
+              "name": "Acetylene (C₂H₂)",
+              "description": "Gas asetilena industri untuk pengelasan dan pemotongan oxy-fuel.",
+              "image": "https://suryaintigas.com/images/products/Acetylene_fix.webp",
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "Thing",
+              "name": "Hidrogen (H₂)",
+              "description": "Gas hidrogen kemurnian tinggi untuk laboratorium, industri, dan aplikasi khusus.",
+              "image": "https://suryaintigas.com/images/products/Hidrogen_Fix.webp",
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "item": {
+              "@type": "Thing",
+              "name": "Helium (He)",
+              "description": "Gas helium untuk pencitraan medis, aplikasi industri, dan laboratorium.",
+              "image": "https://suryaintigas.com/images/products/Helium_Fix.webp",
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "item": {
+              "@type": "Thing",
+              "name": "Karbon Dioksida (CO₂)",
+              "description": "Gas CO₂ untuk pengelasan MIG/MAG, industri makanan dan minuman, serta aplikasi lainnya.",
+              "image": "https://suryaintigas.com/images/products/CO2_Fix.webp",
+              "brand": { "@type": "Brand", "name": "PT Surya Inti Gas" },
+              "manufacturer": { "@id": "https://suryaintigas.com/#organization" }
+            }
+          }
+        ]
+      }
+      </script>
+      
+      <!-- Service Structured Data -->
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Gas & Pipe Installation Service",
+        "description": "Professional gas and pipe installation service. Layanan instalasi gas dan pipa profesional. 气体和管道安装专业服务。",
+        "provider": { "@id": "https://suryaintigas.com/#organization" },
+        "areaServed": ["Jawa Timur", "Jawa Tengah", "DI Yogyakarta", "Kalimantan Timur"]
+      }
+      </script>
+
+      <!-- FAQPage schema was removed 2026-10: Google requires FAQ markup to match
+           a visible FAQ on the page, and the site has none (answers live only in
+           the chatbot). Re-add only alongside a real, visible FAQ section. -->
+
+      <!-- BreadcrumbList schema is emitted per-page by <PageHero> (from its visible
+           breadcrumb trail), never globally here. -->
+
+      <link rel="apple-touch-icon" href="/logo.png" />
+
+      <!-- Font Optimization. The stylesheet is loaded non-render-blocking
+           (media=print flip on load); combined with display=swap the page paints
+           immediately in the fallback stack and swaps to Barlow/DM Sans when ready.
+           Only Barlow + DM Sans are referenced anywhere in the app — Cormorant
+           Garamond, Outfit and EB Garamond were requested but never used, and so
+           are Barlow weight 900 and italic 500. -->
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
+        media="print"
+        onload="this.media='all'"
+      />
+      <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" />
+      </noscript>
+
+      <!-- Third-party origins used only by deeper routes (OSM map tiles, YouTube
+           thumbnails) — dns-prefetch keeps the DNS hint without spending one of
+           the ~4 useful preconnect slots on the homepage. -->
+      <link rel="dns-prefetch" href="https://a.tile.openstreetmap.org" />
+      <link rel="dns-prefetch" href="https://b.tile.openstreetmap.org" />
+      <link rel="dns-prefetch" href="https://c.tile.openstreetmap.org" />
+      <link rel="dns-prefetch" href="https://img.youtube.com" />
+      <script type="module" crossorigin src="/assets/index-Cb2wQmLB.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/react-vendor-DQUATC2k.js">
+      <link rel="modulepreload" crossorigin href="/assets/motion-vendor-BhVzDdA2.js">
+      <link rel="stylesheet" crossorigin href="/assets/index-bSk6TYN7.css">
+    </head>
+
+    <body>
+      <div id="root"><div style="min-height:100vh;background:#0f172a;color:#fff;font-family:'DM Sans',system-ui,sans-serif;padding:140px 6vw 64px;text-align:center"><h1 style="font-family:Barlow,system-ui,sans-serif;font-size:clamp(1.75rem,4vw,3rem);line-height:1.2;margin:0 auto 20px;max-width:900px">Industrial &amp; Medical Gas Products</h1><p style="max-width:720px;margin:0 auto 40px;color:rgba(255,255,255,.75);line-height:1.7">Full catalogue of Oxygen, Nitrogen, Argon, Acetylene, CO₂, Hydrogen, Helium, and specialty gases plus cryogenic equipment, cylinders, and cradles from PT Surya Inti Gas.</p><nav style="font-size:14px;line-height:2.2"><a href="/en" style="color:#93c5fd;margin:0 10px;text-decoration:none">Home</a><a href="/en/tentang-kami" style="color:#93c5fd;margin:0 10px;text-decoration:none">About</a><a href="/en/produk" style="color:#93c5fd;margin:0 10px;text-decoration:none">Products &amp; Services</a><a href="/en/jaringan-distribusi" style="color:#93c5fd;margin:0 10px;text-decoration:none">Distribution Network</a><a href="/en/portofolio" style="color:#93c5fd;margin:0 10px;text-decoration:none">Portfolio</a><a href="/en/galeri" style="color:#93c5fd;margin:0 10px;text-decoration:none">Gallery</a><a href="/en/karir" style="color:#93c5fd;margin:0 10px;text-decoration:none">Career</a><a href="/en/kontak" style="color:#93c5fd;margin:0 10px;text-decoration:none">Contact</a></nav></div></div>
+    </body>
+  </html>

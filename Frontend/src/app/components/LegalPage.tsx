@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet-async';
+import { Seo } from './Seo';
 import { motion, type Variants } from 'motion/react';
 import { PageHero } from './PageHero';
 
@@ -36,10 +36,12 @@ export function LegalPage({ ns }: { ns: 'privacyPolicy' | 'termsOfService' }) {
 
   return (
     <>
-      <Helmet>
-        <title>{title} | PT Surya Inti Gas</title>
-        <meta name="robots" content="noindex, follow" />
-      </Helmet>
+      <Seo
+        title={`${title} | PT Surya Inti Gas`}
+        description={intro}
+        segment={ns === 'privacyPolicy' ? 'kebijakan-privasi' : 'ketentuan-layanan'}
+        noindex
+      />
 
       <PageHero
         title={title}

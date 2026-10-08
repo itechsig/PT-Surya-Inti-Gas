@@ -1,474 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!-- Static fallback only. Production serves /sitemap.xml dynamically from Laravel
+     (SitemapController), which also lists products, portfolios and job vacancies. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://suryaintigas.com/id</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/en</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/zh</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/id/tentang-kami</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/tentang-kami"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/en/tentang-kami</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/tentang-kami"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/zh/tentang-kami</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/tentang-kami"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/id/produk</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/produk"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/produk"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/produk"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/produk"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/en/produk</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/produk"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/produk"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/produk"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/produk"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/zh/produk</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/produk"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/produk"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/produk"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/produk"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/id/jaringan-distribusi</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/jaringan-distribusi"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/jaringan-distribusi"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/jaringan-distribusi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/jaringan-distribusi"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/en/jaringan-distribusi</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/jaringan-distribusi"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/jaringan-distribusi"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/jaringan-distribusi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/jaringan-distribusi"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/zh/jaringan-distribusi</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/galeri</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/galeri</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/galeri</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/jaringan-distribusi"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/jaringan-distribusi"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/jaringan-distribusi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/jaringan-distribusi"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/id/portofolio</loc>
-    <lastmod>2026-08-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/portofolio"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/portofolio"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/portofolio"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/portofolio"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/en/portofolio</loc>
-    <lastmod>2026-08-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/portofolio"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/portofolio"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/portofolio"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/portofolio"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/zh/portofolio</loc>
-    <lastmod>2026-08-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/portofolio"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/portofolio"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/portofolio"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/portofolio"/>
   </url>
   <url>
-    <loc>https://suryaintigas.com/id/kontak</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://suryaintigas.com/id/galeri</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/galeri"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/galeri"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/galeri"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/galeri"/>
   </url>
   <url>
-    <loc>https://suryaintigas.com/en/kontak</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://suryaintigas.com/en/galeri</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/galeri"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/galeri"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/galeri"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/galeri"/>
   </url>
   <url>
-    <loc>https://suryaintigas.com/zh/kontak</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://suryaintigas.com/zh/galeri</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/galeri"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/galeri"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/galeri"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/galeri"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/id/karir</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/karir"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/karir"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/karir"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/karir"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/en/karir</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/karir"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/karir"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/karir"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/karir"/>
   </url>
   <url>
     <loc>https://suryaintigas.com/zh/karir</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <!-- Career Pages (Indonesian) -->
-  <url>
-    <loc>https://suryaintigas.com/id/karir/1</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/karir"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/karir"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/karir"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/karir"/>
   </url>
   <url>
-    <loc>https://suryaintigas.com/id/karir/1/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://suryaintigas.com/id/kontak</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/kontak"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/kontak"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/kontak"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/kontak"/>
   </url>
   <url>
-    <loc>https://suryaintigas.com/id/karir/2</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://suryaintigas.com/en/kontak</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/kontak"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/kontak"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/kontak"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/kontak"/>
   </url>
   <url>
-    <loc>https://suryaintigas.com/id/karir/2/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/3</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/3/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/4</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/4/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/5</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/5/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/6</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/6/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/7</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/7/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/8</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/8/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/9</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/id/karir/9/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <!-- Career Pages (English) -->
-  <url>
-    <loc>https://suryaintigas.com/en/karir/1</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/1/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/2</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/2/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/3</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/3/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/4</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/4/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/5</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/5/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/6</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/6/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/7</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/7/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/8</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/8/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/9</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/en/karir/9/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <!-- Career Pages (Chinese) -->
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/1</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/1/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/2</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/2/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/3</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/3/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/4</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/4/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/5</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/5/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/6</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/6/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/7</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/7/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/8</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/8/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/9</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://suryaintigas.com/zh/karir/9/lamar</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://suryaintigas.com/zh/kontak</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://suryaintigas.com/id/kontak"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://suryaintigas.com/en/kontak"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://suryaintigas.com/zh/kontak"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suryaintigas.com/id/kontak"/>
   </url>
 </urlset>

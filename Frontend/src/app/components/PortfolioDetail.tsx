@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet-async';
+import { Seo } from './Seo';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import { ArrowLeft, Building2, ChevronLeft, ChevronRight, FolderOpen, Wrench } from 'lucide-react';
@@ -102,15 +102,13 @@ export function PortfolioDetail() {
 
   return (
     <div className="portfolio-corporate">
-      <Helmet>
-        <title>{portfolio.title} | PT Surya Inti Gas</title>
-        <meta name="description" content={htmlToPlainText(portfolio.summary)} />
-        <meta property="og:title" content={portfolio.title} />
-        <meta property="og:description" content={htmlToPlainText(portfolio.summary)} />
-        <meta property="og:image" content={getImageUrl(portfolio.thumbnail)} />
-        <meta property="og:type" content="article" />
-        <link rel="canonical" href={`https://suryaintigas.com/${currentLang}/portofolio/${portfolio.id}`} />
-      </Helmet>
+      <Seo
+        title={t('seo.portfolioDetail.title', { title: portfolio.title })}
+        description={htmlToPlainText(portfolio.summary).slice(0, 160)}
+        segment={`portofolio/${portfolio.id}`}
+        image={portfolio.thumbnail ? getImageUrl(portfolio.thumbnail) : undefined}
+        type="article"
+      />
 
       <PageHero
         title={portfolio.title}

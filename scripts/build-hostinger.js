@@ -19,7 +19,7 @@ try {
   const publicPath = path.join(__dirname, '../Backend/public');
   
   // Remove React-specific files/folders but preserve Laravel files
-  const reactFiles = ['assets', 'images', 'index.html', 'robots.txt', 'sitemap.xml', 'google20ef713f750a3bec.html', 'logo.png'];
+  const reactFiles = ['assets', 'images', 'prerender', 'index.html', 'robots.txt', 'sitemap.xml', 'llms.txt', 'google20ef713f750a3bec.html', 'logo.png'];
   const laravelFiles = ['index.php', '.htaccess', 'web.config', 'storage'];
   
   if (fs.existsSync(publicPath)) {

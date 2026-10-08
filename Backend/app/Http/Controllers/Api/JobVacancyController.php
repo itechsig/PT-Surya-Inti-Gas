@@ -208,6 +208,7 @@ class JobVacancyController extends Controller
             'fullDescription' => $job->{"full_description_$lang"} ?: $job->full_description_id,
             'requirements' => $job->{"requirements_$lang"} ?: ($job->requirements_id ?? []),
             'deadline' => $job->deadline->format('Y-m-d'),
+            'postedAt' => $job->created_at?->format('Y-m-d'),
         ];
     }
 

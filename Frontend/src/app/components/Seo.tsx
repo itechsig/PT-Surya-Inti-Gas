@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 // Single source of truth for per-page SEO tags. Every public route renders one
 // <Seo> so each URL gets its own <title>, description, canonical and hreflang
 // set instead of inheriting the static homepage tags from index.html.
-const SITE = 'https://suryaintigas.com';
+export const SITE = 'https://suryaintigas.com';
 const LANGS = ['id', 'en', 'zh'] as const;
 const OG_LOCALE: Record<string, string> = { id: 'id_ID', en: 'en_US', zh: 'zh_CN' };
 
@@ -20,6 +20,8 @@ interface SeoProps {
   type?: 'website' | 'article';
   /** Keep the page out of the index (thin/detail pages with no crawlable data). */
   noindex?: boolean;
+  /** Page-specific schema.org object(s), emitted as JSON-LD. */
+  jsonLd?: object | object[];
 }
 
 export function Seo({
@@ -30,6 +32,7 @@ export function Seo({
   image = '/office-optimized.jpg',
   type = 'website',
   noindex = false,
+  jsonLd,
 }: SeoProps) {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = (LANGS as readonly string[]).includes(lang ?? '') ? (lang as string) : 'id';
@@ -61,6 +64,12 @@ export function Seo({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={imageUrl} />
+
+      {(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : []).map((data, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify({ '@context': 'https://schema.org', ...data })}
+        </script>
+      ))}
     </Helmet>
   );
 }

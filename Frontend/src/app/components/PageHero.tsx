@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { SITE } from './Seo';
 import { motion, type Variants } from 'motion/react';
 import {
   Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
@@ -32,6 +34,19 @@ interface PageHeroProps {
  * single source of truth instead of being copy-pasted per page.
  */
 export function PageHero({ title, subtitle, backgroundImage, breadcrumbs }: PageHeroProps) {
+  // The visible breadcrumb trail doubles as BreadcrumbList structured data, so
+  // Google can show "suryaintigas.com › Produk" instead of the raw URL.
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.label,
+      ...(item.href ? { item: `${SITE}${item.href}` } : {}),
+    })),
+  };
+
   return (
     <motion.section
       style={{
@@ -49,6 +64,9 @@ export function PageHero({ title, subtitle, backgroundImage, breadcrumbs }: Page
       viewport={{ once: true, margin: '-80px' }}
       variants={staggerContainer}
     >
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
+      </Helmet>
       <div
         style={{
           position: 'absolute',

@@ -10,6 +10,7 @@ import {
   ZoomIn
 } from 'lucide-react';
 import { createPortal } from 'react-dom';
+import { Seo } from './Seo';
 import { motion, AnimatePresence } from 'motion/react';
 import { useGallery } from '../../hooks/useGallery';
 import { getImageUrl, IMAGE_PLACEHOLDER } from '../../utils/imageUrl';
@@ -339,13 +340,13 @@ function GalleryDetail() {
   const handleNext = () => {
     setCurrentImageIndex((prev) => (prev + 1) % galleryItems.length);
     const nextItem = galleryItems[(currentImageIndex + 1) % galleryItems.length];
-    navigate(`/galeri/${nextItem.id}`);
+    navigate(`/${currentLang}/galeri/${nextItem.id}`);
   };
 
   const handlePrevious = () => {
     setCurrentImageIndex((prev) => (prev - 1 + galleryItems.length) % galleryItems.length);
     const prevItem = galleryItems[(currentImageIndex - 1 + galleryItems.length) % galleryItems.length];
-    navigate(`/galeri/${prevItem.id}`);
+    navigate(`/${currentLang}/galeri/${prevItem.id}`);
   };
 
   if (!currentItem) {
@@ -409,6 +410,12 @@ function GalleryDetail() {
 
   return (
     <div className="products-corporate">
+      <Seo
+        title={t('seo.galleryDetail.title', { title: currentItem.title })}
+        description={(currentItem.description || t('seo.gallery.description')).replace(/<[^>]*>/g, '').slice(0, 160)}
+        segment={`galeri/${currentItem.id}`}
+        image={currentItem.fullSize ? getImageUrl(currentItem.fullSize) : undefined}
+      />
       <style>{galleryDetailStyles}</style>
       
       {/* Header Section */}
