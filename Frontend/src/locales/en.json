@@ -579,7 +579,7 @@
       },
       "2007": {
         "title": "Operational Expansion",
-        "description": "As the business grew and market demand increased, Surya Inti Gas relocated its operational office to the Meiko Abadi Warehousing & Industrial Complex in Sidoarjo. This larger new facility strengthened service and distribution capacity, allowing the company to serve customers more optimally."
+        "description": "As the business grew and market demand increased, Surya Inti Gas relocated its operational office to the Meiko Abadi I Warehousing & Industrial Complex in Sidoarjo. This larger new facility strengthened service and distribution capacity, allowing the company to serve customers more optimally."
       },
       "2016": {
         "title": "Moving to the Head Office",
@@ -587,7 +587,7 @@
       },
       "2017": {
         "title": "Transformation and Expansion",
-        "description": "PT Surya Inti Gas opened a new branch in Balikpapan in the form of a gas filling station, extending its service reach beyond Java. This facility lets the company serve customers in Kalimantan directly, with closer supply and faster delivery. The expansion marks a new chapter in PT Surya Inti Gas's journey to deliver reliable gas supply across Indonesia."
+        "description": "PT Surya Inti Gas opened a new branch in Balikpapan in the form of a gas filling station, extending its service reach beyond Java. This facility lets the company serve customers on Kalimantan Island directly, with closer supply and faster delivery. The expansion marks a new chapter in PT Surya Inti Gas's journey to deliver reliable gas supply across Indonesia."
       }
     },
     "values": {
@@ -737,7 +737,7 @@
         {
           "year": "2007",
           "label": "Expansion",
-          "text": "As the business grew and market demand increased, Surya Inti Gas relocated its operational office to the Meiko Abadi Warehousing & Industrial Complex in Sidoarjo. This larger new facility strengthened service and distribution capacity, allowing the company to serve customers more optimally."
+          "text": "As the business grew and market demand increased, Surya Inti Gas relocated its operational office to the Meiko Abadi I Warehousing & Industrial Complex in Sidoarjo. This larger new facility strengthened service and distribution capacity, allowing the company to serve customers more optimally."
         },
         {
           "year": "2016",
@@ -747,7 +747,7 @@
         {
           "year": "2017",
           "label": "Balikpapan Branch",
-          "text": "PT Surya Inti Gas opened a new branch in Balikpapan in the form of a gas filling station, extending its service reach beyond Java. This facility lets the company serve customers in Kalimantan directly, with closer supply and faster delivery. The expansion marks a new chapter in PT Surya Inti Gas's journey to deliver reliable gas supply across Indonesia."
+          "text": "PT Surya Inti Gas opened a new branch in Balikpapan in the form of a gas filling station, extending its service reach beyond Java. This facility lets the company serve customers on Kalimantan Island directly, with closer supply and faster delivery. The expansion marks a new chapter in PT Surya Inti Gas's journey to deliver reliable gas supply across Indonesia."
         }
       ]
     }
@@ -1401,7 +1401,7 @@
     "page": {
       "title": "Portfolio",
       "subtitle": "Showcasing our experience in delivering industrial gas distribution, engineering services, and integrated solutions across various industries.",
-      "searchPlaceholder": "Search client, industry, location, or product...",
+      "searchPlaceholder": "Search projects",
       "allIndustries": "All Industries",
       "allServices": "All Services",
       "viewDetail": "View Details",

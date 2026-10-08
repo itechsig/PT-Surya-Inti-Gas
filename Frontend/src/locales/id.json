@@ -577,7 +577,7 @@
       },
       "2007": {
         "title": "Perluasan Operasional",
-        "description": "Seiring berkembangnya bisnis dan meningkatnya permintaan pasar, Surya Inti Gas memindahkan kantor operasionalnya ke Komplek Pergudangan & Industri Meiko Abadi di Sidoarjo. Fasilitas baru yang lebih luas ini memperkuat kapasitas layanan dan distribusi, sehingga perusahaan dapat melayani pelanggan dengan lebih optimal."
+        "description": "Seiring berkembangnya bisnis dan meningkatnya permintaan pasar, Surya Inti Gas memindahkan kantor operasionalnya ke Komplek Pergudangan & Industri Meiko Abadi I di Sidoarjo. Fasilitas baru yang lebih luas ini memperkuat kapasitas layanan dan distribusi, sehingga perusahaan dapat melayani pelanggan dengan lebih optimal."
       },
       "2016": {
         "title": "Menempati Kantor Pusat",
@@ -585,7 +585,7 @@
       },
       "2017": {
         "title": "Transformasi dan Ekspansi",
-        "description": "PT Surya Inti Gas membuka cabang baru di Balikpapan berupa stasiun pengisian (filling station) gas, sebagai langkah memperluas jangkauan layanan ke luar Pulau Jawa. Kehadiran fasilitas ini memungkinkan perusahaan melayani pelanggan di Kalimantan secara langsung, dengan pasokan yang lebih dekat dan pengiriman yang lebih cepat. Ekspansi ini menandai babak baru perjalanan PT Surya Inti Gas dalam menghadirkan suplai gas yang andal di berbagai wilayah Indonesia."
+        "description": "PT Surya Inti Gas membuka cabang baru di Balikpapan berupa stasiun pengisian (filling station) gas, sebagai langkah memperluas jangkauan layanan ke luar Pulau Jawa. Kehadiran fasilitas ini memungkinkan perusahaan melayani pelanggan di Pulau Kalimantan secara langsung, dengan pasokan yang lebih dekat dan pengiriman yang lebih cepat. Ekspansi ini menandai babak baru perjalanan PT Surya Inti Gas dalam menghadirkan suplai gas yang andal di berbagai wilayah Indonesia."
       }
     },
     "values": {
@@ -735,7 +735,7 @@
         {
           "year": "2007",
           "label": "Ekspansi",
-          "text": "Seiring berkembangnya bisnis dan meningkatnya permintaan pasar, Surya Inti Gas memindahkan kantor operasionalnya ke Komplek Pergudangan & Industri Meiko Abadi di Sidoarjo. Fasilitas baru yang lebih luas ini memperkuat kapasitas layanan dan distribusi, sehingga perusahaan dapat melayani pelanggan dengan lebih optimal."
+          "text": "Seiring berkembangnya bisnis dan meningkatnya permintaan pasar, Surya Inti Gas memindahkan kantor operasionalnya ke Komplek Pergudangan & Industri Meiko Abadi I di Sidoarjo. Fasilitas baru yang lebih luas ini memperkuat kapasitas layanan dan distribusi, sehingga perusahaan dapat melayani pelanggan dengan lebih optimal."
         },
         {
           "year": "2016",
@@ -745,7 +745,7 @@
         {
           "year": "2017",
           "label": "Cabang Balikpapan",
-          "text": "PT Surya Inti Gas membuka cabang baru di Balikpapan berupa stasiun pengisian (filling station) gas, sebagai langkah memperluas jangkauan layanan ke luar Pulau Jawa. Kehadiran fasilitas ini memungkinkan perusahaan melayani pelanggan di Kalimantan secara langsung, dengan pasokan yang lebih dekat dan pengiriman yang lebih cepat. Ekspansi ini menandai babak baru perjalanan PT Surya Inti Gas dalam menghadirkan suplai gas yang andal di berbagai wilayah Indonesia."
+          "text": "PT Surya Inti Gas membuka cabang baru di Balikpapan berupa stasiun pengisian (filling station) gas, sebagai langkah memperluas jangkauan layanan ke luar Pulau Jawa. Kehadiran fasilitas ini memungkinkan perusahaan melayani pelanggan di Pulau Kalimantan secara langsung, dengan pasokan yang lebih dekat dan pengiriman yang lebih cepat. Ekspansi ini menandai babak baru perjalanan PT Surya Inti Gas dalam menghadirkan suplai gas yang andal di berbagai wilayah Indonesia."
         }
       ]
     }
@@ -1406,7 +1406,7 @@
     "page": {
       "title": "Portofolio",
       "subtitle": "Menampilkan pengalaman kami dalam distribusi gas industri, layanan engineering, dan solusi terintegrasi di berbagai sektor industri.",
-      "searchPlaceholder": "Cari client, industri, lokasi, atau produk...",
+      "searchPlaceholder": "Cari project",
       "allIndustries": "Semua Industri",
       "allServices": "Semua Layanan",
       "viewDetail": "Lihat Detail",

@@ -255,14 +255,19 @@ const css = `
     line-height: 1.75;
     color: var(--slate-600);
     margin: 0;
+    text-align: justify;
   }
 
   /* ── Vision / Mission glass cards ── */
   .au-vm-section {
     background: linear-gradient(135deg, var(--navy-dark) 0%, var(--primary-dark) 100%);
-    padding: 100px 6vw;
+    padding: 100px 0;
     position: relative;
     overflow: hidden;
+  }
+
+  .au-vm-section .au-container {
+    padding: 0 6vw;
   }
 
   .au-vm-section::before {
@@ -283,28 +288,51 @@ const css = `
     color: rgba(255, 255, 255, 0.7);
   }
 
+  /* Full-bleed split: card flush to left edge, image flush to right edge */
   .au-vm-grid {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 0;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .au-vm-divider {
+    height: 40px;
+  }
+
+  .au-vm-image {
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+  }
+
+  .au-vm-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Soft fade on the edge touching the card so both read as one panel */
+  .au-vm-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10, 33, 63, 0.55) 0%, rgba(10, 33, 63, 0) 35%);
+    pointer-events: none;
   }
 
   .au-vm-card {
     background: rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 24px;
-    padding: 48px;
-    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease);
-  }
-
-  .au-vm-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(0, 174, 239, 0.5);
-    background: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 64px 56px 64px 6vw;
   }
 
   .au-vm-icon {
@@ -334,6 +362,7 @@ const css = `
     line-height: 1.75;
     color: rgba(255, 255, 255, 0.75);
     margin: 0;
+    text-align: justify;
   }
 
   .au-vm-list {
@@ -350,6 +379,11 @@ const css = `
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.8);
     margin-bottom: 14px;
+  }
+
+  .au-vm-list li span {
+    flex: 1;
+    text-align: justify;
   }
 
   .au-vm-list li:last-child {
@@ -460,6 +494,7 @@ const css = `
     line-height: 1.7;
     color: var(--slate-600);
     margin: 0;
+    text-align: justify;
   }
 
   /* ── Values grid ── */
@@ -921,6 +956,18 @@ const css = `
       grid-template-columns: 1fr;
     }
 
+    .au-vm-image {
+      min-height: 280px;
+    }
+
+    .au-vm-image::after {
+      background: linear-gradient(180deg, rgba(10, 33, 63, 0.55) 0%, rgba(10, 33, 63, 0) 35%);
+    }
+
+    .au-vm-card {
+      padding: 48px 6vw;
+    }
+
     .au-timeline-line {
       left: 20px;
     }
@@ -948,13 +995,16 @@ const css = `
   }
 
   @media (max-width: 768px) {
+    .au-vm-section {
+      padding: 64px 0;
+    }
+
     .au-hero {
       min-height: 460px;
       padding: 120px 6vw;
     }
 
     .au-section,
-    .au-vm-section,
     .au-stats-section,
     .au-cta-section {
       padding: 64px 6vw;
@@ -1023,11 +1073,6 @@ const fadeUp: Variants = {
 const staggerContainer: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.12 } },
-};
-
-const fadeScale: Variants = {
-  hidden: { opacity: 0, scale: 0.94 },
-  show: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
 };
 
 /* ── Icon maps ── */
@@ -1127,33 +1172,41 @@ export function AboutUsPage() {
             <motion.h2 className="au-title" variants={fadeUp}>{t('aboutUsPage.visionMission.title')}</motion.h2>
             <motion.p className="au-subtitle" variants={fadeUp}>{t('aboutUsPage.visionMission.subtitle')}</motion.p>
           </motion.div>
-
-          <motion.div
-            className="au-vm-grid"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={staggerContainer}
-          >
-            <motion.div className="au-vm-card" variants={fadeScale}>
-              <div className="au-vm-icon"><Eye size={26} /></div>
-              <h3 className="au-vm-title">{t('about.vision.title')}</h3>
-              <p className="au-vm-text">{t('about.vision.text')}</p>
-            </motion.div>
-            <motion.div className="au-vm-card" variants={fadeScale}>
-              <div className="au-vm-icon"><Compass size={26} /></div>
-              <h3 className="au-vm-title">{t('about.mission.title')}</h3>
-              <ul className="au-vm-list">
-                {missionItems.map((item, index) => (
-                  <li key={index}>
-                    <CheckCircle2 size={18} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </motion.div>
         </div>
+
+        <motion.div
+          className="au-vm-grid"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+        >
+          <motion.div className="au-vm-card" variants={fadeUp}>
+            <div className="au-vm-icon"><Eye size={26} /></div>
+            <h3 className="au-vm-title">{t('about.vision.title')}</h3>
+            <p className="au-vm-text">{t('about.vision.text')}</p>
+
+            <div className="au-vm-divider" aria-hidden="true" />
+
+            <div className="au-vm-icon"><Compass size={26} /></div>
+            <h3 className="au-vm-title">{t('about.mission.title')}</h3>
+            <ul className="au-vm-list">
+              {missionItems.map((item, index) => (
+                <li key={index}>
+                  <CheckCircle2 size={18} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+          <motion.div className="au-vm-image" variants={fadeUp}>
+            <img
+              src="/images/office/visi-misi.jpg"
+              alt={t('aboutUsPage.visionMission.title')}
+              loading="lazy"
+            />
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* ── Company Story Timeline ── */}
