@@ -49,7 +49,7 @@ for (const lang of LANGS) {
   const locale = JSON.parse(fs.readFileSync(path.join(root, 'src/locales', `${lang}.json`), 'utf8'));
 
   const nav = ROUTES.map(([seg, , headerKey]) =>
-    `<a href="/${lang}${seg ? `/${seg}` : ''}" style="color:#93c5fd;margin:0 10px;text-decoration:none">${esc(locale.header[headerKey])}</a>`,
+    `<a href="/${lang}${seg ? `/${seg}` : ''}">${esc(locale.header[headerKey])}</a>`,
   ).join('');
 
   for (const [segment, seoKey] of ROUTES) {
@@ -77,13 +77,14 @@ for (const lang of LANGS) {
       `<meta data-rh="true" name="twitter:image" content="${IMAGE}" />`,
     ].map((t) => `    ${t}`).join('\n');
 
-    // Placeholder painted until the bundle boots; navy like every page's hero
-    // band, so the hand-off to the real page isn't a jarring flash.
+    // Placeholder until the bundle boots: a plain navy screen (like every page's
+    // hero band). The h1/description/links are in the HTML for non-JS crawlers but
+    // visually hidden — shown on screen they flashed text that differed from the
+    // real page on every refresh.
+    const hidden = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap';
     const body =
-      `<div id="root"><div style="min-height:100vh;background:#0f172a;color:#fff;font-family:'DM Sans',system-ui,sans-serif;padding:140px 6vw 64px;text-align:center">` +
-      `<h1 style="font-family:Barlow,system-ui,sans-serif;font-size:clamp(1.75rem,4vw,3rem);line-height:1.2;margin:0 auto 20px;max-width:900px">${esc(h1)}</h1>` +
-      `<p style="max-width:720px;margin:0 auto 40px;color:rgba(255,255,255,.75);line-height:1.7">${esc(description)}</p>` +
-      `<nav style="font-size:14px;line-height:2.2">${nav}</nav>` +
+      `<div id="root"><div style="min-height:100vh;background:#0f172a">` +
+      `<div style="${hidden}"><h1>${esc(h1)}</h1><p>${esc(description)}</p><nav>${nav}</nav></div>` +
       `</div></div>`;
 
     const html = stripFallbacks(template)
