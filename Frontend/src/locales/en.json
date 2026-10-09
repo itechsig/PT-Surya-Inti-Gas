@@ -1878,16 +1878,6 @@
       "linkedin": "LinkedIn",
       "twitter": "Twitter",
       "youtube": "YouTube"
-    },
-    "solutions": {
-      "title": "Gas Solutions",
-      "items": {
-        "supplier-gas-industri": "Industrial Gas Supplier",
-        "supplier-gas-medis": "Medical Gas Supplier",
-        "peralatan-gas-industri": "Industrial Gas Equipment",
-        "distributor-gas-surabaya-sidoarjo": "Gas Distributor Surabaya & Sidoarjo",
-        "distributor-gas-balikpapan": "Gas Distributor Balikpapan"
-      }
     }
   },
   "common": {

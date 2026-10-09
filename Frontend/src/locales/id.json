@@ -1883,16 +1883,6 @@
       "linkedin": "LinkedIn",
       "twitter": "Twitter",
       "youtube": "YouTube"
-    },
-    "solutions": {
-      "title": "Solusi Gas",
-      "items": {
-        "supplier-gas-industri": "Supplier Gas Industri",
-        "supplier-gas-medis": "Supplier Gas Medis",
-        "peralatan-gas-industri": "Peralatan Gas Industri",
-        "distributor-gas-surabaya-sidoarjo": "Distributor Gas Surabaya & Sidoarjo",
-        "distributor-gas-balikpapan": "Distributor Gas Balikpapan"
-      }
     }
   },
   "common": {

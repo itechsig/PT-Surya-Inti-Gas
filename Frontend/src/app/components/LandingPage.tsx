@@ -14,8 +14,7 @@ import landingPages from '../../data/landingPages.json';
  * Indonesian-only: /en and /zh versions redirect to /id (here and in .htaccess).
  *
  * Adding a page: add it to the JSON, then to the slug lists in Backend/public/.htaccess
- * and Backend/app/Support/SiteUrls.php (LANDING_PAGES), and to footer.solutions in
- * the three locale files.
+ * and Backend/app/Support/SiteUrls.php (LANDING_PAGES).
  */
 
 interface LandingItem {

@@ -104,7 +104,7 @@ for (const lang of LANGS) {
     const h1 = title.includes(' | ') ? title.slice(0, title.lastIndexOf(' | ')) : title;
 
     const head = headTags({ lang, title, description, canonical, image: IMAGE, alternatePath: urlPath });
-    const body = shellBody(`<h1>${esc(h1)}</h1><p>${esc(description)}</p><nav>${nav}${landingNav}</nav>`);
+    const body = shellBody(`<h1>${esc(h1)}</h1><p>${esc(description)}</p><nav>${nav}</nav>`);
 
     const out = path.join(dist, 'prerender', lang, segment ? `${segment}.html` : '');
     const file = segment ? out : path.join(dist, 'prerender', `${lang}.html`);

@@ -544,19 +544,6 @@ export function Footer() {
             </nav>
           </motion.div>
 
-          {/* Keyword landing pages — Indonesian-only, so always linked under /id */}
-          <motion.div className="corporate-footer-column" variants={fadeUp}>
-            <h2 className="corporate-footer-column-title">{t('footer.solutions.title')}</h2>
-            <nav className="corporate-footer-links">
-              {Object.entries(t('footer.solutions.items', { returnObjects: true }) as Record<string, string>).map(([slug, label]) => (
-                <Link key={slug} to={`/id/${slug}`} className="corporate-footer-link">
-                  <ChevronRight size={16} />
-                  {label}
-                </Link>
-              ))}
-            </nav>
-          </motion.div>
-
         </motion.div>
       </div>
 
