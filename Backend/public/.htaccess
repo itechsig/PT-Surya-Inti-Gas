@@ -30,6 +30,12 @@
     RewriteRule ^(id|en|zh)/?$ prerender/$1.html [L]
     RewriteRule ^(id|en|zh)/(tentang-kami|produk|jaringan-distribusi|portofolio|galeri|karir|kontak)/?$ prerender/$1/$2.html [L]
 
+    # Indonesian-only keyword landing pages (Frontend/src/data/landingPages.json;
+    # keep in sync with SiteUrls::LANDING_PAGES). /en and /zh have no translation,
+    # so they 301 to the one real URL.
+    RewriteRule ^id/(supplier-gas-industri|supplier-gas-medis|peralatan-gas-industri|distributor-gas-surabaya-sidoarjo|distributor-gas-balikpapan)/?$ prerender/id/$1.html [L]
+    RewriteRule ^(en|zh)/(supplier-gas-industri|supplier-gas-medis|peralatan-gas-industri|distributor-gas-surabaya-sidoarjo|distributor-gas-balikpapan)/?$ /id/$2 [R=301,L]
+
     # Handle React SPA routing - serve index.html for non-file requests (except API)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

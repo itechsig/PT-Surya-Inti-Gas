@@ -106,4 +106,12 @@ return [
         'credentials_path' => env('GOOGLE_SEARCH_CONSOLE_CREDENTIALS_PATH', ''),
     ],
 
+    // IndexNow (Bing, Yandex, Naver, Seznam, Yep). The key is public by design: it must
+    // match public/{key}.txt on the live site. Submissions are only sent from requests
+    // served by suryaintigas.com itself (see IndexNowService::queue).
+    'indexnow' => [
+        'enabled' => env('INDEXNOW_ENABLED', true),
+        'key' => env('INDEXNOW_KEY', '0efcc937194998c7451d4b83ae1fb3ba'),
+    ],
+
 ];

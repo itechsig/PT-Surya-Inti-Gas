@@ -1,16 +1,16 @@
 {
   "seo": {
     "home": {
-      "title": "PT Surya Inti Gas — Distributor Gas Industri & Medis Terpercaya Sejak 2003",
-      "description": "Distributor gas industri, medis, dan gas spesial terpercaya sejak 2003. Pemasok Oksigen, Nitrogen, Argon, Acetylene, CO₂, Helium, mixed gas, dan cryogenic equipment untuk seluruh Indonesia."
+      "title": "PT Surya Inti Gas | Supplier Gas Industri dan Medis Indonesia",
+      "description": "Supplier dan distributor gas industri dan medis sejak 2003: oksigen, nitrogen, argon, acetylene, CO₂, helium, mixed gas, dan peralatan gas industri. Kantor di Sidoarjo & Balikpapan."
     },
     "products": {
       "title": "Produk Gas Industri & Medis | PT Surya Inti Gas",
       "description": "Katalog lengkap gas Oksigen, Nitrogen, Argon, Acetylene, CO₂, Hidrogen, Helium, dan gas spesial beserta peralatan cryogenic, tabung, dan cradle dari PT Surya Inti Gas."
     },
     "productDetail": {
-      "title": "{{name}} | Produk Gas PT Surya Inti Gas",
-      "description": "Spesifikasi, aplikasi, dan informasi pemesanan {{name}} dari PT Surya Inti Gas, distributor gas industri dan medis terpercaya di Indonesia."
+      "title": "{{name}} — Supplier Gas Industri & Medis | PT Surya Inti Gas",
+      "description": "Spesifikasi, aplikasi, pilihan kemasan, dan permintaan penawaran {{name}} dari PT Surya Inti Gas, supplier gas industri dan medis di Sidoarjo dan Balikpapan."
     },
     "about": {
       "title": "Tentang Kami | PT Surya Inti Gas",
@@ -21,7 +21,7 @@
       "description": "Hubungi PT Surya Inti Gas untuk kebutuhan gas industri, medis, dan gas spesial. Kantor di Sidoarjo (Jawa Timur) dan Balikpapan (Kalimantan Timur)."
     },
     "distribution": {
-      "title": "Jaringan Distribusi | PT Surya Inti Gas",
+      "title": "Jaringan Distribusi Gas Industri | PT Surya Inti Gas",
       "description": "Jangkauan distribusi PT Surya Inti Gas meliputi Jawa Timur, Jawa Tengah, DIY, Kalimantan Timur, dan wilayah lain di Indonesia dengan pengiriman gas yang cepat dan aman."
     },
     "gallery": {
@@ -1883,6 +1883,16 @@
       "linkedin": "LinkedIn",
       "twitter": "Twitter",
       "youtube": "YouTube"
+    },
+    "solutions": {
+      "title": "Solusi Gas",
+      "items": {
+        "supplier-gas-industri": "Supplier Gas Industri",
+        "supplier-gas-medis": "Supplier Gas Medis",
+        "peralatan-gas-industri": "Peralatan Gas Industri",
+        "distributor-gas-surabaya-sidoarjo": "Distributor Gas Surabaya & Sidoarjo",
+        "distributor-gas-balikpapan": "Distributor Gas Balikpapan"
+      }
     }
   },
   "common": {

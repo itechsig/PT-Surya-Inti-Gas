@@ -42,6 +42,7 @@ const Portfolio = lazy(() => import("./components/Portfolio"));
 const PortfolioDetail = lazy(() => import("./components/PortfolioDetail"));
 const PrivacyPolicyPage = lazy(() => import("./components/LegalPage").then(m => ({ default: m.PrivacyPolicyPage })));
 const TermsOfServicePage = lazy(() => import("./components/LegalPage").then(m => ({ default: m.TermsOfServicePage })));
+const LandingPage = lazy(() => import("./components/LandingPage").then(m => ({ default: m.LandingPage })));
 
 // The entire admin dashboard: public visitors never need any of this, so it's split
 // into its own chunk(s) that only load when someone actually visits /admin.
@@ -466,6 +467,26 @@ function App() {
                 </>
               } />
             ))}
+            {/* Keyword landing pages (/id/supplier-gas-industri, ...). Static routes above
+                always win over this dynamic one; LandingPage redirects unknown slugs home. */}
+            <Route path="/:lang/:slug" element={
+              <>
+                <LanguageRouteWrapper />
+                <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+                  <Header />
+                  <main id="main-content" tabIndex={-1}>
+                    <PageTransition variant="fast">
+                      <Suspense fallback={<RouteFallback />}>
+                        <LandingPage />
+                      </Suspense>
+                    </PageTransition>
+                  </main>
+                  <Footer />
+                  <Chatbot />
+                  <ScrollToTopButton />
+                </div>
+              </>
+            } />
             <Route path="/admin/login" element={<LoginPage />} />
             <Route
               path="/admin"

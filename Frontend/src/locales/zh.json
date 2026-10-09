@@ -1592,6 +1592,16 @@
       "linkedin": "LinkedIn",
       "twitter": "Twitter",
       "youtube": "YouTube"
+    },
+    "solutions": {
+      "title": "气体解决方案",
+      "items": {
+        "supplier-gas-industri": "工业气体供应商",
+        "supplier-gas-medis": "医用气体供应商",
+        "peralatan-gas-industri": "工业气体设备",
+        "distributor-gas-surabaya-sidoarjo": "泗水与诗都阿佐气体经销商",
+        "distributor-gas-balikpapan": "巴厘巴板气体经销商"
+      }
     }
   },
   "common": {

@@ -22,6 +22,9 @@ interface SeoProps {
   noindex?: boolean;
   /** Page-specific schema.org object(s), emitted as JSON-LD. */
   jsonLd?: object | object[];
+  /** Pages that only exist in one language (the Indonesian keyword landing pages)
+   *  have no translations to point hreflang alternates at. */
+  alternates?: boolean;
 }
 
 export function Seo({
@@ -33,6 +36,7 @@ export function Seo({
   type = 'website',
   noindex = false,
   jsonLd,
+  alternates = true,
 }: SeoProps) {
   const { lang } = useParams<{ lang: string }>();
   const currentLang = (LANGS as readonly string[]).includes(lang ?? '') ? (lang as string) : 'id';
@@ -47,10 +51,10 @@ export function Seo({
       {noindex ? <meta name="robots" content="noindex, follow" /> : null}
       <link rel="canonical" href={canonical} />
 
-      {LANGS.map((l) => (
+      {alternates && LANGS.map((l) => (
         <link key={l} rel="alternate" hrefLang={l} href={`${SITE}/${l}${path}`} />
       ))}
-      <link rel="alternate" hrefLang="x-default" href={`${SITE}/id${path}`} />
+      {alternates && <link rel="alternate" hrefLang="x-default" href={`${SITE}/id${path}`} />}
 
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
