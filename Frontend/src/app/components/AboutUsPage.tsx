@@ -335,7 +335,20 @@ const css = `
     padding: 64px 56px 64px 6vw;
   }
 
+  .au-vm-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .au-vm-heading .au-vm-icon,
+  .au-vm-heading .au-vm-title {
+    margin: 0;
+  }
+
   .au-vm-icon {
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1182,14 +1195,18 @@ export function AboutUsPage() {
           variants={staggerContainer}
         >
           <motion.div className="au-vm-card" variants={fadeUp}>
-            <div className="au-vm-icon"><Eye size={26} /></div>
-            <h3 className="au-vm-title">{t('about.vision.title')}</h3>
+            <div className="au-vm-heading">
+              <div className="au-vm-icon"><Eye size={26} /></div>
+              <h3 className="au-vm-title">{t('about.vision.title')}</h3>
+            </div>
             <p className="au-vm-text">{t('about.vision.text')}</p>
 
             <div className="au-vm-divider" aria-hidden="true" />
 
-            <div className="au-vm-icon"><Compass size={26} /></div>
-            <h3 className="au-vm-title">{t('about.mission.title')}</h3>
+            <div className="au-vm-heading">
+              <div className="au-vm-icon"><Compass size={26} /></div>
+              <h3 className="au-vm-title">{t('about.mission.title')}</h3>
+            </div>
             <ul className="au-vm-list">
               {missionItems.map((item, index) => (
                 <li key={index}>
