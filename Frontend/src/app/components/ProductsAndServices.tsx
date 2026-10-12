@@ -82,7 +82,7 @@ function ProductSection({ title, products, productHref, onVariantClick }: {
       <motion.div className="products-flow-heading" variants={fadeUp}>
         <h2>{title}</h2>
       </motion.div>
-      <motion.div className="products-grid-compact" variants={gridStagger}>
+      <motion.div className="products-grid-compact products-grid-compact--quad" variants={gridStagger}>
         {products.map((product) => (
           <CompactProductCard
             key={product.id}

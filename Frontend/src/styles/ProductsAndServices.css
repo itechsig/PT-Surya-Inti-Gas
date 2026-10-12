@@ -1786,3 +1786,34 @@ button.products-card {
     padding: 8px 10px;
   }
 }
+
+/* Home-page sections always hold exactly 4 items: keep 4 across down to tablet,
+   then switch to a 2×2 grid so no row is left with a lone card (3 + 1). */
+@media (max-width: 1200px) {
+  .products-grid-compact--quad .products-card-compact {
+    flex-basis: calc((100% - 3 * 8px) / 4);
+    max-width: calc((100% - 3 * 8px) / 4);
+  }
+}
+
+@media (max-width: 900px) {
+  .products-grid-compact--quad {
+    gap: 28px 12px;
+  }
+
+  .products-grid-compact--quad .products-card-compact {
+    flex-basis: calc((100% - 12px) / 2);
+    max-width: calc((100% - 12px) / 2);
+  }
+}
+
+@media (max-width: 600px) {
+  .products-grid-compact--quad {
+    gap: 20px 10px;
+  }
+
+  .products-grid-compact--quad .products-card-compact {
+    flex-basis: calc((100% - 10px) / 2);
+    max-width: calc((100% - 10px) / 2);
+  }
+}
