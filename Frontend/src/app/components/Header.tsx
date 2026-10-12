@@ -108,16 +108,6 @@ const NAV_ICONS: Record<string, React.ComponentType<import("lucide-react").Lucid
   "header.career": UsersRound,
 };
 
-// Staggered reveal for the mobile drawer's nav items.
-const mobileListVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.045, delayChildren: 0.12 } },
-};
-const mobileItemVariants = {
-  hidden: { opacity: 0, x: 24 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] as const } },
-};
-
 // ─── Corporate Shared class builders (Air Liquide inspired) ────────────────────────────────────
 const desktopLinkClass = (isLight: boolean) => {
   return `flex items-center gap-2 px-4 py-3 text-sm transition-all duration-200 font-semibold relative group ${isLight ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}`;
@@ -561,321 +551,245 @@ export const Header = () => {
       </nav>
 
       {/* ── Corporate Mobile Menu ──────────────────────────────────────── */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={mobilePanelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label={t('header.menu', 'Menu navigasi')}
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
-            className="fixed inset-0 z-50 lg:hidden"
-          >
-            <div className="absolute inset-0 bg-slate-50" />
-            {/* Decorative glow — echoes the brand gradient without competing with the content.
-                Uses a radial-gradient instead of `blur-3xl` (filter: blur) so the browser
-                doesn't have to recompute a blur pass every frame while this panel slides in/out
-                on mobile — that was the main cause of the drawer feeling laggy on lower-end phones. */}
-            <div
-              className="absolute -top-24 -right-24 w-72 h-72 rounded-full pointer-events-none"
-              style={{ background: "radial-gradient(circle, rgba(96,165,250,0.28) 0%, rgba(103,232,249,0.14) 40%, transparent 70%)" }}
-            />
-            <div
-              className="absolute top-1/3 -left-20 w-56 h-56 rounded-full pointer-events-none"
-              style={{ background: "radial-gradient(circle, rgba(191,219,254,0.4) 0%, rgba(191,219,254,0.18) 45%, transparent 70%)" }}
-            />
-
-            <div className="relative h-full overflow-y-auto overscroll-contain flex flex-col">
-              {/* Header band */}
-              <div
-                className="relative shrink-0 px-4 sm:px-6 pt-5 pb-6 sm:pb-7"
-                style={{ background: "linear-gradient(135deg, #0C2D5E 0%, #1565C0 60%, #00AEEF 130%)" }}
-              >
-                <div className="flex justify-between items-center">
-                  <Link to={`/${currentLang}`} onClick={() => setIsOpen(false)} className="flex items-center gap-3">
-                    <div className="bg-white/95 rounded-xl p-1.5 shadow-md">
-                      <img
-                        src="/logo.png"
-                        alt="Logo PT Surya Inti Gas"
-                        className="h-8 sm:h-10 w-auto object-contain"
-                        width="200"
-                        height="56"
-                      />
+      {/* Kept deliberately plain: no slide/stagger/height animations, blurs or layered
+          shadows, so opening and expanding the menu stays smooth on low-end phones. */}
+      {isOpen && (
+        <div
+          ref={mobilePanelRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t('header.menu', 'Menu navigasi')}
+          className="fixed inset-0 z-50 lg:hidden bg-white"
+        >
+          <div className="h-full overflow-y-auto overscroll-contain flex flex-col">
+            {/* Header band */}
+            <div className="shrink-0 px-4 sm:px-6 py-4 bg-[#0C2D5E]">
+              <div className="flex justify-between items-center">
+                <Link to={`/${currentLang}`} onClick={() => setIsOpen(false)} className="flex items-center gap-3">
+                  <div className="bg-white rounded-lg p-1.5">
+                    <img
+                      src="/logo.png"
+                      alt="Logo PT Surya Inti Gas"
+                      className="h-8 sm:h-10 w-auto object-contain"
+                      width="200"
+                      height="56"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      className="leading-tight text-white"
+                      style={{
+                        fontFamily: "'Barlow', system-ui, sans-serif",
+                        fontWeight: 800,
+                        fontSize: "14px",
+                        letterSpacing: "0.12em",
+                      }}
+                    >
+                      SURYA INTI GAS
                     </div>
-                    <div>
-                      <div
-                        className="leading-tight text-white"
-                        style={{
-                          fontFamily: "'Barlow', system-ui, sans-serif",
-                          fontWeight: 800,
-                          fontSize: "14px",
-                          letterSpacing: "0.12em",
-                        }}
-                      >
-                        SURYA INTI GAS
-                      </div>
-                      <div className="text-[10px] sm:text-xs text-blue-100 font-semibold tracking-wider uppercase">
-                        {t('header.corporate')}
-                      </div>
+                    <div className="text-[10px] sm:text-xs text-blue-100 font-semibold tracking-wider uppercase">
+                      {t('header.corporate')}
                     </div>
-                  </Link>
-                  <button
-                    className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-                    onClick={() => setIsOpen(false)}
-                    aria-label="Close menu"
-                  >
-                    <X size={22} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="relative flex-1 px-4 py-5 sm:px-6 sm:py-6">
-                <motion.nav
-                  variants={mobileListVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="flex flex-col gap-2"
+                  </div>
+                </Link>
+                <button
+                  className="p-2.5 rounded-full text-white hover:bg-white/10"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Close menu"
                 >
-                  {NAV_LINKS.map((link) => {
-                    const active = isActive(link.href);
-                    const Icon = NAV_ICONS[link.nameKey];
+                  <X size={22} />
+                </button>
+              </div>
+            </div>
 
-                    if (link.isDisabled) {
-                      return (
-                        <motion.span
-                          key={link.nameKey}
-                          variants={mobileItemVariants}
-                          className="flex items-center gap-3 px-4 py-4 rounded-2xl bg-white/60 text-blue-300 cursor-not-allowed"
-                          style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 600 }}
-                        >
-                          {Icon && (
-                            <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-slate-100 text-slate-300 shrink-0">
-                              <Icon size={18} />
-                            </span>
-                          )}
-                          {t(link.nameKey)} <span className="text-xs ml-1">({t('header.comingSoon')})</span>
-                        </motion.span>
-                      );
-                    }
+            <div className="flex-1 px-4 py-2 sm:px-6">
+              <nav className="flex flex-col divide-y divide-slate-200">
+                {NAV_LINKS.map((link) => {
+                  const active = isActive(link.href);
+                  const Icon = NAV_ICONS[link.nameKey];
 
-                    if (link.hasMegaMenu) {
-                      const expanded = activeMobileMegaMenu === link.nameKey;
-                      return (
-                        <motion.div key={link.nameKey} variants={mobileItemVariants} className="overflow-hidden">
+                  if (link.isDisabled) {
+                    return (
+                      <span
+                        key={link.nameKey}
+                        className="flex items-center gap-3 px-2 py-3.5 text-slate-400 cursor-not-allowed"
+                        style={{ fontFamily: "'Barlow', system-ui, sans-serif", fontWeight: 600 }}
+                      >
+                        {Icon && <Icon size={18} className="shrink-0" />}
+                        {t(link.nameKey)} <span className="text-xs ml-1">({t('header.comingSoon')})</span>
+                      </span>
+                    );
+                  }
+
+                  if (link.hasMegaMenu) {
+                    const expanded = activeMobileMegaMenu === link.nameKey;
+                    return (
+                      <div key={link.nameKey}>
+                        {/* Same flow as desktop: tapping the label goes straight to the category
+                            page; the chevron next to it still opens the sub-menu. */}
+                        <div className={`flex items-center ${expanded || active ? "text-[#1565C0]" : "text-blue-900"}`}>
+                          <Link
+                            to={toHref(link.href)}
+                            aria-current={active ? 'page' : undefined}
+                            className="flex-1 flex items-center gap-3 px-2 py-3.5 font-semibold no-underline visited:text-inherit"
+                            style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+                            onClick={() => {
+                              setActiveMobileMegaMenu(null);
+                              setActiveMobileSubmenu(null);
+                              setIsOpen(false);
+                            }}
+                          >
+                            {Icon && <Icon size={18} className="shrink-0" />}
+                            <span>{t(link.nameKey)}</span>
+                          </Link>
                           <button
                             type="button"
                             aria-expanded={expanded}
-                            className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl font-semibold transition-all duration-200 ${
-                              expanded || active
-                                ? "bg-gradient-to-r from-[#0C2D5E] to-[#1565C0] text-white shadow-lg shadow-blue-900/20"
-                                : "bg-white text-blue-900 shadow-sm shadow-slate-200/60 hover:bg-blue-50"
-                            }`}
-                            style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+                            aria-label={t(link.nameKey)}
+                            className="p-3.5 -mr-1"
                             onClick={() => {
                               setActiveMobileMegaMenu(expanded ? null : link.nameKey);
                               setActiveMobileSubmenu(null);
                             }}
                           >
-                            {Icon && (
-                              <span
-                                className={`flex items-center justify-center w-9 h-9 rounded-xl shrink-0 transition-colors ${
-                                  expanded || active ? "bg-white/15 text-white" : "bg-blue-50 text-blue-600"
-                                }`}
-                              >
-                                <Icon size={18} />
-                              </span>
-                            )}
-                            <span className="flex-1 text-left">{t(link.nameKey)}</span>
-                            <ChevronDown
-                              size={18}
-                              className={`transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
-                            />
+                            <ChevronDown size={18} className={expanded ? 'rotate-180' : ''} />
                           </button>
-                          <AnimatePresence initial={false}>
-                            {expanded && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                                className="overflow-hidden"
-                              >
-                                <div className="mt-2 mb-1 mx-1 rounded-2xl bg-white shadow-sm shadow-slate-200/60 divide-y divide-slate-100">
-                                  {link.megaMenuItems?.map((item, itemIdx) => {
-                                    const hasChildren = !!item.children?.length;
-                                    const subExpanded = activeMobileSubmenu === item.nameKey;
+                        </div>
+                        {expanded && (
+                          <div className="mb-2 ml-7 rounded-lg bg-slate-50 divide-y divide-slate-200">
+                            {link.megaMenuItems?.map((item, itemIdx) => {
+                              const hasChildren = !!item.children?.length;
+                              const subExpanded = activeMobileSubmenu === item.nameKey;
 
-                                    if (!hasChildren) {
-                                      return (
-                                        <div key={itemIdx} className="py-1.5 px-2.5">
-                                          <Link
-                                            to={toHref(item.href)}
-                                            className="block rounded-xl px-2.5 py-2 hover:bg-blue-50 transition-colors font-semibold text-sm text-slate-800"
-                                            style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
-                                            onClick={() => {
-                                              setActiveMobileMegaMenu(null);
-                                              setIsOpen(false);
-                                            }}
-                                          >
-                                            {t(item.nameKey)}
-                                          </Link>
-                                        </div>
-                                      );
-                                    }
+                              if (!hasChildren) {
+                                return (
+                                  <Link
+                                    key={itemIdx}
+                                    to={toHref(item.href)}
+                                    className="block px-3 py-2.5 font-semibold text-sm text-slate-800"
+                                    style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
+                                    onClick={() => {
+                                      setActiveMobileMegaMenu(null);
+                                      setIsOpen(false);
+                                    }}
+                                  >
+                                    {t(item.nameKey)}
+                                  </Link>
+                                );
+                              }
 
-                                    return (
-                                      <div key={itemIdx} className="py-1.5 px-2.5">
-                                        <button
-                                          type="button"
-                                          aria-expanded={subExpanded}
-                                          className="w-full flex items-center justify-between rounded-xl px-2.5 py-2 hover:bg-blue-50 transition-colors font-semibold text-sm text-slate-800"
+                              return (
+                                <div key={itemIdx}>
+                                  <button
+                                    type="button"
+                                    aria-expanded={subExpanded}
+                                    className="w-full flex items-center justify-between px-3 py-2.5 font-semibold text-sm text-slate-800"
+                                    style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
+                                    onClick={() => setActiveMobileSubmenu(subExpanded ? null : item.nameKey)}
+                                  >
+                                    {t(item.nameKey)}
+                                    <ChevronDown size={16} className={subExpanded ? 'rotate-180' : ''} />
+                                  </button>
+                                  {subExpanded && (
+                                    <div className="pl-3 pb-1 flex flex-col">
+                                      {item.children!.map((child, childIdx) => (
+                                        <Link
+                                          key={childIdx}
+                                          to={toHref(child.href)}
+                                          className="block px-3 py-2 font-semibold text-sm text-slate-600"
                                           style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
-                                          onClick={() => setActiveMobileSubmenu(subExpanded ? null : item.nameKey)}
+                                          onClick={() => {
+                                            setActiveMobileMegaMenu(null);
+                                            setActiveMobileSubmenu(null);
+                                            setIsOpen(false);
+                                          }}
                                         >
-                                          {t(item.nameKey)}
-                                          <ChevronDown
-                                            size={16}
-                                            className={`transition-transform duration-200 ${subExpanded ? 'rotate-180' : ''}`}
-                                          />
-                                        </button>
-                                        <AnimatePresence initial={false}>
-                                          {subExpanded && (
-                                            <motion.div
-                                              initial={{ height: 0, opacity: 0 }}
-                                              animate={{ height: "auto", opacity: 1 }}
-                                              exit={{ height: 0, opacity: 0 }}
-                                              transition={{ duration: 0.2 }}
-                                              className="overflow-hidden"
-                                            >
-                                              <div className="pl-3 flex flex-col">
-                                                {item.children!.map((child, childIdx) => (
-                                                  <Link
-                                                    key={childIdx}
-                                                    to={toHref(child.href)}
-                                                    className="block rounded-xl px-2.5 py-2 hover:bg-blue-50 transition-colors font-semibold text-sm text-slate-700"
-                                                    style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
-                                                    onClick={() => {
-                                                      setActiveMobileMegaMenu(null);
-                                                      setActiveMobileSubmenu(null);
-                                                      setIsOpen(false);
-                                                    }}
-                                                  >
-                                                    {t(child.nameKey)}
-                                                  </Link>
-                                                ))}
-                                              </div>
-                                            </motion.div>
-                                          )}
-                                        </AnimatePresence>
-                                      </div>
-                                    );
-                                  })}
+                                          {t(child.nameKey)}
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </motion.div>
-                      );
-                    }
-
-                    return (
-                      <motion.div key={link.nameKey} variants={mobileItemVariants}>
-                        <Link
-                          to={toHref(link.href)}
-                          aria-current={active ? 'page' : undefined}
-                          className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl font-semibold no-underline visited:text-inherit transition-all duration-200 ${
-                            active
-                              ? "bg-gradient-to-r from-[#0C2D5E] to-[#1565C0] text-white shadow-lg shadow-blue-900/20"
-                              : "bg-white text-blue-900 shadow-sm shadow-slate-200/60 hover:bg-blue-50"
-                          }`}
-                          style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
-                          onClick={() => setIsOpen(false)}
-                        >
-                          {Icon && (
-                            <span
-                              className={`flex items-center justify-center w-9 h-9 rounded-xl shrink-0 transition-colors ${
-                                active ? "bg-white/15 text-white" : "bg-blue-50 text-blue-600"
-                              }`}
-                            >
-                              <Icon size={18} />
-                            </span>
-                          )}
-                          <span>{t(link.nameKey)}</span>
-                        </Link>
-                      </motion.div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
                     );
-                  })}
-                </motion.nav>
+                  }
 
-                {/* Language switcher — right below the nav list, after Karir */}
-                <motion.div
-                  variants={mobileItemVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="mt-2 flex items-center justify-between bg-white rounded-2xl px-4 py-3 shadow-sm shadow-slate-200/60"
-                >
-                  <span className="text-sm font-semibold text-slate-700">{t('header.language')}</span>
-                  <LanguageSwitcher isLight={true} />
-                </motion.div>
+                  return (
+                    <Link
+                      key={link.nameKey}
+                      to={toHref(link.href)}
+                      aria-current={active ? 'page' : undefined}
+                      className={`flex items-center gap-3 px-2 py-3.5 font-semibold no-underline visited:text-inherit ${
+                        active ? "text-[#1565C0]" : "text-blue-900"
+                      }`}
+                      style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {Icon && <Icon size={18} className="shrink-0" />}
+                      <span>{t(link.nameKey)}</span>
+                    </Link>
+                  );
+                })}
+              </nav>
 
-                {/* WhatsApp CTA */}
-                <motion.a
-                  variants={mobileItemVariants}
-                  initial="hidden"
-                  animate="visible"
-                  href={PRIMARY_OFFICE.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackEvent('whatsapp_click', { label: 'header' })}
-                  className="mt-3 flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-white shadow-lg shadow-green-900/15 transition-transform active:scale-[0.98]"
-                  style={{
-                    fontFamily: "'Barlow', system-ui, sans-serif",
-                    background: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)",
-                  }}
-                >
-                  <MessageCircle size={19} />
-                  {t('header.chatWhatsapp', 'Chat via WhatsApp')}
-                </motion.a>
+              {/* Language switcher — right below the nav list, after Karir */}
+              <div className="mt-2 flex items-center justify-between border-t border-slate-200 px-2 py-3">
+                <span className="text-sm font-semibold text-slate-700">{t('header.language')}</span>
+                <LanguageSwitcher isLight={true} />
+              </div>
 
-                <div className="mt-6 pt-5 border-t border-slate-200/80">
-                  <div className="flex items-center justify-center gap-3">
-                    <a
-                      href={SOCIAL.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-700 shadow-sm shadow-slate-200/60 hover:text-white hover:bg-gradient-to-br hover:from-[#1565C0] hover:to-[#00AEEF] transition-all"
-                      aria-label="Instagram"
-                    >
-                      <Instagram size={18} strokeWidth={2.5} />
-                    </a>
-                    <a
-                      href={SOCIAL.tiktok}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-700 shadow-sm shadow-slate-200/60 hover:text-white hover:bg-gradient-to-br hover:from-[#1565C0] hover:to-[#00AEEF] transition-all"
-                      aria-label="TikTok"
-                    >
-                      <TikTokIcon size={18} />
-                    </a>
-                    <a
-                      href={SOCIAL.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-700 shadow-sm shadow-slate-200/60 hover:text-white hover:bg-gradient-to-br hover:from-[#1565C0] hover:to-[#00AEEF] transition-all"
-                      aria-label="Facebook"
-                    >
-                      <Facebook size={18} strokeWidth={2.5} />
-                    </a>
-                  </div>
+              {/* WhatsApp CTA */}
+              <a
+                href={PRIMARY_OFFICE.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackEvent('whatsapp_click', { label: 'header' })}
+                className="mt-3 flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-bold text-white bg-[#25D366]"
+                style={{ fontFamily: "'Barlow', system-ui, sans-serif" }}
+              >
+                <MessageCircle size={19} />
+                {t('header.chatWhatsapp', 'Chat via WhatsApp')}
+              </a>
+
+              <div className="mt-6 pt-5 pb-6 border-t border-slate-200">
+                <div className="flex items-center justify-center gap-3">
+                  <a
+                    href={SOCIAL.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 text-blue-700"
+                    aria-label="Instagram"
+                  >
+                    <Instagram size={18} strokeWidth={2.5} />
+                  </a>
+                  <a
+                    href={SOCIAL.tiktok}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 text-blue-700"
+                    aria-label="TikTok"
+                  >
+                    <TikTokIcon size={18} />
+                  </a>
+                  <a
+                    href={SOCIAL.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 text-blue-700"
+                    aria-label="Facebook"
+                  >
+                    <Facebook size={18} strokeWidth={2.5} />
+                  </a>
                 </div>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
