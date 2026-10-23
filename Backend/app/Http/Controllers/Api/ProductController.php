@@ -299,7 +299,10 @@ class ProductController extends Controller
         $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeName = trim(preg_replace('/[^A-Za-z0-9_-]+/', '_', $originalName) ?? '', '_');
         $safeName = $safeName !== '' ? $safeName : 'image';
-        $extension = strtolower($file->getClientOriginalExtension() ?: $file->extension() ?: 'jpg');
+        // Extension guessed from the file's content, never the client-supplied name: the image rule
+        // only blocks php/phtml/phar, so a JPEG polyglot named "x.html"/"x.svg"/"x.pht" would
+        // otherwise be saved under that extension in the public disk and served as such.
+        $extension = $file->extension() ?: 'jpg';
 
         $base = "{$slug}-{$safeName}";
         $filename = "{$base}.{$extension}";

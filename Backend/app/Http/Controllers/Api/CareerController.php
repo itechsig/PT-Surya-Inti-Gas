@@ -19,7 +19,7 @@ class CareerController extends Controller
             $validated = $request->validated();
 
             $resume = $request->file('resume');
-            $safeName = 'cv_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $resume->getClientOriginalExtension();
+            $safeName = 'cv_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $resume->extension();
             $cvPath = $resume->storeAs('career_applications', $safeName, 'local');
 
             $application = CareerApplication::create([
